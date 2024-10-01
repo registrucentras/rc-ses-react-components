@@ -1,28 +1,36 @@
 name: Build and Publish
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+        contents: read
+        packages: write
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '18.3'
+          registry-url: 'https://npm.pkg.github.com/'
 
       - name: Install dependencies
         run: npm install
 
       - name: Build the library
-        run: npm run build:lib
+        run: npm run build:lib 
 
-      - name: Publish to GitHub Package Registry
-        uses: actions/upload-artifact@v3
-        with:
-          name: rc-ses-react-components
-          path: ./dist
+      - name: Publish to GitHub Packages
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
