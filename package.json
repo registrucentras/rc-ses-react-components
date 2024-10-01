@@ -4,7 +4,7 @@
   "version": "0.0.11",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
-  "private": true,
+  "private": false,
   "main": "./dist/rc-ses-react-components.cjs",
   "module": "./dist/rc-ses-react-components.js",
   "exports": {
