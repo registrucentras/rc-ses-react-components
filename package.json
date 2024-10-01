@@ -44,6 +44,9 @@
     "type": "git",
     "url": "https://github.com/registrucentras/rc-ses-react-components"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
