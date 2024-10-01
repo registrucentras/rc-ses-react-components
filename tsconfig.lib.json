@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext",
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["./src/*"],
+    },
+    "resolveJsonModule": true,
+		"rootDir": "src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+  },
+  "exclude": [
+    ".storybook",
+    "build",
+    "dist",
+    "node_modules",
+
+    "src/examples",
+    "src/stubs",
+    "src/types",
+
+    "src/*.d.ts",
+    "src/*.ts",
+    "src/*.tsx",
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }],
+}

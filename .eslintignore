@@ -1,0 +1,14 @@
+.env
+.git
+**/.gitkeep
+.idea
+.vscode
+
+dist
+public
+node_modules
+
+jest.config.cjs
+vite.config.ts
+vite.config.lib.ts
+.eslintrc.cjs
