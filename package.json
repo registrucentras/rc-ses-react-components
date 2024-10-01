@@ -1,5 +1,5 @@
 {
-  "name": "@registru-centras/rc-ses-react-components",
+  "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
   "version": "0.0.11",
   "description": "RC SES React komponentų biblioteka",
@@ -45,7 +45,7 @@
     "url": "https://github.com/registrucentras/rc-ses-react-components"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "@registrucentras:registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
