@@ -6,7 +6,9 @@ const defaultProps: Partial<MuiButtonProps> = {
   variant: 'contained',
 }
 
-function RcSesButton(props: MuiButtonProps) {
+type Props = MuiButtonProps & { to?: string }
+
+function RcSesButton(props: Props) {
   const { children, ...rest } = props
 
   return (
