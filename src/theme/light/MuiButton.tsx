@@ -13,10 +13,6 @@ const MuiButton: Components['MuiButton'] = {
         fontWeight: 500,
         height: '2.375rem',
 
-        '.MuiButton-startIcon': {
-          marginRight: '.375rem',
-        },
-
         '&.Mui-disabled': {
           opacity: 0.4,
         },
@@ -56,6 +52,18 @@ const MuiButton: Components['MuiButton'] = {
               borderColor: grey['950'],
               zIndex: 1,
             },
+        },
+
+        '&.MuiButton-sizeSmall': {
+          padding: '.5625rem .5rem',
+        },
+
+        '&.MuiButton-sizeLarge': {
+          padding: '.6875rem 0',
+        },
+
+        '.MuiButton-startIcon': {
+          marginRight: '.25rem',
         },
 
         '.MuiButton-endIcon': {
@@ -169,13 +177,13 @@ const MuiButton: Components['MuiButton'] = {
 
       '&.MuiButton-colorGrey': {
         color: grey['950'],
-        backgroundColor: grey['200'],
+        backgroundColor: grey['100'],
 
         '&:hover': {
-          backgroundColor: grey['300'],
+          backgroundColor: grey['200'],
         },
         '&:active': {
-          backgroundColor: grey['400'],
+          backgroundColor: grey['300'],
         },
       },
 

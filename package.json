@@ -1,24 +1,24 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,
-  "main": "./dist/rc-ses-react-components.cjs",
-  "module": "./dist/rc-ses-react-components.js",
+  "main": "./dist/registrucentras-rc-ses-react-components.cjs",
+  "module": "./dist/registrucentras-rc-ses-react-components.js",
   "exports": {
     ".": {
       "types": "./dist/library/index.d.ts",
-      "import": "./dist/rc-ses-react-components.js",
-      "require": "./dist/rc-ses-react-components.cjs",
-      "default": "./dist/rc-ses-react-components.cjs"
+      "import": "./dist/registrucentras-rc-ses-react-components.js",
+      "require": "./dist/registrucentras-rc-ses-react-components.cjs",
+      "default": "./dist/registrucentras-rc-ses-react-components.cjs"
     },
     "./icons": {
       "types": "./dist/library/icons.d.ts",
-      "import": "./dist/rc-ses-react-components2.js",
-      "require": "./dist/rc-ses-react-components2.cjs",
-      "default": "./dist/rc-ses-react-components2.cjs"
+      "import": "./dist/registrucentras-rc-ses-react-components2.js",
+      "require": "./dist/registrucentras-rc-ses-react-components2.cjs",
+      "default": "./dist/registrucentras-rc-ses-react-components2.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -31,7 +31,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:lib": "tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts",
+    "build:lib": "npm ci && tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -50,7 +50,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@faker-js/faker": "^8.4.1",
     "@fontsource/inter": "^5.0.18",
     "@fontsource/public-sans": "^5.0.18",
     "@mui/icons-material": "^5.15.20",
