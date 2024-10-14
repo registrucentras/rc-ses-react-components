@@ -4,7 +4,7 @@ import {
   Checkbox as MuiCheckbox,
   CheckboxProps as MuiCheckboxProps,
 } from '@mui/material'
-import { forwardRef } from 'react'
+import React from 'react'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
@@ -32,7 +32,7 @@ type Props = Pick<TFieldProps, ImmediateFieldProps> &
     }
   }
 
-const RcSesCheckbox = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const RcSesCheckbox = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { children, errors, label, slotProps, variant, ...fieldProps } = props
 
   const id = props.id ?? crypto.randomUUID()

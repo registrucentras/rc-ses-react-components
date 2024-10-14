@@ -26,15 +26,21 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, './src/library/index.ts'),
-        icons: path.resolve(__dirname, './src/library/icons.ts'),
+        // icons: path.resolve(__dirname, './src/library/icons.ts'),
       },
       external: [
         ...Object.keys(pkg.dependencies || {}),
         /^@mui($|\/.+)/,
+        'react',
+        'react-dom'
       ],
       output: {
         exports: 'named',
         preserveModules: false,
+        globals: {
+          'react': 'React',
+          'react-dom': 'ReactDOM',
+        },
       },
     },
   },

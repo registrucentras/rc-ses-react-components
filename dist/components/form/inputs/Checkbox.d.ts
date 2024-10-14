@@ -1,6 +1,6 @@
 import { FormControlLabelProps, CheckboxProps as MuiCheckboxProps } from '@mui/material';
+import { default as React } from 'react';
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
 type TFieldProps = MuiCheckboxProps;
 type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref';
 type TWrapperProps = RcSesFormControlWrapperProps;
@@ -15,5 +15,5 @@ type Props = Pick<TFieldProps, ImmediateFieldProps> & Pick<TWrapperProps, Immedi
         wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>;
     };
 };
-declare const RcSesCheckbox: ForwardRefExoticComponent<Omit<Props, "ref"> & RefAttributes<HTMLInputElement>>;
+declare const RcSesCheckbox: React.ForwardRefExoticComponent<Omit<Props, "ref"> & React.RefAttributes<HTMLInputElement>>;
 export default RcSesCheckbox;

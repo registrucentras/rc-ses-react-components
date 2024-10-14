@@ -1,7 +1,5 @@
-import Accordion from '@mui/material/Accordion'
-import AccordionDetails from '@mui/material/AccordionDetails'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import { SyntheticEvent } from 'react'
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import React from 'react'
 
 import CaretDownIcon from '@/assets/icons/CaretDownIcon'
 
@@ -21,7 +19,10 @@ function RcSesAccordion(props: Props) {
       ? state[id]
       : { canToggle: true, disabled: false, expanded: false, title: '' }
 
-  const handleOnChange = (event: SyntheticEvent<Element, Event>, isExpanded: boolean) => {
+  const handleOnChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    isExpanded: boolean,
+  ) => {
     if (canToggle === false) return
 
     toggleAccordion(id, isExpanded)

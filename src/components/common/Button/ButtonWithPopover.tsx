@@ -1,6 +1,6 @@
 import type { ButtonProps as MuiButtonProps } from '@mui/material/Button'
 import { PopoverProps } from '@mui/material/Popover'
-import { useState } from 'react'
+import React from 'react'
 
 import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
@@ -19,8 +19,8 @@ type Props = MuiButtonProps & {
 function RcSesButtonWithPopover(props: Props) {
   const { children, popoverHeader, popoverContent, slotProps, ...buttonProps } = props
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const [hovering, setHovering] = useState<boolean>(false)
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+  const [hovering, setHovering] = React.useState<boolean>(false)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget)

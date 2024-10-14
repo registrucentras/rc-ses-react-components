@@ -1,4 +1,4 @@
-import { PopoverProps } from '@mui/material/Popover';
+import { PopoverProps } from '@mui/material';
 type Props = Exclude<PopoverProps, 'content'> & {
     header?: React.ReactNode;
 };

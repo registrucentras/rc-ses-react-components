@@ -1,9 +1,9 @@
-import { InputHTMLAttributes } from 'react';
+import { default as React } from 'react';
 import { UseControllerProps } from 'react-hook-form';
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper';
 type TControllerProps = UseControllerProps<any, any>;
 type ImmediateControllerProps = 'control' | 'rules';
-type TFieldProps = InputHTMLAttributes<HTMLInputElement>;
+type TFieldProps = React.InputHTMLAttributes<HTMLInputElement>;
 type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name';
 type TWrapperProps = RcSesFormControlWrapperProps;
 type ImmediateWrapperProps = 'label' | 'errors';

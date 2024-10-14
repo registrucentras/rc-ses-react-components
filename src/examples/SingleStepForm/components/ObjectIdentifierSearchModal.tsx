@@ -14,7 +14,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
-import { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesTextField from '@/components/form/inputs/TextField'
@@ -33,7 +33,7 @@ type Props = {
   onClose: () => void
 }
 function ObjectIdentifierSearchModal({ open, onSubmit, onClose }: Props) {
-  const [results, setResults] = useState<
+  const [results, setResults] = React.useState<
     {
       regNo: string
       type: string

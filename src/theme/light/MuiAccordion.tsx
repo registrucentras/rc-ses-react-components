@@ -24,7 +24,9 @@ const MuiAccordion: Components['MuiAccordion'] = {
   styleOverrides: {
     root: {
       borderColor: palette.grey['400'],
+      // borderRadius: '.375rem',
       borderStyle: 'solid',
+      // boderWidth: 1,
       padding: 0,
 
       ':before': {

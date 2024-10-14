@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
 import { lt } from 'date-fns/locale/lt'
-import { StrictMode } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
@@ -32,12 +32,12 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <React.StrictMode>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
         <CssBaseline />
         <RouterProvider router={router} />
       </LocalizationProvider>
     </ThemeProvider>
-  </StrictMode>,
+  </React.StrictMode>,
 )

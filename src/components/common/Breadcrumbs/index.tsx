@@ -1,5 +1,4 @@
-import MuiBreadcrumbs from '@mui/material/Breadcrumbs'
-import Link from '@mui/material/Link'
+import { Link, Breadcrumbs as MuiBreadcrumbs } from '@mui/material'
 
 export type BreadcrumbItem = { label: string; path: string }
 

@@ -1,5 +1,4 @@
-import Button from '@mui/material/Button'
-import DialogActions from '@mui/material/DialogActions'
+import { Button, DialogActions } from '@mui/material'
 import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
 import { usePickersTranslations } from '@mui/x-date-pickers/hooks'
 
