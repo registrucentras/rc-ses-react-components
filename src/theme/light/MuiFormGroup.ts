@@ -1,4 +1,4 @@
-import { Components, decomposeColor } from '@mui/material'
+import { Components } from '@mui/material'
 
 import palette from '../palette'
 

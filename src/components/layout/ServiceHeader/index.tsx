@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Box, Container, Typography } from '@mui/material'
-import { ComponentProps } from 'react'
+import React from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
@@ -16,7 +16,7 @@ const StyledDescriptionBox = styled(Box)`
 `
 
 type Props = {
-  breadcrumbsProps: ComponentProps<typeof RcSesBreadcrumbs>
+  breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
   children: React.ReactNode
   title: string
 }

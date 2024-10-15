@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import { MuiPickersAdapterContext } from '@mui/x-date-pickers'
 import { PickersCalendarHeaderProps } from '@mui/x-date-pickers/PickersCalendarHeader'
-import { useContext } from 'react'
+import React from 'react'
 
 import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
 import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
@@ -42,7 +42,7 @@ const StepperButton = styled(IconButton)({
 function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps<Date>) {
   const { currentMonth, onMonthChange } = props
 
-  const dateAdapterContext = useContext(MuiPickersAdapterContext)
+  const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
   const { utils, localeText } = dateAdapterContext ?? {}
 
   if (!utils) return null

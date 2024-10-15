@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
+import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
@@ -104,7 +104,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesNumberStepper(props: Props) {
-  const [buttonState, setButtonState] = useState<[boolean, boolean]>([true, true])
+  const [buttonState, setButtonState] = React.useState<[boolean, boolean]>([true, true])
 
   const {
     control,
@@ -131,7 +131,7 @@ function RcSesNumberStepper(props: Props) {
     rules,
   })
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (disabled) {
       setButtonState([true, true])
       return
@@ -147,8 +147,9 @@ function RcSesNumberStepper(props: Props) {
     ])
   }, [disabled, rules?.max, rules?.min, value])
 
-  const handleInputOnChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    onChange && onChange(e.target.value)
+  const handleInputOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => onChange && onChange(e.target.value)
 
   const handleOnAdd = () =>
     onChange(parseInt((value ?? 0) as string, 10) - (parseInt(step as string, 10) || 1))

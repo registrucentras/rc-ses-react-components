@@ -5,7 +5,7 @@ import {
   CircularProgress,
   TextField,
 } from '@mui/material'
-import { useMemo, useState } from 'react'
+import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import RcSesFormControlWrapper, {
@@ -43,7 +43,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesSelect(props: Props) {
-  const [inputValue, setInputValue] = useState<string>('')
+  const [inputValue, setInputValue] = React.useState<string>('')
 
   const {
     control,
@@ -72,7 +72,7 @@ function RcSesSelect(props: Props) {
 
   const hasError = !!errors
 
-  const resolvedValue = useMemo(
+  const resolvedValue = React.useMemo(
     () =>
       value
         ? {

@@ -1,7 +1,7 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "0.0.13",
+  "version": "0.0.22",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,
@@ -14,12 +14,6 @@
       "require": "./dist/registrucentras-rc-ses-react-components.cjs",
       "default": "./dist/registrucentras-rc-ses-react-components.cjs"
     },
-    "./icons": {
-      "types": "./dist/library/icons.d.ts",
-      "import": "./dist/registrucentras-rc-ses-react-components2.js",
-      "require": "./dist/registrucentras-rc-ses-react-components2.cjs",
-      "default": "./dist/registrucentras-rc-ses-react-components2.cjs"
-    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -31,7 +25,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:lib": "tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts",
+    "build:lib": "npm i && tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -47,27 +41,29 @@
   "publishConfig": {
     "@registrucentras:registry": "https://npm.pkg.github.com/"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/material": "5.16.7",
+    "@mui/system": "5.16.7",
+    "@mui/x-date-pickers": "^7.7.0",
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.1.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^14.1.2"
+  },
+  "dependencies": {
     "@fontsource/inter": "^5.0.18",
     "@fontsource/public-sans": "^5.0.18",
     "@mui/icons-material": "^5.15.20",
-    "@mui/material": "^5.16.3",
-    "@mui/x-date-pickers": "^7.7.0",
     "@reflet/http": "^1.0.0",
     "@storybook/test": "^8.1.9",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "date-fns-tz": "^3.1.3",
-    "i18next": "^23.11.5",
     "jest-environment-jsdom": "^29.7.0",
     "notistack": "^3.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
-    "react-i18next": "^14.1.2",
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {

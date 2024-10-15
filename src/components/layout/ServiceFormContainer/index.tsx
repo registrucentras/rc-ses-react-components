@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import palette from '@/theme/palette'
@@ -22,7 +22,7 @@ function ServiceFormContainer({
 }: Props) {
   const { state } = accordionController
 
-  const areAccordionCollapseControlsVisible = useMemo(() => {
+  const areAccordionCollapseControlsVisible = React.useMemo(() => {
     if (Object.keys(state).length <= 1 || !showAccordionCollapseControls) return false
     return true
   }, [showAccordionCollapseControls, state])

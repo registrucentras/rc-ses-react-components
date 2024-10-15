@@ -1,5 +1,6 @@
 import { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 import { PopoverProps } from '@mui/material/Popover';
+import { default as React } from 'react';
 type Props = MuiButtonProps & {
     popoverHeader?: React.ReactNode;
     popoverContent?: React.ReactNode;

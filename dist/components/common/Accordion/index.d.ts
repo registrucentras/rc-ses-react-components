@@ -1,4 +1,5 @@
-import { default as Accordion } from '@mui/material/Accordion';
+import { Accordion } from '@mui/material';
+import { default as React } from 'react';
 import { default as useAccordionController } from './hooks/useAccordionController';
 type Props = React.ComponentProps<typeof Accordion> & {
     id: string;

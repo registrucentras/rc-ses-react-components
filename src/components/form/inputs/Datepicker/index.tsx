@@ -1,7 +1,7 @@
 import { MuiPickersAdapterContext } from '@mui/x-date-pickers'
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker'
 import { fromZonedTime } from 'date-fns-tz'
-import { forwardRef, useContext, useState } from 'react'
+import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
@@ -19,11 +19,11 @@ type Props = Partial<RcSesFormControlWrapperProps> &
     }
   }
 
-const RcSesDatepicker = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { control, description, errors, label, labelSubtitle, name, rules, slotProps } =
     props
 
-  const dateAdapterContext = useContext(MuiPickersAdapterContext)
+  const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
 
   const {
     field: { onChange, value, disabled },
@@ -36,7 +36,7 @@ const RcSesDatepicker = forwardRef<HTMLInputElement, Props>((props, ref) => {
   // eslint-disable-next-line react/destructuring-assignment
   const id = props.id ?? crypto.randomUUID()
 
-  const [modelValue, setModelValue] = useState<Date | null>(value)
+  const [modelValue, setModelValue] = React.useState<Date | null>(value)
 
   const handleOnChange = (newValue: Date | null) => {
     setModelValue(newValue)

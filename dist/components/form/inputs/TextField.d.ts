@@ -1,6 +1,6 @@
 import { OutlinedTextFieldProps as MuiOutlinedTextFieldProps } from '@mui/material';
+import { default as React } from 'react';
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>;
 type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref';
 type TWrapperProps = RcSesFormControlWrapperProps;
@@ -12,5 +12,5 @@ type Props = Pick<TFieldProps, ImmediateFieldProps> & Pick<TWrapperProps, Immedi
         wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>;
     };
 };
-declare const RcSesTextField: ForwardRefExoticComponent<Omit<Props, "ref"> & RefAttributes<HTMLInputElement>>;
+declare const RcSesTextField: React.ForwardRefExoticComponent<Omit<Props, "ref"> & React.RefAttributes<HTMLInputElement>>;
 export default RcSesTextField;

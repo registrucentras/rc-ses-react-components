@@ -1,5 +1,5 @@
 import { Box, Button, Typography, styled } from '@mui/material'
-import { InputHTMLAttributes } from 'react'
+import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
@@ -24,7 +24,7 @@ const VisuallyHiddenInput = styled('input')({
 type TControllerProps = UseControllerProps<any, any>
 type ImmediateControllerProps = 'control' | 'rules'
 
-type TFieldProps = InputHTMLAttributes<HTMLInputElement>
+type TFieldProps = React.InputHTMLAttributes<HTMLInputElement>
 type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name'
 
 type TWrapperProps = RcSesFormControlWrapperProps

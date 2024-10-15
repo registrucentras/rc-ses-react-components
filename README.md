@@ -7,7 +7,7 @@
 
 ## Prerekvizitai
 
-1. Įsitikinkite, kad turite įdiegtą bent **18.3** arba naujesnę [Node.js](https://nodejs.org/en) versiją;
+1. Įsitikinkite, kad turite įdiegtą bent **18.20.x** arba naujesnę [Node.js](https://nodejs.org/en) versiją;
 2. Jei to dar nepadarėte, lokaliai klonuokite `rc-ses-react-components` projektą:
     ```bash
     git clone git@github.com:registrucentras/rc-ses-react-components.git

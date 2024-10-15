@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 
 import { AccordionControllerState } from '../types/AccordionControllerState'
 
@@ -7,7 +7,7 @@ type Props = {
 }
 
 function useAccordionController({ initialState }: Props) {
-  const [state, setState] = useState<AccordionControllerState>(initialState)
+  const [state, setState] = React.useState<AccordionControllerState>(initialState)
 
   const toggleAccordion = (id: string, isExpanded: boolean) => {
     const nextState = { ...state }

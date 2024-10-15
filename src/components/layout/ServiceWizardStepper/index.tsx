@@ -1,7 +1,7 @@
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
-import { useCallback } from 'react'
+import React from 'react'
 
 import {
   AccordionControllerState,
@@ -16,7 +16,7 @@ type Props = {
   steps: AccordionControllerState
 }
 function ServiceWizardStepper({ steps }: Props) {
-  const getStepIcon = useCallback((state: AccordionState['state']) => {
+  const getStepIcon = React.useCallback((state: AccordionState['state']) => {
     switch (state) {
       case 'active':
         return ActiveStepIcon
