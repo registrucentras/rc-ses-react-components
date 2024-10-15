@@ -5,7 +5,20 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import Button from '@/components/common/Button'
 import palette from '@/theme/palette'
 
-function ServiceFormActions() {
+type Props = {
+  onDiscard: () => void
+  onSaveDraft: () => void
+  onSubmit: () => void
+  draftDisabled?: boolean
+  submitDisabled?: boolean
+}
+function ServiceFormActions({
+  onDiscard,
+  onSaveDraft,
+  onSubmit,
+  draftDisabled,
+  submitDisabled,
+}: Props) {
   return (
     <>
       <Card
@@ -28,12 +41,23 @@ function ServiceFormActions() {
           }}
         >
           <Grid item>
-            <Button variant='text' startIcon={<CaretLeftIcon />}>
+            <Button
+              disabled={draftDisabled === true}
+              onClick={() => onSaveDraft()}
+              startIcon={<CaretLeftIcon />}
+              variant='text'
+            >
               Baigti pildyti vėliau
             </Button>
           </Grid>
           <Grid item>
-            <Button variant='contained' size='large' endIcon={<ArrowRightIcon />}>
+            <Button
+              disabled={submitDisabled === true}
+              endIcon={<ArrowRightIcon />}
+              onClick={() => onSubmit()}
+              size='large'
+              variant='contained'
+            >
               Baigti pildyti ir pridėti į krepšelį
             </Button>
           </Grid>
@@ -50,6 +74,7 @@ function ServiceFormActions() {
             size='small'
             color='grey'
             sx={{ fontWeight: 400, textDecoration: 'underline' }}
+            onClick={() => onDiscard()}
           >
             Atšaukti pildymą ir ištrinti formos duomenis
           </Button>
