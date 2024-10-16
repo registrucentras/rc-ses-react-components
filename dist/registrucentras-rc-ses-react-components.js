@@ -2347,7 +2347,13 @@ const t2 = W.forwardRef((e, r) => {
     }
   );
 });
-function n2() {
+function n2({
+  onDiscard: e,
+  onSaveDraft: r,
+  onSubmit: t,
+  draftDisabled: n,
+  submitDisabled: a
+}) {
   return /* @__PURE__ */ o.jsxs(o.Fragment, { children: [
     /* @__PURE__ */ o.jsx(
       R0,
@@ -2371,8 +2377,27 @@ function n2() {
               justifyContent: { xs: "center", md: "space-between" }
             },
             children: [
-              /* @__PURE__ */ o.jsx(K, { item: !0, children: /* @__PURE__ */ o.jsx(S1, { variant: "text", startIcon: /* @__PURE__ */ o.jsx(V0, {}), children: "Baigti pildyti vėliau" }) }),
-              /* @__PURE__ */ o.jsx(K, { item: !0, children: /* @__PURE__ */ o.jsx(S1, { variant: "contained", size: "large", endIcon: /* @__PURE__ */ o.jsx(F0, {}), children: "Baigti pildyti ir pridėti į krepšelį" }) })
+              /* @__PURE__ */ o.jsx(K, { item: !0, children: /* @__PURE__ */ o.jsx(
+                S1,
+                {
+                  disabled: n === !0,
+                  onClick: () => r(),
+                  startIcon: /* @__PURE__ */ o.jsx(V0, {}),
+                  variant: "text",
+                  children: "Baigti pildyti vėliau"
+                }
+              ) }),
+              /* @__PURE__ */ o.jsx(K, { item: !0, children: /* @__PURE__ */ o.jsx(
+                S1,
+                {
+                  disabled: a === !0,
+                  endIcon: /* @__PURE__ */ o.jsx(F0, {}),
+                  onClick: () => t(),
+                  size: "large",
+                  variant: "contained",
+                  children: "Baigti pildyti ir pridėti į krepšelį"
+                }
+              ) })
             ]
           }
         )
@@ -2390,6 +2415,7 @@ function n2() {
             size: "small",
             color: "grey",
             sx: { fontWeight: 400, textDecoration: "underline" },
+            onClick: () => e(),
             children: "Atšaukti pildymą ir ištrinti formos duomenis"
           }
         ) })
