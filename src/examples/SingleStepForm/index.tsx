@@ -150,6 +150,7 @@ function SingleStepForm() {
             <RcSesDatepicker
               id='date'
               name='date'
+              clearable
               control={control}
               rules={{ required: true }}
               label='Terminas'
