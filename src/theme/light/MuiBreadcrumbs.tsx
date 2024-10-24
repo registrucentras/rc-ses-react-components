@@ -9,6 +9,10 @@ const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
       fontSize: '.6875rem',
     },
     li: {
+      lineHeight: '.875rem',
+      paddingBottom: '.375rem',
+      paddingTop: '.375rem',
+
       a: {
         color: Colors.grey['600'],
         textDecoration: 'none',
