@@ -7,6 +7,7 @@ type TWrapperProps = RcSesFormControlWrapperProps;
 type ImmediateWrapperProps = 'label' | 'errors';
 declare const RcSesDatepicker: React.ForwardRefExoticComponent<TFieldProps & Pick<RcSesFormControlWrapperProps, ImmediateWrapperProps> & {
     id?: string;
+    clearable?: boolean;
     slotProps?: {
         datepicker?: DatePickerProps<Date, boolean>;
         wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>;
