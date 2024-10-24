@@ -9,7 +9,13 @@ import RcSesFormControlWrapper, {
 } from '../components/FormControlWrapper'
 
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>
-type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref'
+type ImmediateFieldProps =
+  | 'onChange'
+  | 'onBlur'
+  | 'disabled'
+  | 'name'
+  | 'ref'
+  | 'multiline'
 
 type TWrapperProps = RcSesFormControlWrapperProps
 type ImmediateWrapperProps = 'label' | 'errors'
