@@ -12,29 +12,30 @@ import RcSesFormControlWrapper, {
 import RcSesDatepickerActionBar from './components/RcSesDatepickerActionBar'
 import RcSesDatepickerCalendarHeader from './components/RcSesDatepickerCalendarHeader'
 
-type Props = Partial<RcSesFormControlWrapperProps> &
-  UseControllerProps<any, any> & {
+type TFieldProps = UseControllerProps<any, any>
+type TWrapperProps = RcSesFormControlWrapperProps
+type ImmediateWrapperProps = 'label' | 'errors'
+
+type Props = TFieldProps &
+  Pick<TWrapperProps, ImmediateWrapperProps> & {
+    id?: string
     slotProps?: {
       datepicker?: DatePickerProps<Date, boolean>
+      wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>
     }
   }
 
 const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { control, description, errors, label, labelSubtitle, name, rules, slotProps } =
-    props
+  const { id: idProp, errors, label, slotProps, ...controllerProps } = props
 
   const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
 
   const {
     field: { onChange, value, disabled },
-  } = useController({
-    control,
-    name,
-    rules,
-  })
+  } = useController(controllerProps)
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? crypto.randomUUID()
+  const id = idProp ?? crypto.randomUUID()
 
   const [modelValue, setModelValue] = React.useState<Date | null>(value)
 
@@ -52,9 +53,8 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
     <RcSesFormControlWrapper
       id={id}
       label={label}
-      labelSubtitle={labelSubtitle}
-      description={description}
       errors={errors}
+      {...slotProps?.wrapper}
     >
       <DatePicker
         inputRef={ref}

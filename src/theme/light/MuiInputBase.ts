@@ -6,6 +6,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
+      backgroundColor: 'white',
       borderRadius: '.1875rem',
 
       '.MuiInputBase-input': {
