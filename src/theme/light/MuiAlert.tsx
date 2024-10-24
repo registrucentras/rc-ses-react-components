@@ -28,21 +28,37 @@ const MuiAlert: Components['MuiAlert'] = {
   },
   styleOverrides: {
     root: {
+      flexWrap: 'wrap',
       marginBottom: '1.5rem',
       padding: '.75rem .75rem .75rem .5rem',
+
+      [breakpoints.up('sm')]: {
+        alignItems: 'center',
+        flexWrap: 'nowrap',
+        padding: '.75rem 1rem',
+      },
 
       '.MuiAlert-icon svg': {
         height: '1.125rem',
         width: '1.125rem',
-      },
 
-      [breakpoints.up('md')]: {
-        padding: '.75rem 1rem',
-
-        '.MuiAlert-icon svg': {
+        [breakpoints.up('sm')]: {
           height: '1.5rem',
           width: '1.5rem',
         },
+      },
+    },
+
+    action: {
+      flex: '0 1 100%',
+      marginLeft: '1.625rem',
+      marginRight: 0,
+      padding: '1rem 0 0 0',
+
+      [breakpoints.up('sm')]: {
+        flex: '0 1 auto',
+        marginLeft: 'auto',
+        padding: '0 0 0 1rem',
       },
     },
 
@@ -52,13 +68,18 @@ const MuiAlert: Components['MuiAlert'] = {
       paddingBottom: 0,
       paddingTop: 0,
 
-      [breakpoints.up('md')]: {
+      [breakpoints.up('sm')]: {
         alignSelf: 'center',
         marginRight: '.75rem',
       },
     },
 
     message: {
+      [breakpoints.down('sm')]: {
+        flex: '1 1 0',
+        padding: 0,
+      },
+
       a: {
         color: 'inherit',
       },
@@ -73,6 +94,12 @@ const MuiAlert: Components['MuiAlert'] = {
       lineHeight: '1.125rem',
       padding: '1rem 1.5rem 1rem 1.25rem',
 
+      [breakpoints.up('md')]: {
+        fontSize: '1.0625rem',
+        lineHeight: '1.5rem',
+        padding: '1rem 1.875rem 1rem 1.5rem',
+      },
+
       '.MuiAlert-icon': {
         display: 'none',
       },
@@ -85,12 +112,6 @@ const MuiAlert: Components['MuiAlert'] = {
           color: 'inherit',
           fontWeight: 500,
         },
-      },
-
-      [breakpoints.up('md')]: {
-        fontSize: '1.0625rem',
-        lineHeight: '1.5rem',
-        padding: '1rem 1.875rem 1rem 1.5rem',
       },
     },
     standardGrey: {
@@ -122,21 +143,21 @@ const MuiAlert: Components['MuiAlert'] = {
       fontSize: '.8125rem',
       fontWeight: 400,
 
+      [breakpoints.up('md')]: {
+        fontSize: '.875rem',
+      },
+
       '.MuiAlert-message': {
         lineHeight: '1rem',
-        padding: '.125rem 0',
+        padding: '0',
+
+        [breakpoints.up('sm')]: {
+          lineHeight: '1.25rem',
+          padding: '.125rem 0',
+        },
 
         a: {
           fontWeight: 600,
-        },
-      },
-
-      [breakpoints.up('md')]: {
-        fontSize: '.875rem',
-
-        '.MuiAlert-message': {
-          lineHeight: '1.25rem',
-          padding: '.125rem 0',
         },
       },
     },
@@ -163,23 +184,23 @@ const MuiAlert: Components['MuiAlert'] = {
 
     outlined: {
       fontSize: '.8125rem',
-      fontWeight: 600,
-
-      '.MuiAlert-message': {
-        lineHeight: '1rem',
-        padding: '.125rem 0',
-
-        a: {
-          fontWeight: 600,
-        },
-      },
+      fontWeight: 400,
 
       [breakpoints.up('md')]: {
         fontSize: '.875rem',
+      },
 
-        '.MuiAlert-message': {
+      '.MuiAlert-message': {
+        lineHeight: '1rem',
+        padding: 0,
+
+        [breakpoints.up('sm')]: {
           lineHeight: '1.25rem',
           padding: '.125rem 0',
+        },
+
+        a: {
+          fontWeight: 600,
         },
       },
     },
