@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
@@ -14,6 +15,8 @@ import ServiceIssuanceForm from './components/ServiceIssuanceForm'
 import TermsAndConditionsForm from './components/TermsAndConditionsForm'
 
 function MultipleStepForm() {
+  const navigate = useNavigate()
+
   const accordionController = useAccordionController({
     initialState: {
       basicInformation: {
@@ -84,7 +87,11 @@ function MultipleStepForm() {
           <TermsAndConditionsForm />
         </RcSesAccordion>
 
-        <ServiceFormActions />
+        <ServiceFormActions
+          onDiscard={() => navigate('/')}
+          onSaveDraft={() => navigate('/')}
+          onSubmit={() => navigate('/')}
+        />
       </ServiceFormContainer>
     </ServicePage>
   )
