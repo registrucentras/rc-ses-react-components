@@ -1,5 +1,6 @@
 type SingleStepFormModel = {
     text: string;
+    multilineText: string;
     selection: string;
     phoneNo: string;
     searchable: string;

@@ -1,5 +1,6 @@
 import { Divider, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
@@ -21,6 +22,8 @@ import ObjectIdentifierSearchModal from './components/ObjectIdentifierSearchModa
 import type SingleStepFormModel from './types/SingleStepFormModel'
 
 function SingleStepForm() {
+  const navigate = useNavigate()
+
   const accordionController = useAccordionController({
     initialState: {
       form: {
@@ -41,6 +44,7 @@ function SingleStepForm() {
     mode: 'all',
     defaultValues: {
       text: '',
+      multilineText: '',
       selection: '',
       phoneNo: '',
       searchable: '',
@@ -96,6 +100,23 @@ function SingleStepForm() {
               }}
             />
 
+            <RcSesTextField
+              label='Ilgas tekstas'
+              errors={errors?.multilineText}
+              multiline
+              {...register('text', { required: true })}
+              slotProps={{
+                wrapper: {
+                  fieldSuffix: (
+                    <RcSesButtonWithPopover
+                      popoverHeader='Viską paaiškinanti antraštė'
+                      popoverContent="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard."
+                    />
+                  ),
+                },
+              }}
+            />
+
             <RcSesSearchableField
               control={control}
               id='searchable'
@@ -129,6 +150,7 @@ function SingleStepForm() {
             <RcSesDatepicker
               id='date'
               name='date'
+              clearable
               control={control}
               rules={{ required: true }}
               label='Terminas'
@@ -250,7 +272,11 @@ function SingleStepForm() {
           </form>
         </RcSesAccordion>
 
-        <ServiceFormActions />
+        <ServiceFormActions
+          onDiscard={() => navigate('/')}
+          onSaveDraft={() => navigate('/')}
+          onSubmit={() => navigate('/')}
+        />
       </ServiceFormContainer>
     </ServicePage>
   )

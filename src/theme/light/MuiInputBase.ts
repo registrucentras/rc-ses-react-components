@@ -6,6 +6,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
+      backgroundColor: 'white',
       borderRadius: '.1875rem',
 
       '.MuiInputBase-input': {
@@ -62,6 +63,9 @@ const MuiInputBase: Components['MuiInputBase'] = {
           borderColor: palette.grey['900'],
         },
       },
+    },
+    multiline: {
+      padding: '0 !important',
     },
     adornedStart: {
       paddingLeft: '.625rem !important',

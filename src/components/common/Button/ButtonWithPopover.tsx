@@ -39,6 +39,7 @@ function RcSesButtonWithPopover(props: Props) {
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         sx={{
+          backgroundColor: 'transparent !important',
           height: 'unset',
           minWidth: 'unset',
           p: 0,
