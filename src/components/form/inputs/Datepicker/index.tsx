@@ -1,12 +1,14 @@
-import { IconButton, InputAdornment } from '@mui/material'
+import { IconButton, InputAdornment, useMediaQuery } from '@mui/material'
 import { MuiPickersAdapterContext } from '@mui/x-date-pickers'
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker'
+import { parseISO } from 'date-fns'
 import { fromZonedTime } from 'date-fns-tz'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
+import theme from '@/theme/light'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -29,6 +31,8 @@ type Props = TFieldProps &
   }
 
 const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const upMd = useMediaQuery(theme.breakpoints.up('md'))
+
   const { id: idProp, clearable, errors, label, slotProps, ...controllerProps } = props
 
   const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
@@ -40,17 +44,22 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
   // eslint-disable-next-line react/destructuring-assignment
   const id = idProp ?? crypto.randomUUID()
 
-  const [modelValue, setModelValue] = React.useState<Date | null>(value)
+  const [modelValue, setModelValue] = React.useState<Date | null>(
+    value ? parseISO(value) : null,
+  )
 
   const handleOnChange = (newValue: Date | null) => {
-    setModelValue(newValue)
-
     try {
       onChange((newValue && fromZonedTime(newValue, 'UTC').toISOString()) ?? '')
     } catch (_) {
       onChange(newValue)
     }
   }
+
+  useEffect(() => {
+    if (value !== modelValue) setModelValue(value ? parseISO(value) : null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
 
   return (
     <RcSesFormControlWrapper
@@ -61,6 +70,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
     >
       <DatePicker
         inputRef={ref}
+        closeOnSelect
         dayOfWeekFormatter={(date: Date) =>
           dateAdapterContext?.utils?.format(date, 'weekdayShort').substring(0, 2) ?? ''
         }
@@ -81,14 +91,27 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
           },
           inputAdornment: {
             position: 'start',
+            sx: { mr: '0 !important' },
             ...(slotProps?.datepicker?.slotProps?.inputAdornment ?? {}),
           },
           textField: {
             id,
             error: !!errors,
+            fullWidth: true,
             InputProps: {
+              ...(!upMd
+                ? {
+                    startAdornment: (
+                      <InputAdornment position='start' sx={{ mr: 0 }}>
+                        <IconButton>
+                          <CalendarBlankIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }
+                : {}),
               endAdornment: !!value && clearable && (
-                <InputAdornment position='end' sx={{ mr: -1 }}>
+                <InputAdornment position='end'>
                   <IconButton onClick={() => handleOnChange(null)}>
                     <XCircleFillIcon />
                   </IconButton>
@@ -97,6 +120,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
             },
             ...(slotProps?.datepicker?.slotProps?.textField ?? {}),
           },
+          toolbar: { hidden: true },
         }}
         value={modelValue}
         sx={{

@@ -3,7 +3,7 @@ import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
 import { usePickersTranslations } from '@mui/x-date-pickers/hooks'
 
 function RcSesDatepickerActionBar(props: PickersActionBarProps) {
-  const { actions, onCancel, ...other } = props
+  const { actions, onAccept, onCancel, onClear, onSetToday, ...other } = props
 
   const translations = usePickersTranslations()
 
@@ -13,9 +13,15 @@ function RcSesDatepickerActionBar(props: PickersActionBarProps) {
 
   const buttons = actions?.map((actionType) => {
     switch (actionType) {
+      case 'clear':
+        return (
+          <Button key={actionType} color='error' onClick={onClear} variant='text'>
+            {translations.clearButtonLabel}
+          </Button>
+        )
       case 'cancel':
         return (
-          <Button key={actionType} variant='link' onClick={onCancel}>
+          <Button key={actionType} onClick={onCancel} variant='text'>
             {translations.cancelButtonLabel}
           </Button>
         )
