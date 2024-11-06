@@ -20,7 +20,9 @@ import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
 import RcSesTabsWrapper from '@/components/common/Tabs/TabsWrapper'
+import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
+import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
 import RcSesDatepicker from '@/components/form/inputs/Datepicker'
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
@@ -44,7 +46,7 @@ declare module '@mui/x-date-pickers/models' {
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
 export { RcSesAlert, RcSesBreadcrumbs, RcSesButton }
-export { RcSesCheckbox }
+export { RcSesCheckbox, RcSesCheckboxFormControl }
 export { RcSesDatepicker }
 export { RcSesFileUpload }
 export { RcSesNumberStepper }
@@ -57,6 +59,7 @@ export { RcSesTextField }
 export {
   RcSesServiceFormActions,
   RcSesServiceFormContainer,
+  RcSesFormControlWrapper,
   RcSesServiceHeader,
   RcSesServicePage,
 }
