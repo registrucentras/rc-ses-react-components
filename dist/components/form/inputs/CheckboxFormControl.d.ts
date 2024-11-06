@@ -11,6 +11,7 @@ type ImmediateWrapperProps = 'label' | 'errors';
 type Props = Pick<TControllerProps, ImmediateControllerProps> & Pick<TFieldProps, ImmediateFieldProps> & Pick<TWrapperProps, ImmediateWrapperProps> & {
     id?: string;
     children: React.ReactNode;
+    loading?: boolean;
     variant?: 'flat' | 'outlined';
     slotProps?: {
         field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>;
