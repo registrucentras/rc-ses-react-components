@@ -24,7 +24,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
     },
     contentWrapper: {
       '.MuiDateCalendar-root': {
-        width: '296px',
+        width: '100%',
       },
 
       '.MuiDayCalendar-weekDayLabel': {
@@ -53,7 +53,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
       },
 
       '.MuiDayCalendar-weekContainer': {
-        '.MuiPickersDay-root:nth-child(6), .MuiPickersDay-root:nth-child(7)': {
+        '.MuiPickersDay-root:nth-of-type(6), .MuiPickersDay-root:nth-of-type(7)': {
           color: palette.error['600'],
 
           '&.MuiPickersDay-dayOutsideMonth': {

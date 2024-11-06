@@ -47,6 +47,7 @@ function RcSesFormControlWrapper({
                 xs: '0 0 0%',
                 sm: labelOnTop ? '0 0 0%' : `0 0 ${formControlDesktopLabelWidth}`,
               },
+              ...(labelOnTop && { fontWeigt: 400 }),
               marginBottom: { xs: '.25rem', sm: labelOnTop ? '.25rem' : '0' },
               textAlign: { xs: 'left', sm: labelOnTop ? 'left' : 'right' },
               pr: 3,

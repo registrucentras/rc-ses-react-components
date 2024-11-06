@@ -8,12 +8,11 @@ const MuiDialog: Components['MuiDialog'] = {
         fontSize: '1.5rem',
         fontWeight: 500,
         lineHeight: '2rem',
-        padding: '2rem 2.25rem 1.5rem',
+        padding: '2rem 2.25rem 1rem',
       },
 
       '.MuiDialogContent-root': {
-        marginBottom: '2.25rem',
-        padding: '.5rem 2.25rem 0',
+        padding: '.5rem 2.25rem 2.25rem',
       },
 
       '.MuiDialogActions-root': {
