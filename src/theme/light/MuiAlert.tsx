@@ -75,6 +75,9 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     message: {
+      flexGrow: 1,
+      overflowY: 'hidden',
+
       [breakpoints.down('sm')]: {
         flex: '1 1 0',
         padding: 0,

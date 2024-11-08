@@ -74,8 +74,10 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
             },
             readOnly: true,
             startAdornment: (
-              <InputAdornment position='start' onClick={() => setModalOpen(true)}>
-                <MagnifyingGlassIcon />
+              <InputAdornment position='start'>
+                <IconButton onClick={() => setModalOpen(true)}>
+                  <MagnifyingGlassIcon />
+                </IconButton>
               </InputAdornment>
             ),
             endAdornment: !!value && (

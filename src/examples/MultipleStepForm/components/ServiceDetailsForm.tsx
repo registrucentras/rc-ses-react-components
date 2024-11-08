@@ -18,7 +18,6 @@ function ServiceDetailsForm() {
     control,
     handleSubmit,
     formState: { errors },
-    register,
   } = useForm<FormModel>({
     mode: 'all',
     defaultValues: {
@@ -64,9 +63,11 @@ function ServiceDetailsForm() {
 
       <RcSesCheckbox
         id='agreement'
+        name='agreement'
+        control={control}
         errors={errors?.agreement}
         label='Sutikimas'
-        {...register('agreement', { required: true })}
+        rules={{ required: true }}
       >
         Pagal užsakymą gautus duomenis naudosiu nurodytam duomenų tikslui ir šių duomenų
         neatskleisiu tretiesiems asmenims.

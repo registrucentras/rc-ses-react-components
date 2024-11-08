@@ -8,9 +8,9 @@ type FormModel = {
 
 function TermsAndConditionsForm() {
   const {
+    control,
     handleSubmit,
     formState: { errors },
-    register,
   } = useForm<FormModel>({
     mode: 'all',
     defaultValues: {
@@ -23,8 +23,11 @@ function TermsAndConditionsForm() {
     <form onSubmit={handleSubmit(console.debug)} noValidate>
       <RcSesCheckbox
         id='agreement'
+        name='agreement'
+        control={control}
         errors={errors?.agreement}
-        {...register('agreement', { required: true })}
+        label='Sutikimas'
+        rules={{ required: true }}
         slotProps={{
           label: {
             slotProps: {

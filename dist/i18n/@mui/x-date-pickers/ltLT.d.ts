@@ -1,4 +1,5 @@
-import { DateView, TimeView, MuiPickersAdapter, FieldSectionContentType } from '@mui/x-date-pickers/models';
+import { DateView, TimeView, FieldSectionContentType } from '@mui/x-date-pickers/models';
+import { MuiPickersAdapter } from '@mui/x-date-pickers';
 import { TimeViewWithMeridiem } from '@mui/x-date-pickers/internals';
 export declare const DEFAULT_LOCALE: {
     previousMonth: string;
@@ -76,13 +77,13 @@ export declare const ltLT: {
                     clearButtonLabel?: string | undefined;
                     okButtonLabel?: string | undefined;
                     todayButtonLabel?: string | undefined;
-                    clockLabelText?: ((view: TimeView, time: any, adapter: MuiPickersAdapter<any, any>) => string) | undefined;
+                    clockLabelText?: ((view: TimeView, time: any, utils: MuiPickersAdapter<any, any>, formattedTime?: string | null) => string) | undefined;
                     hoursClockNumberText?: ((hours: string) => string) | undefined;
                     minutesClockNumberText?: ((minutes: string) => string) | undefined;
                     secondsClockNumberText?: ((seconds: string) => string) | undefined;
                     selectViewText?: ((view: TimeViewWithMeridiem) => string) | undefined;
-                    openDatePickerDialogue?: ((date: any, utils: MuiPickersAdapter<any, any>) => string) | undefined;
-                    openTimePickerDialogue?: ((date: any, utils: MuiPickersAdapter<any, any>) => string) | undefined;
+                    openDatePickerDialogue?: ((date: any, utils: MuiPickersAdapter<any, any>, formattedDate: string | null) => string) | undefined;
+                    openTimePickerDialogue?: ((date: any, utils: MuiPickersAdapter<any, any>, formattedTime: string | null) => string) | undefined;
                     fieldClearLabel?: string | undefined;
                     timeTableLabel?: string | undefined;
                     dateTableLabel?: string | undefined;

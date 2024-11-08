@@ -19,5 +19,5 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> & Pick<TFieldProps
         wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>;
     };
 };
-declare function RcSesCheckbox(props: Props): import("react/jsx-runtime").JSX.Element;
-export default RcSesCheckbox;
+declare function RcSesCheckboxFormControl(props: Props): import("react/jsx-runtime").JSX.Element;
+export default RcSesCheckboxFormControl;

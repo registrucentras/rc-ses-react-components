@@ -1,14 +1,20 @@
-import { Components } from '@mui/material'
+import { Components, createTheme } from '@mui/material'
 
 import palette from '../palette'
+
+const { breakpoints } = createTheme()
 
 const MuiFormLabel: Components['MuiFormLabel'] = {
   styleOverrides: {
     root: {
       color: palette.grey['900'],
       fontSize: '.9375rem',
-      fontWeight: 500,
+      fontWeight: 400,
       lineHeight: '1.125rem',
+
+      [breakpoints.up('sm')]: {
+        fontWeight: 500,
+      },
 
       '&.Mui-focused': {
         color: 'inherit',

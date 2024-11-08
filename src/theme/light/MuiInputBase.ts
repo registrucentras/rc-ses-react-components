@@ -68,14 +68,18 @@ const MuiInputBase: Components['MuiInputBase'] = {
       padding: '0 !important',
     },
     adornedStart: {
-      paddingLeft: '.625rem !important',
+      paddingLeft: '0 !important',
 
       '.MuiInputBase-input': {
         paddingLeft: 0,
       },
+
+      '.MuiIconButton-edgeStart': {
+        marginLeft: 0,
+      },
     },
     adornedEnd: {
-      paddingRight: '.625rem !important',
+      paddingRight: '0 !important',
 
       '.MuiInputBase-input': {
         paddingRight: 0,

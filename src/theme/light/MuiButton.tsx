@@ -312,7 +312,62 @@ const MuiButton: Components['MuiButton'] = {
         },
       },
     },
-    text: {},
+    text: {
+      '&.MuiButton-colorGrey': {
+        color: grey['600'],
+
+        '&:hover': {
+          color: grey['700'],
+        },
+        '&:active': {
+          color: grey['900'],
+        },
+      },
+
+      '&.MuiButton-colorDark': {
+        color: grey['900'],
+
+        '&:hover': {
+          color: grey['800'],
+        },
+        '&:active': {
+          color: grey['700'],
+        },
+      },
+
+      '&.MuiButton-colorSecondary': {
+        color: secondary['600'],
+
+        '&:hover': {
+          color: secondary['700'],
+        },
+        '&:active': {
+          color: secondary['900'],
+        },
+      },
+
+      '&.MuiButton-colorWarning': {
+        color: warning['600'],
+
+        '&:hover': {
+          color: warning['700'],
+        },
+        '&:active': {
+          color: warning['900'],
+        },
+      },
+
+      '&.MuiButton-colorError': {
+        color: error['600'],
+
+        '&:hover': {
+          color: error['700'],
+        },
+        '&:active': {
+          color: error['900'],
+        },
+      },
+    },
   },
 }
 
