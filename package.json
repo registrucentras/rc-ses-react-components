@@ -1,7 +1,7 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,

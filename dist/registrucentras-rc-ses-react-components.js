@@ -1,6 +1,6 @@
 import * as l1 from "react";
 import W, { forwardRef as bt, useContext as vt, useEffect as yt } from "react";
-import { Accordion as wt, AccordionSummary as kt, AccordionDetails as Mt, Alert as St, Breadcrumbs as jt, Link as Rt, Button as R1, Tab as Tt, Box as K, Tabs as Dt, Typography as ge, FormControl as It, FormLabel as Lt, FormHelperText as ze, FormControlLabel as yr, Checkbox as Pt, createTheme as P1, decomposeColor as T1, DialogActions as Ot, useMediaQuery as At, InputAdornment as Ue, IconButton as Y1, styled as xe, OutlinedInput as Et, RadioGroup as Ht, Radio as _t, Autocomplete as Nt, TextField as wr, CircularProgress as Bt, Card as $t, Grid as r1, Container as kr } from "@mui/material";
+import { Accordion as wt, AccordionSummary as kt, AccordionDetails as Mt, Alert as St, Breadcrumbs as jt, Link as Rt, Button as R1, Tab as Tt, Box as K, Tabs as Dt, Typography as ge, FormControl as It, FormLabel as Lt, FormHelperText as ze, FormControlLabel as yr, Checkbox as Ot, createTheme as O1, decomposeColor as T1, DialogActions as Pt, useMediaQuery as At, InputAdornment as Ue, IconButton as Y1, styled as xe, OutlinedInput as Et, RadioGroup as Ht, Radio as _t, Autocomplete as Nt, TextField as wr, CircularProgress as Bt, Card as $t, Grid as r1, Container as kr } from "@mui/material";
 import { useController as f1 } from "react-hook-form";
 import { MuiPickersAdapterContext as Mr } from "@mui/x-date-pickers";
 import { DatePicker as Ft } from "@mui/x-date-pickers/DatePicker";
@@ -69,8 +69,8 @@ function Xt() {
     }
     function g(a, f, h) {
       {
-        var b = w.ReactDebugCurrentFrame, P = b.getStackAddendum();
-        P !== "" && (f += "%s", h = h.concat([P]));
+        var b = w.ReactDebugCurrentFrame, O = b.getStackAddendum();
+        O !== "" && (f += "%s", h = h.concat([O]));
         var A = h.map(function(D) {
           return String(D);
         });
@@ -90,8 +90,8 @@ function Xt() {
       var b = a.displayName;
       if (b)
         return b;
-      var P = f.displayName || f.name || "";
-      return P !== "" ? h + "(" + P + ")" : h;
+      var O = f.displayName || f.name || "";
+      return O !== "" ? h + "(" + O + ")" : h;
     }
     function ke(a) {
       return a.displayName || "Context";
@@ -131,7 +131,7 @@ function Xt() {
             var b = a.displayName || null;
             return b !== null ? b : t1(a.type) || "Memo";
           case M: {
-            var P = a, A = P._payload, D = P._init;
+            var O = a, A = O._payload, D = O._init;
             try {
               return t1(D(A));
             } catch {
@@ -209,8 +209,8 @@ function Xt() {
         if (J1 === void 0)
           try {
             throw Error();
-          } catch (P) {
-            var b = P.stack.trim().match(/\n( *(at )?)/);
+          } catch (O) {
+            var b = O.stack.trim().match(/\n( *(at )?)/);
             J1 = b && b[1] || "";
           }
         return `
@@ -222,7 +222,7 @@ function Xt() {
       var Gr = typeof WeakMap == "function" ? WeakMap : Map;
       E1 = new Gr();
     }
-    function Pe(a, f) {
+    function Oe(a, f) {
       if (!a || Q1)
         return "";
       {
@@ -232,7 +232,7 @@ function Xt() {
       }
       var b;
       Q1 = !0;
-      var P = Error.prepareStackTrace;
+      var O = Error.prepareStackTrace;
       Error.prepareStackTrace = void 0;
       var A;
       A = X1.current, X1.current = null, zr();
@@ -288,13 +288,13 @@ function Xt() {
             }
         }
       } finally {
-        Q1 = !1, X1.current = A, Ur(), Error.prepareStackTrace = P;
+        Q1 = !1, X1.current = A, Ur(), Error.prepareStackTrace = O;
       }
       var p1 = a ? a.displayName || a.name : "", u1 = p1 ? A1(p1) : "";
       return typeof a == "function" && E1.set(a, u1), u1;
     }
     function qr(a, f, h) {
-      return Pe(a, !1);
+      return Oe(a, !1);
     }
     function Kr(a) {
       var f = a.prototype;
@@ -304,7 +304,7 @@ function Xt() {
       if (a == null)
         return "";
       if (typeof a == "function")
-        return Pe(a, Kr(a));
+        return Oe(a, Kr(a));
       if (typeof a == "string")
         return A1(a);
       switch (a) {
@@ -320,16 +320,16 @@ function Xt() {
           case m:
             return H1(a.type, f, h);
           case M: {
-            var b = a, P = b._payload, A = b._init;
+            var b = a, O = b._payload, A = b._init;
             try {
-              return H1(A(P), f, h);
+              return H1(A(O), f, h);
             } catch {
             }
           }
         }
       return "";
     }
-    var v1 = Object.prototype.hasOwnProperty, Oe = {}, Ae = w.ReactDebugCurrentFrame;
+    var v1 = Object.prototype.hasOwnProperty, Pe = {}, Ae = w.ReactDebugCurrentFrame;
     function _1(a) {
       if (a) {
         var f = a._owner, h = H1(a.type, a._source, f ? f.type : null);
@@ -337,7 +337,7 @@ function Xt() {
       } else
         Ae.setExtraStackFrame(null);
     }
-    function Xr(a, f, h, b, P) {
+    function Xr(a, f, h, b, O) {
       {
         var A = Function.call.bind(v1);
         for (var D in a)
@@ -352,7 +352,7 @@ function Xt() {
             } catch (H) {
               j = H;
             }
-            j && !(j instanceof Error) && (_1(P), y("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", b || "React class", h, D, typeof j), _1(null)), j instanceof Error && !(j.message in Oe) && (Oe[j.message] = !0, _1(P), y("Failed %s type: %s", h, j.message), _1(null));
+            j && !(j instanceof Error) && (_1(O), y("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", b || "React class", h, D, typeof j), _1(null)), j instanceof Error && !(j.message in Pe) && (Pe[j.message] = !0, _1(O), y("Failed %s type: %s", h, j.message), _1(null));
           }
       }
     }
@@ -431,7 +431,7 @@ function Xt() {
         });
       }
     }
-    var st = function(a, f, h, b, P, A, D) {
+    var st = function(a, f, h, b, O, A, D) {
       var j = {
         // This tag allows us to uniquely identify this as a React Element
         $$typeof: r,
@@ -457,13 +457,13 @@ function Xt() {
         configurable: !1,
         enumerable: !1,
         writable: !1,
-        value: P
+        value: O
       }), Object.freeze && (Object.freeze(j.props), Object.freeze(j)), j;
     };
-    function lt(a, f, h, b, P) {
+    function lt(a, f, h, b, O) {
       {
         var A, D = {}, j = null, V = null;
-        h !== void 0 && (He(h), j = "" + h), nt(f) && (He(f.key), j = "" + f.key), tt(f) && (V = f.ref, ot(f, P));
+        h !== void 0 && (He(h), j = "" + h), nt(f) && (He(f.key), j = "" + f.key), tt(f) && (V = f.ref, ot(f, O));
         for (A in f)
           v1.call(f, A) && !rt.hasOwnProperty(A) && (D[A] = f[A]);
         if (a && a.defaultProps) {
@@ -475,7 +475,7 @@ function Xt() {
           var N = typeof a == "function" ? a.displayName || a.name || "Unknown" : a;
           j && it(D, N), V && at(D, N);
         }
-        return st(a, j, V, P, b, y1.current, D);
+        return st(a, j, V, O, b, y1.current, D);
       }
     }
     var te = w.ReactCurrentOwner, Be = w.ReactDebugCurrentFrame;
@@ -544,9 +544,9 @@ Check the top-level render call using <` + h + ">.");
         else if (oe(a))
           a._store && (a._store.validated = !0);
         else if (a) {
-          var P = S(a);
-          if (typeof P == "function" && P !== a.entries)
-            for (var A = P.call(a), D; !(D = A.next()).done; )
+          var O = S(a);
+          if (typeof O == "function" && O !== a.entries)
+            for (var A = O.call(a), D; !(D = A.next()).done; )
               oe(D.value) && We(D.value, f);
         }
       }
@@ -570,8 +570,8 @@ Check the top-level render call using <` + h + ">.");
           Xr(h, a.props, "prop", b, a);
         } else if (f.PropTypes !== void 0 && !ne) {
           ne = !0;
-          var P = t1(f);
-          y("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", P || "Unknown");
+          var O = t1(f);
+          y("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", O || "Unknown");
         }
         typeof f.getDefaultProps == "function" && !f.getDefaultProps.isReactClassApproved && y("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
       }
@@ -589,7 +589,7 @@ Check the top-level render call using <` + h + ">.");
       }
     }
     var Ye = {};
-    function Ze(a, f, h, b, P, A) {
+    function Ze(a, f, h, b, O, A) {
       {
         var D = C1(a);
         if (!D) {
@@ -600,7 +600,7 @@ Check the top-level render call using <` + h + ">.");
           var H;
           a === null ? H = "null" : ee(a) ? H = "array" : a !== void 0 && a.$$typeof === r ? (H = "<" + (t1(a.type) || "Unknown") + " />", j = " Did you accidentally export a JSX literal instead of a component?") : H = typeof a, y("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", H, j);
         }
-        var N = lt(a, f, h, P, A);
+        var N = lt(a, f, h, O, A);
         if (N == null)
           return N;
         if (D) {
@@ -1091,7 +1091,7 @@ const o1 = {
   900: "#004e3d",
   950: "#002c24",
   main: "#00c288"
-}, O = {
+}, P = {
   50: "#f9fafb",
   100: "#f0f2f5",
   200: "#dce0e5",
@@ -1130,7 +1130,7 @@ const o1 = {
   900: "#4a1a14",
   950: "#31110d",
   main: "#fa5a46"
-}, l = { primary: o1, secondary: U, grey: O, warning: G, error: q };
+}, l = { primary: o1, secondary: U, grey: P, warning: G, error: q };
 function k2({ children: e, heading: r }) {
   return /* @__PURE__ */ o.jsxs(
     K,
@@ -1369,7 +1369,7 @@ function s1() {
 function F1() {
   return z;
 }
-function O1(e, r) {
+function P1(e, r) {
   return D1(x1, e, r);
 }
 function I1(e) {
@@ -1404,14 +1404,14 @@ function I1(e) {
   }
   return 0;
 }
-function Pr(e) {
+function Or(e) {
   return q1 = g1 = 1, Lr = i1(x1 = e), z = 0, [];
 }
-function Or(e) {
+function Pr(e) {
   return x1 = "", e;
 }
 function W1(e) {
-  return Ir(O1(z - 1, pe(e === 91 ? e + 2 : e === 40 ? e + 1 : e)));
+  return Ir(P1(z - 1, pe(e === 91 ? e + 2 : e === 40 ? e + 1 : e)));
 }
 function w0(e) {
   for (; (B = s1()) && B < 33; )
@@ -1421,7 +1421,7 @@ function w0(e) {
 function k0(e, r) {
   for (; --r && X() && !(B < 48 || B > 102 || B > 57 && B < 65 || B > 70 && B < 97); )
     ;
-  return O1(e, F1() + (r < 6 && s1() == 32 && X() == 32));
+  return P1(e, F1() + (r < 6 && s1() == 32 && X() == 32));
 }
 function pe(e) {
   for (; X(); )
@@ -1445,15 +1445,15 @@ function M0(e, r) {
   for (; X() && e + B !== 57; )
     if (e + B === 84 && s1() === 47)
       break;
-  return "/*" + O1(r, z - 1) + "*" + G1(e === 47 ? e : X());
+  return "/*" + P1(r, z - 1) + "*" + G1(e === 47 ? e : X());
 }
 function S0(e) {
   for (; !I1(s1()); )
     X();
-  return O1(e, z);
+  return P1(e, z);
 }
 function j0(e) {
-  return Or(V1("", null, null, null, [""], e = Pr(e), 0, [0], e));
+  return Pr(V1("", null, null, null, [""], e = Or(e), 0, [0], e));
 }
 function V1(e, r, t, n, i, s, c, d, C) {
   for (var u = 0, p = 0, m = c, M = 0, k = 0, v = 0, x = 1, S = 1, w = 1, y = 0, g = "", T = i, E = s, _ = n, R = g; S; )
@@ -1593,8 +1593,8 @@ function I0(e) {
 var L0 = function(r, t, n) {
   for (var i = 0, s = 0; i = s, s = s1(), i === 38 && s === 12 && (t[n] = 1), !I1(s); )
     X();
-  return O1(r, z);
-}, P0 = function(r, t) {
+  return P1(r, z);
+}, O0 = function(r, t) {
   var n = -1, i = 44;
   do
     switch (I1(i)) {
@@ -1614,8 +1614,8 @@ var L0 = function(r, t, n) {
     }
   while (i = X());
   return r;
-}, O0 = function(r, t) {
-  return Or(P0(Pr(r), t));
+}, P0 = function(r, t) {
+  return Pr(O0(Or(r), t));
 }, tr = /* @__PURE__ */ new WeakMap(), A0 = function(r) {
   if (!(r.type !== "rule" || !r.parent || // positive .length indicates that this rule contains pseudo
   // negative .length indicates that this rule has been already prefixed
@@ -1624,7 +1624,7 @@ var L0 = function(r, t, n) {
       if (n = n.parent, !n) return;
     if (!(r.props.length === 1 && t.charCodeAt(0) !== 58 && !tr.get(n)) && !i) {
       tr.set(r, !0);
-      for (var s = [], c = O0(t, s), d = n.props, C = 0, u = 0; C < c.length; C++)
+      for (var s = [], c = P0(t, s), d = n.props, C = 0, u = 0; C < c.length; C++)
         for (var p = 0; p < d.length; p++, u++)
           r.props[u] = s[C] ? c[C].replace(/&\f/g, d[p]) : d[p] + " " + c[C];
     }
@@ -2385,7 +2385,7 @@ function un(e) {
     yr,
     {
       control: /* @__PURE__ */ o.jsx(
-        Pt,
+        Ot,
         {
           checked: C === !0,
           checkedIcon: n ? /* @__PURE__ */ o.jsx(lr, {}) : /* @__PURE__ */ o.jsx(ln, {}),
@@ -2627,7 +2627,7 @@ function we(e, r, t, n, i, s, c) {
   const d = /* @__PURE__ */ new Date(0);
   return d.setUTCFullYear(e, r, t), d.setUTCHours(n, i, s, c), d;
 }
-const dr = 36e5, Pn = 6e4, ce = {
+const dr = 36e5, On = 6e4, ce = {
   timezone: /([Z+-].*)$/,
   timezoneZ: /^(Z)$/,
   timezoneHH: /^([+-]\d{2})$/,
@@ -2645,16 +2645,16 @@ function Fr(e, r, t) {
   if (n = ce.timezoneHHMM.exec(e), n) {
     i = parseInt(n[2], 10);
     const c = parseInt(n[3], 10);
-    return ur(i, c) ? (s = Math.abs(i) * dr + c * Pn, n[1] === "+" ? -s : s) : NaN;
+    return ur(i, c) ? (s = Math.abs(i) * dr + c * On, n[1] === "+" ? -s : s) : NaN;
   }
   if (En(e)) {
     r = new Date(r || Date.now());
-    const c = On(r), d = me(c, e);
+    const c = Pn(r), d = me(c, e);
     return -An(r, d, e);
   }
   return NaN;
 }
-function On(e) {
+function Pn(e) {
   return we(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes(), e.getSeconds(), e.getMilliseconds());
 }
 function me(e, r) {
@@ -3166,7 +3166,7 @@ function r5({ className: e = void 0 }) {
     }
   );
 }
-const { breakpoints: n1 } = P1(), t5 = {
+const { breakpoints: n1 } = O1(), t5 = {
   defaultProps: {
     elevation: 0,
     iconMapping: {
@@ -3480,7 +3480,7 @@ const { breakpoints: n1 } = P1(), t5 = {
             height: "calc(100% + 6px)",
             borderRadius: ".375rem",
             border: "2px solid",
-            borderColor: O[950],
+            borderColor: P[950],
             zIndex: 1
           }
         },
@@ -3560,7 +3560,7 @@ const { breakpoints: n1 } = P1(), t5 = {
         height: "calc(100% + 6px)",
         borderRadius: ".375rem",
         border: "2px solid",
-        borderColor: O[950],
+        borderColor: P[950],
         zIndex: 1
       },
       "&.MuiButton-outlined:focus:not(:active)::before": {
@@ -3577,7 +3577,7 @@ const { breakpoints: n1 } = P1(), t5 = {
     },
     contained: {
       "&.Mui-disabled": {
-        backgroundColor: `${O[50]} !important`
+        backgroundColor: `${P[50]} !important`
       },
       "&.MuiButton-colorPrimary": {
         color: o1[950],
@@ -3590,27 +3590,27 @@ const { breakpoints: n1 } = P1(), t5 = {
         }
       },
       "&.MuiButton-colorGrey": {
-        color: O[950],
-        backgroundColor: O[100],
+        color: P[950],
+        backgroundColor: P[100],
         "&:hover": {
-          backgroundColor: O[200]
+          backgroundColor: P[200]
         },
         "&:active": {
-          backgroundColor: O[300]
+          backgroundColor: P[300]
         }
       },
       "&.MuiButton-colorDark": {
         color: "white",
-        backgroundColor: O[900],
+        backgroundColor: P[900],
         "&:hover": {
-          backgroundColor: O[800]
+          backgroundColor: P[800]
         },
         "&:active": {
-          backgroundColor: O[700]
+          backgroundColor: P[700]
         },
         "&.Mui-disabled": {
-          backgroundColor: `${O[100]} !important`,
-          color: `${O[500]} !important`
+          backgroundColor: `${P[100]} !important`,
+          color: `${P[500]} !important`
         }
       },
       "&.MuiButton-colorSecondary": {
@@ -3647,8 +3647,8 @@ const { breakpoints: n1 } = P1(), t5 = {
     outlined: {
       "&.Mui-disabled": {
         backgroundColor: "transparent !important",
-        borderColor: `${O[50]} !important`,
-        color: `${O[300]} !important`
+        borderColor: `${P[50]} !important`,
+        color: `${P[300]} !important`
       },
       "&.MuiButton-colorPrimary": {
         borderColor: o1[600],
@@ -3662,14 +3662,14 @@ const { breakpoints: n1 } = P1(), t5 = {
         }
       },
       "&.MuiButton-colorGrey": {
-        borderColor: O[600],
-        color: O[900],
+        borderColor: P[600],
+        color: P[900],
         backgroundColor: "transparent",
         "&:hover": {
-          backgroundColor: O[50]
+          backgroundColor: P[50]
         },
         "&:active": {
-          backgroundColor: O[100]
+          backgroundColor: P[100]
         }
       },
       "&.MuiButton-colorSecondary": {
@@ -3708,21 +3708,21 @@ const { breakpoints: n1 } = P1(), t5 = {
     },
     text: {
       "&.MuiButton-colorGrey": {
-        color: O[600],
+        color: P[600],
         "&:hover": {
-          color: O[700]
+          color: P[700]
         },
         "&:active": {
-          color: O[900]
+          color: P[900]
         }
       },
       "&.MuiButton-colorDark": {
-        color: O[900],
+        color: P[900],
         "&:hover": {
-          color: O[800]
+          color: P[800]
         },
         "&:active": {
-          color: O[700]
+          color: P[700]
         }
       },
       "&.MuiButton-colorSecondary": {
@@ -3957,7 +3957,7 @@ const { breakpoints: n1 } = P1(), t5 = {
       }
     }
   }
-}, { breakpoints: x5 } = P1(), b5 = {
+}, { breakpoints: x5 } = O1(), b5 = {
   styleOverrides: {
     root: {
       color: l.grey[900],
@@ -4340,7 +4340,7 @@ const { breakpoints: n1 } = P1(), t5 = {
       fontWeight: 300
     }
   }
-}, { breakpoints: I5 } = P1(), L5 = {
+}, { breakpoints: I5 } = O1(), L5 = {
   defaultProps: {},
   styleOverrides: {
     root: {
@@ -4364,14 +4364,14 @@ const { breakpoints: n1 } = P1(), t5 = {
       display: "none"
     }
   }
-}, P5 = {
+}, O5 = {
   defaultProps: {
     variant: "outlined"
   },
   styleOverrides: {
     root: {}
   }
-}, O5 = {
+}, P5 = {
   styleOverrides: {
     root: {},
     h1: {
@@ -4422,23 +4422,23 @@ const { breakpoints: n1 } = P1(), t5 = {
       fontSize: ".6875rem"
     }
   }
-}, A5 = P1({
+}, A5 = O1({
   palette: {
     mode: "light",
     text: {
-      primary: O[900]
+      primary: P[900]
     },
     primary: o1,
     secondary: U,
     warning: G,
     error: q,
-    grey: O,
-    dark: O
+    grey: P,
+    dark: P
   },
   typography: {
     fontFamily: "Public sans, sans-serif, Arial"
   }
-}), U1 = P1(A5, zn, {
+}), U1 = O1(A5, zn, {
   components: {
     MuiAccordion: Un,
     MuiAccordionDetails: Gn,
@@ -4471,8 +4471,8 @@ const { breakpoints: n1 } = P1(), t5 = {
     MuiTabs: L5,
     MuiTable: T5,
     MuiTableCell: D5,
-    MuiTextField: P5,
-    MuiTypography: O5
+    MuiTextField: O5,
+    MuiTypography: P5
   }
 });
 U1.typography.h1 = {
@@ -4497,7 +4497,7 @@ function E5(e) {
         return null;
     }
   });
-  return /* @__PURE__ */ o.jsx(Ot, { ...c, children: C });
+  return /* @__PURE__ */ o.jsx(Pt, { ...c, children: C });
 }
 const H5 = Sr("div")({
   alignItems: "center",
@@ -5132,7 +5132,7 @@ const L2 = W.forwardRef((e, r) => {
     }
   );
 });
-function P2({
+function O2({
   onDiscard: e,
   onSaveDraft: r,
   onSubmit: t,
@@ -5341,32 +5341,37 @@ function X5({ controller: e }) {
     }
   );
 }
-function O2({
+function P2({
   accordionController: e,
   children: r,
   showAccordionCollapseControls: t = !0,
-  showProgressStepper: n = !1
+  showProgressStepper: n = !1,
+  slotProps: i
 }) {
-  const { state: i } = e, s = W.useMemo(() => !(Object.keys(i).length <= 1 || !t), [t, i]);
+  var d;
+  const { state: s } = e, c = W.useMemo(() => !(Object.keys(s).length <= 1 || !t), [t, s]);
   return /* @__PURE__ */ o.jsx(
     kr,
     {
+      maxWidth: n ? "lg" : "md",
+      ...i == null ? void 0 : i.container,
       sx: {
         backgroundColor: { xs: l.grey[100], md: "white" },
         pb: { md: 8 },
         pt: { xs: 0, md: 6 },
-        px: { xs: 0, md: 3 }
+        px: { xs: 0, md: 3 },
+        ...(d = i == null ? void 0 : i.container) == null ? void 0 : d.sx
       },
       children: /* @__PURE__ */ o.jsxs(
         r1,
         {
           container: !0,
           columns: n ? 2 : 1,
-          sx: { flexWrap: "nowrap", justifyContent: "center" },
+          sx: { columnGap: 7.5, flexWrap: "nowrap", justifyContent: "center" },
           children: [
-            n && /* @__PURE__ */ o.jsx(r1, { item: !0, sx: { display: { xs: "none", md: "block" }, flexGrow: 1 }, children: /* @__PURE__ */ o.jsx(G5, { steps: i }) }),
-            /* @__PURE__ */ o.jsxs(r1, { item: !0, sx: { width: { xs: "100%", md: "840px" } }, children: [
-              s && /* @__PURE__ */ o.jsx(X5, { controller: e }),
+            n && /* @__PURE__ */ o.jsx(r1, { item: !0, sx: { display: { xs: "none", md: "block" }, flex: "0 0 270px" }, children: /* @__PURE__ */ o.jsx(G5, { steps: s }) }),
+            /* @__PURE__ */ o.jsxs(r1, { item: !0, sx: { flexGrow: 1 }, children: [
+              c && /* @__PURE__ */ o.jsx(X5, { controller: e }),
               r
             ] })
           ]
@@ -5452,8 +5457,8 @@ export {
   T2 as RcSesRadioButtonGroup,
   D2 as RcSesSearchableField,
   I2 as RcSesSelect,
-  P2 as RcSesServiceFormActions,
-  O2 as RcSesServiceFormContainer,
+  O2 as RcSesServiceFormActions,
+  P2 as RcSesServiceFormContainer,
   A2 as RcSesServiceHeader,
   E2 as RcSesServicePage,
   v2 as RcSesTab,

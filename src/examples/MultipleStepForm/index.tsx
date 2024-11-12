@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import ServiceFormActions from '@/components/layout/ServiceFormActions'
-import ServiceFormContainer from '@/components/layout/ServiceFormContainer'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer'
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 
@@ -66,7 +66,11 @@ function MultipleStepForm() {
         </Typography>
       </ServiceHeader>
 
-      <ServiceFormContainer accordionController={accordionController} showProgressStepper>
+      <RcSesServiceFormContainer
+        accordionController={accordionController}
+        showProgressStepper
+        slotProps={{ container: { maxWidth: 'lg' } }}
+      >
         <RcSesAccordion id='basicInformation' controller={accordionController}>
           <BasicInformationForm />
         </RcSesAccordion>
@@ -92,7 +96,7 @@ function MultipleStepForm() {
           onSaveDraft={() => navigate('/')}
           onSubmit={() => navigate('/')}
         />
-      </ServiceFormContainer>
+      </RcSesServiceFormContainer>
     </ServicePage>
   )
 }
