@@ -13,8 +13,9 @@ type ImmediateFieldProps = 'onInputChange';
 type TWrapperProps = RcSesFormControlWrapperProps;
 type ImmediateWrapperProps = 'id' | 'label' | 'errors';
 type Props = Pick<TControllerProps, ImmediateControllerProps> & Pick<TFieldProps, ImmediateFieldProps> & Pick<TWrapperProps, ImmediateWrapperProps> & {
-    options: (Option | '')[];
+    clearable?: boolean;
     loading?: boolean;
+    options: (Option | '')[];
     slotProps?: {
         controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>;
         field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>;
