@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField'
 import React from 'react'
 import type { UseControllerProps } from 'react-hook-form'
 import { useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
@@ -44,7 +45,7 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false)
 
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   const {
     field: { onChange, value },

@@ -64,7 +64,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "notistack": "^3.0.1",
     "react-hook-form": "^7.52.0",
-    "react-router-dom": "^6.26.2"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",

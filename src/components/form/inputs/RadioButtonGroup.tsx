@@ -7,6 +7,7 @@ import {
   styled,
 } from '@mui/material'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import palette from '@/theme/palette'
 
@@ -66,7 +67,7 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
   } = props
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   const { field } = useController({
     control,

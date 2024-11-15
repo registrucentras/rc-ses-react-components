@@ -5,6 +5,7 @@ import { parseISO } from 'date-fns'
 import { fromZonedTime } from 'date-fns-tz'
 import React, { useEffect } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
@@ -42,7 +43,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
   } = useController(controllerProps)
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = idProp ?? crypto.randomUUID()
+  const id = idProp ?? uuidv4()
 
   const [modelValue, setModelValue] = React.useState<Date | null>(
     value ? parseISO(value) : null,
