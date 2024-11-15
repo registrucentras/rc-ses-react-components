@@ -1,9 +1,9 @@
-import styled from '@emotion/styled'
 import {
   FormControlLabel,
   FormControlLabelProps,
   Checkbox as MuiCheckbox,
   CheckboxProps as MuiCheckboxProps,
+  styled,
 } from '@mui/material'
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'

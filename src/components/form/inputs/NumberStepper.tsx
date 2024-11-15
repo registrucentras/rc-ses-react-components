@@ -2,6 +2,7 @@
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
@@ -121,7 +122,7 @@ function RcSesNumberStepper(props: Props) {
   const { disabled, name } = fieldProps
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   const {
     field: { onChange, value },

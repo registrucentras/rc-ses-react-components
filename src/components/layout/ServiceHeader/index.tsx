@@ -1,5 +1,4 @@
-import styled from '@emotion/styled'
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, Typography, styled } from '@mui/material'
 import React from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'

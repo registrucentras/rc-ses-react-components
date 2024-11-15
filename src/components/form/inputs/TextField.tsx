@@ -3,6 +3,7 @@ import {
   TextField,
 } from '@mui/material'
 import React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -32,7 +33,7 @@ type Props = Pick<TFieldProps, ImmediateFieldProps> &
 const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { errors, label, slotProps, ...fieldProps } = props
 
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   return (
     <RcSesFormControlWrapper

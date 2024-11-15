@@ -1,6 +1,7 @@
 import { Box, Button, Typography, styled } from '@mui/material'
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
 import palette from '@/theme/palette'
@@ -46,7 +47,7 @@ function RcSesFileUpload(props: Props) {
   const { name } = fieldProps
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   const {
     field: { value, onChange, ...fieldControlProps },

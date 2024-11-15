@@ -10,7 +10,8 @@ const MuiButton: Components['MuiButton'] = {
       },
       style: {
         color: palette.primary['600'],
-        fontWeight: 500,
+        fontSize: '.875rem',
+        fontWeight: 600,
         height: '2.375rem',
 
         '&.Mui-disabled': {
@@ -124,7 +125,7 @@ const MuiButton: Components['MuiButton'] = {
       borderRadius: '.1875rem',
       fontSize: '.9375rem',
       height: '2.75rem',
-      letterSpacing: '.06rem',
+      letterSpacing: 0,
       lineHeight: '1.125rem',
       padding: '.8125rem 1.25rem',
       position: 'relative',
