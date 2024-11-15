@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { v4 as uuidv4 } from 'uuid'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -33,8 +34,9 @@ type ImmediateWrapperProps = 'id' | 'label' | 'errors'
 type Props = Pick<TControllerProps, ImmediateControllerProps> &
   Pick<TFieldProps, ImmediateFieldProps> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
-    options: (Option | '')[]
+    clearable?: boolean
     loading?: boolean
+    options: (Option | '')[]
     slotProps?: {
       controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
       field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>
@@ -46,6 +48,7 @@ function RcSesSelect(props: Props) {
   const [inputValue, setInputValue] = React.useState<string>('')
 
   const {
+    clearable,
     control,
     errors,
     label,
@@ -59,7 +62,7 @@ function RcSesSelect(props: Props) {
   const { disabled, name } = fieldProps
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? crypto.randomUUID()
+  const id = props.id ?? uuidv4()
 
   const {
     field: { onChange, value },
@@ -79,7 +82,7 @@ function RcSesSelect(props: Props) {
             value,
             label: (options.find((o) => (o && o.value) === value) as Option)?.label ?? '',
           }
-        : '',
+        : null,
     [options, value],
   )
 
@@ -92,8 +95,8 @@ function RcSesSelect(props: Props) {
     >
       <Autocomplete
         id={id}
-        disableClearable
         disabled={disabled}
+        disableClearable={clearable === false}
         value={resolvedValue}
         getOptionLabel={(option) => (typeof option === 'object' ? option.label : '')}
         getOptionKey={(option) => (typeof option === 'object' ? option?.value : '')}
@@ -105,7 +108,7 @@ function RcSesSelect(props: Props) {
         }
         onChange={(_event, item) => onChange(typeof item === 'object' && item?.value)}
         onInputChange={(event, val, reason) => {
-          setInputValue(val ?? '')
+          setInputValue(val ?? null)
           if (onInputChange) onInputChange(event, val, reason)
         }}
         options={options}
