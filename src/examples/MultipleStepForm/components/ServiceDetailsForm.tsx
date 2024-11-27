@@ -4,21 +4,15 @@ import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import RcSesSelect from '@/components/form/inputs/Select'
 
-type FormModel = {
-  purpose: string
-  legalBasis: string
-  agreement: boolean
-  deadline: string
-  address: string
-  numberOfCopies: number
-}
+import MultiStepFormModel from '../types/MultiStepFormModel'
 
 function ServiceDetailsForm() {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormModel>({
+    register,
+  } = useForm<MultiStepFormModel>({
     mode: 'all',
     defaultValues: {
       purpose: '',
@@ -63,11 +57,9 @@ function ServiceDetailsForm() {
 
       <RcSesCheckbox
         id='agreement'
-        name='agreement'
-        control={control}
         errors={errors?.agreement}
         label='Sutikimas'
-        rules={{ required: true }}
+        {...register('agreement', { required: true })}
       >
         Pagal užsakymą gautus duomenis naudosiu nurodytam duomenų tikslui ir šių duomenų
         neatskleisiu tretiesiems asmenims.
