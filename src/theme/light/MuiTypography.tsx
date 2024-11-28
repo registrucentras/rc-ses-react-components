@@ -1,17 +1,11 @@
 import { Components } from '@mui/material'
 
-import { RcSesTheme } from '@/library'
-
 const MuiTypography: Components['MuiTypography'] = {
   styleOverrides: {
     root: {},
     h1: {
       fontWeight: '500',
       lineHeight: '2rem',
-
-      [RcSesTheme.breakpoints.up('md')]: {
-        lineHeight: '3rem',
-      },
     },
     h2: {
       fontSize: '2rem',
