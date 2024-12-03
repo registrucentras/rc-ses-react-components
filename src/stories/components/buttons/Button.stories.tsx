@@ -1,12 +1,26 @@
-import type { ButtonProps as MuiButtonProps } from '@mui/material/Button'
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
 import Button from '@/components/common/Button'
+import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-const variantOptions: Array<MuiButtonProps['variant']> = ['contained', 'outlined']
-const colorOptions = ['primary', 'secondary', 'grey']
+const variantOptions: Array<ButtonProps['variant']> = [
+  'contained',
+  'outlined',
+  'link',
+  'text',
+]
+const colorOptions = [
+  'primary',
+  'secondary',
+  'grey',
+  'error',
+  'inherit',
+  'success',
+  'info',
+  'warning',
+]
 
 const meta = {
   title: 'components/common/buttons/Button',
@@ -111,16 +125,21 @@ export const PrimaryOutlined: Story = {
   },
 }
 
-export const PrimaryOutlinedWithIcon: Story = {
+export const PrimaryOutlinedWithPrefixIcon: Story = {
   parameters: disableColorContrast,
   args: {
     color: 'primary',
     variant: 'outlined',
-    children: (
-      <>
-        <PlusBoldIcon /> Button
-      </>
-    ),
+    startIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryOutlinedWithSuffixIcon: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'primary',
+    variant: 'outlined',
+    endIcon: <PlusBoldIcon />,
   },
 }
 
@@ -154,7 +173,6 @@ export const GreyOutlined: Story = {
   },
 }
 
-/*
 export const WarningContained: Story = {
   args: {
     variant: 'contained',
@@ -171,7 +189,6 @@ export const WarningOutlined: Story = {
     color: 'warning',
   },
 }
-*/
 
 export const ErrorContained: Story = {
   args: {

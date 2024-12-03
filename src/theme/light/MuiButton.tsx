@@ -60,6 +60,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '&.MuiButton-sizeLarge': {
+          fontSize: '.9375rem',
           padding: '.6875rem 0',
         },
 
