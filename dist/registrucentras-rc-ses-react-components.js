@@ -2469,6 +2469,7 @@ const { breakpoints: Z } = p1(), e5 = {
           padding: ".5625rem .5rem"
         },
         "&.MuiButton-sizeLarge": {
+          fontSize: ".9375rem",
           padding: ".6875rem 0"
         },
         ".MuiButton-startIcon": {
@@ -2739,6 +2740,11 @@ const { breakpoints: Z } = p1(), e5 = {
   defaultProps: {
     disableRipple: !0,
     disableTouchRipple: !0
+  },
+  styleOverrides: {
+    root: {
+      letterSpacing: 0
+    }
   }
 }, i5 = {
   defaultProps: {
@@ -3002,6 +3008,13 @@ const { breakpoints: Z } = p1(), e5 = {
           }
         }
       },
+      "&.Mui-readOnly": {
+        ".MuiOutlinedInput-notchedOutline": {
+          borderColor: `${a.grey[600]} !important`,
+          borderWidth: "1px !important",
+          boxShadow: "none !important"
+        }
+      },
       "&.Mui-disabled": {
         backgroundColor: `${a.grey[100]} !important`,
         ".MuiOutlinedInput-notchedOutline": {
@@ -3011,7 +3024,7 @@ const { breakpoints: Z } = p1(), e5 = {
           color: `${a.grey[600]} !important`
         }
       },
-      "&:hover:not(.Mui-disabled)": {
+      "&:hover:not(.Mui-disabled):not(.Mui-readOnly)": {
         ".MuiOutlinedInput-notchedOutline": {
           borderColor: a.grey[900]
         }
@@ -3357,7 +3370,7 @@ const { breakpoints: Z } = p1(), e5 = {
     root: {},
     h1: {
       fontWeight: "500",
-      lineHeight: "3rem"
+      lineHeight: "2rem"
     },
     h2: {
       fontSize: "2rem",
@@ -3458,6 +3471,7 @@ const { breakpoints: Z } = p1(), e5 = {
 });
 k1.typography.h1 = {
   fontSize: "1.5rem",
+  fontWeight: "500",
   lineHeight: "2rem",
   [k1.breakpoints.up("md")]: {
     fontSize: "2.25rem",
