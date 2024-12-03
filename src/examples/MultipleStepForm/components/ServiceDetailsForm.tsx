@@ -11,7 +11,6 @@ function ServiceDetailsForm() {
     control,
     handleSubmit,
     formState: { errors },
-    register,
   } = useForm<MultiStepFormModel>({
     mode: 'all',
     defaultValues: {
