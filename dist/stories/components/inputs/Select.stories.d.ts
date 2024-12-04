@@ -25,6 +25,7 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Pick<{
         label: string;
         value: string;
     } | "")[];
+    placeholder?: string;
     slotProps?: {
         controller?: Partial<Omit<{
             name: any;
