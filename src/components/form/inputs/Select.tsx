@@ -37,6 +37,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     clearable?: boolean
     loading?: boolean
     options: (Option | '')[]
+    placeholder?: string
     slotProps?: {
       controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
       field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>
@@ -55,6 +56,7 @@ function RcSesSelect(props: Props) {
     loading,
     onInputChange,
     options,
+    placeholder,
     rules,
     slotProps,
     ...fieldProps
@@ -129,6 +131,7 @@ function RcSesSelect(props: Props) {
                 </>
               ),
             }}
+            placeholder={placeholder}
           />
         )}
         renderOption={(optionProps, option, _state, ownerState) => {
