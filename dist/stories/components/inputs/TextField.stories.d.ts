@@ -294,9 +294,9 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Omit<Pick<{
     error?: boolean | undefined;
     fullWidth?: boolean | undefined;
     focused?: boolean | undefined;
-    hiddenLabel?: boolean | undefined;
     inputProps?: InputBaseProps["inputProps"];
     inputRef?: Ref<any> | undefined;
+    hiddenLabel?: boolean | undefined;
     multiline?: boolean | undefined;
     maxRows?: (string | number) | undefined;
     minRows?: (string | number) | undefined;
@@ -305,7 +305,7 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Omit<Pick<{
     helperText?: ReactNode;
     InputLabelProps?: Partial< InputLabelProps> | undefined;
     SelectProps?: Partial< SelectProps> | undefined;
-}, "ref" | "onChange" | "onBlur" | "disabled" | "name" | "multiline"> & Pick< RcSesFormControlWrapperProps, "label" | "errors"> & {
+}, "ref" | "onChange" | "onBlur" | "disabled" | "name" | "required" | "multiline"> & Pick< RcSesFormControlWrapperProps, "label" | "errors"> & {
     id?: string;
     slotProps?: {
         field?: Partial<Omit<{
@@ -594,9 +594,9 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Omit<Pick<{
             error?: boolean | undefined;
             fullWidth?: boolean | undefined;
             focused?: boolean | undefined;
-            hiddenLabel?: boolean | undefined;
             inputProps?: InputBaseProps["inputProps"];
             inputRef?: Ref<any> | undefined;
+            hiddenLabel?: boolean | undefined;
             multiline?: boolean | undefined;
             maxRows?: (string | number) | undefined;
             minRows?: (string | number) | undefined;
@@ -605,7 +605,7 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Omit<Pick<{
             helperText?: ReactNode;
             InputLabelProps?: Partial< InputLabelProps> | undefined;
             SelectProps?: Partial< SelectProps> | undefined;
-        }, "ref" | "onChange" | "onBlur" | "disabled" | "name" | "multiline">>;
+        }, "ref" | "onChange" | "onBlur" | "disabled" | "name" | "required" | "multiline">>;
         wrapper?: Partial<Omit< RcSesFormControlWrapperProps, "label" | "errors">>;
     };
 }, "ref"> & RefAttributes<HTMLInputElement>>;
