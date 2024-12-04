@@ -16,6 +16,7 @@ type ImmediateFieldProps =
   | 'disabled'
   | 'name'
   | 'ref'
+  | 'required'
   | 'multiline'
 
 type TWrapperProps = RcSesFormControlWrapperProps
@@ -38,8 +39,9 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
   return (
     <RcSesFormControlWrapper
       id={id}
-      label={label}
       errors={errors}
+      label={label}
+      required={props.required}
       {...slotProps?.wrapper}
     >
       <TextField

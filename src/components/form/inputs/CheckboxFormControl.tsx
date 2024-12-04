@@ -79,12 +79,21 @@ function RcSesCheckboxFormControl(props: Props) {
           disableRipple
         />
       }
-      label={children}
+      label={
+        <>
+          {children}
+          {slotProps?.wrapper?.hideLabel && rules?.required === true && (
+            <span aria-hidden='true' className='MuiFormControlLabel-asterisk'>
+              *
+            </span>
+          )}
+        </>
+      }
       {...slotProps?.label}
       slotProps={{
         typography: {
           lineHeight: '1.25rem',
-          marginLeft: variant === 'flat' ? 0 : '.4375rem',
+          marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           variant: variant === 'flat' ? 'body1' : 'body2',
           ...slotProps?.label?.slotProps?.typography,
         },

@@ -1,5 +1,7 @@
-import { Box, FormControl, FormHelperText, FormLabel } from '@mui/material'
+import { Box, FormControl, FormHelperText, FormLabel, useMediaQuery } from '@mui/material'
 import { FieldError } from 'react-hook-form'
+
+import theme from '@/theme/light'
 
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
@@ -15,6 +17,7 @@ type Props = {
   label?: React.ReactNode
   labelSubtitle?: React.ReactNode
   labelOnTop?: boolean
+  required?: boolean
 }
 
 function RcSesFormControlWrapper({
@@ -28,7 +31,10 @@ function RcSesFormControlWrapper({
   label = undefined,
   labelSubtitle = undefined,
   labelOnTop = false,
+  required = false,
 }: Props) {
+  const upMd = useMediaQuery(theme.breakpoints.up('md'))
+
   return (
     <FormControl className={className} error={!!errors} sx={{ my: 1, width: '100%' }}>
       <Box
@@ -53,16 +59,23 @@ function RcSesFormControlWrapper({
               pr: 3,
             }}
           >
-            {label}{' '}
-            <FieldSuffix
-              sx={{
-                display: { xs: 'inline', md: 'none' },
-                verticalAlign: 'text-bottom',
-                svg: { height: '14px', width: '14px' },
-              }}
-            >
-              {fieldSuffix}
-            </FieldSuffix>
+            {label}
+            {required === true && (
+              <span aria-hidden='true' className='MuiFormLabel-asterisk'>
+                *
+              </span>
+            )}
+            {!upMd && !!fieldSuffix && (
+              <FieldSuffix
+                sx={{
+                  display: 'inline',
+                  verticalAlign: 'text-bottom',
+                  svg: { height: '14px', width: '14px' },
+                }}
+              >
+                {fieldSuffix}
+              </FieldSuffix>
+            )}
             {!!labelSubtitle && (
               <span className='rc-ses-label-subtitle'>{labelSubtitle}</span>
             )}

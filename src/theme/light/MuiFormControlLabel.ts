@@ -39,6 +39,12 @@ const MuiFormControlLabel: Components['MuiFormControl'] = {
           },
         },
       },
+
+      '.MuiFormControlLabel-asterisk': {
+        color: palette.error['500'],
+        fontWeight: 600,
+        marginLeft: '.125rem',
+      },
     },
   },
 }

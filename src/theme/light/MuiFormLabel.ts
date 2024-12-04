@@ -24,6 +24,12 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
         color: 'inherit',
       },
 
+      '.MuiFormLabel-asterisk': {
+        color: palette.error['500'],
+        fontWeight: 600,
+        marginLeft: '.125rem',
+      },
+
       '.rc-ses-label-subtitle': {
         color: palette.grey['700'],
         display: 'block',
