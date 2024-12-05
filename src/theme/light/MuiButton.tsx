@@ -56,7 +56,8 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '&.MuiButton-sizeSmall': {
-          padding: '.5625rem .5rem',
+          height: '2.25rem',
+          padding: '.625rem .5rem',
         },
 
         '&.MuiButton-sizeLarge': {
@@ -79,17 +80,21 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
+        color: palette.grey[600],
         fontSize: '.875rem',
+        fontWeight: 400,
         lineHeight: '1rem',
         padding: '.6875rem .25rem',
 
         '&:not(.Mui-disabled)': {
           '&:hover': {
             backgroundColor: 'transparent',
+            color: palette.grey[700],
           },
 
           '&:active': {
             backgroundColor: 'transparent',
+            color: palette.grey[900],
           },
         },
       },
