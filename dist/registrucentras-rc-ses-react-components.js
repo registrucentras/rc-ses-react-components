@@ -1735,7 +1735,8 @@ const { breakpoints: Z } = p1(), gr = {
           }
         },
         "&.MuiButton-sizeSmall": {
-          padding: ".5625rem .5rem"
+          height: "2.25rem",
+          padding: ".625rem .5rem"
         },
         "&.MuiButton-sizeLarge": {
           fontSize: ".9375rem",
@@ -1755,15 +1756,19 @@ const { breakpoints: Z } = p1(), gr = {
         variant: "link"
       },
       style: {
+        color: a.grey[600],
         fontSize: ".875rem",
+        fontWeight: 400,
         lineHeight: "1rem",
         padding: ".6875rem .25rem",
         "&:not(.Mui-disabled)": {
           "&:hover": {
-            backgroundColor: "transparent"
+            backgroundColor: "transparent",
+            color: a.grey[700]
           },
           "&:active": {
-            backgroundColor: "transparent"
+            backgroundColor: "transparent",
+            color: a.grey[900]
           }
         }
       }
@@ -1775,16 +1780,7 @@ const { breakpoints: Z } = p1(), gr = {
       },
       style: {
         color: a.grey[700],
-        textDecoration: "underline",
-        "&:not(.Mui-disabled)": {
-          "&:hover": {
-            // backgroundColor: 'transparent',
-            // color: palette.grey[700],
-          },
-          "&:active": {
-            // backgroundColor: 'transparent',
-          }
-        }
+        textDecoration: "underline"
       }
     }
   ],
@@ -2851,7 +2847,10 @@ function K({
         },
         children: [
           !!o && /* @__PURE__ */ r.jsx(Ce, { sx: { mx: 0, mt: "0.2rem" }, children: o }),
-          !!i && /* @__PURE__ */ r.jsx(Ce, { id: `${d}-errors`, error: !0, children: i.type === "required" && /* @__PURE__ */ r.jsx("span", { children: "Laukas yra privalomas" }) })
+          !!i && /* @__PURE__ */ r.jsxs(Ce, { id: `${d}-errors`, error: !0, children: [
+            i.type === "required" && !!i.message && /* @__PURE__ */ r.jsx("span", { children: "Laukas yra privalomas" }),
+            !!i.message && /* @__PURE__ */ r.jsx("span", { children: i.message })
+          ] })
         ]
       }
     )
