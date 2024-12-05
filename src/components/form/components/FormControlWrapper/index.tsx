@@ -114,7 +114,10 @@ function RcSesFormControlWrapper({
 
         {!!errors && (
           <FormHelperText id={`${id}-errors`} error>
-            {errors.type === 'required' && <span>Laukas yra privalomas</span>}
+            {errors.type === 'required' && !!errors.message && (
+              <span>Laukas yra privalomas</span>
+            )}
+            {!!errors.message && <span>{errors.message}</span>}
           </FormHelperText>
         )}
       </Box>
