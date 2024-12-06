@@ -9,35 +9,39 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.primary['600'],
+        color: palette.primary[600],
         fontSize: '.875rem',
         fontWeight: 600,
         height: '2.375rem',
 
         '&.Mui-disabled': {
           opacity: 0.4,
+
+          '&.MuiButton-colorPrimary': {
+            color: palette.primary[600],
+          },
         },
 
         '&:not(.Mui-disabled)': {
           'svg path': {
-            fill: palette.primary['600'],
+            fill: palette.primary[600],
           },
 
           '&:hover': {
             backgroundColor: 'transparent',
-            color: palette.primary['700'],
+            color: palette.primary[700],
 
             'svg path': {
-              fill: palette.primary['700'],
+              fill: palette.primary[700],
             },
           },
 
           '&:active, &:focus': {
             backgroundColor: 'transparent',
-            color: palette.primary['900'],
+            color: palette.primary[900],
 
             'svg path': {
-              fill: palette.primary['900'],
+              fill: palette.primary[900],
             },
           },
 
@@ -50,12 +54,13 @@ const MuiButton: Components['MuiButton'] = {
               height: 'calc(100% + 6px)',
               borderRadius: '.375rem',
               border: '2px solid',
-              borderColor: grey['950'],
+              borderColor: grey[950],
               zIndex: 1,
             },
         },
 
         '&.MuiButton-sizeSmall': {
+          fontWeight: 400,
           height: '2.25rem',
           padding: '.625rem .5rem',
         },
@@ -82,7 +87,6 @@ const MuiButton: Components['MuiButton'] = {
       style: {
         color: palette.grey[600],
         fontSize: '.875rem',
-        fontWeight: 400,
         lineHeight: '1rem',
         padding: '.6875rem .25rem',
 
@@ -135,7 +139,7 @@ const MuiButton: Components['MuiButton'] = {
           height: 'calc(100% + 6px)',
           borderRadius: '.375rem',
           border: '2px solid',
-          borderColor: grey['950'],
+          borderColor: grey[950],
           zIndex: 1,
         },
 
