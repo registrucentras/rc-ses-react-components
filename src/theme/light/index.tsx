@@ -118,6 +118,7 @@ const theme = createTheme(themePalette, ltLT, {
 
 theme.typography.h1 = {
   fontSize: '1.5rem',
+  fontWeight: '500',
   lineHeight: '2rem',
 
   [theme.breakpoints.up('md')]: {

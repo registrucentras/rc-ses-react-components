@@ -10,7 +10,8 @@ type Props = {
     label?: React.ReactNode;
     labelSubtitle?: React.ReactNode;
     labelOnTop?: boolean;
+    required?: boolean;
 };
-declare function RcSesFormControlWrapper({ children, className, description, errors, fieldSuffix, hideLabel, id, label, labelSubtitle, labelOnTop, }: Props): import("react/jsx-runtime").JSX.Element;
+declare function RcSesFormControlWrapper({ children, className, description, errors, fieldSuffix, hideLabel, id, label, labelSubtitle, labelOnTop, required, }: Props): import("react/jsx-runtime").JSX.Element;
 export default RcSesFormControlWrapper;
 export { type Props as RcSesFormControlWrapperProps };

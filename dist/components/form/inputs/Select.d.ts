@@ -16,6 +16,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> & Pick<TFieldProps
     clearable?: boolean;
     loading?: boolean;
     options: (Option | '')[];
+    placeholder?: string;
     slotProps?: {
         controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>;
         field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>;

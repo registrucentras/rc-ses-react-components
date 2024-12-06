@@ -65,8 +65,9 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
   return (
     <RcSesFormControlWrapper
       id={id}
-      label={label}
       errors={errors}
+      label={label}
+      required={!!props?.rules?.required}
       {...slotProps?.wrapper}
     >
       <DatePicker

@@ -46,6 +46,14 @@ const MuiInputBase: Components['MuiInputBase'] = {
         },
       },
 
+      '&.Mui-readOnly': {
+        '.MuiOutlinedInput-notchedOutline': {
+          borderColor: `${palette.grey['600']} !important`,
+          borderWidth: '1px !important',
+          boxShadow: 'none !important',
+        },
+      },
+
       '&.Mui-disabled': {
         backgroundColor: `${palette.grey['100']} !important`,
 
@@ -58,7 +66,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
         },
       },
 
-      '&:hover:not(.Mui-disabled)': {
+      '&:hover:not(.Mui-disabled):not(.Mui-readOnly)': {
         '.MuiOutlinedInput-notchedOutline': {
           borderColor: palette.grey['900'],
         },

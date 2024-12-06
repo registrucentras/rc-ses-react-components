@@ -5,6 +5,11 @@ const MuiButtonBase: Components['MuiButtonBase'] = {
     disableRipple: true,
     disableTouchRipple: true,
   },
+  styleOverrides: {
+    root: {
+      letterSpacing: 0,
+    },
+  },
 }
 
 export default MuiButtonBase

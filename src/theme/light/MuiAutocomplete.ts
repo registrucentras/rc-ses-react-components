@@ -8,6 +8,7 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
     root: {
       '.MuiOutlinedInput-root': {
         '.MuiAutocomplete-input': {
+          marginRight: '2rem',
           padding: '.25rem .1875rem',
         },
       },

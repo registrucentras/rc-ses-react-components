@@ -9,35 +9,39 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.primary['600'],
+        color: palette.primary[600],
         fontSize: '.875rem',
         fontWeight: 600,
         height: '2.375rem',
 
         '&.Mui-disabled': {
           opacity: 0.4,
+
+          '&.MuiButton-colorPrimary': {
+            color: palette.primary[600],
+          },
         },
 
         '&:not(.Mui-disabled)': {
           'svg path': {
-            fill: palette.primary['600'],
+            fill: palette.primary[600],
           },
 
           '&:hover': {
             backgroundColor: 'transparent',
-            color: palette.primary['700'],
+            color: palette.primary[700],
 
             'svg path': {
-              fill: palette.primary['700'],
+              fill: palette.primary[700],
             },
           },
 
           '&:active, &:focus': {
             backgroundColor: 'transparent',
-            color: palette.primary['900'],
+            color: palette.primary[900],
 
             'svg path': {
-              fill: palette.primary['900'],
+              fill: palette.primary[900],
             },
           },
 
@@ -50,16 +54,19 @@ const MuiButton: Components['MuiButton'] = {
               height: 'calc(100% + 6px)',
               borderRadius: '.375rem',
               border: '2px solid',
-              borderColor: grey['950'],
+              borderColor: grey[950],
               zIndex: 1,
             },
         },
 
         '&.MuiButton-sizeSmall': {
-          padding: '.5625rem .5rem',
+          fontWeight: 400,
+          height: '2.25rem',
+          padding: '.625rem .5rem',
         },
 
         '&.MuiButton-sizeLarge': {
+          fontSize: '.9375rem',
           padding: '.6875rem 0',
         },
 
@@ -78,6 +85,7 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
+        color: palette.grey[600],
         fontSize: '.875rem',
         lineHeight: '1rem',
         padding: '.6875rem .25rem',
@@ -85,10 +93,12 @@ const MuiButton: Components['MuiButton'] = {
         '&:not(.Mui-disabled)': {
           '&:hover': {
             backgroundColor: 'transparent',
+            color: palette.grey[700],
           },
 
           '&:active': {
             backgroundColor: 'transparent',
+            color: palette.grey[900],
           },
         },
       },
@@ -99,19 +109,8 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.grey['700'],
+        color: palette.grey[700],
         textDecoration: 'underline',
-
-        '&:not(.Mui-disabled)': {
-          '&:hover': {
-            // backgroundColor: 'transparent',
-            // color: palette.grey['700'],
-          },
-
-          '&:active': {
-            // backgroundColor: 'transparent',
-          },
-        },
       },
     },
   ],
@@ -140,7 +139,7 @@ const MuiButton: Components['MuiButton'] = {
           height: 'calc(100% + 6px)',
           borderRadius: '.375rem',
           border: '2px solid',
-          borderColor: grey['950'],
+          borderColor: grey[950],
           zIndex: 1,
         },
 
@@ -161,82 +160,79 @@ const MuiButton: Components['MuiButton'] = {
 
     contained: {
       '&.Mui-disabled': {
-        backgroundColor: `${grey['50']} !important`,
+        backgroundColor: `${grey[100]} !important`,
+        color: `${grey[500]} !important`,
       },
 
       '&.MuiButton-colorPrimary': {
         color: primary['950'],
-        backgroundColor: primary['200'],
+        backgroundColor: primary[200],
 
         '&:hover': {
-          backgroundColor: primary['300'],
+          backgroundColor: primary[300],
         },
         '&:active': {
-          backgroundColor: primary['400'],
+          backgroundColor: primary[400],
         },
       },
 
       '&.MuiButton-colorGrey': {
-        color: grey['950'],
-        backgroundColor: grey['100'],
+        color: grey[950],
+        backgroundColor: grey[100],
 
         '&:hover': {
-          backgroundColor: grey['200'],
+          backgroundColor: grey[200],
         },
         '&:active': {
-          backgroundColor: grey['300'],
+          backgroundColor: grey[300],
         },
       },
 
       '&.MuiButton-colorDark': {
         color: 'white',
-        backgroundColor: grey['900'],
+        backgroundColor: grey[900],
 
         '&:hover': {
-          backgroundColor: grey['800'],
+          backgroundColor: grey[800],
         },
         '&:active': {
-          backgroundColor: grey['700'],
-        },
-        '&.Mui-disabled': {
-          backgroundColor: `${grey['100']} !important`,
-          color: `${grey['500']} !important`,
+          backgroundColor: grey[700],
         },
       },
 
       '&.MuiButton-colorSecondary': {
         color: secondary['950'],
-        backgroundColor: secondary['200'],
+        backgroundColor: secondary[200],
 
         '&:hover': {
-          backgroundColor: secondary['300'],
+          backgroundColor: secondary[300],
         },
         '&:active': {
-          backgroundColor: secondary['400'],
+          backgroundColor: secondary[400],
         },
       },
 
       '&.MuiButton-colorWarning': {
         color: warning['950'],
-        backgroundColor: warning['200'],
+        backgroundColor: warning[200],
 
         '&:hover': {
-          backgroundColor: warning['300'],
+          backgroundColor: warning[300],
         },
         '&:active': {
-          backgroundColor: warning['400'],
+          backgroundColor: warning[400],
         },
       },
 
       '&.MuiButton-colorError': {
         color: error['950'],
-        backgroundColor: error['200'],
+        backgroundColor: error[200],
 
         '&:hover': {
-          backgroundColor: error['300'],
+          backgroundColor: error[300],
         },
         '&:active': {
-          backgroundColor: error['400'],
+          backgroundColor: error[400],
         },
       },
     },
@@ -244,128 +240,128 @@ const MuiButton: Components['MuiButton'] = {
     outlined: {
       '&.Mui-disabled': {
         backgroundColor: `transparent !important`,
-        borderColor: `${grey['50']} !important`,
-        color: `${grey['300']} !important`,
+        borderColor: `${grey[50]} !important`,
+        color: `${grey[400]} !important`,
       },
 
       '&.MuiButton-colorPrimary': {
-        borderColor: primary['600'],
-        color: primary['600'],
+        borderColor: primary[600],
+        color: primary[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: primary['50'],
+          backgroundColor: primary[50],
         },
         '&:active': {
-          backgroundColor: primary['100'],
+          backgroundColor: primary[100],
         },
       },
 
       '&.MuiButton-colorGrey': {
-        borderColor: grey['600'],
-        color: grey['900'],
+        borderColor: grey[600],
+        color: grey[900],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: grey['50'],
+          backgroundColor: grey[50],
         },
         '&:active': {
-          backgroundColor: grey['100'],
+          backgroundColor: grey[100],
         },
       },
 
       '&.MuiButton-colorSecondary': {
-        borderColor: secondary['600'],
-        color: secondary['600'],
+        borderColor: secondary[600],
+        color: secondary[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: secondary['50'],
+          backgroundColor: secondary[50],
         },
         '&:active': {
-          backgroundColor: secondary['100'],
+          backgroundColor: secondary[100],
         },
       },
 
       '&.MuiButton-colorWarning': {
-        borderColor: warning['600'],
-        color: warning['600'],
+        borderColor: warning[600],
+        color: warning[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: warning['50'],
+          backgroundColor: warning[50],
         },
         '&:active': {
-          backgroundColor: warning['100'],
+          backgroundColor: warning[100],
         },
       },
 
       '&.MuiButton-colorError': {
-        borderColor: error['600'],
-        color: error['600'],
+        borderColor: error[600],
+        color: error[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: error['50'],
+          backgroundColor: error[50],
         },
         '&:active': {
-          backgroundColor: error['100'],
+          backgroundColor: error[100],
         },
       },
     },
     text: {
       '&.MuiButton-colorGrey': {
-        color: grey['600'],
+        color: grey[600],
 
         '&:hover': {
-          color: grey['700'],
+          color: grey[700],
         },
         '&:active': {
-          color: grey['900'],
+          color: grey[900],
         },
       },
 
       '&.MuiButton-colorDark': {
-        color: grey['900'],
+        color: grey[900],
 
         '&:hover': {
-          color: grey['800'],
+          color: grey[800],
         },
         '&:active': {
-          color: grey['700'],
+          color: grey[700],
         },
       },
 
       '&.MuiButton-colorSecondary': {
-        color: secondary['600'],
+        color: secondary[600],
 
         '&:hover': {
-          color: secondary['700'],
+          color: secondary[700],
         },
         '&:active': {
-          color: secondary['900'],
+          color: secondary[900],
         },
       },
 
       '&.MuiButton-colorWarning': {
-        color: warning['600'],
+        color: warning[600],
 
         '&:hover': {
-          color: warning['700'],
+          color: warning[700],
         },
         '&:active': {
-          color: warning['900'],
+          color: warning[900],
         },
       },
 
       '&.MuiButton-colorError': {
-        color: error['600'],
+        color: error[600],
 
         '&:hover': {
-          color: error['700'],
+          color: error[700],
         },
         '&:active': {
-          color: error['900'],
+          color: error[900],
         },
       },
     },

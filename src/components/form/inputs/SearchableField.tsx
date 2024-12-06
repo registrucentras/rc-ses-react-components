@@ -61,8 +61,9 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
     <>
       <RcSesFormControlWrapper
         id={id}
-        label={label}
         errors={errors}
+        label={label}
+        required={!!rules?.required}
         {...slotProps?.wrapper}
       >
         <TextField

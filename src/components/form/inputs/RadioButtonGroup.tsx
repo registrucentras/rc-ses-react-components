@@ -43,14 +43,6 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     }
   }
 
-// type Props = Partial<RcSesFormControlWrapperProps> &
-//   UseControllerProps<any, any> & {
-//     className?: string
-//     hideNativeRadio?: boolean
-//     options: Array<RadioOption>
-//     variant?: 'flat' | 'outlined' | 'filled'
-//   }
-
 function UnstyledRcSesRadioButtonGroup(props: Props) {
   const {
     control,
@@ -79,8 +71,9 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
     <RcSesFormControlWrapper
       id={id}
       className={className}
-      label={label}
       errors={errors}
+      label={label}
+      required={!!rules?.required}
       {...slotProps?.wrapper}
     >
       <RadioGroup

@@ -5,7 +5,7 @@ const MuiTypography: Components['MuiTypography'] = {
     root: {},
     h1: {
       fontWeight: '500',
-      lineHeight: '3rem',
+      lineHeight: '2rem',
     },
     h2: {
       fontSize: '2rem',

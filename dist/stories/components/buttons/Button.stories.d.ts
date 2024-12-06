@@ -1,7 +1,7 @@
 import { StoryObj } from '@storybook/react';
 import { default as Button } from '../../../components/common/Button';
 import { OverridableStringUnion } from '@mui/types';
-import { ButtonPropsVariantOverrides } from '@mui/material/Button';
+import { ButtonPropsVariantOverrides } from '@mui/material';
 import { Mock } from '@vitest/spy';
 import { MouseEvent } from 'react';
 declare const meta: {
@@ -54,10 +54,13 @@ export declare const PrimaryContained: Story;
 export declare const PrimaryContainedWithPrefixIcon: Story;
 export declare const PrimaryContainedWithSuffixIcon: Story;
 export declare const PrimaryOutlined: Story;
-export declare const PrimaryOutlinedWithIcon: Story;
+export declare const PrimaryOutlinedWithPrefixIcon: Story;
+export declare const PrimaryOutlinedWithSuffixIcon: Story;
 export declare const SecondaryContained: Story;
 export declare const SecondaryOutlined: Story;
 export declare const GreyContained: Story;
 export declare const GreyOutlined: Story;
+export declare const WarningContained: Story;
+export declare const WarningOutlined: Story;
 export declare const ErrorContained: Story;
 export declare const ErrorOutlined: Story;
