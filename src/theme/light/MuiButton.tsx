@@ -225,14 +225,21 @@ const MuiButton: Components['MuiButton'] = {
       },
 
       '&.MuiButton-colorError': {
-        color: error['950'],
-        backgroundColor: error[200],
+        color: error['700'],
+        backgroundColor: error[100],
 
         '&:hover': {
-          backgroundColor: error[300],
+          backgroundColor: error[200],
         },
         '&:active': {
-          backgroundColor: error[400],
+          backgroundColor: error[300],
+        },
+
+        '&:not(.Mui-disabled)': {
+          '&:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
+            {
+              borderColor: error[700],
+            },
         },
       },
     },
