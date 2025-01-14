@@ -53,7 +53,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
     try {
       onChange((newValue && fromZonedTime(newValue, 'UTC').toISOString()) ?? '')
     } catch (_) {
-      onChange(newValue)
+      onChange(null)
     }
   }
 
