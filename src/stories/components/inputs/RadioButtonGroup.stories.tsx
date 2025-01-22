@@ -1,11 +1,11 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
-import Fields from '@/components/storybook/Fields'
-
 import { useForm } from 'react-hook-form'
-import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
+
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
-import FieldView from '@/components/storybook/FieldView'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
+import FieldView from '@/components/storybook/FieldView'
+import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 
 type FormModel = {
@@ -21,10 +21,6 @@ const meta: Meta<typeof RcSesRadioButtonGroup> = {
     variant: {
       options: variants,
       mapping: variants,
-      control: {
-        type: 'select',
-        labels: variants,
-      },
       table: {
         defaultValue: { summary: 'outlined' },
       },
@@ -49,7 +45,7 @@ const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
 
   return (
     <Fields>
-      <FieldView >
+      <FieldView>
         <RcSesRadioButtonGroup
           id='chooseOne'
           name='chooseOne'
@@ -69,7 +65,7 @@ const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
           control={control}
           rules={{ required: true }}
           label={label}
-          errors={{ message: "Error Message", type: 'required' }}
+          errors={{ message: 'Error Message', type: 'required' }}
           options={options}
           hideNativeRadio
         />
@@ -82,7 +78,7 @@ const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
           name='chooseOne'
           control={control}
           rules={{ required: true }}
-          label="Flat"
+          label='Flat'
           options={options}
           variant='flat'
         />
@@ -91,7 +87,7 @@ const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
           name='chooseOne'
           control={control}
           rules={{ required: true }}
-          label="Filled"
+          label='Filled'
           options={options}
           variant='filled'
         />
@@ -101,13 +97,11 @@ const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
           name='chooseOne'
           control={control}
           rules={{ required: true }}
-          label="Outlined"
+          label='Outlined'
           options={options}
           variant='outlined'
         />
-
       </FieldPreviewRow>
-
     </Fields>
   )
 }
@@ -116,7 +110,7 @@ const codeBlock = (args: any) => {
   const { label } = args
   return `
   import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
-  
+
   const MyComponent = () => (
 
   const {control,formState: { errors }} = useForm<FormModel>({mode: 'all', defaultValues: {chooseOne: ''}})
@@ -137,28 +131,25 @@ const codeBlock = (args: any) => {
       hideNativeRadio
     />
   );`
-
 }
-
 
 export const Main = Template.bind({})
 Main.args = {
   label: 'Label',
-  options:
-    [
-      { label: 'Pick 1', value: 'pick1' },
-      { label: 'Pick 2', value: 'pick2' },
-      { label: 'Pick 3', value: 'pick3' },
-      { label: 'Pick 4', value: 'pick4' },
-    ]
+  options: [
+    { label: 'Pick 1', value: 'pick1' },
+    { label: 'Pick 2', value: 'pick2' },
+    { label: 'Pick 3', value: 'pick3' },
+    { label: 'Pick 4', value: 'pick4' },
+  ],
 }
-
 
 Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => { return codeBlock(storyContext.args) },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
-};
+}

@@ -1,11 +1,12 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
-import PreviewTitle from '@/components/storybook/PreviewTitle'
-import Fields from '@/components/storybook/Fields'
-import FieldView from '@/components/storybook/FieldView'
-
-import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import { useForm } from 'react-hook-form'
+
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
+import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
+import FieldView from '@/components/storybook/FieldView'
+import Fields from '@/components/storybook/Fields'
+import PreviewTitle from '@/components/storybook/PreviewTitle'
 
 type FormModel = {
   uploadFile: string
@@ -19,28 +20,28 @@ const meta: Meta<typeof RcSesFileUpload> = {
   argTypes: {
     control: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     errors: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     rules: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     slotProps: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     id: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
   },
   tags: ['autodocs'],
@@ -49,13 +50,19 @@ const meta: Meta<typeof RcSesFileUpload> = {
 export default meta
 
 const Template: StoryFn<typeof RcSesFileUpload> = (args) => {
-  const { control, formState: { errors } } = useForm<FormModel>({ mode: 'all', defaultValues: { uploadFile: '', uploadFile2: '', uploadFile3: '', } })
+  const {
+    control,
+    formState: { errors },
+  } = useForm<FormModel>({
+    mode: 'all',
+    defaultValues: { uploadFile: '', uploadFile2: '', uploadFile3: '' },
+  })
 
   const { label } = args
 
   return (
     <Fields>
-      <FieldView >
+      <FieldView>
         <RcSesFileUpload
           id='uploadFile'
           name='uploadFile'
@@ -88,7 +95,7 @@ const Template: StoryFn<typeof RcSesFileUpload> = (args) => {
           control={control}
           rules={{ required: true }}
           label='Error'
-          errors={{ message: "Error Message", type: 'required' }}
+          errors={{ message: 'Error Message', type: 'required' }}
         />
 
         {/* <RcSesFileUpload
@@ -106,9 +113,7 @@ const Template: StoryFn<typeof RcSesFileUpload> = (args) => {
             },
           }}
         /> */}
-
       </FieldPreviewRow>
-
     </Fields>
   )
 }
@@ -117,7 +122,7 @@ const codeBlock = (args: any) => {
   const { label } = args
   return `
   import RcSesFileUpload from '@/components/form/inputs/FileUpload'
-  
+
 
   const MyComponent = () => (
 
@@ -134,24 +139,21 @@ const codeBlock = (args: any) => {
         wrapper: { labelSubtitle: 'File formats: .doc, .xdoc, .pdf, .pages' },
       }}
     />
-  
+
   );`
-
 }
-
 
 export const Main = Template.bind({})
 Main.args = {
   label: 'Upload file',
-
 }
-
 
 Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => { return codeBlock(storyContext.args) },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
-};
+}

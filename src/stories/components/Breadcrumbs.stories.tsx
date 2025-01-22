@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryFn } from '@storybook/react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
@@ -14,7 +15,7 @@ const Path = [
 ]
 
 const meta: Meta<typeof RcSesBreadcrumbs> = {
-  title: 'components/common/Breadcrumps',
+  title: 'components/common/Breadcrumbs',
   component: RcSesBreadcrumbs,
   tags: ['autodocs'],
 }

@@ -11,6 +11,7 @@ function ServiceDetailsForm() {
     control,
     handleSubmit,
     formState: { errors },
+    register,
   } = useForm<MultiStepFormModel>({
     mode: 'all',
     defaultValues: {
@@ -56,11 +57,9 @@ function ServiceDetailsForm() {
 
       <RcSesCheckbox
         id='agreement'
-        name='agreement'
-        control={control}
         errors={errors?.agreement}
         label='Sutikimas'
-        rules={{ required: true }}
+        {...register('agreement', { required: true })}
       >
         Pagal užsakymą gautus duomenis naudosiu nurodytam duomenų tikslui ir šių duomenų
         neatskleisiu tretiesiems asmenims.
