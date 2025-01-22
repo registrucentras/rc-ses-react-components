@@ -1,5 +1,4 @@
-import { DateView, TimeView, FieldSectionContentType } from '@mui/x-date-pickers/models';
-import { MuiPickersAdapter } from '@mui/x-date-pickers';
+import { DateView, TimeView, MuiPickersAdapter, FieldSectionContentType } from '@mui/x-date-pickers';
 import { TimeViewWithMeridiem } from '@mui/x-date-pickers/internals';
 export declare const DEFAULT_LOCALE: {
     previousMonth: string;

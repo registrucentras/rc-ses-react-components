@@ -3,7 +3,6 @@ import { default as Button } from '../../../components/common/Button';
 import { OverridableStringUnion } from '@mui/types';
 import { ButtonPropsVariantOverrides } from '@mui/material';
 import { Mock } from '@vitest/spy';
-import { MouseEvent } from 'react';
 declare const meta: {
     title: string;
     component: typeof Button;
@@ -45,7 +44,7 @@ declare const meta: {
     tags: string[];
     args: {
         children: string;
-        onClick: Mock<[event: MouseEvent<HTMLButtonElement, MouseEvent>], void>;
+        onClick: Mock<(...args: any[]) => any>;
     };
 };
 export default meta;
