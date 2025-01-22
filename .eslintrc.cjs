@@ -36,10 +36,32 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
-    'linebreak-style': (process.platform === 'win32' ? 0 : ['error', 'unix']),
+    'linebreak-style': 'off',
     'no-underscore-dangle': ['off'],
     'no-param-reassign': [2, { 'props': false }],
     'react/jsx-props-no-spreading': 'off',
+    'react/function-component-definition': [
+        'error',
+        {
+          'devDependencies': [
+            '**/*.stories.*',
+            '**/*.test.*',
+            '**/.storybook/**/*.*'
+          ],
+          'peerDependencies': true
+        }
+      ],
+    'import/no-extraneous-dependencies': [
+        'error',
+        {
+          'devDependencies': [
+            '**/*.stories.*',
+            '**/*.test.*',
+            '**/.storybook/**/*.*'
+          ],
+          'peerDependencies': true
+        }
+      ]
   },
   settings: {
     react: {

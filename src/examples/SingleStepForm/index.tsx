@@ -68,7 +68,7 @@ function SingleStepForm() {
         breadcrumbsProps={{
           path: [
             { label: 'Pagrindinis', path: '/' },
-            { label: 'Vieno žingsnio formos pavyzdys', path: '/sample-form-single-step' },
+            { label: 'Vieno žingsnio formos pavyzdys', path: '/single-step-form' },
           ],
         }}
         title='Nekilnojamojo turto registro išrašas pagal nurodytą turto adresą'
@@ -86,10 +86,13 @@ function SingleStepForm() {
         slotProps={{ container: { maxWidth: 'md' } }}
       >
         <RcSesAccordion id='form' controller={accordionController}>
+          {/* eslint-disable-next-line no-console */}
           <form onSubmit={handleSubmit(console.debug)} noValidate>
             <RcSesTextField
+              id='text'
               label='Trumpas tekstas'
               errors={errors?.text}
+              required
               {...register('text', { required: true })}
               slotProps={{
                 wrapper: {
@@ -106,6 +109,7 @@ function SingleStepForm() {
             <RcSesTextField
               label='Ilgas tekstas'
               errors={errors?.multilineText}
+              required
               multiline
               {...register('text', { required: true })}
               slotProps={{

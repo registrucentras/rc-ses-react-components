@@ -1,9 +1,11 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
-import Fields from '@/components/storybook/Fields'
-import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import { useForm } from 'react-hook-form'
-import FieldView from '@/components/storybook/FieldView'
+
+import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import FieldPreview from '@/components/storybook/FieldPreview'
+import FieldView from '@/components/storybook/FieldView'
+import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 
 type FormModel = {
@@ -18,39 +20,39 @@ const meta: Meta<typeof RcSesNumberStepper> = {
   argTypes: {
     id: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     name: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     control: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     errors: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     onChange: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     onBlur: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     rules: {
       table: {
-        disable: true
-      }
-    }
+        disable: true,
+      },
+    },
   },
   tags: ['autodocs'],
 }
@@ -58,14 +60,16 @@ const meta: Meta<typeof RcSesNumberStepper> = {
 export default meta
 
 const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
-  const { control, formState: { errors } } = useForm<FormModel>({ mode: 'all', defaultValues: { countable: 0, countable2: 0, countable3: 0 } })
-  const { label, disabled, min, max, step, displayStepperControls, slotProps, name, id } = args
+  const { control } = useForm<FormModel>({
+    mode: 'all',
+    defaultValues: { countable: 0, countable2: 0, countable3: 0 },
+  })
+  const { label, disabled, min, max, step, displayStepperControls, slotProps, name, id } =
+    args
 
   return (
     <Fields>
-
-
-      <FieldView >
+      <FieldView>
         <RcSesNumberStepper
           id={id}
           name={name}
@@ -74,7 +78,7 @@ const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
           step={step}
           displayStepperControls={displayStepperControls}
           label={label}
-          rules={{ required: false, min: min, max: max }}
+          rules={{ required: false, min, max }}
           slotProps={slotProps}
         />
       </FieldView>
@@ -84,9 +88,9 @@ const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
           id='countable2'
           name='countable2'
           control={control}
-          disabled={true}
+          disabled
           step={1}
-          displayStepperControls={true}
+          displayStepperControls
           label={label}
           rules={{ required: false, min: 0, max: 1 }}
           slotProps={slotProps}
@@ -97,23 +101,24 @@ const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
           control={control}
           disabled={false}
           step={1}
-          displayStepperControls={true}
-          errors={{ message: "Error Message", type: 'required' }}
+          displayStepperControls
+          errors={{ message: 'Error Message', type: 'required' }}
           label={label}
           rules={{ required: false, min: 0, max: 100 }}
           slotProps={slotProps}
         />
       </FieldPreview>
-
     </Fields>
   )
 }
 
 const codeBlock = (args: any) => {
-  const { label, disabled, min, max, step, displayStepperControls, slotProps, name, id } = args
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { label, disabled, min, max, step, displayStepperControls, slotProps, name, id } =
+    args
   return `
   import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
-  
+
   const MyComponent = () => (
 
   const {control,formState: { errors }} = useForm<SingleStepFormModel>({mode: 'all',defaultValues: { countable: 0,}})
@@ -131,9 +136,7 @@ const codeBlock = (args: any) => {
     slotProps={{ wrapper: { labelSubtitle: '(neprivaloma)' } }}
   />
   );`
-
 }
-
 
 export const Main = Template.bind({})
 Main.args = {
@@ -145,15 +148,15 @@ Main.args = {
   displayStepperControls: true,
   slotProps: { wrapper: { labelSubtitle: 'optional' } },
   id: 'countable',
-  name: 'countable'
+  name: 'countable',
 }
-
 
 Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => { return codeBlock(storyContext.args) },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
-};
+}

@@ -53,7 +53,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
     try {
       onChange((newValue && fromZonedTime(newValue, 'UTC').toISOString()) ?? '')
     } catch (_) {
-      onChange(newValue)
+      onChange(null)
     }
   }
 
@@ -65,8 +65,9 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
   return (
     <RcSesFormControlWrapper
       id={id}
-      label={label}
       errors={errors}
+      label={label}
+      required={!!props?.rules?.required}
       {...slotProps?.wrapper}
     >
       <DatePicker

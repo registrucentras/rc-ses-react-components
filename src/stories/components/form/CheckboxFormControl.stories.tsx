@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
@@ -152,9 +153,8 @@ Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

@@ -1,16 +1,14 @@
-import { Meta, StoryContext, StoryFn } from '@storybook/react';
-import { useForm } from 'react-hook-form';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
+/* eslint-disable react/function-component-definition */
+import { Meta, StoryContext, StoryFn } from '@storybook/react'
 
-
-import RcSesAccordion from '@/components/common/Accordion';
-import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController';
-import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer';
-import FieldView from '@/components/storybook/FieldView';
-import Fields from '@/components/storybook/Fields';
-import BasicInformationForm from '@/examples/MultipleStepForm/components/BasicInformationForm';
-import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel';
-
+import RcSesAccordion from '@/components/common/Accordion'
+import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer'
+import FieldView from '@/components/storybook/FieldView'
+import Fields from '@/components/storybook/Fields'
+import BasicInformationForm from '@/examples/MultipleStepForm/components/BasicInformationForm'
 
 const meta: Meta<typeof RcSesServiceFormContainer> = {
   title: 'components/common/form/ServiceFormContainer',
@@ -105,11 +103,8 @@ const Template: StoryFn<typeof RcSesServiceFormContainer> = (args) => {
   )
 }
 
-const codeBlock = (args: any) => {
-  const { label, disabled, slotProps } = args
-  return `
+const codeBlock = (args: any) => `
   import RcSesSelect from '@/components/form/inputs/Select'
-  
 
   const MyComponent = () => (
 
@@ -168,19 +163,16 @@ const codeBlock = (args: any) => {
       </RcSesAccordion>
     </RcSesServiceFormContainer>
   );`
-}
 
 export const Main = Template.bind({})
-Main.args = {
-}
+Main.args = {}
 
 Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

@@ -1,13 +1,13 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
-import PreviewTitle from '@/components/storybook/PreviewTitle'
-import Fields from '@/components/storybook/Fields'
-import FieldView from '@/components/storybook/FieldView'
-
-import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
-import RcSesSelect from '@/components/form/inputs/Select'
 import { useForm } from 'react-hook-form'
-import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
+import RcSesSelect from '@/components/form/inputs/Select'
+import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
+import FieldView from '@/components/storybook/FieldView'
+import Fields from '@/components/storybook/Fields'
+import PreviewTitle from '@/components/storybook/PreviewTitle'
+import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
 const meta: Meta<typeof RcSesSelect> = {
   title: 'components/common/inputs/Select',
@@ -23,44 +23,44 @@ const meta: Meta<typeof RcSesSelect> = {
     },
     onInputChange: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     control: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     errors: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     options: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     name: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     rules: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     id: {
       table: {
-        disable: true
-      }
+        disable: true,
+      },
     },
     loading: {
       table: {
-        disable: true
-      }
-    }
+        disable: true,
+      },
+    },
   },
   tags: ['autodocs'],
 }
@@ -68,13 +68,16 @@ const meta: Meta<typeof RcSesSelect> = {
 export default meta
 
 const Template: StoryFn<typeof RcSesSelect> = (args) => {
-  const { control, formState: { errors } } = useForm<SingleStepFormModel>({ mode: 'all', defaultValues: { selection: '', } })
+  const {
+    control,
+    formState: { errors },
+  } = useForm<SingleStepFormModel>({ mode: 'all', defaultValues: { selection: '' } })
 
   const { label, disabled, slotProps } = args
 
   return (
     <Fields>
-      <FieldView >
+      <FieldView>
         <RcSesSelect
           id='selection'
           name='selection'
@@ -86,7 +89,6 @@ const Template: StoryFn<typeof RcSesSelect> = (args) => {
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
-
         />
       </FieldView>
 
@@ -103,7 +105,6 @@ const Template: StoryFn<typeof RcSesSelect> = (args) => {
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
-
         />
         <RcSesSelect
           id='selection'
@@ -117,7 +118,6 @@ const Template: StoryFn<typeof RcSesSelect> = (args) => {
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
-
         />
         <RcSesSelect
           id='selection'
@@ -125,12 +125,11 @@ const Template: StoryFn<typeof RcSesSelect> = (args) => {
           control={control}
           rules={{ required: true }}
           label='Error'
-          errors={{ message: "Error Message", type: 'required' }}
+          errors={{ message: 'Error Message', type: 'required' }}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
-
         />
       </FieldPreviewRow>
 
@@ -170,15 +169,13 @@ const Template: StoryFn<typeof RcSesSelect> = (args) => {
           rules={{ required: true }}
           label='Error'
           slotProps={{ wrapper: { labelOnTop: true } }}
-          errors={{ message: "Error", type: 'required' }}
+          errors={{ message: 'Error', type: 'required' }}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
-
         />
       </FieldPreviewRow>
-
     </Fields>
   )
 }
@@ -187,7 +184,7 @@ const codeBlock = (args: any) => {
   const { label, disabled, slotProps } = args
   return `
   import RcSesSelect from '@/components/form/inputs/Select'
-  
+
 
   const MyComponent = () => (
 
@@ -201,7 +198,7 @@ const codeBlock = (args: any) => {
       label="${label}"
       disabled={${disabled}}
       errors={errors?.selection}
-      slotProps=${slotProps.wrapper.labelOnTop ? "{{ wrapper: { labelOnTop: true } }}" : "{{ wrapper: { labelOnTop: false} }}"}
+      slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
         { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
         { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
@@ -209,9 +206,7 @@ const codeBlock = (args: any) => {
 
     />
   );`
-
 }
-
 
 export const Main = Template.bind({})
 Main.args = {
@@ -220,12 +215,12 @@ Main.args = {
   slotProps: { wrapper: { labelOnTop: false } },
 }
 
-
 Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => { return codeBlock(storyContext.args) },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
-};
+}

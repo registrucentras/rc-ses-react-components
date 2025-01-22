@@ -8,12 +8,14 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
   styleOverrides: {
     root: {
       color: palette.grey['900'],
-      fontSize: '.9375rem',
+      fontSize: '.8125rem',
       fontWeight: 400,
-      lineHeight: '1.125rem',
+      lineHeight: '1rem',
 
-      [breakpoints.up('sm')]: {
+      [breakpoints.up('md')]: {
+        fontSize: '.9375rem',
         fontWeight: 500,
+        lineHeight: '1.125rem',
       },
 
       '&.Mui-focused': {
@@ -22,6 +24,12 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
 
       '&.Mui-error': {
         color: 'inherit',
+      },
+
+      '.MuiFormLabel-asterisk': {
+        color: palette.error['500'],
+        fontWeight: 600,
+        marginLeft: '.125rem',
       },
 
       '.rc-ses-label-subtitle': {

@@ -62,8 +62,9 @@ function RcSesFileUpload(props: Props) {
   return (
     <RcSesFormControlWrapper
       id={id}
-      label={label}
       errors={errors}
+      label={label}
+      required={!!rules?.required}
       {...slotProps?.wrapper}
     >
       <Button
@@ -72,14 +73,12 @@ function RcSesFileUpload(props: Props) {
         fullWidth
         role={undefined}
         sx={{
+          backgroundColor: 'white !important',
           display: 'flex',
           justifyContent: 'space-between',
           overflow: 'hidden',
           pl: 1.25,
           pr: 0,
-          ':hover': {
-            backgroundColor: 'white !important',
-          },
         }}
         tabIndex={-1}
         variant='outlined'

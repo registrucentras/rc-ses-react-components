@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 
-
 const FieldPreviewRow = styled('div')({
   position: 'relative',
   borderTopWidth: 1,
@@ -11,7 +10,7 @@ const FieldPreviewRow = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   flexFlow: 'wrap',
-  gap: 5
+  gap: 5,
 })
 
 export default FieldPreviewRow

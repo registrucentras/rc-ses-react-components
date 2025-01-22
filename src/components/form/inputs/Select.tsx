@@ -22,9 +22,9 @@ type Option = {
 type TControllerProps = UseControllerProps<any, any>
 type ImmediateControllerProps = 'control' | 'rules' | 'name' | 'disabled'
 
-type TFieldProps = Pick<
-  AutocompleteProps<Option | '', false, true, false>,
-  'id' | 'onInputChange'
+type TFieldProps = Omit<
+  AutocompleteProps<Option | '', false, boolean, false>,
+  'value' | 'disableClearable'
 >
 type ImmediateFieldProps = 'onInputChange'
 
@@ -37,6 +37,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     clearable?: boolean
     loading?: boolean
     options: (Option | '')[]
+    placeholder?: string
     slotProps?: {
       controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
       field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>
@@ -55,6 +56,7 @@ function RcSesSelect(props: Props) {
     loading,
     onInputChange,
     options,
+    placeholder,
     rules,
     slotProps,
     ...fieldProps
@@ -89,8 +91,9 @@ function RcSesSelect(props: Props) {
   return (
     <RcSesFormControlWrapper
       id={id}
-      label={label}
       errors={errors}
+      label={label}
+      required={!!rules?.required}
       {...slotProps?.wrapper}
     >
       <Autocomplete
@@ -128,6 +131,7 @@ function RcSesSelect(props: Props) {
                 </>
               ),
             }}
+            placeholder={placeholder}
           />
         )}
         renderOption={(optionProps, option, _state, ownerState) => {
@@ -145,6 +149,7 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
+        {...slotProps?.field}
       />
     </RcSesFormControlWrapper>
   )

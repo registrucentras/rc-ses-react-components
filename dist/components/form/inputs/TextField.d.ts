@@ -2,7 +2,7 @@ import { OutlinedTextFieldProps as MuiOutlinedTextFieldProps } from '@mui/materi
 import { default as React } from 'react';
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper';
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>;
-type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref' | 'multiline';
+type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref' | 'required' | 'multiline';
 type TWrapperProps = RcSesFormControlWrapperProps;
 type ImmediateWrapperProps = 'label' | 'errors';
 type Props = Pick<TFieldProps, ImmediateFieldProps> & Pick<TWrapperProps, ImmediateWrapperProps> & {

@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
@@ -62,9 +63,9 @@ const codeBlock = (args: any) => {
   const { clearable, label, rules } = args
   return `
   import RcSesDatepicker from '@/components/form/inputs/Datepicker'
-  
+
   const MyComponent = () => (
-  
+
   const {control,formState: { errors }} = useForm<SingleStepFormModel>({mode: 'all',defaultValues: {date: null}})
 
      <RcSesDatepicker
@@ -91,9 +92,8 @@ Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

@@ -1,6 +1,7 @@
-
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
+
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import ObjectIdentifierSearchModal from '@/examples/SingleStepForm/components/ObjectIdentifierSearchModal'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
@@ -14,17 +15,14 @@ const meta: Meta<typeof RcSesSearchableField> = {
 export default meta
 
 const Template: StoryFn<typeof RcSesSearchableField> = (args) => {
-
-const { label } = args
+  const { label } = args
   const {
     control,
-    handleSubmit,
     formState: { errors },
-    register,
   } = useForm<SingleStepFormModel>({
     mode: 'all',
     defaultValues: {
-      searchable: '', 
+      searchable: '',
     },
   })
 
@@ -52,7 +50,7 @@ const codeBlock = (args: any) => {
   const { label } = args
   return `
   import RcSesSearchableField from '@/components/form/inputs/SearchableField'
-  
+
   const MyComponent = () => (
 
   const { control, formState: { errors } } = useForm<SingleStepFormModel>({ mode: 'all', defaultValues: { searchable: '', } })
@@ -85,9 +83,8 @@ Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

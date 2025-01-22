@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
@@ -6,7 +7,6 @@ import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
-import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
 type FormModel = {
   chooseOne: string
@@ -110,7 +110,7 @@ const codeBlock = (args: any) => {
   const { label } = args
   return `
   import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
-  
+
   const MyComponent = () => (
 
   const {control,formState: { errors }} = useForm<FormModel>({mode: 'all', defaultValues: {chooseOne: ''}})
@@ -148,9 +148,8 @@ Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

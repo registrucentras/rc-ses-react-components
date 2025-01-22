@@ -8,7 +8,7 @@ type Option = {
 };
 type TControllerProps = UseControllerProps<any, any>;
 type ImmediateControllerProps = 'control' | 'rules' | 'name' | 'disabled';
-type TFieldProps = Pick<AutocompleteProps<Option | '', false, true, false>, 'id' | 'onInputChange'>;
+type TFieldProps = Omit<AutocompleteProps<Option | '', false, boolean, false>, 'value' | 'disableClearable'>;
 type ImmediateFieldProps = 'onInputChange';
 type TWrapperProps = RcSesFormControlWrapperProps;
 type ImmediateWrapperProps = 'id' | 'label' | 'errors';
@@ -16,6 +16,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> & Pick<TFieldProps
     clearable?: boolean;
     loading?: boolean;
     options: (Option | '')[];
+    placeholder?: string;
     slotProps?: {
         controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>;
         field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>;
