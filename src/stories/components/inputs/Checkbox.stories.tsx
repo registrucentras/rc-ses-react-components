@@ -22,12 +22,8 @@ const meta: Meta<typeof RcSesCheckbox> = {
     variant: {
       options: variants,
       mapping: variants,
-      control: {
-        type: 'select',
-        labels: variants,
-      },
       table: {
-        defaultValue: { summary: 'outlined' },
+        defaultValue: { summary: 'flat' },
       },
     },
     control: {
@@ -195,8 +191,6 @@ const codeBlock = (args: any) => {
           children="${children}"
           disabled="${disabled}"
         />
-          
-       
   );`
 }
 
