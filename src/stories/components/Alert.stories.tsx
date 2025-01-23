@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryFn } from '@storybook/react'
 
 import RcSesAlert from '@/components/common/Alert'

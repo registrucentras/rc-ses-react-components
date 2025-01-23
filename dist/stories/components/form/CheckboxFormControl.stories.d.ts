@@ -1,10 +1,10 @@
 import { Meta, ReactRenderer } from '@storybook/react';
-import { default as RcSesCheckbox } from '../../../components/form/inputs/Checkbox';
+import { default as RcSesCheckboxFormControl } from '../../../components/form/inputs/CheckboxFormControl';
 import { AnnotatedStoryFn } from '@storybook/csf';
 import { RegisterOptions, Control } from 'react-hook-form';
 import { CheckboxProps, FormControlLabelProps } from '@mui/material';
 import { RcSesFormControlWrapperProps } from '../../../components/form/components/FormControlWrapper';
-declare const meta: Meta<typeof RcSesCheckbox>;
+declare const meta: Meta<typeof RcSesCheckboxFormControl>;
 export default meta;
 export declare const Main: AnnotatedStoryFn<ReactRenderer, Pick<{
     name: any;

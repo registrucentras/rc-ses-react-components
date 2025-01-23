@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
@@ -22,12 +23,8 @@ const meta: Meta<typeof RcSesCheckbox> = {
     variant: {
       options: variants,
       mapping: variants,
-      control: {
-        type: 'select',
-        labels: variants,
-      },
       table: {
-        defaultValue: { summary: 'outlined' },
+        defaultValue: { summary: 'flat' },
       },
     },
     control: {
@@ -195,8 +192,6 @@ const codeBlock = (args: any) => {
           children="${children}"
           disabled="${disabled}"
         />
-          
-       
   );`
 }
 
@@ -212,9 +207,8 @@ Main.parameters = {
   docs: {
     source: {
       type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) => {
-        return codeBlock(storyContext.args)
-      },
+      transform: (code: string, storyContext: StoryContext) =>
+        codeBlock(storyContext.args),
     },
   },
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import React from 'react'
 

@@ -1,8 +1,8 @@
 import { StyledComponent } from '@emotion/styled';
 import { Theme } from '@emotion/react';
-import { ElementType, DetailedHTMLProps, HTMLAttributes } from 'react';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
 declare const FieldPreviewRow: StyledComponent<{
     theme?: Theme;
-    as?: ElementType;
+    as?: React.ElementType;
 }, DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, {}>;
 export default FieldPreviewRow;

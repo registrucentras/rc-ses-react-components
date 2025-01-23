@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   FormControlLabel,
   FormControlLabelProps,
@@ -8,6 +9,7 @@ import {
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
+import CheckBoldDisabledIcon from '@/assets/icons/CheckBoldDisabledIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
@@ -54,10 +56,11 @@ const LoadingStateIcon = styled(SpinnerGapBoldIcon)(`
   animation-iteration-count: infinite;
   animation-name: loadingStateIconRotation;
   animation-timing-function: step-start;
+  box-shadow: none !important;
 `)
 
 function RcSesCheckboxFormControl(props: Props) {
-  const { children, control, loading, name, rules, slotProps, variant } = props
+  const { children, control, disabled, loading, name, rules, slotProps, variant } = props
 
   const {
     field: { value, ...controllerProps },
@@ -72,7 +75,16 @@ function RcSesCheckboxFormControl(props: Props) {
       control={
         <MuiCheckbox
           checked={value === true}
-          checkedIcon={loading ? <LoadingStateIcon /> : <CheckBoldIcon />}
+          checkedIcon={
+            loading ? (
+              <LoadingStateIcon />
+            ) : disabled ? (
+              <CheckBoldDisabledIcon />
+            ) : (
+              <CheckBoldIcon />
+            )
+          }
+          disabled={disabled}
           icon={loading ? <LoadingStateIcon /> : <CheckUncheckedBoldIcon />}
           {...controllerProps}
           {...slotProps?.field}

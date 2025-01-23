@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 
-
 const PreviewTitle = styled('div')({
   position: 'absolute',
   background: '#aaa',
@@ -10,7 +9,7 @@ const PreviewTitle = styled('div')({
   borderTopLeftRadius: 4,
   fontSize: '0.875rem',
   height: 32,
-  top: -32
+  top: -32,
 })
 
 export default PreviewTitle
