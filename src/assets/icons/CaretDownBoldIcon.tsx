@@ -1,4 +1,6 @@
-function CaretDownBoldIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CaretDownBoldIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

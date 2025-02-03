@@ -1,3 +1,4 @@
+import { default as RcSesIconProps } from '../assets/IconProps';
 import { default as RcSesLogo } from '../assets/Logo';
 import { default as ArrowRightIcon } from '../assets/icons/ArrowRightIcon';
 import { default as CaretDoubleLeftBoldIcon } from '../assets/icons/CaretDoubleLeftBoldIcon';
@@ -12,6 +13,7 @@ import { default as useAccordionController } from '../components/common/Accordio
 import { default as RcSesAlert } from '../components/common/Alert';
 import { default as RcSesBreadcrumbs } from '../components/common/Breadcrumbs';
 import { default as RcSesButton } from '../components/common/Button';
+import { default as RcSesIconWithCircularBackground } from '../components/common/IconWithCircularBackground';
 import { default as RcSesTab } from '../components/common/Tabs/Tab';
 import { default as RcSesTabPanel } from '../components/common/Tabs/TabPanel';
 import { default as RcSesTabs } from '../components/common/Tabs/Tabs';
@@ -20,6 +22,7 @@ import { default as RcSesFormControlWrapper } from '../components/form/component
 import { default as RcSesCheckbox } from '../components/form/inputs/Checkbox';
 import { default as RcSesCheckboxFormControl } from '../components/form/inputs/CheckboxFormControl';
 import { default as RcSesDatepicker } from '../components/form/inputs/Datepicker';
+import { default as RcSesFileDropzone } from '../components/form/inputs/FileDropzone';
 import { default as RcSesFileUpload } from '../components/form/inputs/FileUpload';
 import { default as RcSesNumberStepper } from '../components/form/inputs/NumberStepper';
 import { default as RcSesRadioButtonGroup } from '../components/form/inputs/RadioButtonGroup';
@@ -43,6 +46,7 @@ export { RcSesAlert, RcSesBreadcrumbs, RcSesButton };
 export { RcSesCheckbox, RcSesCheckboxFormControl };
 export { RcSesDatepicker };
 export { RcSesFileUpload };
+export { RcSesFileDropzone };
 export { RcSesNumberStepper };
 export { RcSesRadioButtonGroup };
 export { RcSesSearchableField };
@@ -50,6 +54,8 @@ export { RcSesSelect };
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper };
 export { RcSesTextField };
 export { RcSesServiceFormActions, RcSesServiceFormContainer, RcSesFormControlWrapper, RcSesServiceHeader, RcSesServicePage, };
+export type { RcSesIconProps };
+export { RcSesIconWithCircularBackground };
 export { RcSesLogo };
 export { ArrowRightIcon };
 export { CaretDoubleLeftBoldIcon, CaretDoubleRightBoldIcon, CaretDownBoldIcon, CaretDownIcon, CaretLeftBoldIcon, CaretLeftIcon, CaretRightBoldIcon, };

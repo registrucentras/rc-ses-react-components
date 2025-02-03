@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Divider, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +8,7 @@ import useAccordionController from '@/components/common/Accordion/hooks/useAccor
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 import RcSesDatepicker from '@/components/form/inputs/Datepicker'
+import RcSesFileDropzone from '@/components/form/inputs/FileDropzone'
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
@@ -39,6 +41,7 @@ function SingleStepForm() {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
     register,
   } = useForm<SingleStepFormModel>({
     mode: 'all',
@@ -53,6 +56,8 @@ function SingleStepForm() {
       countable: 0,
       agreement: '',
       fileUpload: '',
+      fileUpload2: '',
+      fileUpload3: '',
       anotherShortText: '',
       radioSelection1: '',
       radioSelection2: '',
@@ -200,7 +205,7 @@ function SingleStepForm() {
 
             <RcSesFileUpload
               id='fileUpload2'
-              name='fileUpload'
+              name='fileUpload2'
               control={control}
               rules={{ required: true }}
               label='Failo įkėlimas'
@@ -210,6 +215,43 @@ function SingleStepForm() {
                   fieldSuffix: (
                     <RcSesButtonWithPopover popoverContent='Tinkami formatai: .doc, .xdoc, .pdf, .pages' />
                   ),
+                },
+              }}
+            />
+
+            <RcSesFileDropzone
+              id='fileUpload3'
+              name='fileUpload3'
+              control={control}
+              rules={{ required: true }}
+              label='Failo įkėlimas'
+              errors={errors?.fileUpload}
+              slotProps={{
+                dropzone: {
+                  onDrop: (files: File[]) => {
+                    setValue('fileUpload3', files)
+
+                    files.forEach((file: Blob) => {
+                      const reader = new FileReader()
+
+                      reader.onabort = () => console.debug('file reading was aborted')
+                      reader.onerror = () => console.debug('file reading has failed')
+                      reader.onload = () => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const binaryStr = reader.result
+                        console.debug(file)
+                      }
+                      reader.readAsArrayBuffer(file)
+                    })
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
+                  },
+                },
+                wrapper: {
+                  description: 'Maksimalus failo dydis: 5MB',
+                  fieldSuffix: (
+                    <RcSesButtonWithPopover popoverContent='Tinkami formatai: .doc, .xdoc, .pdf, .pages' />
+                  ),
+                  labelSubtitle: 'Tinkami formatai: .doc, .xdoc, .pdf, .pages',
                 },
               }}
             />

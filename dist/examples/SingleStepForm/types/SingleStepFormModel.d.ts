@@ -9,6 +9,8 @@ type SingleStepFormModel = {
     countable: number | '';
     agreement: string;
     fileUpload: string;
+    fileUpload2: string;
+    fileUpload3: File[] | '';
     anotherShortText: string;
     radioSelection1: string;
     radioSelection2: string;

@@ -45,7 +45,7 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false)
 
-  const id = props.id ?? uuidv4()
+  const id = fieldProps.id ?? uuidv4()
 
   const {
     field: { onChange, value },

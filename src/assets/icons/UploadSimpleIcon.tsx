@@ -1,4 +1,6 @@
-function UploadSimpleIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function UploadSimpleIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

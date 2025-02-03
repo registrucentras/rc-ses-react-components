@@ -1,4 +1,6 @@
-function ArrowRightIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function ArrowRightIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

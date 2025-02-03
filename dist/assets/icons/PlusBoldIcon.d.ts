@@ -1,4 +1,3 @@
-declare function PlusBoldIcon({ className }: {
-    className?: string;
-}): import("react/jsx-runtime").JSX.Element;
+import { default as IconProps } from '../IconProps';
+declare function PlusBoldIcon({ className }: IconProps): import("react/jsx-runtime").JSX.Element;
 export default PlusBoldIcon;
