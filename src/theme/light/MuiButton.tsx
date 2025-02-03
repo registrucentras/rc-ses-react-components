@@ -71,6 +71,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '.MuiButton-startIcon': {
+          marginLeft: 0,
           marginRight: '.25rem',
         },
 
