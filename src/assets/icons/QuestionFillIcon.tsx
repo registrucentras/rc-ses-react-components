@@ -1,4 +1,6 @@
-function QuestionFillIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function QuestionFillIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

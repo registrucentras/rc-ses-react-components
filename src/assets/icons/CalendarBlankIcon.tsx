@@ -1,4 +1,6 @@
-function CalendarBlankIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CalendarBlankIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

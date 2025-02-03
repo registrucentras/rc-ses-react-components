@@ -1,4 +1,6 @@
-function CaretDoubleRightBoldIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CaretDoubleRightBoldIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

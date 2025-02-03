@@ -1,4 +1,6 @@
-function CheckCircleFillIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CheckCircleFillIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

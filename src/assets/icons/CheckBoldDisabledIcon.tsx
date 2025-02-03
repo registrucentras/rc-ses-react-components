@@ -1,4 +1,6 @@
-function CheckBoldDisabledIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CheckBoldDisabledIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

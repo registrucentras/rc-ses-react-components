@@ -1,4 +1,6 @@
-function MagnifyingGlassIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function MagnifyingGlassIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

@@ -1,4 +1,6 @@
-function InfoFillIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function InfoFillIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

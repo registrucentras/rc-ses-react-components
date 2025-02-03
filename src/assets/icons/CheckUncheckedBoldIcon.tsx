@@ -1,4 +1,6 @@
-function CheckUncheckedBoldIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CheckUncheckedBoldIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}

@@ -1,4 +1,6 @@
-function CollapseChevronsIcon({ className = undefined }: { className?: string }) {
+import IconProps from '../IconProps'
+
+function CollapseChevronsIcon({ className = undefined }: IconProps) {
   return (
     <svg
       className={className}
