@@ -1,4 +1,3 @@
-declare function CloseIcon({ className }: {
-    className?: string;
-}): import("react/jsx-runtime").JSX.Element;
+import { default as IconProps } from '../IconProps';
+declare function CloseIcon({ className }: IconProps): import("react/jsx-runtime").JSX.Element;
 export default CloseIcon;
