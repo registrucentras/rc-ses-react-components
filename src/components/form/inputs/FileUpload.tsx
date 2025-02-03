@@ -46,8 +46,7 @@ function RcSesFileUpload(props: Props) {
   const { control, errors, label, rules, slotProps, ...fieldProps } = props
   const { name } = fieldProps
 
-  // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? uuidv4()
+  const id = fieldProps.id ?? uuidv4()
 
   const {
     field: { value, onChange, ...fieldControlProps },
