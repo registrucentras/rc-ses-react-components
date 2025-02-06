@@ -48,13 +48,15 @@ const MuiButton: Components['MuiButton'] = {
           '&:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
             {
               content: '""',
-              position: 'absolute',
               background: 'transparent',
-              width: 'calc(100% + 6px)',
-              height: 'calc(100% + 6px)',
-              borderRadius: '.375rem',
               border: '2px solid',
               borderColor: grey[950],
+              borderRadius: '.375rem',
+              height: 'calc(100% + 6px)',
+              left: '-3px',
+              position: 'absolute',
+              top: '-3px',
+              width: 'calc(100% + 6px)',
               zIndex: 1,
             },
         },
@@ -133,20 +135,24 @@ const MuiButton: Components['MuiButton'] = {
 
       '&.MuiButton-contained:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
         {
-          content: '""',
-          position: 'absolute',
           background: 'transparent',
-          width: 'calc(100% + 6px)',
-          height: 'calc(100% + 6px)',
-          borderRadius: '.375rem',
           border: '2px solid',
           borderColor: grey[950],
+          borderRadius: '.375rem',
+          content: '""',
+          height: 'calc(100% + 6px)',
+          left: '-3px',
+          position: 'absolute',
+          top: '-3px',
+          width: 'calc(100% + 6px)',
           zIndex: 1,
         },
 
       '&.MuiButton-outlined:focus:not(:active)::before': {
-        width: 'calc(100% + 8px)',
         height: 'calc(100% + 8px)',
+        left: '-4px',
+        top: '-4px',
+        width: 'calc(100% + 8px)',
       },
     },
 
@@ -178,7 +184,7 @@ const MuiButton: Components['MuiButton'] = {
       },
 
       '&.MuiButton-colorGrey': {
-        color: grey[950],
+        color: grey[900],
         backgroundColor: grey[100],
 
         '&:hover': {
