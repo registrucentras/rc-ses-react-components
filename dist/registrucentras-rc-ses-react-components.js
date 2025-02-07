@@ -2728,7 +2728,7 @@ const { breakpoints: U } = b1(), Sr = {
     },
     h6: {
       fontSize: "1.125rem",
-      fontWeight: "600",
+      fontWeight: "500",
       lineHeight: "1.5rem"
     },
     body1: {
