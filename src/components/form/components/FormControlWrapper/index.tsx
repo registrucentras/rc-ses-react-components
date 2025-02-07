@@ -60,7 +60,7 @@ function RcSesFormControlWrapper({
             }}
           >
             {label}
-            {required === true && (
+            {!!label && required === true && (
               <span aria-hidden='true' className='MuiFormLabel-asterisk'>
                 *
               </span>

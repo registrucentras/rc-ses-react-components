@@ -1772,13 +1772,15 @@ const { breakpoints: U } = b1(), Sr = {
           },
           "&:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before": {
             content: '""',
-            position: "absolute",
             background: "transparent",
-            width: "calc(100% + 6px)",
-            height: "calc(100% + 6px)",
-            borderRadius: ".375rem",
             border: "2px solid",
             borderColor: D[950],
+            borderRadius: ".375rem",
+            height: "calc(100% + 6px)",
+            left: "-3px",
+            position: "absolute",
+            top: "-3px",
+            width: "calc(100% + 6px)",
             zIndex: 1
           }
         },
@@ -1849,19 +1851,23 @@ const { breakpoints: U } = b1(), Sr = {
       position: "relative",
       textTransform: "none",
       "&.MuiButton-contained:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before": {
-        content: '""',
-        position: "absolute",
         background: "transparent",
-        width: "calc(100% + 6px)",
-        height: "calc(100% + 6px)",
-        borderRadius: ".375rem",
         border: "2px solid",
         borderColor: D[950],
+        borderRadius: ".375rem",
+        content: '""',
+        height: "calc(100% + 6px)",
+        left: "-3px",
+        position: "absolute",
+        top: "-3px",
+        width: "calc(100% + 6px)",
         zIndex: 1
       },
       "&.MuiButton-outlined:focus:not(:active)::before": {
-        width: "calc(100% + 8px)",
-        height: "calc(100% + 8px)"
+        height: "calc(100% + 8px)",
+        left: "-4px",
+        top: "-4px",
+        width: "calc(100% + 8px)"
       }
     },
     sizeSmall: {
@@ -1887,7 +1893,7 @@ const { breakpoints: U } = b1(), Sr = {
         }
       },
       "&.MuiButton-colorGrey": {
-        color: D[950],
+        color: D[900],
         backgroundColor: D[100],
         "&:hover": {
           backgroundColor: D[200]
@@ -2722,7 +2728,7 @@ const { breakpoints: U } = b1(), Sr = {
     },
     h6: {
       fontSize: "1.125rem",
-      fontWeight: "600",
+      fontWeight: "500",
       lineHeight: "1.5rem"
     },
     body1: {
@@ -2852,7 +2858,7 @@ function J({
               },
               children: [
                 d,
-                p === !0 && /* @__PURE__ */ r.jsx("span", { "aria-hidden": "true", className: "MuiFormLabel-asterisk", children: "*" }),
+                !!d && p === !0 && /* @__PURE__ */ r.jsx("span", { "aria-hidden": "true", className: "MuiFormLabel-asterisk", children: "*" }),
                 !h && !!l && /* @__PURE__ */ r.jsx(
                   ve,
                   {

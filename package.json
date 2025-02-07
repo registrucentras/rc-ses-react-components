@@ -1,7 +1,7 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,
@@ -59,10 +59,9 @@
     "@mui/icons-material": "^5.15.20",
     "@reflet/http": "^1.0.0",
     "axios": "^1.7.2",
-    "clsx": "^2.1.1",
     "jest-environment-jsdom": "^29.7.0",
     "notistack": "^3.0.1",
-    "react-dropzone": "^14.3.5",
+    "react-dropzone": "14.3.5",
     "react-hook-form": "^7.52.0",
     "uuid": "^11.0.3"
   },
