@@ -29,7 +29,7 @@ const MuiTypography: Components['MuiTypography'] = {
     },
     h6: {
       fontSize: '1.125rem',
-      fontWeight: '600',
+      fontWeight: '500',
       lineHeight: '1.5rem',
     },
     body1: {
