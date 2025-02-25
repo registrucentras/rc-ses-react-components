@@ -42,6 +42,13 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
         },
       },
     },
+    hasClearIcon: {
+      '.MuiOutlinedInput-root': {
+        '.MuiAutocomplete-input': {
+          marginRight: '4rem',
+        },
+      },
+    },
   },
 }
 
