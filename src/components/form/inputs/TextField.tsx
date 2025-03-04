@@ -2,7 +2,7 @@ import {
   OutlinedTextFieldProps as MuiOutlinedTextFieldProps,
   TextField,
 } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import RcSesFormControlWrapper, {
@@ -34,7 +34,7 @@ type Props = Pick<TFieldProps, ImmediateFieldProps> &
 const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { errors, label, slotProps, ...fieldProps } = props
 
-  const id = fieldProps.id ?? uuidv4()
+  const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   return (
     <RcSesFormControlWrapper

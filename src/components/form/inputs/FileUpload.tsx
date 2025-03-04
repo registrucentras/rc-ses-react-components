@@ -1,5 +1,5 @@
 import { Box, Button, Typography, styled } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -46,7 +46,7 @@ function RcSesFileUpload(props: Props) {
   const { control, errors, label, rules, slotProps, ...fieldProps } = props
   const { name } = fieldProps
 
-  const id = fieldProps.id ?? uuidv4()
+  const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   const {
     field: { value, onChange, ...fieldControlProps },
