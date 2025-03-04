@@ -1,0 +1,12 @@
+{
+  "components": {
+    "RcSesFormControlWrapper": {
+      "required": "Laukas yra privalomas"
+    },
+
+    "RcSesPhoneInputFormControl": {
+      "search": "Ieškoti",
+      "invalid": "Klaidingas telefono numerio formatas"
+    }
+  }
+}
