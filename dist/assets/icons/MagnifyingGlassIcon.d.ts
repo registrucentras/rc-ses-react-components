@@ -1,3 +1,3 @@
-import { default as IconProps } from '../IconProps';
-declare function MagnifyingGlassIcon({ className }: IconProps): import("react/jsx-runtime").JSX.Element;
+import { SvgIconProps } from '@mui/material/SvgIcon';
+declare function MagnifyingGlassIcon(props: SvgIconProps): import("react/jsx-runtime").JSX.Element;
 export default MagnifyingGlassIcon;

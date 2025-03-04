@@ -25,6 +25,8 @@ import { default as RcSesDatepicker } from '../components/form/inputs/Datepicker
 import { default as RcSesFileDropzone } from '../components/form/inputs/FileDropzone';
 import { default as RcSesFileUpload } from '../components/form/inputs/FileUpload';
 import { default as RcSesNumberStepper } from '../components/form/inputs/NumberStepper';
+import { default as RcSesPhoneInput } from '../components/form/inputs/PhoneInput';
+import { default as RcSesPhoneInputFormControl } from '../components/form/inputs/PhoneInputFormControl';
 import { default as RcSesRadioButtonGroup } from '../components/form/inputs/RadioButtonGroup';
 import { default as RcSesSearchableField } from '../components/form/inputs/SearchableField';
 import { default as RcSesSelect } from '../components/form/inputs/Select';
@@ -48,6 +50,7 @@ export { RcSesDatepicker };
 export { RcSesFileUpload };
 export { RcSesFileDropzone };
 export { RcSesNumberStepper };
+export { RcSesPhoneInput, RcSesPhoneInputFormControl };
 export { RcSesRadioButtonGroup };
 export { RcSesSearchableField };
 export { RcSesSelect };

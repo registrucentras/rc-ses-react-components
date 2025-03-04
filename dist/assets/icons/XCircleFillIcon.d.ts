@@ -1,3 +1,3 @@
-import { default as IconProps } from '../IconProps';
-declare function XCircleFillIcon({ className }: IconProps): import("react/jsx-runtime").JSX.Element;
+import { SvgIconProps } from '@mui/material/SvgIcon';
+declare function XCircleFillIcon(props: SvgIconProps): import("react/jsx-runtime").JSX.Element;
 export default XCircleFillIcon;
