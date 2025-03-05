@@ -65,7 +65,7 @@
     "maska": "^3.1.0",
     "notistack": "^3.0.1",
     "react-dropzone": "14.3.5",
-    "react-hook-form": "^7.52.0",
+    "react-hook-form": "7.53.2",
     "react-router-dom": "6.26.2",
     "react-window": "^1.8.11",
     "uuid": "^11.0.3"
