@@ -6,7 +6,6 @@ import typescript from 'rollup-plugin-typescript2'
 import { defineConfig } from 'vite'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import dts from 'vite-plugin-dts'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import pkg from './package.json'
 
@@ -26,7 +25,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, './src/library/index.ts'),
-        // icons: path.resolve(__dirname, './src/library/icons.ts'),
       },
       external: [
         ...Object.keys(pkg.dependencies || {}),
@@ -58,22 +56,11 @@ export default defineConfig({
         './src/**/*.{ts|tsx|d.ts}',
       ],
     }),
-    //   autoImport: true,
-    //   styles: 'none',
-    // }),
-    // cssInjectedByJsPlugin({
-    //   topExecutionPriority: false,
-    //   relativeCSSInjection: true,
-    //   jsAssetsFilterFunction: (outputChunk) => outputChunk.name === 'main',
-    // }),
-		// viteStaticCopy({
-		// 	targets: [
-		// 		{
-		// 			src: './src/styles/vuetify/*',
-		// 			dest: 'styles/vuetify',
-		// 		},
-		// 	]
-		// }),
+    cssInjectedByJsPlugin({
+      topExecutionPriority: false,
+      relativeCSSInjection: true,
+      // jsAssetsFilterFunction: (outputChunk) => outputChunk.name === 'main',
+    }),
   ],
   resolve: {
     alias: {
