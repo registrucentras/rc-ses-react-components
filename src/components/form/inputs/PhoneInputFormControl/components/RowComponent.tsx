@@ -23,7 +23,7 @@ function RowComponent(props: ListChildComponentProps) {
       style={style}
     >
       <Box
-        className={`flag-sprite-map flag-sprite-map-${option?.iso}`}
+        className={`flag-sprite-map flag-${option?.iso}`}
         component='span'
         sx={{
           backgroundSize: '2.25rem auto',

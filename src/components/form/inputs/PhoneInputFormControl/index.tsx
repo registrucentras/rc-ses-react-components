@@ -119,7 +119,7 @@ function RcSesPhoneInputFormControl(props: Props) {
                   }}
                 >
                   <Box
-                    className={`flag-sprite-map flag-sprite-map-${country?.iso}`}
+                    className={`flag-sprite-map flag-${country?.iso}`}
                     sx={{
                       backgroundSize: '2rem auto',
                       borderRadius: '50%',
