@@ -37,7 +37,7 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Pick<{
             style?: React.CSSProperties | undefined;
             classes?: Partial< TextFieldClasses> | undefined;
             onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
-            children?: ReactNode;
+            children?: ReactNode | Iterable< ReactNode>;
             sx?: SxProps<Theme> | undefined;
             label?: ReactNode;
             slot?: string | undefined | undefined;

@@ -3,7 +3,7 @@ import { MuiPickersAdapterContext } from '@mui/x-date-pickers'
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker'
 import { parseISO } from 'date-fns'
 import { fromZonedTime } from 'date-fns-tz'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -42,8 +42,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
     field: { onChange, value, disabled },
   } = useController(controllerProps)
 
-  // eslint-disable-next-line react/destructuring-assignment
-  const id = idProp ?? uuidv4()
+  const id = useMemo(() => idProp ?? uuidv4(), [idProp])
 
   const [modelValue, setModelValue] = React.useState<Date | null>(
     value ? parseISO(value) : null,

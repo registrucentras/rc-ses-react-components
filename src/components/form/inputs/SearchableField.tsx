@@ -2,7 +2,7 @@ import { IconButton } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import type { OutlinedTextFieldProps } from '@mui/material/TextField'
 import TextField from '@mui/material/TextField'
-import React from 'react'
+import React, { useMemo } from 'react'
 import type { UseControllerProps } from 'react-hook-form'
 import { useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
@@ -45,7 +45,7 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false)
 
-  const id = fieldProps.id ?? uuidv4()
+  const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   const {
     field: { onChange, value },

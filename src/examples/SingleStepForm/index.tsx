@@ -11,6 +11,7 @@ import RcSesDatepicker from '@/components/form/inputs/Datepicker'
 import RcSesFileDropzone from '@/components/form/inputs/FileDropzone'
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
+import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
@@ -127,6 +128,15 @@ function SingleStepForm() {
                   ),
                 },
               }}
+            />
+
+            <RcSesPhoneInput
+              control={control}
+              id='phoneNo'
+              errors={errors?.phoneNo}
+              label='Telefono nr.'
+              name='phoneNo'
+              rules={{ required: true }}
             />
 
             <RcSesSearchableField
@@ -326,7 +336,7 @@ function SingleStepForm() {
         <ServiceFormActions
           onDiscard={() => navigate('/')}
           onSaveDraft={() => navigate('/')}
-          onSubmit={() => navigate('/')}
+          onSubmit={() => handleSubmit(console.debug)()}
         />
       </RcSesServiceFormContainer>
     </ServicePage>

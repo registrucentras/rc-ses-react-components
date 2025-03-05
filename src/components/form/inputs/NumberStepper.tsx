@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -122,7 +122,7 @@ function RcSesNumberStepper(props: Props) {
   const { disabled, name } = fieldProps
 
   // eslint-disable-next-line react/destructuring-assignment
-  const id = props.id ?? uuidv4()
+  const id = useMemo(() => props.id ?? uuidv4(), [props.id])
 
   const {
     field: { onChange, value },

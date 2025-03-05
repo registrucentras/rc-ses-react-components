@@ -22,6 +22,7 @@ import MuiFormControlLabel from '@/theme/light/MuiFormControlLabel'
 import MuiFormGroup from '@/theme/light/MuiFormGroup'
 import MuiFormHelperText from '@/theme/light/MuiFormHelperText'
 import MuiFormLabel from '@/theme/light/MuiFormLabel'
+import MuiIconButton from '@/theme/light/MuiIconButton'
 import MuiInputBase from '@/theme/light/MuiInputBase'
 import MuiLinearProgress from '@/theme/light/MuiLinearProgress'
 import MuiPickersLayout from '@/theme/light/MuiPickersLayout'
@@ -29,6 +30,7 @@ import MuiPopover from '@/theme/light/MuiPopover'
 import MuiRadio from '@/theme/light/MuiRadio'
 import MuiSelect from '@/theme/light/MuiSelect'
 import MuiStepper from '@/theme/light/MuiStepper'
+import MuiSvgIcon from '@/theme/light/MuiSvgIcon'
 import MuiTab from '@/theme/light/MuiTab'
 import MuiTable from '@/theme/light/MuiTable'
 import MuiTableCell from '@/theme/light/MuiTableCell'
@@ -100,6 +102,7 @@ const theme = createTheme(themePalette, ltLT, {
     MuiFormGroup,
     MuiFormHelperText,
     MuiFormLabel,
+    MuiIconButton,
     MuiInputBase,
     MuiLinearProgress,
     MuiPickersLayout,
@@ -107,6 +110,7 @@ const theme = createTheme(themePalette, ltLT, {
     MuiRadio,
     MuiSelect,
     MuiStepper,
+    MuiSvgIcon,
     MuiTab,
     MuiTabs,
     MuiTable,

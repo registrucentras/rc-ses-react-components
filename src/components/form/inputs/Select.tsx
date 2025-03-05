@@ -5,7 +5,7 @@ import {
   CircularProgress,
   TextField,
 } from '@mui/material'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -63,7 +63,7 @@ function RcSesSelect(props: Props) {
   } = props
   const { disabled, name } = fieldProps
 
-  const id = fieldProps.id ?? uuidv4()
+  const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   const {
     field: { onChange, value },

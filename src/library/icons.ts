@@ -7,10 +7,14 @@ import CaretDownIcon from '@/assets/icons/CaretDownIcon'
 import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
+import CheckBoldDisabledIcon from '@/assets/icons/CheckBoldDisabledIcon'
+import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 
 export { RcSesLogo }
 export { ArrowRightIcon }
 export {
+  CheckBoldDisabledIcon,
+  CheckBoldIcon,
   CaretDoubleLeftBoldIcon,
   CaretDoubleRightBoldIcon,
   CaretDownBoldIcon,

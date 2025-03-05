@@ -1,6 +1,8 @@
 import { Box, FormControl, FormHelperText, FormLabel, useMediaQuery } from '@mui/material'
 import { FieldError } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
+import '@/i18n/i18n'
 import theme from '@/theme/light'
 
 import FieldSuffix from './components/FieldSuffix'
@@ -34,6 +36,10 @@ function RcSesFormControlWrapper({
   required = false,
 }: Props) {
   const upMd = useMediaQuery(theme.breakpoints.up('md'))
+
+  const { t } = useTranslation('input', {
+    keyPrefix: 'components.RcSesFormControlWrapper',
+  })
 
   return (
     <FormControl className={className} error={!!errors} sx={{ my: 1, width: '100%' }}>
@@ -115,7 +121,7 @@ function RcSesFormControlWrapper({
         {!!errors && (
           <FormHelperText id={`${id}-errors`} error>
             {errors.type === 'required' && !errors.message && (
-              <span>Laukas yra privalomas</span>
+              <span>{t('required')}</span>
             )}
             {!!errors.message && <span>{errors.message}</span>}
           </FormHelperText>

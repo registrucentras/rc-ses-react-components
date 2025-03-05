@@ -1,5 +1,5 @@
 import { Box, IconButton, Stack, Typography, styled } from '@mui/material'
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { DropzoneOptions, useDropzone } from 'react-dropzone'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
@@ -43,7 +43,7 @@ function RcSesFileDropzone(props: Props) {
   const { name } = fieldProps
   const { description, ...wrapperProps } = slotProps?.wrapper ?? {}
 
-  const id = fieldProps.id ?? uuidv4()
+  const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   const {
     field: { value, onChange, ...fieldControlProps },
