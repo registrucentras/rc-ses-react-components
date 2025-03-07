@@ -39,6 +39,8 @@ import MuiTextField from '@/theme/light/MuiTextField'
 import MuiTypography from '@/theme/light/MuiTypography'
 import themePalette from '@/theme/light/themePalette'
 
+import MuiPagination from './MuiPagination'
+
 declare module '@mui/material/styles' {
   interface Palette {
     dark: Palette['grey']
@@ -106,6 +108,7 @@ const theme = createTheme(themePalette, ltLT, {
     MuiInputBase,
     MuiLinearProgress,
     MuiPickersLayout,
+    MuiPagination,
     MuiPopover,
     MuiRadio,
     MuiSelect,
