@@ -99,23 +99,22 @@ function RcSesSelect(props: Props) {
         id={id}
         disabled={disabled}
         disableClearable={clearable === false}
-        value={resolvedValue}
         getOptionLabel={(option) => (typeof option === 'object' ? option.label : '')}
         getOptionKey={(option) => (typeof option === 'object' ? option?.value : '')}
+        inputValue={inputValue}
         isOptionEqualToValue={(option, selection) =>
           option === '' ||
           (typeof option === 'object' &&
             typeof selection === 'object' &&
             option?.value === selection?.value)
         }
+        loading={loading}
         onChange={(_event, item) => onChange(typeof item === 'object' && item?.value)}
         onInputChange={(event, val, reason) => {
           setInputValue(val ?? null)
           if (onInputChange) onInputChange(event, val, reason)
         }}
         options={options}
-        loading={loading}
-        inputValue={inputValue}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -148,6 +147,7 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
+        value={resolvedValue}
         {...slotProps?.field}
       />
     </RcSesFormControlWrapper>

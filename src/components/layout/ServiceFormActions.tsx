@@ -1,4 +1,5 @@
 import { Card, Grid } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
@@ -19,6 +20,8 @@ function ServiceFormActions({
   draftDisabled,
   submitDisabled,
 }: Props) {
+  const { t } = useTranslation('common', { keyPrefix: 'components.ServiceFormActions' })
+
   return (
     <>
       <Card
@@ -47,7 +50,7 @@ function ServiceFormActions({
               startIcon={<CaretLeftIcon />}
               variant='text'
             >
-              Baigti pildyti vėliau
+              {t('draft')}
             </Button>
           </Grid>
           <Grid item>
@@ -58,7 +61,7 @@ function ServiceFormActions({
               size='large'
               variant='contained'
             >
-              Baigti pildyti ir pridėti į krepšelį
+              {t('submit')}
             </Button>
           </Grid>
         </Grid>
@@ -76,7 +79,7 @@ function ServiceFormActions({
             sx={{ fontWeight: 400, textDecoration: 'underline' }}
             onClick={() => onDiscard()}
           >
-            Atšaukti pildymą ir ištrinti formos duomenis
+            {t('discard')}
           </Button>
         </Grid>
       </Grid>

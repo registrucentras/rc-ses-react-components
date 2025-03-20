@@ -1,6 +1,7 @@
 import { Box, Button, Typography, styled } from '@mui/material'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
@@ -43,6 +44,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesFileUpload(props: Props) {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesFileUpload' })
+
   const { control, errors, label, rules, slotProps, ...fieldProps } = props
   const { name } = fieldProps
 
@@ -112,7 +115,7 @@ function RcSesFileUpload(props: Props) {
         >
           <UploadSimpleIcon />
           <Typography variant='body1' sx={{ fontWeight: 600, ml: 1 }}>
-            Įkelti failą
+            {t('label')}
           </Typography>
         </Box>
       </Button>

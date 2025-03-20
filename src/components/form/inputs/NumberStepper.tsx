@@ -2,6 +2,7 @@
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
@@ -52,14 +53,16 @@ const NumberInput = styled(OutlinedInput)({
 })
 
 type ArrowButtonProps = {
-  onClick: () => void
-  disabled: boolean
+  ariaLabel: string
   direction: 'plus' | 'minus'
+  disabled: boolean
+  onClick: () => void
 }
 
-function ArrowButton({ onClick, disabled, direction }: ArrowButtonProps) {
+function ArrowButton({ ariaLabel, onClick, disabled, direction }: ArrowButtonProps) {
   return (
     <Button
+      aria-label={ariaLabel}
       color='grey'
       onClick={onClick}
       disabled={disabled}
@@ -70,6 +73,7 @@ function ArrowButton({ onClick, disabled, direction }: ArrowButtonProps) {
         borderWidth: '0 0 0 1px',
         minWidth: '2.75rem',
         padding: '.8125rem !important',
+
         '&::before': {
           content: 'unset',
         },
@@ -105,6 +109,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesNumberStepper(props: Props) {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesNumberStepper' })
+
   const [buttonState, setButtonState] = React.useState<[boolean, boolean]>([true, true])
 
   const {
@@ -153,10 +159,10 @@ function RcSesNumberStepper(props: Props) {
   ) => onChange && onChange(e.target.value)
 
   const handleOnAdd = () =>
-    onChange(parseInt((value ?? 0) as string, 10) - (parseInt(step as string, 10) || 1))
+    onChange(parseInt((value ?? 0) as string, 10) + (parseInt(step as string, 10) || 1))
 
   const handleOnSubtract = () =>
-    onChange(parseInt((value ?? 0) as string, 10) + (parseInt(step as string, 10) || 1))
+    onChange(parseInt((value ?? 0) as string, 10) - (parseInt(step as string, 10) || 1))
 
   return (
     <RcSesFormControlWrapper
@@ -167,23 +173,19 @@ function RcSesNumberStepper(props: Props) {
       {...slotProps?.wrapper}
     >
       <NumberInput
-        inputProps={{
-          disabled,
-          step,
-          value,
-        }}
-        type='number'
         disabled={disabled}
         endAdornment={
           displayStepperControls && (
             <>
               <ArrowButton
-                onClick={handleOnAdd}
+                ariaLabel={t('subtract')}
+                onClick={handleOnSubtract}
                 disabled={buttonState[0]}
                 direction='minus'
               />
               <ArrowButton
-                onClick={handleOnSubtract}
+                ariaLabel={t('add')}
+                onClick={handleOnAdd}
                 disabled={buttonState[1]}
                 direction='plus'
               />
@@ -191,7 +193,13 @@ function RcSesNumberStepper(props: Props) {
           )
         }
         error={!!errors}
+        inputProps={{
+          disabled,
+          step,
+          value,
+        }}
         onChange={handleInputOnChange}
+        type='number'
         {...fieldProps}
       />
     </RcSesFormControlWrapper>

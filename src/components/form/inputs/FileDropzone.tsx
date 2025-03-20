@@ -2,6 +2,7 @@ import { Box, IconButton, Stack, Typography, styled } from '@mui/material'
 import React, { useCallback, useMemo } from 'react'
 import { DropzoneOptions, useDropzone } from 'react-dropzone'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { Trans, useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
@@ -39,6 +40,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesFileDropzone(props: Props) {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesFileDropzone' })
+
   const { control, errors, label, rules, slotProps, ...fieldProps } = props
   const { name } = fieldProps
   const { description, ...wrapperProps } = slotProps?.wrapper ?? {}
@@ -167,20 +170,22 @@ function RcSesFileDropzone(props: Props) {
                     fontWeight: 600,
                   }}
                 >
-                  Nutempkite failą čia arba{' '}
-                  <Typography
-                    component='span'
-                    sx={{
-                      color: fieldProps.disabled ? palette.grey[500] : 'primary.main',
-                      fontSize: '.875rem',
-                      fontWeight: 600,
-                      lineHeight: '1.125rem',
-                      textDecoration: 'underline',
-                    }}
-                  >
-                    įkelkite
-                  </Typography>{' '}
-                  iš kompiuterio
+                  <Trans t={t} i18nKey='label'>
+                    Nutempkite failą čia arba
+                    <Typography
+                      component='span'
+                      sx={{
+                        color: fieldProps.disabled ? palette.grey[500] : 'primary.main',
+                        fontSize: '.875rem',
+                        fontWeight: 600,
+                        lineHeight: '1.125rem',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      įkelkite
+                    </Typography>
+                    iš kompiuterio
+                  </Trans>
                 </Typography>
 
                 {!!description && (

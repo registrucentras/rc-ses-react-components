@@ -1,5 +1,6 @@
 import type {} from '@emotion/styled'
 import { createTheme } from '@mui/material'
+import { enUS } from '@mui/x-date-pickers/locales'
 
 import { ltLT } from '@/i18n/@mui/x-date-pickers/ltLT'
 import MuiAccordion from '@/theme/light/MuiAccordion'
@@ -38,6 +39,8 @@ import MuiTabs from '@/theme/light/MuiTabs'
 import MuiTextField from '@/theme/light/MuiTextField'
 import MuiTypography from '@/theme/light/MuiTypography'
 import themePalette from '@/theme/light/themePalette'
+
+import MuiPagination from './MuiPagination'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -80,7 +83,7 @@ declare module '@mui/material' {
   }
 }
 
-const theme = createTheme(themePalette, ltLT, {
+const theme = createTheme(themePalette, ltLT, enUS, {
   components: {
     MuiAccordion,
     MuiAccordionDetails,
@@ -106,6 +109,7 @@ const theme = createTheme(themePalette, ltLT, {
     MuiInputBase,
     MuiLinearProgress,
     MuiPickersLayout,
+    MuiPagination,
     MuiPopover,
     MuiRadio,
     MuiSelect,

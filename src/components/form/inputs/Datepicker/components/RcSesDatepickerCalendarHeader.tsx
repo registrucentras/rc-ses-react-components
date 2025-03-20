@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles'
 import { MuiPickersAdapterContext } from '@mui/x-date-pickers'
 import { PickersCalendarHeaderProps } from '@mui/x-date-pickers/PickersCalendarHeader'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
 import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
@@ -40,6 +41,8 @@ const StepperButton = styled(IconButton)({
 })
 
 function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps<Date>) {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker' })
+
   const { currentMonth, onMonthChange } = props
 
   const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
@@ -62,7 +65,7 @@ function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps<Date>) 
   return (
     <CustomCalendarHeaderRoot>
       <Stack direction='row'>
-        <StepperButton onClick={selectPreviousYear} title='Ankstesni metai'>
+        <StepperButton onClick={selectPreviousYear} title={t('prevYear')}>
           <CaretDoubleLeftBoldIcon />
         </StepperButton>
         <StepperButton onClick={selectPreviousMonth} title={localeText?.previousMonth}>
@@ -82,7 +85,7 @@ function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps<Date>) 
         <StepperButton onClick={selectNextMonth} title={localeText?.nextMonth}>
           <CaretRightBoldIcon />
         </StepperButton>
-        <StepperButton onClick={selectNextYear} title='Ateinantys metai'>
+        <StepperButton onClick={selectNextYear} title={t('nextYear')}>
           <CaretDoubleRightBoldIcon />
         </StepperButton>
       </Stack>
