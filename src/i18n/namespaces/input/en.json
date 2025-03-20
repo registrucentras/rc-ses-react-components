@@ -1,12 +1,35 @@
 {
   "components": {
+    "RcSesDatepicker": {
+      "prevYear": "Previous year",
+      "nextYear": "Next year"
+    },
+
+    "RcSesFileDropzone": {
+      "label": "Drag and drop file over this area or <1>click here</1> to browse"
+    },
+
+    "RcSesFileUpload": {
+      "label": "Upload file"
+    },
+
     "RcSesFormControlWrapper": {
       "required": "Field is required"
+    },
+
+    "RcSesNumberStepper": {
+      "add": "Add",
+      "subtract": "Subtract"
     },
 
     "RcSesPhoneInputFormControl": {
       "search": "Search",
       "invalid": "Invalid phone number format"
+    },
+
+    "RcSesSearchableField": {
+      "clearValueAriaLabel": "Clear search value",
+      "searchAriaLabel": "Open search"
     }
   }
 }

@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField'
 import React, { useMemo } from 'react'
 import type { UseControllerProps } from 'react-hook-form'
 import { useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
@@ -39,6 +40,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesSearchableField' })
+
   const { control, errors, label, ModalComponent, rules, slotProps, ...fieldProps } =
     props
   const { name } = fieldProps
@@ -67,8 +70,8 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
         {...slotProps?.wrapper}
       >
         <TextField
-          inputRef={ref}
           id={id}
+          inputRef={ref}
           InputProps={{
             inputProps: {
               onClick: () => setModalOpen(true),
@@ -77,14 +80,20 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
             readOnly: true,
             startAdornment: (
               <InputAdornment position='start'>
-                <IconButton onClick={() => setModalOpen(true)}>
+                <IconButton
+                  aria-label={t('searchAriaLabel')}
+                  onClick={() => setModalOpen(true)}
+                >
                   <MagnifyingGlassIcon />
                 </IconButton>
               </InputAdornment>
             ),
             endAdornment: !!value && (
               <InputAdornment position='end'>
-                <IconButton onClick={() => onChange('')}>
+                <IconButton
+                  aria-label={t('clearValueAriaLabel')}
+                  onClick={() => onChange('')}
+                >
                   <XCircleFillIcon />
                 </IconButton>
               </InputAdornment>
@@ -94,8 +103,8 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
           error={!!errors}
           fullWidth
           {...slotProps?.field}
-          value={value}
           label={undefined}
+          value={value}
         />
       </RcSesFormControlWrapper>
 

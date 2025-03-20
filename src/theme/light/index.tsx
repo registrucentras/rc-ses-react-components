@@ -1,5 +1,6 @@
 import type {} from '@emotion/styled'
 import { createTheme } from '@mui/material'
+import { enUS } from '@mui/x-date-pickers/locales'
 
 import { ltLT } from '@/i18n/@mui/x-date-pickers/ltLT'
 import MuiAccordion from '@/theme/light/MuiAccordion'
@@ -82,7 +83,7 @@ declare module '@mui/material' {
   }
 }
 
-const theme = createTheme(themePalette, ltLT, {
+const theme = createTheme(themePalette, ltLT, enUS, {
   components: {
     MuiAccordion,
     MuiAccordionDetails,

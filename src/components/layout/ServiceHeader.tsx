@@ -1,20 +1,9 @@
-import { Box, Container, Typography, styled } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
 import Colors from '@/theme/palette'
-
-const StyledDescriptionBox = styled(Box)`
-  .MuiTypography-body1 {
-    line-height: 1.3125rem;
-
-    ${theme.breakpoints.down('md')} {
-      font-size: 0.8125rem;
-      line-height: 1.125rem;
-    }
-  }
-`
 
 type Props = {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
@@ -48,16 +37,25 @@ function ServiceHeader({ breadcrumbsProps, children, title }: Props) {
         </Typography>
 
         {!!children && (
-          <StyledDescriptionBox
+          <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               mt: { xs: '.25rem', md: '.5rem' },
               rowGap: '10px',
+
+              '.MuiTypography-body1': {
+                lineHeight: '1.3125rem',
+
+                [theme.breakpoints.down('md')]: {
+                  fontSize: '.8125rem',
+                  lineHeight: '1.125rem',
+                },
+              },
             }}
           >
             {children}
-          </StyledDescriptionBox>
+          </Box>
         )}
       </Container>
     </Box>

@@ -77,5 +77,6 @@ const ltLTPickers = {
   // Common
   empty: 'Tuščia',
 }
+
 export const DEFAULT_LOCALE = ltLTPickers
 export const ltLT = getPickersLocalization(ltLTPickers)
