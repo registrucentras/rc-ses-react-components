@@ -1,5 +1,9 @@
 declare const _default: {
   "components": {
+    "RcSesAlert": {
+      "close": "Uždaryti"
+    },
+
     "RcSesDatepicker": {
       "prevYear": "Ankstesni metai",
       "nextYear": "Ateinantys metai"

@@ -321,10 +321,10 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Pick<{
         popupIndicator?: Partial< IconButtonProps>;
     } | undefined;
     fullWidth?: boolean | undefined;
+    disablePortal?: boolean | undefined;
     ChipProps?: ChipProps<"div"> | undefined;
     clearIcon?: ReactNode;
     clearText?: string | undefined;
-    disablePortal?: boolean | undefined;
     forcePopupIcon?: true | false | "auto" | undefined;
     getLimitTagsText?: ((more: number) => React.ReactNode) | undefined;
     ListboxComponent?: React.JSXElementConstructor<React.HTMLAttributes<HTMLElement>> | undefined;
@@ -756,10 +756,10 @@ export declare const Main: AnnotatedStoryFn<ReactRenderer, Pick<{
                 popupIndicator?: Partial< IconButtonProps>;
             } | undefined;
             fullWidth?: boolean | undefined;
+            disablePortal?: boolean | undefined;
             ChipProps?: ChipProps<"div"> | undefined;
             clearIcon?: ReactNode;
             clearText?: string | undefined;
-            disablePortal?: boolean | undefined;
             forcePopupIcon?: true | false | "auto" | undefined;
             getLimitTagsText?: ((more: number) => React.ReactNode) | undefined;
             ListboxComponent?: React.JSXElementConstructor<React.HTMLAttributes<HTMLElement>> | undefined;
