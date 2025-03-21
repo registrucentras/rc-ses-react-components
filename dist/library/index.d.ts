@@ -13,6 +13,7 @@ import { default as useAccordionController } from '../components/common/Accordio
 import { default as RcSesAlert } from '../components/common/Alert';
 import { default as RcSesBreadcrumbs } from '../components/common/Breadcrumbs';
 import { default as RcSesButton } from '../components/common/Button';
+import { default as RcSesButtonWithPopover } from '../components/common/Button/ButtonWithPopover';
 import { default as RcSesIconWithCircularBackground } from '../components/common/IconWithCircularBackground';
 import { default as RcSesTab } from '../components/common/Tabs/Tab';
 import { default as RcSesTabPanel } from '../components/common/Tabs/TabPanel';
@@ -44,7 +45,7 @@ declare module '@mui/x-date-pickers/models' {
 }
 export { RcSesPalette, RcSesTheme };
 export { RcSesAccordion, useAccordionController };
-export { RcSesAlert, RcSesBreadcrumbs, RcSesButton };
+export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover };
 export { RcSesCheckbox, RcSesCheckboxFormControl };
 export { RcSesDatepicker };
 export { RcSesFileUpload };

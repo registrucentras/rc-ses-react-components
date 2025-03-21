@@ -25,18 +25,10 @@ const Template: StoryFn<typeof RcSesAlert> = (args) => (
     </FieldView>
     <FieldPreview>
       <PreviewTitle>State previews</PreviewTitle>
-      <RcSesAlert severity='info' title='Info'>
-        {lorem}
-      </RcSesAlert>
-      <RcSesAlert severity='warning' title='Warning'>
-        {lorem}
-      </RcSesAlert>
-      <RcSesAlert severity='error' title='Error'>
-        {lorem}
-      </RcSesAlert>
-      <RcSesAlert severity='success' title='Success'>
-        {lorem}
-      </RcSesAlert>
+      <RcSesAlert severity='info'>{lorem}</RcSesAlert>
+      <RcSesAlert severity='warning'>{lorem}</RcSesAlert>
+      <RcSesAlert severity='error'>{lorem}</RcSesAlert>
+      <RcSesAlert severity='success'>{lorem}</RcSesAlert>
     </FieldPreview>
   </Fields>
 )

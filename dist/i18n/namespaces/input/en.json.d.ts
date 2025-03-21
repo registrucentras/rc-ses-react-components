@@ -1,5 +1,9 @@
 declare const _default: {
   "components": {
+    "RcSesAlert": {
+      "close": "Close"
+    },
+
     "RcSesDatepicker": {
       "prevYear": "Previous year",
       "nextYear": "Next year"
