@@ -1,4 +1,4 @@
-import { AutocompleteProps } from '@mui/material';
+import { AutocompleteProps } from '@mui/material/Autocomplete';
 import { UseControllerProps } from 'react-hook-form';
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper';
 type Option = {

@@ -18,6 +18,7 @@ declare const _default: {
     },
 
     "RcSesFormControlWrapper": {
+      "search": "Search",
       "required": "Field is required"
     },
 
