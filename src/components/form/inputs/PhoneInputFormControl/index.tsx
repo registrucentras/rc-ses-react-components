@@ -80,8 +80,7 @@ function RcSesPhoneInputFormControl(props: Props) {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) =>
-    setAnchorEl(event.currentTarget)
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget)
 
   const handleClose = () => {
     if (anchorEl) anchorEl.focus()
@@ -182,30 +181,33 @@ function RcSesPhoneInputFormControl(props: Props) {
         }}
       >
         <ClickAwayListener onClickAway={handleClose}>
-          <Autocomplete
-            disableClearable
-            disableListWrap
-            filterOptions={(options, { inputValue }) =>
-              options.filter((opt) => opt.searchable.includes(inputValue.toUpperCase()))
-            }
-            getOptionLabel={(option) => option.name}
-            isOptionEqualToValue={(o, v) => o.code === v.code}
-            ListboxComponent={ListboxComponent}
-            onChange={(_, selection) => {
-              setAnchorEl(null)
-              setCountry(selection)
-              controllerProps.onChange('')
-            }}
-            open
-            options={countryOptions}
-            PopperComponent={PopperComponent}
-            renderInput={AutocompleteInput}
-            renderOption={(optionProps, option) =>
-              [optionProps, option] as React.ReactNode
-            }
-            sx={{ width: 300 }}
-            {...slotProps?.autocomplete}
-          />
+          <Box>
+            <Autocomplete
+              disableClearable
+              disableListWrap
+              filterOptions={(options, { inputValue }) =>
+                options.filter((opt) => opt.searchable.includes(inputValue.toUpperCase()))
+              }
+              getOptionLabel={(option) => option.name}
+              isOptionEqualToValue={(o, v) => o.code === v.code}
+              ListboxComponent={ListboxComponent}
+              onChange={(e, selection) => {
+                e.preventDefault()
+                setAnchorEl(null)
+                setCountry(selection)
+                controllerProps.onChange('')
+              }}
+              open
+              options={countryOptions}
+              PopperComponent={PopperComponent}
+              renderInput={AutocompleteInput}
+              renderOption={(optionProps, option) =>
+                [optionProps, option] as React.ReactNode
+              }
+              sx={{ width: 300 }}
+              {...slotProps?.autocomplete}
+            />
+          </Box>
         </ClickAwayListener>
       </Popper>
     </>
