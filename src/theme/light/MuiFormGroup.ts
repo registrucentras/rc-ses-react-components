@@ -1,4 +1,4 @@
-import { Components } from '@mui/material'
+import { Components, decomposeColor } from '@mui/material'
 
 import palette from '../palette'
 
@@ -37,7 +37,25 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
             },
 
             '&:not(.Mui-disabled)': {
+              '&:focus-within': {
+                '&:not(:active):not(:hover):not(.Mui-checked):not(.Mui-focused)::before':
+                  {
+                    content: '""',
+                    background: 'transparent',
+                    border: '2px solid',
+                    borderColor: palette.grey[950],
+                    borderRadius: '.375rem',
+                    height: 'calc(100% + 6px)',
+                    left: '-3px',
+                    position: 'absolute',
+                    top: '-3px',
+                    width: 'calc(100% + 6px)',
+                    zIndex: 1,
+                  },
+              },
+
               '&:hover': {
+                backgroundColor: `rgba(${decomposeColor(palette.primary['400']).values}, .2)`,
                 borderColor: palette.primary['500'],
               },
 

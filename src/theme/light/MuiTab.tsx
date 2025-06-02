@@ -37,7 +37,7 @@ const MuiTab: Components['MuiTab'] = {
         backgroundColor: palette.grey['200'],
       },
 
-      '&:active, &:focus': {
+      '&:active, &.Mui-focusVisible': {
         backgroundColor: palette.grey['300'],
       },
 
