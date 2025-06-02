@@ -78,9 +78,24 @@ function RcSesFileUpload(props: Props) {
           backgroundColor: 'white !important',
           display: 'flex',
           justifyContent: 'space-between',
-          overflow: 'hidden',
+          overflow: 'visible',
           pl: 1.25,
           pr: 0,
+          position: 'relative',
+
+          'input:focus-visible ~ .faux-button::after': {
+            content: '""',
+            background: 'transparent',
+            border: '2px solid',
+            borderColor: palette.grey[950],
+            borderRadius: '.375rem',
+            height: 'calc(100% + 6px)',
+            left: '-3px',
+            position: 'absolute',
+            top: '-3px',
+            width: 'calc(100% + 6px)',
+            zIndex: 1,
+          },
         }}
         tabIndex={-1}
         variant='outlined'
@@ -98,6 +113,7 @@ function RcSesFileUpload(props: Props) {
         </Box>
 
         <Box
+          className='faux-button'
           sx={{
             alignItems: 'center',
             backgroundColor: palette.grey['100'],
@@ -107,6 +123,7 @@ function RcSesFileUpload(props: Props) {
             color: palette.grey['900'],
             display: 'flex',
             height: '42px',
+            position: 'relative',
             px: 2,
             ':hover': {
               backgroundColor: palette.grey['200'],
