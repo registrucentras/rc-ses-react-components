@@ -18,6 +18,7 @@
     },
 
     "RcSesFormControlWrapper": {
+      "search": "Ieškoti",
       "required": "Laukas yra privalomas"
     },
 
