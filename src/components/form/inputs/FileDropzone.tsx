@@ -1,6 +1,7 @@
 import { Box, IconButton, Stack, Typography, styled } from '@mui/material'
 import React, { useCallback, useMemo } from 'react'
-import { DropzoneOptions, useDropzone } from 'react-dropzone'
+import type { DropzoneOptions } from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'

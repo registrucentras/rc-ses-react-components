@@ -1,4 +1,4 @@
-import { AutocompleteRenderInputParams } from '@mui/material/Autocomplete'
+import type { AutocompleteRenderInputParams } from '@mui/material/Autocomplete'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { useTranslation } from 'react-i18next'

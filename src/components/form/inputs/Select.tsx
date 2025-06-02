@@ -1,10 +1,5 @@
-import {
-  Autocomplete,
-  AutocompleteProps,
-  Box,
-  CircularProgress,
-  TextField,
-} from '@mui/material'
+import { Box, CircularProgress, TextField } from '@mui/material'
+import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'

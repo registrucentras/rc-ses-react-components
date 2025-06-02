@@ -1,17 +1,18 @@
 import {
-  Autocomplete,
   Box,
   Button,
   ClickAwayListener,
   Divider,
   FormControlLabelProps,
   InputAdornment,
-  AutocompleteProps as MuiAutocompleteProps,
   Popper,
   Stack,
   TextField,
   Typography,
 } from '@mui/material'
+import Autocomplete, {
+  AutocompleteProps as MuiAutocompleteProps,
+} from '@mui/material/Autocomplete'
 import countries from 'countries-phone-masks'
 import { Mask } from 'maska'
 import React, { useMemo } from 'react'
