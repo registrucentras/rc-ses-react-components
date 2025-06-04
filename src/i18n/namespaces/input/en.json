@@ -18,6 +18,7 @@
     },
 
     "RcSesFormControlWrapper": {
+      "search": "Search",
       "required": "Field is required"
     },
 

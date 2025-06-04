@@ -1,7 +1,7 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "0.0.40",
+  "version": "1.0.1",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,
@@ -56,8 +56,6 @@
   },
   "dependencies": {
     "@fontsource/public-sans": "^5.0.18",
-    "@mui/icons-material": "^5.15.20",
-    "@reflet/http": "^1.0.0",
     "axios": "^1.7.2",
     "countries-phone-masks": "^1.1.1",
     "js-cookie": "^3.0.5",

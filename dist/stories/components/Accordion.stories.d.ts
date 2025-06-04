@@ -1,7 +1,7 @@
 import { Meta, ReactRenderer } from '@storybook/react';
 import { default as RcSesAccordion } from '../../components/common/Accordion';
 import { default as useAccordionController } from '../../components/common/Accordion/hooks/useAccordionController';
-import { AnnotatedStoryFn } from '@storybook/csf';
+import { AnnotatedStoryFn } from '@storybook/core/csf';
 import { AccordionClasses, Theme, AccordionSlotsAndSlotProps, PaperOwnProps } from '@mui/material';
 import { SxProps } from '@mui/system';
 import { TransitionProps } from '@mui/material/transitions';

@@ -1,4 +1,5 @@
-import { FormControlLabelProps, AutocompleteProps as MuiAutocompleteProps } from '@mui/material';
+import { FormControlLabelProps } from '@mui/material';
+import { AutocompleteProps as MuiAutocompleteProps } from '@mui/material/Autocomplete';
 import { UseControllerProps } from 'react-hook-form';
 import { RcSesFormControlWrapperProps } from '../../components/FormControlWrapper';
 import { default as Country } from './types/Country';

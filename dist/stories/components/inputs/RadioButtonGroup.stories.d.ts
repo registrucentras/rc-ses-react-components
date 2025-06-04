@@ -1,6 +1,6 @@
 import { Meta, ReactRenderer } from '@storybook/react';
 import { default as RcSesRadioButtonGroup, RadioOption } from '../../../components/form/inputs/RadioButtonGroup';
-import { AnnotatedStoryFn } from '@storybook/csf';
+import { AnnotatedStoryFn } from '@storybook/core/csf';
 import { RegisterOptions, Control } from 'react-hook-form';
 import { RadioGroupProps, Theme } from '@mui/material';
 import { RcSesFormControlWrapperProps } from '../../../components/form/components/FormControlWrapper';

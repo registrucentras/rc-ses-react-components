@@ -1,5 +1,5 @@
 import { Button, DialogActions } from '@mui/material'
-import { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
+import type { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
 import { usePickersTranslations } from '@mui/x-date-pickers/hooks'
 
 function RcSesDatepickerActionBar(props: PickersActionBarProps) {

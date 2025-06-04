@@ -2,10 +2,12 @@ import { Components, decomposeColor } from '@mui/material'
 
 import palette from '../palette'
 
-const MuiFormControlLabel: Components['MuiFormControl'] = {
+const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
+      position: 'relative',
+
       '&:hover': {
         '.MuiRadio-root': {
           backgroundColor: `rgba(${decomposeColor(palette.primary['400']).values}, .2)`,
@@ -24,26 +26,20 @@ const MuiFormControlLabel: Components['MuiFormControl'] = {
         },
       },
 
-      '&:focus:not(:active):not(:hover)': {
-        '.MuiRadio-root': {
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            background: 'transparent',
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            border: '2px solid',
-            borderColor: palette.grey['950'],
-            zIndex: 1,
-          },
-        },
-      },
-
       '.MuiFormControlLabel-asterisk': {
         color: palette.error['500'],
         fontWeight: 600,
         marginLeft: '.125rem',
+      },
+
+      '.PrivateSwitchBase-input': {
+        '&:focus, &:focus-visible': {
+          '& + svg': {
+            outline: `.125rem solid ${palette.grey[950]}`,
+            outlineOffset: '.125rem',
+            outlineStyle: 'auto',
+          },
+        },
       },
     },
   },

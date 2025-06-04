@@ -18,6 +18,7 @@ declare const _default: {
     },
 
     "RcSesFormControlWrapper": {
+      "search": "Ieškoti",
       "required": "Laukas yra privalomas"
     },
 

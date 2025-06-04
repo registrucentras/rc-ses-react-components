@@ -45,7 +45,7 @@ const MuiButton: Components['MuiButton'] = {
             },
           },
 
-          '&:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
+          '&:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
             {
               content: '""',
               background: 'transparent',
@@ -133,7 +133,7 @@ const MuiButton: Components['MuiButton'] = {
       position: 'relative',
       textTransform: 'none',
 
-      '&.MuiButton-contained:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
+      '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
         {
           background: 'transparent',
           border: '2px solid',
@@ -148,7 +148,7 @@ const MuiButton: Components['MuiButton'] = {
           zIndex: 1,
         },
 
-      '&.MuiButton-outlined:focus:not(:active)::before': {
+      '&.MuiButton-outlined:focus-visible:not(:active)::before': {
         height: 'calc(100% + 8px)',
         left: '-4px',
         top: '-4px',
@@ -243,7 +243,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '&:not(.Mui-disabled)': {
-          '&:focus:not(:active)::before, &.MuiButton-outlined:focus:not(:active)::before':
+          '&:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
             {
               borderColor: error[700],
             },
