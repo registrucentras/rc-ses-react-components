@@ -1,6 +1,6 @@
 import { Meta, ReactRenderer } from '@storybook/react';
 import { default as RcSesCheckbox } from '../../../components/form/inputs/Checkbox';
-import { AnnotatedStoryFn } from '@storybook/csf';
+import { AnnotatedStoryFn } from '@storybook/core/csf';
 import { RegisterOptions, Control } from 'react-hook-form';
 import { CheckboxProps, FormControlLabelProps } from '@mui/material';
 import { RcSesFormControlWrapperProps } from '../../../components/form/components/FormControlWrapper';

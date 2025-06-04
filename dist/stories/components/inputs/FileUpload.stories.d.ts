@@ -1,6 +1,6 @@
 import { Meta, ReactRenderer } from '@storybook/react';
 import { default as RcSesFileUpload } from '../../../components/form/inputs/FileUpload';
-import { AnnotatedStoryFn } from '@storybook/csf';
+import { AnnotatedStoryFn } from '@storybook/core/csf';
 import { RegisterOptions, Control } from 'react-hook-form';
 import { InputHTMLAttributes } from 'react';
 import { RcSesFormControlWrapperProps } from '../../../components/form/components/FormControlWrapper';

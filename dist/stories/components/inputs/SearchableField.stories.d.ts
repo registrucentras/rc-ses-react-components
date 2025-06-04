@@ -1,6 +1,6 @@
 import { Meta, ReactRenderer } from '@storybook/react';
 import { default as RcSesSearchableField } from '../../../components/form/inputs/SearchableField';
-import { AnnotatedStoryFn } from '@storybook/csf';
+import { AnnotatedStoryFn } from '@storybook/core/csf';
 import { RegisterOptions, Control } from 'react-hook-form';
 import { RcSesFormControlWrapperProps } from '../../../components/form/components/FormControlWrapper';
 import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES, RefObject, ChangeEventHandler, ReactNode, Key, AriaRole, ClipboardEventHandler, CompositionEventHandler, FocusEventHandler, FormEventHandler, ReactEventHandler, KeyboardEventHandler, MouseEventHandler, DragEventHandler, TouchEventHandler, PointerEventHandler, UIEventHandler, WheelEventHandler, AnimationEventHandler, TransitionEventHandler, HTMLInputTypeAttribute, RefAttributes } from 'react';
