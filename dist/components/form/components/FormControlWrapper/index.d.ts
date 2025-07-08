@@ -6,7 +6,7 @@ type Props = {
     errors?: FieldError | undefined;
     fieldSuffix?: React.ReactNode;
     hideLabel?: boolean;
-    id: string;
+    id?: string;
     label?: React.ReactNode;
     labelSubtitle?: React.ReactNode;
     labelOnTop?: boolean;
