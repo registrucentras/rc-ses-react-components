@@ -59,7 +59,7 @@ function RcSesPhoneInputFormControl(props: Props) {
     keyPrefix: 'components.RcSesPhoneInputFormControl',
   })
 
-  const { control, name, rules, slotProps } = props
+  const { id, control, name, rules, slotProps } = props
 
   const [country, setCountry] = React.useState<Country>(DEFAULT_COUNTRY)
 
@@ -110,6 +110,8 @@ function RcSesPhoneInputFormControl(props: Props) {
               <InputAdornment position='start' sx={{ mr: 0 }}>
                 <Button
                   aria-describedby={popperId}
+                  aria-label={t('aria.countrySelectorLabel')}
+                  aria-haspopup
                   color='inherit'
                   onClick={handleClick}
                   sx={{
@@ -128,7 +130,10 @@ function RcSesPhoneInputFormControl(props: Props) {
                     }}
                     title={country?.name}
                   />
-                  <CaretDownFill sx={{ fontSize: '.75rem !important', ml: 1 }} />
+                  <CaretDownFill
+                    aria-hidden
+                    sx={{ fontSize: '.75rem !important', ml: 1 }}
+                  />
                 </Button>
               </InputAdornment>
 
@@ -152,6 +157,7 @@ function RcSesPhoneInputFormControl(props: Props) {
         }}
         // eslint-disable-next-line react/jsx-no-duplicate-props
         inputProps={{
+          id,
           pattern: '^[0-9\\(\\)\\- ]*$/',
         }}
         placeholder={mask.opts.mask?.toString()}
@@ -169,6 +175,7 @@ function RcSesPhoneInputFormControl(props: Props) {
         id={popperId}
         open={open}
         placement='bottom-start'
+        role='menu'
         sx={{
           backgroundColor: 'white',
           border: '.0625rem solid #e1e4e8',

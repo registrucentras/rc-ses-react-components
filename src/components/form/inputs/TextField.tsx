@@ -47,9 +47,9 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
       <TextField
         {...fieldProps}
         inputRef={ref}
-        id={id}
         fullWidth
         {...slotProps?.field}
+        id={id}
         error={!!errors}
       />
     </RcSesFormControlWrapper>

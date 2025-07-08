@@ -6,6 +6,7 @@ import { parseISO } from 'date-fns'
 import { fromZonedTime } from 'date-fns-tz'
 import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
@@ -33,6 +34,7 @@ type Props = TFieldProps &
   }
 
 const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker' })
   const upMd = useMediaQuery(theme.breakpoints.up('md'))
 
   const { id: idProp, clearable, errors, label, slotProps, ...controllerProps } = props
@@ -104,7 +106,11 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
               ...(!upMd
                 ? {
                     startAdornment: (
-                      <InputAdornment position='start' sx={{ mr: 0 }}>
+                      <InputAdornment
+                        aria-label={t('aria.openCalendar')}
+                        position='start'
+                        sx={{ mr: 0 }}
+                      >
                         <IconButton>
                           <CalendarBlankIcon />
                         </IconButton>
@@ -114,7 +120,10 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
                 : {}),
               endAdornment: !!value && clearable && (
                 <InputAdornment position='end'>
-                  <IconButton onClick={() => handleOnChange(null)}>
+                  <IconButton
+                    aria-label={t('aria.clearValue')}
+                    onClick={() => handleOnChange(null)}
+                  >
                     <XCircleFillIcon />
                   </IconButton>
                 </InputAdornment>

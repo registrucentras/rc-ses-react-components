@@ -39,13 +39,12 @@ function RcSesCheckbox(props: Props) {
 
   return (
     <RcSesFormControlWrapper
-      id={id}
       errors={errors}
       label={label}
       required={!!props?.rules?.required}
       {...slotProps?.wrapper}
     >
-      <RcSesCheckboxFormControl {...props} />
+      <RcSesCheckboxFormControl {...props} id={id} />
     </RcSesFormControlWrapper>
   )
 }

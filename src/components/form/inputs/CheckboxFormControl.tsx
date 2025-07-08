@@ -2,6 +2,7 @@
 import {
   FormControlLabel,
   FormControlLabelProps,
+  FormLabel,
   Checkbox as MuiCheckbox,
   CheckboxProps as MuiCheckboxProps,
   styled,
@@ -60,7 +61,8 @@ const LoadingStateIcon = styled(SpinnerGapBoldIcon)(`
 `)
 
 function RcSesCheckboxFormControl(props: Props) {
-  const { children, control, disabled, loading, name, rules, slotProps, variant } = props
+  const { children, control, disabled, id, loading, name, rules, slotProps, variant } =
+    props
 
   const {
     field: { value, ...controllerProps },
@@ -74,6 +76,7 @@ function RcSesCheckboxFormControl(props: Props) {
     <FormControlLabel
       control={
         <MuiCheckbox
+          id={id}
           checked={value === true}
           checkedIcon={
             loading ? (
@@ -92,18 +95,19 @@ function RcSesCheckboxFormControl(props: Props) {
         />
       }
       label={
-        <>
+        <FormLabel htmlFor={id} sx={{ fontWeight: 'inherit !important' }}>
           {children}
           {slotProps?.wrapper?.hideLabel && rules?.required === true && (
-            <span aria-hidden='true' className='MuiFormControlLabel-asterisk'>
+            <span aria-hidden className='MuiFormControlLabel-asterisk'>
               *
             </span>
           )}
-        </>
+        </FormLabel>
       }
       {...slotProps?.label}
       slotProps={{
         typography: {
+          fontWeight: 400,
           lineHeight: '1.25rem',
           marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           variant: variant === 'flat' ? 'body1' : 'body2',

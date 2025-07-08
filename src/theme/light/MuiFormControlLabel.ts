@@ -10,10 +10,10 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
 
       '&:hover': {
         '.MuiRadio-root': {
-          backgroundColor: `rgba(${decomposeColor(palette.primary['400']).values}, .2)`,
+          backgroundColor: `rgba(${decomposeColor(palette.primary[400]).values}, .2)`,
 
           '[data-name="outer"]': {
-            stroke: palette.primary['500'],
+            stroke: palette.primary[500],
           },
         },
       },
@@ -21,13 +21,13 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
       '&:active': {
         '.MuiRadio-root': {
           '[data-name="inner"]': {
-            fill: palette.primary['100'],
+            fill: palette.primary[100],
           },
         },
       },
 
       '.MuiFormControlLabel-asterisk': {
-        color: palette.error['500'],
+        color: palette.error[600],
         fontWeight: 600,
         marginLeft: '.125rem',
       },

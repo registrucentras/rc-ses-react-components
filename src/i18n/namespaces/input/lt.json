@@ -4,7 +4,17 @@
       "close": "Uždaryti"
     },
 
+    "RcSesButtonWithPopover": {
+      "aria": {
+        "label": "Daugiau informacijos"
+      }
+    },
+
     "RcSesDatepicker": {
+      "aria": {
+        "clearValue": "Išvalyti datos reikšmę",
+        "openCalendar": "Atverti datos pasirinkimo kalendorių"
+      },
       "prevYear": "Ankstesni metai",
       "nextYear": "Ateinantys metai"
     },
@@ -28,6 +38,9 @@
     },
 
     "RcSesPhoneInputFormControl": {
+      "aria": {
+        "countrySelectorLabel": "Šalies telefono numerio kodo pasirinkimas"
+      },
       "search": "Ieškoti",
       "invalid": "Klaidingas telefono numerio formatas"
     },

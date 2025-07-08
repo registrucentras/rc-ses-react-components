@@ -4,7 +4,17 @@
       "close": "Close"
     },
 
+    "RcSesButtonWithPopover": {
+      "aria": {
+        "label": "Additional information"
+      }
+    },
+
     "RcSesDatepicker": {
+      "aria": {
+        "clearValue": "Clear current date selection",
+        "openCalendar": "Open datepicker calendar"
+      },
       "prevYear": "Previous year",
       "nextYear": "Next year"
     },
@@ -28,6 +38,9 @@
     },
 
     "RcSesPhoneInputFormControl": {
+      "aria": {
+        "countrySelectorLabel": "Select country phone code"
+      },
       "search": "Search",
       "invalid": "Invalid phone number format"
     },

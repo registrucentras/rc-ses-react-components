@@ -167,14 +167,15 @@ const MuiAlert: Components['MuiAlert'] = {
     filledGrey: {
       backgroundColor: palette.grey['600'],
       borderColor: palette.grey['600'],
+      color: 'white',
     },
     filledError: {
       backgroundColor: palette.error['600'],
       borderColor: palette.error['600'],
     },
     filledInfo: {
-      backgroundColor: palette.primary['500'],
-      borderColor: palette.primary['500'],
+      backgroundColor: palette.primary['600'],
+      borderColor: palette.primary['600'],
     },
     filledSuccess: {
       backgroundColor: palette.secondary['700'],
