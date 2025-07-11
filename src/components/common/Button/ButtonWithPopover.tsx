@@ -1,6 +1,7 @@
 import type { ButtonProps as MuiButtonProps } from '@mui/material/Button'
 import { PopoverProps } from '@mui/material/Popover'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
@@ -17,6 +18,9 @@ type Props = MuiButtonProps & {
   }
 }
 function RcSesButtonWithPopover(props: Props) {
+  const { t } = useTranslation('input', {
+    keyPrefix: 'components.RcSesButtonWithPopover',
+  })
   const { children, popoverHeader, popoverContent, slotProps, ...buttonProps } = props
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
@@ -33,11 +37,12 @@ function RcSesButtonWithPopover(props: Props) {
   return (
     <>
       <RcSesButton
+        aria-label={t('label')}
         {...buttonProps}
-        size='small'
         onClick={handleClick}
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
+        size='small'
         sx={{
           backgroundColor: 'transparent !important',
           height: 'unset',

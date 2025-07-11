@@ -15,7 +15,7 @@ type Props = {
   errors?: FieldError | undefined
   fieldSuffix?: React.ReactNode
   hideLabel?: boolean
-  id: string
+  id?: string
   label?: React.ReactNode
   labelSubtitle?: React.ReactNode
   labelOnTop?: boolean
@@ -35,11 +35,10 @@ function RcSesFormControlWrapper({
   labelOnTop = false,
   required = false,
 }: Props) {
-  const upMd = useMediaQuery(theme.breakpoints.up('md'))
-
   const { t } = useTranslation('input', {
     keyPrefix: 'components.RcSesFormControlWrapper',
   })
+  const upMd = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
     <FormControl className={className} error={!!errors} sx={{ my: 1, width: '100%' }}>
@@ -54,6 +53,7 @@ function RcSesFormControlWrapper({
       >
         {hideLabel !== true && (
           <FormLabel
+            htmlFor={id}
             sx={{
               flex: {
                 xs: '0 0 0%',
@@ -67,7 +67,7 @@ function RcSesFormControlWrapper({
           >
             {label}
             {!!label && required === true && (
-              <span aria-hidden='true' className='MuiFormLabel-asterisk'>
+              <span aria-hidden className='MuiFormLabel-asterisk'>
                 *
               </span>
             )}
@@ -109,6 +109,7 @@ function RcSesFormControlWrapper({
       </Box>
 
       <Box
+        aria-live='polite'
         sx={{
           flex: '1 1 0%',
           ml: { sm: labelOnTop || hideLabel ? 0 : formControlDesktopLabelWidth },
@@ -119,7 +120,7 @@ function RcSesFormControlWrapper({
         )}
 
         {!!errors && (
-          <FormHelperText id={`${id}-errors`} error>
+          <FormHelperText id={`${id}-errors`} aria-errormessage={id} error>
             {errors.type === 'required' && !errors.message && (
               <span>{t('required')}</span>
             )}

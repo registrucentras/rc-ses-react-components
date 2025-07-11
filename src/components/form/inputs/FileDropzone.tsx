@@ -116,7 +116,7 @@ function RcSesFileDropzone(props: Props) {
           },
         }}
       >
-        <input {...getInputProps()} name={fieldControlProps.name} />
+        <input {...getInputProps()} id={id} name={fieldControlProps.name} />
 
         <Stack direction='row' sx={{ alignItems: 'center', gap: 2 }}>
           <IconWithCircularBackground
@@ -138,7 +138,7 @@ function RcSesFileDropzone(props: Props) {
                   >
                     <Typography
                       sx={{
-                        color: palette.grey[fieldProps.disabled ? 500 : 900],
+                        color: palette.grey[fieldProps.disabled ? 600 : 900],
                         fontSize: '.875rem',
                         fontWeight: 600,
                         lineHeight: '1.125rem',
@@ -147,7 +147,7 @@ function RcSesFileDropzone(props: Props) {
                       {file.name}
                       <Typography
                         component='span'
-                        sx={{ color: palette.grey[500], fontSize: '.75rem', ml: 1 }}
+                        sx={{ color: palette.grey[600], fontSize: '.75rem', ml: 1 }}
                       >
                         ({Math.round(file.size / 1024)} KB)
                       </Typography>
@@ -176,7 +176,9 @@ function RcSesFileDropzone(props: Props) {
                     <Typography
                       component='span'
                       sx={{
-                        color: fieldProps.disabled ? palette.grey[500] : 'primary.main',
+                        color: fieldProps.disabled
+                          ? palette.grey[500]
+                          : palette.primary[600],
                         fontSize: '.875rem',
                         fontWeight: 600,
                         lineHeight: '1.125rem',

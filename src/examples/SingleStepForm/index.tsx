@@ -101,6 +101,7 @@ function SingleStepForm() {
               required
               {...register('text', { required: true })}
               slotProps={{
+                field: { type: 'search' },
                 wrapper: {
                   fieldSuffix: (
                     <RcSesButtonWithPopover

@@ -6,6 +6,14 @@ const MuiButton: Components['MuiButton'] = {
   variants: [
     {
       props: {
+        variant: 'text',
+      },
+      style: {
+        color: palette.primary[600],
+      },
+    },
+    {
+      props: {
         variant: 'link',
       },
       style: {

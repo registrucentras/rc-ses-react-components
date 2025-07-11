@@ -7,7 +7,7 @@ const { breakpoints } = createTheme()
 const MuiFormLabel: Components['MuiFormLabel'] = {
   styleOverrides: {
     root: {
-      color: palette.grey['900'],
+      color: palette.grey[900],
       fontSize: '.8125rem',
       fontWeight: 400,
       lineHeight: '1rem',
@@ -27,13 +27,13 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
       },
 
       '.MuiFormLabel-asterisk': {
-        color: palette.error['500'],
+        color: palette.error[600],
         fontWeight: 600,
         marginLeft: '.125rem',
       },
 
       '.rc-ses-label-subtitle': {
-        color: palette.grey['700'],
+        color: palette.grey[700],
         display: 'block',
         fontSize: '.75rem',
         fontStyle: 'italic',

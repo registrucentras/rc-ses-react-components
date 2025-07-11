@@ -29,7 +29,7 @@ const ListboxComponent = React.forwardRef<
   const gridRef = useResetCache(itemCount)
 
   return (
-    <Box ref={ref} sx={{ m: 0.75, ul: { m: 0, p: 0, width: 'auto' } }}>
+    <Box lang='en' ref={ref} sx={{ m: 0.75, ul: { m: 0, p: 0, width: 'auto' } }}>
       <OuterElementContext.Provider value={other}>
         <VariableSizeList
           height={itemCount * itemSize}

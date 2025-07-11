@@ -20,7 +20,7 @@ function RcSesPhoneInput(props: RcSesPhoneInputFormControlProps) {
       required={!!props?.rules?.required}
       {...slotProps?.wrapper}
     >
-      <RcSesPhoneInputFormControl {...props} />
+      <RcSesPhoneInputFormControl {...props} id={id} />
     </RcSesFormControlWrapper>
   )
 }
