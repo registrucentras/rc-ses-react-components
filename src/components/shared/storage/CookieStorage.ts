@@ -5,6 +5,8 @@ import env from '@/env'
 
 const cookieAttributes: Cookies.CookieAttributes = {
   domain: env.ENV_AUTH_TOKEN_COOKIE_HOST,
+  sameSite: 'Strict',
+  secure: true,
 }
 
 class CookieStorage implements Storage {
