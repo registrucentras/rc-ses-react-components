@@ -37,7 +37,6 @@ type TControllerProps = UseControllerProps<any, any>
 type ImmediateControllerProps = 'control' | 'disabled' | 'name' | 'rules'
 
 type TAutocompleteProps = MuiAutocompleteProps<Country, false, true, false, any>
-// type ImmediateAutocompleteProps = 'ref'
 type ImmediateAutocompleteProps = never
 
 type TWrapperProps = RcSesFormControlWrapperProps
@@ -63,7 +62,13 @@ function RcSesPhoneInputFormControl(props: Props) {
 
   const [country, setCountry] = React.useState<Country>(DEFAULT_COUNTRY)
 
-  const mask = useMemo(() => new Mask({ mask: country?.mask ?? '' }), [country])
+  const mask = useMemo(() => {
+    const theMask = Array.isArray(country?.mask)
+      ? country.mask.toReversed()
+      : (country?.mask ?? '')
+
+    return new Mask({ mask: theMask })
+  }, [country])
 
   const { field: controllerProps } = useController({
     control,
