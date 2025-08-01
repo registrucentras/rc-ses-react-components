@@ -1,6 +1,8 @@
 import countries from 'countries-phone-masks'
+import { MaskType } from 'maska'
 
-type Country = (typeof countries)[number] & {
+type Country = Omit<(typeof countries)[number], 'mask'> & {
+  mask: MaskType
   searchable: string
 }
 
