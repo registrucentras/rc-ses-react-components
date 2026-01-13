@@ -3,6 +3,7 @@ name: Build and Publish
 on:
   release:
     types: [published]
+  pull_request:
 
 env:
   REGISTRY: ghcr.io
@@ -14,6 +15,7 @@ jobs:
     permissions:
         contents: read
         packages: write
+        checks: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@v3
@@ -27,10 +29,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test:run
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        continue-on-error: true
+        with:
+          name: Test Results
+          path: coverage/junit.xml
+          reporter: java-junit
+          fail-on-error: 'false'
+
       - name: Build the library
-        run: npm run build:lib 
+        run: npm run build:lib
 
       - name: Publish to GitHub Packages
+        if: github.event_name == 'release'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

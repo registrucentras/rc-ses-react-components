@@ -48,6 +48,8 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       staticImport: true,
+      tsconfigPath: './tsconfig.lib.json',
+      exclude: ['src/setupTests.ts', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
     }),
     typescript({
       check: true,
