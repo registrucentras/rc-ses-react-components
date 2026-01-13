@@ -9,5 +9,6 @@
   "include": [
     "vite.config.ts",
     "vite.config.lib.ts",
+    "vitest.config.ts"
   ]
 }

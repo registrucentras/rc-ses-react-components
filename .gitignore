@@ -1,4 +1,6 @@
 node_modules
+dist
+coverage
 .env
 .git
 .DS_Store

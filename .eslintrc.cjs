@@ -17,7 +17,7 @@ module.exports = {
     'plugin:storybook/recommended',
   ],
   overrides: [],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vitest.config.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
@@ -43,12 +43,8 @@ module.exports = {
     'react/function-component-definition': [
         'error',
         {
-          'devDependencies': [
-            '**/*.stories.*',
-            '**/*.test.*',
-            '**/.storybook/**/*.*'
-          ],
-          'peerDependencies': true
+          namedComponents: ['function-declaration', 'arrow-function'],
+          unnamedComponents: 'arrow-function',
         }
       ],
     'import/no-extraneous-dependencies': [
@@ -57,7 +53,9 @@ module.exports = {
           'devDependencies': [
             '**/*.stories.*',
             '**/*.test.*',
-            '**/.storybook/**/*.*'
+            '**/.storybook/**/*.*',
+            'vitest.config.ts',
+            'src/setupTests.ts'
           ],
           'peerDependencies': true
         }

@@ -11,6 +11,7 @@
       "DOM.Iterable",
       "ESNext",
     ],
+    "types": ["vitest/globals"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
