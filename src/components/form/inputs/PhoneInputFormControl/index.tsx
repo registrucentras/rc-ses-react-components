@@ -13,7 +13,7 @@ import {
 import Autocomplete, {
   AutocompleteProps as MuiAutocompleteProps,
 } from '@mui/material/Autocomplete'
-import countries from 'countries-phone-masks'
+import countriesList from 'countries-phone-masks'
 import { Mask } from 'maska'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
@@ -30,6 +30,13 @@ import ListboxComponent from './components/ListboxComponent'
 import PopperComponent from './components/PopperComponent'
 import './styles/styles.css'
 import Country from './types/Country'
+
+const countries = countriesList.map((c) => {
+  if (c.iso === 'LT') {
+    return { ...c, mask: '### ## ###' }
+  }
+  return c
+})
 
 const DEFAULT_COUNTRY = countries.find((c) => c.iso === 'LT') as Country
 
