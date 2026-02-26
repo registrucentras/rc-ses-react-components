@@ -5,29 +5,26 @@ on:
     types: [published]
   pull_request:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-        contents: read
-        packages: write
-        checks: write
+      contents: read
+      id-token: write
+      checks: write
+
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://npm.pkg.github.com/'
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -48,8 +45,8 @@ jobs:
       - name: Build the library
         run: npm run build:lib
 
-      - name: Publish to GitHub Packages
+      - name: Publish to npm
         if: github.event_name == 'release'
-        run: npm publish --access public
+        run: npm publish --access public --provenance
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Used by setup-node to config .npmrc, but actual auth uses OIDC
