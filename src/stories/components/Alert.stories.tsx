@@ -10,6 +10,8 @@ import PreviewTitle from '@/components/storybook/PreviewTitle'
 const lorem =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard."
 
+const severities = ['info', 'warning', 'error', 'success'] as const
+
 const meta: Meta<typeof RcSesAlert> = {
   title: 'components/common/Alert',
   component: RcSesAlert,
@@ -18,6 +20,10 @@ const meta: Meta<typeof RcSesAlert> = {
 
 export default meta
 
+// ---------------------------------------------------------------------------
+// Main (interactive / configurable via Controls panel)
+// ---------------------------------------------------------------------------
+
 const Template: StoryFn<typeof RcSesAlert> = (args) => (
   <Fields>
     <FieldView>
@@ -25,10 +31,11 @@ const Template: StoryFn<typeof RcSesAlert> = (args) => (
     </FieldView>
     <FieldPreview>
       <PreviewTitle>State previews</PreviewTitle>
-      <RcSesAlert severity='info'>{lorem}</RcSesAlert>
-      <RcSesAlert severity='warning'>{lorem}</RcSesAlert>
-      <RcSesAlert severity='error'>{lorem}</RcSesAlert>
-      <RcSesAlert severity='success'>{lorem}</RcSesAlert>
+      {severities.map((severity) => (
+        <RcSesAlert key={severity} severity={severity}>
+          {lorem}
+        </RcSesAlert>
+      ))}
     </FieldPreview>
   </Fields>
 )
@@ -38,3 +45,60 @@ Main.args = {
   children: lorem,
   severity: 'info',
 }
+
+// ---------------------------------------------------------------------------
+// Variants
+// ---------------------------------------------------------------------------
+
+const VariantsTemplate: StoryFn<typeof RcSesAlert> = (args) => (
+  <>
+    {severities.map((severity) => (
+      <RcSesAlert key={severity} {...args} severity={severity}>
+        {lorem}
+      </RcSesAlert>
+    ))}
+  </>
+)
+
+export const Outlined = VariantsTemplate.bind({})
+Outlined.args = { variant: 'outlined' }
+
+export const Filled = VariantsTemplate.bind({})
+Filled.args = { variant: 'filled' }
+
+export const Standard = VariantsTemplate.bind({})
+Standard.args = { variant: 'standard' }
+
+// ---------------------------------------------------------------------------
+// Container — full-bleed banner keeping content width-constrained
+// ---------------------------------------------------------------------------
+
+export const WithContainer: StoryFn<typeof RcSesAlert> = () => (
+  <>
+    <PreviewTitle>container (default maxWidth)</PreviewTitle>
+    {severities.map((severity) => (
+      <RcSesAlert
+        key={severity}
+        severity={severity}
+        icon={false}
+        container
+        sx={{ mb: 1 }}
+      >
+        {lorem}
+      </RcSesAlert>
+    ))}
+
+    <PreviewTitle>container with maxWidth=&quot;sm&quot;</PreviewTitle>
+    {severities.map((severity) => (
+      <RcSesAlert
+        key={severity}
+        severity={severity}
+        icon={false}
+        container={{ maxWidth: 'sm' }}
+        sx={{ mb: 1 }}
+      >
+        {lorem}
+      </RcSesAlert>
+    ))}
+  </>
+)
