@@ -77,13 +77,7 @@ export const WithContainer: StoryFn<typeof RcSesAlert> = () => (
   <>
     <PreviewTitle>container (default maxWidth)</PreviewTitle>
     {severities.map((severity) => (
-      <RcSesAlert
-        key={severity}
-        severity={severity}
-        icon={false}
-        container
-        sx={{ mb: 1 }}
-      >
+      <RcSesAlert key={severity} severity={severity} container sx={{ mb: 1 }}>
         {lorem}
       </RcSesAlert>
     ))}
@@ -93,7 +87,6 @@ export const WithContainer: StoryFn<typeof RcSesAlert> = () => (
       <RcSesAlert
         key={severity}
         severity={severity}
-        icon={false}
         container={{ maxWidth: 'sm' }}
         sx={{ mb: 1 }}
       >
