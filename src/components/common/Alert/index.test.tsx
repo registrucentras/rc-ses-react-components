@@ -33,7 +33,7 @@ describe('RcSesAlert', () => {
   })
 
   describe('container prop', () => {
-    test('wraps children in a Container when container={true}', () => {
+    test('renders children correctly when container={true}', () => {
       renderAlert(
         <RcSesAlert container data-testid='alert'>
           inside
@@ -43,7 +43,7 @@ describe('RcSesAlert', () => {
       expect(screen.getByText('inside')).toBeInTheDocument()
     })
 
-    test('wraps children in a Container when container is ContainerProps object', () => {
+    test('renders children correctly when container is ContainerProps object', () => {
       renderAlert(
         <RcSesAlert container={{ maxWidth: 'sm' }} data-testid='alert'>
           inside sm
@@ -52,21 +52,14 @@ describe('RcSesAlert', () => {
       expect(screen.getByText('inside sm')).toBeInTheDocument()
     })
 
-    test('does not wrap children in a Container when container is not set', () => {
-      const { container } = renderAlert(<RcSesAlert>no container</RcSesAlert>)
-      // No MUI Container = no element with class MuiContainer-root
-      expect(container.querySelector('.MuiContainer-root')).toBeNull()
-    })
-
     test('applies full-bleed sx overrides when container is set', () => {
       const { container } = renderAlert(
         <RcSesAlert container data-testid='alert'>
           text
         </RcSesAlert>,
       )
-      // Verify the alert renders and the Container is present (full-bleed layout)
+      // Verify the alert renders
       expect(container.querySelector('.MuiAlert-root')).toBeInTheDocument()
-      expect(container.querySelector('.MuiContainer-root')).toBeInTheDocument()
     })
 
     test('merges caller sx on top of container sx', () => {

@@ -1,5 +1,4 @@
 import {
-  Container,
   ContainerProps,
   Alert as MuiAlert,
   AlertProps as MuiAlertProps,
@@ -15,33 +14,62 @@ const defaultProps: Partial<MuiAlertProps> = {
   variant: 'outlined',
 }
 
-const containerSx: MuiAlertProps['sx'] = {
-  borderRadius: 0,
-  px: 0,
-  '& .MuiAlert-message': { p: 0, width: '100%' },
-}
-
 function RcSesAlert({ container, children, sx, ...props }: Props) {
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesAlert' })
 
-  const containerProps: ContainerProps | undefined = (() => {
-    if (container === true) return {}
-    if (container === false || !container) return undefined
-    return container
-  })()
+  const isContainer = Boolean(container)
+  const containerParams = typeof container === 'object' ? container : {}
+  const maxWidth =
+    containerParams.maxWidth === undefined ? 'lg' : containerParams.maxWidth
+  const disableGutters = containerParams.disableGutters || false
+
+  let normalizedSx: any[] = []
+  if (sx) {
+    normalizedSx = Array.isArray(sx) ? sx : [sx]
+  }
 
   return (
     <MuiAlert
       {...defaultProps}
       {...props}
       sx={[
-        ...(container ? [containerSx] : []),
-        // eslint-disable-next-line no-nested-ternary
-        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+        isContainer &&
+          ((theme) => {
+            let maxWidthValue: string | number = 'none'
+
+            if (maxWidth !== false) {
+              if (typeof maxWidth === 'string') {
+                maxWidthValue =
+                  theme.breakpoints.values[
+                    maxWidth as keyof typeof theme.breakpoints.values
+                  ] || maxWidth
+              } else {
+                maxWidthValue = maxWidth
+              }
+            }
+
+            const containerStyles: Record<string, any> = {
+              borderRadius: 0,
+              '& .MuiAlert-message': { p: 0, width: '100%' },
+            }
+
+            if (maxWidthValue !== 'none') {
+              const gutterXs = disableGutters ? '' : ' + 16px'
+              const gutterSm = disableGutters ? '' : ' + 24px'
+
+              containerStyles.px = `calc(max((100% - ${maxWidthValue}px) / 2, 0px)${gutterXs})`
+              containerStyles[theme.breakpoints.up('sm')] = {
+                px: `calc(max((100% - ${maxWidthValue}px) / 2, 0px)${gutterSm})`,
+              }
+            }
+
+            return containerStyles
+          }),
+        ...normalizedSx,
       ]}
       closeText={t('close')}
     >
-      {containerProps ? <Container {...containerProps}>{children}</Container> : children}
+      {children}
     </MuiAlert>
   )
 }
