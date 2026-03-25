@@ -17,7 +17,6 @@ function AutocompleteInput(props: AutocompleteRenderInputParams) {
     <TextField
       autoFocus
       inputProps={inputProps}
-      // eslint-disable-next-line react/jsx-no-duplicate-props
       InputProps={{
         ...InputProps,
         endAdornment: null,

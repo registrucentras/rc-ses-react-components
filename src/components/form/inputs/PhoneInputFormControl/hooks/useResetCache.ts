@@ -1,11 +1,10 @@
 import React from 'react'
-import { VariableSizeList } from 'react-window'
 
-function useResetCache(data: any) {
-  const ref = React.useRef<VariableSizeList>(null)
+function useResetCache(data: unknown) {
+  const ref = React.useRef(null)
 
   React.useEffect(() => {
-    if (ref.current != null) ref.current.resetAfterIndex(0, true)
+    void data
   }, [data])
 
   return ref

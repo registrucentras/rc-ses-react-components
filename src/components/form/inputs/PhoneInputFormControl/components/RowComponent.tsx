@@ -1,14 +1,25 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { ListChildComponentProps } from 'react-window'
+import type { RowComponentProps } from 'react-window'
 
-function RowComponent(props: ListChildComponentProps) {
-  const { data, index, style } = props
-  const [{ key, ...optionProps }, option] = data[index]
+import type { ListItemData } from './ListboxComponent'
+
+type Props = RowComponentProps<{
+  itemData: ListItemData[]
+}>
+
+function RowComponent(props: Props) {
+  const { ariaAttributes, index, itemData, style } = props
+  const rowData = itemData[index]
+
+  if (!rowData) return null
+
+  const [{ key, ...optionProps }, option] = rowData
 
   return (
     <Stack
+      {...ariaAttributes}
       key={key}
       component='li'
       sx={{

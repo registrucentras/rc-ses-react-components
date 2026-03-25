@@ -1,7 +1,7 @@
-import * as path from 'path'
-import react from '@vitejs/plugin-react';
 import commonjs from '@rollup/plugin-commonjs'
+import react from '@vitejs/plugin-react'
 import { URL, fileURLToPath } from 'node:url'
+import * as path from 'path'
 import typescript from 'rollup-plugin-typescript2'
 import { defineConfig } from 'vite'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
@@ -30,13 +30,13 @@ export default defineConfig({
         ...Object.keys(pkg.dependencies || {}),
         /^@mui($|\/.+)/,
         'react',
-        'react-dom'
+        'react-dom',
       ],
       output: {
         exports: 'named',
         preserveModules: false,
         globals: {
-          'react': 'React',
+          react: 'React',
           'react-dom': 'ReactDOM',
         },
       },
@@ -54,9 +54,7 @@ export default defineConfig({
     typescript({
       check: true,
       tsconfig: './tsconfig.lib.json',
-      include: [
-        './src/**/*.{ts|tsx|d.ts}',
-      ],
+      include: ['./src/**/*.{ts|tsx|d.ts}'],
     }),
     cssInjectedByJsPlugin({
       topExecutionPriority: false,
