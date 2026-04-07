@@ -5,9 +5,11 @@
  - struktūriniai sąsajos išdėstymo komponentai formų ir paslaugos užsakymo puslapio atvaizdavimui;
  - pavyzdinės (demo) formos komponentas su visais šioje bibliotekos versijoje prieinamais komponentais;
 
+Prisidėjimo gairės pateiktos `CONTRIBUTING.md` faile.
+
 ## Prerekvizitai
 
-1. Įsitikinkite, kad turite įdiegtą bent **18.20.x** arba naujesnę [Node.js](https://nodejs.org/en) versiją;
+1. Įsitikinkite, kad turite įdiegtą **Node.js 22.x** versiją. Tokia pati Node.js versija šiuo metu naudojama ir CI aplinkoje;
 2. Jei to dar nepadarėte, lokaliai klonuokite `rc-ses-react-components` projektą:
     ```bash
     git clone git@github.com:registrucentras/rc-ses-react-components.git
