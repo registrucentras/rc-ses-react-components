@@ -18,6 +18,7 @@ import RcSesAlert from '@/components/common/Alert'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
+import RcSesCard from '@/components/common/Card'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
@@ -51,7 +52,7 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
-export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover }
+export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover, RcSesCard }
 export { RcSesCheckbox, RcSesCheckboxFormControl }
 export { RcSesDatepicker }
 export { RcSesFileUpload }
