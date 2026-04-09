@@ -59,7 +59,7 @@ const MuiButton: Components['MuiButton'] = {
               background: 'transparent',
               border: '2px solid',
               borderColor: grey[950],
-              borderRadius: '.375rem',
+              borderRadius: '1rem',
               height: 'calc(100% + 6px)',
               left: '-3px',
               position: 'absolute',
@@ -132,7 +132,7 @@ const MuiButton: Components['MuiButton'] = {
   },
   styleOverrides: {
     root: {
-      borderRadius: '.1875rem',
+      borderRadius: '1rem',
       fontSize: '.9375rem',
       height: '2.75rem',
       letterSpacing: 0,
@@ -146,7 +146,7 @@ const MuiButton: Components['MuiButton'] = {
           background: 'transparent',
           border: '2px solid',
           borderColor: grey[950],
-          borderRadius: '.375rem',
+          borderRadius: '1rem',
           content: '""',
           height: 'calc(100% + 6px)',
           left: '-3px',
@@ -157,10 +157,23 @@ const MuiButton: Components['MuiButton'] = {
         },
 
       '&.MuiButton-outlined:focus-visible:not(:active)::before': {
-        height: 'calc(100% + 8px)',
-        left: '-4px',
-        top: '-4px',
-        width: 'calc(100% + 8px)',
+        borderRadius: '1rem',
+        height: 'calc(100% + 6px)',
+        left: '-3px',
+        top: '-3px',
+        width: 'calc(100% + 6px)',
+      },
+
+      '.MuiButton-startIcon, .MuiButton-endIcon': {
+        color: 'inherit',
+
+        'svg [fill]:not([fill="none"])': {
+          fill: 'currentColor',
+        },
+
+        'svg [stroke]:not([stroke="none"])': {
+          stroke: 'currentColor',
+        },
       },
     },
 
@@ -260,6 +273,9 @@ const MuiButton: Components['MuiButton'] = {
     },
 
     outlined: {
+      borderColor: grey[300],
+      borderWidth: '1px',
+
       '&.Mui-disabled': {
         backgroundColor: `transparent !important`,
         borderColor: `${grey[50]} !important`,
@@ -280,7 +296,7 @@ const MuiButton: Components['MuiButton'] = {
       },
 
       '&.MuiButton-colorGrey': {
-        borderColor: grey[600],
+        borderColor: grey[300],
         color: grey[900],
         backgroundColor: 'transparent',
 
