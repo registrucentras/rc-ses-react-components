@@ -36,8 +36,8 @@ const HorizontalStepper: React.FC<ServiceProgressStepperProps> = ({
     [steps, stepCount],
   )
 
-  const leftSpacingPx = isMobile ? 88 : 0
-  const rightSpacingPx = isMobile ? 88 : 0
+  const leftSpacingPx = isMobile ? 88 : 8
+  const rightSpacingPx = isMobile ? 88 : 8
 
   const handleStepClick = useCallback(
     (i: number) => () => onStepClick?.(i),
@@ -74,6 +74,7 @@ const HorizontalStepper: React.FC<ServiceProgressStepperProps> = ({
       )}
 
       <Box
+        key={`stepper-${stepCount}-${activeStep}`}
         sx={{
           width: '100%',
           position: 'relative',
