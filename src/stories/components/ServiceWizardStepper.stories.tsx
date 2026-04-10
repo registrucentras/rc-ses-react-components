@@ -1,5 +1,6 @@
 /* eslint-disable react/function-component-definition */
 import { Meta, StoryFn } from '@storybook/react'
+import React from 'react'
 
 import RcSesServiceProgressStepper from '@/components/layout/ServiceWizardStepper'
 import FieldPreview from '@/components/storybook/FieldPreview'
@@ -30,50 +31,96 @@ const meta: Meta<typeof RcSesServiceProgressStepper> = {
 }
 
 export default meta
-const Template: StoryFn<typeof RcSesServiceProgressStepper> = (args) => (
-  <Fields>
-    <FieldView>
-      <RcSesServiceProgressStepper {...args} />
-    </FieldView>
-    <FieldPreview>
-      <PreviewTitle>Orientation variants</PreviewTitle>
-      <div style={{ marginBottom: '2rem' }}>
-        <h4>Horizontal</h4>
-        <RcSesServiceProgressStepper {...args} orientation='horizontal' activeStep={2} />
-      </div>
-      <div>
-        <h4>Vertical</h4>
-        <RcSesServiceProgressStepper {...args} orientation='vertical' activeStep={2} />
-      </div>
-    </FieldPreview>
-  </Fields>
-)
+
+const Template: StoryFn<typeof RcSesServiceProgressStepper> = (args) => {
+  const { activeStep: initialActiveStep = 2, ...restArgs } = args
+  const [activeStep, setActiveStep] = React.useState(initialActiveStep)
+
+  const handleStepClick = (index: number) => {
+    const clickedStepNumber = index + 1
+    if (clickedStepNumber < activeStep) {
+      setActiveStep(clickedStepNumber)
+    }
+  }
+
+  return (
+    <Fields>
+      <FieldView>
+        <RcSesServiceProgressStepper
+          {...restArgs}
+          activeStep={activeStep}
+          onStepClick={handleStepClick}
+        />
+      </FieldView>
+      <FieldPreview>
+        <PreviewTitle>Orientation variants</PreviewTitle>
+        <div style={{ marginBottom: '2rem' }}>
+          <h4>Horizontal</h4>
+          <RcSesServiceProgressStepper
+            {...restArgs}
+            orientation='horizontal'
+            activeStep={2}
+          />
+        </div>
+        <div>
+          <h4>Vertical</h4>
+          <RcSesServiceProgressStepper
+            {...restArgs}
+            orientation='vertical'
+            activeStep={2}
+          />
+        </div>
+      </FieldPreview>
+    </Fields>
+  )
+}
 
 export const Main = Template.bind({})
 Main.args = {
   steps: mockSteps,
   activeStep: 2,
   orientation: 'horizontal',
-  onStepClick: (index: number) => console.log(`Step ${index + 1} clicked`),
 }
 
-export const HorizontalStepper: StoryFn<typeof RcSesServiceProgressStepper> = () => (
-  <RcSesServiceProgressStepper
-    steps={mockSteps}
-    activeStep={2}
-    orientation='horizontal'
-    onStepClick={(index) => console.log(`Step ${index + 1} clicked`)}
-  />
-)
+export const HorizontalStepper: StoryFn<typeof RcSesServiceProgressStepper> = () => {
+  const [activeStep, setActiveStep] = React.useState(2)
 
-export const VerticalStepper: StoryFn<typeof RcSesServiceProgressStepper> = () => (
-  <RcSesServiceProgressStepper
-    steps={mockSteps}
-    activeStep={2}
-    orientation='vertical'
-    onStepClick={(index) => console.log(`Step ${index + 1} clicked`)}
-  />
-)
+  const handleStepClick = (index: number) => {
+    const clickedStepNumber = index + 1
+    if (clickedStepNumber < activeStep) {
+      setActiveStep(clickedStepNumber)
+    }
+  }
+
+  return (
+    <RcSesServiceProgressStepper
+      steps={mockSteps}
+      activeStep={activeStep}
+      orientation='horizontal'
+      onStepClick={handleStepClick}
+    />
+  )
+}
+
+export const VerticalStepper: StoryFn<typeof RcSesServiceProgressStepper> = () => {
+  const [activeStep, setActiveStep] = React.useState(2)
+
+  const handleStepClick = (index: number) => {
+    const clickedStepNumber = index + 1
+    if (clickedStepNumber < activeStep) {
+      setActiveStep(clickedStepNumber)
+    }
+  }
+
+  return (
+    <RcSesServiceProgressStepper
+      steps={mockSteps}
+      activeStep={activeStep}
+      orientation='vertical'
+      onStepClick={handleStepClick}
+    />
+  )
+}
 
 export const StepProgression: StoryFn<typeof RcSesServiceProgressStepper> = () => (
   <Fields>
@@ -91,22 +138,4 @@ export const StepProgression: StoryFn<typeof RcSesServiceProgressStepper> = () =
       ))}
     </FieldPreview>
   </Fields>
-)
-
-export const WithBackButton: StoryFn<typeof RcSesServiceProgressStepper> = () => (
-  <RcSesServiceProgressStepper
-    steps={mockSteps}
-    activeStep={3}
-    orientation='horizontal'
-    handleBack={() => console.log('Back button clicked')}
-    onStepClick={(index) => console.log(`Step ${index + 1} clicked`)}
-  />
-)
-
-export const SingleStep: StoryFn<typeof RcSesServiceProgressStepper> = () => (
-  <RcSesServiceProgressStepper
-    steps={[{ id: 'single', label: 'Single Step Process' }]}
-    activeStep={1}
-    orientation='horizontal'
-  />
 )

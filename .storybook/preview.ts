@@ -1,12 +1,26 @@
-import type { Preview } from "@storybook/react";
-
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import type { Preview } from '@storybook/react'
+import { createElement } from 'react'
 
 import lightTheme from '../src/theme/light'
 import darkTheme from '../src/theme/light'
 
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      name: 'Theme',
+      description: 'Global theme for all stories',
+      defaultValue: 'light',
+      toolbar: {
+        icon: 'mirror',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   parameters: {
     controls: {
       matchers: {
@@ -38,15 +52,18 @@ const preview: Preview = {
     },*/
   },
 
-  decorators: [withThemeFromJSXProvider({
-    GlobalStyles: CssBaseline,
-    Provider: ThemeProvider,
-    themes: {
-      light: lightTheme,
-      dark: darkTheme,
-    },
-    defaultTheme: 'light',
-  })]
-};
+  decorators: [
+    (Story, context) => {
+      const selectedTheme = context.globals.theme === 'dark' ? darkTheme : lightTheme
 
-export default preview;
+      return createElement(
+        ThemeProvider,
+        { theme: selectedTheme },
+        createElement(CssBaseline),
+        createElement(Story),
+      )
+    },
+  ],
+}
+
+export default preview
