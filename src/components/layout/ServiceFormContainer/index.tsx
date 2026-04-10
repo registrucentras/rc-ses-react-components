@@ -50,9 +50,10 @@ function RcSesServiceFormContainer({
         sx={{ columnGap: 7.5, flexWrap: 'nowrap', justifyContent: 'center' }}
       >
         {showProgressStepper && (
-          <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
-            <ServiceWizardStepper steps={state} />
-          </Grid>
+          <ServiceWizardStepper
+            steps={Object.values(state).map((s) => ({ id: s.title, label: s.title }))}
+            activeStep={1}
+          />
         )}
 
         <Grid item sx={{ flexGrow: 1 }}>
