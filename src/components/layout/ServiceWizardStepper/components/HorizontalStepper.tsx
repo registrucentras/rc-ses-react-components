@@ -128,6 +128,7 @@ const HorizontalStepper: React.FC<ServiceProgressStepperProps> = ({
 
             return (
               <StepLabel
+                key={step.id}
                 label={step.label}
                 status={status}
                 color={getColor(index, activeStep)}
