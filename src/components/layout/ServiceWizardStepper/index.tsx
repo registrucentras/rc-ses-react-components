@@ -1,44 +1,43 @@
-import Step from '@mui/material/Step'
-import StepLabel from '@mui/material/StepLabel'
-import Stepper from '@mui/material/Stepper'
+import { useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 
-import {
-  AccordionControllerState,
-  AccordionState,
-} from '@/components/common/Accordion/types/AccordionControllerState'
+import { ServiceProgressStepperProps } from './ServiceProgressStepperTypes'
+import HorizontalStepper from './components/HorizontalStepper'
+import VerticalStepper from './components/VerticalStepper'
 
-import ActiveStepIcon from './components/ActiveStepIcon'
-import CompletedStepIcon from './components/CompletedStepIcon'
-import PendingStepIcon from './components/PendingStepIcon'
+const ServiceProgressStepper: React.FC<ServiceProgressStepperProps> = ({
+  className,
+  steps,
+  activeStep,
+  handleBack,
+  onStepClick,
+  orientation = 'vertical',
+}) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
-type Props = {
-  steps: AccordionControllerState
-}
-function ServiceWizardStepper({ steps }: Props) {
-  const getStepIcon = React.useCallback((state: AccordionState['state']) => {
-    switch (state) {
-      case 'active':
-        return ActiveStepIcon
-      case 'completed':
-        return CompletedStepIcon
-      default:
-        return PendingStepIcon
-    }
-  }, [])
+  const isVertical = orientation === 'vertical' && !isMobile
 
-  const activeStep =
-    Object.values(steps).findIndex((step) => step.state === 'active') ?? 0
+  if (isVertical) {
+    return (
+      <VerticalStepper
+        className={className}
+        steps={steps}
+        activeStep={activeStep}
+        onStepClick={onStepClick}
+      />
+    )
+  }
 
   return (
-    <Stepper activeStep={activeStep} orientation='vertical' sx={{ mt: 6.5 }}>
-      {Object.values(steps).map((step) => (
-        <Step key={step.title}>
-          <StepLabel StepIconComponent={getStepIcon(step.state)}>{step.title}</StepLabel>
-        </Step>
-      ))}
-    </Stepper>
+    <HorizontalStepper
+      className={className}
+      steps={steps}
+      activeStep={activeStep}
+      handleBack={handleBack}
+      onStepClick={onStepClick}
+    />
   )
 }
 
-export default ServiceWizardStepper
+export default ServiceProgressStepper
