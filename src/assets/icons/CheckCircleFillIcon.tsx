@@ -1,22 +1,16 @@
+import { CheckCircleIcon as CheckCircleFillIcon } from '@phosphor-icons/react'
+
 import IconProps from '../IconProps'
 
-function CheckCircleFillIcon({
-  className,
-  fillColor = 'none',
-  strokeColor = 'white',
-}: IconProps) {
+function CheckCircleIcon({ className, fillColor, size = 24 }: IconProps) {
   return (
-    <svg className={className} width='24' height='24' viewBox='0 0 24 24'>
-      <circle cx='12' cy='12' r='10' fill={fillColor} />
-      <path
-        d='M16 9.5L11 14.5L8 12.5'
-        stroke={strokeColor}
-        strokeWidth='2'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-    </svg>
+    <CheckCircleFillIcon
+      className={className}
+      size={size}
+      weight='fill'
+      color={fillColor}
+    />
   )
 }
 
-export default CheckCircleFillIcon
+export default CheckCircleIcon

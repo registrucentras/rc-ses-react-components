@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@fontsource/public-sans": "^5.0.18",
+    "@phosphor-icons/react": "^2.1.10",
     "axios": "^1.7.2",
     "countries-phone-masks": "^1.1.1",
     "js-cookie": "^3.0.5",
