@@ -59,7 +59,7 @@ const MuiButton: Components['MuiButton'] = {
               background: 'transparent',
               border: '2px solid',
               borderColor: grey[950],
-              borderRadius: '1rem',
+              borderRadius: '0.5rem',
               height: 'calc(100% + 6px)',
               left: '-3px',
               position: 'absolute',
@@ -132,7 +132,7 @@ const MuiButton: Components['MuiButton'] = {
   },
   styleOverrides: {
     root: {
-      borderRadius: '1rem',
+      borderRadius: '0.5rem',
       fontSize: '.9375rem',
       height: '2.75rem',
       letterSpacing: 0,
@@ -146,7 +146,7 @@ const MuiButton: Components['MuiButton'] = {
           background: 'transparent',
           border: '2px solid',
           borderColor: grey[950],
-          borderRadius: '1rem',
+          borderRadius: '0.5rem',
           content: '""',
           height: 'calc(100% + 6px)',
           left: '-3px',
@@ -157,7 +157,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
       '&.MuiButton-outlined:focus-visible:not(:active)::before': {
-        borderRadius: '1rem',
+        borderRadius: '0.5rem',
         height: 'calc(100% + 6px)',
         left: '-3px',
         top: '-3px',

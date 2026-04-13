@@ -59,6 +59,14 @@ const meta = {
         defaultValue: {},
       },
     },
+    iconOnly: {
+      control: {
+        type: 'boolean',
+      },
+      table: {
+        defaultValue: {},
+      },
+    },
   },
   tags: ['autodocs'],
   args: {
@@ -117,6 +125,16 @@ export const PrimaryContainedWithSuffixIcon: Story = {
   },
 }
 
+export const PrimaryContainedIconOnly: Story = {
+  args: {
+    'aria-label': 'Add',
+    children: <PlusBoldIcon />,
+    color: 'primary',
+    iconOnly: true,
+    variant: 'contained',
+  },
+}
+
 export const PrimaryOutlined: Story = {
   parameters: disableColorContrast,
   args: {
@@ -140,6 +158,17 @@ export const PrimaryOutlinedWithSuffixIcon: Story = {
     color: 'primary',
     variant: 'outlined',
     endIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryOutlinedIconOnly: Story = {
+  parameters: disableColorContrast,
+  args: {
+    'aria-label': 'Add',
+    children: <PlusBoldIcon />,
+    color: 'primary',
+    iconOnly: true,
+    variant: 'outlined',
   },
 }
 
