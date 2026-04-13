@@ -103,7 +103,7 @@ const RcSesRadioButtonGroup = styled(UnstyledRcSesRadioButtonGroup)((props) => (
     borderColor: props.variant === 'outlined' ? palette.grey['500'] : 'transparent',
     borderStyle: 'solid',
     borderWidth: props.variant === 'outlined' ? '1px' : 0,
-    borderRadius: '.1875rem',
+    borderRadius: '.5rem',
     margin: 0,
     padding: props.hideNativeRadio ? undefined : '.25rem .75rem',
   },
