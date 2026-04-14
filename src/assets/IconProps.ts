@@ -1,8 +1,8 @@
-type IconProps = {
-  className?: string
+import type { SVGProps } from 'react'
+
+type IconProps = SVGProps<SVGSVGElement> & {
   fillColor?: string
   size?: number
-  strokeColor?: string
 }
 
 export default IconProps

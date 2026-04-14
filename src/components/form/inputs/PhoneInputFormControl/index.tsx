@@ -142,10 +142,9 @@ function RcSesPhoneInputFormControl(props: Props) {
                     }}
                     title={country?.name}
                   />
-                  <CaretDownFill
-                    aria-hidden
-                    sx={{ fontSize: '.75rem !important', ml: 1 }}
-                  />
+                  <Box component='span' sx={{ display: 'flex', ml: 1 }}>
+                    <CaretDownFill aria-hidden size={12} />
+                  </Box>
                 </Button>
               </InputAdornment>
 
