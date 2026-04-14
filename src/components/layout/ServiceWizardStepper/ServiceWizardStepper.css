@@ -1,12 +1,32 @@
 .ServiceWizardStepper {
   width: 100%;
 }
+.MobileStepperWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+}
 
-.ServiceWizardStepper.MuiStepper-vertical {
-  align-items: flex-start;
-  width: 320px;
-  margin: 0;
-  padding: 0;
+.NavSlot {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MobileStepperContent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.PrevButton {
+  border-radius: 8px;
+  border: 1px solid var(--Neutrals-600, #6b747f);
+  width: 36px;
+  margin: 0 20px
 }
 
 .ServiceWizardStepper.MuiStepper-vertical .MuiStep-root {

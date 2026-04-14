@@ -6,24 +6,24 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import { StepItem } from '@/components/layout/ServiceWizardStepper/StepperTypes'
 
 const steps3: StepItem[] = [
-  { state: 'completed', title: '1-2 žodžių tekstas' },
-  { state: 'active', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', state: 'completed', title: '1-2 žodžių tekstas' },
+  { id: '2', state: 'active', title: '1-2 žodžių tekstas' },
+  { id: '3', state: 'pending', title: '1-2 žodžių tekstas' },
 ]
 
 const steps4: StepItem[] = [
-  { state: 'active', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', state: 'active', title: '1-2 žodžių tekstas' },
+  { id: '2', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '3', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '4', state: 'pending', title: '1-2 žodžių tekstas' },
 ]
 
 const steps5: StepItem[] = [
-  { state: 'completed', title: '1-2 žodžių tekstas' },
-  { state: 'completed', title: '1-2 žodžių tekstas' },
-  { state: 'active', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
-  { state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', state: 'completed', title: '1-2 žodžių tekstas' },
+  { id: '2', state: 'completed', title: '1-2 žodžių tekstas' },
+  { id: '3', state: 'active', title: '1-2 žodžių tekstas' },
+  { id: '4', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '5', state: 'pending', title: '1-2 žodžių tekstas' },
 ]
 
 function HorizontalMultipleStepForm() {

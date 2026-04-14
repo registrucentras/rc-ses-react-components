@@ -2,7 +2,7 @@ import { StepLabel, styled } from '@mui/material'
 
 import { grey } from '@/theme/palette'
 
-import { StepItem } from './StepperTypes'
+import { StepItem } from '../StepperTypes'
 
 interface StyledStepLabelProps {
   stepState: StepItem['state']
