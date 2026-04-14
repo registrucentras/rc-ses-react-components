@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   FormControlLabel,
   FormControlLabelProps,
@@ -10,7 +9,6 @@ import {
 import React from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
-import CheckBoldDisabledIcon from '@/assets/icons/CheckBoldDisabledIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
@@ -78,15 +76,7 @@ function RcSesCheckboxFormControl(props: Props) {
         <MuiCheckbox
           id={id}
           checked={value === true}
-          checkedIcon={
-            loading ? (
-              <LoadingStateIcon />
-            ) : disabled ? (
-              <CheckBoldDisabledIcon />
-            ) : (
-              <CheckBoldIcon />
-            )
-          }
+          checkedIcon={loading ? <LoadingStateIcon /> : <CheckBoldIcon />}
           disabled={disabled}
           icon={loading ? <LoadingStateIcon /> : <CheckUncheckedBoldIcon />}
           {...controllerProps}

@@ -16,7 +16,6 @@ import CaretDownIcon from '@/assets/icons/CaretDownIcon'
 import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
-import CheckBoldDisabledIcon from '@/assets/icons/CheckBoldDisabledIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
@@ -139,10 +138,6 @@ const iconItems: IconStoryItem[] = [
   {
     name: 'CaretRightBoldIcon',
     render: renderIcon(CaretRightBoldIcon),
-  },
-  {
-    name: 'CheckBoldDisabledIcon',
-    render: renderIcon(CheckBoldDisabledIcon),
   },
   {
     name: 'CheckBoldIcon',
