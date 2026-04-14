@@ -15,6 +15,7 @@ const colorOptions = [
   'primary',
   'secondary',
   'grey',
+  'dark',
   'error',
   'inherit',
   'success',

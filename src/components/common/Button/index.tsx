@@ -8,6 +8,12 @@ const defaultProps: Partial<MuiButtonProps> = {
   variant: 'contained',
 }
 
+const ICON_ONLY_SIZE_MAP = {
+  small: '2.25rem',
+  medium: '2.75rem',
+  large: '3rem',
+} as const
+
 type Props = ButtonProps & { to?: string }
 
 function RcSesButton(props: Props) {
@@ -16,12 +22,6 @@ function RcSesButton(props: Props) {
   const currentVariant = variant ?? defaultProps.variant
   const isIconOnly =
     !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
-
-  const iconOnlySizingBySize = {
-    small: '2.25rem',
-    medium: '2.75rem',
-    large: '3rem',
-  }
 
   return (
     <MuiButton
@@ -35,7 +35,8 @@ function RcSesButton(props: Props) {
           ? {
               minWidth: 0,
               padding: 0,
-              width: iconOnlySizingBySize[size],
+              width: ICON_ONLY_SIZE_MAP[size],
+              height: ICON_ONLY_SIZE_MAP[size],
               '.MuiButton-startIcon, .MuiButton-endIcon': {
                 margin: 0,
               },
