@@ -255,7 +255,7 @@ const meta: Meta<StoryArgs> = {
 
 export default meta
 
-export const Gallery: StoryFn<StoryArgs> = ({ className, size, fillColor }) => {
+const GalleryComponent = ({ className, size, fillColor }: StoryArgs) => {
   const [selectedFillToken, setSelectedFillToken] = useState(
     resolveTokenNameByColor(fillColor),
   )
@@ -353,3 +353,5 @@ export const Gallery: StoryFn<StoryArgs> = ({ className, size, fillColor }) => {
     </Box>
   )
 }
+
+export const Gallery: StoryFn<StoryArgs> = (args) => <GalleryComponent {...args} />
