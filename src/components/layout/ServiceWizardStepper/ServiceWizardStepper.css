@@ -26,7 +26,7 @@
   border-radius: 8px;
   border: 1px solid var(--Neutrals-600, #6b747f);
   width: 36px;
-  margin: 0 20px
+  margin: 0 20px;
 }
 
 .ServiceWizardStepper.MuiStepper-vertical .MuiStep-root {
@@ -120,9 +120,13 @@
   border-top-width: 4px;
 }
 
-.ServiceWizardStepper .MuiStepConnector-line {
+.ServiceWizardStepper.MuiStepper-horizontal .MuiStepConnector-line {
   border-top-width: 2px;
   border-radius: 99px;
+}
+
+.ServiceWizardStepper.MuiStepper-vertical .MuiStepConnector-line {
+  display: none;
 }
 
 .MuiStepButton-root {
