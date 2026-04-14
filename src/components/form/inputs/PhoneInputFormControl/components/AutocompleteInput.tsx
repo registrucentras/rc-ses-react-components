@@ -23,7 +23,7 @@ function AutocompleteInput(props: AutocompleteRenderInputParams) {
         endAdornment: null,
         startAdornment: (
           <InputAdornment position='start' sx={{ pl: 1 }}>
-            <MagnifyingGlassIcon sx={{ color: palette.grey[900] }} />
+            <MagnifyingGlassIcon fillColor={palette.grey[900]} />
           </InputAdornment>
         ),
       }}
