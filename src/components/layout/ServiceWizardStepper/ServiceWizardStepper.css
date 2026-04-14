@@ -1,92 +1,24 @@
 .ServiceWizardStepper {
   width: 100%;
 }
+
 .MobileStepperWrapper {
   display: flex;
   align-items: center;
-  width: 100%;
   padding: 0 20px;
 }
 
 .NavSlot {
   width: 36px;
   height: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .MobileStepperContent {
   flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.PrevButton {
-  border-radius: 8px;
-  border: 1px solid var(--Neutrals-600, #6b747f);
-  width: 36px;
-  margin: 0 20px;
-}
-
-.ServiceWizardStepper.MuiStepper-vertical .MuiStep-root {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  margin: 0 0 8px 0;
-  padding: 0;
-  position: relative;
-}
-
-.ServiceWizardStepper.MuiStepper-vertical .MuiStepLabel-root {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: left;
-  margin-left: 0;
-  padding: 0;
-}
-
-.ServiceWizardStepper.MuiStepper-vertical .MuiStepLabel-iconContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-width: 32px;
-}
-
-.ServiceWizardStepper.MuiStepper-vertical .MuiStepLabel-labelContainer {
-  margin-left: 12px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.ServiceWizardStepper.MuiStepper-vertical .MuiStepConnector-line {
-  border-left-width: 2px;
-  border-top-width: 0;
-  min-height: 20px;
-  border-radius: 99px;
-  margin-left: 0;
 }
 
 .MobileStepperWrapper {
-  display: flex;
-  align-items: center;
   gap: 12px;
-}
-
-.MobileStepperContent {
-  flex: 1;
-}
-
-.PrevButton {
-  border: 1px solid #cfd8dc;
-  border-radius: 12px;
-  width: 40px;
-  height: 40px;
 }
 
 .ServiceWizardStepper .MuiStep-root:first-child,
@@ -117,7 +49,6 @@
 
 .ServiceWizardStepper .MuiStep-root:nth-child(2) .MuiStepConnector-root {
   left: calc(-50% + 28px);
-  border-top-width: 4px;
 }
 
 .ServiceWizardStepper.MuiStepper-horizontal .MuiStepConnector-line {
@@ -127,11 +58,6 @@
 
 .ServiceWizardStepper.MuiStepper-vertical .MuiStepConnector-line {
   display: none;
-}
-
-.MuiStepButton-root {
-  display: block;
-  padding: 0;
 }
 
 .MuiStepButton-root .MuiStepLabel-root {
