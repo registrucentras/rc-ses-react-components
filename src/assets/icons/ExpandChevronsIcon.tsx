@@ -2,9 +2,10 @@ import { ArrowsOutLineVerticalIcon as ArrowsOutLineVertical } from '@phosphor-ic
 
 import IconProps from '../IconProps'
 
-function ExpandChevronsIcon({ className, size = 16, fillColor }: IconProps) {
+function ExpandChevronsIcon({ className, size = 16, fillColor, ...rest }: IconProps) {
   return (
     <ArrowsOutLineVertical
+      {...rest}
       className={className}
       size={size}
       weight='bold'

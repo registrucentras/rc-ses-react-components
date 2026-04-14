@@ -2,9 +2,15 @@ import { WarningDiamondIcon as WarningDiamond } from '@phosphor-icons/react'
 
 import IconProps from '../IconProps'
 
-function WarningDiamondFillIcon({ className, size = 24, fillColor }: IconProps) {
+function WarningDiamondFillIcon({ className, size = 24, fillColor, ...rest }: IconProps) {
   return (
-    <WarningDiamond className={className} size={size} weight='fill' color={fillColor} />
+    <WarningDiamond
+      {...rest}
+      className={className}
+      size={size}
+      weight='fill'
+      color={fillColor}
+    />
   )
 }
 

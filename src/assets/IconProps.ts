@@ -1,12 +1,8 @@
-import type { SxProps, Theme } from '@mui/material'
+import type { SVGProps } from 'react'
 
-type IconProps = {
-  'aria-hidden'?: boolean
-  className?: string
+type IconProps = SVGProps<SVGSVGElement> & {
   fillColor?: string
   size?: number
-  strokeColor?: string
-  sx?: SxProps<Theme>
 }
 
 export default IconProps

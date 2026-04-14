@@ -2,9 +2,10 @@ import { ArrowsInLineVerticalIcon as ArrowsInLineVertical } from '@phosphor-icon
 
 import IconProps from '../IconProps'
 
-function CollapseChevronsIcon({ className, size = 16, fillColor }: IconProps) {
+function CollapseChevronsIcon({ className, size = 16, fillColor, ...rest }: IconProps) {
   return (
     <ArrowsInLineVertical
+      {...rest}
       className={className}
       size={size}
       weight='bold'

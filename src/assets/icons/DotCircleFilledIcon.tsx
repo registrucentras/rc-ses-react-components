@@ -1,8 +1,9 @@
 import IconProps from '../IconProps'
 
-function DotCircleFilledIcon({ className, fillColor, size = 24 }: IconProps) {
+function DotCircleFilledIcon({ className, fillColor, size = 24, ...rest }: IconProps) {
   return (
     <svg
+      {...rest}
       className={className}
       width={size}
       height={size}
