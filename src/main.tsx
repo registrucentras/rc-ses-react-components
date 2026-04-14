@@ -13,6 +13,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import theme from '@/theme/light'
 
 import App from './App'
+import HorizontalMultipleStepForm from './examples/HorizontalMultiStepForm'
 import MultipleStepForm from './examples/MultipleStepForm'
 import SingleStepForm from './examples/SingleStepForm'
 import i18n from './i18n/i18n'
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/multi-step-form',
     element: <MultipleStepForm />,
+  },
+  {
+    path: '/horizontal-multi-step-form',
+    element: <HorizontalMultipleStepForm />,
   },
 ])
 
