@@ -1,43 +1,69 @@
+import { StepButton, useMediaQuery, useTheme } from '@mui/material'
 import Step from '@mui/material/Step'
-import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
-import React from 'react'
+import { useState } from 'react'
 
-import {
-  AccordionControllerState,
-  AccordionState,
-} from '@/components/common/Accordion/types/AccordionControllerState'
+import CustomStepIcon from './CustomStepIcon'
+import './ServiceWizardStepper.css'
+import QontoConnector from './StepConnector'
+import { StepperContext } from './StepperContext'
+import { StepItem } from './StepperTypes'
+import StyledStepLabel from './StyledStepLabel'
 
-import ActiveStepIcon from './components/ActiveStepIcon'
-import CompletedStepIcon from './components/CompletedStepIcon'
-import PendingStepIcon from './components/PendingStepIcon'
-
-type Props = {
-  steps: AccordionControllerState
+interface ServiceWizardStepperProps {
+  orientation?: 'vertical' | 'horizontal'
+  steps: StepItem[]
 }
-function ServiceWizardStepper({ steps }: Props) {
-  const getStepIcon = React.useCallback((state: AccordionState['state']) => {
-    switch (state) {
-      case 'active':
-        return ActiveStepIcon
-      case 'completed':
-        return CompletedStepIcon
-      default:
-        return PendingStepIcon
-    }
-  }, [])
+const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
+  prev.map((step, i) => {
+    if (i < index) return { ...step, state: 'completed' }
+    if (i === index) return { ...step, state: 'active' }
+    return { ...step, state: 'pending' }
+  })
 
-  const activeStep =
-    Object.values(steps).findIndex((step) => step.state === 'active') ?? 0
+function ServiceWizardStepper({
+  steps,
+  orientation = 'horizontal',
+}: ServiceWizardStepperProps) {
+  const [stepEntries, setStepEntries] = useState<StepItem[]>(steps)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const resolvedOrientation = isMobile ? 'horizontal' : orientation
+  const activeStep = stepEntries.findIndex((s) => s.state === 'active')
+
+  const handleStepClick = (index: number) => {
+    if (index > activeStep) return
+    setStepEntries((prev) => updateSteps(index, prev))
+  }
 
   return (
-    <Stepper activeStep={activeStep} orientation='vertical' sx={{ mt: 6.5 }}>
-      {Object.values(steps).map((step) => (
-        <Step key={step.title}>
-          <StepLabel StepIconComponent={getStepIcon(step.state)}>{step.title}</StepLabel>
-        </Step>
-      ))}
-    </Stepper>
+    <StepperContext.Provider value={stepEntries}>
+      <Stepper
+        alternativeLabel={resolvedOrientation === 'horizontal'}
+        activeStep={activeStep === -1 ? 0 : activeStep}
+        orientation={resolvedOrientation}
+        connector={resolvedOrientation === 'horizontal' ? <QontoConnector /> : undefined}
+        className={`ServiceWizardStepper ServiceWizardStepper-${resolvedOrientation}`}
+      >
+        {stepEntries.map((step, index) => {
+          const isClickable = index <= (activeStep === -1 ? 0 : activeStep)
+          return (
+            <Step key={step.title}>
+              <StepButton onClick={() => handleStepClick(index)} disabled={!isClickable}>
+                <StyledStepLabel
+                  StepIconComponent={CustomStepIcon}
+                  stepState={step.state}
+                  orientation={resolvedOrientation}
+                >
+                  {!isMobile && step.title}
+                </StyledStepLabel>
+              </StepButton>
+            </Step>
+          )
+        })}
+      </Stepper>
+    </StepperContext.Provider>
   )
 }
 
