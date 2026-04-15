@@ -34,6 +34,7 @@ const DesktopStepper = ({
               StepIconComponent={CustomStepIcon}
               stepState={step.state}
               orientation={resolvedOrientation}
+              isLast={index === stepEntries.length - 1}
             >
               {step.title}
             </StyledStepLabel>

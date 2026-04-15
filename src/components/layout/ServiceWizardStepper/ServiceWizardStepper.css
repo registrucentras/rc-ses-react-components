@@ -26,6 +26,10 @@
   flex: 0.5;
 }
 
+.ServiceWizardStepper.MuiStepper-vertical .MuiStep-root {
+  margin-bottom: 10px;
+}
+
 .ServiceWizardStepper-horizontal .MuiStep-root:first-child .MuiStepLabel-root {
   align-items: flex-start;
 }
