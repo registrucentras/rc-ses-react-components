@@ -1,7 +1,7 @@
 import { Step, StepButton, Stepper } from '@mui/material'
 import { Box } from '@mui/system'
 
-import QontoConnector from '../StepConnector'
+import StepConnector from '../StepConnector'
 import { StepItem } from '../StepperTypes'
 import CustomStepIcon from './CustomStepIcon'
 import HorizontalStepperButton from './HorizontalStepperButton'
@@ -33,7 +33,7 @@ const MobileStepper = ({
         alternativeLabel
         activeStep={activeStep === -1 ? 0 : activeStep}
         orientation='horizontal'
-        connector={<QontoConnector />}
+        connector={<StepConnector />}
         className='ServiceWizardStepper ServiceWizardStepper-horizontal'
       >
         {stepEntries.map((step) => (

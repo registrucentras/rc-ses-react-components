@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
-import { StepConnector, stepConnectorClasses } from '@mui/material'
+import { StepConnector as MuiStepConnector, stepConnectorClasses } from '@mui/material'
 
 import theme from '@/theme/light'
 import palette from '@/theme/palette'
 
-const QontoConnector = styled(StepConnector)(() => ({
+const StepConnector = styled(MuiStepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 12,
     [theme.breakpoints.up('sm')]: {
@@ -26,4 +26,4 @@ const QontoConnector = styled(StepConnector)(() => ({
   },
 }))
 
-export default QontoConnector
+export default StepConnector

@@ -1,6 +1,6 @@
 import { Step, StepButton, Stepper } from '@mui/material'
 
-import QontoConnector from '../StepConnector'
+import StepConnector from '../StepConnector'
 import { StepItem } from '../StepperTypes'
 import CustomStepIcon from './CustomStepIcon'
 import StyledStepLabel from './StyledStepLabel'
@@ -22,7 +22,7 @@ const DesktopStepper = ({
     alternativeLabel={resolvedOrientation === 'horizontal'}
     activeStep={activeStep === -1 ? 0 : activeStep}
     orientation={resolvedOrientation}
-    connector={resolvedOrientation === 'horizontal' ? <QontoConnector /> : undefined}
+    connector={resolvedOrientation === 'horizontal' ? <StepConnector /> : undefined}
     className={`ServiceWizardStepper ServiceWizardStepper-${resolvedOrientation}`}
   >
     {stepEntries.map((step, index) => {
