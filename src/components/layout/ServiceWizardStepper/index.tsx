@@ -1,5 +1,5 @@
 import { useMediaQuery, useTheme } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './ServiceWizardStepper.css'
 import { StepItem } from './StepperTypes'
@@ -23,6 +23,10 @@ function ServiceWizardStepper({
   orientation = 'horizontal',
 }: ServiceWizardStepperProps) {
   const [currentSteps, setCurrentSteps] = useState(steps)
+
+  useEffect(() => {
+    setCurrentSteps(steps)
+  }, [steps])
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
