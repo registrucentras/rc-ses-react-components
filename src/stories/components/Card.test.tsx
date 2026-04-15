@@ -11,8 +11,8 @@ const { Main } = composeStories(stories)
 test('reuses args from composed card story', () => {
   render(<ThemeProvider theme={theme}>{Main()}</ThemeProvider>)
 
-  expect(screen.getByText(Main.args.title)).toBeInTheDocument()
-  expect(screen.getByText(Main.args.description)).toBeInTheDocument()
+  expect(screen.getByText(Main.args.title as string)).toBeInTheDocument()
+  expect(screen.getByText(Main.args.description as string)).toBeInTheDocument()
   expect(screen.getByText('Vidinis paslaugu front-end sprendimas')).toBeInTheDocument()
   expect(screen.getAllByRole('button', { name: 'Button' })).toHaveLength(3)
 })
