@@ -3,6 +3,7 @@ import { ContainerProps } from '@mui/system'
 import React from 'react'
 
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
+import mapAccordionStateToSteps from '@/components/shared/utils'
 import palette from '@/theme/palette'
 
 import ServiceWizardStepper from '../ServiceWizardStepper'
@@ -51,7 +52,7 @@ function RcSesServiceFormContainer({
       >
         {showProgressStepper && (
           <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
-            <ServiceWizardStepper steps={state} />
+            <ServiceWizardStepper steps={mapAccordionStateToSteps(state)} />
           </Grid>
         )}
 
