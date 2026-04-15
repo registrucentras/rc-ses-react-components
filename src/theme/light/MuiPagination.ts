@@ -45,6 +45,12 @@ const MuiPaginationItem: Components['MuiPaginationItem'] = {
           backgroundColor: palette.grey[800],
         },
       },
+      '&.MuiPaginationItem-ellipsis': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 14,
+      },
     },
   },
 }
