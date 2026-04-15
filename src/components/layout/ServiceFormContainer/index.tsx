@@ -7,6 +7,7 @@ import palette from '@/theme/palette'
 
 import ServiceWizardStepper from '../ServiceWizardStepper'
 import AccordionCollapseControls from './components/AccordionCollapseControls'
+import mapAccordionStateToSteps from './utils'
 
 type Props = {
   accordionController: ReturnType<typeof useAccordionController>
@@ -51,7 +52,10 @@ function RcSesServiceFormContainer({
       >
         {showProgressStepper && (
           <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
-            <ServiceWizardStepper steps={state} />
+            <ServiceWizardStepper
+              steps={mapAccordionStateToSteps(state)}
+              orientation='vertical'
+            />
           </Grid>
         )}
 

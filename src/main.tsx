@@ -13,6 +13,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import theme from '@/theme/light'
 
 import App from './App'
+import HorizontalMultipleStepForm from './examples/HorizontalMultiStepForm'
 import ListWithPagination from './examples/ListWithPagination'
 import MultipleStepForm from './examples/MultipleStepForm'
 import SingleStepForm from './examples/SingleStepForm'
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: '/pagination',
     element: <ListWithPagination />,
+  },
+  {
+    path: '/horizontal-multi-step-form',
+    element: <HorizontalMultipleStepForm />,
   },
 ])
 
