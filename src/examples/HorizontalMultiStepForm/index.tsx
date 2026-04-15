@@ -42,7 +42,7 @@ function HorizontalMultipleStepForm() {
         title='Nekilnojamojo turto registro išrašas pagal nurodytą turto adresą'
       >
         <Typography variant='body1'>
-          Šiakkme puslapyje Jūs galite užsisakyti Nekilnojamojo turto registro išrašus,
+          Šiame puslapyje Jūs galite užsisakyti Nekilnojamojo turto registro išrašus,
           pažymas bei kitus dokumentus. Užsakytą NTR išrašą, pažymą ar kitą dokumentą
           galėsite gauti elektroniniu būdu arba atsiimti pasirinktame VĮ Registrų centro
           padalinyje.

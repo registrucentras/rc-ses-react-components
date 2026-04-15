@@ -18,20 +18,19 @@ const MobileStepper = ({
   activeStep,
   handleStepClick,
 }: MobileStepperProps) => (
-  <Box className='MobileStepperWrapper'>
-    <Box className='NavSlot'>
+  <Box className='ServiceWizardStepper-MobileStepperWrapper'>
+    <Box className='ServiceWizardStepper-NavSlot'>
       {activeStep > 0 && (
         <HorizontalStepperButton
           direction='back'
-          disabled={activeStep === 0}
           onClick={() => handleStepClick(activeStep - 1)}
         />
       )}
     </Box>
-    <Box className='MobileStepperContent'>
+    <Box className='ServiceWizardStepper-MobileStepperContent'>
       <Stepper
         alternativeLabel
-        activeStep={activeStep === -1 ? 0 : activeStep}
+        activeStep={activeStep}
         orientation='horizontal'
         connector={<StepConnector />}
         className='ServiceWizardStepper ServiceWizardStepper-horizontal'
@@ -48,7 +47,7 @@ const MobileStepper = ({
         ))}
       </Stepper>
     </Box>
-    <Box className='NavSlot' />
+    <Box className='ServiceWizardStepper-NavSlot' />
   </Box>
 )
 

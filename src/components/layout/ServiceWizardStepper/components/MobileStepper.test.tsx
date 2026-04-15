@@ -16,6 +16,6 @@ describe('MobileStepper', () => {
     )
 
     const stepButtons = screen.getAllByRole('button')
-    expect(stepButtons).toHaveLength(steps.length + 1) // +1 for the next button
+    expect(stepButtons).toHaveLength(steps.length + 1) // +1 for the "previous" button
   })
 })

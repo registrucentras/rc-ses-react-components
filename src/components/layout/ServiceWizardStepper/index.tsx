@@ -13,7 +13,7 @@ interface ServiceWizardStepperProps {
 
 function ServiceWizardStepper({
   steps,
-  orientation = 'horizontal',
+  orientation = 'vertical',
 }: ServiceWizardStepperProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))

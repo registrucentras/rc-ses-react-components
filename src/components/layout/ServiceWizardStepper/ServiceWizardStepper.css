@@ -2,21 +2,21 @@
   width: 100%;
 }
 
-.MobileStepperWrapper {
+.ServiceWizardStepper-MobileStepperWrapper {
   display: flex;
   align-items: center;
   padding: 0 20px;
+  gap: 12px;
 }
 
-.NavSlot {
+.ServiceWizardStepper-NavSlot {
   width: 36px;
   height: 36px;
 }
 
-.MobileStepperContent {
+.ServiceWizardStepper-MobileStepperContent {
   flex: 1;
 }
-
 .MobileStepperWrapper {
   gap: 12px;
 }

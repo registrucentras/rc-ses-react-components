@@ -20,7 +20,7 @@ const DesktopStepper = ({
 }: DesktopStepperProps) => (
   <Stepper
     alternativeLabel={resolvedOrientation === 'horizontal'}
-    activeStep={activeStep === -1 ? 0 : activeStep}
+    activeStep={activeStep}
     orientation={resolvedOrientation}
     connector={resolvedOrientation === 'horizontal' ? <StepConnector /> : undefined}
     className={`ServiceWizardStepper ServiceWizardStepper-${resolvedOrientation}`}
