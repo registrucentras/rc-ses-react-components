@@ -52,7 +52,10 @@ function RcSesServiceFormContainer({
       >
         {showProgressStepper && (
           <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
-            <ServiceWizardStepper steps={mapAccordionStateToSteps(state)} />
+            <ServiceWizardStepper
+              steps={mapAccordionStateToSteps(state)}
+              orientation='vertical'
+            />
           </Grid>
         )}
 
