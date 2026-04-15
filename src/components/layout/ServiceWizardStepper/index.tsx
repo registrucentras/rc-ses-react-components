@@ -4,7 +4,6 @@ import './ServiceWizardStepper.css'
 import { StepItem } from './StepperTypes'
 import DesktopStepper from './components/DesktopStepper'
 import MobileStepper from './components/MobileStepper'
-import { StepperContext } from './context/StepperContext'
 import useStepper from './hooks/useStepper'
 
 interface ServiceWizardStepperProps {
@@ -22,23 +21,23 @@ function ServiceWizardStepper({
   const resolvedOrientation = isMobile ? 'horizontal' : orientation
 
   const { stepEntries, activeStep, goToStep } = useStepper(steps)
+  if (isMobile) {
+    return (
+      <MobileStepper
+        stepEntries={stepEntries}
+        activeStep={activeStep}
+        handleStepClick={goToStep}
+      />
+    )
+  }
+
   return (
-    <StepperContext.Provider value={stepEntries}>
-      {isMobile ? (
-        <MobileStepper
-          stepEntries={stepEntries}
-          activeStep={activeStep}
-          handleStepClick={goToStep}
-        />
-      ) : (
-        <DesktopStepper
-          stepEntries={stepEntries}
-          activeStep={activeStep}
-          handleStepClick={goToStep}
-          resolvedOrientation={resolvedOrientation}
-        />
-      )}
-    </StepperContext.Provider>
+    <DesktopStepper
+      stepEntries={stepEntries}
+      activeStep={activeStep}
+      handleStepClick={goToStep}
+      resolvedOrientation={resolvedOrientation}
+    />
   )
 }
 
