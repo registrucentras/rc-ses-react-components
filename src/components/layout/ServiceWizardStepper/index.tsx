@@ -1,41 +1,56 @@
 import { useMediaQuery, useTheme } from '@mui/material'
+import { useState } from 'react'
 
 import './ServiceWizardStepper.css'
 import { StepItem } from './StepperTypes'
 import DesktopStepper from './components/DesktopStepper'
 import MobileStepper from './components/MobileStepper'
-import useStepper from './hooks/useStepper'
 
 interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
 }
 
+const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
+  prev.map((step, i) => {
+    if (i < index) return { ...step, state: 'completed' }
+    if (i === index) return { ...step, state: 'active' }
+    return { ...step, state: 'pending' }
+  })
+
 function ServiceWizardStepper({
   steps,
-  orientation = 'vertical',
+  orientation = 'horizontal',
 }: ServiceWizardStepperProps) {
+  const [currentSteps, setCurrentSteps] = useState(steps)
+
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const resolvedOrientation = isMobile ? 'horizontal' : orientation
 
-  const { stepEntries, activeStep, goToStep } = useStepper(steps)
+  const activeStep = currentSteps.findIndex((s) => s.state === 'active') ?? 0
+
+  const handleStepClick = (index: number) => {
+    if (index < 0 || index > activeStep) return
+    setCurrentSteps((prev) => updateSteps(index, prev))
+  }
+
   if (isMobile) {
     return (
       <MobileStepper
-        stepEntries={stepEntries}
+        stepEntries={currentSteps}
         activeStep={activeStep}
-        handleStepClick={goToStep}
+        handleStepClick={handleStepClick}
       />
     )
   }
 
   return (
     <DesktopStepper
-      stepEntries={stepEntries}
+      stepEntries={currentSteps}
       activeStep={activeStep}
-      handleStepClick={goToStep}
+      handleStepClick={handleStepClick}
       resolvedOrientation={resolvedOrientation}
     />
   )
