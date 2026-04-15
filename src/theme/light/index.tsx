@@ -40,7 +40,7 @@ import MuiTextField from '@/theme/light/MuiTextField'
 import MuiTypography from '@/theme/light/MuiTypography'
 import themePalette from '@/theme/light/themePalette'
 
-import MuiPagination from './MuiPagination'
+import { MuiPagination, MuiPaginationItem } from './MuiPagination'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -110,6 +110,7 @@ const theme = createTheme(themePalette, ltLT, enUS, {
     MuiLinearProgress,
     MuiPickersLayout,
     MuiPagination,
+    MuiPaginationItem,
     MuiPopover,
     MuiRadio,
     MuiSelect,
