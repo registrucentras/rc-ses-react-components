@@ -1,5 +1,5 @@
-import { AccordionControllerState } from '../common/Accordion/types/AccordionControllerState'
-import { StepItem } from '../layout/ServiceWizardStepper/StepperTypes'
+import { AccordionControllerState } from '../../common/Accordion/types/AccordionControllerState'
+import { StepItem } from '../ServiceWizardStepper/StepperTypes'
 
 function mapAccordionStateToSteps(state: AccordionControllerState): StepItem[] {
   return Object.entries(state).map(([id, step]) => ({

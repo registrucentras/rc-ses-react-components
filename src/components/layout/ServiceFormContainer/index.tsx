@@ -3,11 +3,11 @@ import { ContainerProps } from '@mui/system'
 import React from 'react'
 
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
-import mapAccordionStateToSteps from '@/components/shared/utils'
 import palette from '@/theme/palette'
 
 import ServiceWizardStepper from '../ServiceWizardStepper'
 import AccordionCollapseControls from './components/AccordionCollapseControls'
+import mapAccordionStateToSteps from './utils'
 
 type Props = {
   accordionController: ReturnType<typeof useAccordionController>
