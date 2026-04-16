@@ -2,7 +2,8 @@ import { Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@/library'
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
+import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 
 import PaginationButton from './components/PaginationButton'
 
