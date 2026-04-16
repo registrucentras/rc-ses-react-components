@@ -9,7 +9,7 @@ import MobileStepper from './components/MobileStepper'
 interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
-  onStepClick?: (index: number) => void
+  onStepClick?: (steps: StepItem[]) => void
 }
 
 const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
@@ -31,7 +31,7 @@ function ServiceWizardStepper({
   }, [steps])
 
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const resolvedOrientation = isMobile ? 'horizontal' : orientation
 
@@ -41,7 +41,7 @@ function ServiceWizardStepper({
     if (index < 0 || index > activeStep) return
     const updatedSteps = updateSteps(index, currentSteps)
     setCurrentSteps(updatedSteps)
-    onStepClick?.(index)
+    onStepClick?.(updatedSteps)
   }
 
   if (isMobile) {

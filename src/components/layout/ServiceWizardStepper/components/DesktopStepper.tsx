@@ -24,6 +24,15 @@ const DesktopStepper = ({
     orientation={resolvedOrientation}
     connector={resolvedOrientation === 'horizontal' ? <StepConnector /> : undefined}
     className={`ServiceWizardStepper ServiceWizardStepper-${resolvedOrientation}`}
+    sx={
+      resolvedOrientation === 'vertical'
+        ? {
+            width: 220,
+            flexShrink: 0,
+            alignSelf: 'flex-start',
+          }
+        : undefined
+    }
   >
     {stepEntries.map((step, index) => {
       const isClickable = index <= (activeStep === -1 ? 0 : activeStep)
