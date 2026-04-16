@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
+import { useState } from 'react'
 
 import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import ServiceHeader from '@/components/layout/ServiceHeader'
@@ -12,6 +13,31 @@ const steps: StepItem[] = [
 ]
 
 function CardMultipleStepForm() {
+  const [currentSteps, setSteps] = useState(steps)
+  const activeStep = currentSteps.findIndex((s) => s.state === 'active')
+
+  const handleBack = () => {
+    if (activeStep <= 0) return
+
+    const updatedSteps: StepItem[] = currentSteps.map((step, index) => {
+      if (index < activeStep - 1) return { ...step, state: 'completed' }
+      if (index === activeStep - 1) return { ...step, state: 'active' }
+      return { ...step, state: 'pending' }
+    })
+
+    setSteps(updatedSteps)
+  }
+
+  const handleNext = () => {
+    const activeIndex = currentSteps.findIndex((s) => s.state === 'active')
+    if (activeIndex === -1 || activeIndex === currentSteps.length - 1) return
+    const updatedSteps: StepItem[] = currentSteps.map((step, index) => {
+      if (index < activeIndex + 1) return { ...step, state: 'completed' }
+      if (index === activeIndex + 1) return { ...step, state: 'active' }
+      return { ...step, state: 'pending' }
+    })
+    setSteps(updatedSteps)
+  }
   return (
     <ServicePage>
       <ServiceHeader
@@ -34,8 +60,31 @@ function CardMultipleStepForm() {
         </Typography>
       </ServiceHeader>
 
-      <RcSesCardFormContainer steps={steps} title='Test' description='Test description'>
-        <Typography variant='body1'>Test Body Text</Typography>
+      <RcSesCardFormContainer
+        layout='column'
+        steps={currentSteps}
+        onStepClick={(newSteps) => setSteps(newSteps)}
+        title='Test'
+        description='Test description'
+        leadingActions={
+          <Button onClick={handleBack} disabled={activeStep === 0}>
+            Back
+          </Button>
+        }
+        trailingActions={
+          <>
+            <Button variant='outlined'>Button</Button>
+            <Button
+              variant='contained'
+              onClick={handleNext}
+              disabled={activeStep === currentSteps.length - 1}
+            >
+              Next
+            </Button>
+          </>
+        }
+      >
+        <Typography variant='body1'>{`Current Step: ${activeStep + 1}`}</Typography>
       </RcSesCardFormContainer>
     </ServicePage>
   )
