@@ -9,6 +9,7 @@ import MobileStepper from './components/MobileStepper'
 interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
+  onStepClick?: (index: number) => void
 }
 
 const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
@@ -21,6 +22,7 @@ const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
 function ServiceWizardStepper({
   steps,
   orientation = 'horizontal',
+  onStepClick,
 }: ServiceWizardStepperProps) {
   const [currentSteps, setCurrentSteps] = useState(steps)
 
@@ -37,7 +39,9 @@ function ServiceWizardStepper({
 
   const handleStepClick = (index: number) => {
     if (index < 0 || index > activeStep) return
-    setCurrentSteps((prev) => updateSteps(index, prev))
+    const updatedSteps = updateSteps(index, currentSteps)
+    setCurrentSteps(updatedSteps)
+    onStepClick?.(index)
   }
 
   if (isMobile) {
