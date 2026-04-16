@@ -212,40 +212,40 @@ const MuiAlert: Components['MuiAlert'] = {
       backgroundColor: palette.grey['50'],
       borderColor: palette.grey['200'],
 
-      '.MuiAlert-icon path': {
-        fill: palette.grey['600'],
+      '.MuiAlert-icon': {
+        color: palette.grey['600'],
       },
     },
     outlinedError: {
       backgroundColor: palette.error['50'],
       borderColor: palette.error['200'],
 
-      '.MuiAlert-icon path': {
-        fill: palette.error['600'],
+      '.MuiAlert-icon': {
+        color: palette.error['600'],
       },
     },
     outlinedInfo: {
       backgroundColor: palette.primary['50'],
       borderColor: palette.primary['300'],
 
-      '.MuiAlert-icon path': {
-        fill: palette.primary['500'],
+      '.MuiAlert-icon': {
+        color: palette.primary['500'],
       },
     },
     outlinedSuccess: {
       backgroundColor: palette.secondary['100'],
       borderColor: palette.secondary['300'],
 
-      '.MuiAlert-icon path': {
-        fill: palette.secondary['600'],
+      '.MuiAlert-icon': {
+        color: palette.secondary['600'],
       },
     },
     outlinedWarning: {
       backgroundColor: palette.warning['100'],
       borderColor: palette.warning['300'],
 
-      '.MuiAlert-icon path': {
-        fill: palette.warning['600'],
+      '.MuiAlert-icon': {
+        color: palette.warning['600'],
       },
     },
   },

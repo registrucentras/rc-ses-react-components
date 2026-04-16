@@ -146,8 +146,12 @@ Testai turi tikrinti elgseną, o ne realizacijos smulkmenas.
 - Pridėkite arba atnaujinkite testus, kai keičiasi netrivialus atvaizdavimas, būsenų valdymas, validacija, valdymas klaviatūra ar integracinė elgsena.
 - Testus laikykite kuo arčiau tikrinamo kodo.
 - Venkite trapių assert'ų, priklausančių nuo atsitiktinės DOM struktūros.
+- Pirmenybę teikite prieinamiems selektoriams, pvz. `getByRole`, `getByLabelText`, `getByText`.
+- Kai sudėtiniam komponentui reikia stabilių vidinių identifikatorių testams ar E2E scenarijams, teikite pirmenybę aiškiai tipizuotam `testIds` props objektui.
+- `testIds` reikšmės turi būti atvaizduojamos į `data-testid` atributus tik tose komponento dalyse, kur vartotojams reikia stabilių slot identifikatorių.
+- Nenaudokite `slotProps`, `className` ar kitų stilizavimo API vien tik testų identifikatoriams perduoti, jei komponentui labiau tinka atskiras `testIds` kontraktas.
 
-UI pakeitimams užtikrinkite, kad istorijos ir testai išliktų suderinti.
+UI pakeitimams užtikrinkite, kad storybook ir testai išliktų suderinti.
 
 ## Internacionalizacija
 

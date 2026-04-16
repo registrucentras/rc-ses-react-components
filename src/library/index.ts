@@ -4,6 +4,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation'
 
 import RcSesIconProps from '@/assets/IconProps'
 import RcSesLogo from '@/assets/Logo'
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
 import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
@@ -18,6 +19,8 @@ import RcSesAlert from '@/components/common/Alert'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
+import RcSesCard from '@/components/common/Card'
+import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
@@ -51,7 +54,7 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
-export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover }
+export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover, RcSesCard }
 export { RcSesCheckbox, RcSesCheckboxFormControl }
 export { RcSesDatepicker }
 export { RcSesFileUpload }
@@ -63,6 +66,7 @@ export { RcSesSearchableField }
 export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
 export { RcSesTextField }
+export { DataPagination }
 
 export {
   RcSesServiceFormActions,
@@ -76,7 +80,7 @@ export type { RcSesIconProps }
 export { RcSesIconWithCircularBackground }
 
 export { RcSesLogo }
-export { ArrowRightIcon }
+export { ArrowRightIcon, ArrowLeftIcon }
 export {
   CaretDoubleLeftBoldIcon,
   CaretDoubleRightBoldIcon,

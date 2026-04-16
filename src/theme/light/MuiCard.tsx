@@ -9,8 +9,8 @@ const MuiCard: Components['MuiCard'] = {
   styleOverrides: {
     root: {
       border: '1px solid',
-      borderColor: Colors.grey['200'],
-      borderRadius: '0.375rem',
+      borderColor: Colors.grey['300'],
+      borderRadius: '1rem',
     },
   },
 }

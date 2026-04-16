@@ -59,12 +59,12 @@ const MuiButton: Components['MuiButton'] = {
               background: 'transparent',
               border: '2px solid',
               borderColor: grey[950],
-              borderRadius: '.375rem',
-              height: 'calc(100% + 6px)',
-              left: '-3px',
+              borderRadius: '0.75rem',
+              height: 'calc(100% + 8px)',
+              left: '-4px',
               position: 'absolute',
-              top: '-3px',
-              width: 'calc(100% + 6px)',
+              top: '-4px',
+              width: 'calc(100% + 8px)',
               zIndex: 1,
             },
         },
@@ -132,7 +132,7 @@ const MuiButton: Components['MuiButton'] = {
   },
   styleOverrides: {
     root: {
-      borderRadius: '.1875rem',
+      borderRadius: '0.5rem',
       fontSize: '.9375rem',
       height: '2.75rem',
       letterSpacing: 0,
@@ -146,21 +146,42 @@ const MuiButton: Components['MuiButton'] = {
           background: 'transparent',
           border: '2px solid',
           borderColor: grey[950],
-          borderRadius: '.375rem',
+          borderRadius: '0.75rem',
           content: '""',
-          height: 'calc(100% + 6px)',
-          left: '-3px',
+          height: 'calc(100% + 8px)',
+          left: '-4px',
           position: 'absolute',
-          top: '-3px',
-          width: 'calc(100% + 6px)',
+          top: '-4px',
+          width: 'calc(100% + 8px)',
           zIndex: 1,
         },
 
       '&.MuiButton-outlined:focus-visible:not(:active)::before': {
+        borderRadius: '0.75rem',
         height: 'calc(100% + 8px)',
         left: '-4px',
         top: '-4px',
         width: 'calc(100% + 8px)',
+      },
+
+      '.MuiButton-startIcon, .MuiButton-endIcon, & > svg': {
+        color: 'inherit',
+
+        'svg [fill]:not([fill="none"])': {
+          fill: 'currentColor',
+        },
+
+        'svg [stroke]:not([stroke="none"])': {
+          stroke: 'currentColor',
+        },
+
+        '& [fill]:not([fill="none"])': {
+          fill: 'currentColor',
+        },
+
+        '& [stroke]:not([stroke="none"])': {
+          stroke: 'currentColor',
+        },
       },
     },
 
@@ -176,7 +197,8 @@ const MuiButton: Components['MuiButton'] = {
     contained: {
       '&.Mui-disabled': {
         backgroundColor: `${grey[100]} !important`,
-        color: `${grey[500]} !important`,
+        color: `${grey[600]} !important`,
+        opacity: 1,
       },
 
       '&.MuiButton-colorPrimary': {
@@ -254,16 +276,21 @@ const MuiButton: Components['MuiButton'] = {
           '&:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
             {
               borderColor: error[700],
+              borderRadius: '0.75rem',
             },
         },
       },
     },
 
     outlined: {
+      borderColor: grey[300],
+      borderWidth: '1px',
+
       '&.Mui-disabled': {
         backgroundColor: `transparent !important`,
-        borderColor: `${grey[50]} !important`,
-        color: `${grey[400]} !important`,
+        borderColor: `${grey[300]} !important`,
+        color: `${grey[600]} !important`,
+        opacity: 1,
       },
 
       '&.MuiButton-colorPrimary': {
@@ -280,7 +307,7 @@ const MuiButton: Components['MuiButton'] = {
       },
 
       '&.MuiButton-colorGrey': {
-        borderColor: grey[600],
+        borderColor: grey[300],
         color: grey[900],
         backgroundColor: 'transparent',
 
