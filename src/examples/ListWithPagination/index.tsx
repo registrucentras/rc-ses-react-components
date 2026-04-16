@@ -5,7 +5,7 @@ import DataPagination from '@/components/common/DataPagination'
 import ServicePage from '@/components/layout/ServicePage'
 
 function ListWithPagination() {
-  const [activeStep, setActiveStep] = useState(1)
+  const [page, setPage] = useState(1)
   const ITEMS_PER_PAGE = 5
 
   const mockData = React.useMemo(
@@ -18,9 +18,9 @@ function ListWithPagination() {
   )
 
   const paginatedData = React.useMemo(() => {
-    const start = (activeStep - 1) * ITEMS_PER_PAGE
+    const start = (page - 1) * ITEMS_PER_PAGE
     return mockData.slice(start, start + ITEMS_PER_PAGE)
-  }, [activeStep, mockData])
+  }, [page, mockData])
 
   return (
     <ServicePage>
@@ -34,8 +34,8 @@ function ListWithPagination() {
 
       <DataPagination
         count={Math.ceil(mockData.length / ITEMS_PER_PAGE)}
-        page={activeStep}
-        onChange={setActiveStep}
+        page={page}
+        onChange={setPage}
       />
     </ServicePage>
   )

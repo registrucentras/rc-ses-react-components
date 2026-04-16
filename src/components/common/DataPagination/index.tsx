@@ -1,9 +1,8 @@
 import { Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
-import { ArrowLeftIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 
-import { ArrowRightIcon } from '@/library'
+import { ArrowLeftIcon, ArrowRightIcon } from '@/library'
 
 import PaginationButton from './components/PaginationButton'
 
