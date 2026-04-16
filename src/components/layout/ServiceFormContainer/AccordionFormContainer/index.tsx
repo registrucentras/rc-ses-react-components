@@ -5,7 +5,7 @@ import React from 'react'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import palette from '@/theme/palette'
 
-import ServiceWizardStepper from '../ServiceWizardStepper'
+import ServiceWizardStepper from '../../ServiceWizardStepper'
 import AccordionCollapseControls from './components/AccordionCollapseControls'
 import mapAccordionStateToSteps from './utils'
 
@@ -19,7 +19,7 @@ type Props = {
   }
 }
 
-function RcSesServiceFormContainer({
+function RcSesAccordionFormContainer({
   accordionController,
   children,
   showAccordionCollapseControls = true,
@@ -70,4 +70,4 @@ function RcSesServiceFormContainer({
   )
 }
 
-export default RcSesServiceFormContainer
+export default RcSesAccordionFormContainer
