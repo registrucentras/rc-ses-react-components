@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { Button, Typography } from '@mui/material'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'

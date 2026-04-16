@@ -5,8 +5,9 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper/'
 
 import { StepItem } from '../../ServiceWizardStepper/StepperTypes'
 
-type LayoutMode = 'column' | 'row'
-interface RcSesCardFormContainerProps extends RcSesCardProps {
+export type LayoutMode = 'column' | 'row'
+
+export interface RcSesCardFormContainerProps extends RcSesCardProps {
   steps: StepItem[]
   onStepClick?: (steps: StepItem[]) => void
   layout?: LayoutMode
