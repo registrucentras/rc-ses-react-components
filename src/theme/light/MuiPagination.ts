@@ -49,6 +49,7 @@ const MuiPaginationItem: Components['MuiPaginationItem'] = {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        pointerEvents: 'none',
         fontSize: 14,
       },
     },

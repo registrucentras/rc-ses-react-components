@@ -1,4 +1,4 @@
-import { Pagination } from '@mui/material'
+import { Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import { ArrowLeftIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
@@ -24,6 +24,8 @@ const DataPagination = ({
   prevLabel = 'Atgal',
   nextLabel = 'Kitas',
 }: DataPaginationProps) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const isControlled = page !== undefined
   const [internalPage, setInternalPage] = useState(defaultPage)
 
@@ -50,6 +52,8 @@ const DataPagination = ({
       <Pagination
         count={count}
         page={currentPage}
+        siblingCount={isMobile ? 0 : 1}
+        boundaryCount={1}
         onChange={(_, p) => handlePageChange(p)}
       />
       <PaginationButton
