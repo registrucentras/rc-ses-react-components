@@ -14,6 +14,7 @@ import theme from '@/theme/light'
 
 import App from './App'
 import HorizontalMultipleStepForm from './examples/HorizontalMultiStepForm'
+import ListWithPagination from './examples/ListWithPagination'
 import MultipleStepForm from './examples/MultipleStepForm'
 import SingleStepForm from './examples/SingleStepForm'
 import i18n from './i18n/i18n'
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: '/multi-step-form',
     element: <MultipleStepForm />,
+  },
+  {
+    path: '/pagination',
+    element: <ListWithPagination />,
   },
   {
     path: '/horizontal-multi-step-form',

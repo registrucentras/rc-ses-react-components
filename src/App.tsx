@@ -15,6 +15,10 @@ export default function App() {
       routeTo: '/multi-step-form',
     },
     {
+      title: 'Paginacijos pavyzdys',
+      routeTo: '/pagination',
+    },
+    {
       title: 'Formos su horizontaliu vedliu pavyzdys',
       routeTo: '/horizontal-multi-step-form',
     },
