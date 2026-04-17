@@ -40,7 +40,7 @@ import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesTextField from '@/components/form/inputs/TextField'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
-import RcSesAccordionFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
 import RcSesServicePage from '@/components/layout/ServicePage'
@@ -73,7 +73,7 @@ export { ServiceWizardStepper }
 
 export {
   RcSesServiceFormActions,
-  RcSesAccordionFormContainer,
+  RcSesServiceFormContainer,
   RcSesCardFormContainer,
   RcSesFormControlWrapper,
   RcSesServiceHeader,

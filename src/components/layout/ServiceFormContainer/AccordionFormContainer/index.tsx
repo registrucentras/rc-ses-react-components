@@ -19,7 +19,7 @@ type Props = {
   }
 }
 
-function RcSesAccordionFormContainer({
+function RcSesServiceFormContainer({
   accordionController,
   children,
   showAccordionCollapseControls = true,
@@ -70,4 +70,4 @@ function RcSesAccordionFormContainer({
   )
 }
 
-export default RcSesAccordionFormContainer
+export default RcSesServiceFormContainer
