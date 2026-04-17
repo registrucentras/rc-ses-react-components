@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material'
+import { Button, Container, Typography } from '@mui/material'
 import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
@@ -7,10 +7,18 @@ import { StepItem } from '@/components/layout/ServiceWizardStepper/StepperTypes'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 
-const steps: StepItem[] = [
-  { id: '1', state: 'completed', title: '1-2 zodziu tekstas' },
-  { id: '2', state: 'active', title: '1-2 zodziu tekstas' },
-  { id: '3', state: 'pending', title: '1-2 zodziu tekstas' },
+const shortSteps: StepItem[] = [
+  { id: '1', state: 'completed', title: 'Paslauga' },
+  { id: '2', state: 'active', title: 'Duomenys' },
+  { id: '3', state: 'pending', title: 'Patvirtinimas' },
+]
+
+const longSteps: StepItem[] = [
+  { id: '1', state: 'completed', title: 'Paslauga' },
+  { id: '2', state: 'completed', title: 'Duomenys' },
+  { id: '3', state: 'active', title: 'Dokumentai' },
+  { id: '4', state: 'pending', title: 'Mokėjimas' },
+  { id: '5', state: 'pending', title: 'Patvirtinimas' },
 ]
 
 const meta: Meta<typeof RcSesCardFormContainer> = {
@@ -18,84 +26,110 @@ const meta: Meta<typeof RcSesCardFormContainer> = {
   component: RcSesCardFormContainer,
   tags: ['autodocs'],
   argTypes: {
-    steps: {
-      table: {
-        disable: true,
-      },
-    },
-    onStepClick: {
-      table: {
-        disable: true,
-      },
-    },
+    steps: { table: { disable: true } },
+    onStepClick: { table: { disable: true } },
   },
 }
 
 export default meta
 
-const Template: StoryFn<typeof RcSesCardFormContainer> = (args) => {
-  const [currentSteps, setCurrentSteps] = useState(steps)
-  const activeStep = currentSteps.findIndex((step) => step.state === 'active')
+const DemoContent = () => (
+  <>
+    <Typography variant='h6'>Pavadinimas</Typography>
+    <Typography variant='body2' sx={{ mb: 2 }}>
+      Papildomas aprašymo tekstas
+    </Typography>
 
-  const handleBack = () => {
-    if (activeStep <= 0) return
+    <Container
+      sx={{
+        height: 140,
+        background: '#EDEDED',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        mb: 2,
+      }}
+    >
+      <Typography variant='body2'>Vidinis paslaugų front-end sprendimas</Typography>
+    </Container>
+  </>
+)
 
-    const updatedSteps: StepItem[] = currentSteps.map((step, index) => {
-      if (index < activeStep - 1) return { ...step, state: 'completed' }
-      if (index === activeStep - 1) return { ...step, state: 'active' }
-      return { ...step, state: 'pending' }
-    })
+const createTemplate =
+  (
+    initialSteps: StepItem[],
+    forcedLayout?: 'row' | 'column',
+  ): StoryFn<typeof RcSesCardFormContainer> =>
+  (args) => {
+    const [currentSteps, setCurrentSteps] = useState(initialSteps)
+    const activeStep = currentSteps.findIndex((s) => s.state === 'active')
 
-    setCurrentSteps(updatedSteps)
-  }
+    const handleBack = () => {
+      if (activeStep <= 0) return
 
-  const handleNext = () => {
-    if (activeStep === -1 || activeStep === currentSteps.length - 1) return
+      const updated = currentSteps.map((step, index) => {
+        if (index < activeStep - 1) return { ...step, state: 'completed' as const }
+        if (index === activeStep - 1) return { ...step, state: 'active' as const }
+        return { ...step, state: 'pending' as const }
+      })
 
-    const updatedSteps: StepItem[] = currentSteps.map((step, index) => {
-      if (index < activeStep + 1) return { ...step, state: 'completed' }
-      if (index === activeStep + 1) return { ...step, state: 'active' }
-      return { ...step, state: 'pending' }
-    })
+      setCurrentSteps(updated)
+    }
 
-    setCurrentSteps(updatedSteps)
-  }
+    const handleNext = () => {
+      if (activeStep === -1 || activeStep === currentSteps.length - 1) return
 
-  return (
-    <Fields>
-      <FieldView>
-        <RcSesCardFormContainer
-          {...args}
-          steps={currentSteps}
-          onStepClick={(newSteps) => setCurrentSteps(newSteps)}
-          leadingActions={
-            <Button onClick={handleBack} disabled={activeStep <= 0}>
-              Back
-            </Button>
-          }
-          trailingActions={
-            <>
-              <Button variant='outlined'>Button</Button>
-              <Button
-                variant='contained'
-                onClick={handleNext}
-                disabled={activeStep === currentSteps.length - 1}
-              >
-                Next
+      const updated = currentSteps.map((step, index) => {
+        if (index < activeStep + 1) return { ...step, state: 'completed' as const }
+        if (index === activeStep + 1) return { ...step, state: 'active' as const }
+        return { ...step, state: 'pending' as const }
+      })
+
+      setCurrentSteps(updated)
+    }
+
+    return (
+      <Fields>
+        <FieldView>
+          <RcSesCardFormContainer
+            {...args}
+            layout={forcedLayout}
+            steps={currentSteps}
+            onStepClick={setCurrentSteps}
+            leadingActions={
+              <Button onClick={handleBack} disabled={activeStep <= 0}>
+                Back
               </Button>
-            </>
-          }
-        >
-          <Typography variant='body1'>{`Current Step: ${activeStep + 1}`}</Typography>
-        </RcSesCardFormContainer>
-      </FieldView>
-    </Fields>
-  )
+            }
+            trailingActions={
+              <>
+                <Button variant='outlined'>Button</Button>
+                <Button
+                  variant='contained'
+                  onClick={handleNext}
+                  disabled={activeStep === currentSteps.length - 1}
+                >
+                  Next
+                </Button>
+              </>
+            }
+          >
+            <DemoContent />
+          </RcSesCardFormContainer>
+        </FieldView>
+      </Fields>
+    )
+  }
+
+export const HorizontalDemo = createTemplate(shortSteps, 'column')
+HorizontalDemo.args = {
+  title: 'Antraštės tekstas',
+  description: 'Papildomas aprašymo tekstas',
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  layout: 'column',
-  title: 'Test',
-  description: 'Test description',
+export const VerticalDemo = createTemplate(longSteps, 'row')
+VerticalDemo.args = {
+  title: 'Antraštės tekstas',
+  description: 'Papildomas aprašymo tekstas',
 }
