@@ -10,6 +10,7 @@ const steps: StepItem[] = [
   { id: '1', state: 'completed', title: '1-2 žodžių tekstas' },
   { id: '2', state: 'active', title: '1-2 žodžių tekstas' },
   { id: '3', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '4', state: 'pending', title: '1-2 žodžių tekstas' },
 ]
 
 function CardMultipleStepForm() {
@@ -61,7 +62,6 @@ function CardMultipleStepForm() {
       </ServiceHeader>
 
       <RcSesCardFormContainer
-        layout='column'
         steps={currentSteps}
         onStepClick={(newSteps) => setSteps(newSteps)}
         title='Test'

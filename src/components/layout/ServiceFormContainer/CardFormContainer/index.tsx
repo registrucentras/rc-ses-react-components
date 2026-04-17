@@ -16,35 +16,48 @@ export interface RcSesCardFormContainerProps extends RcSesCardProps {
 const RcSesCardFormContainer = ({
   steps,
   onStepClick,
-  layout = 'column',
+  layout,
   children,
   ...cardProps
-}: RcSesCardFormContainerProps) => (
-  <Container
-    sx={{
-      display: 'flex',
-      flexDirection: {
-        xs: 'column',
-        md: layout,
-      },
-      gap: '24px',
-      paddingBottom: '64px',
-    }}
-  >
-    <ServiceWizardStepper
-      steps={steps}
-      onStepClick={onStepClick}
-      orientation={layout === 'row' ? 'vertical' : 'horizontal'}
-    />
-    <RcSesCard
-      {...cardProps}
+}: RcSesCardFormContainerProps) => {
+  const getLayoutDirection = () => {
+    if (layout != null) return layout
+    if (steps.length > 4) {
+      return 'row'
+    }
+    return 'column'
+  }
+
+  return (
+    <Container
       sx={{
-        width: '100%',
+        display: 'flex',
+        flexDirection: {
+          xs: 'column',
+          md: getLayoutDirection(),
+        },
+        gap: '24px',
+        paddingBottom: '64px',
       }}
     >
-      {children}
-    </RcSesCard>
-  </Container>
-)
+      {steps.length > 2 && (
+        <ServiceWizardStepper
+          steps={steps}
+          onStepClick={onStepClick}
+          orientation={getLayoutDirection() === 'row' ? 'vertical' : 'horizontal'}
+        />
+      )}
+
+      <RcSesCard
+        {...cardProps}
+        sx={{
+          width: '100%',
+        }}
+      >
+        {children}
+      </RcSesCard>
+    </Container>
+  )
+}
 
 export default RcSesCardFormContainer
