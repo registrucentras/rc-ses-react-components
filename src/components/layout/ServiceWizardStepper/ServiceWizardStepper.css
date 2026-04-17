@@ -17,8 +17,14 @@
 .ServiceWizardStepper-MobileStepperContent {
   flex: 1;
 }
+
 .MobileStepperWrapper {
   gap: 12px;
+}
+
+.ServiceWizardStepper .MuiStep-root {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .ServiceWizardStepper .MuiStep-root:first-child,
@@ -47,8 +53,8 @@
 }
 
 .ServiceWizardStepper .MuiStep-root:last-child .MuiStepConnector-root {
-  left: calc(-100% + 28px);
-  right: 36px;
+  left: calc(-100% + 20px);
+  right: 30px;
 }
 
 .ServiceWizardStepper .MuiStep-root:nth-child(2) .MuiStepConnector-root {
