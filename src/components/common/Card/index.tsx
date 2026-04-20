@@ -149,7 +149,7 @@ function RcSesCard({
           {
             alignItems: 'center',
             alignSelf: 'stretch',
-            backgroundColor: palette.grey[100],
+            backgroundColor: 'white',
             borderRadius: '0.5rem',
             display: 'flex',
             flexDirection: 'column',
@@ -170,7 +170,10 @@ function RcSesCard({
           sx={[
             {
               alignItems: { xs: 'stretch', md: 'center' },
-              justifyContent: { xs: 'stretch', md: 'space-between' },
+              justifyContent: {
+                xs: 'stretch',
+                md: leadingActions ? 'space-between' : 'flex-end',
+              },
               pt: '0.5rem',
               width: '100%',
             },
@@ -185,6 +188,7 @@ function RcSesCard({
               direction={{ xs: 'column', md: 'row' }}
               sx={[
                 {
+                  display: { xs: 'none', md: 'flex' },
                   alignItems: { xs: 'stretch', md: 'center' },
                   minHeight: { md: '2.75rem' },
                   width: { xs: '100%', md: 'auto' },

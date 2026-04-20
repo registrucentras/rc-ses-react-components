@@ -58,9 +58,11 @@ function CardMultipleStepForm() {
         title='Test'
         description='Test description'
         leadingActions={
-          <Button onClick={handleBack} disabled={activeStep === 0}>
-            Back
-          </Button>
+          activeStep !== 0 && (
+            <Button onClick={handleBack} disabled={activeStep === 0}>
+              Back
+            </Button>
+          )
         }
         trailingActions={
           <>
