@@ -5,7 +5,6 @@ function mapAccordionStateToSteps(state: AccordionControllerState): StepItem[] {
   return Object.entries(state).map(([id, step]) => ({
     id,
     title: step.title,
-    state: step.state,
   }))
 }
 

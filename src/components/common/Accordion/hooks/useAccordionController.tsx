@@ -10,30 +10,47 @@ function useAccordionController({ initialState }: Props) {
   const [state, setState] = React.useState<AccordionControllerState>(initialState)
 
   const toggleAccordion = (id: string, isExpanded: boolean) => {
-    const nextState = { ...state }
-    if (id in nextState) nextState[id].expanded = isExpanded
-    setState(nextState)
+    setState((prev) => {
+      const next = { ...prev }
+      if (id in next) next[id].expanded = isExpanded
+      return next
+    })
   }
 
   const collapseAll = () => {
-    const nextState = { ...state }
-    Object.keys(nextState).forEach((k) => {
-      nextState[k].expanded = false
+    setState((prev) => {
+      const next = { ...prev }
+      Object.keys(next).forEach((k) => {
+        next[k].expanded = false
+      })
+      return next
     })
-    setState(nextState)
   }
 
   const expandAll = () => {
-    const nextState = { ...state }
-    Object.keys(nextState).forEach((k) => {
-      nextState[k].expanded = true
+    setState((prev) => {
+      const next = { ...prev }
+      Object.keys(next).forEach((k) => {
+        next[k].expanded = true
+      })
+      return next
     })
-    setState(nextState)
+  }
+
+  const open = (id: string) => {
+    setState((prev) => {
+      const next = { ...prev }
+      Object.keys(next).forEach((k) => {
+        next[k].expanded = k === id
+      })
+      return next
+    })
   }
 
   return {
     collapseAll,
     expandAll,
+    open,
     state,
     toggleAccordion,
   }

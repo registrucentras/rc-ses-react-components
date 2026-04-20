@@ -1,6 +1,6 @@
 import { Container, Grid } from '@mui/material'
 import { ContainerProps } from '@mui/system'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import palette from '@/theme/palette'
@@ -26,12 +26,27 @@ function RcSesServiceFormContainer({
   showProgressStepper = false,
   slotProps,
 }: Props) {
-  const { state } = accordionController
+  const { state, open } = accordionController
 
-  const areAccordionCollapseControlsVisible = React.useMemo(() => {
+  const steps = useMemo(() => mapAccordionStateToSteps(state), [state])
+
+  const activeStep = useMemo(() => {
+    const entries = Object.values(state)
+    const index = entries.findIndex((item) => item.expanded)
+    return index === -1 ? 0 : index
+  }, [state])
+
+  const areAccordionCollapseControlsVisible = useMemo(() => {
     if (Object.keys(state).length <= 1 || !showAccordionCollapseControls) return false
     return true
   }, [showAccordionCollapseControls, state])
+
+  const handleStepClick = (index: number) => {
+    const step = steps[index]
+    if (step) {
+      open(step.id)
+    }
+  }
 
   return (
     <Container
@@ -53,8 +68,10 @@ function RcSesServiceFormContainer({
         {showProgressStepper && (
           <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
             <ServiceWizardStepper
-              steps={mapAccordionStateToSteps(state)}
+              steps={steps}
               orientation='vertical'
+              activeStep={activeStep}
+              onStepClick={handleStepClick}
             />
           </Grid>
         )}
