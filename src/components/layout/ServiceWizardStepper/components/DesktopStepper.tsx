@@ -11,6 +11,7 @@ interface DesktopStepperProps {
   handleStepClick: (index: number) => void
   resolvedOrientation: 'vertical' | 'horizontal'
   isLoading?: boolean
+  getStepState: (index: number) => 'completed' | 'active' | 'pending'
 }
 
 const DesktopStepper = ({
@@ -19,6 +20,7 @@ const DesktopStepper = ({
   handleStepClick,
   resolvedOrientation,
   isLoading = false,
+  getStepState,
 }: DesktopStepperProps) => (
   <Stepper
     alternativeLabel={resolvedOrientation === 'horizontal'}
@@ -37,13 +39,15 @@ const DesktopStepper = ({
     }
   >
     {stepEntries.map((step, index) => {
-      const isClickable = index <= (activeStep === -1 ? 0 : activeStep)
+      const isClickable = index <= activeStep
+      const stepState = getStepState(index)
+
       return (
         <Step key={step.id}>
           <StepButton onClick={() => handleStepClick(index)} disabled={!isClickable}>
             <StyledStepLabel
               StepIconComponent={CustomStepIcon}
-              stepState={step.state}
+              stepState={stepState}
               orientation={resolvedOrientation}
               isLast={index === stepEntries.length - 1}
             >
