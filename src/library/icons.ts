@@ -36,6 +36,7 @@ import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
 
 export {
   RcSesLogo,
+  ArrowLeftIcon,
   ArrowRightIcon,
   BarcodeIcon,
   CalendarBlankIcon,
