@@ -1,4 +1,4 @@
-import { Container } from '@mui/system'
+import { Container } from '@mui/material'
 
 import RcSesCard, { RcSesCardProps } from '@/components/common/Card'
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper/'
@@ -30,6 +30,8 @@ const RcSesCardFormContainer = ({
     return 'column'
   }
 
+  const layoutDirection = getLayoutDirection()
+
   return (
     <Container
       sx={{
@@ -46,7 +48,7 @@ const RcSesCardFormContainer = ({
         <ServiceWizardStepper
           steps={steps}
           onStepClick={onStepClick}
-          orientation={getLayoutDirection() === 'row' ? 'vertical' : 'horizontal'}
+          orientation={layoutDirection === 'row' ? 'vertical' : 'horizontal'}
           isLoading={isLoading}
         />
       )}
