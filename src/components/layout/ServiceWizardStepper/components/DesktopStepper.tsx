@@ -1,4 +1,4 @@
-import { Step, StepButton, Stepper } from '@mui/material'
+import { Skeleton, Step, StepButton, Stepper } from '@mui/material'
 
 import StepConnector from '../StepConnector'
 import { StepItem } from '../StepperTypes'
@@ -10,6 +10,7 @@ interface DesktopStepperProps {
   activeStep: number
   handleStepClick: (index: number) => void
   resolvedOrientation: 'vertical' | 'horizontal'
+  isLoading?: boolean
 }
 
 const DesktopStepper = ({
@@ -17,6 +18,7 @@ const DesktopStepper = ({
   activeStep,
   handleStepClick,
   resolvedOrientation,
+  isLoading = false,
 }: DesktopStepperProps) => (
   <Stepper
     alternativeLabel={resolvedOrientation === 'horizontal'}
@@ -24,6 +26,15 @@ const DesktopStepper = ({
     orientation={resolvedOrientation}
     connector={resolvedOrientation === 'horizontal' ? <StepConnector /> : undefined}
     className={`ServiceWizardStepper ServiceWizardStepper-${resolvedOrientation}`}
+    sx={
+      resolvedOrientation === 'vertical'
+        ? {
+            width: 220,
+            flexShrink: 0,
+            alignSelf: 'flex-start',
+          }
+        : undefined
+    }
   >
     {stepEntries.map((step, index) => {
       const isClickable = index <= (activeStep === -1 ? 0 : activeStep)
@@ -36,7 +47,11 @@ const DesktopStepper = ({
               orientation={resolvedOrientation}
               isLast={index === stepEntries.length - 1}
             >
-              {step.title}
+              {isLoading ? (
+                <Skeleton variant='rounded' width={100} height={14} />
+              ) : (
+                step.title
+              )}
             </StyledStepLabel>
           </StepButton>
         </Step>
