@@ -70,6 +70,7 @@ export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
 export { RcSesTextField }
 export { DataPagination }
 export { ServiceWizardStepper }
+export type * from './types'
 
 export {
   RcSesServiceFormActions,

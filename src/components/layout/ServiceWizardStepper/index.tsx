@@ -6,7 +6,7 @@ import { StepItem } from './StepperTypes'
 import DesktopStepper from './components/DesktopStepper'
 import MobileStepper from './components/MobileStepper'
 
-interface ServiceWizardStepperProps {
+export interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
   onStepClick?: (steps: StepItem[]) => void
