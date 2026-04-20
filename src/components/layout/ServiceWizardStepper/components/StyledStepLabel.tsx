@@ -18,7 +18,11 @@ const StyledStepLabel = styled(StepLabel, {
     fontWeight: stepState === 'active' ? 700 : 400,
     color: stepState === 'pending' ? grey[500] : grey[800],
   },
-
+  ...(orientation === 'vertical' && {
+    '& .MuiStepLabel-label.Mui-active': {
+      fontSize: '14px',
+    },
+  }),
   ...(orientation === 'vertical' &&
     !isLast && {
       '&.MuiStepLabel-root.MuiStepLabel-vertical .MuiStepLabel-label': {

@@ -13,6 +13,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import theme from '@/theme/light'
 
 import App from './App'
+import CardMultipleStepForm from './examples/CardMultipleStepForm'
 import HorizontalMultipleStepForm from './examples/HorizontalMultiStepForm'
 import ListWithPagination from './examples/ListWithPagination'
 import MultipleStepForm from './examples/MultipleStepForm'
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: '/horizontal-multi-step-form',
     element: <HorizontalMultipleStepForm />,
+  },
+  {
+    path: '/card-multi-step-form',
+    element: <CardMultipleStepForm />,
   },
 ])
 
