@@ -42,6 +42,8 @@
 
 .ServiceWizardStepper .MuiStep-root:first-child .MuiStepLabel-alternativeLabel {
   text-align: left;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .ServiceWizardStepper-horizontal .MuiStep-root:last-child .MuiStepLabel-root {
@@ -50,6 +52,14 @@
 
 .ServiceWizardStepper .MuiStep-root:last-child .MuiStepLabel-alternativeLabel {
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ServiceWizardStepper .MuiStepLabel-alternativeLabel {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .ServiceWizardStepper .MuiStep-root:last-child .MuiStepConnector-root {

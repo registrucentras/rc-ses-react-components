@@ -10,6 +10,7 @@ interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
   onStepClick?: (steps: StepItem[]) => void
+  isLoading?: boolean
 }
 
 const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
@@ -23,6 +24,7 @@ function ServiceWizardStepper({
   steps,
   orientation = 'horizontal',
   onStepClick,
+  isLoading = false,
 }: ServiceWizardStepperProps) {
   const [currentSteps, setCurrentSteps] = useState(steps)
 
@@ -60,6 +62,7 @@ function ServiceWizardStepper({
       activeStep={activeStep}
       handleStepClick={handleStepClick}
       resolvedOrientation={resolvedOrientation}
+      isLoading={isLoading}
     />
   )
 }

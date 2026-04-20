@@ -11,6 +11,7 @@ export interface RcSesCardFormContainerProps extends RcSesCardProps {
   steps: StepItem[]
   onStepClick?: (steps: StepItem[]) => void
   layout?: LayoutMode
+  isLoading?: boolean
 }
 
 const RcSesCardFormContainer = ({
@@ -18,6 +19,7 @@ const RcSesCardFormContainer = ({
   onStepClick,
   layout,
   children,
+  isLoading = false,
   ...cardProps
 }: RcSesCardFormContainerProps) => {
   const getLayoutDirection = () => {
@@ -45,6 +47,7 @@ const RcSesCardFormContainer = ({
           steps={steps}
           onStepClick={onStepClick}
           orientation={getLayoutDirection() === 'row' ? 'vertical' : 'horizontal'}
+          isLoading={isLoading}
         />
       )}
 
