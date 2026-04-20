@@ -17,7 +17,7 @@ import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesTextField from '@/components/form/inputs/TextField'
 import ServiceFormActions from '@/components/layout/ServiceFormActions'
-import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 

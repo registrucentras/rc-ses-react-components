@@ -5,27 +5,55 @@ import palette from '../palette'
 const MuiPagination: Components['MuiPagination'] = {
   defaultProps: {
     hidePrevButton: true,
-    shape: 'rounded',
+    hideNextButton: true,
   },
+}
+
+const MuiPaginationItem: Components['MuiPaginationItem'] = {
   styleOverrides: {
     root: {
-      '.MuiButtonBase-root': {
-        height: '2.5rem',
-        minWidth: '2.5rem',
+      borderRadius: 8,
+      height: 40,
+      width: 40,
+      fontSize: 14,
+      fontWeight: 300,
+      color: palette.grey[800],
 
-        '&.Mui-selected': {
-          backgroundColor: palette.grey[800],
-          color: 'white',
-          fontSize: '.9275rem',
-          lineHeight: '1.125rem',
-        },
+      '&:hover': {
+        backgroundColor: palette.grey[200],
       },
 
-      '.MuiPaginationItem-previousNext svg': {
-        fontSize: '1rem !important',
+      '&:active': {
+        backgroundColor: palette.grey[300],
+      },
+
+      '&.Mui-focusVisible': {
+        border: `2px solid ${palette.grey[950]}`,
+        backgroundColor: palette.grey[50],
+      },
+
+      '&.Mui-disabled': {
+        backgroundColor: palette.grey[100],
+        color: palette.grey[500],
+      },
+
+      '&.Mui-selected': {
+        backgroundColor: palette.grey[800],
+        color: '#fff',
+
+        '&:hover': {
+          backgroundColor: palette.grey[800],
+        },
+      },
+      '&.MuiPaginationItem-ellipsis': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        fontSize: 14,
       },
     },
   },
 }
 
-export default MuiPagination
+export { MuiPagination, MuiPaginationItem }

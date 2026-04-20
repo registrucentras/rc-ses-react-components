@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import ServiceFormActions from '@/components/layout/ServiceFormActions'
-import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 
