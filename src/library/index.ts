@@ -3,15 +3,6 @@ import type {} from '@mui/system'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
 
 import RcSesIconProps from '@/assets/IconProps'
-import RcSesLogo from '@/assets/Logo'
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
-import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
-import CaretDownBoldIcon from '@/assets/icons/CaretDownBoldIcon'
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
-import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import RcSesAlert from '@/components/common/Alert'
@@ -76,14 +67,4 @@ export {
 export type { RcSesIconProps }
 export { RcSesIconWithCircularBackground }
 
-export { RcSesLogo }
-export { ArrowRightIcon }
-export {
-  CaretDoubleLeftBoldIcon,
-  CaretDoubleRightBoldIcon,
-  CaretDownBoldIcon,
-  CaretDownIcon,
-  CaretLeftBoldIcon,
-  CaretLeftIcon,
-  CaretRightBoldIcon,
-}
+export * from './icons'
