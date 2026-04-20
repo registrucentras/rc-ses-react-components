@@ -6,9 +6,11 @@ import { StepItem } from './StepperTypes'
 import DesktopStepper from './components/DesktopStepper'
 import MobileStepper from './components/MobileStepper'
 
-interface ServiceWizardStepperProps {
+export interface ServiceWizardStepperProps {
   orientation?: 'vertical' | 'horizontal'
   steps: StepItem[]
+  onStepClick?: (steps: StepItem[]) => void
+  isLoading?: boolean
 }
 
 const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
@@ -21,6 +23,8 @@ const updateSteps = (index: number, prev: StepItem[]): StepItem[] =>
 function ServiceWizardStepper({
   steps,
   orientation = 'horizontal',
+  onStepClick,
+  isLoading = false,
 }: ServiceWizardStepperProps) {
   const [currentSteps, setCurrentSteps] = useState(steps)
 
@@ -29,7 +33,7 @@ function ServiceWizardStepper({
   }, [steps])
 
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const resolvedOrientation = isMobile ? 'horizontal' : orientation
 
@@ -37,7 +41,9 @@ function ServiceWizardStepper({
 
   const handleStepClick = (index: number) => {
     if (index < 0 || index > activeStep) return
-    setCurrentSteps((prev) => updateSteps(index, prev))
+    const updatedSteps = updateSteps(index, currentSteps)
+    setCurrentSteps(updatedSteps)
+    onStepClick?.(updatedSteps)
   }
 
   if (isMobile) {
@@ -56,6 +62,7 @@ function ServiceWizardStepper({
       activeStep={activeStep}
       handleStepClick={handleStepClick}
       resolvedOrientation={resolvedOrientation}
+      isLoading={isLoading}
     />
   )
 }

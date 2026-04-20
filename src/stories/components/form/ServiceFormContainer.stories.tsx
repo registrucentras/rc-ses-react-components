@@ -5,7 +5,7 @@ import { Meta, StoryContext, StoryFn } from '@storybook/react'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
-import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer'
+import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import BasicInformationForm from '@/examples/MultipleStepForm/components/BasicInformationForm'

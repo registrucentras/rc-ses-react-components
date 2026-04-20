@@ -7,7 +7,7 @@ import palette from '@/theme/palette'
 const StepConnector = styled(MuiStepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 12,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       top: 9,
     },
   },
