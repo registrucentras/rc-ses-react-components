@@ -1,4 +1,5 @@
 import RcSesLogo from '@/assets/Logo'
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import BarcodeIcon from '@/assets/icons/BarcodeIcon'
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
@@ -34,7 +35,7 @@ import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
 
 export { RcSesLogo }
-export { ArrowRightIcon }
+export { ArrowRightIcon, ArrowLeftIcon }
 export {
   BarcodeIcon,
   CalendarBlankIcon,
