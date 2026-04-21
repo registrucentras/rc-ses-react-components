@@ -4,7 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
-import theme from '../../../theme/light'
+import theme from '@/theme/light'
+
 import RcSesFooter from './index'
 
 const renderFooter = (ui: ReactElement) =>

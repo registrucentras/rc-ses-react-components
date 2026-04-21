@@ -1,10 +1,10 @@
 /* eslint-disable react/function-component-definition */
 import type { Meta, StoryFn } from '@storybook/react'
 
-import RcSesFooter from '@/components/common/Footer'
+import RcSesFooter from '@/components/layout/Footer'
 
 const meta: Meta<typeof RcSesFooter> = {
-  title: 'components/common/Footer',
+  title: 'components/layout/Footer',
   component: RcSesFooter,
   tags: ['autodocs'],
 }
