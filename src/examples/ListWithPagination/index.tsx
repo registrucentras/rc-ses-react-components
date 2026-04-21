@@ -7,6 +7,34 @@ import ServicePage from '@/components/layout/ServicePage'
 import { QuestionIcon } from '@/library/icons'
 import palette from '@/theme/palette'
 
+const mockItems = [
+  {
+    id: '1',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Explanatory text Test ilgas pavadinimas',
+    tooltip: 'Extra info',
+  },
+  {
+    id: '2',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Disabled item',
+    tooltip: 'Extra info',
+    disabled: true,
+  },
+  {
+    id: '3',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Hover me',
+    tooltip: 'Extra info',
+  },
+  {
+    id: '4',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Loading item',
+    tooltip: 'Extra info',
+  },
+]
+
 function ListWithPagination() {
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -28,37 +56,7 @@ function ListWithPagination() {
   return (
     <ServicePage>
       <Grid container sx={{ mt: 2 }}>
-        <ListWithIcons
-          items={[
-            {
-              id: '1',
-              icon: <QuestionIcon fillColor={palette.grey[600]} />,
-              text: 'Explanatory text Test ilgas pavadinimas',
-              tooltip: 'Extra info',
-            },
-            {
-              id: '2',
-              icon: <QuestionIcon fillColor={palette.grey[600]} />,
-              text: 'Disabled item',
-              tooltip: 'Extra info',
-              disabled: true,
-            },
-            {
-              id: '3',
-              icon: <QuestionIcon fillColor={palette.grey[600]} />,
-              text: 'Hover me',
-              tooltip: 'Extra info',
-            },
-            {
-              id: '4',
-              icon: <QuestionIcon fillColor={palette.grey[600]} />,
-              text: 'Loading item',
-              tooltip: 'Extra info',
-            },
-          ]}
-          layout='horizontal'
-          isLoading={isLoading}
-        />
+        <ListWithIcons items={mockItems} layout='horizontal' isLoading={isLoading} />
       </Grid>
 
       <DataPagination
