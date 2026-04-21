@@ -54,7 +54,7 @@ const PaginationButton = ({
   <Button variant='text' color='inherit' disableRipple {...props} sx={baseButtonSx}>
     {iconPosition === 'start' && icon}
 
-    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>{label}</Box>
+    <Box sx={{ display: { xs: 'none', md: 'block' } }}>{label}</Box>
 
     {iconPosition === 'end' && icon}
   </Button>
