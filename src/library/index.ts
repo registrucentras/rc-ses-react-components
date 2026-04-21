@@ -22,6 +22,7 @@ import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover
 import RcSesCard from '@/components/common/Card'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
+import ListWithIcons from '@/components/common/ListWithIcons'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -67,6 +68,7 @@ export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
 export { RcSesTextField }
 export { DataPagination }
+export { ListWithIcons }
 
 export {
   RcSesServiceFormActions,

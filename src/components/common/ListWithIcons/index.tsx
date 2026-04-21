@@ -1,18 +1,47 @@
-const ListWithIcons = ({
-  items,
-}: {
-  items: { icon: React.ReactNode; text: string }[]
-}) => {
-  return (
-    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-      {items.map((item, index) => (
-        <ListWithIconsItem key={index}>
-          {item.icon}
-          {item.text}
-        </ListWithIconsItem>
-      ))}
-    </ul>
-  )
+import { Box } from '@mui/material'
+
+import ListWithIconsItem from './components/ListWithIconsItem'
+
+interface ListWithIconsItemData {
+  id: string
+  icon?: React.ReactNode
+  text?: string
+  disabled?: boolean
+  tooltip?: string
 }
+
+interface ListWithIconsProps {
+  items: ListWithIconsItemData[]
+  layout?: 'horizontal' | 'vertical'
+  isLoading?: boolean
+}
+
+const ListWithIcons = ({ items, layout = 'vertical', isLoading }: ListWithIconsProps) => (
+  <Box
+    component='ul'
+    sx={{
+      p: 0,
+      m: 0,
+      width: '100%',
+      minWidth: {
+        md: 120,
+      },
+      display: 'flex',
+      flexDirection: {
+        xs: 'column',
+        md: layout === 'horizontal' ? 'row' : 'column',
+      },
+      flexWrap: layout === 'horizontal' ? 'wrap' : 'nowrap',
+      gap: {
+        xs: '4px',
+        md: layout === 'horizontal' ? '16px' : '8px',
+      },
+    }}
+  >
+    {items.map((item) => (
+      <ListWithIconsItem key={item.id} {...item} isLoading={isLoading} />
+    ))}
+  </Box>
+)
 
 export default ListWithIcons
