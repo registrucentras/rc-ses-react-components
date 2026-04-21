@@ -11,9 +11,15 @@ function useAccordionController({ initialState }: Props) {
 
   const toggleAccordion = (id: string, isExpanded: boolean) => {
     setState((prev) => {
-      const next = { ...prev }
-      if (id in next) next[id].expanded = isExpanded
-      return next
+      if (!(id in prev)) return prev
+
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          expanded: isExpanded,
+        },
+      }
     })
   }
 
@@ -21,7 +27,10 @@ function useAccordionController({ initialState }: Props) {
     setState((prev) => {
       const next = { ...prev }
       Object.keys(next).forEach((k) => {
-        next[k].expanded = false
+        next[k] = {
+          ...next[k],
+          expanded: false,
+        }
       })
       return next
     })
@@ -31,7 +40,10 @@ function useAccordionController({ initialState }: Props) {
     setState((prev) => {
       const next = { ...prev }
       Object.keys(next).forEach((k) => {
-        next[k].expanded = true
+        next[k] = {
+          ...next[k],
+          expanded: true,
+        }
       })
       return next
     })
@@ -41,7 +53,10 @@ function useAccordionController({ initialState }: Props) {
     setState((prev) => {
       const next = { ...prev }
       Object.keys(next).forEach((k) => {
-        next[k].expanded = k === id
+        next[k] = {
+          ...next[k],
+          expanded: k === id,
+        }
       })
       return next
     })
