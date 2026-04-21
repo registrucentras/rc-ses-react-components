@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 
 import ListWithIconsItem from './components/ListWithIconsItem'
 
-interface ListWithIconsItemData {
+export interface ListWithIconsItemData {
   id: string
   icon?: React.ReactNode
   text?: string
@@ -10,7 +10,7 @@ interface ListWithIconsItemData {
   tooltip?: string
 }
 
-interface ListWithIconsProps {
+export interface ListWithIconsProps {
   items: ListWithIconsItemData[]
   layout?: 'horizontal' | 'vertical'
   isLoading?: boolean
