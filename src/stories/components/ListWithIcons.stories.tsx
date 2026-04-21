@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
-import ListWithIcons, { type ListWithIconsItemData } from '@/components/common/ListWithIcons'
+import ListWithIcons, {
+  type ListWithIconsItemData,
+} from '@/components/common/ListWithIcons'
 
 const baseItems: ListWithIconsItemData[] = [
   {
