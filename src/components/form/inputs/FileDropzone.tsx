@@ -101,7 +101,7 @@ function RcSesFileDropzone(props: Props) {
             if (fieldProps.disabled) return palette.grey[300]
             return isDragActive ? palette.primary[500] : palette.grey[500]
           },
-          borderRadius: '.1875rem',
+          borderRadius: '.5rem',
           borderStyle: 'dashed',
           borderWidth: 1,
           px: 5.5,
