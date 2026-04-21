@@ -34,9 +34,10 @@ import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
 
-export { RcSesLogo }
-export { ArrowRightIcon, ArrowLeftIcon }
 export {
+  RcSesLogo,
+  ArrowLeftIcon,
+  ArrowRightIcon,
   BarcodeIcon,
   CalendarBlankIcon,
   CaretDoubleLeftBoldIcon,
