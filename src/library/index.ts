@@ -63,7 +63,6 @@ export { DataPagination }
 export { ListWithIcons }
 export { ServiceWizardStepper }
 export type * from './types'
-export { ListWithIcons }
 
 export {
   RcSesServiceFormActions,
