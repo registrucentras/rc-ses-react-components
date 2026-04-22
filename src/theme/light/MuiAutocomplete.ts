@@ -7,6 +7,8 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
   styleOverrides: {
     root: {
       '.MuiOutlinedInput-root': {
+        borderRadius: '.5rem',
+
         '.MuiAutocomplete-input': {
           marginRight: '2rem',
           padding: '.25rem .1875rem',
@@ -14,12 +16,14 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
       },
     },
     paper: {
+      borderRadius: '.5rem',
       fontSize: '.9375rem',
       lineHeight: '1.125rem',
 
       '.MuiAutocomplete-listbox': {
         '.MuiAutocomplete-option': {
           alignItems: 'flex-start',
+          borderRadius: '.375rem',
           flexDirection: 'column',
           margin: '0 .375rem',
           padding: '.8125rem .75rem',

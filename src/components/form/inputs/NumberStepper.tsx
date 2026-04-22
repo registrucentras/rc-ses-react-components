@@ -33,8 +33,8 @@ const NumberInput = styled(OutlinedInput)({
     borderRightStyle: 'none !important',
 
     '&:last-of-type': {
-      borderTopRightRadius: '.25rem',
-      borderBottomRightRadius: '.25rem',
+      borderTopRightRadius: '.5rem',
+      borderBottomRightRadius: '.5rem',
     },
 
     '&:hover:not(:disabled)': {

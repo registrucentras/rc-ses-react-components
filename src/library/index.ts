@@ -3,16 +3,6 @@ import type {} from '@mui/system'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
 
 import RcSesIconProps from '@/assets/IconProps'
-import RcSesLogo from '@/assets/Logo'
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
-import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
-import CaretDownBoldIcon from '@/assets/icons/CaretDownBoldIcon'
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
-import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import RcSesAlert from '@/components/common/Alert'
@@ -23,6 +13,7 @@ import RcSesCard from '@/components/common/Card'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
+import ListWithIcons from '@/components/common/ListWithIcons'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -40,6 +31,7 @@ import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesTextField from '@/components/form/inputs/TextField'
+import RcSesFooter from '@/components/layout/Footer'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
 import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
@@ -63,6 +55,7 @@ export {
   RcSesButton,
   RcSesButtonWithPopover,
   RcSesCard,
+  RcSesFooter,
   RcSesImageCard,
 }
 export { RcSesCheckbox, RcSesCheckboxFormControl }
@@ -77,6 +70,7 @@ export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
 export { RcSesTextField }
 export { DataPagination }
+export { ListWithIcons }
 export { ServiceWizardStepper }
 export type * from './types'
 
@@ -92,14 +86,4 @@ export {
 export type { RcSesIconProps }
 export { RcSesIconWithCircularBackground }
 
-export { RcSesLogo }
-export { ArrowRightIcon, ArrowLeftIcon }
-export {
-  CaretDoubleLeftBoldIcon,
-  CaretDoubleRightBoldIcon,
-  CaretDownBoldIcon,
-  CaretDownIcon,
-  CaretLeftBoldIcon,
-  CaretLeftIcon,
-  CaretRightBoldIcon,
-}
+export * from './icons'

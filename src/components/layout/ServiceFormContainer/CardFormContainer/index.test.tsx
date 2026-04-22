@@ -8,9 +8,9 @@ import { StepItem } from '../../ServiceWizardStepper/StepperTypes'
 import RcSesCardFormContainer from './index'
 
 const baseSteps: StepItem[] = [
-  { id: '1', title: 'Step 1', state: 'completed' },
-  { id: '2', title: 'Step 2', state: 'active' },
-  { id: '3', title: 'Step 3', state: 'pending' },
+  { id: '1', title: 'Step 1' },
+  { id: '2', title: 'Step 2' },
+  { id: '3', title: 'Step 3' },
 ]
 
 const renderWithTheme = (ui: ReactElement) =>
@@ -19,7 +19,7 @@ const renderWithTheme = (ui: ReactElement) =>
 describe('RcSesCardFormContainer', () => {
   test('renders stepper, card content, and card title', () => {
     renderWithTheme(
-      <RcSesCardFormContainer steps={baseSteps} title='Form title'>
+      <RcSesCardFormContainer steps={baseSteps} activeStep={1} title='Form title'>
         <div>Form content</div>
       </RcSesCardFormContainer>,
     )
@@ -33,7 +33,7 @@ describe('RcSesCardFormContainer', () => {
 
   test('uses horizontal orientation by default', () => {
     const { container } = renderWithTheme(
-      <RcSesCardFormContainer steps={baseSteps} title='Default layout'>
+      <RcSesCardFormContainer steps={baseSteps} activeStep={1} title='Default layout'>
         <div>Body</div>
       </RcSesCardFormContainer>,
     )
@@ -45,7 +45,12 @@ describe('RcSesCardFormContainer', () => {
 
   test('uses vertical orientation when layout is row', () => {
     const { container } = renderWithTheme(
-      <RcSesCardFormContainer steps={baseSteps} title='Row layout' layout='row'>
+      <RcSesCardFormContainer
+        steps={baseSteps}
+        activeStep={1}
+        title='Row layout'
+        layout='row'
+      >
         <div>Body</div>
       </RcSesCardFormContainer>,
     )
@@ -53,12 +58,13 @@ describe('RcSesCardFormContainer', () => {
     expect(container.querySelector('.ServiceWizardStepper-vertical')).toBeInTheDocument()
   })
 
-  test('forwards step click updates through onStepClick', () => {
+  test('calls onStepClick with index when a step is clicked', () => {
     const onStepClick = vi.fn()
 
     renderWithTheme(
       <RcSesCardFormContainer
         steps={baseSteps}
+        activeStep={1}
         title='Clickable steps'
         onStepClick={onStepClick}
       >
@@ -69,10 +75,6 @@ describe('RcSesCardFormContainer', () => {
     fireEvent.click(screen.getByText('Step 1'))
 
     expect(onStepClick).toHaveBeenCalledTimes(1)
-    expect(onStepClick).toHaveBeenCalledWith([
-      { id: '1', title: 'Step 1', state: 'active' },
-      { id: '2', title: 'Step 2', state: 'pending' },
-      { id: '3', title: 'Step 3', state: 'pending' },
-    ])
+    expect(onStepClick).toHaveBeenCalledWith(0)
   })
 })

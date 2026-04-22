@@ -1,11 +1,43 @@
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import React, { useState } from 'react'
 
 import DataPagination from '@/components/common/DataPagination'
+import ListWithIcons from '@/components/common/ListWithIcons'
 import ServicePage from '@/components/layout/ServicePage'
+import { QuestionIcon } from '@/library/icons'
+import palette from '@/theme/palette'
+
+const mockItems = [
+  {
+    id: '1',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Explanatory text Test ilgas pavadinimas',
+    tooltip: 'Extra info',
+  },
+  {
+    id: '2',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Disabled item',
+    tooltip: 'Extra info',
+    disabled: true,
+  },
+  {
+    id: '3',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Hover me',
+    tooltip: 'Extra info',
+  },
+  {
+    id: '4',
+    icon: <QuestionIcon fillColor={palette.grey[600]} />,
+    text: 'Loading item',
+    tooltip: 'Extra info',
+  },
+]
 
 function ListWithPagination() {
   const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
   const ITEMS_PER_PAGE = 5
 
   const mockData = React.useMemo(
@@ -17,19 +49,14 @@ function ListWithPagination() {
     [],
   )
 
-  const paginatedData = React.useMemo(() => {
-    const start = (page - 1) * ITEMS_PER_PAGE
-    return mockData.slice(start, start + ITEMS_PER_PAGE)
-  }, [page, mockData])
+  const handleSetIsLoading = () => {
+    setIsLoading(!isLoading)
+  }
 
   return (
     <ServicePage>
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        {paginatedData.map((item) => (
-          <Grid item xs={12} key={item.id}>
-            <Typography>{item.name}</Typography>
-          </Grid>
-        ))}
+      <Grid container sx={{ mt: 2 }}>
+        <ListWithIcons items={mockItems} layout='horizontal' isLoading={isLoading} />
       </Grid>
 
       <DataPagination
@@ -37,6 +64,9 @@ function ListWithPagination() {
         page={page}
         onChange={setPage}
       />
+      <Button onClick={handleSetIsLoading} sx={{ mt: 2 }}>
+        Toggle loading
+      </Button>
     </ServicePage>
   )
 }
