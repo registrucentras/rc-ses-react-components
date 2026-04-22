@@ -14,6 +14,8 @@ import { ReactNode } from 'react'
 
 import palette from '@/theme/palette'
 
+type HeaderLayout = 'vertical' | 'horizontal'
+
 export type RcSesCardTestIds = {
   root?: string
   header?: string
@@ -28,6 +30,7 @@ export type RcSesCardTestIds = {
 export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
   title: ReactNode
   description?: ReactNode
+  headerLayout?: HeaderLayout
   children: ReactNode
   leadingActions?: ReactNode
   trailingActions?: ReactNode
@@ -70,6 +73,7 @@ function RcSesCard({
   children,
   leadingActions,
   trailingActions,
+  headerLayout = 'vertical',
   testIds,
   slotProps,
   sx,
@@ -107,7 +111,13 @@ function RcSesCard({
         ...normalizedSx,
       ]}
     >
-      <Stack {...headerProps} data-testid={testIds?.header} spacing={0.5}>
+      <Stack
+        {...headerProps}
+        data-testid={testIds?.header}
+        direction={headerLayout === 'horizontal' ? 'row' : 'column'}
+        alignItems={headerLayout === 'horizontal' ? 'center' : 'flex-start'}
+        spacing={headerLayout === 'horizontal' ? 1 : 0.5}
+      >
         <Typography
           color={palette.grey[900]}
           data-testid={testIds?.title}
@@ -133,6 +143,7 @@ function RcSesCard({
               {
                 fontWeight: 300,
                 lineHeight: '1.25rem',
+                whiteSpace: headerLayout === 'horizontal' ? 'nowrap' : 'normal',
               },
               ...normalizedDescriptionSx,
             ]}
