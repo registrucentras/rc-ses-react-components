@@ -8,17 +8,17 @@ import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 
 const shortSteps: StepItem[] = [
-  { id: '1', state: 'completed', title: 'Paslauga' },
-  { id: '2', state: 'active', title: 'Duomenys' },
-  { id: '3', state: 'pending', title: 'Patvirtinimas' },
+  { id: '1', title: 'Paslauga' },
+  { id: '2', title: 'Duomenys' },
+  { id: '3', title: 'Patvirtinimas' },
 ]
 
 const longSteps: StepItem[] = [
-  { id: '1', state: 'completed', title: 'Paslauga' },
-  { id: '2', state: 'completed', title: 'Duomenys' },
-  { id: '3', state: 'active', title: 'Dokumentai' },
-  { id: '4', state: 'pending', title: 'Mokėjimas' },
-  { id: '5', state: 'pending', title: 'Patvirtinimas' },
+  { id: '1', title: 'Paslauga' },
+  { id: '2', title: 'Duomenys' },
+  { id: '3', title: 'Dokumentai' },
+  { id: '4', title: 'Mokėjimas' },
+  { id: '5', title: 'Patvirtinimas' },
 ]
 
 const meta: Meta<typeof RcSesCardFormContainer> = {
@@ -28,6 +28,7 @@ const meta: Meta<typeof RcSesCardFormContainer> = {
   argTypes: {
     steps: { table: { disable: true } },
     onStepClick: { table: { disable: true } },
+    activeStep: { table: { disable: true } },
   },
 }
 
@@ -58,35 +59,23 @@ const DemoContent = () => (
 
 const createTemplate =
   (
-    initialSteps: StepItem[],
+    steps: StepItem[],
     forcedLayout?: 'row' | 'column',
   ): StoryFn<typeof RcSesCardFormContainer> =>
   (args) => {
-    const [currentSteps, setCurrentSteps] = useState(initialSteps)
-    const activeStep = currentSteps.findIndex((s) => s.state === 'active')
+    const [activeStep, setActiveStep] = useState(0)
 
     const handleBack = () => {
-      if (activeStep <= 0) return
-
-      const updated = currentSteps.map((step, index) => {
-        if (index < activeStep - 1) return { ...step, state: 'completed' as const }
-        if (index === activeStep - 1) return { ...step, state: 'active' as const }
-        return { ...step, state: 'pending' as const }
-      })
-
-      setCurrentSteps(updated)
+      setActiveStep((prev) => Math.max(prev - 1, 0))
     }
 
     const handleNext = () => {
-      if (activeStep === -1 || activeStep === currentSteps.length - 1) return
+      setActiveStep((prev) => Math.min(prev + 1, steps.length - 1))
+    }
 
-      const updated = currentSteps.map((step, index) => {
-        if (index < activeStep + 1) return { ...step, state: 'completed' as const }
-        if (index === activeStep + 1) return { ...step, state: 'active' as const }
-        return { ...step, state: 'pending' as const }
-      })
-
-      setCurrentSteps(updated)
+    const handleStepClick = (index: number) => {
+      if (index > activeStep) return
+      setActiveStep(index)
     }
 
     return (
@@ -95,10 +84,11 @@ const createTemplate =
           <RcSesCardFormContainer
             {...args}
             layout={forcedLayout}
-            steps={currentSteps}
-            onStepClick={setCurrentSteps}
+            steps={steps}
+            activeStep={activeStep}
+            onStepClick={handleStepClick}
             leadingActions={
-              <Button onClick={handleBack} disabled={activeStep <= 0}>
+              <Button onClick={handleBack} disabled={activeStep === 0}>
                 Back
               </Button>
             }
@@ -108,7 +98,7 @@ const createTemplate =
                 <Button
                   variant='contained'
                   onClick={handleNext}
-                  disabled={activeStep === currentSteps.length - 1}
+                  disabled={activeStep === steps.length - 1}
                 >
                   Next
                 </Button>

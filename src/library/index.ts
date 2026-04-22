@@ -30,6 +30,7 @@ import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesTextField from '@/components/form/inputs/TextField'
+import RcSesFooter from '@/components/layout/Footer'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
 import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
 import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
@@ -49,7 +50,14 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
-export { RcSesAlert, RcSesBreadcrumbs, RcSesButton, RcSesButtonWithPopover, RcSesCard }
+export {
+  RcSesAlert,
+  RcSesBreadcrumbs,
+  RcSesButton,
+  RcSesButtonWithPopover,
+  RcSesCard,
+  RcSesFooter,
+}
 export { RcSesCheckbox, RcSesCheckboxFormControl }
 export { RcSesDatepicker }
 export { RcSesFileUpload }

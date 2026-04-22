@@ -6,24 +6,24 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import { StepItem } from '@/components/layout/ServiceWizardStepper/StepperTypes'
 
 const steps3: StepItem[] = [
-  { id: '1', state: 'completed', title: '1-2 žodžių tekstas' },
-  { id: '2', state: 'active', title: '1-2 žodžių tekstas' },
-  { id: '3', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', title: '1-2 žodžių tekstas' },
+  { id: '2', title: '1-2 žodžių tekstas' },
+  { id: '3', title: '1-2 žodžių tekstas' },
 ]
 
 const steps4: StepItem[] = [
-  { id: '1', state: 'active', title: '1-2 žodžių tekstas' },
-  { id: '2', state: 'pending', title: '1-2 žodžių tekstas' },
-  { id: '3', state: 'pending', title: '1-2 žodžių tekstas' },
-  { id: '4', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', title: '1-2 žodžių tekstas' },
+  { id: '2', title: '1-2 žodžių tekstas' },
+  { id: '3', title: '1-2 žodžių tekstas' },
+  { id: '4', title: '1-2 žodžių tekstas' },
 ]
 
 const steps5: StepItem[] = [
-  { id: '1', state: 'completed', title: '1-2 žodžių tekstas' },
-  { id: '2', state: 'completed', title: '1-2 žodžių tekstas' },
-  { id: '3', state: 'active', title: '1-2 žodžių tekstas' },
-  { id: '4', state: 'pending', title: '1-2 žodžių tekstas' },
-  { id: '5', state: 'pending', title: '1-2 žodžių tekstas' },
+  { id: '1', title: '1-2 žodžių tekstas' },
+  { id: '2', title: '1-2 žodžių tekstas' },
+  { id: '3', title: '1-2 žodžių tekstas' },
+  { id: '4', title: '1-2 žodžių tekstas' },
+  { id: '5', title: '1-2 žodžių tekstas' },
 ]
 
 function HorizontalMultipleStepForm() {
@@ -50,13 +50,18 @@ function HorizontalMultipleStepForm() {
       </ServiceHeader>
 
       <div
-        style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}
+        style={{
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2rem',
+        }}
       >
-        <ServiceWizardStepper steps={steps3} />
-        <ServiceWizardStepper steps={steps4} />
-        <ServiceWizardStepper steps={steps5} />
+        <ServiceWizardStepper steps={steps3} activeStep={1} />
+        <ServiceWizardStepper steps={steps4} activeStep={0} />
+        <ServiceWizardStepper steps={steps5} activeStep={2} />
       </div>
-      <ServiceWizardStepper steps={steps5} />
+      <ServiceWizardStepper steps={steps5} activeStep={4} />
     </ServicePage>
   )
 }
