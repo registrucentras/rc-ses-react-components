@@ -9,7 +9,8 @@ export type LayoutMode = 'column' | 'row'
 
 export interface RcSesCardFormContainerProps extends RcSesCardProps {
   steps: StepItem[]
-  onStepClick?: (steps: StepItem[]) => void
+  onStepClick?: (index: number) => void
+  activeStep: number
   layout?: LayoutMode
   isLoading?: boolean
 }
@@ -17,6 +18,7 @@ export interface RcSesCardFormContainerProps extends RcSesCardProps {
 const RcSesCardFormContainer = ({
   steps,
   onStepClick,
+  activeStep,
   layout,
   children,
   isLoading = false,
@@ -48,6 +50,7 @@ const RcSesCardFormContainer = ({
         <ServiceWizardStepper
           steps={steps}
           onStepClick={onStepClick}
+          activeStep={activeStep}
           orientation={layoutDirection === 'row' ? 'vertical' : 'horizontal'}
           isLoading={isLoading}
         />

@@ -11,12 +11,14 @@ interface MobileStepperProps {
   stepEntries: StepItem[]
   activeStep: number
   handleStepClick: (index: number) => void
+  getStepState: (index: number) => 'completed' | 'active' | 'pending'
 }
 
 const MobileStepper = ({
   stepEntries,
   activeStep,
   handleStepClick,
+  getStepState,
 }: MobileStepperProps) => (
   <Box className='ServiceWizardStepper-MobileStepperWrapper'>
     <Box className='ServiceWizardStepper-NavSlot'>
@@ -35,12 +37,12 @@ const MobileStepper = ({
         connector={<StepConnector />}
         className='ServiceWizardStepper ServiceWizardStepper-horizontal'
       >
-        {stepEntries.map((step) => (
+        {stepEntries.map((step, index) => (
           <Step key={step.id}>
             <StepButton disabled>
               <StyledStepLabel
                 StepIconComponent={CustomStepIcon}
-                stepState={step.state}
+                stepState={getStepState(index)}
               />
             </StepButton>
           </Step>
