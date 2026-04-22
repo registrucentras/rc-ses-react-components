@@ -7,7 +7,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
   styleOverrides: {
     root: {
       backgroundColor: 'white',
-      borderRadius: '.1875rem',
+      borderRadius: '.5rem',
 
       '.MuiInputBase-input': {
         color: palette.grey['900'],
@@ -34,6 +34,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
       '&.Mui-focused': {
         '.MuiOutlinedInput-notchedOutline': {
           borderColor: `${palette.grey['900']} !important`,
+          borderRadius: '.5rem',
           boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.grey['900']).values}, .2)`,
         },
 
@@ -41,6 +42,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: `${palette.error['600']} !important`,
             borderWidth: '.125rem',
+            borderRadius: '.5rem',
             boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.error['600']).values}, .2)`,
           },
         },

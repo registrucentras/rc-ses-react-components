@@ -14,6 +14,7 @@ function RowComponent(props: ListChildComponentProps) {
       sx={{
         alignItems: 'center !important',
         backgroundSize: 'auto',
+        borderRadius: '.375rem',
         flexDirection: 'row !important',
         gap: 1.5,
         right: 0,

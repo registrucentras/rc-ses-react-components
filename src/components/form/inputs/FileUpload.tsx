@@ -76,9 +76,12 @@ function RcSesFileUpload(props: Props) {
         role={undefined}
         sx={{
           backgroundColor: 'white !important',
+          borderRadius: '0.5rem',
           display: 'flex',
           justifyContent: 'space-between',
-          overflow: 'visible',
+          minHeight: '2.75rem',
+          overflow: 'hidden',
+          p: 0,
           pl: 1.25,
           pr: 0,
           position: 'relative',
@@ -88,7 +91,7 @@ function RcSesFileUpload(props: Props) {
             background: 'transparent',
             border: '2px solid',
             borderColor: palette.grey[950],
-            borderRadius: '.375rem',
+            borderRadius: '.5rem',
             height: 'calc(100% + 6px)',
             left: '-3px',
             position: 'absolute',
@@ -116,13 +119,16 @@ function RcSesFileUpload(props: Props) {
           className='faux-button'
           sx={{
             alignItems: 'center',
+            alignSelf: 'stretch',
             backgroundColor: palette.grey['100'],
             borderColor: palette.grey['500'],
+            borderBottomRightRadius: 'calc(0.5rem - 1px)',
             borderLeftStyle: 'solid',
             borderLeftWidth: '1px',
+            borderTopRightRadius: 'calc(0.5rem - 1px)',
             color: palette.grey['900'],
             display: 'flex',
-            height: '42px',
+            flexShrink: 0,
             position: 'relative',
             px: 2,
             ':hover': {

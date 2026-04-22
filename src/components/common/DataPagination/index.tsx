@@ -25,7 +25,7 @@ const DataPagination = ({
   nextLabel = 'Kitas',
 }: DataPaginationProps) => {
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isControlled = page !== undefined
   const [internalPage, setInternalPage] = useState(defaultPage)
 

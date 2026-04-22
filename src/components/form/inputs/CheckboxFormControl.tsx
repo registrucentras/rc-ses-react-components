@@ -111,7 +111,7 @@ function RcSesCheckboxFormControl(props: Props) {
               borderColor: palette.grey['500'],
               borderStyle: 'solid',
               borderWidth: '1px',
-              borderRadius: '.25rem',
+              borderRadius: '.5rem',
               margin: 0,
               padding: '1rem 1.25rem 1rem .875rem',
             }
