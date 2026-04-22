@@ -13,6 +13,7 @@ import RcSesCard from '@/components/common/Card'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import ListWithIcons from '@/components/common/ListWithIcons'
+import RcSesImageCard from '@/components/common/ImageCard'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -55,6 +56,7 @@ export {
   RcSesButtonWithPopover,
   RcSesCard,
   RcSesFooter,
+  RcSesImageCard,
 }
 export { RcSesCheckbox, RcSesCheckboxFormControl }
 export { RcSesDatepicker }
