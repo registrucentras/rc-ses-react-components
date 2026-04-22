@@ -1,45 +1,39 @@
 import { Box, Container } from '@mui/system'
 import { useState } from 'react'
 
-import { QuestionIcon } from '@/library/icons'
-import palette from '@/theme/palette'
-
-import Button from '../Button'
 import DataPagination from '../DataPagination'
+import { ListWithIconsItemData } from '../ListWithIcons'
 import SelectableCardListItem from './components/SelectableCardListItem'
 
-const mockItems = [
-  {
-    id: '1',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Explanatory text Test ilgas pavadinimas',
-    tooltip: 'Extra info',
-  },
-  {
-    id: '2',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Disabled item',
-    tooltip: 'Extra info',
-    disabled: true,
-  },
-  {
-    id: '3',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Hover me',
-    tooltip: 'Extra info',
-  },
-  {
-    id: '4',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Loading item',
-    tooltip: 'Extra info',
-  },
-]
-const SelectableCardList = () => {
+export type SelectableCardListItemData = {
+  id: string
+  name: string
+  matchedName?: string
+  listItems?: ListWithIconsItemData[]
+}
+export interface SelectableCardListProps {
+  items?: SelectableCardListItemData[]
+  isLoading?: boolean
+}
+
+const SKELETON_COUNT = 5
+
+const SelectableCardList = ({ items, isLoading }: SelectableCardListProps) => {
   const [page, setPage] = useState(1)
   const [selectedId, setSelectedId] = useState<string | null>('1')
-  const [isLoading, setIsLoading] = useState(false)
 
+  const renderSkeletons = () =>
+    Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+      <SelectableCardListItem
+        // eslint-disable-next-line react/no-array-index-key
+        key={i}
+        title=''
+        subtitle=''
+        selected={false}
+        onSelect={() => {}}
+        isLoading
+      />
+    ))
   return (
     <Container
       sx={{
@@ -51,22 +45,20 @@ const SelectableCardList = () => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-        {mockItems.map((item) => (
-          <SelectableCardListItem
-            key={item.id}
-            title='Item title'
-            description='Explanation text here'
-            items={mockItems}
-            selected={selectedId === item.id}
-            onSelect={() => setSelectedId(item.id)}
-            isLoading={isLoading}
-          />
-        ))}
+        {isLoading && !items
+          ? renderSkeletons()
+          : items?.map((item) => (
+              <SelectableCardListItem
+                key={item.id}
+                title={item.name}
+                subtitle={item.matchedName}
+                listItems={item.listItems}
+                selected={selectedId === item.id}
+                onSelect={() => setSelectedId(item.id)}
+              />
+            ))}
       </Box>
       <DataPagination count={10} page={page} onChange={setPage} isLoading={isLoading} />
-      <Button variant='contained' onClick={() => setIsLoading(!isLoading)}>
-        Toggle loading
-      </Button>
     </Container>
   )
 }
