@@ -2,26 +2,22 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
-import ListWithIcons, {
-  type ListWithIconsItemData,
-} from '@/components/common/ListWithIcons'
+import ListWithIcons from '@/components/common/ListWithIcons'
+import { type ListWithIconsItemData } from '@/components/common/ListWithIcons/components/ListWithIconsItem'
 
 const baseItems: ListWithIconsItemData[] = [
   {
-    id: 'status-ok',
-    icon: <CheckCircleFillIcon size={20} />,
+    icon: CheckCircleFillIcon,
     text: 'Application received',
     tooltip: 'The submission was successfully received.',
   },
   {
-    id: 'status-review',
-    icon: <WarningFillIcon size={20} />,
+    icon: WarningFillIcon,
     text: 'Requires review',
     tooltip: 'A specialist will review the provided details.',
   },
   {
-    id: 'status-disabled',
-    icon: <WarningFillIcon size={20} />,
+    icon: WarningFillIcon,
     text: 'Unavailable item',
     tooltip: 'This item is currently disabled.',
     disabled: true,

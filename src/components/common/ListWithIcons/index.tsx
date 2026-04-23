@@ -1,16 +1,6 @@
 import { Box } from '@mui/material'
-import { ComponentType } from 'react'
 
-import ListWithIconsItem from './components/ListWithIconsItem'
-
-export interface ListWithIconsItemData {
-  id: string
-  icon?: ComponentType<{ fillColor?: string; size?: number }>
-  text?: string
-  disabled?: boolean
-  tooltip?: string
-  textColor?: string
-}
+import ListWithIconsItem, { ListWithIconsItemData } from './components/ListWithIconsItem'
 
 export interface ListWithIconsProps {
   items?: ListWithIconsItemData[]
@@ -51,11 +41,12 @@ const ListWithIcons = ({
         <>
           {Array.from({ length: skeletonCount }).map((_, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <ListWithIconsItem key={index} id={index.toString()} isLoading />
+            <ListWithIconsItem key={index} isLoading />
           ))}
         </>
       ) : (
-        items?.map((item) => <ListWithIconsItem key={item.id} {...item} />)
+        // eslint-disable-next-line react/no-array-index-key
+        items?.map((item, index) => <ListWithIconsItem key={index} {...item} />)
       )}
     </Box>
   )

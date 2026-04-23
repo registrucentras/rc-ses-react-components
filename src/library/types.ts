@@ -1,8 +1,6 @@
 import { RcSesCardProps } from '@/components/common/Card'
-import {
-  ListWithIconsItemData,
-  ListWithIconsProps,
-} from '@/components/common/ListWithIcons'
+import { ListWithIconsProps } from '@/components/common/ListWithIcons'
+import { ListWithIconsItemData } from '@/components/common/ListWithIcons/components/ListWithIconsItem'
 import { RcSesCardFormContainerProps } from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import { ServiceWizardStepperProps } from '@/components/layout/ServiceWizardStepper'
 

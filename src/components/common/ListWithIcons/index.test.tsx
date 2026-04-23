@@ -16,13 +16,11 @@ describe('ListWithIcons', () => {
       <ListWithIcons
         items={[
           {
-            id: 'first',
             icon: () => <span data-testid='first-icon'>I1</span>,
             text: 'First item',
             tooltip: 'First tooltip',
           },
           {
-            id: 'second',
             icon: () => <span data-testid='second-icon'>I2</span>,
             text: 'Second item',
             tooltip: 'Second tooltip',
@@ -53,7 +51,6 @@ describe('ListWithIcons', () => {
       <ListWithIcons
         items={[
           {
-            id: 'first',
             text: 'Hover me',
             tooltip: 'Helpful tooltip text',
           },

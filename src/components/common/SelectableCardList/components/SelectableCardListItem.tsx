@@ -1,7 +1,9 @@
 import { Radio, Skeleton, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
-import { ListWithIcons, ListWithIconsItemData, RcSesCard } from '@/library'
+import RcSesCard from '@/components/common/Card'
+import ListWithIcons from '@/components/common/ListWithIcons'
+import { ListWithIconsItemData } from '@/components/common/ListWithIcons/components/ListWithIconsItem'
 import palette from '@/theme/palette'
 
 type Props = {

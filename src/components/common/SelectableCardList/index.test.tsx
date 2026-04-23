@@ -35,18 +35,14 @@ const makeItems = (count: number): SelectableCardListItemData[] =>
 
 describe('SelectableCardList', () => {
   test('renders skeleton cards when items is undefined', () => {
-    const { container } = renderList(
-      <SelectableCardList onSelect={vi.fn()} />,
-    )
+    const { container } = renderList(<SelectableCardList onSelect={vi.fn()} />)
 
     expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
     expect(screen.queryByRole('radio')).not.toBeInTheDocument()
   })
 
   test('renders all items on the first page when count <= PAGE_SIZE', () => {
-    renderList(
-      <SelectableCardList items={makeItems(3)} onSelect={vi.fn()} />,
-    )
+    renderList(<SelectableCardList items={makeItems(3)} onSelect={vi.fn()} />)
 
     expect(screen.getByText('Item 1')).toBeInTheDocument()
     expect(screen.getByText('Item 2')).toBeInTheDocument()
@@ -54,9 +50,7 @@ describe('SelectableCardList', () => {
   })
 
   test('shows only 5 items per page', () => {
-    renderList(
-      <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />,
-    )
+    renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
 
     expect(screen.getByText('Item 1')).toBeInTheDocument()
     expect(screen.getByText('Item 5')).toBeInTheDocument()
@@ -64,12 +58,7 @@ describe('SelectableCardList', () => {
   })
 
   test('navigating to next page shows the next set of items', () => {
-    renderList(
-      <SelectableCardList
-        items={makeItems(8)}
-        onSelect={vi.fn()}
-      />,
-    )
+    renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
 
     fireEvent.click(screen.getByRole('button', { name: 'Kitas' }))
 
@@ -82,9 +71,7 @@ describe('SelectableCardList', () => {
   test('calls onSelect with the correct item id when a card is clicked', async () => {
     const onSelect = vi.fn()
 
-    renderList(
-      <SelectableCardList items={makeItems(3)} onSelect={onSelect} />,
-    )
+    renderList(<SelectableCardList items={makeItems(3)} onSelect={onSelect} />)
 
     fireEvent.click(screen.getByText('Item 2'))
 

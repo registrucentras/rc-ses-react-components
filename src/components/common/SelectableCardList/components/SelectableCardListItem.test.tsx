@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { type ReactElement } from 'react'
 import { describe, expect, test, vi } from 'vitest'
 
@@ -37,12 +36,7 @@ describe('SelectableCardListItem', () => {
 
   test('renders loading skeletons when isLoading is true', () => {
     const { container } = renderItem(
-      <SelectableCardListItem
-        title=''
-        selected={false}
-        onSelect={vi.fn()}
-        isLoading
-      />,
+      <SelectableCardListItem title='' selected={false} onSelect={vi.fn()} isLoading />,
     )
 
     expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
@@ -50,9 +44,7 @@ describe('SelectableCardListItem', () => {
   })
 
   test('radio is checked when selected=true', () => {
-    renderItem(
-      <SelectableCardListItem title='Selected' selected onSelect={vi.fn()} />,
-    )
+    renderItem(<SelectableCardListItem title='Selected' selected onSelect={vi.fn()} />)
 
     expect(screen.getByRole('radio')).toBeChecked()
   })
@@ -65,28 +57,13 @@ describe('SelectableCardListItem', () => {
     expect(screen.getByRole('radio')).not.toBeChecked()
   })
 
-  test('calls onSelect when card is clicked', async () => {
-    const onSelect = vi.fn()
-
-    renderItem(
-      <SelectableCardListItem title='Clickable' selected={false} onSelect={onSelect} />,
-    )
-
-    await userEvent.click(screen.getByText('Clickable'))
-
-    expect(onSelect).toHaveBeenCalledTimes(1)
-  })
-
   test('renders list items when provided', () => {
     renderItem(
       <SelectableCardListItem
         title='With list'
         selected={false}
         onSelect={vi.fn()}
-        listItems={[
-          { id: 'a', text: 'List entry A' },
-          { id: 'b', text: 'List entry B' },
-        ]}
+        listItems={[{ text: 'List entry A' }, { text: 'List entry B' }]}
       />,
     )
 
