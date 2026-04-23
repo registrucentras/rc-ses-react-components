@@ -2,74 +2,82 @@ import { Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import Button from '@/components/common/Button'
-import SelectableCardList from '@/components/common/SelectableCardList'
+import SelectableCardList, {
+  SelectableCardListItemData,
+} from '@/components/common/SelectableCardList'
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 import { QuestionIcon } from '@/library'
 import palette from '@/theme/palette'
 
-const mockListItems = [
-  {
-    id: '1',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Explanatory text Test ilgas pavadinimas',
-    tooltip: 'Extra info',
-  },
-  {
-    id: '2',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Disabled item',
-    tooltip: 'Extra info',
-    disabled: true,
-  },
-  {
-    id: '3',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Hover me',
-    tooltip: 'Extra info',
-  },
-  {
-    id: '4',
-    icon: <QuestionIcon fillColor={palette.grey[600]} />,
-    text: 'Loading item',
-    tooltip: 'Extra info',
-  },
-]
+interface ApiItem {
+  id: number
+  name: string
+  matchedName?: string
+  code: string
+  legalStatusName: string
+  address: string
+}
 
-const mockItems = [
-  {
-    id: '1',
-    name: 'Item 1',
-    matchedName: 'Additional info 1',
-    listItems: mockListItems,
-  },
-  {
-    id: '2',
-    name: 'Item 2',
-    listItems: mockListItems,
-  },
-  {
-    id: '3',
-    name: 'Item 3',
-    matchedName: 'Additional info 3',
-    listItems: mockListItems,
-  },
-]
+const mockApiData: ApiItem[] = Array.from({ length: 15 }).map((_, i) => ({
+  id: i + 1,
+  code: `12345${i}`,
+  name: `Company ${i + 1}`,
+  matchedName: `Matched name ${i + 1}`,
+  address: `Vilnius, Street ${i + 1}`,
+  legalStatusName: i % 2 === 0 ? 'Active' : 'Inactive',
+}))
+
+const mapToSelectableItems = (data: ApiItem[]): SelectableCardListItemData[] =>
+  data.map((item) => ({
+    id: String(item.id),
+    title: item.name,
+    subtitle: item.matchedName,
+    listItems: [
+      {
+        id: 'code',
+        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        text: `Code: ${item.code}`,
+      },
+      {
+        id: 'status',
+        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        text: item.legalStatusName,
+      },
+      {
+        id: 'address',
+        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        text: item.address,
+      },
+    ],
+  }))
 
 function ListWithPagination() {
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useState<typeof mockItems | undefined>(undefined)
+  const [data, setData] = useState<SelectableCardListItemData[] | undefined>(undefined)
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
 
   useEffect(() => {
     setIsLoading(true)
 
     const timer = setTimeout(() => {
-      setData(mockItems)
+      setData(mapToSelectableItems(mockApiData))
       setIsLoading(false)
+      setSelectedItemId(mapToSelectableItems(mockApiData)[0].id)
     }, 1500)
 
     return () => clearTimeout(timer)
   }, [])
+
+  const handleRefetch = () => {
+    setIsLoading(true)
+    setData(undefined)
+    setTimeout(() => {
+      setData(mapToSelectableItems(mockApiData))
+      setIsLoading(false)
+      setSelectedItemId(mapToSelectableItems(mockApiData)[0].id)
+    }, 1500)
+  }
 
   return (
     <ServicePage>
@@ -92,21 +100,15 @@ function ListWithPagination() {
           padalinyje.
         </Typography>
       </ServiceHeader>
-      <SelectableCardList items={data} isLoading={isLoading} />
-      <Button
-        variant='contained'
-        onClick={() => {
-          setIsLoading(true)
-          setData(undefined)
-
-          setTimeout(() => {
-            setData(mockItems)
-            setIsLoading(false)
-          }, 1500)
-        }}
-      >
+      <SelectableCardList
+        items={data}
+        selectedId={selectedItemId}
+        onSelect={setSelectedItemId}
+      />
+      <Button variant='contained' onClick={handleRefetch} disabled={isLoading}>
         Refetch
       </Button>
+      <Typography variant='body1'>Selected item: {selectedItemId}</Typography>
     </ServicePage>
   )
 }
