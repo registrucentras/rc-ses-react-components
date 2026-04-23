@@ -8,7 +8,6 @@ import SelectableCardList, {
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 import { BarcodeIcon, MapPinAreaIcon, ScalesIcon } from '@/library'
-import palette from '@/theme/palette'
 
 interface ApiItem {
   id: string
@@ -25,7 +24,7 @@ const mockApiData: ApiItem[] = Array.from({ length: 15 }).map((_, i) => ({
   name: `Company ${i + 1}`,
   matchedName: `Matched name ${i + 1}`,
   address: `Vilnius, Street ${i + 1}`,
-  legalStatusName: i % 2 === 0 ? 'Active' : 'Inactive',
+  legalStatusName: i % 2 === 0 ? 'įregistruotas' : 'Neįregistruotas',
 }))
 
 const mapToSelectableItems = (data: ApiItem[]): SelectableCardListItemData[] =>
@@ -36,17 +35,18 @@ const mapToSelectableItems = (data: ApiItem[]): SelectableCardListItemData[] =>
     listItems: [
       {
         id: 'code',
-        icon: <BarcodeIcon fillColor={palette.grey[600]} />,
+        icon: BarcodeIcon,
         text: `Code: ${item.code}`,
       },
       {
         id: 'status',
-        icon: <ScalesIcon fillColor={palette.grey[600]} />,
+        icon: ScalesIcon,
         text: item.legalStatusName,
+        textColor: item.legalStatusName === 'Neįregistruotas' ? 'red' : undefined,
       },
       {
         id: 'address',
-        icon: <MapPinAreaIcon fillColor={palette.grey[600]} />,
+        icon: MapPinAreaIcon,
         text: item.address,
       },
     ],

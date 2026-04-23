@@ -139,7 +139,6 @@ function RcSesCard({
               {
                 fontWeight: 300,
                 lineHeight: '1.25rem',
-                whiteSpace: headerLayout === 'horizontal' ? 'nowrap' : 'normal',
               },
               ...normalizedDescriptionSx,
             ]}
