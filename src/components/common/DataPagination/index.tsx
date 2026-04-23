@@ -44,11 +44,25 @@ const DataPagination = ({
     onChange?.(newPage)
   }
 
+  const showSkeleton = isLoading && count === 0
+  const hidePagination = count <= 1 && !isLoading
+  const showPagination = count >= 2
+
+  if (showSkeleton) {
+    return (
+      <Box display='flex' alignItems='center' gap={1}>
+        <DataPaginationSkeleton isMobile={isMobile} />
+      </Box>
+    )
+  }
+
+  if (hidePagination) {
+    return null
+  }
+
   return (
     <Box display='flex' alignItems='center' gap={1}>
-      {isLoading ? (
-        <DataPaginationSkeleton isMobile={isMobile} />
-      ) : (
+      {showPagination && (
         <>
           <PaginationButton
             onClick={() => handlePageChange(currentPage - 1)}
