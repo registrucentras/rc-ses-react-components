@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/system'
-import { useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
 import { ListWithIconsItemData } from '../ListWithIcons'
@@ -15,7 +15,7 @@ export interface SelectableCardListProps {
   items?: SelectableCardListItemData[]
   selectedId?: string | null
   onSelect: (id: string) => void
-  error?: React.ReactNode
+  error?: ReactNode
 }
 
 const SKELETON_COUNT = 5

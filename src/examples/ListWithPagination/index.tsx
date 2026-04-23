@@ -7,11 +7,11 @@ import SelectableCardList, {
 } from '@/components/common/SelectableCardList'
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
-import { QuestionIcon } from '@/library'
+import { BarcodeIcon, MapPinAreaIcon, ScalesIcon } from '@/library'
 import palette from '@/theme/palette'
 
 interface ApiItem {
-  id: number
+  id: string
   name: string
   matchedName?: string
   code: string
@@ -20,7 +20,7 @@ interface ApiItem {
 }
 
 const mockApiData: ApiItem[] = Array.from({ length: 15 }).map((_, i) => ({
-  id: i + 1,
+  id: (i + 1).toString(),
   code: `12345${i}`,
   name: `Company ${i + 1}`,
   matchedName: `Matched name ${i + 1}`,
@@ -30,23 +30,23 @@ const mockApiData: ApiItem[] = Array.from({ length: 15 }).map((_, i) => ({
 
 const mapToSelectableItems = (data: ApiItem[]): SelectableCardListItemData[] =>
   data.map((item) => ({
-    id: String(item.id),
+    id: item.id,
     title: item.name,
     subtitle: item.matchedName,
     listItems: [
       {
         id: 'code',
-        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        icon: <BarcodeIcon fillColor={palette.grey[600]} />,
         text: `Code: ${item.code}`,
       },
       {
         id: 'status',
-        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        icon: <ScalesIcon fillColor={palette.grey[600]} />,
         text: item.legalStatusName,
       },
       {
         id: 'address',
-        icon: <QuestionIcon fillColor={palette.grey[600]} />,
+        icon: <MapPinAreaIcon fillColor={palette.grey[600]} />,
         text: item.address,
       },
     ],
