@@ -1,16 +1,22 @@
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material'
 
+import { ListWithIconsItemData } from '@/library/types'
 import palette from '@/theme/palette'
 
-interface Props {
-  icon?: React.ReactNode
-  text?: string
-  disabled?: boolean
-  tooltip?: string
+interface Props extends ListWithIconsItemData {
   isLoading?: boolean
 }
 
-const ListWithIconsItem = ({ icon, text, disabled, tooltip, isLoading }: Props) => {
+const ListWithIconsItem = ({
+  icon,
+  text,
+  disabled,
+  tooltip,
+  textColor,
+  isLoading,
+}: Props) => {
+  const Icon = icon
+
   const content = (
     <Box
       sx={{
@@ -20,13 +26,17 @@ const ListWithIconsItem = ({ icon, text, disabled, tooltip, isLoading }: Props) 
         maxWidth: { xs: '100%', md: 'none' },
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', width: 20 }}>{icon}</Box>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {Icon && <Icon fillColor={textColor ?? palette.grey[600]} size={16} />}
+      </Box>
       <Typography
         variant='body2'
         sx={{
           fontSize: '14px',
+          lineHeight: '20px',
           fontWeight: 300,
           whiteSpace: 'nowrap',
+          color: textColor,
         }}
       >
         {text}
