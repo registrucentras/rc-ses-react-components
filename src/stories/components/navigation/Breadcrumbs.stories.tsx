@@ -15,7 +15,7 @@ const Path = [
 ]
 
 const meta: Meta<typeof RcSesBreadcrumbs> = {
-  title: 'components/common/Breadcrumbs',
+  title: 'components/navigation/Breadcrumbs',
   component: RcSesBreadcrumbs,
   tags: ['autodocs'],
 }

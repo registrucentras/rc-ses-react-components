@@ -5,7 +5,7 @@ import { useState } from 'react'
 import DataPagination from '@/components/common/DataPagination'
 
 const meta = {
-  title: 'components/common/DataPagination',
+  title: 'components/navigation/DataPagination',
   component: DataPagination,
   tags: ['autodocs'],
   args: {

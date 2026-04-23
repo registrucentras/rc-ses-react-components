@@ -3,7 +3,8 @@ import { composeStories } from '@storybook/react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 
-import theme from '../../theme/light'
+import theme from '@/theme/light'
+
 import * as stories from './Card.stories'
 
 const { Main } = composeStories(stories)

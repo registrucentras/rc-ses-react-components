@@ -13,7 +13,7 @@ const lorem =
 const severities = ['info', 'warning', 'error', 'success'] as const
 
 const meta: Meta<typeof RcSesAlert> = {
-  title: 'components/common/Alert',
+  title: 'components/feedback/Alert',
   component: RcSesAlert,
   tags: ['autodocs'],
 }

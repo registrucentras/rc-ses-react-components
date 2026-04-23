@@ -10,7 +10,7 @@ import PreviewTitle from '@/components/storybook/PreviewTitle'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
 const meta: Meta<typeof RcSesSelect> = {
-  title: 'components/common/inputs/Select',
+  title: 'components/inputs/Select',
   component: RcSesSelect,
   argTypes: {
     disabled: {
