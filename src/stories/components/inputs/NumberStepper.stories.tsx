@@ -15,7 +15,7 @@ type FormModel = {
 }
 
 const meta: Meta<typeof RcSesNumberStepper> = {
-  title: 'components/common/inputs/NumberStepper',
+  title: 'components/inputs/NumberStepper',
   component: RcSesNumberStepper,
   argTypes: {
     id: {

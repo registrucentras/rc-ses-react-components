@@ -8,7 +8,7 @@ import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 
 const meta: Meta<typeof RcSesTextField> = {
-  title: 'components/common/inputs/TextField',
+  title: 'components/inputs/TextField',
   component: RcSesTextField,
   tags: ['autodocs'],
 }
