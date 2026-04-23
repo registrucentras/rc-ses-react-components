@@ -22,7 +22,7 @@ const longSteps: StepItem[] = [
 ]
 
 const meta: Meta<typeof RcSesCardFormContainer> = {
-  title: 'components/common/form/CardFormContainer',
+  title: 'components/form/CardFormContainer',
   component: RcSesCardFormContainer,
   tags: ['autodocs'],
   argTypes: {

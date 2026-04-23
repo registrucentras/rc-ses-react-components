@@ -17,7 +17,7 @@ type FormModel = {
 }
 
 const meta: Meta<typeof RcSesCheckbox> = {
-  title: 'components/common/inputs/Checkbox',
+  title: 'components/inputs/Checkbox',
   component: RcSesCheckbox,
   argTypes: {
     variant: {

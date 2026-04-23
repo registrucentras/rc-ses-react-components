@@ -15,7 +15,7 @@ type FormModel = {
 }
 
 const meta: Meta<typeof RcSesPhoneInput> = {
-  title: 'components/common/inputs/PhoneInput',
+  title: 'components/inputs/PhoneInput',
   component: RcSesPhoneInput,
   argTypes: {
     control: {

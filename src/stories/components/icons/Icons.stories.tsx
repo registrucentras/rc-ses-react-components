@@ -230,7 +230,7 @@ const iconItems: IconStoryItem[] = [
 ]
 
 const meta: Meta<StoryArgs> = {
-  title: 'components/common/Icons',
+  title: 'components/icons/Icons',
   tags: ['autodocs'],
   args: {
     className: '',
