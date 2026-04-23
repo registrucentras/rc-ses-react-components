@@ -45,12 +45,12 @@ const SelectableCardListItem = ({
       sx={{
         cursor: isLoading ? 'default' : 'pointer',
         pointerEvents: isLoading ? 'none' : 'auto',
-        border: '1px solid',
-        borderRadius: '10px',
+        border: '2px solid',
+        borderRadius: '12px',
         padding: { xs: '16px' },
         borderColor: selected ? palette.primary.main : palette.grey[300],
-        backgroundColor: selected ? palette.primary[50] : 'transparent',
         transition: 'all 0.2s ease',
+        gap: { xs: '8px', md: '4px' },
       }}
       title={titleTemplate}
       description={isLoading ? undefined : subtitle}
@@ -71,6 +71,7 @@ const SelectableCardListItem = ({
         },
         content: {
           sx: {
+            marginLeft: '32px',
             backgroundColor: 'transparent',
           },
         },
