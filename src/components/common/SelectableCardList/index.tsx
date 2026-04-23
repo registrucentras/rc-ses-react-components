@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/system'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
 import { ListWithIconsItemData } from '../ListWithIcons'
@@ -7,20 +7,37 @@ import SelectableCardListItem from './components/SelectableCardListItem'
 
 export type SelectableCardListItemData = {
   id: string
-  name: string
-  matchedName?: string
+  title: string
+  subtitle?: string
   listItems?: ListWithIconsItemData[]
 }
 export interface SelectableCardListProps {
   items?: SelectableCardListItemData[]
-  isLoading?: boolean
+  selectedId?: string | null
+  onSelect: (id: string) => void
+  error?: React.ReactNode
 }
 
 const SKELETON_COUNT = 5
-
-const SelectableCardList = ({ items, isLoading }: SelectableCardListProps) => {
+const PAGE_SIZE = 5
+const SelectableCardList = ({
+  items,
+  selectedId,
+  onSelect,
+  error,
+}: SelectableCardListProps) => {
   const [page, setPage] = useState(1)
-  const [selectedId, setSelectedId] = useState<string | null>('1')
+
+  const totalPages = items ? Math.ceil(items.length / PAGE_SIZE) : 0
+  const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
+  const pagedItems = useMemo(() => {
+    if (!items) {
+      return []
+    }
+
+    const startIndex = (currentPage - 1) * PAGE_SIZE
+    return items.slice(startIndex, startIndex + PAGE_SIZE)
+  }, [currentPage, items])
 
   const renderSkeletons = () =>
     Array.from({ length: SKELETON_COUNT }).map((_, i) => (
@@ -34,6 +51,7 @@ const SelectableCardList = ({ items, isLoading }: SelectableCardListProps) => {
         isLoading
       />
     ))
+
   return (
     <Container
       sx={{
@@ -44,21 +62,32 @@ const SelectableCardList = ({ items, isLoading }: SelectableCardListProps) => {
         paddingBottom: '64px',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-        {isLoading && !items
-          ? renderSkeletons()
-          : items?.map((item) => (
-              <SelectableCardListItem
-                key={item.id}
-                title={item.name}
-                subtitle={item.matchedName}
-                listItems={item.listItems}
-                selected={selectedId === item.id}
-                onSelect={() => setSelectedId(item.id)}
-              />
-            ))}
-      </Box>
-      <DataPagination count={10} page={page} onChange={setPage} isLoading={isLoading} />
+      {error || (
+        <>
+          <Box
+            sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}
+          >
+            {!items
+              ? renderSkeletons()
+              : pagedItems.map((item) => (
+                  <SelectableCardListItem
+                    key={item.id}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    listItems={item.listItems}
+                    selected={selectedId === item.id}
+                    onSelect={() => onSelect(item.id)}
+                  />
+                ))}
+          </Box>
+          <DataPagination
+            count={totalPages}
+            page={currentPage}
+            onChange={setPage}
+            isLoading={!items}
+          />
+        </>
+      )}
     </Container>
   )
 }
