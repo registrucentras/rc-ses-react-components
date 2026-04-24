@@ -8,7 +8,7 @@ import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 
 const meta: Meta<typeof RcSesServiceFormActions> = {
-  title: 'components/common/form/ServiceFormActions',
+  title: 'components/form/ServiceFormActions',
   component: RcSesServiceFormActions,
   tags: ['autodocs'],
 }

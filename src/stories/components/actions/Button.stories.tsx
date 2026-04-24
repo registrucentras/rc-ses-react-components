@@ -24,7 +24,7 @@ const colorOptions = [
 ]
 
 const meta = {
-  title: 'components/common/buttons/Button',
+  title: 'components/actions/Button',
   component: Button,
   parameters: {
     layout: 'centered',

@@ -15,7 +15,7 @@ type FormModel = {
 }
 
 const meta: Meta<typeof RcSesFileDropzone> = {
-  title: 'components/common/inputs/FileDropzone',
+  title: 'components/inputs/FileDropzone',
   component: RcSesFileDropzone,
   argTypes: {
     control: {

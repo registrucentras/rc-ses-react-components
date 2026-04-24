@@ -15,7 +15,7 @@ type FormModel = {
 }
 
 const meta: Meta<typeof RcSesFileUpload> = {
-  title: 'components/common/inputs/FileUpload',
+  title: 'components/inputs/FileUpload',
   component: RcSesFileUpload,
   argTypes: {
     control: {

@@ -8,7 +8,7 @@ import RcSesImageCard from '@/components/common/ImageCard'
 import palette from '@/theme/palette'
 
 const meta: Meta<typeof RcSesImageCard> = {
-  title: 'components/common/ImageCard',
+  title: 'components/display/ImageCard',
   component: RcSesImageCard,
   tags: ['autodocs'],
 }

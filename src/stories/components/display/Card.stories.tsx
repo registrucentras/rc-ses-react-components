@@ -9,7 +9,7 @@ import RcSesCard from '@/components/common/Card'
 import palette from '@/theme/palette'
 
 const meta: Meta<typeof RcSesCard> = {
-  title: 'components/common/Card',
+  title: 'components/display/Card',
   component: RcSesCard,
   tags: ['autodocs'],
 }

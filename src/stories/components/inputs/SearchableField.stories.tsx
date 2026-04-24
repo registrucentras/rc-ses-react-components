@@ -7,7 +7,7 @@ import ObjectIdentifierSearchModal from '@/examples/SingleStepForm/components/Ob
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
 const meta: Meta<typeof RcSesSearchableField> = {
-  title: 'components/common/inputs/SearchableField',
+  title: 'components/inputs/SearchableField',
   component: RcSesSearchableField,
   tags: ['autodocs'],
 }

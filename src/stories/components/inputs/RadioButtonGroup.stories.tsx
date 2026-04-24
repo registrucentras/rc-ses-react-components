@@ -15,7 +15,7 @@ type FormModel = {
 const variants = ['outlined', 'filled', 'flat']
 
 const meta: Meta<typeof RcSesRadioButtonGroup> = {
-  title: 'components/common/inputs/RadioButtonGroup',
+  title: 'components/inputs/RadioButtonGroup',
   component: RcSesRadioButtonGroup,
   argTypes: {
     variant: {
