@@ -9,7 +9,7 @@ import Fields from '@/components/storybook/Fields'
 const variants = ['outlined', 'flat']
 
 const meta: Meta<typeof RcSesCheckboxFormControl> = {
-  title: 'components/common/form/CheckboxFormControl',
+  title: 'components/form/CheckboxFormControl',
   component: RcSesCheckboxFormControl,
   argTypes: {
     variant: {

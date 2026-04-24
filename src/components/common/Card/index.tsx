@@ -16,6 +16,7 @@ import palette from '@/theme/palette'
 
 export type RcSesCardTestIds = {
   root?: string
+  image?: string
   header?: string
   title?: string
   description?: string
@@ -28,7 +29,10 @@ export type RcSesCardTestIds = {
 export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
   title: ReactNode
   description?: ReactNode
-  children: ReactNode
+  image?: ReactNode
+  centered?: boolean
+  contentBackground?: boolean
+  children?: ReactNode
   leadingActions?: ReactNode
   trailingActions?: ReactNode
   testIds?: RcSesCardTestIds
@@ -37,6 +41,7 @@ export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
     content?: BoxProps
     description?: TypographyProps
     header?: StackProps
+    image?: BoxProps
     leadingActions?: StackProps
     title?: TypographyProps
     trailingActions?: StackProps
@@ -67,6 +72,9 @@ function normalizeSx(sx: SxProps<Theme> | undefined): SxEntry[] {
 function RcSesCard({
   title,
   description,
+  image,
+  centered = false,
+  contentBackground = true,
   children,
   leadingActions,
   trailingActions,
@@ -79,6 +87,7 @@ function RcSesCard({
   const contentProps = slotProps?.content
   const descriptionProps = slotProps?.description
   const headerProps = slotProps?.header
+  const imageProps = slotProps?.image
   const leadingActionsProps = slotProps?.leadingActions
   const titleProps = slotProps?.title
   const trailingActionsProps = slotProps?.trailingActions
@@ -88,6 +97,7 @@ function RcSesCard({
   const normalizedDescriptionSx = normalizeSx(descriptionProps?.sx)
   const normalizedContentSx = normalizeSx(contentProps?.sx)
   const normalizedActionsSx = normalizeSx(actionsProps?.sx)
+  const normalizedImageSx = normalizeSx(imageProps?.sx)
   const normalizedLeadingActionsSx = normalizeSx(leadingActionsProps?.sx)
   const normalizedTrailingActionsSx = normalizeSx(trailingActionsProps?.sx)
 
@@ -107,12 +117,28 @@ function RcSesCard({
         ...normalizedSx,
       ]}
     >
+      {image ? (
+        <Box
+          {...imageProps}
+          data-testid={testIds?.image}
+          sx={[
+            {
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+            },
+            ...normalizedImageSx,
+          ]}
+        >
+          {image}
+        </Box>
+      ) : null}
+
       <Stack
         {...headerProps}
         data-testid={testIds?.header}
-        direction='column'
-        alignItems='flex-start'
         spacing={0.5}
+        sx={[centered ? { alignItems: 'center' } : {}, ...normalizeSx(headerProps?.sx)]}
       >
         <Typography
           color={palette.grey[900]}
@@ -122,6 +148,7 @@ function RcSesCard({
           sx={[
             {
               lineHeight: '1.75rem',
+              ...(centered ? { textAlign: 'center' } : {}),
             },
             ...normalizedTitleSx,
           ]}
@@ -139,6 +166,7 @@ function RcSesCard({
               {
                 fontWeight: 300,
                 lineHeight: '1.25rem',
+                ...(centered ? { textAlign: 'center' } : {}),
               },
               ...normalizedDescriptionSx,
             ]}
@@ -148,25 +176,27 @@ function RcSesCard({
         )}
       </Stack>
 
-      <Box
-        {...contentProps}
-        data-testid={testIds?.content}
-        sx={[
-          {
-            alignItems: 'center',
-            alignSelf: 'stretch',
-            backgroundColor: 'white',
-            borderRadius: '0.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
-            justifyContent: 'center',
-          },
-          ...normalizedContentSx,
-        ]}
-      >
-        {children}
-      </Box>
+      {children ? (
+        <Box
+          {...contentProps}
+          data-testid={testIds?.content}
+          sx={[
+            {
+              alignItems: 'center',
+              alignSelf: 'stretch',
+              ...(contentBackground ? { backgroundColor: palette.grey[100] } : {}),
+              borderRadius: '0.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
+              justifyContent: 'center',
+            },
+            ...normalizedContentSx,
+          ]}
+        >
+          {children}
+        </Box>
+      ) : null}
 
       {hasActions && (
         <Stack

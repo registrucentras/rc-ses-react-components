@@ -133,4 +133,40 @@ describe('RcSesCard', () => {
     expect(container.querySelector('.array-sx-title')).toBeInTheDocument()
     expect(screen.getByText('Array sx')).toBeInTheDocument()
   })
+
+  test('renders image slot when provided', () => {
+    renderCard(
+      <RcSesCard title='Card with image' image={<img src='test.png' alt='test' />}>
+        <div>Content</div>
+      </RcSesCard>,
+    )
+
+    expect(screen.getByRole('img', { name: 'test' })).toBeInTheDocument()
+  })
+
+  test('omits image slot when not provided', () => {
+    const { container } = renderCard(
+      <RcSesCard title='No image' testIds={{ image: 'card-image' }}>
+        <div>Content</div>
+      </RcSesCard>,
+    )
+
+    expect(container.querySelector('[data-testid="card-image"]')).not.toBeInTheDocument()
+  })
+
+  test('forwards image slot props and testId', () => {
+    renderCard(
+      <RcSesCard
+        title='Image slot props'
+        image={<img src='test.png' alt='test' />}
+        testIds={{ image: 'card-image' }}
+        slotProps={{ image: { className: 'image-slot' } }}
+      >
+        <div>Content</div>
+      </RcSesCard>,
+    )
+
+    expect(screen.getByTestId('card-image')).toBeInTheDocument()
+    expect(screen.getByTestId('card-image')).toHaveClass('image-slot')
+  })
 })

@@ -25,7 +25,7 @@ const baseItems: ListWithIconsItemData[] = [
 ]
 
 const meta = {
-  title: 'components/common/ListWithIcons',
+  title: 'components/display/ListWithIcons',
   component: ListWithIcons,
   tags: ['autodocs'],
   args: {
