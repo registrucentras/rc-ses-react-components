@@ -24,7 +24,7 @@ type ImmediateControllerProps = 'control' | 'rules' | 'disabled' | 'name'
 type TFieldProps = Omit<OutlinedTextFieldProps, 'variant' | 'value' | 'defaultValue'>
 
 type TWrapperProps = RcSesFormControlWrapperProps
-type ImmediateWrapperProps = 'id' | 'label' | 'errors'
+type ImmediateWrapperProps = 'id' | 'label' | 'errors' | 'labelSubtitle'
 type TSearchButtonProps = Partial<ButtonProps>
 
 type Props = Pick<TControllerProps, ImmediateControllerProps> &
@@ -55,6 +55,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
   const {
     control,
+    labelSubtitle,
     errors,
     label,
     onSearch,
@@ -100,6 +101,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
   const mergedWrapperProps = {
     ...slotProps?.wrapper,
+    labelSubtitle,
     hideLabel: slotProps?.wrapper?.hideLabel ?? !label,
     labelOnTop: slotProps?.wrapper?.labelOnTop ?? !sideLabel,
   }

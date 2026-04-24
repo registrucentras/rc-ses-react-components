@@ -15,6 +15,9 @@ const meta: Meta<typeof RcSesSearchInput> = {
     label: {
       control: 'text',
     },
+    labelSubtitle: {
+      control: 'text',
+    },
     required: {
       control: 'boolean',
     },
