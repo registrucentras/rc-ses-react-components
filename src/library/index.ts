@@ -28,6 +28,7 @@ import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
 import RcSesPhoneInputFormControl from '@/components/form/inputs/PhoneInputFormControl'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
+import RcSesSearchInput from '@/components/form/inputs/SearchInput'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesTextField from '@/components/form/inputs/TextField'
@@ -65,6 +66,7 @@ export { RcSesFileDropzone }
 export { RcSesNumberStepper }
 export { RcSesPhoneInput, RcSesPhoneInputFormControl }
 export { RcSesRadioButtonGroup }
+export { RcSesSearchInput }
 export { RcSesSearchableField }
 export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
