@@ -11,7 +11,7 @@ import Fields from '@/components/storybook/Fields'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
 
 const meta: Meta<typeof RcSesDatepicker> = {
-  title: 'components/common/inputs/DatePicker',
+  title: 'components/inputs/DatePicker',
   component: RcSesDatepicker,
   argTypes: {
     clearable: {

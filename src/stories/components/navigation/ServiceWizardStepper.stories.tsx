@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
-import ServiceWizardStepper from '../components/layout/ServiceWizardStepper'
-import { StepItem } from '../components/layout/ServiceWizardStepper/StepperTypes'
+import ServiceWizardStepper from '../../../components/layout/ServiceWizardStepper'
+import { StepItem } from '../../../components/layout/ServiceWizardStepper/StepperTypes'
 
 const steps: StepItem[] = [
   { id: '1', title: 'Step 1' },
@@ -11,7 +11,7 @@ const steps: StepItem[] = [
 ]
 
 const meta: Meta<typeof ServiceWizardStepper> = {
-  title: 'Components/ServiceWizardStepper',
+  title: 'components/navigation/ServiceWizardStepper',
   component: ServiceWizardStepper,
   tags: ['autodocs'],
   argTypes: {

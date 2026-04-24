@@ -11,7 +11,7 @@ import Fields from '@/components/storybook/Fields'
 import BasicInformationForm from '@/examples/MultipleStepForm/components/BasicInformationForm'
 
 const meta: Meta<typeof RcSesServiceFormContainer> = {
-  title: 'components/common/form/ServiceFormContainer',
+  title: 'components/form/ServiceFormContainer',
   component: RcSesServiceFormContainer,
   argTypes: {
     accordionController: {

@@ -7,7 +7,7 @@ import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/
 import FieldView from '@/components/storybook/FieldView'
 
 const meta: Meta<typeof RcSesAccordion> = {
-  title: 'components/common/Accordion',
+  title: 'components/navigation/Accordion',
   component: RcSesAccordion,
   argTypes: {
     disabled: {
