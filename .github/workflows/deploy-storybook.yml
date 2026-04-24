@@ -6,16 +6,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -32,21 +30,26 @@ jobs:
       - name: Build Storybook
         run: npm run storybook-build
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy release to root
+        if: github.event_name == 'release'
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: storybook-static
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: storybook-static
+          destination_dir: .
+          keep_files: true
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy preview from branch
+        if: github.event_name == 'workflow_dispatch'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: storybook-static
+          destination_dir: preview/${{ github.ref_name }}
+          keep_files: true
+
+      - name: Storybook preview URL
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "### Storybook Preview" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://registrucentras.github.io/rc-ses-react-components/preview/${{ github.ref_name }}/" >> $GITHUB_STEP_SUMMARY
