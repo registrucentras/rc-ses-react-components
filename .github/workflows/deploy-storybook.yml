@@ -47,3 +47,9 @@ jobs:
           publish_dir: storybook-static
           destination_dir: preview/${{ github.ref_name }}
           keep_files: true
+
+      - name: Storybook preview URL
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "### Storybook Preview" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://registrucentras.github.io/rc-ses-react-components/preview/${{ github.ref_name }}/" >> $GITHUB_STEP_SUMMARY
