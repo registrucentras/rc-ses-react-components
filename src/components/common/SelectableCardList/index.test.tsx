@@ -35,9 +35,9 @@ const makeItems = (count: number): SelectableCardListItemData[] =>
 
 describe('SelectableCardList', () => {
   test('renders skeleton cards when items is undefined', () => {
-    const { container } = renderList(<SelectableCardList onSelect={vi.fn()} />)
+    renderList(<SelectableCardList onSelect={vi.fn()} />)
 
-    expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
+    expect(screen.getByTestId('selectable-card-list-skeleton')).toBeInTheDocument()
     expect(screen.queryByRole('radio')).not.toBeInTheDocument()
   })
 

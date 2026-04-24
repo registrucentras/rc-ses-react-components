@@ -48,6 +48,7 @@ const SelectableCardList = ({
         subtitle=''
         selected={false}
         onSelect={() => {}}
+        listItems={[]}
         isLoading
       />
     ))
@@ -62,9 +63,12 @@ const SelectableCardList = ({
         paddingBottom: '64px',
       }}
     >
-      {error || (
+      {error != null ? (
+        error
+      ) : (
         <>
           <Box
+            data-testid={!items ? 'selectable-card-list-skeleton' : undefined}
             sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}
           >
             {!items
@@ -74,7 +78,7 @@ const SelectableCardList = ({
                     key={item.id}
                     title={item.title}
                     subtitle={item.subtitle}
-                    listItems={item.listItems}
+                    listItems={item.listItems || []}
                     selected={selectedId === item.id}
                     onSelect={() => onSelect(item.id)}
                   />

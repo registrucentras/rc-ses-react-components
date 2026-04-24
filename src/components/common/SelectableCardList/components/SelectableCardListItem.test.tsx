@@ -18,16 +18,22 @@ describe('SelectableCardListItem', () => {
         subtitle='Some subtitle'
         selected={false}
         onSelect={vi.fn()}
+        listItems={[]}
       />,
     )
 
-    expect(screen.getByText('Main title')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Main title' })).toBeInTheDocument()
     expect(screen.getByText('Some subtitle')).toBeInTheDocument()
   })
 
   test('omits subtitle when not provided', () => {
     renderItem(
-      <SelectableCardListItem title='Title only' selected={false} onSelect={vi.fn()} />,
+      <SelectableCardListItem
+        title='Title only'
+        selected={false}
+        onSelect={vi.fn()}
+        listItems={[]}
+      />,
     )
 
     expect(screen.getByText('Title only')).toBeInTheDocument()
@@ -36,7 +42,13 @@ describe('SelectableCardListItem', () => {
 
   test('renders loading skeletons when isLoading is true', () => {
     const { container } = renderItem(
-      <SelectableCardListItem title='' selected={false} onSelect={vi.fn()} isLoading />,
+      <SelectableCardListItem
+        title=''
+        selected={false}
+        onSelect={vi.fn()}
+        isLoading
+        listItems={[]}
+      />,
     )
 
     expect(container.querySelectorAll('.MuiSkeleton-root').length).toBeGreaterThan(0)
@@ -44,14 +56,26 @@ describe('SelectableCardListItem', () => {
   })
 
   test('radio is checked when selected=true', () => {
-    renderItem(<SelectableCardListItem title='Selected' selected onSelect={vi.fn()} />)
+    renderItem(
+      <SelectableCardListItem
+        title='Selected'
+        selected
+        onSelect={vi.fn()}
+        listItems={[]}
+      />,
+    )
 
     expect(screen.getByRole('radio')).toBeChecked()
   })
 
   test('radio is unchecked when selected=false', () => {
     renderItem(
-      <SelectableCardListItem title='Not selected' selected={false} onSelect={vi.fn()} />,
+      <SelectableCardListItem
+        title='Not selected'
+        selected={false}
+        onSelect={vi.fn()}
+        listItems={[]}
+      />,
     )
 
     expect(screen.getByRole('radio')).not.toBeChecked()
