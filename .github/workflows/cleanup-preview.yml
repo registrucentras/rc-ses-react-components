@@ -1,0 +1,35 @@
+name: Cleanup Storybook Preview
+
+on:
+  delete:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cleanup-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Remove preview folder
+        run: |
+          BRANCH_NAME="${{ github.event.ref }}"
+          PREVIEW_DIR="preview/${BRANCH_NAME}"
+          if [ -d "$PREVIEW_DIR" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rf "$PREVIEW_DIR"
+            git commit -m "chore: remove storybook preview for ${BRANCH_NAME}"
+            git push
+          else
+            echo "No preview folder found for ${BRANCH_NAME}, skipping."
+          fi
