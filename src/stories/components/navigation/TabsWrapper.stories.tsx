@@ -24,14 +24,10 @@ export const Default: Story = {
   render: (args) => (
     <RcSesTabsWrapper heading={args.heading}>
       <RcSesTabs value={0}>
-        <RcSesTab label='Tab 1' />
-        <RcSesTab label='Tab 2' />
+        <RcSesTab label='Tab' />
       </RcSesTabs>
       <RcSesTabPanel activeTab={0} index={0}>
-        Tab 1 content
-      </RcSesTabPanel>
-      <RcSesTabPanel activeTab={0} index={1}>
-        Tab 2 content
+        Tab content
       </RcSesTabPanel>
     </RcSesTabsWrapper>
   ),
