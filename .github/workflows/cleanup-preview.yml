@@ -6,6 +6,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: cleanup-gh-pages
+  cancel-in-progress: false
+
 jobs:
   cleanup:
     if: github.event.ref_type == 'branch'
