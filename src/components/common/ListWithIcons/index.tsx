@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 
-import ListWithIconsItem, { ListWithIconsItemData } from './components/ListWithIconsItem'
+import { ListWithIconsItemData } from './ListWithIcons.types'
+import ListWithIconsItem from './components/ListWithIconsItem'
 
 export interface ListWithIconsProps {
   items: ListWithIconsItemData[]

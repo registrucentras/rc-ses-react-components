@@ -1,15 +1,8 @@
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material'
-import { ComponentType } from 'react'
 
 import palette from '@/theme/palette'
 
-export interface ListWithIconsItemData {
-  icon?: ComponentType<{ fillColor?: string; size?: number }>
-  text?: string
-  disabled?: boolean
-  tooltip?: string
-  textColor?: string
-}
+import { ListWithIconsItemData } from '../ListWithIcons.types'
 
 interface Props extends ListWithIconsItemData {
   isLoading?: boolean
