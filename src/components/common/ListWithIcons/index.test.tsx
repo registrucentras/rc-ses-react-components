@@ -16,14 +16,12 @@ describe('ListWithIcons', () => {
       <ListWithIcons
         items={[
           {
-            id: 'first',
-            icon: <span data-testid='first-icon'>I1</span>,
+            icon: () => <span data-testid='first-icon'>I1</span>,
             text: 'First item',
             tooltip: 'First tooltip',
           },
           {
-            id: 'second',
-            icon: <span data-testid='second-icon'>I2</span>,
+            icon: () => <span data-testid='second-icon'>I2</span>,
             text: 'Second item',
             tooltip: 'Second tooltip',
           },
@@ -41,14 +39,7 @@ describe('ListWithIcons', () => {
 
   test('renders one loading skeleton per item when isLoading is true', () => {
     const { container } = renderListWithIcons(
-      <ListWithIcons
-        isLoading
-        items={[
-          { id: 'first', text: 'First item' },
-          { id: 'second', text: 'Second item' },
-          { id: 'third', text: 'Third item' },
-        ]}
-      />,
+      <ListWithIcons isLoading skeletonCount={3} items={[]} />,
     )
 
     expect(container.querySelectorAll('.MuiSkeleton-root')).toHaveLength(3)
@@ -60,7 +51,6 @@ describe('ListWithIcons', () => {
       <ListWithIcons
         items={[
           {
-            id: 'first',
             text: 'Hover me',
             tooltip: 'Helpful tooltip text',
           },

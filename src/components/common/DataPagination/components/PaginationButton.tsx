@@ -1,5 +1,4 @@
-import { Button, ButtonProps } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Button, ButtonProps } from '@mui/material'
 
 import palette from '@/theme/palette'
 
