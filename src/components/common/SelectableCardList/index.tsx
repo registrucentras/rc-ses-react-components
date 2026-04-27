@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/system'
 import { ReactNode, useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
-import { ListWithIconsItemData } from '../ListWithIcons/components/ListWithIconsItem'
+import { ListWithIconsItemData } from '../ListWithIcons/ListWithIcons.types'
 import SelectableCardListItem from './components/SelectableCardListItem'
 
 export type SelectableCardListItemData = {

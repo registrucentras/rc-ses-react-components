@@ -26,7 +26,7 @@ const SelectableCardListItem = ({
   const titleTemplate = isLoading ? (
     <Stack direction='row' alignItems='center' gap='0.75rem'>
       <Skeleton variant='circular' width={20} height={20} />
-      <Stack>
+      <Stack direction='row' gap='0.5rem'>
         <Skeleton variant='text' width={100} />
         <Skeleton variant='text' width={140} />
       </Stack>

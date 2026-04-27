@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 
 import Button from '@/components/common/Button'
@@ -105,10 +106,21 @@ function ListWithPagination() {
         selectedId={selectedItemId}
         onSelect={setSelectedItemId}
       />
-      <Button variant='contained' onClick={handleRefetch} disabled={isLoading}>
-        Refetch
-      </Button>
-      <Typography variant='body1'>Selected item: {selectedItemId}</Typography>
+      <Box
+        sx={{
+          mt: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 2,
+          alignItems: 'center',
+        }}
+      >
+        <Button variant='contained' onClick={handleRefetch} disabled={isLoading}>
+          Refetch
+        </Button>
+        <Typography variant='body1'>Selected item: {selectedItemId}</Typography>
+      </Box>
     </ServicePage>
   )
 }
