@@ -1,0 +1,46 @@
+import{j as e}from"./jsx-runtime-CUA6FXPC.js";import{R as a,u as m,a as l}from"./index-pjE9ixto.js";import{F as p}from"./FieldView-BPNWESYs.js";import"./index-z7qk6wml.js";import"./_commonjsHelpers-gnU0ypJ3.js";import"./WarningDiamondFillIcon-qcDNV13N.js";import"./IconBase.es-DjmddrNl.js";import"./DefaultPropsProvider-C85juv10.js";import"./styled-B7PEox7f.js";import"./useSlot-BW7OS6c8.js";import"./resolveComponentProps-DRcSetEx.js";import"./isHostComponent-DVu5iVWx.js";import"./TransitionGroupContext-CFTfohW9.js";import"./useControlled-B5uRKyCK.js";import"./utils-BgNilyEg.js";import"./index-EdaIQj1o.js";import"./index--5oNNx0P.js";import"./useTheme-B_YD_k6t.js";import"./palette-DW5JBtDV.js";import"./Paper-CjWMzsbC.js";import"./ButtonBase-C8XVWg5R.js";import"./useIsFocusVisible-CTcnAXki.js";import"./index-jD6VL9hZ.js";import"./index-0qEeqX2c.js";import"./CheckCircleFillIcon-BEND09qK.js";import"./InfoFillIcon-Dk6F1lNO.js";import"./WarningFillIcon-BkZRbW9g.js";import"./colorManipulator-DnbABVGE.js";import"./DotCircleFilledIcon-v8rpIRE-.js";import"./createSvgIcon-dN7utv6K.js";import"./isMuiElement-CYARxs4c.js";import"./Skeleton-BF9aUL2N.js";import"./CaretLeftIcon-D9i8HN0g.js";import"./CaretLeft.es-1l3k0mFs.js";import"./CaretRightBoldIcon-AI-gELqb.js";import"./Button-CMpU3nxP.js";import"./Box-Bw9i7Bet.js";import"./useMediaQuery-B3sOGpc7.js";import"./getThemeProps-CY3DWdQx.js";import"./ExpandChevronsIcon-5SAkCLP3.js";import"./index-BPScgcux.js";import"./Grid-BVBW8ti7.js";import"./Container-Ce-PDsb_.js";import"./useThemeProps-CVqq43G5.js";const no={title:"components/navigation/Accordion",component:a,argTypes:{disabled:{control:{type:"boolean"},table:{defaultValue:{}}}},tags:["autodocs"]},d=t=>{const{disabled:r}=t,n=m({initialState:{form:{canToggle:!0,expanded:!1,state:"active",title:"Accordion title"}}});return e.jsx(p,{children:e.jsx(l,{showProgressStepper:!0,accordionController:n,slotProps:{container:{maxWidth:"lg"}},children:e.jsx(a,{id:"form",controller:n,disabled:r,children:"Here goes Accordeon content"})})})},u=t=>{const{disabled:r}=t;return`
+  import RcSesAccordion from '@/components/common/Accordion'
+  import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
+
+  const MyComponent = () => (
+  const accordionController = useAccordionController({
+    initialState: {
+      form: {
+        canToggle: true,
+        expanded: false,
+        state: 'active',
+        title: "Accordion title",
+      },
+    },
+  });
+
+    <RcSesAccordion controller={accordionController} disabled="${r}">
+       This is content
+    </RcSesAccordion>
+  );`},o=d.bind({});o.args={disabled:!1};o.parameters={docs:{source:{type:"dynamic",transform:(t,r)=>u(r.args)}}};var i,c,s;o.parameters={...o.parameters,docs:{...(i=o.parameters)==null?void 0:i.docs,source:{originalSource:`args => {
+  const {
+    disabled
+  } = args;
+  const accordionController = useAccordionController({
+    initialState: {
+      form: {
+        canToggle: true,
+        expanded: false,
+        state: 'active',
+        title: 'Accordion title'
+      }
+    }
+  });
+  return <FieldView>
+      <RcSesServiceFormContainer showProgressStepper accordionController={accordionController} slotProps={{
+      container: {
+        maxWidth: 'lg'
+      }
+    }}>
+        <RcSesAccordion id='form' controller={accordionController} disabled={disabled}>
+          Here goes Accordeon content
+        </RcSesAccordion>
+      </RcSesServiceFormContainer>
+    </FieldView>;
+}`,...(s=(c=o.parameters)==null?void 0:c.docs)==null?void 0:s.source}}};const io=["Main"];export{o as Main,io as __namedExportsOrder,no as default};
+//# sourceMappingURL=Accordion.stories-DdwchAud.js.map

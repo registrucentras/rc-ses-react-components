@@ -1,0 +1,2 @@
+import{G as l,a as n,T as m,d as u}from"./DefaultPropsProvider-C85juv10.js";import"./index-z7qk6wml.js";import{j as s}from"./jsx-runtime-CUA6FXPC.js";import{u as p}from"./palette-DW5JBtDV.js";function f({styles:t,themeId:o,defaultTheme:r={}}){const e=p(r),a=typeof t=="function"?t(o&&e[o]||e):t;return s.jsx(l,{styles:a})}function T(t){return s.jsx(f,n({},t,{defaultTheme:u,themeId:m}))}export{T as G};
+//# sourceMappingURL=GlobalStyles-CnMfVofm.js.map
