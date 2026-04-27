@@ -1,5 +1,4 @@
-import { Radio, Skeleton, Stack, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Radio, Skeleton, Stack, Typography } from '@mui/material'
 
 import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'

@@ -1,5 +1,4 @@
-import { Skeleton } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Skeleton } from '@mui/material'
 
 interface DataPaginationSkeletonProps {
   isMobile: boolean

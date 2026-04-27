@@ -1,5 +1,4 @@
-import { Pagination, useMediaQuery, useTheme } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 
 import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'

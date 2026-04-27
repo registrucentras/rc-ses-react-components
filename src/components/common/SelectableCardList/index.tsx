@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/system'
+import { Box, Container } from '@mui/material'
 import { ReactNode, useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
