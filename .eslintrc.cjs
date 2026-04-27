@@ -16,18 +16,8 @@ module.exports = {
     'prettier',
     'plugin:storybook/recommended',
   ],
-  overrides: [
-    {
-      files: ['scripts/check-dist.ts'],
-      parserOptions: {
-        project: null,
-      },
-      rules: {
-        '@typescript-eslint/no-unused-vars': 'off',
-      },
-    },
-  ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'vitest.config.ts'],
+  overrides: [],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vitest.config.ts', 'scripts/check-dist.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
