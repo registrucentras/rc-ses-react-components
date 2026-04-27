@@ -44,11 +44,7 @@ const DataPagination = ({
     onChange?.(newPage)
   }
 
-  const showSkeleton = isLoading && count === 0
-  const hidePagination = count <= 1 && !isLoading
-  const showPagination = count >= 2
-
-  if (showSkeleton) {
+  if (isLoading) {
     return (
       <Box display='flex' alignItems='center' gap={1}>
         <DataPaginationSkeleton isMobile={isMobile} />
@@ -56,36 +52,36 @@ const DataPagination = ({
     )
   }
 
+  const hidePagination = count <= 1
+
   if (hidePagination) {
     return null
   }
 
   return (
     <Box display='flex' alignItems='center' gap={1}>
-      {showPagination && (
-        <>
-          <PaginationButton
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            label={prevLabel}
-            icon={<ArrowLeftIcon size={16} />}
-          />
-          <Pagination
-            count={count}
-            page={currentPage}
-            siblingCount={isMobile ? 0 : 1}
-            boundaryCount={1}
-            onChange={(_, p) => handlePageChange(p)}
-          />
-          <PaginationButton
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === count}
-            label={nextLabel}
-            icon={<ArrowRightIcon size={16} />}
-            iconPosition='end'
-          />
-        </>
-      )}
+      <>
+        <PaginationButton
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          label={prevLabel}
+          icon={<ArrowLeftIcon size={16} />}
+        />
+        <Pagination
+          count={count}
+          page={currentPage}
+          siblingCount={isMobile ? 0 : 1}
+          boundaryCount={1}
+          onChange={(_, p) => handlePageChange(p)}
+        />
+        <PaginationButton
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === count}
+          label={nextLabel}
+          icon={<ArrowRightIcon size={16} />}
+          iconPosition='end'
+        />
+      </>
     </Box>
   )
 }

@@ -34,6 +34,7 @@ const SelectableCardListItem = ({
   ) : (
     <Stack direction='row' alignItems='flex-start' gap='0.75rem'>
       <Radio
+        aria-label={`Select ${title}`}
         checked={selected}
         sx={{
           p: 0,
