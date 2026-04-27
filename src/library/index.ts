@@ -41,6 +41,8 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
 
+import SelectableCardList from '../components/common/SelectableCardList'
+
 declare module '@mui/x-date-pickers/models' {
   interface PickerValidDateLookup {
     'date-fns': Date
@@ -72,6 +74,7 @@ export { RcSesTextField }
 export { DataPagination }
 export { ListWithIcons }
 export { ServiceWizardStepper }
+export { SelectableCardList }
 export type * from './types'
 
 export {

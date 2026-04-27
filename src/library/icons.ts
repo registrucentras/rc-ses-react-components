@@ -30,6 +30,7 @@ import ScalesIcon from '@/assets/icons/ScalesIcon'
 import ScrollIcon from '@/assets/icons/ScrollIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
+import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
 import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
@@ -69,5 +70,6 @@ export {
   UploadSimpleIcon,
   WarningDiamondFillIcon,
   WarningFillIcon,
+  WarningCircleIcon,
   XCircleFillIcon,
 }

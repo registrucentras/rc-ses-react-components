@@ -1,5 +1,4 @@
-import { Step, StepButton, Stepper } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Step, StepButton, Stepper } from '@mui/material'
 
 import StepConnector from '../StepConnector'
 import { StepItem } from '../StepperTypes'

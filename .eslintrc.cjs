@@ -17,7 +17,7 @@ module.exports = {
     'plugin:storybook/recommended',
   ],
   overrides: [],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'vitest.config.ts'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vitest.config.ts', 'scripts/check-dist.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
