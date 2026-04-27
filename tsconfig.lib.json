@@ -37,7 +37,6 @@
 
     "src/examples",
     "src/stubs",
-    "src/types",
 
     "src/*.d.ts",
     "src/*.ts",

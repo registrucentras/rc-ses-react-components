@@ -25,7 +25,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:lib": "npm i && tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts",
+    "build:lib": "npm i && tsc --p ./tsconfig.lib.json && vite build --config vite.config.lib.ts && tsc --p ./tsconfig.check-dist.json",
+    "check:dist": "tsc --p ./tsconfig.check-dist.json",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
