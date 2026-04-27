@@ -3,8 +3,9 @@ import { Box } from '@mui/system'
 
 import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
-import { ListWithIconsItemData } from '@/components/common/ListWithIcons/components/ListWithIconsItem'
 import palette from '@/theme/palette'
+
+import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
 type Props = {
   title: string
@@ -26,10 +27,7 @@ const SelectableCardListItem = ({
   const titleTemplate = isLoading ? (
     <Stack direction='row' alignItems='center' gap='0.75rem'>
       <Skeleton variant='circular' width={20} height={20} />
-      <Stack direction='row' gap='0.5rem'>
-        <Skeleton variant='text' width={100} />
-        <Skeleton variant='text' width={140} />
-      </Stack>
+      <Skeleton variant='text' width={100} />
     </Stack>
   ) : (
     <Stack direction='row' alignItems='flex-start' gap='0.75rem'>

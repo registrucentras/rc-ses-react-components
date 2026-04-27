@@ -39,7 +39,7 @@ describe('ListWithIcons', () => {
 
   test('renders one loading skeleton per item when isLoading is true', () => {
     const { container } = renderListWithIcons(
-      <ListWithIcons isLoading skeletonCount={3} />,
+      <ListWithIcons isLoading skeletonCount={3} items={[]} />,
     )
 
     expect(container.querySelectorAll('.MuiSkeleton-root')).toHaveLength(3)
