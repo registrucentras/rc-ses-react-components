@@ -1,0 +1,96 @@
+import { Meta } from "@storybook/blocks";
+import { Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import MuiTypography from '@/theme/light/MuiTypography';
+import themePalette from '@/theme/light/themePalette';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Our design system uses a comprehensive typography scale that provides consistent text styles across all components and pages.
+
+**Source:** [`src/theme/light/MuiTypography.tsx`](https://github.com/registrucentras/rc-ses-react-components/blob/main/src/theme/light/MuiTypography.tsx)
+
+## Typography Scale
+
+**Font Family:** {themePalette.typography.fontFamily}
+
+All typography variants are built on a scalable system with defined font sizes, line heights, and font weights.
+
+<Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, my: 3 }}>
+  {Object.entries(MuiTypography.styleOverrides).filter(([variant]) => variant !== 'root').map(([variant, props]) => {
+    const bgColor = variant.startsWith('h') ? 'primary.50' : variant.startsWith('body') ? 'secondary.50' : 'grey.100';
+    return (
+      <Paper key={variant} elevation={2} sx={{ p: 3, mb: 2, borderRadius: 2, backgroundColor: bgColor, display: 'flex', alignItems: 'center', gap: 3, fontFamily: themePalette.typography.fontFamily }}>
+        <Box sx={{ minWidth: 90 }}>
+          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, fontFamily: themePalette.typography.fontFamily }}>
+            {variant}
+          </Typography>
+          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.5, fontFamily: themePalette.typography.fontFamily }}>
+            {props.fontSize || 'Default'} / {props.lineHeight || 'Default'} / {props.fontWeight || 'Default'}
+          </Typography>
+        </Box>
+        <Typography variant={variant} sx={{ flex: 1, pl: 2, borderLeft: '1px solid', borderColor: 'divider', fontFamily: themePalette.typography.fontFamily }}>
+          Sample Text
+        </Typography>
+      </Paper>
+    );
+  })}
+</Box>
+
+## Typography Reference Table
+
+<TableContainer component={Paper} sx={{ my: 3 }}>
+  <Table>
+    <TableHead>
+      <TableRow sx={{ backgroundColor: 'primary.50' }}>
+        <TableCell sx={{ fontWeight: 600 }}>Variant</TableCell>
+        <TableCell sx={{ fontWeight: 600 }}>Font Size</TableCell>
+        <TableCell sx={{ fontWeight: 600 }}>Line Height</TableCell>
+        <TableCell sx={{ fontWeight: 600 }}>Font Weight</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {Object.entries(MuiTypography.styleOverrides).filter(([variant]) => variant !== 'root').map(([variant, props]) => (
+        <TableRow key={variant}>
+          <TableCell><code>{variant}</code></TableCell>
+          <TableCell>{props.fontSize || 'Default'}</TableCell>
+          <TableCell>{props.lineHeight || 'Default'}</TableCell>
+          <TableCell>{props.fontWeight || 'Default'}</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+</TableContainer>
+
+## Usage in Code
+
+### Using Typography Component
+
+```jsx
+import { Typography } from '@mui/material'
+
+export default function Example() {
+  return (
+    <Typography variant="h2">This is a heading</Typography>
+  )
+}
+```
+
+### Using with sx Prop
+
+```jsx
+import { Box } from '@mui/material'
+
+export default function Example() {
+  return (
+    <Box sx={{
+      fontSize: '2rem',
+      lineHeight: '2.75rem',
+      fontWeight: 500
+    }}>
+      Styled text using sx prop
+    </Box>
+  )
+}
+```
