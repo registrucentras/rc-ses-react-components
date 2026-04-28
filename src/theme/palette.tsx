@@ -29,6 +29,7 @@ const secondary = {
 }
 
 const grey = {
+  '0': '#ffffff',
   '50': '#f9fafb',
   '100': '#f0f2f5',
   '200': '#dce0e5',
