@@ -35,7 +35,7 @@ const meta: Meta<typeof RcSesSearchInput> = {
     searchButtonLabel: {
       control: 'text',
     },
-    searchButtonProps: {
+    slotProps: {
       control: 'object',
     },
     disabled: {

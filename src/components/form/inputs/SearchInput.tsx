@@ -1,4 +1,4 @@
-import { Box, IconButton, useMediaQuery } from '@mui/material'
+import { Box, IconButton, useMediaQuery, useTheme } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import type { OutlinedTextFieldProps } from '@mui/material/TextField'
 import TextField from '@mui/material/TextField'
@@ -14,7 +14,6 @@ import RcSesButton from '@/components/common/Button'
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '@/components/form/components/FormControlWrapper'
-import theme from '@/theme/light'
 import type { ButtonProps } from '@/types/buttons/ButtonProps'
 
 type TControllerProps = UseControllerProps<any, any>
@@ -35,7 +34,6 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     sideLabel?: boolean
     showSearchButton?: boolean
     searchButtonLabel?: string
-    searchButtonProps?: TSearchButtonProps
     slotProps?: {
       controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
       field?: Partial<TFieldProps>
@@ -78,7 +76,6 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     sideLabel = false,
     showSearchButton = true,
     searchButtonLabel,
-    searchButtonProps,
     slotProps,
     ...fieldProps
   } = props
@@ -102,12 +99,10 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     ...slotProps?.controller,
   })
 
-  const upMd = useMediaQuery(theme.breakpoints.up('md'))
+  const currentTheme = useTheme()
+  const upMd = useMediaQuery(currentTheme.breakpoints.up('md'))
 
-  const mergedSearchButtonProps = {
-    ...slotProps?.searchButton,
-    ...searchButtonProps,
-  }
+  const mergedSearchButtonProps = slotProps?.searchButton ?? {}
 
   const shouldRenderSearchButton = showSearchButton !== false && upMd
 
@@ -237,10 +232,10 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
               flex: '1 1 auto',
               '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus':
                 {
-                  WebkitBoxShadow: '0 0 0 1000px white inset',
+                  WebkitBoxShadow: `0 0 0 1000px ${currentTheme.palette.background.paper} inset`,
                 },
               '& .MuiOutlinedInput-root:has(input:-webkit-autofill)': {
-                backgroundColor: 'white',
+                backgroundColor: currentTheme.palette.background.paper,
               },
             },
             ...(Array.isArray(slotProps?.field?.sx)
