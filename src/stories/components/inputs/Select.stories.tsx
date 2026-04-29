@@ -2,7 +2,7 @@
 import { Meta, StoryContext, StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
-import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSelect from '@/components/form/inputs/Select/Select'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'

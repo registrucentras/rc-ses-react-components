@@ -83,12 +83,20 @@ function RcSesPhoneInputFormControl(props: Props) {
     rules: {
       ...rules,
       validate: {
-        phoneNoFormat: (value) =>
-          mask.completed(value.replace(country.code ?? '', '')) || t('invalid'),
+        phoneNoFormat: (value) => {
+          if (typeof value !== 'string') {
+            return t('invalid')
+          }
+
+          return mask.completed(value.replace(country.code ?? '', '')) || t('invalid')
+        },
         ...rules?.validate,
       },
     },
   })
+
+  const phoneValue =
+    typeof controllerProps.value === 'string' ? controllerProps.value : ''
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
@@ -172,7 +180,7 @@ function RcSesPhoneInputFormControl(props: Props) {
           pattern: '^[0-9\\(\\)\\- ]*$/',
         }}
         placeholder={mask.opts.mask?.toString()}
-        value={mask.masked(controllerProps.value.replace(country.code ?? '', ''))}
+        value={mask.masked(phoneValue.replace(country.code ?? '', ''))}
         onChange={(e) =>
           controllerProps.onChange({
             ...e,
