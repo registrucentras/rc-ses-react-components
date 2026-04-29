@@ -1,5 +1,5 @@
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
@@ -73,7 +73,7 @@ const meta: Meta<typeof RcSesCheckbox> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesCheckbox> = (args) => {
+function CheckboxDemo(args: any) {
   const {
     control,
     formState: { errors },
@@ -195,20 +195,21 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Click Me',
-  variant: 'outlined',
-  children: 'This is content',
-  disabled: false,
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main = {
+  render: (args: any) => <CheckboxDemo {...args} />,
+  args: {
+    label: 'Click Me',
+    variant: 'outlined',
+    children: 'This is content',
+    disabled: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
@@ -24,7 +24,7 @@ const meta: Meta<typeof RcSesAccordion> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesAccordion> = (args) => {
+function AccordionDemo(args: any) {
   const { disabled } = args
 
   const accordionController = useAccordionController({
@@ -77,17 +77,18 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  disabled: false,
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main = {
+  render: (args: any) => <AccordionDemo {...args} />,
+  args: {
+    disabled: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }
