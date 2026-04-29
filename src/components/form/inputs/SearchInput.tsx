@@ -2,7 +2,7 @@ import { Box, IconButton, useMediaQuery } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import type { OutlinedTextFieldProps } from '@mui/material/TextField'
 import TextField from '@mui/material/TextField'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import type { UseControllerProps } from 'react-hook-form'
 import { useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -46,6 +46,19 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
 
 const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false)
+  const internalInputRef = useRef<HTMLInputElement>(null)
+
+  const setInputRef = useCallback(
+    (el: HTMLInputElement | null) => {
+      ;(internalInputRef as React.MutableRefObject<HTMLInputElement | null>).current = el
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ;(ref as React.MutableRefObject<HTMLInputElement | null>).current = el
+      }
+    },
+    [ref],
+  )
 
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesSearchableField' })
   const { t: tWrapper } = useTranslation('input', {
@@ -166,7 +179,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
       >
         <TextField
           id={id}
-          inputRef={ref}
+          inputRef={setInputRef}
           InputProps={{
             inputProps: {
               ...(slotProps?.field?.inputProps ?? {}),
@@ -178,10 +191,14 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
                 : {}),
             },
             startAdornment: (
-              <InputAdornment position='start'>
+              <InputAdornment
+                position='start'
+                onClick={() => internalInputRef.current?.focus()}
+              >
                 <Box
                   sx={{
                     alignItems: 'center',
+                    cursor: 'text',
                     display: 'flex',
                     height: '2.5rem',
                     justifyContent: 'center',
@@ -216,7 +233,16 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
           onKeyDown={handleFieldKeyDown}
           placeholder={slotProps?.field?.placeholder ?? placeholder}
           sx={[
-            { flex: '1 1 auto' },
+            {
+              flex: '1 1 auto',
+              '& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus':
+                {
+                  WebkitBoxShadow: '0 0 0 1000px white inset',
+                },
+              '& .MuiOutlinedInput-root:has(input:-webkit-autofill)': {
+                backgroundColor: 'white',
+              },
+            },
             ...(Array.isArray(slotProps?.field?.sx)
               ? slotProps.field.sx
               : [slotProps?.field?.sx]),
