@@ -6,7 +6,7 @@ import RcSesTabs from '@/components/common/Tabs/Tabs'
 import RcSesTabsWrapper from '@/components/common/Tabs/TabsWrapper'
 
 const meta: Meta<typeof RcSesTabsWrapper> = {
-  title: 'components/navigation/Tabs/TabsWrapper',
+  title: 'components/tabs/TabsWrapper',
   component: RcSesTabsWrapper,
   tags: ['autodocs'],
   argTypes: {

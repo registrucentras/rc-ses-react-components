@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import RcSesTab from '@/components/common/Tabs/Tab'
 
 const meta: Meta<typeof RcSesTab> = {
-  title: 'components/navigation/Tabs/Tab',
+  title: 'components/tabs/Tab',
   component: RcSesTab,
   tags: ['autodocs'],
   argTypes: {
