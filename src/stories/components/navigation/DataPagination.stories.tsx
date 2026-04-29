@@ -49,26 +49,28 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+function ControlledDataPaginationDemo({ page: initialPage, onChange, ...args }: any) {
+  const [page, setPage] = useState(initialPage ?? 1)
+
+  return (
+    <Box display='flex' flexDirection='column' gap={2}>
+      <Typography variant='body2'>Current page: {page}</Typography>
+      <DataPagination
+        {...args}
+        page={page}
+        onChange={(nextPage) => {
+          setPage(nextPage)
+          onChange?.(nextPage)
+        }}
+      />
+    </Box>
+  )
+}
+
 export const Uncontrolled: Story = {}
 
 export const Controlled: Story = {
-  render: (args) => {
-    const [page, setPage] = useState(args.page ?? 1)
-
-    return (
-      <Box display='flex' flexDirection='column' gap={2}>
-        <Typography variant='body2'>Current page: {page}</Typography>
-        <DataPagination
-          {...args}
-          page={page}
-          onChange={(nextPage) => {
-            setPage(nextPage)
-            args.onChange?.(nextPage)
-          }}
-        />
-      </Box>
-    )
-  },
+  render: (args) => <ControlledDataPaginationDemo {...args} />,
   args: {
     page: 1,
   },

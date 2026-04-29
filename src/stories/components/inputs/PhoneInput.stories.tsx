@@ -1,5 +1,5 @@
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
@@ -49,7 +49,7 @@ const meta: Meta<typeof RcSesPhoneInput> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesPhoneInput> = (args) => {
+function PhoneInputDemo(args: any) {
   const {
     control,
     formState: { errors },
@@ -104,7 +104,9 @@ const Template: StoryFn<typeof RcSesPhoneInput> = (args) => {
   )
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Phone number',
+export const Main = {
+  render: (args: any) => <PhoneInputDemo {...args} />,
+  args: {
+    label: 'Phone number',
+  },
 }
