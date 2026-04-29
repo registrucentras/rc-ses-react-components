@@ -59,7 +59,8 @@ const SelectableCardList = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '16px',
+        gap: '1rem',
+        padding: 0,
       }}
     >
       {error != null ? (

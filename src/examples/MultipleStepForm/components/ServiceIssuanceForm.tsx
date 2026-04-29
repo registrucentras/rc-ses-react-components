@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesAlert from '@/components/common/Alert'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
-import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSelect from '@/components/form/inputs/Select/Select'
 
 type FormModel = {
   issuanceMethod: string

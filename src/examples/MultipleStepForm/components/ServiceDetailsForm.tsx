@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
-import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSelect from '@/components/form/inputs/Select/Select'
 
 import MultiStepFormModel from '../types/MultiStepFormModel'
 
