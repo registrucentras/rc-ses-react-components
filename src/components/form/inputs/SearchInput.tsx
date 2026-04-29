@@ -11,12 +11,11 @@ import { v4 as uuidv4 } from 'uuid'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
 import RcSesButton from '@/components/common/Button'
-import theme from '@/theme/light'
-import type { ButtonProps } from '@/types/buttons/ButtonProps'
-
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
-} from '../components/FormControlWrapper'
+} from '@/components/form/components/FormControlWrapper'
+import theme from '@/theme/light'
+import type { ButtonProps } from '@/types/buttons/ButtonProps'
 
 type TControllerProps = UseControllerProps<any, any>
 type ImmediateControllerProps = 'control' | 'rules' | 'disabled' | 'name'
@@ -29,7 +28,7 @@ type TSearchButtonProps = Partial<ButtonProps>
 
 type Props = Pick<TControllerProps, ImmediateControllerProps> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
-    onSearch?: (value: string) => void
+    onSearch: (value: string) => void
     required?: boolean
     onlyNumbers?: boolean
     placeholder?: TFieldProps['placeholder']

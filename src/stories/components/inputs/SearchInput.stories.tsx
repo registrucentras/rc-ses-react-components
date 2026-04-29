@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -47,7 +46,9 @@ const meta: Meta<typeof RcSesSearchInput> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesSearchInput> = (args) => {
+type Story = StoryObj<typeof RcSesSearchInput>
+
+const StoryTemplate = (args: React.ComponentProps<typeof RcSesSearchInput>) => {
   const { onSearch, slotProps, ...restArgs } = args
   const [lastSearchValue, setLastSearchValue] = useState('')
   const [searchCount, setSearchCount] = useState(0)
@@ -83,39 +84,51 @@ const Template: StoryFn<typeof RcSesSearchInput> = (args) => {
   )
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Search Input Field',
-  placeholder: 'Type to search',
-  onSearch: fn(),
+export const Main: Story = {
+  args: {
+    label: 'Search Input Field',
+    placeholder: 'Type to search',
+    onSearch: fn(),
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
 
-export const OnlyRequired = Template.bind({})
-OnlyRequired.args = {
-  onSearch: fn(),
+export const OnlyRequired: Story = {
+  args: {
+    onSearch: fn(),
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
 
-export const WithoutButton = Template.bind({})
-WithoutButton.args = {
-  ...Main.args,
-  showSearchButton: false,
+export const WithoutButton: Story = {
+  args: {
+    ...Main.args,
+    showSearchButton: false,
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
 
-export const WithoutLabel = Template.bind({})
-WithoutLabel.args = {
-  ...Main.args,
-  label: undefined,
+export const WithoutLabel: Story = {
+  args: {
+    ...Main.args,
+    label: undefined,
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
 
-export const SideLabel = Template.bind({})
-SideLabel.args = {
-  ...Main.args,
-  sideLabel: true,
+export const SideLabel: Story = {
+  args: {
+    ...Main.args,
+    sideLabel: true,
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
 
-export const OnlyNumbers = Template.bind({})
-OnlyNumbers.args = {
-  ...Main.args,
-  onlyNumbers: true,
-  placeholder: 'Only numbers allowed',
+export const OnlyNumbers: Story = {
+  args: {
+    ...Main.args,
+    onlyNumbers: true,
+    placeholder: 'Only numbers allowed',
+  },
+  render: (args) => <StoryTemplate {...args} />,
 }
