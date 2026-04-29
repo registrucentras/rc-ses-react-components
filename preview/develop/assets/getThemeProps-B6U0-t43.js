@@ -1,0 +1,2 @@
+import{r as t}from"./DefaultPropsProvider-BVIYNtGV.js";function p(r){const{theme:o,name:e,props:n}=r;return!o||!o.components||!o.components[e]||!o.components[e].defaultProps?n:t(o.components[e].defaultProps,n)}export{p as g};
+//# sourceMappingURL=getThemeProps-B6U0-t43.js.map
