@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
@@ -31,7 +30,9 @@ const meta: Meta<typeof RcSesRadioButtonGroup> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesRadioButtonGroup> = (args) => {
+type Story = StoryObj<typeof RcSesRadioButtonGroup>
+
+function RadioButtonGroupDemo(args: any) {
   const {
     control,
     formState: { errors },
@@ -133,23 +134,24 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Label',
-  options: [
-    { label: 'Pick 1', value: 'pick1' },
-    { label: 'Pick 2', value: 'pick2' },
-    { label: 'Pick 3', value: 'pick3' },
-    { label: 'Pick 4', value: 'pick4' },
-  ],
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => <RadioButtonGroupDemo {...args} />,
+  args: {
+    label: 'Label',
+    options: [
+      { label: 'Pick 1', value: 'pick1' },
+      { label: 'Pick 2', value: 'pick2' },
+      { label: 'Pick 3', value: 'pick3' },
+      { label: 'Pick 4', value: 'pick4' },
+    ],
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (_code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }
