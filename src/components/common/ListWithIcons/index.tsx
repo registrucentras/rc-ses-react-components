@@ -31,7 +31,7 @@ const ListWithIcons = ({
       flexWrap: layout === 'horizontal' ? 'wrap' : 'nowrap',
       gap: {
         xs: '0.25rem',
-        md: layout === 'horizontal' ? '1rem' : '0.5rem',
+        md: layout === 'horizontal' ? '0.25rem 1rem' : '0.5rem',
       },
     }}
   >

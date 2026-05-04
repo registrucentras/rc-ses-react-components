@@ -27,9 +27,11 @@ const ListWithIconsItem = ({
         maxWidth: { xs: '100%', md: 'none' },
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {Icon && <Icon fillColor={textColor ?? palette.grey[600]} size={16} />}
-      </Box>
+      {Icon && (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Icon fillColor={textColor ?? palette.grey[600]} size={16} />
+        </Box>
+      )}
       <Typography
         variant='body2'
         sx={{
