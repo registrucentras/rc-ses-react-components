@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
@@ -14,7 +13,9 @@ const meta: Meta<typeof RcSesSearchableField> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesSearchableField> = (args) => {
+type Story = StoryObj<typeof RcSesSearchableField>
+
+function SearchableFieldDemo(args: any) {
   const { label } = args
   const {
     control,
@@ -74,17 +75,18 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'This is label',
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => <SearchableFieldDemo {...args} />,
+  args: {
+    label: 'This is label',
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (_code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

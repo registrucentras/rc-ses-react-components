@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
@@ -18,48 +17,22 @@ const meta: Meta<typeof RcSesNumberStepper> = {
   title: 'components/inputs/NumberStepper',
   component: RcSesNumberStepper,
   argTypes: {
-    id: {
-      table: {
-        disable: true,
-      },
-    },
-    name: {
-      table: {
-        disable: true,
-      },
-    },
-    control: {
-      table: {
-        disable: true,
-      },
-    },
-    errors: {
-      table: {
-        disable: true,
-      },
-    },
-    onChange: {
-      table: {
-        disable: true,
-      },
-    },
-    onBlur: {
-      table: {
-        disable: true,
-      },
-    },
-    rules: {
-      table: {
-        disable: true,
-      },
-    },
+    id: { table: { disable: true } },
+    name: { table: { disable: true } },
+    control: { table: { disable: true } },
+    errors: { table: { disable: true } },
+    onChange: { table: { disable: true } },
+    onBlur: { table: { disable: true } },
+    rules: { table: { disable: true } },
   },
   tags: ['autodocs'],
 }
 
 export default meta
 
-const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
+type Story = StoryObj<typeof RcSesNumberStepper>
+
+function NumberStepperDemo(args: any) {
   const { control } = useForm<FormModel>({
     mode: 'all',
     defaultValues: { countable: 0, countable2: 0, countable3: 0 },
@@ -113,9 +86,7 @@ const Template: StoryFn<typeof RcSesNumberStepper> = (args) => {
 }
 
 const codeBlock = (args: any) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { label, disabled, min, max, step, displayStepperControls, slotProps, name, id } =
-    args
+  const { label, disabled, min, max, step, name, id } = args
   return `
   import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 
@@ -138,25 +109,26 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Label',
-  disabled: false,
-  min: 0,
-  max: 100,
-  step: 1,
-  displayStepperControls: true,
-  slotProps: { wrapper: { labelSubtitle: 'optional' } },
-  id: 'countable',
-  name: 'countable',
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => <NumberStepperDemo {...args} />,
+  args: {
+    label: 'Label',
+    disabled: false,
+    min: 0,
+    max: 100,
+    step: 1,
+    displayStepperControls: true,
+    slotProps: { wrapper: { labelSubtitle: 'optional' } },
+    id: 'countable',
+    name: 'countable',
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (_code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

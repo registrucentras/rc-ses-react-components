@@ -1,6 +1,6 @@
 import { Button, Container, Typography } from '@mui/material'
-import type { Meta, StoryFn } from '@storybook/react'
-import { useState } from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { ComponentProps, useState } from 'react'
 
 import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import { StepItem } from '@/components/layout/ServiceWizardStepper/StepperTypes'
@@ -57,69 +57,83 @@ const DemoContent = () => (
   </>
 )
 
-const createTemplate =
-  (
-    steps: StepItem[],
-    forcedLayout?: 'row' | 'column',
-  ): StoryFn<typeof RcSesCardFormContainer> =>
-  (args) => {
-    const [activeStep, setActiveStep] = useState(0)
+type Story = StoryObj<typeof RcSesCardFormContainer>
 
-    const handleBack = () => {
-      setActiveStep((prev) => Math.max(prev - 1, 0))
-    }
-
-    const handleNext = () => {
-      setActiveStep((prev) => Math.min(prev + 1, steps.length - 1))
-    }
-
-    const handleStepClick = (index: number) => {
-      if (index > activeStep) return
-      setActiveStep(index)
-    }
-
-    return (
-      <Fields>
-        <FieldView>
-          <RcSesCardFormContainer
-            {...args}
-            layout={forcedLayout}
-            steps={steps}
-            activeStep={activeStep}
-            onStepClick={handleStepClick}
-            leadingActions={
-              <Button onClick={handleBack} disabled={activeStep === 0}>
-                Back
-              </Button>
-            }
-            trailingActions={
-              <>
-                <Button variant='outlined'>Button</Button>
-                <Button
-                  variant='contained'
-                  onClick={handleNext}
-                  disabled={activeStep === steps.length - 1}
-                >
-                  Next
-                </Button>
-              </>
-            }
-          >
-            <DemoContent />
-          </RcSesCardFormContainer>
-        </FieldView>
-      </Fields>
-    )
-  }
-
-export const HorizontalDemo = createTemplate(shortSteps, 'column')
-HorizontalDemo.args = {
-  title: 'Antraštės tekstas',
-  description: 'Papildomas aprašymo tekstas',
+type CardFormContainerDemoProps = ComponentProps<typeof RcSesCardFormContainer> & {
+  steps: StepItem[]
+  forcedLayout?: 'row' | 'column'
 }
 
-export const VerticalDemo = createTemplate(longSteps, 'row')
-VerticalDemo.args = {
-  title: 'Antraštės tekstas',
-  description: 'Papildomas aprašymo tekstas',
+function CardFormContainerDemo({
+  steps,
+  forcedLayout,
+  ...args
+}: CardFormContainerDemoProps) {
+  const [activeStep, setActiveStep] = useState(0)
+
+  const handleBack = () => {
+    setActiveStep((prev) => Math.max(prev - 1, 0))
+  }
+
+  const handleNext = () => {
+    setActiveStep((prev) => Math.min(prev + 1, steps.length - 1))
+  }
+
+  const handleStepClick = (index: number) => {
+    if (index > activeStep) return
+    setActiveStep(index)
+  }
+
+  return (
+    <Fields>
+      <FieldView>
+        <RcSesCardFormContainer
+          {...args}
+          layout={forcedLayout}
+          steps={steps}
+          activeStep={activeStep}
+          onStepClick={handleStepClick}
+          leadingActions={
+            <Button onClick={handleBack} disabled={activeStep === 0}>
+              Back
+            </Button>
+          }
+          trailingActions={
+            <>
+              <Button variant='outlined'>Button</Button>
+              <Button
+                variant='contained'
+                onClick={handleNext}
+                disabled={activeStep === steps.length - 1}
+              >
+                Next
+              </Button>
+            </>
+          }
+        >
+          <DemoContent />
+        </RcSesCardFormContainer>
+      </FieldView>
+    </Fields>
+  )
+}
+
+export const HorizontalDemo: Story = {
+  render: (args) => (
+    <CardFormContainerDemo {...args} steps={shortSteps} forcedLayout='column' />
+  ),
+  args: {
+    title: 'Antraštės tekstas',
+    description: 'Papildomas aprašymo tekstas',
+  },
+}
+
+export const VerticalDemo: Story = {
+  render: (args) => (
+    <CardFormContainerDemo {...args} steps={longSteps} forcedLayout='row' />
+  ),
+  args: {
+    title: 'Antraštės tekstas',
+    description: 'Papildomas aprašymo tekstas',
+  },
 }
