@@ -69,7 +69,9 @@ const meta: Meta<typeof RcSesSelect> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesSelect> = (args) => {
+type Story = StoryObj<typeof RcSesSelect>
+
+function SelectDemo(args: any) {
   const {
     control,
     formState: { errors },
@@ -210,19 +212,20 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Label',
-  disabled: false,
-  slotProps: { wrapper: { labelOnTop: false } },
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => <SelectDemo {...args} />,
+  args: {
+    label: 'Label',
+    disabled: false,
+    slotProps: { wrapper: { labelOnTop: false } },
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (_code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 
@@ -22,11 +21,10 @@ const meta: Meta<typeof RcSesBreadcrumbs> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesBreadcrumbs> = (args) => (
-  <RcSesBreadcrumbs {...args} />
-)
+type Story = StoryObj<typeof RcSesBreadcrumbs>
 
-export const Main = Template.bind({})
-Main.args = {
-  path: Path,
+export const Main: Story = {
+  args: {
+    path: Path,
+  },
 }

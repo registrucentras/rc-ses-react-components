@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
@@ -40,7 +40,7 @@ const meta: Meta<typeof RcSesServiceFormContainer> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesServiceFormContainer> = (args) => {
+function ServiceFormContainerDemo() {
   const accordionController = useAccordionController({
     initialState: {
       basicInformation: {
@@ -164,15 +164,15 @@ const codeBlock = (args: any) => `
     </RcSesServiceFormContainer>
   );`
 
-export const Main = Template.bind({})
-Main.args = {}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main = {
+  render: () => <ServiceFormContainerDemo />,
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

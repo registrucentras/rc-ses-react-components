@@ -38,7 +38,7 @@ jobs:
           publish_dir: storybook-static
           destination_dir: .
           keep_files: true
-
+          cname: ses-react-storybook.registrucentras.lt
       - name: Deploy preview from branch
         if: github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v4
@@ -47,9 +47,9 @@ jobs:
           publish_dir: storybook-static
           destination_dir: preview/${{ github.ref_name }}
           keep_files: true
-
+          cname: ses-react-storybook.registrucentras.lt
       - name: Storybook preview URL
         if: github.event_name == 'workflow_dispatch'
         run: |
           echo "### Storybook Preview" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 https://registrucentras.github.io/rc-ses-react-components/preview/${{ github.ref_name }}/" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://ses-react-storybook.registrucentras.lt/preview/${{ github.ref_name }}/" >> $GITHUB_STEP_SUMMARY

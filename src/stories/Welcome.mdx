@@ -1,0 +1,87 @@
+import { Meta } from '@storybook/blocks'
+import { grey, primary } from '../theme/palette'
+
+import Logo from '@/assets/Logo'
+
+<Meta title='Welcome' />
+
+<div style={{ padding: '32px', fontFamily: 'Public sans, sans-serif, Arial' }}>
+  <div style={{ maxWidth: '1000px', margin: '0 auto', backgroundColor: 'white', borderRadius: '16px', padding: '48px', boxShadow: `0 10px 40px rgba(0, 0, 0, 0.1)` }}>
+    {/* Header */}
+    <div style={{ textAlign: 'center', marginBottom: '40px', paddingBottom: '0' }}>
+      <div style={{ paddingBottom: '24px' }}>
+        <Logo />
+      </div>
+      <h1 style={{
+        margin: '0',
+        fontSize: '35px',
+        color: grey['900'],
+        fontWeight: '600'
+      }}>
+        ### 👋 Welcome to RC SES React Components
+      </h1>
+      <p style={{ margin: '12px 0 0 0', fontSize: '15px', color: grey['600'], fontWeight: '500' }}>
+        A React 18 and Material-UI component library for RC SES applications
+      </p>
+    </div>
+    {/* Overview */}
+    <div style={{ marginBottom: '24px', padding: '24px', backgroundColor: grey['100'], borderRadius: '12px' }}>
+      <p style={{ color: primary['600'], lineHeight: '1.7', margin: '0 0 16px 0', fontSize: '15px', fontWeight: '500' }}>
+        This is a comprehensive component library for RC SES React applications. All components are built with React 18, TypeScript, and styled with Material-UI (MUI) v5.
+      </p>
+    </div>
+
+    {/* Features */}
+    <div>
+
+      <h2 style={{ marginTop: '0', color: grey['900'], marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>Library Features:</h2>
+
+      <div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr 1fr',
+          gap: '20px'
+        }}>
+          {[
+            { icon: '📖', title: 'Documentation', desc: 'Props, usage, and best practices', color: '#e3f2fd' },
+            { icon: '🎮', title: 'Interactive Testing', desc: 'Play with props and see changes live', color: '#f3e5f5' },
+            { icon: '💻', title: 'Code Samples', desc: 'Copy working code examples', color: '#e8f5e9' },
+            { icon: '✨', title: 'Use Cases', desc: 'Real-world component examples', color: '#fff3e0' }
+          ].map((feature, idx) => (
+            <div key={idx} style={{
+              padding: '1.25rem',
+              backgroundColor: feature.color,
+              borderRadius: '10px',
+              border: '1px solid #e0e0e0',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              textAlign: 'center'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.12)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+            >
+              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{feature.icon}</div>
+              <h4 style={{ margin: '0 0 0.5rem 0', color: '#333', fontSize: '0.95rem', fontWeight: '600' }}>{feature.title}</h4>
+              <p style={{ margin: '0', fontSize: '0.8rem', color: '#666', lineHeight: '1.4' }}>{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Getting Started */}
+    <div style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: '#f0f8ff', borderRadius: '12px', borderLeft: '4px solid #0969da' }}>
+      <h3 style={{ marginTop: '0', color: '#0969da', marginBottom: '0.75rem', fontSize: '1rem', fontWeight: '600' }}>🚀 Getting Started:</h3>
+      <p style={{ color: '#555', lineHeight: '1.6', margin: '0', fontSize: '0.95rem' }}>
+        Use the sidebar navigation to explore components by category. Each component includes documentation, interactive examples, and code samples you can copy directly into your projects.
+      </p>
+    </div>
+
+  </div>
+</div>

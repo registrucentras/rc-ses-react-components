@@ -18,6 +18,7 @@ export type RcSesCardTestIds = {
   root?: string
   image?: string
   header?: string
+  headerAction?: string
   title?: string
   description?: string
   content?: string
@@ -30,6 +31,7 @@ export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
   title: ReactNode
   description?: ReactNode
   image?: ReactNode
+  headerAction?: ReactNode
   centered?: boolean
   contentBackground?: boolean
   children?: ReactNode
@@ -41,6 +43,7 @@ export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
     content?: BoxProps
     description?: TypographyProps
     header?: StackProps
+    headerAction?: BoxProps
     image?: BoxProps
     leadingActions?: StackProps
     title?: TypographyProps
@@ -73,6 +76,7 @@ function RcSesCard({
   title,
   description,
   image,
+  headerAction,
   centered = false,
   contentBackground = true,
   children,
@@ -87,6 +91,7 @@ function RcSesCard({
   const contentProps = slotProps?.content
   const descriptionProps = slotProps?.description
   const headerProps = slotProps?.header
+  const headerActionProps = slotProps?.headerAction
   const imageProps = slotProps?.image
   const leadingActionsProps = slotProps?.leadingActions
   const titleProps = slotProps?.title
@@ -95,6 +100,7 @@ function RcSesCard({
   const normalizedSx = normalizeSx(sx)
   const normalizedTitleSx = normalizeSx(titleProps?.sx)
   const normalizedDescriptionSx = normalizeSx(descriptionProps?.sx)
+  const normalizedHeaderActionSx = normalizeSx(headerActionProps?.sx)
   const normalizedContentSx = normalizeSx(contentProps?.sx)
   const normalizedActionsSx = normalizeSx(actionsProps?.sx)
   const normalizedImageSx = normalizeSx(imageProps?.sx)
@@ -135,45 +141,78 @@ function RcSesCard({
       ) : null}
 
       <Stack
-        {...headerProps}
-        data-testid={testIds?.header}
-        spacing={0.5}
-        sx={[centered ? { alignItems: 'center' } : {}, ...normalizeSx(headerProps?.sx)]}
+        direction='row'
+        sx={{
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
       >
-        <Typography
-          color={palette.grey[900]}
-          data-testid={testIds?.title}
-          variant='h5'
-          {...titleProps}
+        <Stack
+          {...headerProps}
+          data-testid={testIds?.header}
+          spacing={0.5}
           sx={[
             {
-              lineHeight: '1.75rem',
-              ...(centered ? { textAlign: 'center' } : {}),
+              flex: 1,
+              minWidth: 0,
             },
-            ...normalizedTitleSx,
+            centered ? { alignItems: 'center' } : {},
+            ...normalizeSx(headerProps?.sx),
           ]}
         >
-          {title}
-        </Typography>
-
-        {!!description && (
           <Typography
-            color={palette.grey[800]}
-            data-testid={testIds?.description}
-            variant='body2'
-            {...descriptionProps}
+            color={palette.grey[900]}
+            data-testid={testIds?.title}
+            variant='h5'
+            {...titleProps}
             sx={[
               {
-                fontWeight: 300,
-                lineHeight: '1.25rem',
+                lineHeight: '1.75rem',
                 ...(centered ? { textAlign: 'center' } : {}),
               },
-              ...normalizedDescriptionSx,
+              ...normalizedTitleSx,
             ]}
           >
-            {description}
+            {title}
           </Typography>
-        )}
+
+          {!!description && (
+            <Typography
+              color={palette.grey[800]}
+              data-testid={testIds?.description}
+              variant='body2'
+              {...descriptionProps}
+              sx={[
+                {
+                  fontWeight: 300,
+                  lineHeight: '1.25rem',
+                  ...(centered ? { textAlign: 'center' } : {}),
+                },
+                ...normalizedDescriptionSx,
+              ]}
+            >
+              {description}
+            </Typography>
+          )}
+        </Stack>
+
+        {headerAction ? (
+          <Box
+            {...headerActionProps}
+            data-testid={testIds?.headerAction}
+            sx={[
+              {
+                alignItems: 'flex-start',
+                display: 'flex',
+                flexShrink: 0,
+              },
+              ...normalizedHeaderActionSx,
+            ]}
+          >
+            {headerAction}
+          </Box>
+        ) : null}
       </Stack>
 
       {children ? (
