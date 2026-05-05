@@ -1,6 +1,7 @@
 import RcSesLogo from '@/assets/Logo'
 import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
+import ArrowsClockwiseIcon from '@/assets/icons/ArrowsClockwiseIcon'
 import BarcodeIcon from '@/assets/icons/BarcodeIcon'
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
@@ -40,6 +41,7 @@ export {
   RcSesLogo,
   ArrowLeftIcon,
   ArrowRightIcon,
+  ArrowsClockwiseIcon,
   BarcodeIcon,
   CalendarBlankIcon,
   CaretDoubleLeftBoldIcon,

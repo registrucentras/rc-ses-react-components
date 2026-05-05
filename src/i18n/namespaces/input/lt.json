@@ -48,6 +48,11 @@
     "RcSesSearchableField": {
       "clearValueAriaLabel": "Išvalyti paieškos reikšmę",
       "searchAriaLabel": "Ieškoti"
+    },
+
+    "RcSesSearchInput": {
+      "clearValueAriaLabel": "Išvalyti paieškos reikšmę",
+      "searchButtonLabel": "Ieškoti"
     }
   }
 }

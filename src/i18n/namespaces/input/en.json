@@ -48,6 +48,11 @@
     "RcSesSearchableField": {
       "clearValueAriaLabel": "Clear search value",
       "searchAriaLabel": "Open search"
+    },
+
+    "RcSesSearchInput": {
+      "clearValueAriaLabel": "Clear search value",
+      "searchButtonLabel": "Search"
     }
   }
 }
