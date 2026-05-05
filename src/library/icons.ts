@@ -23,6 +23,7 @@ import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import MapPinAreaIcon from '@/assets/icons/MapPinAreaIcon'
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
+import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
 import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
@@ -61,6 +62,7 @@ export {
   MagnifyingGlassIcon,
   MapPinAreaIcon,
   MinusBoldIcon,
+  PencilSimpleLineIcon,
   PlusBoldIcon,
   QuestionFillIcon,
   QuestionIcon,

@@ -16,6 +16,7 @@ describe('RcSesCard', () => {
       <RcSesCard
         title='Card title'
         description='Card description'
+        headerAction={<button type='button'>Edit</button>}
         leadingActions={<button type='button'>Back</button>}
         trailingActions={<button type='button'>Continue</button>}
       >
@@ -26,6 +27,7 @@ describe('RcSesCard', () => {
     expect(screen.getByText('Card title')).toBeInTheDocument()
     expect(screen.getByText('Card description')).toBeInTheDocument()
     expect(screen.getByText('Card content')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Back' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument()
   })
@@ -47,6 +49,7 @@ describe('RcSesCard', () => {
       <RcSesCard
         title='Slotted title'
         description='Slotted description'
+        headerAction={<button type='button'>Edit</button>}
         leadingActions={<button type='button'>Leading</button>}
         trailingActions={<button type='button'>Trailing</button>}
         slotProps={{
@@ -54,6 +57,7 @@ describe('RcSesCard', () => {
           content: { className: 'content-slot' },
           description: { className: 'description-slot' },
           header: { className: 'header-slot' },
+          headerAction: { className: 'header-action-slot' },
           leadingActions: { className: 'leading-actions-slot' },
           title: { className: 'title-slot' },
           trailingActions: { className: 'trailing-actions-slot' },
@@ -64,6 +68,7 @@ describe('RcSesCard', () => {
     )
 
     expect(container.querySelector('.header-slot')).toBeInTheDocument()
+    expect(container.querySelector('.header-action-slot')).toBeInTheDocument()
     expect(container.querySelector('.title-slot')).toBeInTheDocument()
     expect(container.querySelector('.description-slot')).toBeInTheDocument()
     expect(container.querySelector('.content-slot')).toBeInTheDocument()
@@ -77,11 +82,13 @@ describe('RcSesCard', () => {
       <RcSesCard
         title='Test id title'
         description='Test id description'
+        headerAction={<button type='button'>Edit</button>}
         leadingActions={<button type='button'>Leading</button>}
         trailingActions={<button type='button'>Trailing</button>}
         testIds={{
           root: 'card-root',
           header: 'card-header',
+          headerAction: 'card-header-action',
           title: 'card-title',
           description: 'card-description',
           content: 'card-content',
@@ -96,6 +103,7 @@ describe('RcSesCard', () => {
 
     expect(screen.getByTestId('card-root')).toBeInTheDocument()
     expect(screen.getByTestId('card-header')).toBeInTheDocument()
+    expect(screen.getByTestId('card-header-action')).toBeInTheDocument()
     expect(screen.getByTestId('card-title')).toBeInTheDocument()
     expect(screen.getByTestId('card-description')).toBeInTheDocument()
     expect(screen.getByTestId('card-content')).toBeInTheDocument()

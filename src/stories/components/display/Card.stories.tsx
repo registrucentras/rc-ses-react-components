@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
+import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCard from '@/components/common/Card'
 import palette from '@/theme/palette'
@@ -48,6 +49,19 @@ export const Main: Story = {
         </RcSesButton>
         <RcSesButton>Button</RcSesButton>
       </>
+    ),
+  },
+}
+
+export const WithHeaderAction: Story = {
+  args: {
+    title: 'Juridinis asmuo',
+    description: 'UAB "Telia Lietuva", 121215434',
+    contentBackground: false,
+    headerAction: (
+      <RcSesButton startIcon={<PencilSimpleLineIcon />} variant='text' size='small'>
+        Redaguoti
+      </RcSesButton>
     ),
   },
 }
