@@ -53,6 +53,12 @@
     "RcSesSearchInput": {
       "clearValueAriaLabel": "Clear search value",
       "searchButtonLabel": "Search"
+    },
+
+    "RcSesSnackbar": {
+      "aria": {
+        "close": "Close notification"
+      }
     }
   }
 }

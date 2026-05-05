@@ -53,6 +53,12 @@
     "RcSesSearchInput": {
       "clearValueAriaLabel": "Išvalyti paieškos reikšmę",
       "searchButtonLabel": "Ieškoti"
+    },
+
+    "RcSesSnackbar": {
+      "aria": {
+        "close": "Uždaryti pranešimą"
+      }
     }
   }
 }
