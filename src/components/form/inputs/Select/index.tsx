@@ -1,4 +1,4 @@
-import { Box, Checkbox, TextField } from '@mui/material'
+import { Box, Checkbox, Chip, TextField } from '@mui/material'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
@@ -30,6 +30,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
     multiple?: boolean
     clearable?: boolean
+    limitTags?: number
     loading?: boolean
     options: Option[]
     placeholder?: string
@@ -61,6 +62,7 @@ function RcSesSelect(props: Props) {
   const {
     multiple = false,
     clearable,
+    limitTags = 1,
     control,
     errors,
     label,
@@ -184,6 +186,7 @@ function RcSesSelect(props: Props) {
         open={open}
         onOpen={() => setOpen(true)}
         multiple={multiple}
+        limitTags={multiple ? limitTags : undefined}
         disableCloseOnSelect={multiple}
         disabled={disabled}
         disableClearable={clearable === false}
@@ -448,10 +451,38 @@ function RcSesSelect(props: Props) {
                   size={16}
                   fillColor={palette.primary.main}
                   aria-hidden
+                  weight='bold'
                   style={{ flexShrink: 0, marginLeft: 'auto', alignSelf: 'center' }}
                 />
               )}
             </Box>
+          )
+        }}
+        renderTags={(tagValues, getTagProps) => {
+          const visible = tagValues.slice(0, limitTags)
+          const hiddenCount = tagValues.length - visible.length
+          return (
+            <>
+              {visible.map((option, index) => {
+                const { key, ...tagProps } = getTagProps({ index })
+                return <Chip key={key} label={option.label} size='small' {...tagProps} />
+              })}
+              {hiddenCount > 0 && (
+                <Box
+                  component='span'
+                  sx={{
+                    alignSelf: 'center',
+                    color: 'text.secondary',
+                    flexShrink: 0,
+                    fontSize: '.8125rem',
+                    ml: '.25rem',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  +{hiddenCount}
+                </Box>
+              )}
+            </>
           )
         }}
         {...slotProps?.field}
