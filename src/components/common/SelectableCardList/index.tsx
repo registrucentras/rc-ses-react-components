@@ -55,11 +55,12 @@ const SelectableCardList = ({
 
   return (
     <Container
+      disableGutters
       sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '16px',
+        gap: '1rem',
       }}
     >
       {error != null ? (
