@@ -27,27 +27,34 @@ export default meta
 
 type Story = StoryObj<typeof ServiceWizardStepper>
 
-const createStory = (orientation: 'horizontal' | 'vertical'): Story => ({
-  render: (args) => {
-    const [activeStep, setActiveStep] = useState(0)
+function ServiceWizardStepperDemo({
+  orientation,
+  ...args
+}: {
+  orientation: 'horizontal' | 'vertical'
+} & Record<string, unknown>) {
+  const [activeStep, setActiveStep] = useState(0)
 
-    const handleStepClick = (index: number) => {
-      if (index > activeStep) return
-      setActiveStep(index)
-    }
+  const handleStepClick = (index: number) => {
+    if (index > activeStep) return
+    setActiveStep(index)
+  }
 
-    return (
-      <ServiceWizardStepper
-        {...args}
-        steps={steps}
-        activeStep={activeStep}
-        onStepClick={handleStepClick}
-        orientation={orientation}
-      />
-    )
-  },
-})
+  return (
+    <ServiceWizardStepper
+      {...args}
+      steps={steps}
+      activeStep={activeStep}
+      onStepClick={handleStepClick}
+      orientation={orientation}
+    />
+  )
+}
 
-export const Horizontal = createStory('horizontal')
+export const Horizontal: Story = {
+  render: (args) => <ServiceWizardStepperDemo {...args} orientation='horizontal' />,
+}
 
-export const Vertical = createStory('vertical')
+export const Vertical: Story = {
+  render: (args) => <ServiceWizardStepperDemo {...args} orientation='vertical' />,
+}

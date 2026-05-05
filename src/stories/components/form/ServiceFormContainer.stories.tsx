@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
