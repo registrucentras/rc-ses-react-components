@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
 import FieldView from '@/components/storybook/FieldView'
@@ -15,30 +12,30 @@ const meta: Meta<typeof RcSesServiceFormActions> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesServiceFormActions> = (args) => (
-  <Fields>
-    <FieldView>
-      <RcSesServiceFormActions {...args} />
-    </FieldView>
-  </Fields>
-)
+type Story = StoryObj<typeof RcSesServiceFormActions>
 
-const codeBlock = (args: any) => `
+const codeBlock = () => `
   import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
 
   const MyComponent = () => (
     <RcSesServiceFormActions/>
   );`
 
-export const Main = Template.bind({})
-Main.args = {}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => (
+    <Fields>
+      <FieldView>
+        <RcSesServiceFormActions {...args} />
+      </FieldView>
+    </Fields>
+  ),
+  args: {},
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: () => codeBlock(),
+      },
     },
   },
 }

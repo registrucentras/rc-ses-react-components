@@ -1,7 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 import { lt } from 'date-fns/locale/lt'
 import { useForm } from 'react-hook-form'
 
@@ -28,7 +28,7 @@ const meta: Meta<typeof RcSesDatepicker> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesDatepicker> = (args) => {
+function DatePickerDemo(args: any) {
   const { clearable, label, rules } = args
 
   const {
@@ -81,19 +81,20 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  clearable: true,
-  label: 'Terminas',
-  rules: { required: true },
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  args: {
+    clearable: true,
+    label: 'Terminas',
+    rules: { required: true },
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryFn } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 
 import RcSesAlert from '@/components/common/Alert'
 import FieldPreview from '@/components/storybook/FieldPreview'
@@ -20,37 +19,39 @@ const meta: Meta<typeof RcSesAlert> = {
 
 export default meta
 
+type Story = StoryObj<typeof RcSesAlert>
+
 // ---------------------------------------------------------------------------
 // Main (interactive / configurable via Controls panel)
 // ---------------------------------------------------------------------------
 
-const Template: StoryFn<typeof RcSesAlert> = (args) => (
-  <Fields>
-    <FieldView>
-      <RcSesAlert {...args} />
-    </FieldView>
-    <FieldPreview>
-      <PreviewTitle>State previews</PreviewTitle>
-      {severities.map((severity) => (
-        <RcSesAlert key={severity} severity={severity}>
-          {lorem}
-        </RcSesAlert>
-      ))}
-    </FieldPreview>
-  </Fields>
-)
-
-export const Main = Template.bind({})
-Main.args = {
-  children: lorem,
-  severity: 'info',
+export const Main: Story = {
+  render: (args) => (
+    <Fields>
+      <FieldView>
+        <RcSesAlert {...args} />
+      </FieldView>
+      <FieldPreview>
+        <PreviewTitle>State previews</PreviewTitle>
+        {severities.map((severity) => (
+          <RcSesAlert key={severity} severity={severity}>
+            {lorem}
+          </RcSesAlert>
+        ))}
+      </FieldPreview>
+    </Fields>
+  ),
+  args: {
+    children: lorem,
+    severity: 'info',
+  },
 }
 
 // ---------------------------------------------------------------------------
 // Variants
 // ---------------------------------------------------------------------------
 
-const VariantsTemplate: StoryFn<typeof RcSesAlert> = (args) => (
+const renderVariants: Story['render'] = (args) => (
   <>
     {severities.map((severity) => (
       <RcSesAlert key={severity} {...args} severity={severity}>
@@ -60,38 +61,46 @@ const VariantsTemplate: StoryFn<typeof RcSesAlert> = (args) => (
   </>
 )
 
-export const Outlined = VariantsTemplate.bind({})
-Outlined.args = { variant: 'outlined' }
+export const Outlined: Story = {
+  render: renderVariants,
+  args: { variant: 'outlined' },
+}
 
-export const Filled = VariantsTemplate.bind({})
-Filled.args = { variant: 'filled' }
+export const Filled: Story = {
+  render: renderVariants,
+  args: { variant: 'filled' },
+}
 
-export const Standard = VariantsTemplate.bind({})
-Standard.args = { variant: 'standard' }
+export const Standard: Story = {
+  render: renderVariants,
+  args: { variant: 'standard' },
+}
 
 // ---------------------------------------------------------------------------
 // Container — full-bleed banner keeping content width-constrained
 // ---------------------------------------------------------------------------
 
-export const WithContainer: StoryFn<typeof RcSesAlert> = () => (
-  <>
-    <PreviewTitle>container (default maxWidth)</PreviewTitle>
-    {severities.map((severity) => (
-      <RcSesAlert key={severity} severity={severity} container sx={{ mb: 1 }}>
-        {lorem}
-      </RcSesAlert>
-    ))}
+export const WithContainer: Story = {
+  render: () => (
+    <>
+      <PreviewTitle>container (default maxWidth)</PreviewTitle>
+      {severities.map((severity) => (
+        <RcSesAlert key={severity} severity={severity} container sx={{ mb: 1 }}>
+          {lorem}
+        </RcSesAlert>
+      ))}
 
-    <PreviewTitle>container with maxWidth=&quot;sm&quot;</PreviewTitle>
-    {severities.map((severity) => (
-      <RcSesAlert
-        key={severity}
-        severity={severity}
-        container={{ maxWidth: 'sm' }}
-        sx={{ mb: 1 }}
-      >
-        {lorem}
-      </RcSesAlert>
-    ))}
-  </>
-)
+      <PreviewTitle>container with maxWidth=&quot;sm&quot;</PreviewTitle>
+      {severities.map((severity) => (
+        <RcSesAlert
+          key={severity}
+          severity={severity}
+          container={{ maxWidth: 'sm' }}
+          sx={{ mb: 1 }}
+        >
+          {lorem}
+        </RcSesAlert>
+      ))}
+    </>
+  ),
+}

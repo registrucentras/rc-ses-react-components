@@ -1,5 +1,5 @@
 /* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
@@ -49,7 +49,7 @@ const meta: Meta<typeof RcSesFileUpload> = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesFileUpload> = (args) => {
+function FileUploadDemo(args: any) {
   const {
     control,
     formState: { errors },
@@ -97,22 +97,6 @@ const Template: StoryFn<typeof RcSesFileUpload> = (args) => {
           label='Error'
           errors={{ message: 'Error Message', type: 'required' }}
         />
-
-        {/* <RcSesFileUpload
-          id='fileUpload2'
-          name='fileUpload'
-          control={control}
-          rules={{ required: true }}
-          label='Failo įkėlimas'
-          errors={errors?.fileUpload}
-          slotProps={{
-            wrapper: {
-              fieldSuffix: (
-                <RcSesButtonWithPopover popoverContent='Tinkami formatai: .doc, .xdoc, .pdf, .pages' />
-              ),
-            },
-          }}
-        /> */}
       </FieldPreviewRow>
     </Fields>
   )
@@ -143,17 +127,18 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'Upload file',
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main = {
+  render: (args: any) => <FileUploadDemo {...args} />,
+  args: {
+    label: 'Upload file',
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

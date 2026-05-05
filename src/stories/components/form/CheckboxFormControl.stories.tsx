@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext, StoryFn } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
@@ -19,61 +18,17 @@ const meta: Meta<typeof RcSesCheckboxFormControl> = {
         defaultValue: { summary: 'outlined' },
       },
     },
-    slotProps: {
-      table: {
-        disable: true,
-      },
-    },
-    loading: {
-      table: {
-        disable: true,
-      },
-    },
-    id: {
-      table: {
-        disable: true,
-      },
-    },
-    errors: {
-      table: {
-        disable: true,
-      },
-    },
-    onBlur: {
-      table: {
-        disable: true,
-      },
-    },
-    onChange: {
-      table: {
-        disable: true,
-      },
-    },
-    rules: {
-      table: {
-        disable: true,
-      },
-    },
-    control: {
-      table: {
-        disable: true,
-      },
-    },
-    name: {
-      table: {
-        disable: true,
-      },
-    },
-    disabled: {
-      table: {
-        disable: true,
-      },
-    },
-    label: {
-      table: {
-        disable: true,
-      },
-    },
+    slotProps: { table: { disable: true } },
+    loading: { table: { disable: true } },
+    id: { table: { disable: true } },
+    errors: { table: { disable: true } },
+    onBlur: { table: { disable: true } },
+    onChange: { table: { disable: true } },
+    rules: { table: { disable: true } },
+    control: { table: { disable: true } },
+    name: { table: { disable: true } },
+    disabled: { table: { disable: true } },
+    label: { table: { disable: true } },
   },
   tags: ['autodocs'],
 }
@@ -84,7 +39,9 @@ type FormModel = {
 
 export default meta
 
-const Template: StoryFn<typeof RcSesCheckboxFormControl> = (args) => {
+type Story = StoryObj<typeof RcSesCheckboxFormControl>
+
+function CheckboxFormControlDemo(args: any) {
   const { variant, children } = args
   const {
     control,
@@ -142,19 +99,20 @@ const codeBlock = (args: any) => {
   );`
 }
 
-export const Main = Template.bind({})
-Main.args = {
-  label: 'This is label',
-  children: 'This is body',
-  variant: 'outlined',
-}
-
-Main.parameters = {
-  docs: {
-    source: {
-      type: 'dynamic',
-      transform: (code: string, storyContext: StoryContext) =>
-        codeBlock(storyContext.args),
+export const Main: Story = {
+  render: (args) => <CheckboxFormControlDemo {...args} />,
+  args: {
+    label: 'This is label',
+    children: 'This is body',
+    variant: 'outlined',
+  },
+  parameters: {
+    docs: {
+      source: {
+        type: 'dynamic',
+        transform: (_code: string, storyContext: StoryContext) =>
+          codeBlock(storyContext.args),
+      },
     },
   },
 }

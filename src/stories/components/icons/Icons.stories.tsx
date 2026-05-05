@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition, react/prop-types */
 import { Box, FormControl, MenuItem, Select, Typography } from '@mui/material'
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { useMemo, useState } from 'react'
 import type { ReactElement } from 'react'
 
@@ -349,4 +349,8 @@ const GalleryComponent = ({ className, size, fillColor }: StoryArgs) => {
   )
 }
 
-export const Gallery: StoryFn<StoryArgs> = (args) => <GalleryComponent {...args} />
+type Story = StoryObj<StoryArgs>
+
+export const Gallery: Story = {
+  render: (args) => <GalleryComponent {...args} />,
+}
