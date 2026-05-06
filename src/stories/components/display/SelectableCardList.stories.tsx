@@ -52,7 +52,7 @@ const buildItems = (): SelectableCardListItemData[] =>
   }))
 
 const meta = {
-  title: 'components/common/SelectableCardList',
+  title: 'components/display/SelectableCardList',
   component: SelectableCardList,
   tags: ['autodocs'],
   args: {

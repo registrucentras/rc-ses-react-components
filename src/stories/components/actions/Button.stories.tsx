@@ -3,6 +3,7 @@ import { fn } from '@storybook/test'
 
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
 import Button from '@/components/common/Button'
+import { grey } from '@/theme/palette'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const variantOptions: Array<ButtonProps['variant']> = [
@@ -21,6 +22,8 @@ const colorOptions = [
   'success',
   'info',
   'warning',
+  'light',
+  'ghost',
 ]
 
 const meta = {
@@ -233,4 +236,131 @@ export const ErrorOutlined: Story = {
     color: 'error',
     variant: 'outlined',
   },
+}
+
+export const LightOutlined: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    children: 'Light Button',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const LightOutlinedWithIcon: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    startIcon: <PlusBoldIcon />,
+    children: 'Light Button with Icon',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const LightOutlinedDisabled: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    children: 'Light Button Disabled',
+    disabled: true,
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const GhostOutlinedIconOnly: Story = {
+  args: {
+    'aria-label': 'Close',
+    children: <PlusBoldIcon />,
+    color: 'ghost' as any,
+    iconOnly: true,
+    variant: 'outlined',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const GhostOutlinedIconOnlyDisabled: Story = {
+  args: {
+    'aria-label': 'Close',
+    children: <PlusBoldIcon />,
+    color: 'ghost' as any,
+    disabled: true,
+    iconOnly: true,
+    variant: 'outlined',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
 }
