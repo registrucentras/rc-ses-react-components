@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
@@ -112,6 +113,104 @@ export const Main: Story = {
         type: 'dynamic',
         transform: (_code: string, storyContext: StoryContext) =>
           codeBlock(storyContext.args),
+      },
+    },
+  },
+}
+
+type IndeterminateFormModel = {
+  parent: boolean
+  child1: boolean
+  child2: boolean
+  child3: boolean
+}
+
+function CheckboxIndeterminateDemo() {
+  const { control, watch, setValue } = useForm<IndeterminateFormModel>({
+    mode: 'all',
+    defaultValues: {
+      parent: false,
+      child1: false,
+      child2: false,
+      child3: false,
+    },
+  })
+
+  const child1Value = watch('child1')
+  const child2Value = watch('child2')
+  const child3Value = watch('child3')
+
+  const childValues = [child1Value, child2Value, child3Value]
+
+  const handleParentChange = (newChildValues: boolean[]) => {
+    setValue('child1', newChildValues[0])
+    setValue('child2', newChildValues[1])
+    setValue('child3', newChildValues[2])
+  }
+
+  return (
+    <Fields>
+      <FieldView>
+        <div>
+          <RcSesCheckboxFormControl
+            id='parent'
+            name='parent'
+            control={control}
+            variant='flat'
+            childValues={childValues}
+            onChildValuesChange={handleParentChange}
+          >
+            <strong>Pasirinkti visus</strong>
+          </RcSesCheckboxFormControl>
+          <div
+            style={{
+              paddingLeft: '2rem',
+              marginTop: '0.75rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={child1Value}
+                  onChange={(e) => setValue('child1', e.target.checked)}
+                />
+              }
+              label='Pasirinkimas 1'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={child2Value}
+                  onChange={(e) => setValue('child2', e.target.checked)}
+                />
+              }
+              label='Pasirinkimas 2'
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={child3Value}
+                  onChange={(e) => setValue('child3', e.target.checked)}
+                />
+              }
+              label='Pasirinkimas 3'
+            />
+          </div>
+        </div>
+      </FieldView>
+    </Fields>
+  )
+}
+
+export const Indeterminate: Story = {
+  render: () => <CheckboxIndeterminateDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Indeterminate status is determined by the state of child checkboxes.',
       },
     },
   },

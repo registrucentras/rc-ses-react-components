@@ -6,7 +6,7 @@ import {
   CheckboxProps as MuiCheckboxProps,
   styled,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
@@ -32,6 +32,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     children: React.ReactNode
     loading?: boolean
     variant?: 'flat' | 'outlined'
+    childValues?: boolean[]
+    onChildValuesChange?: (childValues: boolean[]) => void
     slotProps?: {
       field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>
       label?: Partial<FormControlLabelProps>
@@ -59,16 +61,50 @@ const LoadingStateIcon = styled(SpinnerGapBoldIcon)(`
 `)
 
 function RcSesCheckboxFormControl(props: Props) {
-  const { children, control, disabled, id, loading, name, rules, slotProps, variant } =
-    props
+  const {
+    children,
+    control,
+    disabled,
+    id,
+    loading,
+    name,
+    rules,
+    slotProps,
+    variant,
+    childValues = [],
+    onChildValuesChange,
+  } = props
 
   const {
-    field: { value, ...controllerProps },
+    field: { value, onChange, ...controllerProps },
   } = useController({
     control,
     name,
     rules,
   })
+
+  const checkedCount = useMemo(() => childValues.filter(Boolean).length, [childValues])
+
+  const computedIndeterminate = useMemo(
+    () => checkedCount > 0 && checkedCount < childValues.length,
+    [checkedCount, childValues.length],
+  )
+
+  useEffect(() => {
+    if (!childValues.length) return
+    const expectedValue = checkedCount === childValues.length
+
+    if (expectedValue !== value) onChange(expectedValue)
+  }, [checkedCount, childValues.length, value, onChange])
+
+  const handleParentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.checked
+    onChange(newValue)
+
+    if (onChildValuesChange && childValues.length > 0) {
+      onChildValuesChange(childValues.map(() => newValue))
+    }
+  }
 
   return (
     <FormControlLabel
@@ -76,9 +112,11 @@ function RcSesCheckboxFormControl(props: Props) {
         <MuiCheckbox
           id={id}
           checked={value === true}
+          indeterminate={computedIndeterminate}
           checkedIcon={loading ? <LoadingStateIcon /> : <CheckBoldIcon />}
           disabled={disabled}
           icon={loading ? <LoadingStateIcon /> : <CheckUncheckedBoldIcon />}
+          onChange={handleParentChange}
           {...controllerProps}
           {...slotProps?.field}
           disableRipple
