@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import CloseIcon from '@/assets/icons/CloseIcon'
@@ -57,6 +57,12 @@ function RcSesSnackbar({
   const [internalOpen, setInternalOpen] = useState(controlledOpen ?? true)
   const [isPaused, setIsPaused] = useState(false)
   const persist = controlledPersist ?? state === 'action-needed'
+
+  useEffect(() => {
+    if (controlledOpen !== undefined) {
+      setInternalOpen(controlledOpen)
+    }
+  }, [controlledOpen])
 
   const config = stateConfig[state]
   const StateIcon = config.icon
