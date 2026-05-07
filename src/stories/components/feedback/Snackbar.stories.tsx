@@ -454,7 +454,7 @@ function SnackbarDemoLongText() {
           showSnackbar({
             state: 'info',
             message:
-              'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos...',
+              'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą',
           })
         }
       >
@@ -475,6 +475,60 @@ export const LongText = {
       description: {
         story:
           'Demonstrates how lengthy messages are truncated with ellipsis (...) when they exceed the snackbar width.',
+      },
+    },
+  },
+}
+
+function SnackbarDemoStacked() {
+  const { showSnackbar } = useSnackbar()
+
+  return (
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      <Button
+        variant='contained'
+        onClick={() => {
+          showSnackbar({
+            state: 'success',
+            message: 'Sėkmingai išsaugota',
+            actionLabel: 'Anuliuoti',
+            onAction: () => {},
+            size: 'standard',
+          })
+          setTimeout(() => {
+            showSnackbar({
+              state: 'info',
+              message:
+                'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą',
+              size: 'standard',
+            })
+          }, 500)
+          setTimeout(() => {
+            showSnackbar({
+              state: 'error',
+              message: 'Įvyko klaida',
+              size: 'standard',
+            })
+          }, 1000)
+        }}
+      >
+        Show Multiple Snackbars
+      </Button>
+    </Box>
+  )
+}
+
+export const Stacked = {
+  render: () => (
+    <RcSesSnackbarProvider>
+      <SnackbarDemoStacked />
+    </RcSesSnackbarProvider>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstrates multiple snackbars stacked with consistent 8px spacing when truncating long text in one of the snackbars.',
       },
     },
   },

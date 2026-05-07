@@ -1,35 +1,29 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import theme from '@/theme/light'
 
 import RcSesSnackbar from './index'
 
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
-})
-
 const DEFAULT_PROPS = { state: 'success' as const, message: 'Test', open: true }
 
 const renderSnackbar = (props: ReactNode) =>
   render(<ThemeProvider theme={theme}>{props}</ThemeProvider>)
-const getStatusElement = (container: HTMLElement) =>
-  container.querySelector('[role="status"]')
+
+const getMuiSnackbar = () => document.querySelector('.MuiSnackbar-root') as HTMLElement
 
 describe('RcSesSnackbar', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.runOnlyPendingTimers()
+    vi.useRealTimers()
+  })
+
   test('renders message', () => {
     renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} message='Test message' />)
 
@@ -39,7 +33,10 @@ describe('RcSesSnackbar', () => {
   test('renders standard size by default', () => {
     const { container } = renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} />)
 
-    expect(getStatusElement(container)).toHaveStyle({ height: '60px', width: '400px' })
+    expect(container.querySelector('[role="status"]')).toHaveStyle({
+      maxHeight: '120px',
+      width: '400px',
+    })
   })
 
   test('renders compact size', () => {
@@ -47,20 +44,43 @@ describe('RcSesSnackbar', () => {
       <RcSesSnackbar {...DEFAULT_PROPS} size='compact' />,
     )
 
-    expect(getStatusElement(container)).toHaveStyle({ height: '48px', width: '320px' })
+    expect(container.querySelector('[role="status"]')).toHaveStyle({
+      maxHeight: '96px',
+      width: '320px',
+    })
   })
 
   test('closes on Escape key', () => {
     const handleClose = vi.fn()
-    const { container } = renderSnackbar(
-      <RcSesSnackbar {...DEFAULT_PROPS} onClose={handleClose} />,
-    )
-    const snackbar = getStatusElement(container)
-    if (snackbar) {
-      fireEvent.keyDown(snackbar, { key: 'Escape', code: 'Escape' })
-    }
+    renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} onClose={handleClose} />)
+    const snackbar = getMuiSnackbar()
+    fireEvent.keyDown(snackbar, { key: 'Escape', code: 'Escape' })
 
     expect(handleClose).toHaveBeenCalled()
+  })
+
+  test('auto-hides after duration', () => {
+    const handleClose = vi.fn()
+    renderSnackbar(
+      <RcSesSnackbar {...DEFAULT_PROPS} onClose={handleClose} duration={1000} />,
+    )
+    const statusElement = screen.getByText('Test')
+    expect(statusElement).toBeInTheDocument()
+
+    vi.advanceTimersByTime(1000)
+
+    expect(handleClose).toHaveBeenCalled()
+  })
+
+  test('does not auto-hide when persist is true', async () => {
+    const handleClose = vi.fn()
+    renderSnackbar(
+      <RcSesSnackbar {...DEFAULT_PROPS} onClose={handleClose} persist duration={1000} />,
+    )
+
+    vi.advanceTimersByTime(2000)
+
+    expect(handleClose).not.toHaveBeenCalled()
   })
 
   test('renders action button in standard size with onAction', () => {

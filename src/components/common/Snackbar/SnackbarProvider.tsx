@@ -16,12 +16,12 @@ export interface SnackbarMessage {
   duration?: number
   persist?: boolean
   dismissOnAction?: boolean
+  showClose?: boolean
 }
 
 interface SnackbarContextType {
   showSnackbar: (message: Omit<SnackbarMessage, 'id'>) => string
   hideSnackbar: (id: string) => void
-  messages: SnackbarMessage[]
 }
 
 const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined)
@@ -30,7 +30,7 @@ export function RcSesSnackbarProvider({ children }: { children: React.ReactNode 
   const [messages, setMessages] = useState<SnackbarMessage[]>([])
 
   const showSnackbar = useCallback((message: Omit<SnackbarMessage, 'id'>) => {
-    const id = `snackbar-${Date.now()}-${Math.random()}`
+    const id = `snackbar-${crypto.randomUUID()}`
     setMessages((prev) => {
       const maxSnackbars =
         window.innerWidth < theme.breakpoints.values.sm
@@ -66,6 +66,7 @@ export function RcSesSnackbarProvider({ children }: { children: React.ReactNode 
           actionLabel={msg.actionLabel}
           duration={msg.duration}
           persist={msg.persist}
+          showClose={msg.showClose}
           index={index}
           open
         />

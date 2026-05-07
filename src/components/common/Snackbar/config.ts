@@ -1,3 +1,5 @@
+import type { ComponentType } from 'react'
+
 import {
   CheckCircleFillIcon,
   InfoFillIcon,
@@ -21,7 +23,7 @@ export const SNACKBAR_BASE_OFFSET = { mobile: 16, desktop: 24 }
 export const stateConfig: Record<
   SnackbarState,
   {
-    icon: React.ComponentType<{ fillColor?: string; 'aria-hidden'?: boolean }>
+    icon: ComponentType<{ fillColor?: string; 'aria-hidden'?: boolean }>
     color: string
     severity: 'success' | 'error' | 'warning' | 'info'
     ariaLive: 'polite' | 'assertive'

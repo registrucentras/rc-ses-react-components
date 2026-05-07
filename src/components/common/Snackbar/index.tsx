@@ -1,4 +1,11 @@
-import { Box, Snackbar as MuiSnackbar, Slide, Typography, useTheme } from '@mui/material'
+import {
+  Box,
+  Snackbar as MuiSnackbar,
+  Slide,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -68,12 +75,8 @@ function RcSesSnackbar({
   const snackbarHeight = sizeConfig[size].height
   const bottomOffset = index * (snackbarHeight + SNACKBAR_STACK_GAP)
 
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  const isMobile =
-    typeof window !== 'undefined' && window.innerWidth < theme.breakpoints.values.md
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const baseOffset = isMobile ? SNACKBAR_BASE_OFFSET.mobile : SNACKBAR_BASE_OFFSET.desktop
 
   const getSnackbarWidth = () => {
@@ -99,7 +102,7 @@ function RcSesSnackbar({
       }}
     >
       <Box
-        role='status'
+        role={config.ariaLive === 'assertive' ? 'alert' : 'status'}
         aria-live={config.ariaLive}
         aria-atomic='true'
         sx={{
@@ -123,7 +126,6 @@ function RcSesSnackbar({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight: theme.spacing(1),
             '& svg': {
               width: `${SNACKBAR_ICON_SIZE.width}px !important`,
               height: `${SNACKBAR_ICON_SIZE.height}px !important`,
@@ -138,8 +140,10 @@ function RcSesSnackbar({
             flex: 1,
             minWidth: 0,
             overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 2,
             textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
           }}
         >
           {message}
