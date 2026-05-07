@@ -14,6 +14,7 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
+import CheckIcon from '@/assets/icons/CheckIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
 import CloseIcon from '@/assets/icons/CloseIcon'
@@ -54,6 +55,7 @@ export {
   CaretRightBoldIcon,
   CheckBoldIcon,
   CheckCircleFillIcon,
+  CheckIcon,
   CheckUncheckedBoldIcon,
   CircleFilledIcon,
   CloseIcon,
