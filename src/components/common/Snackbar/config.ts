@@ -13,12 +13,7 @@ import { type SnackbarSize, type SnackbarState } from './types'
 
 export const SNACKBAR_DURATION = 10000 // 10s
 
-export const MAX_SNACKBARS_MOBILE = 2
-export const MAX_SNACKBARS_DESKTOP = 3
-
-export const SNACKBAR_STACK_GAP = 8
 export const SNACKBAR_ICON_SIZE = { width: 18, height: 20 }
-export const SNACKBAR_BASE_OFFSET = { mobile: 16, desktop: 24 }
 
 export const stateConfig: Record<
   SnackbarState,
@@ -64,22 +59,19 @@ export const stateConfig: Record<
 export const sizeConfig: Record<
   SnackbarSize,
   {
-    height: number
+    maxHeight: number
     width: number
-    mobileWidth: string
     padding: string
   }
 > = {
   standard: {
-    height: 60,
+    maxHeight: 120,
     width: 400,
-    mobileWidth: 'calc(100% - 32px)',
     padding: '12px 16px',
   },
   compact: {
-    height: 48,
+    maxHeight: 96,
     width: 320,
-    mobileWidth: 'calc(100% - 32px)',
     padding: '8px 12px',
   },
 }

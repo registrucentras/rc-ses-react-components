@@ -34,7 +34,7 @@ describe('RcSesSnackbar', () => {
     const { container } = renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} />)
 
     expect(container.querySelector('[role="status"]')).toHaveStyle({
-      height: '60px',
+      maxHeight: '120px',
       width: '400px',
     })
   })
@@ -45,7 +45,7 @@ describe('RcSesSnackbar', () => {
     )
 
     expect(container.querySelector('[role="status"]')).toHaveStyle({
-      height: '48px',
+      maxHeight: '96px',
       width: '320px',
     })
   })

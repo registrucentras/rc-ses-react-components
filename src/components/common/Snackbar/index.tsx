@@ -13,14 +13,7 @@ import CloseIcon from '@/assets/icons/CloseIcon'
 import { grey } from '@/theme/palette'
 
 import RcSesButton from '../Button'
-import {
-  SNACKBAR_BASE_OFFSET,
-  SNACKBAR_DURATION,
-  SNACKBAR_ICON_SIZE,
-  SNACKBAR_STACK_GAP,
-  sizeConfig,
-  stateConfig,
-} from './config'
+import { SNACKBAR_DURATION, SNACKBAR_ICON_SIZE, sizeConfig, stateConfig } from './config'
 import { type SnackbarSize, type SnackbarState } from './types'
 
 export interface RcSesSnackbarProps {
@@ -34,7 +27,6 @@ export interface RcSesSnackbarProps {
   dismissOnAction?: boolean
   duration?: number
   persist?: boolean
-  index?: number
   showClose?: boolean
 }
 
@@ -49,7 +41,6 @@ function RcSesSnackbar({
   open: controlledOpen,
   duration = SNACKBAR_DURATION,
   persist: controlledPersist,
-  index = 0,
   showClose = true,
 }: RcSesSnackbarProps) {
   const theme = useTheme()
@@ -78,18 +69,7 @@ function RcSesSnackbar({
     if (dismissOnAction) handleClose()
   }
 
-  const snackbarHeight = sizeConfig[size].height
-  const bottomOffset = index * (snackbarHeight + SNACKBAR_STACK_GAP)
-
   const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const baseOffset = isMobile ? SNACKBAR_BASE_OFFSET.mobile : SNACKBAR_BASE_OFFSET.desktop
-
-  const getSnackbarWidth = () => {
-    if (isMobile) return sizeConfig[size].mobileWidth
-    return `${sizeConfig[size].width}px`
-  }
-  const snackbarMaxWidth = `${sizeConfig[size].width}px`
 
   return (
     <MuiSnackbar
@@ -103,7 +83,6 @@ function RcSesSnackbar({
       TransitionComponent={Slide}
       transitionDuration={prefersReducedMotion ? { enter: 0, exit: 0 } : undefined}
       sx={{
-        bottom: `${baseOffset + bottomOffset}px !important`,
         transition: prefersReducedMotion ? 'none' : `bottom 150ms ease-in-out !important`,
       }}
     >
@@ -115,9 +94,8 @@ function RcSesSnackbar({
           display: 'flex',
           alignItems: 'center',
           gap: theme.spacing(1),
-          width: getSnackbarWidth(),
-          maxWidth: snackbarMaxWidth,
-          height: `${sizeConfig[size].height}px`,
+          width: `${sizeConfig[size].width}px`,
+          maxHeight: `${sizeConfig[size].maxHeight}px`,
           backgroundColor: grey['900'],
           color: grey['50'],
           borderRadius: '8px',

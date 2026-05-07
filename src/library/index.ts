@@ -15,10 +15,6 @@ import RcSesIconWithCircularBackground from '@/components/common/IconWithCircula
 import RcSesImageCard from '@/components/common/ImageCard'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import RcSesSnackbar from '@/components/common/Snackbar'
-import {
-  RcSesSnackbarProvider,
-  useSnackbar,
-} from '@/components/common/Snackbar/SnackbarProvider'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -67,8 +63,6 @@ export {
   RcSesFooter,
   RcSesImageCard,
   RcSesSnackbar,
-  RcSesSnackbarProvider,
-  useSnackbar,
 }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { RcSesDatepicker }
@@ -88,7 +82,6 @@ export { ServiceWizardStepper }
 export { SelectableCardList }
 export type * from './types'
 export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
-export type { SnackbarMessage } from '@/components/common/Snackbar/SnackbarProvider'
 
 export {
   RcSesServiceFormActions,
