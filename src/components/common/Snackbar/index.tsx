@@ -126,7 +126,7 @@ function RcSesSnackbar({
             overflow: 'hidden',
             display: '-webkit-box',
             WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 2,
+            WebkitLineClamp: 3,
             textOverflow: 'ellipsis',
           }}
         >
