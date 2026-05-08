@@ -132,7 +132,7 @@ function RcSesSnackbar({
         >
           {message}
         </Typography>
-        <Box sx={{ display: 'flex', gap: theme.spacing(0.5), alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           {onAction && isStandard && (
             <RcSesButton
               size='small'
