@@ -1,14 +1,13 @@
 import { Box, Button } from '@mui/material'
 import type { Meta } from '@storybook/react'
-import { useState } from 'react'
 
 import RcSesSnackbar from '@/components/common/Snackbar'
+import {
+  RcSesSnackbarProvider,
+  useSnackbar,
+} from '@/components/common/Snackbar/SnackbarProvider'
 import { stateConfig } from '@/components/common/Snackbar/config'
 import type { SnackbarState } from '@/components/common/Snackbar/types'
-
-const FEEDBACK_BG_COLOR = '#4caf50'
-const FEEDBACK_TIMEOUT = 2000
-const FEEDBACK_MESSAGE = '✓ Veiksmas atliktas'
 
 const getButtonColor = (state: SnackbarState): any => {
   if (state === 'error') return 'error'
@@ -20,34 +19,17 @@ const getButtonColor = (state: SnackbarState): any => {
 const getStateLabel = (state: SnackbarState): string =>
   state.charAt(0).toUpperCase() + state.slice(1).replace('-', ' ')
 
-function FeedbackBox({ message }: { message: string }) {
-  return (
-    <Box
-      sx={{
-        px: 1,
-        py: 0.5,
-        backgroundColor: FEEDBACK_BG_COLOR,
-        color: 'white',
-        borderRadius: '4px',
-        fontWeight: 500,
-        fontSize: '12px',
-        width: 'fit-content',
-      }}
-    >
-      {message}
-    </Box>
-  )
-}
-
 const meta: Meta<typeof RcSesSnackbar> = {
   title: 'components/feedback/Snackbar',
   component: RcSesSnackbar,
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <Box sx={{ p: 4, pb: 16, minHeight: '300px' }}>
-        <Story />
-      </Box>
+      <RcSesSnackbarProvider>
+        <Box sx={{ p: 4, pb: 16, minHeight: '300px' }}>
+          <Story />
+        </Box>
+      </RcSesSnackbarProvider>
     ),
   ],
 }
@@ -161,48 +143,34 @@ export const Default = {
     docs: {
       description: {
         story:
-          'Interactive playground to test different Snackbar configurations. Adjust all props using the controls above to see how the component responds in real-time.',
+          'Interactive playground to test different Snackbar configurations. Adjust all props using the controls above to see how the component responds in real-time. Use this for direct component testing.',
       },
     },
   },
 }
 
 function SnackbarDemoCompactWithText() {
-  const [state, setState] = useState<SnackbarState | null>(null)
-  const [config, setConfig] = useState<{ state: SnackbarState; message: string }>()
-
-  const handleShowSnackbar = (snackbarState: SnackbarState, message: string) => {
-    setConfig({ state: snackbarState, message })
-    setState(snackbarState)
-  }
+  const { showSnackbar } = useSnackbar()
 
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        {COMPACT_CONFIG.map(({ state: snackbarState, message }) => {
-          const Icon = stateConfig[snackbarState].icon
-          return (
-            <Button
-              key={snackbarState}
-              variant='contained'
-              color={getButtonColor(snackbarState) as any}
-              startIcon={<Icon />}
-              onClick={() => handleShowSnackbar(snackbarState, message)}
-            >
-              {getStateLabel(snackbarState)} (Compact)
-            </Button>
-          )
-        })}
-      </Box>
-      {state && config && (
-        <RcSesSnackbar
-          state={config.state}
-          message={config.message}
-          size='compact'
-          onClose={() => setState(null)}
-        />
-      )}
-    </>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      {COMPACT_CONFIG.map(({ state: snackbarState, message }) => {
+        const Icon = stateConfig[snackbarState].icon
+        return (
+          <Button
+            key={snackbarState}
+            variant='contained'
+            color={getButtonColor(snackbarState) as any}
+            startIcon={<Icon />}
+            onClick={() =>
+              showSnackbar({ state: snackbarState, message, size: 'compact' })
+            }
+          >
+            {getStateLabel(snackbarState)} (Compact)
+          </Button>
+        )
+      })}
+    </Box>
   )
 }
 
@@ -212,67 +180,79 @@ export const CompactWithText = {
     docs: {
       description: {
         story:
-          'Demonstrates compact-size snackbars (320×48px) across all 4 states. Compact size does not support action buttons.',
+          'Demonstrates compact-size snackbars across all 4 states. Compact size does not support action buttons.',
+      },
+      source: {
+        code: `// Setup at app root
+import { RcSesSnackbarProvider } from 'rc-ses-react-components'
+
+<RcSesSnackbarProvider>
+  <App />
+</RcSesSnackbarProvider>
+
+// Usage in component
+const { showSnackbar } = useSnackbar()
+
+// Show different state snackbars
+showSnackbar({
+  state: 'success',
+  message: 'Sėkmingai išsaugota',
+  size: 'compact',
+})
+
+showSnackbar({
+  state: 'error',
+  message: 'Įvyko klaida',
+  size: 'compact',
+})
+
+showSnackbar({
+  state: 'warning',
+  message: 'Dėmesio pranešimas',
+  size: 'compact',
+})
+
+showSnackbar({
+  state: 'info',
+  message: 'Informacinis pranešimas',
+  size: 'compact',
+})`,
       },
     },
   },
 }
 
 function SnackbarDemoStandardWithButtons() {
-  const [state, setState] = useState<SnackbarState | null>(null)
-  const [config, setConfig] = useState<{
-    state: SnackbarState
-    message: string
-    actionLabel?: string
-  }>()
-  const [feedback, setFeedback] = useState('')
-
-  const showFeedback = () => {
-    setFeedback(FEEDBACK_MESSAGE)
-    setTimeout(() => setFeedback(''), FEEDBACK_TIMEOUT)
-  }
-
-  const handleShowSnackbar = (
-    snackbarState: SnackbarState,
-    message: string,
-    actionLabel?: string,
-  ) => {
-    setConfig({ state: snackbarState, message, actionLabel })
-    setState(snackbarState)
-  }
+  const { showSnackbar } = useSnackbar()
 
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexDirection: 'column' }}>
-        {feedback && <FeedbackBox message={feedback} />}
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          {STANDARD_CONFIG.map(({ state: snackbarState, message, actionLabel }) => {
-            const Icon = stateConfig[snackbarState].icon
-            return (
-              <Button
-                key={snackbarState}
-                variant='contained'
-                color={getButtonColor(snackbarState) as any}
-                startIcon={<Icon />}
-                onClick={() => handleShowSnackbar(snackbarState, message, actionLabel)}
-              >
-                {getStateLabel(snackbarState)} (Standard)
-              </Button>
-            )
-          })}
-        </Box>
-      </Box>
-      {state && config && (
-        <RcSesSnackbar
-          state={config.state}
-          message={config.message}
-          size='standard'
-          actionLabel={config.actionLabel}
-          onAction={showFeedback}
-          onClose={() => setState(null)}
-        />
-      )}
-    </>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      {STANDARD_CONFIG.map(({ state: snackbarState, message, actionLabel }) => {
+        const Icon = stateConfig[snackbarState].icon
+        return (
+          <Button
+            key={snackbarState}
+            variant='contained'
+            color={getButtonColor(snackbarState) as any}
+            startIcon={<Icon />}
+            onClick={() =>
+              showSnackbar({
+                state: snackbarState,
+                message,
+                actionLabel,
+                size: 'standard',
+                onAction: () => {
+                  // eslint-disable-next-line no-console
+                  console.log(`${actionLabel} clicked`)
+                },
+              })
+            }
+          >
+            {getStateLabel(snackbarState)} (Standard)
+          </Button>
+        )
+      })}
+    </Box>
   )
 }
 
@@ -281,47 +261,98 @@ export const StandardWithButtons = {
   parameters: {
     docs: {
       description: {
-        story:
-          'Demonstrates standard-size snackbars with action buttons. Clicking an action button triggers a visual feedback message (only for the demo purpose).',
+        story: 'Demonstrates standard-size snackbars with action buttons.',
+      },
+      source: {
+        code: `// Setup at app root
+import { RcSesSnackbarProvider } from 'rc-ses-react-components'
+
+<RcSesSnackbarProvider>
+  <App />
+</RcSesSnackbarProvider>
+
+// Usage in component
+const { showSnackbar } = useSnackbar()
+
+// Success with action
+showSnackbar({
+  state: 'success',
+  message: 'Sėkmingai išsaugota',
+  actionLabel: 'Atgal',
+  size: 'standard',
+  onAction: () => console.log('Atgal clicked'),
+})
+
+// Error with action
+showSnackbar({
+  state: 'error',
+  message: 'Įvyko klaida',
+  actionLabel: 'Pakartoti',
+  size: 'standard',
+  onAction: () => console.log('Pakartoti clicked'),
+})
+
+// Warning with action
+showSnackbar({
+  state: 'warning',
+  message: 'Dėmesio pranešimas',
+  actionLabel: 'Sąlyga',
+  size: 'standard',
+  onAction: () => console.log('Sąlyga clicked'),
+})
+
+// Info with action
+showSnackbar({
+  state: 'info',
+  message: 'Informacinis pranešimas',
+  actionLabel: 'Daugiau',
+  size: 'standard',
+  onAction: () => console.log('Daugiau clicked'),
+})
+
+// Action needed with action
+showSnackbar({
+  state: 'action-needed',
+  message: 'Reikalingas veiksmas',
+  actionLabel: 'Atlikti',
+  size: 'standard',
+  onAction: () => console.log('Atlikti clicked'),
+})`,
       },
     },
   },
 }
 
 function SnackbarDemoCustomDuration() {
-  const [state, setState] = useState<SnackbarState | null>(null)
-  const [config, setConfig] = useState<{ message: string; duration: number }>()
-
-  const handleShowSnackbar = (message: string, duration: number) => {
-    setConfig({ message, duration })
-    setState('success')
-  }
+  const { showSnackbar } = useSnackbar()
 
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        <Button
-          variant='contained'
-          onClick={() => handleShowSnackbar('Trumpai išsaugota (3s)', 3000)}
-        >
-          3s Duration
-        </Button>
-        <Button
-          variant='contained'
-          onClick={() => handleShowSnackbar('Ilgiau išsaugota (10s)', 10000)}
-        >
-          10s Duration
-        </Button>
-      </Box>
-      {state && config && (
-        <RcSesSnackbar
-          state={state}
-          message={config.message}
-          duration={config.duration}
-          onClose={() => setState(null)}
-        />
-      )}
-    </>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      <Button
+        variant='contained'
+        onClick={() =>
+          showSnackbar({
+            state: 'success',
+            message: 'Trumpai išsaugota (3s)',
+            duration: 3000,
+          })
+        }
+      >
+        3s Duration
+      </Button>
+      <Button
+        variant='contained'
+        onClick={() =>
+          showSnackbar({
+            state: 'success',
+            message: 'Ilgiau išsaugota (10s)',
+            duration: 10000,
+          })
+        }
+      >
+        10s Duration
+      </Button>
+    </Box>
   )
 }
 
@@ -333,40 +364,59 @@ export const CustomDuration = {
         story:
           'Demonstrates custom auto-dismiss durations (3s and 10s). Hover over a snackbar to pause the countdown timer - the auto-dismiss will resume when you move the mouse away.',
       },
+      source: {
+        code: `// Setup at app root
+import { RcSesSnackbarProvider } from 'rc-ses-react-components'
+
+<RcSesSnackbarProvider>
+  <App />
+</RcSesSnackbarProvider>
+
+// Usage in component
+const { showSnackbar } = useSnackbar()
+
+// 3 second duration
+showSnackbar({
+  state: 'success',
+  message: 'Trumpai išsaugota (3s)',
+  duration: 3000,
+})
+
+// 10 second duration
+showSnackbar({
+  state: 'success',
+  message: 'Ilgiau išsaugota (10s)',
+  duration: 10000,
+})`,
+      },
     },
   },
 }
 
 function SnackbarDemoPersistent() {
-  const [showSnackbar, setShowSnackbar] = useState(false)
-  const [feedback, setFeedback] = useState('')
-
-  const showFeedback = () => {
-    setFeedback(FEEDBACK_MESSAGE)
-    setTimeout(() => setFeedback(''), FEEDBACK_TIMEOUT)
-  }
+  const { showSnackbar } = useSnackbar()
 
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', flexDirection: 'column' }}>
-        {feedback && <FeedbackBox message={feedback} />}
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          <Button variant='contained' onClick={() => setShowSnackbar(true)}>
-            Persistent Snackbar
-          </Button>
-        </Box>
-      </Box>
-      {showSnackbar && (
-        <RcSesSnackbar
-          state='action-needed'
-          message='Statiškas pranešimas'
-          actionLabel='Patvirtinti'
-          onAction={showFeedback}
-          persist
-          onClose={() => setShowSnackbar(false)}
-        />
-      )}
-    </>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      <Button
+        variant='contained'
+        onClick={() =>
+          showSnackbar({
+            state: 'action-needed',
+            message: 'Statiškas pranešimas',
+            actionLabel: 'Patvirtinti',
+            persist: true,
+            showClose: true,
+            onAction: () => {
+              // eslint-disable-next-line no-console
+              console.log('Patvirtinta')
+            },
+          })
+        }
+      >
+        Persistent Snackbar
+      </Button>
+    </Box>
   )
 }
 
@@ -376,36 +426,51 @@ export const Persistent = {
     docs: {
       description: {
         story:
-          'Demonstrates persistent snackbars that do not auto-dismiss. Users must click the action button or close button to dismiss.',
+          'Demonstrates persistent snackbars that do not auto-dismiss. Users must click the action button or close button.',
+      },
+      source: {
+        code: `// Setup at app root
+import { RcSesSnackbarProvider } from 'rc-ses-react-components'
+
+<RcSesSnackbarProvider>
+  <App />
+</RcSesSnackbarProvider>
+
+// Usage in component
+const { showSnackbar } = useSnackbar()
+
+showSnackbar({
+  state: 'action-needed',
+  message: 'Statiškas pranešimas',
+  actionLabel: 'Patvirtinti',
+  persist: true,
+  showClose: true,
+})`,
       },
     },
   },
 }
 
 function SnackbarDemoLongText() {
-  const [showSnackbar, setShowSnackbar] = useState(false)
-  const InfoIcon = stateConfig.info.icon
+  const { showSnackbar } = useSnackbar()
 
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        <Button
-          variant='contained'
-          color='info'
-          startIcon={<InfoIcon />}
-          onClick={() => setShowSnackbar(true)}
-        >
-          Long Text (Truncation)
-        </Button>
-      </Box>
-      {showSnackbar && (
-        <RcSesSnackbar
-          state='info'
-          message='Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą'
-          onClose={() => setShowSnackbar(false)}
-        />
-      )}
-    </>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      <Button
+        variant='contained'
+        color='info'
+        onClick={() =>
+          showSnackbar({
+            state: 'info',
+            message:
+              'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą',
+            showClose: true,
+          })
+        }
+      >
+        Long Text (Truncation)
+      </Button>
+    </Box>
   )
 }
 
@@ -416,6 +481,23 @@ export const LongText = {
       description: {
         story:
           'Demonstrates how lengthy messages are truncated with ellipsis (...) when they exceed the snackbar width.',
+      },
+      source: {
+        code: `// Setup at app root
+import { RcSesSnackbarProvider } from 'rc-ses-react-components'
+
+<RcSesSnackbarProvider>
+  <App />
+</RcSesSnackbarProvider>
+
+// Usage in component
+const { showSnackbar } = useSnackbar()
+
+showSnackbar({
+  state: 'info',
+  message: 'Tai yra labai ilgas pranešimas kuris turėtų būti trump intas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą',
+  showClose: true,
+})`,
       },
     },
   },

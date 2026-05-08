@@ -23,8 +23,8 @@ export interface SnackbarConfig {
 }
 
 interface SnackbarContextType {
-  show: (config: SnackbarConfig) => void
-  close: () => void
+  showSnackbar: (config: SnackbarConfig) => void
+  hideSnackbar: () => void
 }
 
 const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined)
@@ -32,15 +32,18 @@ const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined
 export function RcSesSnackbarProvider({ children }: { children: ReactNode }) {
   const [snackbar, setSnackbar] = useState<SnackbarConfig | null>(null)
 
-  const show = useCallback((config: SnackbarConfig) => {
+  const showSnackbar = useCallback((config: SnackbarConfig) => {
     setSnackbar(config)
   }, [])
 
-  const close = useCallback(() => {
+  const hideSnackbar = useCallback(() => {
     setSnackbar(null)
   }, [])
 
-  const value = useMemo(() => ({ show, close }), [show, close])
+  const value = useMemo(
+    () => ({ showSnackbar, hideSnackbar }),
+    [showSnackbar, hideSnackbar],
+  )
 
   return (
     <SnackbarContext.Provider value={value}>
@@ -56,7 +59,7 @@ export function RcSesSnackbarProvider({ children }: { children: ReactNode }) {
           persist={snackbar.persist}
           dismissOnAction={snackbar.dismissOnAction}
           showClose={snackbar.showClose ?? true}
-          onClose={close}
+          onClose={hideSnackbar}
           open
         />
       )}
