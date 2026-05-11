@@ -6,7 +6,7 @@ function CheckIcon({
   className,
   fillColor,
   size = 24,
-  weight = 'fill',
+  weight = 'regular',
   ...rest
 }: IconProps) {
   return (

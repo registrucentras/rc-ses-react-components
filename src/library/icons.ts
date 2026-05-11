@@ -31,6 +31,8 @@ import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
 import ScalesIcon from '@/assets/icons/ScalesIcon'
 import ScrollIcon from '@/assets/icons/ScrollIcon'
+import SearchHelpIcon from '@/assets/icons/SearchHelpIcon'
+import SearchXIcon from '@/assets/icons/SearchXIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
 import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
@@ -72,6 +74,8 @@ export {
   QuestionIcon,
   ScalesIcon,
   ScrollIcon,
+  SearchHelpIcon,
+  SearchXIcon,
   SpinnerGapBoldIcon,
   UploadSimpleIcon,
   WarningDiamondFillIcon,
