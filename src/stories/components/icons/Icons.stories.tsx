@@ -5,7 +5,9 @@ import { useMemo, useState } from 'react'
 import type { ReactElement } from 'react'
 
 import type IconProps from '@/assets/IconProps'
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
+import ArrowsClockwiseIcon from '@/assets/icons/ArrowsClockwiseIcon'
 import BarcodeIcon from '@/assets/icons/BarcodeIcon'
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
@@ -18,6 +20,7 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
+import CheckIcon from '@/assets/icons/CheckIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
 import CloseIcon from '@/assets/icons/CloseIcon'
@@ -28,13 +31,17 @@ import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import MapPinAreaIcon from '@/assets/icons/MapPinAreaIcon'
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
+import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
 import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
 import ScalesIcon from '@/assets/icons/ScalesIcon'
 import ScrollIcon from '@/assets/icons/ScrollIcon'
+import SearchHelpIcon from '@/assets/icons/SearchHelpIcon'
+import SearchXIcon from '@/assets/icons/SearchXIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
+import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
 import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
@@ -96,8 +103,16 @@ const renderIcon =
 
 const iconItems: IconStoryItem[] = [
   {
+    name: 'ArrowLeftIcon',
+    render: renderIcon(ArrowLeftIcon),
+  },
+  {
     name: 'ArrowRightIcon',
     render: renderIcon(ArrowRightIcon),
+  },
+  {
+    name: 'ArrowsClockwiseIcon',
+    render: renderIcon(ArrowsClockwiseIcon),
   },
   {
     name: 'BarcodeIcon',
@@ -148,6 +163,10 @@ const iconItems: IconStoryItem[] = [
     render: renderIcon(CheckCircleFillIcon),
   },
   {
+    name: 'CheckIcon',
+    render: renderIcon(CheckIcon),
+  },
+  {
     name: 'CheckUncheckedBoldIcon',
     render: renderIcon(CheckUncheckedBoldIcon),
   },
@@ -188,6 +207,10 @@ const iconItems: IconStoryItem[] = [
     render: renderIcon(MinusBoldIcon),
   },
   {
+    name: 'PencilSimpleLineIcon',
+    render: renderIcon(PencilSimpleLineIcon),
+  },
+  {
     name: 'PlusBoldIcon',
     render: renderIcon(PlusBoldIcon),
   },
@@ -208,12 +231,24 @@ const iconItems: IconStoryItem[] = [
     render: renderIcon(ScrollIcon),
   },
   {
+    name: 'SearchHelpIcon',
+    render: renderIcon(SearchHelpIcon),
+  },
+  {
+    name: 'SearchXIcon',
+    render: renderIcon(SearchXIcon),
+  },
+  {
     name: 'SpinnerGapBoldIcon',
     render: renderIcon(SpinnerGapBoldIcon),
   },
   {
     name: 'UploadSimpleIcon',
     render: renderIcon(UploadSimpleIcon),
+  },
+  {
+    name: 'WarningCircleIcon',
+    render: renderIcon(WarningCircleIcon),
   },
   {
     name: 'WarningDiamondFillIcon',
