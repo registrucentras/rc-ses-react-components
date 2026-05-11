@@ -31,6 +31,7 @@ import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSearchInput from '@/components/form/inputs/SearchInput'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import RcSesTextField from '@/components/form/inputs/TextField'
 import RcSesFooter from '@/components/layout/Footer'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
@@ -61,7 +62,7 @@ export {
   RcSesFooter,
   RcSesImageCard,
 }
-export { RcSesCheckbox, RcSesCheckboxFormControl }
+export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { RcSesDatepicker }
 export { RcSesFileUpload }
 export { RcSesFileDropzone }
