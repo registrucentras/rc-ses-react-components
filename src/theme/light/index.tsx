@@ -47,11 +47,15 @@ declare module '@mui/material/styles' {
   interface Palette {
     dark: Palette['grey']
     grey: Palette['grey']
+    light: Palette['grey']
+    ghost: Palette['grey']
   }
 
   interface PaletteOptions {
     dark?: PaletteOptions['grey']
     grey?: PaletteOptions['grey']
+    light?: PaletteOptions['grey']
+    ghost?: PaletteOptions['grey']
   }
 }
 
@@ -73,6 +77,8 @@ declare module '@mui/material' {
   interface ButtonPropsColorOverrides {
     grey: any
     dark: any
+    light: any
+    ghost: any
   }
 
   interface RadioPropsColorOverrides {

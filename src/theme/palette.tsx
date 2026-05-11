@@ -73,5 +73,11 @@ const error = {
   main: '#fa5a46',
 }
 
-export { primary, secondary, grey, warning, error }
+const overlays = {
+  '200': '#ffffff14',
+  '300': '#ffffff29',
+  main: '#ffffff14',
+}
+
+export { primary, secondary, grey, warning, error, overlays }
 export default { primary, secondary, grey, warning, error }

@@ -14,6 +14,8 @@ const themePalette = createTheme({
     error,
     grey,
     dark: grey,
+    light: grey,
+    ghost: grey,
   },
   typography: {
     fontFamily: 'Public sans, sans-serif, Arial',

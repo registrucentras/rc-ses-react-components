@@ -98,7 +98,9 @@ const SelectableCardListItem = ({
         },
       }}
     >
-      <ListWithIcons items={listItems} layout='horizontal' isLoading={isLoading} />
+      {(isLoading || (!!listItems && listItems.length > 0)) && (
+        <ListWithIcons items={listItems} layout='horizontal' isLoading={isLoading} />
+      )}
     </RcSesCard>
   )
 }

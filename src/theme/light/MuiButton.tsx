@@ -1,6 +1,6 @@
 import { Components } from '@mui/material'
 
-import palette, { error, grey, primary, secondary, warning } from '../palette'
+import palette, { error, grey, overlays, primary, secondary, warning } from '../palette'
 
 const MuiButton: Components['MuiButton'] = {
   variants: [
@@ -355,6 +355,39 @@ const MuiButton: Components['MuiButton'] = {
         },
         '&:active': {
           backgroundColor: error[100],
+        },
+      },
+
+      '&.MuiButton-colorLight': {
+        borderColor: grey[50],
+        color: grey[50],
+        backgroundColor: 'transparent',
+
+        '&:hover': {
+          backgroundColor: overlays['200'],
+        },
+        '&:active': {
+          backgroundColor: overlays['300'],
+        },
+        '&.Mui-disabled': {
+          borderColor: `${grey[500]} !important`,
+          color: `${grey[500]} !important`,
+        },
+      },
+
+      '&.MuiButton-colorGhost': {
+        borderColor: 'transparent',
+        color: grey[50],
+        backgroundColor: 'transparent',
+
+        '&:hover': {
+          backgroundColor: overlays['200'],
+        },
+        '&:active': {
+          backgroundColor: overlays['300'],
+        },
+        '&.Mui-disabled': {
+          borderColor: `transparent !important`,
         },
       },
     },
