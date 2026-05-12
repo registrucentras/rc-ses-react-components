@@ -9,7 +9,7 @@ import { UseControllerProps, useController } from 'react-hook-form'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
-import FormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
+import RcSesFormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
 import getLoadingIcon from '@/components/utils/loading'
 import palette from '@/theme/palette'
 
@@ -87,7 +87,7 @@ function RcSesCheckboxFormControl(props: Props) {
   }
 
   return (
-    <FormControlLabelWithLoading
+    <RcSesFormControlLabelWithLoading
       control={
         <MuiCheckbox
           id={id}

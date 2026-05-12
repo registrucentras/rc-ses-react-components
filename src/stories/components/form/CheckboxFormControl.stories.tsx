@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
-import FormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
-import SimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
+import RcSesFormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
+import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 
@@ -194,9 +194,9 @@ function CheckboxIndeterminateLoadingControlledDemo() {
               flexDirection: 'column',
             }}
           >
-            <FormControlLabelWithLoading
+            <RcSesFormControlLabelWithLoading
               control={
-                <SimpleCheckbox
+                <RcSesSimpleCheckbox
                   checked={child1Value}
                   onChange={(e) => setValue('child1', e.target.checked)}
                   loading={loading}
@@ -205,9 +205,9 @@ function CheckboxIndeterminateLoadingControlledDemo() {
               label='Pasirinkimas 1'
               loading={loading}
             />
-            <FormControlLabelWithLoading
+            <RcSesFormControlLabelWithLoading
               control={
-                <SimpleCheckbox
+                <RcSesSimpleCheckbox
                   checked={child2Value}
                   onChange={(e) => setValue('child2', e.target.checked)}
                   loading={loading}
@@ -216,9 +216,9 @@ function CheckboxIndeterminateLoadingControlledDemo() {
               label='Pasirinkimas 2'
               loading={loading}
             />
-            <FormControlLabelWithLoading
+            <RcSesFormControlLabelWithLoading
               control={
-                <SimpleCheckbox
+                <RcSesSimpleCheckbox
                   checked={child3Value}
                   onChange={(e) => setValue('child3', e.target.checked)}
                   loading={loading}
