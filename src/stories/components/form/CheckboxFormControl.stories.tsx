@@ -132,12 +132,8 @@ export const Main: Story = {
   },
 }
 
-function CheckboxLoadingDemo(args: any) {
-  const { loading } = args
-  const {
-    control,
-    formState: { errors },
-  } = useForm<FormModel>({
+function CheckboxLoadingDemo() {
+  const { control } = useForm<FormModel>({
     mode: 'all',
     defaultValues: {
       agreement: '',
@@ -151,8 +147,7 @@ function CheckboxLoadingDemo(args: any) {
           id='agreement-loading'
           name='agreement'
           control={control}
-          errors={errors?.agreement}
-          loading={loading}
+          loading
         >
           Accept terms and conditions
         </RcSesCheckboxFormControl>
@@ -162,10 +157,7 @@ function CheckboxLoadingDemo(args: any) {
 }
 
 export const Loading: Story = {
-  render: (args) => <CheckboxLoadingDemo {...args} />,
-  args: {
-    loading: true,
-  },
+  render: () => <CheckboxLoadingDemo />,
   parameters: {
     docs: {
       description: {
@@ -177,7 +169,7 @@ export const Loading: Story = {
   id='agreement'
   name='agreement'
   control={control}
-  loading={true}
+  loading
 >
   Accept terms and conditions
 </RcSesCheckboxFormControl>`,
