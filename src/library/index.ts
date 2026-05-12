@@ -14,6 +14,11 @@ import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
 import ListWithIcons from '@/components/common/ListWithIcons'
+import RcSesSnackbar from '@/components/common/Snackbar'
+import {
+  RcSesSnackbarProvider,
+  useSnackbar,
+} from '@/components/common/Snackbar/SnackbarProvider'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -24,6 +29,7 @@ import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormContr
 import RcSesDatepicker from '@/components/form/inputs/Datepicker'
 import RcSesFileDropzone from '@/components/form/inputs/FileDropzone'
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'
+import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
 import RcSesPhoneInputFormControl from '@/components/form/inputs/PhoneInputFormControl'
@@ -31,6 +37,7 @@ import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSearchInput from '@/components/form/inputs/SearchInput'
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'
 import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import RcSesTextField from '@/components/form/inputs/TextField'
 import RcSesFooter from '@/components/layout/Footer'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
@@ -60,8 +67,11 @@ export {
   RcSesCard,
   RcSesFooter,
   RcSesImageCard,
+  RcSesSnackbar,
+  RcSesSnackbarProvider,
 }
-export { RcSesCheckbox, RcSesCheckboxFormControl }
+export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
+export { useSnackbar }
 export { RcSesDatepicker }
 export { RcSesFileUpload }
 export { RcSesFileDropzone }
@@ -76,8 +86,10 @@ export { RcSesTextField }
 export { DataPagination }
 export { ListWithIcons }
 export { ServiceWizardStepper }
+export { RcSesFormControlLabel }
 export { SelectableCardList }
 export type * from './types'
+export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
 
 export {
   RcSesServiceFormActions,

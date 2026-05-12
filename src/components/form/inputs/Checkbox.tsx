@@ -32,7 +32,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesCheckbox(props: Props) {
-  const { errors, label, slotProps } = props
+  const { errors, label, slotProps, loading } = props
 
   // eslint-disable-next-line react/destructuring-assignment
   const id = useMemo(() => props.id ?? uuidv4(), [props.id])
@@ -44,7 +44,7 @@ function RcSesCheckbox(props: Props) {
       required={!!props?.rules?.required}
       {...slotProps?.wrapper}
     >
-      <RcSesCheckboxFormControl {...props} id={id} />
+      <RcSesCheckboxFormControl {...props} id={id} loading={loading} />
     </RcSesFormControlWrapper>
   )
 }

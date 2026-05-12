@@ -1,17 +1,16 @@
 import {
-  FormControlLabel,
   FormControlLabelProps,
   FormLabel,
   Checkbox as MuiCheckbox,
   CheckboxProps as MuiCheckboxProps,
-  styled,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
-import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
+import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
+import getLoadingIcon from '@/components/utils/loading'
 import palette from '@/theme/palette'
 
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
@@ -32,6 +31,8 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     children: React.ReactNode
     loading?: boolean
     variant?: 'flat' | 'outlined'
+    childValues?: boolean[]
+    onChildValuesChange?: (childValues: boolean[]) => void
     slotProps?: {
       field?: Partial<Omit<TFieldProps, ImmediateFieldProps>>
       label?: Partial<FormControlLabelProps>
@@ -39,46 +40,63 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     }
   }
 
-const LoadingStateIcon = styled(SpinnerGapBoldIcon)(`
-  @keyframes loadingStateIconRotation {
-     12.5% { transform: rotateZ( 45deg); }
-     25.0% { transform: rotateZ( 90deg); }
-     37.5% { transform: rotateZ(135deg); }
-     50.0% { transform: rotateZ(180deg); }
-     62.5% { transform: rotateZ(225deg); }
-     75.0% { transform: rotateZ(270deg); }
-     87.5% { transform: rotateZ(315deg); }
-    100.0% { transform: rotateZ(360deg); }
-  }
-
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-name: loadingStateIconRotation;
-  animation-timing-function: step-start;
-  box-shadow: none !important;
-`)
-
 function RcSesCheckboxFormControl(props: Props) {
-  const { children, control, disabled, id, loading, name, rules, slotProps, variant } =
-    props
+  const {
+    children,
+    control,
+    disabled,
+    id,
+    loading,
+    name,
+    rules,
+    slotProps,
+    variant,
+    childValues = [],
+    onChildValuesChange,
+  } = props
 
   const {
-    field: { value, ...controllerProps },
+    field: { value, onChange, ...controllerProps },
   } = useController({
     control,
     name,
     rules,
   })
 
+  const checkedCount = useMemo(() => childValues.filter(Boolean).length, [childValues])
+
+  const computedIndeterminate = useMemo(
+    () => checkedCount > 0 && checkedCount < childValues.length,
+    [checkedCount, childValues.length],
+  )
+
+  useEffect(() => {
+    if (!childValues.length) return
+    const expectedValue = checkedCount === childValues.length
+
+    if (expectedValue !== value) onChange(expectedValue)
+  }, [checkedCount, childValues.length, value, onChange])
+
+  const handleParentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.checked
+    onChange(newValue)
+
+    if (onChildValuesChange && childValues.length > 0) {
+      onChildValuesChange(childValues.map(() => newValue))
+    }
+  }
+
   return (
-    <FormControlLabel
+    <RcSesFormControlLabel
       control={
         <MuiCheckbox
           id={id}
           checked={value === true}
-          checkedIcon={loading ? <LoadingStateIcon /> : <CheckBoldIcon />}
+          indeterminate={computedIndeterminate}
+          checkedIcon={getLoadingIcon(<CheckBoldIcon />, loading)}
           disabled={disabled}
-          icon={loading ? <LoadingStateIcon /> : <CheckUncheckedBoldIcon />}
+          icon={getLoadingIcon(<CheckUncheckedBoldIcon />, loading)}
+          onChange={handleParentChange}
           {...controllerProps}
           {...slotProps?.field}
           disableRipple
@@ -94,6 +112,7 @@ function RcSesCheckboxFormControl(props: Props) {
           )}
         </FormLabel>
       }
+      loading={loading}
       {...slotProps?.label}
       slotProps={{
         typography: {
