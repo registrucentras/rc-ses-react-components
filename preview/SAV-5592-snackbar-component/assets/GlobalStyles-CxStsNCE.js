@@ -1,2 +1,0 @@
-import{G as m,a as l,T as n}from"./createTheme-CE_F1kTP.js";import"./index-CqJgnuY1.js";import{d as p}from"./defaultTheme-Dm7VEHNB.js";import{j as s}from"./jsx-runtime-Cf8x2fCZ.js";import{u}from"./useTheme-I6SAPIjI.js";function f({styles:o,themeId:e,defaultTheme:r={}}){const t=u(r),a=typeof o=="function"?o(e&&t[e]||t):o;return s.jsx(m,{styles:a})}function b(o){return s.jsx(f,l({},o,{defaultTheme:p,themeId:n}))}export{b as G};
-//# sourceMappingURL=GlobalStyles-CxStsNCE.js.map
