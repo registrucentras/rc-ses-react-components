@@ -1,23 +1,20 @@
 import { FormControlLabel, FormControlLabelProps, Skeleton } from '@mui/material'
 import React, { ReactNode } from 'react'
 
-export type RcSesFormControlLabelWithLoadingProps = Omit<
-  FormControlLabelProps,
-  'label'
-> & {
+export type RcSesFormControlLabelProps = Omit<FormControlLabelProps, 'label'> & {
   loading?: boolean
   label: ReactNode
   skeletonWidth?: number
   skeletonHeight?: number
 }
 
-function RcSesFormControlLabelWithLoading({
+function RcSesFormControlLabel({
   loading = false,
   label,
   skeletonWidth = 100,
   skeletonHeight = 20,
   ...props
-}: RcSesFormControlLabelWithLoadingProps) {
+}: RcSesFormControlLabelProps) {
   return (
     <FormControlLabel
       {...props}
@@ -36,4 +33,4 @@ function RcSesFormControlLabelWithLoading({
   )
 }
 
-export default RcSesFormControlLabelWithLoading
+export default RcSesFormControlLabel

@@ -2,7 +2,7 @@ import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
-import RcSesFormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
+import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
@@ -229,7 +229,7 @@ function CheckboxIndeterminateDemo() {
               flexDirection: 'column',
             }}
           >
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child1Value}
@@ -238,7 +238,7 @@ function CheckboxIndeterminateDemo() {
               }
               label='Pasirinkimas 1'
             />
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child2Value}
@@ -247,7 +247,7 @@ function CheckboxIndeterminateDemo() {
               }
               label='Pasirinkimas 2'
             />
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child3Value}
@@ -283,15 +283,15 @@ export const Indeterminate: Story = {
 </RcSesCheckboxFormControl>
 
 <div style={{ paddingLeft: '2rem', display: 'flex', flexDirection: 'column' }}>
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} />}
     label='Pasirinkimas 1'
   />
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child2} onChange={(e) => setChild2(e.target.checked)} />}
     label='Pasirinkimas 2'
   />
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child3} onChange={(e) => setChild3(e.target.checked)} />}
     label='Pasirinkimas 3'
   />
@@ -346,7 +346,7 @@ function CheckboxIndeterminateLoadingDemo() {
               flexDirection: 'column',
             }}
           >
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child1Value}
@@ -357,7 +357,7 @@ function CheckboxIndeterminateLoadingDemo() {
               label='Pasirinkimas 1'
               loading
             />
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child2Value}
@@ -368,7 +368,7 @@ function CheckboxIndeterminateLoadingDemo() {
               label='Pasirinkimas 2'
               loading
             />
-            <RcSesFormControlLabelWithLoading
+            <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
                   checked={child3Value}
@@ -406,17 +406,17 @@ export const ParentChildLogicLoading: Story = {
 </RcSesCheckboxFormControl>
 
 <div style={{ paddingLeft: '2rem', display: 'flex', flexDirection: 'column' }}>
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} loading />}
     label='Pasirinkimas 1'
     loading
   />
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child2} onChange={(e) => setChild2(e.target.checked)} loading />}
     label='Pasirinkimas 2'
     loading
   />
-  <RcSesFormControlLabelWithLoading
+  <RcSesFormControlLabel
     control={<RcSesSimpleCheckbox checked={child3} onChange={(e) => setChild3(e.target.checked)} loading />}
     label='Pasirinkimas 3'
     loading
