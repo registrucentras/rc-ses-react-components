@@ -132,6 +132,60 @@ export const Main: Story = {
   },
 }
 
+function CheckboxLoadingDemo(args: any) {
+  const { loading } = args
+  const {
+    control,
+    formState: { errors },
+  } = useForm<FormModel>({
+    mode: 'all',
+    defaultValues: {
+      agreement: '',
+    },
+  })
+
+  return (
+    <Fields>
+      <FieldView>
+        <RcSesCheckboxFormControl
+          id='agreement-loading'
+          name='agreement'
+          control={control}
+          errors={errors?.agreement}
+          loading={loading}
+        >
+          Accept terms and conditions
+        </RcSesCheckboxFormControl>
+      </FieldView>
+    </Fields>
+  )
+}
+
+export const Loading: Story = {
+  render: (args) => <CheckboxLoadingDemo {...args} />,
+  args: {
+    loading: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Loading state - shows skeleton animation on checkbox and label.',
+      },
+      source: {
+        type: 'code',
+        code: `<RcSesCheckboxFormControl
+  id='agreement'
+  name='agreement'
+  control={control}
+  loading={true}
+>
+  Accept terms and conditions
+</RcSesCheckboxFormControl>`,
+      },
+    },
+  },
+}
+
 type IndeterminateFormModel = {
   parent: boolean
   child1: boolean
