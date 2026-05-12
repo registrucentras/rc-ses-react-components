@@ -28,6 +28,25 @@ function BasicDemo() {
   )
 }
 
+function LoadingDemo() {
+  return <SimpleCheckbox checked loading />
+}
+
 export const Basic: Story = {
   render: () => <BasicDemo />,
+}
+
+export const Loading: Story = {
+  render: () => <LoadingDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Loading state - shows skeleton icon animation.',
+      },
+      source: {
+        type: 'code',
+        code: `<SimpleCheckbox checked={true} loading />`,
+      },
+    },
+  },
 }
