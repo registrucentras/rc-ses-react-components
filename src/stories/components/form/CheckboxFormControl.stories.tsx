@@ -1,8 +1,9 @@
-import { Checkbox, FormControlLabel } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
+import SimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 
@@ -173,7 +174,7 @@ function CheckboxIndeterminateDemo() {
           >
             <FormControlLabel
               control={
-                <Checkbox
+                <SimpleCheckbox
                   checked={child1Value}
                   onChange={(e) => setValue('child1', e.target.checked)}
                 />
@@ -182,7 +183,7 @@ function CheckboxIndeterminateDemo() {
             />
             <FormControlLabel
               control={
-                <Checkbox
+                <SimpleCheckbox
                   checked={child2Value}
                   onChange={(e) => setValue('child2', e.target.checked)}
                 />
@@ -191,7 +192,7 @@ function CheckboxIndeterminateDemo() {
             />
             <FormControlLabel
               control={
-                <Checkbox
+                <SimpleCheckbox
                   checked={child3Value}
                   onChange={(e) => setValue('child3', e.target.checked)}
                 />
@@ -211,6 +212,32 @@ export const Indeterminate: Story = {
     docs: {
       description: {
         story: 'Indeterminate status is determined by the state of child checkboxes.',
+      },
+      source: {
+        type: 'code',
+        code: `<RcSesCheckboxFormControl
+  id='parent'
+  variant='flat'
+  childValues={[child1, child2, child3]}
+  onChildValuesChange={handleParentChange}
+>
+  <strong>Pasirinkti visus</strong>
+</RcSesCheckboxFormControl>
+
+<div style={{ paddingLeft: '2rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+  <FormControlLabel
+    control={<SimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} />}
+    label='Pasirinkimas 1'
+  />
+  <FormControlLabel
+    control={<SimpleCheckbox checked={child2} onChange={(e) => setChild2(e.target.checked)} />}
+    label='Pasirinkimas 2'
+  />
+  <FormControlLabel
+    control={<SimpleCheckbox checked={child3} onChange={(e) => setChild3(e.target.checked)} />}
+    label='Pasirinkimas 3'
+  />
+</div>`,
       },
     },
   },

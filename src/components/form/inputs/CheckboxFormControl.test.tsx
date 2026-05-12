@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { render } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
+import { describe, expect, test, vi } from 'vitest'
 
 import theme from '@/theme/light'
 
@@ -39,9 +40,29 @@ describe('RcSesCheckboxFormControl - Indeterminate State', () => {
     expect(checkbox.checked).toBe(false)
   })
 
-  test('should render with mixed child values (indeterminate visual state)', () => {
-    const { container } = render(<TestWrapper childValues={[true, false, true]} />)
-    const checkbox = container.querySelector('input#checkbox')
-    expect(checkbox).toBeTruthy()
+  test('should call onChildValuesChange with [true, true, true] when clicking parent in indeterminate state', () => {
+    const onChildValuesChange = vi.fn()
+    const { container } = render(
+      <TestWrapper
+        childValues={[true, false, true]}
+        onChildValuesChange={onChildValuesChange}
+      />,
+    )
+    const checkbox = container.querySelector('input#checkbox') as HTMLInputElement
+    checkbox.click()
+    expect(onChildValuesChange).toHaveBeenCalledWith([true, true, true])
+  })
+
+  test('should call onChildValuesChange with [false, false, false] when clicking checked parent', () => {
+    const onChildValuesChange = vi.fn()
+    const { container } = render(
+      <TestWrapper
+        childValues={[true, true, true]}
+        onChildValuesChange={onChildValuesChange}
+      />,
+    )
+    const checkbox = container.querySelector('input#checkbox') as HTMLInputElement
+    checkbox.click()
+    expect(onChildValuesChange).toHaveBeenCalledWith([false, false, false])
   })
 })
