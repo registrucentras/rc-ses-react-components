@@ -254,7 +254,7 @@ export const IndeterminateLoadingControlled: Story = {
   <strong>Pasirinkti visus</strong>
 </RcSesCheckboxFormControl>
 
-<div style={{ paddingLeft: '2rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+<div style={{ paddingLeft: '2rem', display: 'flex', flexDirection: 'column' }}>
   <FormControlLabelWithLoading
     control={<SimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} loading={loading} />}
     label='Pasirinkimas 1'
