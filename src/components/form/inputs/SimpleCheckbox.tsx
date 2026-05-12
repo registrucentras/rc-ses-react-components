@@ -1,7 +1,9 @@
 import { Checkbox as MuiCheckbox, CheckboxProps as MuiCheckboxProps } from '@mui/material'
+import React from 'react'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
+import getLoadingIcon from '@/components/utils/loading'
 
 export type SimpleCheckboxProps = MuiCheckboxProps & {
   loading?: boolean
@@ -10,8 +12,8 @@ export type SimpleCheckboxProps = MuiCheckboxProps & {
 function RcSesSimpleCheckbox({ loading, ...props }: SimpleCheckboxProps) {
   return (
     <MuiCheckbox
-      checkedIcon={loading ? undefined : <CheckBoldIcon />}
-      icon={loading ? undefined : <CheckUncheckedBoldIcon />}
+      checkedIcon={getLoadingIcon(<CheckBoldIcon />, loading)}
+      icon={getLoadingIcon(<CheckUncheckedBoldIcon />, loading)}
       {...props}
       disableRipple
     />

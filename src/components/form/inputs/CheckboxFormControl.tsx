@@ -1,17 +1,16 @@
 import {
-  FormControlLabel,
   FormControlLabelProps,
   FormLabel,
   Checkbox as MuiCheckbox,
   CheckboxProps as MuiCheckboxProps,
-  styled,
 } from '@mui/material'
 import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
-import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
+import FormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
+import getLoadingIcon from '@/components/utils/loading'
 import palette from '@/theme/palette'
 
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
@@ -40,25 +39,6 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
       wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>
     }
   }
-
-const LoadingStateIcon = styled(SpinnerGapBoldIcon)(`
-  @keyframes loadingStateIconRotation {
-     12.5% { transform: rotateZ( 45deg); }
-     25.0% { transform: rotateZ( 90deg); }
-     37.5% { transform: rotateZ(135deg); }
-     50.0% { transform: rotateZ(180deg); }
-     62.5% { transform: rotateZ(225deg); }
-     75.0% { transform: rotateZ(270deg); }
-     87.5% { transform: rotateZ(315deg); }
-    100.0% { transform: rotateZ(360deg); }
-  }
-
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-name: loadingStateIconRotation;
-  animation-timing-function: step-start;
-  box-shadow: none !important;
-`)
 
 function RcSesCheckboxFormControl(props: Props) {
   const {
@@ -107,15 +87,15 @@ function RcSesCheckboxFormControl(props: Props) {
   }
 
   return (
-    <FormControlLabel
+    <FormControlLabelWithLoading
       control={
         <MuiCheckbox
           id={id}
           checked={value === true}
           indeterminate={computedIndeterminate}
-          checkedIcon={loading ? <LoadingStateIcon /> : <CheckBoldIcon />}
+          checkedIcon={getLoadingIcon(<CheckBoldIcon />, loading)}
           disabled={disabled}
-          icon={loading ? <LoadingStateIcon /> : <CheckUncheckedBoldIcon />}
+          icon={getLoadingIcon(<CheckUncheckedBoldIcon />, loading)}
           onChange={handleParentChange}
           {...controllerProps}
           {...slotProps?.field}
@@ -132,6 +112,7 @@ function RcSesCheckboxFormControl(props: Props) {
           )}
         </FormLabel>
       }
+      loading={loading}
       {...slotProps?.label}
       slotProps={{
         typography: {

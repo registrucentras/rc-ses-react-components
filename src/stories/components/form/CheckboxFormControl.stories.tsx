@@ -1,8 +1,9 @@
-import { FormControlLabel } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
+import FormControlLabelWithLoading from '@/components/form/inputs/FormControlLabelWithLoading'
 import SimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
@@ -20,8 +21,19 @@ const meta: Meta<typeof RcSesCheckboxFormControl> = {
         defaultValue: { summary: 'outlined' },
       },
     },
+    loading: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
+    children: {
+      control: 'text',
+      table: {
+        defaultValue: { summary: 'This is body' },
+      },
+    },
     slotProps: { table: { disable: true } },
-    loading: { table: { disable: true } },
     id: { table: { disable: true } },
     errors: { table: { disable: true } },
     onBlur: { table: { disable: true } },
@@ -44,7 +56,7 @@ export default meta
 type Story = StoryObj<typeof RcSesCheckboxFormControl>
 
 function CheckboxFormControlDemo(args: any) {
-  const { variant, children } = args
+  const { variant, children, loading } = args
   const {
     control,
     formState: { errors },
@@ -64,6 +76,7 @@ function CheckboxFormControlDemo(args: any) {
           control={control}
           errors={errors?.agreement}
           variant={variant}
+          loading={loading}
         >
           {children}
         </RcSesCheckboxFormControl>
@@ -107,6 +120,7 @@ export const Main: Story = {
     label: 'This is label',
     children: 'This is body',
     variant: 'outlined',
+    loading: false,
   },
   parameters: {
     docs: {
@@ -126,7 +140,7 @@ type IndeterminateFormModel = {
   child3: boolean
 }
 
-function CheckboxIndeterminateDemo() {
+function CheckboxIndeterminateLoadingControlledDemo() {
   const { control, watch, setValue } = useForm<IndeterminateFormModel>({
     mode: 'all',
     defaultValues: {
@@ -136,6 +150,8 @@ function CheckboxIndeterminateDemo() {
       child3: false,
     },
   })
+
+  const [loading, setLoading] = useState(false)
 
   const child1Value = watch('child1')
   const child2Value = watch('child2')
@@ -152,6 +168,13 @@ function CheckboxIndeterminateDemo() {
   return (
     <Fields>
       <FieldView>
+        <button
+          type='button'
+          onClick={() => setLoading(!loading)}
+          style={{ marginBottom: '1rem' }}
+        >
+          {loading ? 'Stop Loading' : 'Start Loading'}
+        </button>
         <div>
           <RcSesCheckboxFormControl
             id='parent'
@@ -160,44 +183,49 @@ function CheckboxIndeterminateDemo() {
             variant='flat'
             childValues={childValues}
             onChildValuesChange={handleParentChange}
+            loading={loading}
           >
             <strong>Pasirinkti visus</strong>
           </RcSesCheckboxFormControl>
           <div
             style={{
               paddingLeft: '2rem',
-              marginTop: '0.75rem',
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.5rem',
             }}
           >
-            <FormControlLabel
+            <FormControlLabelWithLoading
               control={
                 <SimpleCheckbox
                   checked={child1Value}
                   onChange={(e) => setValue('child1', e.target.checked)}
+                  loading={loading}
                 />
               }
               label='Pasirinkimas 1'
+              loading={loading}
             />
-            <FormControlLabel
+            <FormControlLabelWithLoading
               control={
                 <SimpleCheckbox
                   checked={child2Value}
                   onChange={(e) => setValue('child2', e.target.checked)}
+                  loading={loading}
                 />
               }
               label='Pasirinkimas 2'
+              loading={loading}
             />
-            <FormControlLabel
+            <FormControlLabelWithLoading
               control={
                 <SimpleCheckbox
                   checked={child3Value}
                   onChange={(e) => setValue('child3', e.target.checked)}
+                  loading={loading}
                 />
               }
               label='Pasirinkimas 3'
+              loading={loading}
             />
           </div>
         </div>
@@ -206,12 +234,13 @@ function CheckboxIndeterminateDemo() {
   )
 }
 
-export const Indeterminate: Story = {
-  render: () => <CheckboxIndeterminateDemo />,
+export const IndeterminateLoadingControlled: Story = {
+  render: () => <CheckboxIndeterminateLoadingControlledDemo />,
   parameters: {
     docs: {
       description: {
-        story: 'Indeterminate status is determined by the state of child checkboxes.',
+        story:
+          'Indeterminate status with controllable loading state - toggle loading on/off with the button.',
       },
       source: {
         type: 'code',
@@ -220,22 +249,26 @@ export const Indeterminate: Story = {
   variant='flat'
   childValues={[child1, child2, child3]}
   onChildValuesChange={handleParentChange}
+  loading={loading}
 >
   <strong>Pasirinkti visus</strong>
 </RcSesCheckboxFormControl>
 
 <div style={{ paddingLeft: '2rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-  <FormControlLabel
-    control={<SimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} />}
+  <FormControlLabelWithLoading
+    control={<SimpleCheckbox checked={child1} onChange={(e) => setChild1(e.target.checked)} loading={loading} />}
     label='Pasirinkimas 1'
+    loading={loading}
   />
-  <FormControlLabel
-    control={<SimpleCheckbox checked={child2} onChange={(e) => setChild2(e.target.checked)} />}
+  <FormControlLabelWithLoading
+    control={<SimpleCheckbox checked={child2} onChange={(e) => setChild2(e.target.checked)} loading={loading} />}
     label='Pasirinkimas 2'
+    loading={loading}
   />
-  <FormControlLabel
-    control={<SimpleCheckbox checked={child3} onChange={(e) => setChild3(e.target.checked)} />}
+  <FormControlLabelWithLoading
+    control={<SimpleCheckbox checked={child3} onChange={(e) => setChild3(e.target.checked)} loading={loading} />}
     label='Pasirinkimas 3'
+    loading={loading}
   />
 </div>`,
       },
