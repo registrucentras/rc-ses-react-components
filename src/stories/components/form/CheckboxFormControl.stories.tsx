@@ -222,7 +222,8 @@ export const Indeterminate: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Indeterminate status is determined by the state of child checkboxes.',
+        story:
+          'Indeterminate (mixed) status is determined by the state of child checkboxes.',
       },
       source: {
         type: 'code',
@@ -339,13 +340,12 @@ function CheckboxIndeterminateLoadingDemo() {
   )
 }
 
-export const IndeterminateLoading: Story = {
+export const ParentChildLogicLoading: Story = {
   render: () => <CheckboxIndeterminateLoadingDemo />,
   parameters: {
     docs: {
       description: {
-        story:
-          'Indeterminate status with loading state - shows skeleton while processing.',
+        story: 'Parent-child logic with loading state - shows skeleton while loading.',
       },
       source: {
         type: 'code',
