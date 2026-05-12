@@ -3,11 +3,11 @@ import { Checkbox as MuiCheckbox, CheckboxProps as MuiCheckboxProps } from '@mui
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 
-type Props = MuiCheckboxProps & {
+export type SimpleCheckboxProps = MuiCheckboxProps & {
   loading?: boolean
 }
 
-function RcSesSimpleCheckbox({ loading, ...props }: Props) {
+function RcSesSimpleCheckbox({ loading, ...props }: SimpleCheckboxProps) {
   return (
     <MuiCheckbox
       checkedIcon={loading ? undefined : <CheckBoldIcon />}
