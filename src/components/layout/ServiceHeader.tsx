@@ -3,7 +3,7 @@ import React from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
-import Colors from '@/theme/palette'
+import Colors, { common } from '@/theme/palette'
 
 type Props = {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
@@ -17,7 +17,7 @@ function ServiceHeader({
   title,
   backgroundColor = 'primary',
 }: Props) {
-  const bgColor = backgroundColor === 'white' ? Colors.common.white : Colors.primary['50']
+  const bgColor = backgroundColor === 'white' ? common.white : Colors.primary['50']
 
   return (
     <Box sx={{ backgroundColor: bgColor }}>
