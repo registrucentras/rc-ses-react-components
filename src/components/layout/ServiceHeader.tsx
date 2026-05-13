@@ -34,6 +34,7 @@ function ServiceHeader({
         <RcSesBreadcrumbs
           {...breadcrumbsProps}
           sx={{
+            pb: { xs: '.25rem', md: '.5rem' },
             fontSize: '0.75rem',
             lineHeight: '1.25rem',
           }}
