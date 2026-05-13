@@ -17,7 +17,7 @@ function ServiceHeader({
   title,
   backgroundColor = 'primary',
 }: Props) {
-  const bgColor = backgroundColor === 'white' ? Colors.grey['0'] : Colors.primary['50']
+  const bgColor = backgroundColor === 'white' ? Colors.common.white : Colors.primary['50']
 
   return (
     <Box sx={{ backgroundColor: bgColor }}>
@@ -31,15 +31,13 @@ function ServiceHeader({
           flexDirection: 'column',
         }}
       >
-        <Box>
-          <RcSesBreadcrumbs
-            {...breadcrumbsProps}
-            sx={{
-              fontSize: '0.75rem',
-              lineHeight: '1.25rem',
-            }}
-          />
-        </Box>
+        <RcSesBreadcrumbs
+          {...breadcrumbsProps}
+          sx={{
+            fontSize: '0.75rem',
+            lineHeight: '1.25rem',
+          }}
+        />
 
         <Typography
           variant='h1'

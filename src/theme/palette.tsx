@@ -29,7 +29,6 @@ const secondary = {
 }
 
 const grey = {
-  '0': '#ffffff',
   '50': '#f9fafb',
   '100': '#f0f2f5',
   '200': '#dce0e5',
@@ -80,5 +79,9 @@ const overlays = {
   main: '#ffffff14',
 }
 
-export { primary, secondary, grey, warning, error, overlays }
-export default { primary, secondary, grey, warning, error }
+const common = {
+  white: '#ffffff',
+}
+
+export { primary, secondary, grey, warning, error, overlays, common }
+export default { primary, secondary, grey, warning, error, common }

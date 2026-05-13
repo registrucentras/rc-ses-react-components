@@ -1,7 +1,10 @@
 import Typography from '@mui/material/Typography'
 import { Meta, StoryObj } from '@storybook/react'
+import React from 'react'
 
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
+
+type ServiceHeaderProps = React.ComponentProps<typeof RcSesServiceHeader>
 
 const meta: Meta<typeof RcSesServiceHeader> = {
   title: 'components/layout/ServiceHeader',
@@ -42,7 +45,7 @@ export const Default: Story = {
     <RcSesServiceHeader
       title={args.title}
       breadcrumbsProps={args.breadcrumbsProps}
-      backgroundColor={args.backgroundColor as any}
+      backgroundColor={args.backgroundColor as ServiceHeaderProps['backgroundColor']}
     >
       {args.children && <Typography variant='body1'>{args.children}</Typography>}
     </RcSesServiceHeader>
@@ -60,7 +63,7 @@ export const WhiteBackground: Story = {
     <RcSesServiceHeader
       title={args.title}
       breadcrumbsProps={args.breadcrumbsProps}
-      backgroundColor={args.backgroundColor as any}
+      backgroundColor={args.backgroundColor as ServiceHeaderProps['backgroundColor']}
     >
       {args.children && <Typography variant='body1'>{args.children}</Typography>}
     </RcSesServiceHeader>
