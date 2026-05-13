@@ -84,4 +84,4 @@ const common = {
 }
 
 export { primary, secondary, grey, warning, error, overlays, common }
-export default { primary, secondary, grey, warning, error, common }
+export default { primary, secondary, grey, warning, error }
