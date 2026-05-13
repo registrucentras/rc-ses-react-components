@@ -16,6 +16,9 @@ const themePalette = createTheme({
     dark: grey,
     light: grey,
     ghost: grey,
+    common: {
+      white: '#ffffff',
+    },
   },
   typography: {
     fontFamily: 'Public sans, sans-serif, Arial',
