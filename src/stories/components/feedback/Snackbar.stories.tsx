@@ -463,7 +463,7 @@ function SnackbarDemoLongText() {
           showSnackbar({
             state: 'info',
             message:
-              'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą',
+              'Tai yra labai ilgas pranešimas kuris turėtų būti trumpintas su elipsu jei nepakanka vietos komponente. Šis tekstas skirtas testuoti teksto trumpinimą, tai yra labai labai labai ilgas tekstas testavimui.',
             showClose: true,
           })
         }

@@ -3,24 +3,22 @@ import React from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
-import Colors, { common } from '@/theme/palette'
+import { common } from '@/theme/palette'
 
 type Props = {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
   children?: React.ReactNode
   title: string
-  backgroundColor?: 'primary' | 'white'
+  backgroundColor?: string
 }
 function ServiceHeader({
   breadcrumbsProps,
   children,
   title,
-  backgroundColor = 'primary',
+  backgroundColor = common.white,
 }: Props) {
-  const bgColor = backgroundColor === 'white' ? common.white : Colors.primary['50']
-
   return (
-    <Box sx={{ backgroundColor: bgColor }}>
+    <Box sx={{ backgroundColor }}>
       <Container
         sx={{
           pb: { xs: '2rem', md: '2.25rem' },

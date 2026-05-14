@@ -3,8 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
-
-type ServiceHeaderProps = React.ComponentProps<typeof RcSesServiceHeader>
+import { common, grey } from '@/theme/palette'
 
 const meta: Meta<typeof RcSesServiceHeader> = {
   title: 'components/layout/ServiceHeader',
@@ -13,13 +12,7 @@ const meta: Meta<typeof RcSesServiceHeader> = {
   argTypes: {
     title: { control: 'text' },
     children: { control: 'text' },
-    backgroundColor: {
-      control: 'inline-radio',
-      options: ['primary', 'white'],
-      table: {
-        defaultValue: { summary: 'primary' },
-      },
-    },
+    backgroundColor: { control: 'text' },
   },
 }
 
@@ -39,31 +32,31 @@ export const Default: Story = {
     title: 'Service Title',
     children: 'This is a description of the service.',
     breadcrumbsProps: breadcrumbs,
-    backgroundColor: 'primary',
+    backgroundColor: common.white,
   },
   render: (args) => (
     <RcSesServiceHeader
       title={args.title}
       breadcrumbsProps={args.breadcrumbsProps}
-      backgroundColor={args.backgroundColor as ServiceHeaderProps['backgroundColor']}
+      backgroundColor={args.backgroundColor}
     >
       {args.children && <Typography variant='body1'>{args.children}</Typography>}
     </RcSesServiceHeader>
   ),
 }
 
-export const WhiteBackground: Story = {
+export const CustomBackground: Story = {
   args: {
     title: 'Service Title',
-    children: 'This is a description of the service.',
+    children: 'This is a description of the service with custom background.',
     breadcrumbsProps: breadcrumbs,
-    backgroundColor: 'white',
+    backgroundColor: grey['100'],
   },
   render: (args) => (
     <RcSesServiceHeader
       title={args.title}
       breadcrumbsProps={args.breadcrumbsProps}
-      backgroundColor={args.backgroundColor as ServiceHeaderProps['backgroundColor']}
+      backgroundColor={args.backgroundColor}
     >
       {args.children && <Typography variant='body1'>{args.children}</Typography>}
     </RcSesServiceHeader>
