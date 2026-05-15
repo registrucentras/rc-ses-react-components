@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from '@mui/material'
-import React from 'react'
+import React, { type CSSProperties } from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
@@ -9,7 +9,7 @@ type Props = {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
   children?: React.ReactNode
   title: string
-  backgroundColor?: string
+  backgroundColor?: CSSProperties['backgroundColor']
 }
 function ServiceHeader({
   breadcrumbsProps,
