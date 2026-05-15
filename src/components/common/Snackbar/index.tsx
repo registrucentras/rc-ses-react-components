@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import CloseIcon from '@/assets/icons/CloseIcon'
@@ -67,7 +67,15 @@ function RcSesSnackbar({
   const charLimit = SNACKBAR_CHAR_LIMITS[size]
   const truncatedMessage =
     message.length > charLimit ? `${message.slice(0, charLimit)}...` : message
-  const isMultiline = truncatedMessage.length > (size === 'standard' ? 80 : 40)
+
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [isMultiline, setIsMultiline] = useState(false)
+  useLayoutEffect(() => {
+    const el = textRef.current
+    if (!el) return
+    const singleLineHeight = parseFloat(getComputedStyle(el).lineHeight)
+    setIsMultiline(el.clientHeight > singleLineHeight + 4)
+  }, [truncatedMessage])
 
   const handleClose = () => {
     setInternalOpen(false)
@@ -130,6 +138,7 @@ function RcSesSnackbar({
           <StateIcon fillColor={config.color} aria-hidden />
         </Box>
         <Typography
+          ref={textRef}
           variant='body2'
           sx={{
             flex: 1,
