@@ -1,14 +1,15 @@
-import { Link, Breadcrumbs as MuiBreadcrumbs } from '@mui/material'
+import { Link, Breadcrumbs as MuiBreadcrumbs, SxProps, Theme } from '@mui/material'
 
 export type BreadcrumbItem = { label: string; path: string }
 
 type Props = {
   path: BreadcrumbItem[]
+  sx?: SxProps<Theme>
 }
 
-function RcSesBreadcrumbs({ path }: Props) {
+function RcSesBreadcrumbs({ path, sx }: Props) {
   return (
-    <MuiBreadcrumbs>
+    <MuiBreadcrumbs sx={sx}>
       {path.map((step) => (
         <Link key={step.path} underline='hover' color='inherit' href={step.path}>
           {step.label}

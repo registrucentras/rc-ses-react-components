@@ -6,14 +6,20 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import CloseIcon from '@/assets/icons/CloseIcon'
 import { grey } from '@/theme/palette'
 
 import RcSesButton from '../Button'
-import { SNACKBAR_DURATION, SNACKBAR_ICON_SIZE, sizeConfig, stateConfig } from './config'
+import {
+  SNACKBAR_CHAR_LIMITS,
+  SNACKBAR_DURATION,
+  SNACKBAR_ICON_SIZE,
+  sizeConfig,
+  stateConfig,
+} from './config'
 import { type SnackbarSize, type SnackbarState } from './types'
 
 export interface RcSesSnackbarProps {
@@ -58,6 +64,18 @@ function RcSesSnackbar({
   const config = stateConfig[state]
   const StateIcon = config.icon
   const isStandard = size === 'standard'
+  const charLimit = SNACKBAR_CHAR_LIMITS[size]
+  const truncatedMessage =
+    message.length > charLimit ? `${message.slice(0, charLimit)}...` : message
+
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [isMultiline, setIsMultiline] = useState(false)
+  useLayoutEffect(() => {
+    const el = textRef.current
+    if (!el) return
+    const singleLineHeight = parseFloat(getComputedStyle(el).lineHeight)
+    setIsMultiline(el.clientHeight > singleLineHeight + 4)
+  }, [truncatedMessage])
 
   const handleClose = () => {
     setInternalOpen(false)
@@ -92,7 +110,7 @@ function RcSesSnackbar({
         aria-atomic='true'
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: isMultiline ? 'flex-start' : 'center',
           gap: theme.spacing(1),
           width: `${sizeConfig[size].width}px`,
           maxHeight: `${sizeConfig[size].maxHeight}px`,
@@ -108,8 +126,9 @@ function RcSesSnackbar({
           sx={{
             flexShrink: 0,
             display: 'flex',
-            alignItems: 'center',
+            alignItems: isMultiline ? 'flex-start' : 'center',
             justifyContent: 'center',
+            pt: isMultiline ? '2px' : 0,
             '& svg': {
               width: `${SNACKBAR_ICON_SIZE.width}px !important`,
               height: `${SNACKBAR_ICON_SIZE.height}px !important`,
@@ -119,18 +138,14 @@ function RcSesSnackbar({
           <StateIcon fillColor={config.color} aria-hidden />
         </Box>
         <Typography
+          ref={textRef}
           variant='body2'
           sx={{
             flex: 1,
             minWidth: 0,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 3,
-            textOverflow: 'ellipsis',
           }}
         >
-          {message}
+          {truncatedMessage}
         </Typography>
         <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           {onAction && isStandard && (

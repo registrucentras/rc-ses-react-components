@@ -15,6 +15,11 @@ export const SNACKBAR_DURATION = 10000 // 10s
 
 export const SNACKBAR_ICON_SIZE = { width: 18, height: 20 }
 
+export const SNACKBAR_CHAR_LIMITS: Record<SnackbarSize, number> = {
+  standard: 120,
+  compact: 60,
+}
+
 export const stateConfig: Record<
   SnackbarState,
   {

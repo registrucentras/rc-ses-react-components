@@ -79,5 +79,9 @@ const overlays = {
   main: '#ffffff14',
 }
 
-export { primary, secondary, grey, warning, error, overlays }
+const common = {
+  white: '#ffffff',
+}
+
+export { primary, secondary, grey, warning, error, overlays, common }
 export default { primary, secondary, grey, warning, error }
