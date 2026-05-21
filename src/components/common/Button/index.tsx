@@ -1,6 +1,9 @@
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 import { ButtonProps } from '@/types/buttons/ButtonProps'
+
+import LoadingSpinner, { getSpinnerColor } from './LoadingSpinner'
 
 const defaultProps: Partial<MuiButtonProps> = {
   color: 'primary',
@@ -14,21 +17,56 @@ const ICON_ONLY_SIZE_MAP = {
   large: '3rem',
 } as const
 
-type Props = ButtonProps & { to?: string }
+type Props = ButtonProps & {
+  loading?: boolean
+}
 
 function RcSesButton(props: Props) {
-  const { children, iconOnly, size = 'medium', sx, variant, ...rest } = props
+  const { t } = useTranslation('common')
+  const {
+    children,
+    iconOnly,
+    loading = false,
+    size = 'medium',
+    sx,
+    variant,
+    ...rest
+  } = props
 
   const currentVariant = variant ?? defaultProps.variant
   const isIconOnly =
     !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
 
+  const showSpinnerInContent = loading && !isIconOnly && !rest.startIcon && !rest.endIcon
+  const showSpinnerAsIcon = loading && isIconOnly
+
+  const spinnerColor = getSpinnerColor(rest.color)
+  const spinner = <LoadingSpinner color={spinnerColor} />
+
+  const getIconDisplay = (icon: React.ReactNode) => {
+    if (showSpinnerAsIcon) return undefined
+    if (loading && !isIconOnly && icon) return spinner
+    return icon
+  }
+
+  const displayIcon = getIconDisplay(rest.startIcon)
+  const displayEndIcon = getIconDisplay(rest.endIcon)
+
+  let displayContent = children
+  if (showSpinnerInContent || showSpinnerAsIcon) displayContent = spinner
+
   return (
     <MuiButton
       {...defaultProps}
       {...rest}
+      disabled={loading || rest.disabled}
       size={size}
-      variant={variant}
+      variant={currentVariant}
+      aria-busy={loading}
+      aria-live={loading ? 'polite' : undefined}
+      aria-label={loading ? t('components.Button.loading') : rest['aria-label']}
+      startIcon={displayIcon}
+      endIcon={displayEndIcon}
       sx={[
         ...(Array.isArray(sx) ? sx : [sx]),
         isIconOnly
@@ -44,7 +82,7 @@ function RcSesButton(props: Props) {
           : undefined,
       ]}
     >
-      {children}
+      {displayContent}
     </MuiButton>
   )
 }
