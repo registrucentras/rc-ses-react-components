@@ -1,0 +1,13 @@
+import{j as o}from"./jsx-runtime-Cf8x2fCZ.js";import{B as h}from"./Box-Bp3IibaX.js";import{T as m}from"./Typography-DfZqYwnv.js";import"./index-yBjzXJbu.js";import"./createTheme-CE_F1kTP.js";import"./index-CqJgnuY1.js";import"./_commonjsHelpers-gnU0ypJ3.js";import"./generateUtilityClasses-Bd2LNSfu.js";import"./useTheme-I6SAPIjI.js";import"./styled-C6YoRvUv.js";import"./defaultTheme-Dm7VEHNB.js";import"./DefaultPropsProvider-5ViKjXxd.js";import"./composeClasses-fLhin0tj.js";function r(){var e="/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx",d="a261f47817d27fd387b2d00a80d50ea28a4fb081",c=window,s="__coverage__",g={path:"/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx",statementMap:{0:{start:{line:4,column:2},end:{line:4,column:48}},1:{start:{line:7,column:0},end:{line:13,column:50}},2:{start:{line:9,column:4},end:{line:9,column:44}},3:{start:{line:11,column:4},end:{line:11,column:96}}},fnMap:{0:{name:"ServicePage",decl:{start:{line:3,column:9},end:{line:3,column:20}},loc:{start:{line:3,column:35},end:{line:5,column:1}},line:3}},branchMap:{},s:{0:0,1:0,2:0,3:0},f:{0:0},b:{},inputSourceMap:{version:3,file:null,sources:["/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx"],names:[],mappings:"AAMS;AANT;AAKA;AACE;AACF;AAEA;"},_coverageSchema:"1a1c01bbd47fc00a2c39e90264f33305004495a9",hash:"a261f47817d27fd387b2d00a80d50ea28a4fb081"},a=c[s]||(c[s]={});(!a[e]||a[e].hash!==d)&&(a[e]=g);var i=a[e];return r=function(){return i},i}r();function t({children:e}){return r().f[0]++,r().s[0]++,o.jsx(h,{children:e})}r().s[1]++;try{r().s[2]++,t.displayName="ServicePage",r().s[3]++,t.__docgenInfo={description:"",displayName:"ServicePage",props:{}}}catch{}const M={title:"components/layout/ServicePage",component:t,tags:["autodocs"]},n={render:()=>o.jsxs(t,{children:[o.jsx(m,{variant:"h2",sx:{mb:2},children:"Page Content"}),o.jsx(m,{variant:"body1",children:"This is the main content area of the service page."})]})};var p,l,u;n.parameters={...n.parameters,docs:{...(p=n.parameters)==null?void 0:p.docs,source:{originalSource:`{
+  render: () => <RcSesServicePage>
+      <Typography variant='h2' sx={{
+      mb: 2
+    }}>
+        Page Content
+      </Typography>
+      <Typography variant='body1'>
+        This is the main content area of the service page.
+      </Typography>
+    </RcSesServicePage>
+}`,...(u=(l=n.parameters)==null?void 0:l.docs)==null?void 0:u.source}}};const E=["Default"];export{n as Default,E as __namedExportsOrder,M as default};
+//# sourceMappingURL=ServicePage.stories-xYxH-kze.js.map
