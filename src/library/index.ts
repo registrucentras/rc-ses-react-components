@@ -46,6 +46,7 @@ import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/Car
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
 import RcSesServicePage from '@/components/layout/ServicePage'
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
+import RcSesDialog from '@/components/overlays/Dialog'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
 
@@ -65,6 +66,7 @@ export {
   RcSesButton,
   RcSesButtonWithPopover,
   RcSesCard,
+  RcSesDialog,
   RcSesFooter,
   RcSesImageCard,
   RcSesSnackbar,

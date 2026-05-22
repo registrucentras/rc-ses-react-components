@@ -5,6 +5,7 @@ import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControl
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
 import { RcSesCardFormContainerProps } from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import { ServiceWizardStepperProps } from '@/components/layout/ServiceWizardStepper'
+import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 export type { ListWithIconsProps, ListWithIconsItemData }
@@ -17,3 +18,4 @@ export type {
   SimpleCheckboxProps,
   RcSesFormControlLabelProps,
 }
+export type { RcSesDialogProps, DialogSize }
