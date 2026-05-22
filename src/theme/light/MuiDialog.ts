@@ -5,18 +5,17 @@ const MuiDialog: Components['MuiDialog'] = {
   styleOverrides: {
     root: {
       '.MuiDialogTitle-root': {
-        fontSize: '1.5rem',
-        fontWeight: 500,
-        lineHeight: '2rem',
-        padding: '2rem 2.25rem 1rem',
+        fontSize: '24px',
+        lineHeight: '32px',
+        padding: '2rem 2rem 1rem',
       },
 
       '.MuiDialogContent-root': {
-        padding: '.5rem 2.25rem 2.25rem',
+        padding: '0 2rem',
       },
 
       '.MuiDialogActions-root': {
-        padding: '.5rem 2.25rem 2rem',
+        padding: '.5rem 2rem 2rem',
       },
     },
   },
