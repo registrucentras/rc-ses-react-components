@@ -59,6 +59,24 @@
       "aria": {
         "close": "Close notification"
       }
+    },
+
+    "Modal": {
+      "actions": {
+        "destructive": {
+          "primary": "Remove"
+        },
+        "confirm": {
+          "primary": "Continue"
+        },
+        "success": {
+          "primary": "Close"
+        },
+        "info": {
+          "primary": "I understand"
+        },
+        "cancel": "Cancel"
+      }
     }
   }
 }

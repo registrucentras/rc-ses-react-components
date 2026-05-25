@@ -96,7 +96,7 @@ const resolveTokenNameByColor = (color: string | undefined): string => {
 }
 
 const renderIcon =
-  (IconComponent: (props: IconProps) => ReactElement) =>
+  (IconComponent: React.ComponentType<Record<string, any>>) =>
   ({ className, fillColor, size }: StoryArgs): ReactElement => (
     <IconComponent className={className} fillColor={fillColor} size={size} />
   )

@@ -47,6 +47,7 @@ import RcSesServiceHeader from '@/components/layout/ServiceHeader'
 import RcSesServicePage from '@/components/layout/ServicePage'
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import RcSesDialog from '@/components/overlays/Dialog'
+import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
 
@@ -71,6 +72,7 @@ export {
   RcSesImageCard,
   RcSesSnackbar,
   RcSesSnackbarProvider,
+  RcSesModal,
 }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { useSnackbar }
