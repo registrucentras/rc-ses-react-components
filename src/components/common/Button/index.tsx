@@ -65,7 +65,11 @@ function RcSesButton(props: Props) {
       size={size}
       variant={currentVariant}
       aria-busy={loading || undefined}
-      aria-label={loading && rest['aria-label'] ? `${rest['aria-label']} – ${t('components.Button.loading')}` : rest['aria-label']}
+      aria-label={
+        loading && rest['aria-label']
+          ? `${rest['aria-label']} – ${t('components.Button.loading')}`
+          : rest['aria-label']
+      }
       startIcon={displayIcon}
       endIcon={displayEndIcon}
       sx={[

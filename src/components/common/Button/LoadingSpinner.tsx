@@ -44,7 +44,7 @@ function LoadingSpinner({ color = 'inherit', size = 'medium' }: LoadingSpinnerPr
     <CircularProgress
       size={spinnerSize}
       color={color}
-      variant="determinate"
+      variant='determinate'
       value={75}
       sx={{
         animation: 'spin 1s linear infinite',
