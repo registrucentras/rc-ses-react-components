@@ -54,6 +54,20 @@ describe('Button Component', () => {
       expect(screen.queryByTestId('end-icon')).not.toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
+
+    it('should prevent click when loading=true', () => {
+      const handleClick = vi.fn()
+      render(
+        <Button loading onClick={handleClick}>
+          Save
+        </Button>,
+      )
+
+      const button = screen.getByRole('button')
+      fireEvent.click(button)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
   })
 
   describe('Disabled State', () => {

@@ -17,6 +17,7 @@ const ICON_ONLY_SIZE_MAP = {
   large: '3rem',
 } as const
 
+// TODO: use MUI's loading prop when MUI lib upgrade is done
 type Props = ButtonProps & {
   loading?: boolean
 }
@@ -41,7 +42,7 @@ function RcSesButton(props: Props) {
   const showSpinnerAsIcon = loading && isIconOnly
 
   const spinnerColor = getSpinnerColor(rest.color)
-  const spinner = <LoadingSpinner color={spinnerColor} />
+  const spinner = <LoadingSpinner color={spinnerColor} size={size} />
 
   const getIconDisplay = (icon: React.ReactNode) => {
     if (showSpinnerAsIcon) return undefined
@@ -59,12 +60,12 @@ function RcSesButton(props: Props) {
     <MuiButton
       {...defaultProps}
       {...rest}
+      // TODO: use loading prop when MUI lib upgrade is done
       disabled={loading || rest.disabled}
       size={size}
       variant={currentVariant}
-      aria-busy={loading}
-      aria-live={loading ? 'polite' : undefined}
-      aria-label={loading ? t('components.Button.loading') : rest['aria-label']}
+      aria-busy={loading || undefined}
+      aria-label={loading && rest['aria-label'] ? `${rest['aria-label']} – ${t('components.Button.loading')}` : rest['aria-label']}
       startIcon={displayIcon}
       endIcon={displayEndIcon}
       sx={[
