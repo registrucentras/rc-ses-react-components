@@ -43,6 +43,24 @@ describe('RcSesDialog', () => {
     expect(paper).toHaveStyle({ width: '600px' })
   })
 
+  it('should apply small size (480px)', () => {
+    render(
+      <RcSesDialog open size='sm' dialogTitle='Test Title' actions={<Button>Close</Button>} />,
+    )
+
+    const paper = document.querySelector('.MuiDialog-paper')
+    expect(paper).toHaveStyle({ width: '480px' })
+  })
+
+  it('should apply large size (800px)', () => {
+    render(
+      <RcSesDialog open size='lg' dialogTitle='Test Title' actions={<Button>Close</Button>} />,
+    )
+
+    const paper = document.querySelector('.MuiDialog-paper')
+    expect(paper).toHaveStyle({ width: '800px' })
+  })
+
   it('should render ReactNode as title', () => {
     render(
       <RcSesDialog
