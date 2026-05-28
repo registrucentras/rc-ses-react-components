@@ -45,7 +45,12 @@ describe('RcSesDialog', () => {
 
   it('should apply small size (480px)', () => {
     render(
-      <RcSesDialog open size='sm' dialogTitle='Test Title' actions={<Button>Close</Button>} />,
+      <RcSesDialog
+        open
+        size='sm'
+        dialogTitle='Test Title'
+        actions={<Button>Close</Button>}
+      />,
     )
 
     const paper = document.querySelector('.MuiDialog-paper')
@@ -54,7 +59,12 @@ describe('RcSesDialog', () => {
 
   it('should apply large size (800px)', () => {
     render(
-      <RcSesDialog open size='lg' dialogTitle='Test Title' actions={<Button>Close</Button>} />,
+      <RcSesDialog
+        open
+        size='lg'
+        dialogTitle='Test Title'
+        actions={<Button>Close</Button>}
+      />,
     )
 
     const paper = document.querySelector('.MuiDialog-paper')
