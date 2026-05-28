@@ -1,4 +1,4 @@
-import { Icon, QuestionIcon as Question } from '@phosphor-icons/react'
+import { QuestionIcon as Question } from '@phosphor-icons/react'
 
 import IconProps from '../IconProps'
 

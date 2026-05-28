@@ -1,4 +1,4 @@
-import { Icon, WarningIcon as Warning } from '@phosphor-icons/react'
+import { WarningIcon as Warning } from '@phosphor-icons/react'
 
 import IconProps from '../IconProps'
 

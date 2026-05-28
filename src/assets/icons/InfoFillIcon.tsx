@@ -15,4 +15,3 @@ function InfoFillIcon({
 }
 
 export default InfoFillIcon
-
