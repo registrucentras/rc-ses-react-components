@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import RcSesLoadingSpinner from '@/components/common/Button/LoadingSpinner'
-import { SpinnerColor } from '@/components/common/Button/LoadingSpinner'
+import RcSesLoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
+import { RcSesSpinnerColor } from '@/components/LoadingSpinner/LoadingSpinner'
 
-const colorOptions: SpinnerColor[] = [
+const colorOptions: RcSesSpinnerColor[] = [
   'primary',
   'secondary',
   'error',

@@ -10,7 +10,7 @@ const VALID_SPINNER_COLORS = [
   'inherit',
 ] as const
 
-export type SpinnerColor = (typeof VALID_SPINNER_COLORS)[number]
+export type RcSesSpinnerColor = (typeof VALID_SPINNER_COLORS)[number]
 
 const SPINNER_SIZE_MAP = {
   small: '16px',
@@ -19,28 +19,28 @@ const SPINNER_SIZE_MAP = {
 } as const
 
 // Custom colors that aren't MUI standard map to inherit (uses parent color)
-const CUSTOM_COLOR_MAP: Record<string, SpinnerColor> = {
+const CUSTOM_COLOR_MAP: Record<string, RcSesSpinnerColor> = {
   light: 'inherit',
   ghost: 'inherit',
   dark: 'inherit',
 }
 
-export function getSpinnerColor(color: ButtonOwnProps['color']): SpinnerColor {
-  if (color && VALID_SPINNER_COLORS.includes(color as SpinnerColor)) {
-    return color as SpinnerColor
+export function getSpinnerColor(color: ButtonOwnProps['color']): RcSesSpinnerColor {
+  if (color && VALID_SPINNER_COLORS.includes(color as RcSesSpinnerColor)) {
+    return color as RcSesSpinnerColor
   }
   return CUSTOM_COLOR_MAP[color as string] ?? 'inherit'
 }
 
-export interface LoadingSpinnerProps {
-  color?: SpinnerColor
+export interface RcSesLoadingSpinnerProps {
+  color?: RcSesSpinnerColor
   size?: 'small' | 'medium' | 'large' | string
 }
 
 function RcSesLoadingSpinner({
   color = 'inherit',
   size = 'medium',
-}: LoadingSpinnerProps) {
+}: RcSesLoadingSpinnerProps) {
   const spinnerSize = SPINNER_SIZE_MAP[size as keyof typeof SPINNER_SIZE_MAP] ?? size
 
   return (

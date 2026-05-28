@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-import LoadingSpinner, { getSpinnerColor } from './LoadingSpinner'
+import RcSesLoadingSpinner, { getSpinnerColor } from '@/components/LoadingSpinner/LoadingSpinner'
 
 const defaultProps: Partial<MuiButtonProps> = {
   color: 'primary',
@@ -42,7 +42,7 @@ function RcSesButton(props: Props) {
   const showSpinnerAsIcon = loading && isIconOnly
 
   const spinnerColor = getSpinnerColor(rest.color)
-  const spinner = <LoadingSpinner color={spinnerColor} size={size} />
+  const spinner = <RcSesLoadingSpinner color={spinnerColor} size={size} />
 
   const getIconDisplay = (icon: React.ReactNode) => {
     if (showSpinnerAsIcon) return undefined
