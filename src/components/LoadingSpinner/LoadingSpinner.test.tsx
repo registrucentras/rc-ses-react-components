@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import RcSesLoadingSpinner, { getSpinnerColor } from './LoadingSpinner'
+import RcSesLoadingSpinner from './LoadingSpinner'
 
 describe('RcSesLoadingSpinner', () => {
   it('should render a progress bar', () => {
