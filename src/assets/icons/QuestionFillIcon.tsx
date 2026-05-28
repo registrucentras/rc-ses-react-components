@@ -1,10 +1,6 @@
-import { QuestionIcon as Question } from '@phosphor-icons/react'
+import { Icon, QuestionIcon as Question } from '@phosphor-icons/react'
 
 import IconProps from '../IconProps'
-
-interface QuestionFillIconProps extends IconProps {
-  weight?: 'thin' | 'light' | 'regular' | 'bold' | 'fill'
-}
 
 function QuestionFillIcon({
   className,
@@ -12,7 +8,7 @@ function QuestionFillIcon({
   fillColor,
   weight = 'fill',
   ...rest
-}: QuestionFillIconProps) {
+}: IconProps) {
   return (
     <Question
       {...rest}

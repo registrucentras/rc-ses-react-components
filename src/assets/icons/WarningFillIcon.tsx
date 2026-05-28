@@ -1,10 +1,6 @@
-import { WarningIcon as Warning } from '@phosphor-icons/react'
+import { Icon, WarningIcon as Warning } from '@phosphor-icons/react'
 
 import IconProps from '../IconProps'
-
-interface WarningFillIconProps extends IconProps {
-  weight?: 'thin' | 'light' | 'regular' | 'bold' | 'fill'
-}
 
 function WarningFillIcon({
   className,
@@ -12,7 +8,7 @@ function WarningFillIcon({
   fillColor,
   weight = 'fill',
   ...rest
-}: WarningFillIconProps) {
+}: IconProps) {
   return (
     <Warning
       {...rest}

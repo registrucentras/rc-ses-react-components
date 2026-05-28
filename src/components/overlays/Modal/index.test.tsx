@@ -3,6 +3,9 @@ import i18n from 'i18next'
 import { I18nextProvider } from 'react-i18next'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 
+import inputEn from '@/i18n/namespaces/input/en.json'
+import inputLt from '@/i18n/namespaces/input/lt.json'
+
 import RcSesModal from './index'
 
 beforeAll(() => {
@@ -10,19 +13,8 @@ beforeAll(() => {
     i18n.init({
       lng: 'lt',
       resources: {
-        lt: {
-          common: {
-            Modal: {
-              actions: {
-                destructive: { primary: 'Pašalinti' },
-                confirm: { primary: 'Tęsti' },
-                success: { primary: 'Uždaryti' },
-                info: { primary: 'Suprantu' },
-                cancel: 'Atšaukti',
-              },
-            },
-          },
-        },
+        lt: { input: inputLt },
+        en: { input: inputEn },
       },
     })
   }
