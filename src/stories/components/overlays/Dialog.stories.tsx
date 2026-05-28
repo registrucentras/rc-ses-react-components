@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
 import RcSesButton from '@/components/common/Button'
-import RcSesDialog from '@/components/overlays/Dialog'
+import RcSesDialog, { RcSesDialogProps } from '@/components/overlays/Dialog'
 
 const meta: Meta<typeof RcSesDialog> = {
   component: RcSesDialog,
@@ -15,20 +15,14 @@ const meta: Meta<typeof RcSesDialog> = {
 }
 
 export default meta
-type Story = StoryObj<{
-  dialogTitle: string
-  size?: 'sm' | 'md' | 'lg'
-}>
+type Story = StoryObj<typeof RcSesDialog>
 
 function DialogStory({
   dialogTitle,
   size,
   children,
-}: {
-  dialogTitle: string
-  size?: 'sm' | 'md' | 'lg'
-  children: React.ReactNode
-}) {
+  ...props
+}: RcSesDialogProps & { children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -37,6 +31,7 @@ function DialogStory({
         Open Dialog
       </RcSesButton>
       <RcSesDialog
+        {...props}
         open={open}
         onClose={() => setOpen(false)}
         dialogTitle={dialogTitle}

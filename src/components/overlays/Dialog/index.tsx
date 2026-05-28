@@ -15,7 +15,7 @@ const SIZE_MAP: Record<DialogSize, string> = {
   lg: '800px',
 }
 
-export interface RcSesDialogProps extends Omit<MuiDialogProps, 'children' | 'title'> {
+export interface RcSesDialogProps extends Omit<MuiDialogProps, 'children' | 'title' | 'PaperProps' | 'maxWidth'> {
   dialogTitle: string | ReactNode
   children?: ReactNode
   actions: ReactNode
@@ -42,7 +42,6 @@ function RcSesDialog({
       PaperProps={{ sx: { width: dialogWidth, borderRadius: '16px' } }}
       aria-labelledby={titleId}
       aria-describedby={children ? contentId : undefined}
-      aria-modal
     >
       <DialogTitle
         id={titleId}
