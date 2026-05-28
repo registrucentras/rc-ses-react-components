@@ -9,7 +9,7 @@ import RcSesAlert from '@/components/common/Alert'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
-import LoadingSpinner from '@/components/common/Button/LoadingSpinner'
+import RcSesLoadingSpinner from '@/components/common/Button/LoadingSpinner'
 import RcSesCard from '@/components/common/Card'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
@@ -65,7 +65,7 @@ export {
   RcSesBreadcrumbs,
   RcSesButton,
   RcSesButtonWithPopover,
-  LoadingSpinner,
+  RcSesLoadingSpinner,
   RcSesCard,
   RcSesFooter,
   RcSesImageCard,

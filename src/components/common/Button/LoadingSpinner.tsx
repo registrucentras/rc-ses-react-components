@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material'
+import { ButtonOwnProps, CircularProgress } from '@mui/material'
 
 const VALID_SPINNER_COLORS = [
   'primary',
@@ -10,7 +10,7 @@ const VALID_SPINNER_COLORS = [
   'inherit',
 ] as const
 
-type SpinnerColor = (typeof VALID_SPINNER_COLORS)[number]
+export type SpinnerColor = (typeof VALID_SPINNER_COLORS)[number]
 
 const SPINNER_SIZE_MAP = {
   small: '16px',
@@ -25,19 +25,22 @@ const CUSTOM_COLOR_MAP: Record<string, SpinnerColor> = {
   dark: 'inherit',
 }
 
-export function getSpinnerColor(color: any): SpinnerColor {
-  if (VALID_SPINNER_COLORS.includes(color)) {
-    return color
+export function getSpinnerColor(color: ButtonOwnProps['color']): SpinnerColor {
+  if (color && VALID_SPINNER_COLORS.includes(color as SpinnerColor)) {
+    return color as SpinnerColor
   }
-  return CUSTOM_COLOR_MAP[color] ?? 'inherit'
+  return CUSTOM_COLOR_MAP[color as string] ?? 'inherit'
 }
 
-interface LoadingSpinnerProps {
+export interface LoadingSpinnerProps {
   color?: SpinnerColor
   size?: 'small' | 'medium' | 'large' | string
 }
 
-function LoadingSpinner({ color = 'inherit', size = 'medium' }: LoadingSpinnerProps) {
+function RcSesLoadingSpinner({
+  color = 'inherit',
+  size = 'medium',
+}: LoadingSpinnerProps) {
   const spinnerSize = SPINNER_SIZE_MAP[size as keyof typeof SPINNER_SIZE_MAP] ?? size
 
   return (
@@ -64,4 +67,4 @@ function LoadingSpinner({ color = 'inherit', size = 'medium' }: LoadingSpinnerPr
   )
 }
 
-export default LoadingSpinner
+export default RcSesLoadingSpinner
