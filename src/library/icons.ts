@@ -19,6 +19,7 @@ import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
 import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
 import CloseIcon from '@/assets/icons/CloseIcon'
 import CollapseChevronsIcon from '@/assets/icons/CollapseChevronsIcon'
+import CopyIcon from '@/assets/icons/CopyIcon'
 import DotCircleFilledIcon from '@/assets/icons/DotCircleFilledIcon'
 import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
@@ -62,6 +63,7 @@ export {
   CircleFilledIcon,
   CloseIcon,
   CollapseChevronsIcon,
+  CopyIcon,
   DotCircleFilledIcon,
   ExpandChevronsIcon,
   InfoFillIcon,
