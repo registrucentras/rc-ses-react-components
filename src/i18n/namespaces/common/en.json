@@ -4,6 +4,9 @@
       "draft": "Save for later",
       "discard": "Discard and delete form data",
       "submit": "Save and add to cart"
+    },
+    "Button": {
+      "loading": "Loading"
     }
   }
 }

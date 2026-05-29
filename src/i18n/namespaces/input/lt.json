@@ -59,6 +59,24 @@
       "aria": {
         "close": "Uždaryti pranešimą"
       }
+    },
+
+    "Modal": {
+      "actions": {
+        "destructive": {
+          "primary": "Pašalinti"
+        },
+        "confirm": {
+          "primary": "Tęsti"
+        },
+        "success": {
+          "primary": "Uždaryti"
+        },
+        "info": {
+          "primary": "Suprantu"
+        },
+        "cancel": "Atšaukti"
+      }
     }
   }
 }

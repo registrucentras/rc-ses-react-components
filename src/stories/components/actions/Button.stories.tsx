@@ -71,6 +71,14 @@ const meta = {
         defaultValue: {},
       },
     },
+    loading: {
+      control: {
+        type: 'boolean',
+      },
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
   tags: ['autodocs'],
   args: {
@@ -346,6 +354,199 @@ export const GhostOutlinedIconOnlyDisabled: Story = {
     disabled: true,
     iconOnly: true,
     variant: 'outlined',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+// Loading states
+export const PrimaryContainedLoading: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    loading: true,
+  },
+}
+
+export const PrimaryContainedLoadingWithIcon: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    loading: true,
+    startIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryContainedLoadingWithEndIcon: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    loading: true,
+    endIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryContainedIconOnlyLoading: Story = {
+  args: {
+    'aria-label': 'Add',
+    children: <PlusBoldIcon />,
+    color: 'primary',
+    iconOnly: true,
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const PrimaryOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'primary',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const SecondaryContainedLoading: Story = {
+  args: {
+    color: 'secondary',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const SecondaryOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'secondary',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const GreyContainedLoading: Story = {
+  args: {
+    color: 'grey',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const GreyOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'grey',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const WarningContainedLoading: Story = {
+  args: {
+    variant: 'contained',
+    color: 'warning',
+    loading: true,
+  },
+}
+
+export const WarningOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    variant: 'outlined',
+    color: 'warning',
+    loading: true,
+  },
+}
+
+export const ErrorContainedLoading: Story = {
+  args: {
+    color: 'error',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const ErrorOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'error',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const LightOutlinedLoading: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    children: 'Light Button',
+    loading: true,
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const LightOutlinedWithIconLoading: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    startIcon: <PlusBoldIcon />,
+    children: 'Light Button with Icon',
+    loading: true,
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const GhostOutlinedIconOnlyLoading: Story = {
+  args: {
+    'aria-label': 'Close',
+    children: <PlusBoldIcon />,
+    color: 'ghost' as any,
+    iconOnly: true,
+    variant: 'outlined',
+    loading: true,
   },
   decorators: [
     (Story) => (
