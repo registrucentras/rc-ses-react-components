@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import RcSesLoadingSpinner, {
   getSpinnerColor,
-} from '@/components/LoadingSpinner/LoadingSpinner'
+} from '@/components/loaders/LoadingSpinner/LoadingSpinner'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const defaultProps: Partial<MuiButtonProps> = {

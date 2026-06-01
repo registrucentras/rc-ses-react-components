@@ -5,6 +5,9 @@
       "discard": "Atšaukti pildymą ir ištrinti formos duomenis",
       "submit": "Baigti pildyti ir pridėti į krepšelį"
     },
+    "Loader": {
+      "loading": "Kraunama..."
+    },
     "Button": {
       "loading": "Kraunasi"
     }
