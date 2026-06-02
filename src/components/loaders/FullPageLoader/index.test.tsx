@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import i18n from '@/i18n/i18n'
 import theme from '@/theme/light'
 
-import RcSesFullPageLoader from './FullPageLoader'
+import RcSesFullPageLoader from './index'
 
 const getDefaultLoaderLabel = () => i18n.t('components.Loader.loading', { ns: 'common' })
 

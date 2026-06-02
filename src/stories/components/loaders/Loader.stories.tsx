@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import RcSesLoader from '@/components/loaders/Loader/Loader'
+import RcSesLoader from '@/components/loaders/Loader'
 
 const meta = {
   title: 'components/loaders/Loader/Loader',

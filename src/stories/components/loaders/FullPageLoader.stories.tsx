@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import RcSesFullPageLoader from '@/components/loaders/FullPageLoader/FullPageLoader'
+import RcSesFullPageLoader from '@/components/loaders/FullPageLoader'
 
 const meta = {
   title: 'components/loaders/FullPageLoader/FullPageLoader',
