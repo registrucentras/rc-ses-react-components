@@ -8,12 +8,12 @@ import { ServiceWizardStepperProps } from '@/components/layout/ServiceWizardStep
 import {
   RcSesFullPageLoaderProps,
   RcSesLoaderBackdrop,
-} from '@/components/loaders/FullPageLoader/FullPageLoader'
-import { RcSesLoaderProps, RcSesLoaderSize } from '@/components/loaders/Loader/Loader'
+} from '@/components/loaders/FullPageLoader'
+import { RcSesLoaderProps, RcSesLoaderSize } from '@/components/loaders/Loader'
 import {
   RcSesLoadingSpinnerProps,
   RcSesSpinnerColor,
-} from '@/components/loaders/LoadingSpinner/LoadingSpinner'
+} from '@/components/loaders/LoadingSpinner'
 import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'

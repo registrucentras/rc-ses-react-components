@@ -1,10 +1,11 @@
 import { Box, BoxProps, Modal, Paper } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
-import RcSesLoader, { RcSesLoaderProps } from '@/components/loaders/Loader/Loader'
+import RcSesLoader, { RcSesLoaderProps } from '@/components/loaders/Loader'
 
 export type RcSesLoaderBackdrop = 'dark' | 'light'
 
+// dimensions are based on the Figma design specifications
 const FULL_PAGE_LOADER_CONTAINER_WIDTH = 187
 const FULL_PAGE_LOADER_CONTAINER_HEIGHT = 198
 
@@ -43,7 +44,6 @@ function RcSesFullPageLoader({
           inset: 0,
           placeItems: 'center',
           position: 'fixed',
-          zIndex: (theme) => theme.zIndex.modal,
         }}
         {...props}
       >

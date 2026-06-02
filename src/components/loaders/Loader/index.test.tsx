@@ -24,7 +24,7 @@ describe('RcSesLoader', () => {
     ['small', '24px'],
     ['medium', '40px'],
     ['large', '64px'],
-  ] as const)('should render de loader size', (size, expectedSize) => {
+  ] as const)('should render the proper loader size', (size, expectedSize) => {
     render(<RcSesLoader size={size} />)
 
     expect(screen.getByRole('progressbar')).toHaveStyle({
