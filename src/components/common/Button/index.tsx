@@ -1,9 +1,7 @@
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import RcSesLoadingSpinner, {
-  getSpinnerColor,
-} from '@/components/LoadingSpinner/LoadingSpinner'
+import RcSesLoadingSpinner, { getSpinnerColor } from '@/components/loaders/LoadingSpinner'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const defaultProps: Partial<MuiButtonProps> = {

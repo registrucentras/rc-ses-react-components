@@ -5,6 +5,9 @@
       "discard": "Discard and delete form data",
       "submit": "Save and add to cart"
     },
+    "Loader": {
+      "loading": "Loading..."
+    },
     "Button": {
       "loading": "Loading"
     }
