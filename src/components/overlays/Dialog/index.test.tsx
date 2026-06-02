@@ -75,7 +75,7 @@ describe('RcSesDialog', () => {
     render(
       <RcSesDialog
         open
-        dialogTitle={<h2>Custom Title Element</h2>}
+        dialogTitle={<span>Custom Title Element</span>}
         actions={<Button>Close</Button>}
       />,
     )
