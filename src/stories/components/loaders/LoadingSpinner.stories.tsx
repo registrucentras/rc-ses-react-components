@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import RcSesLoadingSpinner, {
   RcSesSpinnerColor,
-} from '@/components/LoadingSpinner/LoadingSpinner'
+} from '@/components/loaders/LoadingSpinner'
 
 const colorOptions: RcSesSpinnerColor[] = [
   'primary',
@@ -17,7 +17,7 @@ const colorOptions: RcSesSpinnerColor[] = [
 const sizeOptions = ['small', 'medium', 'large']
 
 const meta = {
-  title: 'components/actions/LoadingSpinner',
+  title: 'components/loaders/LoadingSpinner/LoadingSpinner',
   component: RcSesLoadingSpinner,
   parameters: {
     layout: 'centered',

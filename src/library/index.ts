@@ -3,7 +3,6 @@ import type {} from '@mui/system'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
 
 import RcSesIconProps from '@/assets/IconProps'
-import RcSesLoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import RcSesAlert from '@/components/common/Alert'
@@ -47,6 +46,9 @@ import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/Car
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
 import RcSesServicePage from '@/components/layout/ServicePage'
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
+import RcSesFullPageLoader from '@/components/loaders/FullPageLoader'
+import RcSesLoader from '@/components/loaders/Loader'
+import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import RcSesDialog from '@/components/overlays/Dialog'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
@@ -67,6 +69,8 @@ export {
   RcSesBreadcrumbs,
   RcSesButton,
   RcSesButtonWithPopover,
+  RcSesFullPageLoader,
+  RcSesLoader,
   RcSesLoadingSpinner,
   RcSesCard,
   RcSesDialog,

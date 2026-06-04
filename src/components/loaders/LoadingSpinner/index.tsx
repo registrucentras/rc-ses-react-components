@@ -60,7 +60,7 @@ function RcSesLoadingSpinner({
           },
         },
         '@media (prefers-reduced-motion: reduce)': {
-          animationDuration: '2s',
+          animation: 'none',
         },
       }}
     />

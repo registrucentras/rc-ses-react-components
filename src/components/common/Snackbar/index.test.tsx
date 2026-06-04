@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
@@ -20,7 +20,9 @@ describe('RcSesSnackbar', () => {
   })
 
   afterEach(() => {
-    vi.runOnlyPendingTimers()
+    act(() => {
+      vi.runOnlyPendingTimers()
+    })
     vi.useRealTimers()
   })
 
@@ -67,7 +69,9 @@ describe('RcSesSnackbar', () => {
     const statusElement = screen.getByText('Test')
     expect(statusElement).toBeInTheDocument()
 
-    vi.advanceTimersByTime(1000)
+    act(() => {
+      vi.advanceTimersByTime(1000)
+    })
 
     expect(handleClose).toHaveBeenCalled()
   })
@@ -78,7 +82,9 @@ describe('RcSesSnackbar', () => {
       <RcSesSnackbar {...DEFAULT_PROPS} onClose={handleClose} persist duration={1000} />,
     )
 
-    vi.advanceTimersByTime(2000)
+    act(() => {
+      vi.advanceTimersByTime(2000)
+    })
 
     expect(handleClose).not.toHaveBeenCalled()
   })
