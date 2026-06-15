@@ -6,7 +6,7 @@ function PencilSimpleLineIcon({
   className,
   fillColor,
   size = 24,
-  weight,
+  weight = 'regular',
   ...rest
 }: IconProps) {
   return (
@@ -14,7 +14,7 @@ function PencilSimpleLineIcon({
       {...rest}
       className={className}
       size={size}
-      weight={weight || 'regular'}
+      weight={weight}
       color={fillColor}
     />
   )
