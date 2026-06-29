@@ -1,6 +1,11 @@
 import { RcSesCardProps } from '@/components/common/Card'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
+import {
+  RcSesSegmentOption,
+  RcSesSegmentedControlProps,
+} from '@/components/common/SegmentedControl'
+import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
 import { RcSesCardFormContainerProps } from '@/components/layout/ServiceFormContainer/CardFormContainer'
@@ -28,6 +33,9 @@ export type {
   RcSesLoaderSize,
   RcSesCardFormContainerProps,
   RcSesCardProps,
+  RcSesSegmentedControlProps,
+  RcSesSegmentButtonProps,
+  RcSesSegmentOption,
   ServiceWizardStepperProps,
   SimpleCheckboxProps,
   RcSesFormControlLabelProps,
