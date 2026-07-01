@@ -135,7 +135,7 @@ describe('RcSesSearchInput', () => {
       expect(onSearch).not.toHaveBeenCalled()
     })
 
-    test('does not call onSearch on Enter when search button is enabled (shouldSearchOnEnter=false)', () => {
+    test('calls onSearch on Enter when search button is enabled', () => {
       const onSearch = vi.fn()
       render(<TestWrapper onSearch={onSearch} defaultValue='hello' />)
 
@@ -143,7 +143,7 @@ describe('RcSesSearchInput', () => {
       fireEvent.click(input)
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
 
-      expect(onSearch).not.toHaveBeenCalled()
+      expect(onSearch).toHaveBeenCalledWith('hello')
     })
 
     test('does not call onSearch when slotProps.field.onKeyDown calls preventDefault', () => {
