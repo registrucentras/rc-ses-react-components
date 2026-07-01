@@ -28,6 +28,7 @@ type TSearchButtonProps = Partial<ButtonProps>
 type Props = Pick<TControllerProps, ImmediateControllerProps> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
     onSearch: (value: string) => void
+    onSubmit?: (value: string) => void
     required?: boolean
     onlyNumbers?: boolean
     placeholder?: TFieldProps['placeholder']
@@ -66,6 +67,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     errors,
     label,
     onSearch,
+    onSubmit,
     required,
     onlyNumbers = false,
     placeholder,
@@ -115,9 +117,6 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     labelOnTop: slotProps?.wrapper?.labelOnTop ?? !sideLabel,
   }
 
-  const shouldSearchOnEnter =
-    !shouldRenderSearchButton || !!mergedSearchButtonProps.disabled
-
   const hasSearchValue = `${value ?? ''}`.trim().length > 0
   const visibleErrors = hasSearchAttempted ? errors : undefined
 
@@ -126,6 +125,17 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     mergedSearchButtonProps.onClick?.(event)
 
     if (!event.defaultPrevented && hasSearchValue) {
+      onSubmit?.(value ?? '')
+      onSearch(value ?? '')
+    }
+  }
+
+  const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault()
+    setHasSearchAttempted(true)
+
+    if (hasSearchValue) {
+      onSubmit?.(value ?? '')
       onSearch(value ?? '')
     }
   }
@@ -133,15 +143,9 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
   const handleFieldKeyDown: NonNullable<TFieldProps['onKeyDown']> = (event) => {
     slotProps?.field?.onKeyDown?.(event)
 
-    if (!event.defaultPrevented && shouldSearchOnEnter && event.key === 'Enter') {
-      setHasSearchAttempted(true)
+    if (!event.defaultPrevented && event.key === 'Enter') {
       event.preventDefault()
-
-      if (hasSearchValue) {
-        onSearch(value ?? '')
-      } else {
-        onBlur()
-      }
+      internalInputRef.current?.form?.requestSubmit()
     }
   }
 
@@ -213,6 +217,8 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
       {...mergedWrapperProps}
     >
       <Box
+        component='form'
+        onSubmit={handleFormSubmit}
         sx={{
           alignItems: 'stretch',
           display: 'flex',

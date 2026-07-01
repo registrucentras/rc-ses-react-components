@@ -135,7 +135,7 @@ describe('RcSesSearchInput', () => {
       expect(onSearch).not.toHaveBeenCalled()
     })
 
-    test('does not call onSearch on Enter when search button is enabled (shouldSearchOnEnter=false)', () => {
+    test('calls onSearch on Enter when search button is enabled', () => {
       const onSearch = vi.fn()
       render(<TestWrapper onSearch={onSearch} defaultValue='hello' />)
 
@@ -143,7 +143,7 @@ describe('RcSesSearchInput', () => {
       fireEvent.click(input)
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
 
-      expect(onSearch).not.toHaveBeenCalled()
+      expect(onSearch).toHaveBeenCalledWith('hello')
     })
 
     test('does not call onSearch when slotProps.field.onKeyDown calls preventDefault', () => {
@@ -198,6 +198,53 @@ describe('RcSesSearchInput', () => {
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'x' } })
 
       expect(fieldOnChange).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSubmit callback', () => {
+    test('calls onSubmit when Enter is pressed', () => {
+      const onSubmit = vi.fn()
+      const onSearch = vi.fn()
+      render(
+        <TestWrapper
+          onSearch={onSearch}
+          onSubmit={onSubmit}
+          defaultValue='query'
+          showSearchButton={false}
+        />,
+      )
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(onSubmit).toHaveBeenCalledWith('query')
+      expect(onSearch).toHaveBeenCalledWith('query')
+    })
+
+    test('calls onSubmit when search button is clicked', () => {
+      const onSubmit = vi.fn()
+      const onSearch = vi.fn()
+      render(<TestWrapper onSearch={onSearch} onSubmit={onSubmit} defaultValue='query' />)
+
+      const button = screen.getByRole('button', { name: 'searchButtonLabel' })
+      fireEvent.click(button)
+
+      expect(onSubmit).toHaveBeenCalledWith('query')
+      expect(onSearch).toHaveBeenCalledWith('query')
+    })
+
+    test('does not call onSubmit when value is empty', () => {
+      const onSubmit = vi.fn()
+      const onSearch = vi.fn()
+      render(
+        <TestWrapper onSearch={onSearch} onSubmit={onSubmit} showSearchButton={false} />,
+      )
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(onSearch).not.toHaveBeenCalled()
     })
   })
 })
