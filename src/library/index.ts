@@ -19,6 +19,7 @@ import {
   RcSesSnackbarProvider,
   useSnackbar,
 } from '@/components/common/Snackbar/SnackbarProvider'
+import RcSesSwitch from '@/components/common/Switch'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
@@ -79,6 +80,7 @@ export {
   RcSesSnackbar,
   RcSesSnackbarProvider,
   RcSesModal,
+  RcSesSwitch,
 }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { useSnackbar }
