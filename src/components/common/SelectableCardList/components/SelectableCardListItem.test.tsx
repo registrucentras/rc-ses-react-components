@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test, vi } from 'vitest'
 
@@ -93,5 +93,80 @@ describe('SelectableCardListItem', () => {
 
     expect(screen.getByText('List entry A')).toBeInTheDocument()
     expect(screen.getByText('List entry B')).toBeInTheDocument()
+  })
+
+  test('calls onSelect once when Enter key is pressed on radio', () => {
+    const onSelect = vi.fn()
+    renderItem(
+      <SelectableCardListItem
+        title='Test'
+        selected={false}
+        onSelect={onSelect}
+        listItems={[]}
+      />,
+    )
+
+    const radio = screen.getByRole('radio')
+    radio.focus()
+    fireEvent.keyDown(radio, { key: 'Enter', code: 'Enter' })
+
+    expect(onSelect).toHaveBeenCalledTimes(1)
+  })
+
+  test('calls onSelect once when radio is clicked (no double-call)', () => {
+    const onSelect = vi.fn()
+    renderItem(
+      <SelectableCardListItem
+        title='Test'
+        selected={false}
+        onSelect={onSelect}
+        listItems={[]}
+      />,
+    )
+
+    const radio = screen.getByRole('radio')
+    fireEvent.click(radio)
+
+    expect(onSelect).toHaveBeenCalledTimes(1)
+  })
+
+  test('calls onSelect once when card is clicked outside radio', () => {
+    const onSelect = vi.fn()
+    renderItem(
+      <SelectableCardListItem
+        title='Test title'
+        selected={false}
+        onSelect={onSelect}
+        listItems={[]}
+      />,
+    )
+
+    // click on the title area (outside the radio)
+    const titleElement = screen.getByRole('heading', { name: 'Test title' })
+    fireEvent.click(titleElement)
+
+    expect(onSelect).toHaveBeenCalledTimes(1)
+  })
+
+  test('loading card does not call onSelect when clicked', () => {
+    const onSelect = vi.fn()
+    const { container } = renderItem(
+      <SelectableCardListItem
+        title='Loading'
+        selected={false}
+        onSelect={onSelect}
+        isLoading
+        listItems={[]}
+      />,
+    )
+
+    // get the card container and try to click it
+    const cardContent = container.querySelector('[class*="MuiCardContent"]')
+    if (cardContent) {
+      fireEvent.click(cardContent)
+    }
+
+    // should not call onSelect due to pointerEvents: 'none'
+    expect(onSelect).not.toHaveBeenCalled()
   })
 })

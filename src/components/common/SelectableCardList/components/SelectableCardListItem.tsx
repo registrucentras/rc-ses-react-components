@@ -33,10 +33,15 @@ const SelectableCardListItem = ({
       <Radio
         aria-label={`Select ${title}`}
         checked={selected}
-        onChange={onSelect}
+        onChange={(e) => {
+          e.stopPropagation()
+          onSelect()
+        }}
+        onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault()
+            e.stopPropagation()
             onSelect()
           }
         }}
@@ -80,9 +85,7 @@ const SelectableCardListItem = ({
   )
   return (
     <RcSesCard
-      component='button'
       onClick={onSelect}
-      tabIndex={isLoading ? 0 : -1}
       sx={{
         cursor: isLoading ? 'default' : 'pointer',
         pointerEvents: isLoading ? 'none' : 'auto',
@@ -90,9 +93,9 @@ const SelectableCardListItem = ({
         borderRadius: '0.75rem',
         padding: { xs: '1rem' },
         borderColor: selected ? palette.primary.main : palette.grey[300],
-        transition: 'borderColor 0.2s ease, outline 0.2s ease',
+        transition: 'border-color 0.2s ease',
         gap: { xs: '0.5rem', md: '0.25rem' },
-        '&:focus-visible, &:focus-within': {
+        '&:has(input:focus-visible)': {
           borderColor: palette.grey[900],
           outline: 'none',
         },
