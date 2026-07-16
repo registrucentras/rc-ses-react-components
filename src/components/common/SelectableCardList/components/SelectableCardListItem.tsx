@@ -50,9 +50,6 @@ const SelectableCardListItem = ({
           height: '1.25rem',
           width: '1.25rem',
           margin: '0.125rem 0rem',
-          '&:focus-visible': {
-            outline: 'none',
-          },
         }}
       />
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
