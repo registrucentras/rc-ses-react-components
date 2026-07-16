@@ -143,7 +143,12 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
     if (!event.defaultPrevented && event.key === 'Enter') {
       event.preventDefault()
-      internalInputRef.current?.form?.requestSubmit()
+      const form = internalInputRef.current?.form
+      if (form?.requestSubmit) {
+        form.requestSubmit()
+      } else {
+        form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))
+      }
     }
   }
 
