@@ -13,6 +13,7 @@ export interface RcSesSegmentedControlProps {
   size?: 'small' | 'regular'
   role?: 'radiogroup' | 'tablist'
   disableBg?: boolean
+  ariaLabel?: string
 }
 
 const RcSesSegmentedControl = React.forwardRef<
@@ -27,11 +28,17 @@ const RcSesSegmentedControl = React.forwardRef<
       size = 'regular',
       role = 'radiogroup',
       disableBg = false,
+      ariaLabel,
     },
     ref,
   ) => {
-    const [focusIndex, setFocusIndex] = useState(0)
+    const [focusIndex, setFocusIndex] = useState(() => {
+      const selectedIndex = options.findIndex((opt) => opt.id === value && !opt.disabled)
+      if (selectedIndex !== -1) return selectedIndex
+      return Math.max(0, options.findIndex((opt) => !opt.disabled))
+    })
     const containerRef = useRef<HTMLDivElement>(null)
+    const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
 
     useImperativeHandle(ref, () => containerRef.current as HTMLDivElement)
 
@@ -39,6 +46,11 @@ const RcSesSegmentedControl = React.forwardRef<
       () => options.map((opt, i) => (!opt.disabled ? i : -1)).filter((i) => i !== -1),
       [options],
     )
+
+    const focusSegment = useCallback((index: number) => {
+      setFocusIndex(index)
+      buttonRefs.current[index]?.focus()
+    }, [])
 
     const handleKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -53,7 +65,8 @@ const RcSesSegmentedControl = React.forwardRef<
               currentPos > 0
                 ? enabledIndices[currentPos - 1]
                 : enabledIndices[enabledIndices.length - 1]
-            setFocusIndex(prevIndex)
+            focusSegment(prevIndex)
+            onChange(options[prevIndex].id)
             break
           }
 
@@ -64,19 +77,26 @@ const RcSesSegmentedControl = React.forwardRef<
               currentPos < enabledIndices.length - 1
                 ? enabledIndices[currentPos + 1]
                 : enabledIndices[0]
-            setFocusIndex(nextIndex)
+            focusSegment(nextIndex)
+            onChange(options[nextIndex].id)
             break
           }
 
-          case 'Home':
+          case 'Home': {
             e.preventDefault()
-            setFocusIndex(enabledIndices[0])
+            const firstIndex = enabledIndices[0]
+            focusSegment(firstIndex)
+            onChange(options[firstIndex].id)
             break
+          }
 
-          case 'End':
+          case 'End': {
             e.preventDefault()
-            setFocusIndex(enabledIndices[enabledIndices.length - 1])
+            const lastIndex = enabledIndices[enabledIndices.length - 1]
+            focusSegment(lastIndex)
+            onChange(options[lastIndex].id)
             break
+          }
 
           case 'Enter':
           case ' ':
@@ -88,7 +108,7 @@ const RcSesSegmentedControl = React.forwardRef<
             break
         }
       },
-      [getEnabledIndices, onChange, options],
+      [focusSegment, getEnabledIndices, onChange, options],
     )
 
     const handleSegmentClick = useCallback(
@@ -123,12 +143,15 @@ const RcSesSegmentedControl = React.forwardRef<
       <div
         ref={containerRef}
         role={role}
-        aria-label='Segmented control options'
+        aria-label={ariaLabel}
         style={containerStyles}
       >
         {options.map((option, index) => (
           <RcSesSegmentButton
             key={option.id}
+            ref={(el) => {
+              buttonRefs.current[index] = el
+            }}
             option={option}
             isSelected={isSelected(option.id)}
             isFocused={focusIndex === index && !option.disabled}

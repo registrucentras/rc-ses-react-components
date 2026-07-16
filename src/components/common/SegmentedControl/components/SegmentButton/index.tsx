@@ -88,8 +88,8 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         onFocus={onFocus}
         disabled={isDisabled}
         role={ariaRole}
-        aria-checked={isSelected}
-        aria-selected={isSelected}
+        aria-checked={ariaRole === 'radio' ? isSelected : undefined}
+        aria-selected={ariaRole === 'tab' ? isSelected : undefined}
         tabIndex={isFocused && !isDisabled ? 0 : -1}
         sx={{
           ...buttonStyles,
