@@ -148,7 +148,7 @@ describe('SelectableCardListItem', () => {
     expect(onSelect).toHaveBeenCalledTimes(1)
   })
 
-  test('loading card does not call onSelect when clicked', () => {
+  test('loading card is not selectable', () => {
     const onSelect = vi.fn()
     const { container } = renderItem(
       <SelectableCardListItem
@@ -160,13 +160,11 @@ describe('SelectableCardListItem', () => {
       />,
     )
 
-    // get the card container and try to click it
-    const cardContent = container.querySelector('[class*="MuiCardContent"]')
-    if (cardContent) {
-      fireEvent.click(cardContent)
-    }
+    // no radio is rendered while loading, so there is no keyboard tab stop
+    expect(screen.queryByRole('radio')).toBeNull()
 
-    // should not call onSelect due to pointerEvents: 'none'
-    expect(onSelect).not.toHaveBeenCalled()
+    // mouse clicks are blocked by pointer-events on the card root
+    const card = container.querySelector('.MuiCard-root')
+    expect(card).toHaveStyle('pointer-events: none')
   })
 })
