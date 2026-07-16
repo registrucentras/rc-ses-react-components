@@ -48,7 +48,9 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
  * ⚠️ Warning: This component renders an inner `<form>` element and uses `stopPropagation()`
  * to prevent submit events from bubbling to parent forms. If nested inside another form,
  * React will log a `validateDOMNesting` warning in development mode — this is expected
- * and does not affect functionality.
+ * for client-side rendering and does not affect functionality. Note this is not SSR-safe:
+ * an HTML parser drops the nested `<form>` tag, so under SSR/hydration the Enter key
+ * would submit the parent form instead.
  */
 const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false)
