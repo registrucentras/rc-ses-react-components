@@ -265,10 +265,6 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
           <RcSesButton
             type='submit'
             disabled={disabled || mergedSearchButtonProps.disabled || !hasSearchValue}
-            onClick={(e) => {
-              mergedSearchButtonProps.onClick?.(e)
-              if (e.defaultPrevented) e.preventDefault()
-            }}
             sx={[
               {
                 flexShrink: 0,
