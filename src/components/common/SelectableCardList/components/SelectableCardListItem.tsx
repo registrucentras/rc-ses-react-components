@@ -97,7 +97,6 @@ const SelectableCardListItem = ({
         gap: { xs: '0.5rem', md: '0.25rem' },
         '&:has(input:focus-visible)': {
           borderColor: palette.grey[900],
-          outline: 'none',
         },
       }}
       title={titleTemplate}
