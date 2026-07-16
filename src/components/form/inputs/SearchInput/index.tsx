@@ -28,7 +28,6 @@ type TSearchButtonProps = Partial<ButtonProps>
 type Props = Pick<TControllerProps, ImmediateControllerProps> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
     onSearch: (value: string) => void
-    onSubmit?: (value: string) => void
     required?: boolean
     onlyNumbers?: boolean
     placeholder?: TFieldProps['placeholder']
@@ -67,7 +66,6 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     errors,
     label,
     onSearch,
-    onSubmit,
     required,
     onlyNumbers = false,
     placeholder,
@@ -125,18 +123,19 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     mergedSearchButtonProps.onClick?.(event)
 
     if (!event.defaultPrevented && hasSearchValue) {
-      onSubmit?.(value ?? '')
       onSearch(value ?? '')
     }
   }
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
+    event.stopPropagation()
     setHasSearchAttempted(true)
 
     if (hasSearchValue) {
-      onSubmit?.(value ?? '')
       onSearch(value ?? '')
+    } else {
+      onBlur()
     }
   }
 

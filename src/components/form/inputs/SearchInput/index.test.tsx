@@ -201,50 +201,66 @@ describe('RcSesSearchInput', () => {
     })
   })
 
-  describe('onSubmit callback', () => {
-    test('calls onSubmit when Enter is pressed', () => {
-      const onSubmit = vi.fn()
+  describe('onSearch callback', () => {
+    test('calls onSearch when Enter is pressed', () => {
       const onSearch = vi.fn()
       render(
-        <TestWrapper
-          onSearch={onSearch}
-          onSubmit={onSubmit}
-          defaultValue='query'
-          showSearchButton={false}
-        />,
+        <TestWrapper onSearch={onSearch} defaultValue='query' showSearchButton={false} />,
       )
 
       const input = screen.getByRole('textbox')
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
 
-      expect(onSubmit).toHaveBeenCalledWith('query')
       expect(onSearch).toHaveBeenCalledWith('query')
     })
 
-    test('calls onSubmit when search button is clicked', () => {
-      const onSubmit = vi.fn()
+    test('calls onSearch when search button is clicked', () => {
       const onSearch = vi.fn()
-      render(<TestWrapper onSearch={onSearch} onSubmit={onSubmit} defaultValue='query' />)
+      render(<TestWrapper onSearch={onSearch} defaultValue='query' />)
 
       const button = screen.getByRole('button', { name: 'searchButtonLabel' })
       fireEvent.click(button)
 
-      expect(onSubmit).toHaveBeenCalledWith('query')
       expect(onSearch).toHaveBeenCalledWith('query')
     })
 
-    test('does not call onSubmit when value is empty', () => {
-      const onSubmit = vi.fn()
+    test('does not call onSearch when value is empty', () => {
       const onSearch = vi.fn()
+      render(<TestWrapper onSearch={onSearch} showSearchButton={false} />)
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(onSearch).not.toHaveBeenCalled()
+    })
+
+    test('does not call parent form onSubmit when nested in a form', () => {
+      const parentFormOnSubmit = vi.fn((e) => e.preventDefault())
+      const searchOnSearch = vi.fn()
+
+      const { control } = useForm({ defaultValues: { search: 'query' } })
+
       render(
-        <TestWrapper onSearch={onSearch} onSubmit={onSubmit} showSearchButton={false} />,
+        <ThemeProvider theme={theme}>
+          <form onSubmit={parentFormOnSubmit}>
+            <RcSesSearchInput
+              id='search'
+              name='search'
+              control={control}
+              label='Search'
+              errors={undefined}
+              onSearch={searchOnSearch}
+              showSearchButton={false}
+            />
+          </form>
+        </ThemeProvider>,
       )
 
       const input = screen.getByRole('textbox')
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
 
-      expect(onSubmit).not.toHaveBeenCalled()
-      expect(onSearch).not.toHaveBeenCalled()
+      expect(parentFormOnSubmit).not.toHaveBeenCalled()
+      expect(searchOnSearch).toHaveBeenCalledWith('query')
     })
   })
 })
