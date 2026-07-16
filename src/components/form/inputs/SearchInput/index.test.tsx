@@ -238,23 +238,26 @@ describe('RcSesSearchInput', () => {
       const parentFormOnSubmit = vi.fn((e) => e.preventDefault())
       const searchOnSearch = vi.fn()
 
-      const { control } = useForm({ defaultValues: { search: 'query' } })
+      const NestedFormWrapper = () => {
+        const { control } = useForm({ defaultValues: { search: 'query' } })
+        return (
+          <ThemeProvider theme={theme}>
+            <form onSubmit={parentFormOnSubmit}>
+              <RcSesSearchInput
+                id='search'
+                name='search'
+                control={control}
+                label='Search'
+                errors={undefined}
+                onSearch={searchOnSearch}
+                showSearchButton={false}
+              />
+            </form>
+          </ThemeProvider>
+        )
+      }
 
-      render(
-        <ThemeProvider theme={theme}>
-          <form onSubmit={parentFormOnSubmit}>
-            <RcSesSearchInput
-              id='search'
-              name='search'
-              control={control}
-              label='Search'
-              errors={undefined}
-              onSearch={searchOnSearch}
-              showSearchButton={false}
-            />
-          </form>
-        </ThemeProvider>,
-      )
+      render(<NestedFormWrapper />)
 
       const input = screen.getByRole('textbox')
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
