@@ -42,6 +42,14 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     }
   }
 
+/**
+ * Search input component with react-hook-form integration.
+ *
+ * ⚠️ Warning: This component renders an inner `<form>` element and uses `stopPropagation()`
+ * to prevent submit events from bubbling to parent forms. If nested inside another form,
+ * React will log a `validateDOMNesting` warning in development mode — this is expected
+ * and does not affect functionality.
+ */
 const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const [hasSearchAttempted, setHasSearchAttempted] = React.useState(false)
   const internalInputRef = useRef<HTMLInputElement>(null)
@@ -117,15 +125,6 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
   const hasSearchValue = `${value ?? ''}`.trim().length > 0
   const visibleErrors = hasSearchAttempted ? errors : undefined
-
-  const handleSearchClick: NonNullable<ButtonProps['onClick']> = (event) => {
-    setHasSearchAttempted(true)
-    mergedSearchButtonProps.onClick?.(event)
-
-    if (!event.defaultPrevented && hasSearchValue) {
-      onSearch(value ?? '')
-    }
-  }
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
@@ -259,8 +258,12 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
         {shouldRenderSearchButton && (
           <RcSesButton
+            type='submit'
             disabled={disabled || mergedSearchButtonProps.disabled || !hasSearchValue}
-            onClick={handleSearchClick}
+            onClick={(e) => {
+              mergedSearchButtonProps.onClick?.(e)
+              if (e.defaultPrevented) e.preventDefault()
+            }}
             sx={[
               {
                 flexShrink: 0,
