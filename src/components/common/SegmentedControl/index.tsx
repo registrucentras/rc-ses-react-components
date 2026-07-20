@@ -1,4 +1,5 @@
 import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { grey } from '@/theme/palette'
 
@@ -32,6 +33,7 @@ const RcSesSegmentedControl = React.forwardRef<
     },
     ref,
   ) => {
+    const { t } = useTranslation('common')
     const [focusIndex, setFocusIndex] = useState(() => {
       const selectedIndex = options.findIndex((opt) => opt.id === value && !opt.disabled)
       if (selectedIndex !== -1) return selectedIndex
@@ -128,6 +130,14 @@ const RcSesSegmentedControl = React.forwardRef<
 
     const isSelected = useCallback((optionId: string) => value === optionId, [value])
     const ariaRole = role === 'tablist' ? 'tab' : 'radio'
+    const defaultAriaLabel =
+      ariaLabel ||
+      t(
+        role === 'tablist'
+          ? 'components.SegmentedControl.tabs'
+          : 'components.SegmentedControl.options',
+      )
+    const finalAriaLabel = defaultAriaLabel
 
     const containerStyles = useMemo<React.CSSProperties>(
       () => ({
@@ -143,7 +153,12 @@ const RcSesSegmentedControl = React.forwardRef<
     )
 
     return (
-      <div ref={containerRef} role={role} aria-label={ariaLabel} style={containerStyles}>
+      <div
+        ref={containerRef}
+        role={role}
+        aria-label={finalAriaLabel}
+        style={containerStyles}
+      >
         {options.map((option, index) => (
           <RcSesSegmentButton
             key={option.id}

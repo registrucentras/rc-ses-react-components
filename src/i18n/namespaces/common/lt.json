@@ -10,6 +10,10 @@
     },
     "Button": {
       "loading": "Kraunasi"
+    },
+    "SegmentedControl": {
+      "options": "Parinktys",
+      "tabs": "Skirtukai"
     }
   }
 }
