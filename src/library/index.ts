@@ -14,6 +14,7 @@ import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
 import ListWithIcons from '@/components/common/ListWithIcons'
+import RcSesSegmentedControl from '@/components/common/SegmentedControl'
 import RcSesSnackbar from '@/components/common/Snackbar'
 import {
   RcSesSnackbarProvider,
@@ -80,6 +81,7 @@ export {
   RcSesSnackbarProvider,
   RcSesModal,
 }
+export { RcSesSegmentedControl }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { useSnackbar }
 export { RcSesDatepicker }
