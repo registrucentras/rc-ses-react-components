@@ -135,7 +135,7 @@ describe('RcSesSearchInput', () => {
       expect(onSearch).not.toHaveBeenCalled()
     })
 
-    test('does not call onSearch on Enter when search button is enabled (shouldSearchOnEnter=false)', () => {
+    test('calls onSearch on Enter when search button is enabled', () => {
       const onSearch = vi.fn()
       render(<TestWrapper onSearch={onSearch} defaultValue='hello' />)
 
@@ -143,7 +143,7 @@ describe('RcSesSearchInput', () => {
       fireEvent.click(input)
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
 
-      expect(onSearch).not.toHaveBeenCalled()
+      expect(onSearch).toHaveBeenCalledWith('hello')
     })
 
     test('does not call onSearch when slotProps.field.onKeyDown calls preventDefault', () => {
@@ -198,6 +198,72 @@ describe('RcSesSearchInput', () => {
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'x' } })
 
       expect(fieldOnChange).toHaveBeenCalled()
+    })
+  })
+
+  describe('onSearch callback', () => {
+    test('calls onSearch when Enter is pressed', () => {
+      const onSearch = vi.fn()
+      render(
+        <TestWrapper onSearch={onSearch} defaultValue='query' showSearchButton={false} />,
+      )
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(onSearch).toHaveBeenCalledWith('query')
+    })
+
+    test('calls onSearch when search button is clicked', () => {
+      const onSearch = vi.fn()
+      render(<TestWrapper onSearch={onSearch} defaultValue='query' />)
+
+      const button = screen.getByRole('button', { name: 'searchButtonLabel' })
+      fireEvent.click(button)
+
+      expect(onSearch).toHaveBeenCalledWith('query')
+    })
+
+    test('does not call onSearch when value is empty', () => {
+      const onSearch = vi.fn()
+      render(<TestWrapper onSearch={onSearch} showSearchButton={false} />)
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(onSearch).not.toHaveBeenCalled()
+    })
+
+    test('does not call parent form onSubmit when nested in a form', () => {
+      const parentFormOnSubmit = vi.fn((e) => e.preventDefault())
+      const searchOnSearch = vi.fn()
+
+      const NestedFormWrapper = () => {
+        const { control } = useForm({ defaultValues: { search: 'query' } })
+        return (
+          <ThemeProvider theme={theme}>
+            <form onSubmit={parentFormOnSubmit}>
+              <RcSesSearchInput
+                id='search'
+                name='search'
+                control={control}
+                label='Search'
+                errors={undefined}
+                onSearch={searchOnSearch}
+                showSearchButton={false}
+              />
+            </form>
+          </ThemeProvider>
+        )
+      }
+
+      render(<NestedFormWrapper />)
+
+      const input = screen.getByRole('textbox')
+      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 })
+
+      expect(parentFormOnSubmit).not.toHaveBeenCalled()
+      expect(searchOnSearch).toHaveBeenCalledWith('query')
     })
   })
 })

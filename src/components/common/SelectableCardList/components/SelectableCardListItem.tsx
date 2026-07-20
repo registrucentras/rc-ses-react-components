@@ -33,6 +33,18 @@ const SelectableCardListItem = ({
       <Radio
         aria-label={`Select ${title}`}
         checked={selected}
+        onChange={(e) => {
+          e.stopPropagation()
+          onSelect()
+        }}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            e.stopPropagation()
+            onSelect()
+          }
+        }}
         sx={{
           p: 0,
           height: '1.25rem',
@@ -78,8 +90,11 @@ const SelectableCardListItem = ({
         borderRadius: '0.75rem',
         padding: { xs: '1rem' },
         borderColor: selected ? palette.primary.main : palette.grey[300],
-        transition: 'all 0.2s ease',
+        transition: 'border-color 0.2s ease',
         gap: { xs: '0.5rem', md: '0.25rem' },
+        '&:has(input:focus-visible)': {
+          borderColor: palette.grey[900],
+        },
       }}
       title={titleTemplate}
       slotProps={{
