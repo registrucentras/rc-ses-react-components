@@ -5,14 +5,14 @@ import { grey, primary } from '@/theme/palette'
 
 const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
   small: {
-    width: '160px',
+    width: 'auto',
     minHeight: '36px',
     padding: '8px 12px',
     fontSize: '14px',
     lineHeight: '20px',
   },
   regular: {
-    width: '180px',
+    width: 'auto',
     minHeight: '44px',
     padding: '10px 16px',
     fontSize: '15px',

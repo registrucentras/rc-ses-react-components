@@ -30,7 +30,7 @@ describe('RcSesSegmentedControl', () => {
     expect(screen.getByRole('radiogroup')).toBeInTheDocument()
   })
 
-  test('marks selected option wtesth aria-checked=true', () => {
+  test('marks selected option with aria-checked=true', () => {
     render(<RcSesSegmentedControl {...defaultProps} value='option-2' />)
 
     expect(screen.getByRole('radio', { name: 'Option 2' })).toHaveAttribute(
@@ -47,26 +47,31 @@ describe('RcSesSegmentedControl', () => {
     expect(onChange).toHaveBeenCalledWith('option-2')
   })
 
-  test('navigates wtesth ArrowRight key', () => {
+  test('navigates with ArrowRight key', () => {
     const onChange = vi.fn()
     render(<RcSesSegmentedControl {...defaultProps} onChange={onChange} />)
 
     const option1 = screen.getByRole('radio', { name: 'Option 1' })
     fireEvent.keyDown(option1, { key: 'ArrowRight' })
 
-    expect(option1).toBeInTheDocument()
+    expect(onChange).toHaveBeenCalledWith('option-2')
+    expect(screen.getByRole('radio', { name: 'Option 2' })).toHaveFocus()
   })
 
-  test('jumps to first/last option wtesth Home/End keys', () => {
-    render(<RcSesSegmentedControl {...defaultProps} value='option-2' />)
+  test('jumps to first/last option with Home/End keys', () => {
+    const onChange = vi.fn()
+    render(
+      <RcSesSegmentedControl {...defaultProps} onChange={onChange} value='option-2' />,
+    )
 
     const option2 = screen.getByRole('radio', { name: 'Option 2' })
     fireEvent.keyDown(option2, { key: 'Home' })
 
-    expect(screen.getByRole('radio', { name: 'Option 1' })).toBeInTheDocument()
+    expect(onChange).toHaveBeenCalledWith('option-1')
+    expect(screen.getByRole('radio', { name: 'Option 1' })).toHaveFocus()
   })
 
-  test('selects option wtesth Enter key', () => {
+  test('selects option with Enter key', () => {
     const onChange = vi.fn()
     render(
       <RcSesSegmentedControl {...defaultProps} onChange={onChange} value='option-1' />,
@@ -79,7 +84,7 @@ describe('RcSesSegmentedControl', () => {
     expect(onChange).toHaveBeenCalledWith('option-2')
   })
 
-  test('selects option wtesth Space key', () => {
+  test('selects option with Space key', () => {
     const onChange = vi.fn()
     render(
       <RcSesSegmentedControl {...defaultProps} onChange={onChange} value='option-1' />,
@@ -92,7 +97,8 @@ describe('RcSesSegmentedControl', () => {
   })
 
   test('skips disabled options in navigation', () => {
-    const optionsWtesthDisabled: RcSesSegmentOption[] = [
+    const onChange = vi.fn()
+    const optionsWithDisabled: RcSesSegmentOption[] = [
       { id: 'option-1', label: 'Option 1', disabled: false },
       { id: 'option-2', label: 'Option 2', disabled: true },
       { id: 'option-3', label: 'Option 3', disabled: false },
@@ -100,27 +106,28 @@ describe('RcSesSegmentedControl', () => {
 
     render(
       <RcSesSegmentedControl
-        options={optionsWtesthDisabled}
+        options={optionsWithDisabled}
         value='option-1'
-        onChange={vi.fn()}
+        onChange={onChange}
       />,
     )
 
     const option1 = screen.getByRole('radio', { name: 'Option 1' })
     fireEvent.keyDown(option1, { key: 'ArrowRight' })
 
-    expect(screen.getByRole('radio', { name: 'Option 3' })).toBeInTheDocument()
+    expect(onChange).toHaveBeenCalledWith('option-3')
+    expect(screen.getByRole('radio', { name: 'Option 3' })).toHaveFocus()
   })
 
   test('disables disabled options', () => {
-    const optionsWtesthDisabled: RcSesSegmentOption[] = [
+    const optionsWithDisabled: RcSesSegmentOption[] = [
       { id: 'option-1', label: 'Option 1', disabled: false },
       { id: 'option-2', label: 'Option 2', disabled: true },
     ]
 
     render(
       <RcSesSegmentedControl
-        options={optionsWtesthDisabled}
+        options={optionsWithDisabled}
         value='option-1'
         onChange={vi.fn()}
       />,
@@ -129,7 +136,7 @@ describe('RcSesSegmentedControl', () => {
     expect(screen.getByRole('radio', { name: 'Option 2' })).toBeDisabled()
   })
 
-  test('supports tab role wtesth tab buttons', () => {
+  test('supports tab role with tab buttons', () => {
     render(<RcSesSegmentedControl {...defaultProps} role='tablist' />)
 
     expect(screen.getByRole('tab', { name: 'Option 1' })).toBeInTheDocument()

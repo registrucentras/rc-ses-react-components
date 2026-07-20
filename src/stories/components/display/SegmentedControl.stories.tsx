@@ -91,27 +91,16 @@ export const Default = {
   ),
 } as const
 
-const RegularTwoOptionsComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('RegularTwoOptions - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='regular'
-    />
-  )
-}
-
 export const RegularTwoOptions = {
-  render: () => <RegularTwoOptionsComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo' },
+    ],
+    value: '1',
+    size: 'regular',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -131,29 +120,18 @@ export const RegularTwoOptions = {
   },
 } as const
 
-const RegularFourOptionsComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo' },
-        { id: '3', label: 'Advokatas' },
-        { id: '4', label: 'Labai ilgas tekstas, netelpantis į vieną eilutę' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('RegularFourOptions - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='regular'
-    />
-  )
-}
-
 export const RegularFourOptions = {
-  render: () => <RegularFourOptionsComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo' },
+      { id: '3', label: 'Advokatas' },
+      { id: '4', label: 'Labai ilgas tekstas, netelpantis į vieną eilutę' },
+    ],
+    value: '1',
+    size: 'regular',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -175,28 +153,17 @@ export const RegularFourOptions = {
   },
 }
 
-const RegularWithDisabledComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo (Disabled)', disabled: true },
-        { id: '3', label: 'Advokatas' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('RegularWithDisabled - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='regular'
-    />
-  )
-}
-
 export const RegularWithDisabled = {
-  render: () => <RegularWithDisabledComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo (Disabled)', disabled: true },
+      { id: '3', label: 'Advokatas' },
+    ],
+    value: '1',
+    size: 'regular',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -217,27 +184,16 @@ export const RegularWithDisabled = {
   },
 }
 
-const SmallTwoOptionsComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('SmallTwoOptions - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='small'
-    />
-  )
-}
-
 export const SmallTwoOptions = {
-  render: () => <SmallTwoOptionsComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo' },
+    ],
+    value: '1',
+    size: 'small',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -257,29 +213,18 @@ export const SmallTwoOptions = {
   },
 } as const
 
-const SmallFourOptionsComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo' },
-        { id: '3', label: 'Advokatas' },
-        { id: '4', label: 'Kita' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('SmallFourOptions - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='small'
-    />
-  )
-}
-
 export const SmallFourOptions = {
-  render: () => <SmallFourOptionsComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo' },
+      { id: '3', label: 'Advokatas' },
+      { id: '4', label: 'Kita' },
+    ],
+    value: '1',
+    size: 'small',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -301,28 +246,17 @@ export const SmallFourOptions = {
   },
 }
 
-const SmallWithDisabledComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo (Disabled)', disabled: true },
-        { id: '3', label: 'Advokatas' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('SmallWithDisabled - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='small'
-    />
-  )
-}
-
 export const SmallWithDisabled = {
-  render: () => <SmallWithDisabledComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo (Disabled)', disabled: true },
+      { id: '3', label: 'Advokatas' },
+    ],
+    value: '1',
+    size: 'small',
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
@@ -343,29 +277,18 @@ export const SmallWithDisabled = {
   },
 }
 
-const RegularNoBackgroundComponent = () => {
-  const [value, setValue] = useState('1')
-  return (
-    <RcSesSegmentedControl
-      options={[
-        { id: '1', label: 'Fizinis asmuo' },
-        { id: '2', label: 'Juridinis asmuo' },
-        { id: '3', label: 'Advokatas' },
-      ]}
-      value={value}
-      onChange={(newValue) => {
-        // eslint-disable-next-line no-console
-        console.log('RegularNoBackground - Selected value:', newValue)
-        setValue(newValue)
-      }}
-      size='regular'
-      disableBg
-    />
-  )
-}
-
 export const RegularNoBackground = {
-  render: () => <RegularNoBackgroundComponent />,
+  args: {
+    options: [
+      { id: '1', label: 'Fizinis asmuo' },
+      { id: '2', label: 'Juridinis asmuo' },
+      { id: '3', label: 'Advokatas' },
+    ],
+    value: '1',
+    size: 'regular',
+    disableBg: true,
+  },
+  render: (args: any) => <DefaultComponent {...args} />,
   parameters: {
     docs: {
       source: {
