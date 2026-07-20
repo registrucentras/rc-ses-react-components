@@ -35,7 +35,10 @@ const RcSesSegmentedControl = React.forwardRef<
     const [focusIndex, setFocusIndex] = useState(() => {
       const selectedIndex = options.findIndex((opt) => opt.id === value && !opt.disabled)
       if (selectedIndex !== -1) return selectedIndex
-      return Math.max(0, options.findIndex((opt) => !opt.disabled))
+      return Math.max(
+        0,
+        options.findIndex((opt) => !opt.disabled),
+      )
     })
     const containerRef = useRef<HTMLDivElement>(null)
     const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -140,12 +143,7 @@ const RcSesSegmentedControl = React.forwardRef<
     )
 
     return (
-      <div
-        ref={containerRef}
-        role={role}
-        aria-label={ariaLabel}
-        style={containerStyles}
-      >
+      <div ref={containerRef} role={role} aria-label={ariaLabel} style={containerStyles}>
         {options.map((option, index) => (
           <RcSesSegmentButton
             key={option.id}
