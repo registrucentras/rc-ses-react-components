@@ -47,6 +47,11 @@ const RcSesSegmentedControl = React.forwardRef<
 
     useImperativeHandle(ref, () => containerRef.current as HTMLDivElement)
 
+    React.useEffect(() => {
+      const selectedIndex = options.findIndex((opt) => opt.id === value && !opt.disabled)
+      if (selectedIndex !== -1) setFocusIndex(selectedIndex)
+    }, [value, options])
+
     const getEnabledIndices = useCallback(
       () => options.map((opt, i) => (!opt.disabled ? i : -1)).filter((i) => i !== -1),
       [options],

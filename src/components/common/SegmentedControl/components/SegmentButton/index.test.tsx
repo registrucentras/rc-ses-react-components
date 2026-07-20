@@ -21,7 +21,7 @@ describe('RcSesSegmentButton', () => {
     onFocus: vi.fn(),
   }
 
-  test('renders button wtesth option label', () => {
+  test('renders button with option label', () => {
     render(<RcSesSegmentButton {...defaultProps} />)
     expect(screen.getByRole('radio', { name: 'Option 1' })).toBeInTheDocument()
   })

@@ -72,7 +72,6 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
           borderRadius: '8px',
           transition: 'all 150ms ease-in-out',
           whiteSpace: 'normal',
-          outline: 'none',
           ...sizeStyles,
         }) as React.CSSProperties,
       [sizeStyles, isDisabled, isSelected, isFocused, textColor],
