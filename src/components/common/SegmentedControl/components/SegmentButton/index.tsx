@@ -26,6 +26,7 @@ export interface RcSesSegmentOption {
   id: string
   label: string
   disabled?: boolean
+  panelId?: string
 }
 
 export interface RcSesSegmentButtonProps {
@@ -92,6 +93,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         role={ariaRole}
         aria-checked={ariaRole === 'radio' ? isSelected : undefined}
         aria-selected={ariaRole === 'tab' ? isSelected : undefined}
+        aria-controls={option.panelId}
         tabIndex={isFocused && !isDisabled ? 0 : -1}
         sx={{
           ...buttonStyles,
