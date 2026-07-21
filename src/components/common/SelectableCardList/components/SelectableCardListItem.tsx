@@ -1,5 +1,6 @@
 import { Box, Radio, Skeleton, Stack, Typography } from '@mui/material'
 
+import RcSesButton from '@/components/common/Button'
 import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import palette from '@/theme/palette'
@@ -13,6 +14,9 @@ type Props = {
   selected: boolean
   onSelect: () => void
   isLoading?: boolean
+  hasActionButton?: boolean
+  actionButtonLabel?: string
+  onActionButtonClick?: () => void
 }
 
 const SelectableCardListItem = ({
@@ -22,6 +26,9 @@ const SelectableCardListItem = ({
   selected,
   onSelect,
   isLoading = false,
+  hasActionButton = false,
+  actionButtonLabel,
+  onActionButtonClick,
 }: Props) => {
   const titleTemplate = isLoading ? (
     <Stack direction='row' alignItems='center' gap='0.75rem'>
@@ -97,6 +104,33 @@ const SelectableCardListItem = ({
         },
       }}
       title={titleTemplate}
+      headerAction={
+        isLoading ? (
+          <Skeleton variant='rounded' width={100} height={38} />
+        ) : (
+          hasActionButton && (
+            <RcSesButton
+              color='grey'
+              sx={{
+                height: 'auto',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
+                lineHeight: '1.25rem',
+                '&.MuiButton-colorGrey': {
+                  color: palette.grey[800],
+                },
+              }}
+              onClick={(e) => {
+                e.stopPropagation()
+                onActionButtonClick?.()
+              }}
+              variant='outlined'
+            >
+              {actionButtonLabel}
+            </RcSesButton>
+          )
+        )
+      }
       slotProps={{
         title: {
           sx: {
