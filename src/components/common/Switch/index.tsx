@@ -1,18 +1,13 @@
-import { FormControlLabel, Switch } from '@mui/material'
+import { FormControlLabel, Switch, type SwitchProps } from '@mui/material'
 
 import palette from '@/theme/palette'
 
-type BaseProps = {
-  checked: boolean
-  disabled?: boolean
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
-}
-
-export type RcSesSwitchProps = BaseProps &
+export type RcSesSwitchProps = SwitchProps &
   ({ label: string; ariaLabel?: string } | { label?: undefined; ariaLabel: string })
 
 const formControlLabelStyles = {
   marginLeft: 0,
+  alignItems: 'center',
   '& .MuiFormControlLabel-label': {
     paddingLeft: '0.625rem',
   },
@@ -22,7 +17,7 @@ const formControlLabelStyles = {
 }
 
 function RcSesSwitch(props: RcSesSwitchProps) {
-  const { checked, disabled, onChange, label, ariaLabel } = props
+  const { label, ariaLabel, disabled, ...switchProps } = props
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !disabled) {
@@ -32,20 +27,12 @@ function RcSesSwitch(props: RcSesSwitchProps) {
   }
 
   const inputProps = {
-    'aria-label': ariaLabel ?? label,
+    ...(label === undefined && { 'aria-label': ariaLabel }),
     role: 'switch',
-    'aria-checked': checked,
     onKeyDown: handleKeyDown,
   }
 
-  const switchEl = (
-    <Switch
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange}
-      inputProps={inputProps}
-    />
-  )
+  const switchEl = <Switch disabled={disabled} inputProps={inputProps} {...switchProps} />
 
   return label ? (
     <FormControlLabel

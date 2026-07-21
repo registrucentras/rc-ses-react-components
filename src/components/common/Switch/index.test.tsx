@@ -12,23 +12,23 @@ describe('RcSesSwitch Component', () => {
       expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
     })
 
-    it('should reflect the checked state via aria-checked', () => {
+    it('should reflect the checked state via the native checked attribute', () => {
       render(<RcSesSwitch label='Notifications' checked onChange={vi.fn()} />)
 
-      expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true')
+      expect(screen.getByRole('switch')).toBeChecked()
     })
 
-    it('should update aria-checked when the checked prop changes', () => {
+    it('should update checked state when the checked prop changes', () => {
       const { rerender } = render(
         <RcSesSwitch label='Notifications' checked={false} onChange={vi.fn()} />,
       )
 
       const input = screen.getByRole('switch')
-      expect(input).toHaveAttribute('aria-checked', 'false')
+      expect(input).not.toBeChecked()
 
       rerender(<RcSesSwitch label='Notifications' checked onChange={vi.fn()} />)
 
-      expect(input).toHaveAttribute('aria-checked', 'true')
+      expect(input).toBeChecked()
     })
   })
 
@@ -47,7 +47,7 @@ describe('RcSesSwitch Component', () => {
       expect(screen.queryByText('Notifications')).not.toBeInTheDocument()
     })
 
-    it('should prefer an explicit ariaLabel over the visible label text', () => {
+    it('should keep the visible label as the accessible name even when ariaLabel is also passed', () => {
       render(
         <RcSesSwitch
           label='Notifications'
@@ -57,12 +57,13 @@ describe('RcSesSwitch Component', () => {
         />,
       )
 
+      expect(screen.getByRole('switch', { name: 'Notifications' })).toBeInTheDocument()
       expect(
-        screen.getByRole('switch', { name: 'Enable notifications' }),
-      ).toBeInTheDocument()
+        screen.queryByRole('switch', { name: 'Enable notifications' }),
+      ).not.toBeInTheDocument()
     })
 
-    it('should not fall back to label when ariaLabel is explicitly an empty string', () => {
+    it('should not set aria-label at all when a visible label is present', () => {
       render(
         <RcSesSwitch
           label='Notifications'
@@ -73,7 +74,7 @@ describe('RcSesSwitch Component', () => {
       )
 
       const input = screen.getByRole('switch')
-      expect(input).not.toHaveAttribute('aria-label', 'Notifications')
+      expect(input).not.toHaveAttribute('aria-label')
     })
   })
 
@@ -102,6 +103,17 @@ describe('RcSesSwitch Component', () => {
       expect(handleChange).toHaveBeenCalledTimes(1)
       expect(input).not.toBeChecked()
     })
+
+    it('should support uncontrolled usage via defaultChecked', () => {
+      render(<RcSesSwitch label='Notifications' defaultChecked onChange={vi.fn()} />)
+
+      const input = screen.getByRole('switch')
+      expect(input).toBeChecked()
+
+      fireEvent.click(input)
+
+      expect(input).not.toBeChecked()
+    })
   })
 
   describe('onChange', () => {
@@ -124,6 +136,18 @@ describe('RcSesSwitch Component', () => {
       fireEvent.click(screen.getByRole('switch'))
 
       expect(handleChange.mock.calls[0][1]).toBe(false)
+    })
+
+    it('should toggle when the visible label is clicked', () => {
+      const handleChange = vi.fn()
+      render(
+        <RcSesSwitch label='Notifications' checked={false} onChange={handleChange} />,
+      )
+
+      fireEvent.click(screen.getByText('Notifications'))
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      expect(handleChange.mock.calls[0][1]).toBe(true)
     })
   })
 
