@@ -6,6 +6,7 @@ import RcSesIconProps from '@/assets/IconProps'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import RcSesAlert from '@/components/common/Alert'
+import RcSesBadge from '@/components/common/Badge'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
@@ -68,6 +69,7 @@ export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
 export {
   RcSesAlert,
+  RcSesBadge,
   RcSesBreadcrumbs,
   RcSesButton,
   RcSesButtonWithPopover,
