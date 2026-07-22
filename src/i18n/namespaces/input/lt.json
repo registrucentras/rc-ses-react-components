@@ -4,6 +4,12 @@
       "close": "Uždaryti"
     },
 
+    "RcSesBadge": {
+      "aria": {
+        "close": "Pašalinti {{label}}"
+      }
+    },
+
     "RcSesButtonWithPopover": {
       "aria": {
         "label": "Daugiau informacijos"
