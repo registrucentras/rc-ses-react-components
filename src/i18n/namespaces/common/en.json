@@ -14,6 +14,13 @@
     "SegmentedControl": {
       "options": "Options",
       "tabs": "Tabs"
+    },
+    "AdvancedListItemTrailing": {
+      "decrease": "Decrease",
+      "increase": "Increase",
+      "delete": "Delete",
+      "toggle": "Toggle",
+      "vat": "incl. VAT"
     }
   }
 }
