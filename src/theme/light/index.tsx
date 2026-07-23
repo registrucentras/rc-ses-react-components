@@ -33,6 +33,7 @@ import MuiRadio from '@/theme/light/MuiRadio'
 import MuiSelect from '@/theme/light/MuiSelect'
 import MuiStepper from '@/theme/light/MuiStepper'
 import MuiSvgIcon from '@/theme/light/MuiSvgIcon'
+import MuiSwitch from '@/theme/light/MuiSwitch'
 import MuiTab from '@/theme/light/MuiTab'
 import MuiTable from '@/theme/light/MuiTable'
 import MuiTableCell from '@/theme/light/MuiTableCell'
@@ -124,6 +125,7 @@ const theme = createTheme(themePalette, ltLT, enUS, {
     MuiSelect,
     MuiStepper,
     MuiSvgIcon,
+    MuiSwitch,
     MuiTab,
     MuiTabs,
     MuiTable,

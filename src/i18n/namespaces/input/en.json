@@ -4,6 +4,12 @@
       "close": "Close"
     },
 
+    "RcSesBadge": {
+      "aria": {
+        "close": "Remove {{label}}"
+      }
+    },
+
     "RcSesButtonWithPopover": {
       "aria": {
         "label": "Additional information"
