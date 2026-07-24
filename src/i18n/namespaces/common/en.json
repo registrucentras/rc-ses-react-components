@@ -21,6 +21,10 @@
       "delete": "Delete",
       "toggle": "Toggle",
       "vat": "incl. VAT"
+    },
+    "AdvancedListItemLeading": {
+      "moveUp": "Move up",
+      "moveDown": "Move down"
     }
   }
 }

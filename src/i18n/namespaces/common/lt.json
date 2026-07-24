@@ -21,6 +21,10 @@
       "delete": "Pašalinti",
       "toggle": "Perjungti",
       "vat": "su PVM"
+    },
+    "AdvancedListItemLeading": {
+      "moveUp": "Perkelti aukštyn",
+      "moveDown": "Perkelti žemyn"
     }
   }
 }
