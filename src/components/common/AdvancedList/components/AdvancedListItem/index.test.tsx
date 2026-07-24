@@ -574,7 +574,10 @@ describe('AdvancedListItem', () => {
       const field = screen.getByLabelText('Field') as HTMLInputElement
       const contentContainer = field.closest('[id]') as HTMLElement
 
-      expect(contentContainer.inert).toBe(true)
+      // jsdom doesn't implement the `.inert` IDL property (it's always undefined there even
+      // when the attribute is present), so check the attribute directly rather than the
+      // property — this is what real browsers actually reflect it from anyway.
+      expect(contentContainer).toHaveAttribute('inert')
     })
 
     test('nested radio group inside expandedContent is independent of the item leading control', () => {

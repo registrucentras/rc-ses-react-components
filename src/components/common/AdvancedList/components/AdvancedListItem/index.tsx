@@ -1,5 +1,5 @@
 import { Box, Collapse, Stack, Typography } from '@mui/material'
-import { useCallback, useId, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useId, useMemo, useRef } from 'react'
 
 import RcSesBadge from '@/components/common/Badge'
 import ListWithIcons from '@/components/common/ListWithIcons'
@@ -93,14 +93,21 @@ const AdvancedListItem = ({
     return {
       ...leading,
       onChange: (checked: boolean) => {
-        if (!checked && contentRef.current?.contains(document.activeElement)) {
-          selectorRef.current?.focus()
-        }
         leading.onChange(checked)
         onExpandedChange?.(checked)
       },
     }
   }, [canAttachExpandToLeading, leading, onExpandedChange])
+
+  // Runs for every collapse, not just ones driven by the leading control's own onChange —
+  // an external trigger (e.g. a parent-level "collapse" action) sets `expanded` directly,
+  // bypassing that onChange entirely. Without this, focus is left stranded inside content
+  // that's about to become inert.
+  useEffect(() => {
+    if (!expanded && contentRef.current?.contains(document.activeElement)) {
+      selectorRef.current?.focus()
+    }
+  }, [expanded])
 
   const isInsideExpandedContent = useCallback(
     (target: EventTarget | null) => !!contentRef.current?.contains(target as Node),
@@ -264,7 +271,17 @@ const AdvancedListItem = ({
               borderRadius: BORDER_RADIUS,
               padding: '0.75rem 1rem',
             }}
-            {...({ inert: !expanded } as React.HTMLAttributes<HTMLDivElement>)}
+            // `@types/react` doesn't type `inert` on HTMLAttributes yet, hence the cast — but
+            // the more important part is the *value*: passing a boolean here (not just the
+            // cast) is a real runtime bug, not just a types gap. React only special-cases
+            // booleans for attributes it recognizes; for an unknown attribute name like
+            // `inert`, a boolean value hits its "non-boolean attribute" path and gets dropped
+            // entirely (with a dev warning) instead of being written to the DOM. A string
+            // (empty when present, `undefined` when absent) is what actually renders
+            // `inert=""` / omits the attribute.
+            {...({
+              inert: expanded ? undefined : '',
+            } as React.HTMLAttributes<HTMLDivElement>)}
           >
             {expandedContent}
           </Box>
