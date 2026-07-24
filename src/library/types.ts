@@ -6,6 +6,7 @@ import {
   RcSesSegmentedControlProps,
 } from '@/components/common/SegmentedControl'
 import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
+import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
 import { RcSesCardFormContainerProps } from '@/components/layout/ServiceFormContainer/CardFormContainer'
@@ -41,6 +42,7 @@ export type {
   RcSesFormControlLabelProps,
   RcSesLoadingSpinnerProps,
   RcSesSpinnerColor,
+  RcSesTooltipProps,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }
