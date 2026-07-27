@@ -12,8 +12,7 @@ const FULL_PAGE_LOADER_CONTAINER_HEIGHT = 198
 type FullPageLoaderContentProps = Pick<RcSesLoaderProps, 'label' | 'showLabel'>
 
 export interface RcSesFullPageLoaderProps
-  extends Omit<BoxProps, 'children' | 'sx'>,
-    FullPageLoaderContentProps {
+  extends Omit<BoxProps, 'children' | 'sx'>, FullPageLoaderContentProps {
   backdrop?: RcSesLoaderBackdrop
 }
 

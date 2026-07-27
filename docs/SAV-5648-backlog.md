@@ -35,17 +35,21 @@ The split is deliberately **not** proportional to lines of code. Agents compress
 | MUI v9 semantics | Post-cutoff; the guide must be read and behaviour verified, not pattern-matched | LIB-08c **1.5h** |
 | rc validation | Wall-clock waiting on `ses-ui` to exercise it | LIB-17 **1h** |
 
-| Phase | Hours | Spent |
+| Phase | Hours | Status |
 | --- | --- | --- |
-| 0 — Safety net | 2.5 | — |
-| 1 — Hygiene + peers | 0.75 → **1.75** | LIB-03 done |
-| 2 — Toolchain | 3.25 | — |
+| 0 — Safety net | 2.5 | blocked on Chromatic decision |
+| 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
+| 2 — Toolchain | 3.25 → **3.0** | LIB-06 already satisfied |
 | 3 — MUI 5 → 9 | 8.25 | — |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
-| **Total** | **21.0** | |
+| **Total** | **20.75** | |
 
-Phase 1 grew by 1h when LIB-03 split: the `react-hook-form` peer move turned out to be coupled to the build's externals config and to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit. Running total **21h** against the 20h budget.
+Two adjustments so far, roughly cancelling out:
+- **+1h**: LIB-03 split. The `react-hook-form` peer move turned out to be coupled to the build's externals config *and* to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit.
+- **−0.25h**: LIB-06 (TypeScript 5.9) was already satisfied — `^5.4.5` resolves to 5.9.3.
+
+Running total **20.75h** against the 20h budget.
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. If Chromatic isn't procured, there is nothing to diff 39 themed slots against and that 3h buys nothing — the theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -74,7 +78,7 @@ Dependencies are strict unless marked ∥ (parallelisable).
 | --- | --- | --- | --- |
 | **LIB-03** | ✅ Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | — |
 | **LIB-03b** | Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 |
-| **LIB-04** | Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 ∥ |
+| **LIB-04** | ✅ Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 |
 
 **LIB-03** — ✅ **Done 2026-07-27.** Removed `axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet` (zero imports, verified across `src/` *and* config files). Moved `react-router-dom` → `devDependencies` (used only by `src/App.tsx`, `src/main.tsx`, `src/examples/**`), which takes the router 6 → 7 major off the critical path. Widened all 11 peers from exact pins to caret ranges, plus `react`/`react-dom` → `^18.3.1 || ^19.0.0`.
 
@@ -89,20 +93,32 @@ Two things discovered during execution that were **not** in the original plan:
 
 That is a **behaviour change, not a packaging change**, because `src/i18n/i18n.ts` calls `i18n.use(initReactI18next).init({...})` at import time and is pulled into the library entry graph as a side effect by `FormControlWrapper/index.tsx` and `PhoneInputFormControl/index.tsx`. Today the library initialises its **own bundled** i18next with its own `common`/`input` resources and syncs language via cookie. Externalising i18next would make that `init()` call apply to the **consumer's shared instance**, overwriting `fallbackLng`, `lng`, `supportedLngs` and `resources`. Needs LIB-01's visual/behavioural baseline and an explicit decision: *is the library's i18n self-contained or consumer-provided?* Do not fold this back into a packaging commit.
 
-**LIB-04** — `vitest` 4.1.x, `@vitest/coverage-v8`, `jsdom` 29, `prettier`, `@emotion/*` 11.14, eslint-plugin patch bumps.
+**LIB-04** — ✅ **Done 2026-07-27.** `npm update` — 26 direct packages moved, all within their declared majors (verified no drift).
+
+Notable: **all `@storybook/*` addons went 8.4.6 → 8.6.x, fixing an existing inconsistency** where `storybook` itself was already 8.6.18 while every addon sat at 8.4.6 — Storybook requires them aligned. That de-risks LIB-07. Also `vitest`/`@vitest/coverage-v8` 4.0.17 → 4.1.10, `@vitejs/plugin-react` 4.3.4 → 4.7.0, `@types/react` 18.3.12 → 18.3.31, `prettier` 3.4.1 → 3.9.6, `eslint-plugin-*` and `vite-plugin-*` minors.
+
+**Deliberately not taken** (they are other tasks' scope, not "safe minors"): `@emotion/*` 11.14 and `jsdom` 29 — both are peer/bundled-adjacent and `jsdom` 27 → 29 is a major. `date-fns`, `i18next`, `react-i18next`, `react`, `@mui/*` stay pinned by the LIB-03 devDep pins.
+
+*Verification:* lint clean · 193 tests pass · `build:lib` clean · **externals list unchanged (23 → 23, nothing newly bundled)**. Bundle grew 400 037 → 401 048 bytes (+1 011), attributable to `vite` 6.4.2 → 6.4.3 and `@vitejs/plugin-react` 4.3.4 → 4.7.0 output differences, not to new dependencies.
+
+`prettier` 3.9 reformatted **5 files** (union-type and `extends`-clause line breaking) — autofixed via `lint:fix`, cosmetic only: `form/inputs/TextField.tsx`, `loaders/FullPageLoader/index.tsx`, `overlays/Dialog/index.tsx`, `overlays/Modal/index.tsx`, `types/common/ColorType.tsx`.
+
+**Audit note:** `npm audit` went 24 → 59 advisories, but **`npm audit --omit=dev` reports 0** — every one is dev-only tooling, nothing reaches consumers. The roots are the ESLint ecosystem (`eslint` 8.57.1, `eslint-config-airbnb`, `@typescript-eslint/*`, `eslint-plugin-*`) and jest via `@storybook/test-runner` — i.e. **exactly what LIB-05 and LIB-07 remove**. No action needed here; it resolves as a side effect of the toolchain phase.
 
 ### Phase 2 — Toolchain
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-05** | ESLint 9 + flat config migracija, airbnb → airbnb-extended | **2h** | LIB-04 |
-| **LIB-06** | TypeScript 5.9 atnaujinimas | **0.25h** | LIB-05 |
+| **LIB-06** | TypeScript 5.9 — jau įvykdyta, tik patikrinimas | **0.25h → 0h** | LIB-05 |
 | **LIB-07** | Storybook 8 → 10 ir Vite 6 → 7 atnaujinimas | **1h** | LIB-06 |
 
 **LIB-05** — `.eslintrc.cjs` → `eslint.config.js`. **ESLint 10 is not reachable**: `eslint-plugin-import`, `-jsx-a11y` and `-react` all cap at `^9`. `eslint-config-airbnb@19.0.4` peers `^7 || ^8` and `-typescript@18` peers `^8.56.0`, so both must go — replace with **`eslint-config-airbnb-extended@3.1.1`** (flat config, peers `^9.0.0`). Port all 11 rule customisations verbatim, plus the `@` → `./src` resolver alias and `react.version: detect`. Use `@eslint/eslintrc` `FlatCompat` only as a temporary shim.
 *DoD:* `npm run lint` clean; **zero changes under `src/` beyond autofix churn** — review separately from anything touching components.
 
-**LIB-07** — `npx storybook@latest upgrade` runs the addon migrations; `@storybook/test` folds into `storybook/test` in 9+. Keep `test-runner` and `addon-a11y` working, since LIB-01 may depend on them.
+**LIB-06** — **already satisfied, no work needed.** The declared `^5.4.5` range resolves to **typescript 5.9.3** and lint/tests/build are all green on it. Reduce to a verification step: pin the floor to `^5.9.3` when LIB-05 touches `package.json`, so the intent is explicit rather than incidental. TS 6/7 remains out of scope.
+
+**LIB-07** — `npx storybook@latest upgrade` runs the addon migrations; `@storybook/test` folds into `storybook/test` in 9+. Keep `test-runner` and `addon-a11y` working, since LIB-01 may depend on them. LIB-04 already aligned every `@storybook/*` package to 8.6.x, so the upgrade starts from a consistent baseline. Note that `@storybook/test-runner` is the root of the jest advisory cascade seen in LIB-04.
 
 ### Phase 3 — MUI 5 → 9
 

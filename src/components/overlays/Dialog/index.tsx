@@ -15,8 +15,10 @@ const SIZE_MAP: Record<DialogSize, string> = {
   lg: '800px',
 }
 
-export interface RcSesDialogProps
-  extends Omit<MuiDialogProps, 'children' | 'title' | 'PaperProps' | 'maxWidth'> {
+export interface RcSesDialogProps extends Omit<
+  MuiDialogProps,
+  'children' | 'title' | 'PaperProps' | 'maxWidth'
+> {
   dialogTitle: string | ReactNode
   children?: ReactNode
   actions: ReactNode

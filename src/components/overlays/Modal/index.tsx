@@ -33,8 +33,10 @@ const VARIANT_CONFIG: Record<ModalVariant, { icon: ReactNode }> = {
   },
 }
 
-export interface RcSesModalProps
-  extends Omit<RcSesDialogProps, 'children' | 'dialogTitle' | 'actions'> {
+export interface RcSesModalProps extends Omit<
+  RcSesDialogProps,
+  'children' | 'dialogTitle' | 'actions'
+> {
   title: string
   message: ReactNode
   variant?: ModalVariant
