@@ -38,6 +38,10 @@
       "required": "Laukas yra privalomas"
     },
 
+    "RcSesInlineAlert": {
+      "close": "Uždaryti"
+    },
+
     "RcSesNumberStepper": {
       "add": "Pridėti",
       "subtract": "Atimti"

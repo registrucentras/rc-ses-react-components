@@ -38,6 +38,10 @@
       "required": "Field is required"
     },
 
+    "RcSesInlineAlert": {
+      "close": "Close"
+    },
+
     "RcSesNumberStepper": {
       "add": "Add",
       "subtract": "Subtract"

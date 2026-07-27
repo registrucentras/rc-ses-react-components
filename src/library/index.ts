@@ -14,6 +14,7 @@ import RcSesCard from '@/components/common/Card'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
+import RcSesInlineAlert from '@/components/common/InlineAlert'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import RcSesSegmentedControl from '@/components/common/SegmentedControl'
 import RcSesSnackbar from '@/components/common/Snackbar'
@@ -80,6 +81,7 @@ export {
   RcSesDialog,
   RcSesFooter,
   RcSesImageCard,
+  RcSesInlineAlert,
   RcSesSnackbar,
   RcSesSnackbarProvider,
   RcSesModal,
@@ -106,6 +108,7 @@ export { RcSesFormControlLabel }
 export { SelectableCardList }
 export type * from './types'
 export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
+export type { RcSesInlineAlertProps } from '@/components/common/InlineAlert'
 
 export {
   RcSesServiceFormActions,
