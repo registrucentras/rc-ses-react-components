@@ -55,7 +55,11 @@ module.exports = {
             '**/*.test.*',
             '**/.storybook/**/*.*',
             'vitest.config.ts',
-            'src/setupTests.ts'
+            'src/setupTests.ts',
+            // Demo app only - not part of the published library (see files[] in package.json)
+            'src/App.tsx',
+            'src/main.tsx',
+            'src/examples/**'
           ],
           'peerDependencies': true
         }

@@ -35,15 +35,17 @@ The split is deliberately **not** proportional to lines of code. Agents compress
 | MUI v9 semantics | Post-cutoff; the guide must be read and behaviour verified, not pattern-matched | LIB-08c **1.5h** |
 | rc validation | Wall-clock waiting on `ses-ui` to exercise it | LIB-17 **1h** |
 
-| Phase | Hours |
-| --- | --- |
-| 0 — Safety net | 2.5 |
-| 1 — Hygiene + peers | 0.75 |
-| 2 — Toolchain | 3.25 |
-| 3 — MUI 5 → 9 | 8.25 |
-| 4 — Runtime majors | 2.25 |
-| 5 — Release | 3.0 |
-| **Total** | **20.0** |
+| Phase | Hours | Spent |
+| --- | --- | --- |
+| 0 — Safety net | 2.5 | — |
+| 1 — Hygiene + peers | 0.75 → **1.75** | LIB-03 done |
+| 2 — Toolchain | 3.25 | — |
+| 3 — MUI 5 → 9 | 8.25 | — |
+| 4 — Runtime majors | 2.25 | — |
+| 5 — Release | 3.0 | — |
+| **Total** | **21.0** | |
+
+Phase 1 grew by 1h when LIB-03 split: the `react-hook-form` peer move turned out to be coupled to the build's externals config and to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit. Running total **21h** against the 20h budget.
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. If Chromatic isn't procured, there is nothing to diff 39 themed slots against and that 3h buys nothing — the theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -70,11 +72,22 @@ Dependencies are strict unless marked ∥ (parallelisable).
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-03** | Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | LIB-01 |
+| **LIB-03** | ✅ Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | — |
+| **LIB-03b** | Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 |
 | **LIB-04** | Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 ∥ |
 
-**LIB-03** — verified unused, zero imports in `src/`: **`axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet`** → remove. **`react-router-dom`** is imported only by `src/App.tsx`, `src/main.tsx`, `src/examples/**` (demo app, not shipped in `dist/`) → move to `devDependencies`, which also removes the router 6 → 7 major from the critical path. **`react-hook-form`** → move to `peerDependencies` (`^7.53.2`) + `devDependencies`; two copies in one bundle break form context. Widen all exact-pinned peers to ranges, including `react: "^18.3.1 || ^19.0.0"`.
-*DoD:* `npm pack --dry-run` shows no dead deps; `dist/` diff is styling-neutral; LIB-01 diff clean.
+**LIB-03** — ✅ **Done 2026-07-27.** Removed `axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet` (zero imports, verified across `src/` *and* config files). Moved `react-router-dom` → `devDependencies` (used only by `src/App.tsx`, `src/main.tsx`, `src/examples/**`), which takes the router 6 → 7 major off the critical path. Widened all 11 peers from exact pins to caret ranges, plus `react`/`react-dom` → `^18.3.1 || ^19.0.0`.
+
+Two things discovered during execution that were **not** in the original plan:
+
+1. **Every peer is now also pinned exactly in `devDependencies`.** None of the 11 peers had a devDep pin — they were auto-installed by npm at their exact declared versions. Since `build:lib` runs `npm i`, widening the peer ranges alone would have let npm resolve them upward on the next build, and four of them (`date-fns`, `date-fns-tz`, `i18next`, `react-i18next`) are **bundled into `dist`** — so a silent major could have shipped inside the artifact. The devDep pins make the build environment reproducible and are what keep peer widening safe. Verified: zero version drift after `npm i`.
+2. **`import/no-extraneous-dependencies` needed its allowlist extended** with `src/App.tsx`, `src/main.tsx`, `src/examples/**`. The rule correctly flagged the router move; those four files are demo-only. **Port this to the flat config in LIB-05.**
+
+*Verification:* lint clean · 29 files / 193 tests pass · `build:lib` clean · **shipped ESM bundle byte-identical** (400 037 bytes before and after, no change to the externals list) — a pure packaging change with zero runtime impact.
+
+**LIB-03b** — the deferred half of LIB-03. `vite.config.lib.ts` derives its `external` array from **`Object.keys(pkg.dependencies)`**, so moving `react-hook-form` to `peerDependencies` would cause it to be **bundled** — the opposite of the intent. Fixing that means adding `...Object.keys(pkg.peerDependencies)` to `external`, which simultaneously externalises `date-fns`, `date-fns-tz`, `i18next` and `react-i18next` — all currently bundled.
+
+That is a **behaviour change, not a packaging change**, because `src/i18n/i18n.ts` calls `i18n.use(initReactI18next).init({...})` at import time and is pulled into the library entry graph as a side effect by `FormControlWrapper/index.tsx` and `PhoneInputFormControl/index.tsx`. Today the library initialises its **own bundled** i18next with its own `common`/`input` resources and syncs language via cookie. Externalising i18next would make that `init()` call apply to the **consumer's shared instance**, overwriting `fallbackLng`, `lng`, `supportedLngs` and `resources`. Needs LIB-01's visual/behavioural baseline and an explicit decision: *is the library's i18n self-contained or consumer-provided?* Do not fold this back into a packaging commit.
 
 **LIB-04** — `vitest` 4.1.x, `@vitest/coverage-v8`, `jsdom` 29, `prettier`, `@emotion/*` 11.14, eslint-plugin patch bumps.
 
