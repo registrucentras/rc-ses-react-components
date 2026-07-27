@@ -128,13 +128,13 @@ Six findings from doing the work:
 | `@typescript-eslint/no-empty-object-type` | 1 | |
 | `import-x/no-empty-named-blocks` | 6 | **must stay off** — flags the intentional `import type {} from '@mui/system'` module-augmentation blocks in `src/library/index.ts` |
 
-**6 remaining warnings are real findings worth triaging separately** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
+**6 remaining warnings are real findings** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
 
 - `react-hooks/set-state-in-effect` — `Snackbar/index.tsx:60`, `NumberStepper.tsx:142`, `examples/ListWithPagination/index.tsx:61`
 - `react-hooks/static-components` — `IconWithCircularBackground.tsx:68` ("cannot create components during render")
 - `react-hooks/incompatible-library` ×2 — `CheckboxFormControl.stories.tsx:199,315`, react-hook-form's `watch()` cannot be memoised safely
 
-These deserve their own ticket: `set-state-in-effect` and `static-components` can indicate genuine render bugs, and MUI 9 + React 19 will make cascading-render issues more visible, not less.
+Tracked as **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** — see the follow-ups section below.
 
 **Source changes** (40 files, all mechanical): 22 test files `'./index'` → `'.'` (`import-x/no-useless-path-segments`), removal of now-unused eslint-disable directives, prettier reformatting of `.storybook/*`, plus four deliberate one-liners — `catch (_)` → `catch` in `Datepicker/index.tsx`, `import type` in `env.tsx` (correct anyway under `isolatedModules`), the duplicate `darkTheme` import in `.storybook/preview.ts` (dark and light resolved to the same module — see LIB-02), and a `for...of` → `reduce` in `.storybook/test-runner.ts`.
 
@@ -245,9 +245,22 @@ Consumer pins to move to 2.0.0 once released: `ses-ui` **1.3.1**, `ses-bdar-repo
 
 ---
 
+## Follow-up tickets created from this work
+
+Both under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodinis atnaujinimas*), linked to SAV-5648. Split deliberately: one is cosmetic churn, the other is potential render bugs, and they have **different gates**.
+
+| Ticket | Scope | Gate | Priority |
+| --- | --- | --- | --- |
+| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
+| **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** | The 6 `react-hooks` v7 findings | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
+
+SAV-6398 explicitly records the two rules that must stay **off permanently**, so nobody spends effort "fixing" them: `import-x/no-rename-default` (24 hits, all the deliberate `RcSes*` naming convention) and `import-x/no-empty-named-blocks` (6 hits, the intentional MUI module-augmentation blocks).
+
+---
+
 ## Jira — deferred
 
-**No Jira tickets are being created for this breakdown.** This document is the working backlog; SAV-5648 and its existing sub-task **`SAV-5654`** (20h, In Progress) remain the only tracking, and the 20h above is budgeted against SAV-5654 as-is. Nothing double-counts, because no sibling sub-tasks exist.
+**No Jira sub-tasks are being created for the LIB-xx breakdown.** This document is the working backlog; SAV-5648 and its existing sub-task **`SAV-5654`** (20h, In Progress) remain the only tracking for the work itself, and the 20h above is budgeted against SAV-5654 as-is. Nothing double-counts, because no sibling sub-tasks exist. (SAV-6398 and SAV-6399 above are separate follow-up stories, not part of this ticket's estimate.)
 
 If that changes later:
 - Sub-task creation in project SAV requires **`assignee` + `originalEstimate`** (hidden workflow validators).
