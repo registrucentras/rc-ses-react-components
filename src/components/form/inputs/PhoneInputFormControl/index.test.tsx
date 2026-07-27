@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesPhoneInputFormControl from './index'
+import RcSesPhoneInputFormControl from '.'
 
 // Mock i18next
 vi.mock('react-i18next', () => ({

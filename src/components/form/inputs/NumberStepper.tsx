@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'

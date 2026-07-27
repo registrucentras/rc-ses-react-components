@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { Meta } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 

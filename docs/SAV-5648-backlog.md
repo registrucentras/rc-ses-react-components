@@ -35,23 +35,26 @@ The split is deliberately **not** proportional to lines of code. Agents compress
 | MUI v9 semantics | Post-cutoff; the guide must be read and behaviour verified, not pattern-matched | LIB-08c **1.5h** |
 | rc validation | Wall-clock waiting on `ses-ui` to exercise it | LIB-17 **1h** |
 
+Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out of Phase 0 to sit after the toolchain — see Phase 2b for why.
+
 | Phase | Hours | Status |
 | --- | --- | --- |
-| 0 — Safety net | 2.5 | blocked on Chromatic decision |
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
 | 2 — Toolchain | 3.25 → **3.0** | LIB-06 already satisfied |
+| 2b — Safety net | 2.5 → **3.5** | Playwright chosen; blocked by LIB-07 |
 | 3 — MUI 5 → 9 | 8.25 | — |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
-| **Total** | **20.75** | |
+| **Total** | **21.75** | |
 
-Two adjustments so far, roughly cancelling out:
+Adjustments so far:
 - **+1h**: LIB-03 split. The `react-hook-form` peer move turned out to be coupled to the build's externals config *and* to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit.
 - **−0.25h**: LIB-06 (TypeScript 5.9) was already satisfied — `^5.4.5` resolves to 5.9.3.
+- **+1h**: LIB-01 revised from 1.5h to 2.5h. The self-hosted Playwright harness is more work than wiring a hosted service, and Storybook turned out not to load its own webfont, which has to be fixed first or baselines are unstable.
 
-Running total **20.75h** against the 20h budget.
+Running total **21.75h** against the 20h budget.
 
-**The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. If Chromatic isn't procured, there is nothing to diff 39 themed slots against and that 3h buys nothing — the theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
+**The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
 ---
 
@@ -59,25 +62,12 @@ Running total **20.75h** against the 20h budget.
 
 Dependencies are strict unless marked ∥ (parallelisable).
 
-### Phase 0 — Safety net
-
-| ID | Summary (LT, for Jira) | Est. | Depends |
-| --- | --- | --- | --- |
-| **LIB-01** | Vizualinės regresijos bazinės linijos sukūrimas (Chromatic / test-runner) | **1.5h** | — |
-| **LIB-02** | Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
-
-**LIB-01** — `@chromatic-com/storybook` is registered in `.storybook/main.ts` but **no workflow publishes a baseline**, so there is currently no visual regression net at all. Add a Chromatic workflow, or a `@storybook/test-runner` + `axe-playwright` snapshot job (both already in `devDependencies`). Capture the baseline on `develop` **before any dependency changes**. Also record `npm ls --all > docs/baseline-tree.txt`.
-*DoD:* CI job produces a reviewable visual diff on every PR; baseline captured at 1.11.0.
-
-**LIB-02** — 48 stories cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots have no story and add them — `MuiButton` (388 lines) and `MuiAlert` (219 lines) first, then `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`, `MuiPickersLayout`, `MuiTable*`.
-*DoD:* every slot in `src/theme/light/` is exercised by at least one story.
-
 ### Phase 1 — Hygiene + peers
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-03** | ✅ Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | — |
-| **LIB-03b** | Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 |
+| **LIB-03b** | Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 (Phase 2b) |
 | **LIB-04** | ✅ Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 |
 
 **LIB-03** — ✅ **Done 2026-07-27.** Removed `axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet` (zero imports, verified across `src/` *and* config files). Moved `react-router-dom` → `devDependencies` (used only by `src/App.tsx`, `src/main.tsx`, `src/examples/**`), which takes the router 6 → 7 major off the critical path. Widened all 11 peers from exact pins to caret ranges, plus `react`/`react-dom` → `^18.3.1 || ^19.0.0`.
@@ -109,16 +99,78 @@ Notable: **all `@storybook/*` addons went 8.4.6 → 8.6.x, fixing an existing in
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-05** | ESLint 9 + flat config migracija, airbnb → airbnb-extended | **2h** | LIB-04 |
+| **LIB-05** | ✅ ESLint 9 + flat config migracija, airbnb → airbnb-extended | **2h** | LIB-04 |
 | **LIB-06** | TypeScript 5.9 — jau įvykdyta, tik patikrinimas | **0.25h → 0h** | LIB-05 |
 | **LIB-07** | Storybook 8 → 10 ir Vite 6 → 7 atnaujinimas | **1h** | LIB-06 |
 
-**LIB-05** — `.eslintrc.cjs` → `eslint.config.js`. **ESLint 10 is not reachable**: `eslint-plugin-import`, `-jsx-a11y` and `-react` all cap at `^9`. `eslint-config-airbnb@19.0.4` peers `^7 || ^8` and `-typescript@18` peers `^8.56.0`, so both must go — replace with **`eslint-config-airbnb-extended@3.1.1`** (flat config, peers `^9.0.0`). Port all 11 rule customisations verbatim, plus the `@` → `./src` resolver alias and `react.version: detect`. Use `@eslint/eslintrc` `FlatCompat` only as a temporary shim.
-*DoD:* `npm run lint` clean; **zero changes under `src/` beyond autofix churn** — review separately from anything touching components.
+**LIB-05** — ✅ **Done 2026-07-27.** `.eslintrc.cjs` + `.eslintignore` → `eslint.config.js` (flat), ESLint 8.57.1 → **9.39.5**. `eslint-config-airbnb` + `-typescript` replaced by **`eslint-config-airbnb-extended@3.1.1`**; `@typescript-eslint/*` 7 → unified `typescript-eslint@8`; `eslint-plugin-storybook` 0.8 → 0.11.6; `eslint-config-prettier` 9 → 10. `FlatCompat` was not needed. **ESLint 10 confirmed unreachable** — `eslint-plugin-import`, `-jsx-a11y`, `-react` all cap at `^9`.
+
+*Verification:* lint **0 errors / 6 warnings** · 193 tests pass · `build:lib` clean · **bundle byte-identical** to LIB-04 (401 048 bytes, externals unchanged).
+
+Six findings from doing the work:
+
+1. **`airbnb-extended` bundles its own plugin copies** (import-x, jsx-a11y, n, react, react-hooks, typescript-eslint, @stylistic). Our direct devDeps for those were redundant *and* blocking: `eslint-plugin-react-hooks@^4.6.2` peers ESLint ≤8, which made `npm install` ERESOLVE. Removed 8 now-redundant packages: `eslint-plugin-{react-hooks,react,jsx-a11y,n,import,promise}`, `eslint-import-resolver-alias`, and later re-added `eslint-import-resolver-typescript` explicitly because the config imports it. Note `eslint-plugin-promise` had never been referenced by the old config at all — a dead devDep.
+2. **It uses `eslint-plugin-import-x`, so rules are namespaced `import-x/*`.** Our `import/no-extraneous-dependencies` customisation had to be renamed, and an inline `// eslint-disable-next-line import/prefer-default-export` in `FormControlLayoutVariables.ts` had become a hard error ("rule not found").
+3. **Flat config needs plugins registered before any config references them** — `configs.*` alone throws `could not find plugin "import-x"`. `airbnb-extended` exports `plugins.*` objects for this.
+4. **The `@/*` alias would not resolve — 1 027 of the initial 1 163 errors** (`import-x/no-unresolved` + `import-x/extensions`) came from this single cause. `tsconfig.json` declares `paths` under `moduleResolution: "Node"` (legacy node10), and the resolver does not apply path mappings in that mode. Verified by probe: the same resolver works against a tsconfig using `"Bundler"`. Fixed by passing `alias` explicitly to `createTypeScriptImportResolver` rather than editing `tsconfig.json` — switching to `"Bundler"` is arguably correct for a Vite project but changes what `tsc` accepts, which is a build concern outside this task. **Worth a follow-up ticket.**
+5. **`.eslintignore` had entries I nearly lost** — it excluded `vite.config.ts`, `vite.config.lib.ts`, `public`, `jest.config.cjs`. Ported into the flat `ignores` block. Separately, `.storybook/**` sits outside `tsconfig.json`'s `include: ["src"]`, so the project service cannot type it; those files get `projectService: false` plus `tseslint.configs.disableTypeChecked.rules`, since airbnb's type-aware rules *throw* rather than fail without type info.
+6. **`--fix` mangled a JSX comment.** Removing an unused `{/* eslint-disable-next-line no-console */}` directive left a stray `{}` in `src/examples/SingleStepForm/index.tsx`. Harmless at runtime but junk; cleaned up by hand. Worth diffing autofix output rather than trusting it.
+
+**Rules deliberately switched off** to hold enforcement at the previous level — `airbnb-extended` is stricter than `airbnb` + `airbnb-typescript` was. Turning these on means ~100 source edits with no functional change, which belongs in its own decision, not in a toolchain migration:
+
+| Rule | Occurrences | Why deferred |
+| --- | --- | --- |
+| `@typescript-eslint/consistent-type-definitions` | 53 | would rewrite `type` → `interface` across the codebase |
+| `import-x/no-rename-default` | 24 | all of them the deliberate `RcSes*` public-name convention |
+| `@typescript-eslint/no-unnecessary-type-assertion` | 13 | |
+| `@typescript-eslint/array-type` | 7 | |
+| `@typescript-eslint/no-unnecessary-type-arguments` | 2 | |
+| `@typescript-eslint/no-empty-object-type` | 1 | |
+| `import-x/no-empty-named-blocks` | 6 | **must stay off** — flags the intentional `import type {} from '@mui/system'` module-augmentation blocks in `src/library/index.ts` |
+
+**6 remaining warnings are real findings worth triaging separately** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
+
+- `react-hooks/set-state-in-effect` — `Snackbar/index.tsx:60`, `NumberStepper.tsx:142`, `examples/ListWithPagination/index.tsx:61`
+- `react-hooks/static-components` — `IconWithCircularBackground.tsx:68` ("cannot create components during render")
+- `react-hooks/incompatible-library` ×2 — `CheckboxFormControl.stories.tsx:199,315`, react-hook-form's `watch()` cannot be memoised safely
+
+These deserve their own ticket: `set-state-in-effect` and `static-components` can indicate genuine render bugs, and MUI 9 + React 19 will make cascading-render issues more visible, not less.
+
+**Source changes** (40 files, all mechanical): 22 test files `'./index'` → `'.'` (`import-x/no-useless-path-segments`), removal of now-unused eslint-disable directives, prettier reformatting of `.storybook/*`, plus four deliberate one-liners — `catch (_)` → `catch` in `Datepicker/index.tsx`, `import type` in `env.tsx` (correct anyway under `isolatedModules`), the duplicate `darkTheme` import in `.storybook/preview.ts` (dark and light resolved to the same module — see LIB-02), and a `for...of` → `reduce` in `.storybook/test-runner.ts`.
 
 **LIB-06** — **already satisfied, no work needed.** The declared `^5.4.5` range resolves to **typescript 5.9.3** and lint/tests/build are all green on it. Reduce to a verification step: pin the floor to `^5.9.3` when LIB-05 touches `package.json`, so the intent is explicit rather than incidental. TS 6/7 remains out of scope.
 
 **LIB-07** — `npx storybook@latest upgrade` runs the addon migrations; `@storybook/test` folds into `storybook/test` in 9+. Keep `test-runner` and `addon-a11y` working, since LIB-01 may depend on them. LIB-04 already aligned every `@storybook/*` package to 8.6.x, so the upgrade starts from a consistent baseline. Note that `@storybook/test-runner` is the root of the jest advisory cascade seen in LIB-04.
+
+### Phase 2b — Safety net (moved: must come *after* LIB-07)
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-01** | Vizualinės regresijos aplinka su Playwright + bazinė linija | **2.5h** | LIB-07 |
+| **LIB-02** | Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
+
+**Why this moved out of Phase 0** (decided 2026-07-27): a Storybook major can shift canvas padding and wrapper markup, so a baseline captured before LIB-07 would be invalidated by the Storybook upgrade itself — you would then be diffing Storybook's changes against MUI's. Capturing after LIB-07 leaves **MUI as the only variable**. Nothing in Phase 1 or 2 changes component rendering, so no coverage is lost by waiting. Ordering is therefore **LIB-05 → LIB-07 → LIB-01 → LIB-08a**.
+
+**LIB-01 — approach chosen: self-hosted Playwright, not Chromatic.** Rationale: the repo is **public**, so GitHub Actions minutes are free and unlimited, making the marginal cost genuinely zero; Chromatic's free tier (5 000 snapshots/month) would be outgrown during Phase 3's frequent pushes, and it would mean uploading the built Storybook to a third-party US SaaS. `playwright` 1.62.0 is **already installed** as an `axe-playwright` transitive; only `@playwright/test` needs adding for `toHaveScreenshot()`.
+
+Implementation: enumerate stories from Storybook's `index.json`, capture each at `/iframe.html?id=<storyId>`, diff via `toHaveScreenshot()`, serve `storybook-static` in CI.
+
+Three things that must be handled or the suite will be flaky:
+
+1. **Storybook does not load Public Sans.** The theme declares `fontFamily: 'Public sans, sans-serif, Arial'` (`theme/light/themePalette.tsx:21`, `MuiAutocomplete.ts:39`) but there is no `preview-head.html`, no font import in `preview.ts`, and no `@fontsource` import anywhere — so Storybook renders in the OS generic sans-serif (DejaVu on Linux, Arial/Helvetica on Windows). **Re-add `@fontsource/public-sans` as a `devDependency` and import it in `.storybook/preview.ts`.** This bundles the font into the Storybook build: deterministic, no CDN, and Storybook finally renders what users actually see. Removing it from `dependencies` in LIB-03 was still correct — consumers should not inherit it.
+2. **MUI animations** — ripples, transitions, `Fade`/`Grow` — need `reducedMotion: 'reduce'` plus a CSS override zeroing transitions, or captures land mid-animation.
+3. **Baselines must be generated inside `mcr.microsoft.com/playwright:v1.62.0-jammy`** to match CI. They cannot be refreshed from a Windows dev machine.
+
+Known cost: **PNG bloat in git history.** ~48 stories × 50–150 KB ≈ 3–7 MB initially, and every intentional theme change in Phase 3 leaves the old blobs in history permanently. Acceptable, but if it becomes a problem the fallback is keeping baselines as CI artifacts and committing only once the theme settles.
+
+Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** and is fully configured for a11y (`injectAxe` + `checkA11y` with per-story rule overrides), with a `storybook-test` script — but **no workflow runs it**. Adding that job is ~15 minutes and catches "component throws and renders nothing", a real MUI-migration failure mode that pixel diffing alone reports as an empty image.
+
+*DoD:* CI produces a reviewable visual diff on every PR; baseline captured after LIB-07; a11y job green; `npm ls --all > docs/baseline-tree.txt` recorded.
+
+**LIB-02** — 48 stories cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots have no story and add them — `MuiButton` (388 lines) and `MuiAlert` (219 lines) first, then `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`, `MuiPickersLayout`, `MuiTable*`.
+
+Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` — dark and light resolve to the same module, so snapshotting both themes would double the count for identical images. **Snapshot `light` only** until a real dark theme exists.
+*DoD:* every slot in `src/theme/light/` is exercised by at least one story.
 
 ### Phase 3 — MUI 5 → 9
 

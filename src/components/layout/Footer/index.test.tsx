@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesFooter from './index'
+import RcSesFooter from '.'
 
 const renderFooter = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)

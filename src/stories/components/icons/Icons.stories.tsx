@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition, react/prop-types */
 import { Box, FormControl, MenuItem, Select, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react'
 import { useMemo, useState } from 'react'

@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { Box, Typography } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react'
 import { useForm } from 'react-hook-form'

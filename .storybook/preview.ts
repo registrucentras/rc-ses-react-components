@@ -1,10 +1,12 @@
-import type { Preview } from "@storybook/react";
-
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { withThemeFromJSXProvider } from '@storybook/addon-themes'
+import type { Preview } from '@storybook/react'
 
 import lightTheme from '../src/theme/light'
-import darkTheme from '../src/theme/light'
+
+// There is no dark theme yet - the addon's dark entry deliberately points at the
+// light theme so the theme switcher stays wired up. Replace when one exists.
+const darkTheme = lightTheme
 
 const preview: Preview = {
   parameters: {
@@ -14,7 +16,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    /*a11y: {
+    /* a11y: {
       // Optional selector to inspect
       element: '#storybook-root',
       config: {
@@ -35,18 +37,20 @@ const preview: Preview = {
       options: {},
       // Optional flag to prevent the automatic check
       manual: true,
-    },*/
+    }, */
   },
 
-  decorators: [withThemeFromJSXProvider({
-    GlobalStyles: CssBaseline,
-    Provider: ThemeProvider,
-    themes: {
-      light: lightTheme,
-      dark: darkTheme,
-    },
-    defaultTheme: 'light',
-  })]
-};
+  decorators: [
+    withThemeFromJSXProvider({
+      GlobalStyles: CssBaseline,
+      Provider: ThemeProvider,
+      themes: {
+        light: lightTheme,
+        dark: darkTheme,
+      },
+      defaultTheme: 'light',
+    }),
+  ],
+}
 
-export default preview;
+export default preview

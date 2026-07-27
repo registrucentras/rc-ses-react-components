@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { Meta, StoryContext } from '@storybook/react'

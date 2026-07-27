@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
 
-import ListWithIcons from './index'
+import ListWithIcons from '.'
 
 const renderListWithIcons = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)

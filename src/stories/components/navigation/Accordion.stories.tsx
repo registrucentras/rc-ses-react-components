@@ -1,4 +1,3 @@
-/* eslint-disable react/function-component-definition */
 import { Meta, StoryContext } from '@storybook/react'
 
 import RcSesAccordion from '@/components/common/Accordion'

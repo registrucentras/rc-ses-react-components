@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import Button from './index'
+import Button from '.'
 
 describe('Button Component', () => {
   describe('Loading State', () => {
