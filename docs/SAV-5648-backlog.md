@@ -226,13 +226,34 @@ Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` �
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-08a** | MUI 5 → 6 migracija | **0.75h** | LIB-07 |
+| **LIB-08a** | ✅ MUI 5 → 6 migracija | **0.75h → 1.5h** | LIB-07 |
 | **LIB-08b** | MUI 6 → 7 migracija (Grid, slots/slotProps) | **2h** | LIB-08a |
 | **LIB-08c** | MUI 7 → 9 migracija | **1.5h** | LIB-08b |
 | **LIB-09** | Temos perrašymų (39 `Mui*` slots) suderinimas su MUI 9 | **3h** | LIB-08c ∥ |
 | **LIB-10** | `@mui/x-date-pickers` 7 → 9 atnaujinimas | **1h** | LIB-08c |
 
 There is **no MUI v8** — majors are 5, 6, 7, 9. Run `npx @mui/codemod@latest` per hop, **one commit per hop** so a bisect is possible.
+
+#### LIB-08a — done 2026-07-28
+
+MUI 5.16.7 → **6.5.0**. `@mui/x-date-pickers` stayed at 7.17.0 — its peer already allows `@mui/material ^6.0.0`, so it did not need to move (one fewer variable).
+
+*Verification:* `tsc` clean (lib + app) · lint 0 errors · **193 unit tests pass** · `build:lib` clean · **visual regression 154/154 passed against the MUI 5 baselines, zero pixel change**. Bundle 396 565 → 396 774 bytes (+209).
+
+**The visual result is the headline: MUI 5 → 6 is pixel-identical across all 154 stories.** v6's changes are internal (styled engine, opt-in CSS variables) rather than default-style changes. Baselines were left untouched by the run, confirming a genuine comparison rather than a rewrite.
+
+**Codemods: run, reviewed, reverted.** There is no `v6.0.0/preset-safe` — that was a v5 concept. The actual v6 transforms are `all`, `grid-v2-props`, `list-item-button-prop` and `styled`. Findings:
+- `styled` + `list-item-button-prop` produced **almost entirely jscodeshift printer noise** across 5 files — redundant parens around JSX, inserted blank lines, dropped trailing commas — plus one genuine conversion in `StyledStepLabel.tsx` from callback styling to v6's `variants` API. That conversion is *correct* (it properly decomposes `orientation === 'vertical' && !isLast` with the nested `stepState` ternary into a base variant plus an override), but `styled()`'s callback form is **not deprecated in v6**, so adopting `variants` is optional modernisation, not migration. Reverted; the type-checker was then allowed to say what v6 actually requires.
+- **The codemod rewrote all 258 files with CRLF.** `.gitattributes` (`* text=auto eol=lf`) neutralised it in git, but this is a landmine for LIB-08b/c — always check `git diff --stat` before trusting a codemod's file count.
+- `grid-v2-props` was deliberately not run: Grid belongs to LIB-08b.
+
+**Two real regressions, both fixed:**
+
+1. **`Button` — MUI 6 added a native `loading` prop** (`boolean | null`, with `loadingIndicator` and `loadingPosition`). Our custom `loading?: boolean` conflicted with MUI's nullable type at every call site spreading `ButtonProps` (`ButtonWithPopover.tsx:39`, `SearchInput/index.tsx:267`). Fixed by no longer re-declaring the prop — `loading` is still destructured out and drives `RcSesLoadingSpinner`, so it never reaches `MuiButton` and behaviour is unchanged.
+   → **SAV-5916 / LIB-15 is actionable at MUI 6, not v9** — three hops earlier than planned.
+2. **`Switch` stopped toggling on Enter**, caught by a unit test. Diagnosed with a throwaway probe against a bare MUI Switch: `slotProps.input.onKeyDown` → 0 calls, `inputProps.onKeyDown` → 0, root `onKeyDown` → 1. **As of MUI 6, `SwitchBase` applies plain attributes from the input slot but drops event handlers.** Handler moved to the Switch root (keydown bubbles from the input) and now reaches the checkbox to toggle it.
+
+**`inputProps` is deprecated in v6 and removed in v7.** `Switch` is migrated to `slotProps.input`; the remaining sites still need it in LIB-08b — `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx`, `components/AutocompleteInput.tsx`.
 
 **LIB-08b** is the largest hop:
 - **Grid** — legacy `<Grid item xs={12} md={6}>` in 5 files: `layout/ServiceFormActions.tsx`, `layout/ServiceFormContainer/AccordionFormContainer/index.tsx` + `components/AccordionCollapseControls.tsx`, `examples/SingleStepForm/components/ObjectIdentifierSearchModal.tsx`. In v7 old `Grid` → `GridLegacy`; new `Grid` drops `item` for `size={{ xs: 12, md: 6 }}`. Codemod handles most; the flex hacks (`flex: '0 0 270px'`, `flexGrow: 1`) need manual review.
