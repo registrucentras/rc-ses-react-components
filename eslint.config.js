@@ -40,6 +40,8 @@ const devOnlyPaths = [
   'src/main.tsx',
   'src/examples/**',
   'eslint.config.js',
+  'playwright.config.ts',
+  'visual/**',
 ]
 
 /**
@@ -157,7 +159,15 @@ export default [
     // project and typescript-eslint's project service cannot type them.
     // Parsing them without type information is enough for the rules we run.
     name: 'rc-ses/non-project-files',
-    files: ['.storybook/**/*.ts', '.storybook/**/*.tsx', '*.js', '*.cjs', '*.mjs'],
+    files: [
+      '.storybook/**/*.ts',
+      '.storybook/**/*.tsx',
+      'visual/**/*.ts',
+      'playwright.config.ts',
+      '*.js',
+      '*.cjs',
+      '*.mjs',
+    ],
     languageOptions: {
       parserOptions: {
         projectService: false,

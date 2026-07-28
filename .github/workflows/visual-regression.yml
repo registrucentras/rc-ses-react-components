@@ -1,0 +1,58 @@
+name: Visual regression
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same PR makes an in-flight run obsolete.
+concurrency:
+  group: visual-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    # Runs in the same image the baselines were generated in. Font rasterisation
+    # differs between platforms, so this image must stay in step with the
+    # Playwright version in package.json and with `npm run test:visual:update`.
+    # The image already ships Node 22, so setup-node is not needed.
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.0-noble
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # Built once and reused by both checks below.
+      - name: Build Storybook
+        run: npm run storybook-build
+
+      - name: Visual regression
+        run: npx playwright test
+
+      # The a11y config in .storybook/test-runner.ts already existed but nothing
+      # ran it. Story crashes surface here as failures, which pixel diffing alone
+      # reports only as an unexpectedly empty image. `if: always()` so a visual
+      # failure does not hide an accessibility regression.
+      - name: Accessibility
+        if: always()
+        run: |
+          npx vite preview --outDir storybook-static --port 6006 --strictPort &
+          for _ in $(seq 1 60); do
+            curl -sf http://127.0.0.1:6006/iframe.html > /dev/null && break
+            sleep 1
+          done
+          npm run storybook-test -- --url http://127.0.0.1:6006
+
+      - name: Upload diff report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-report
+          path: |
+            playwright-report/
+            test-results/
+            visual/__snapshots__/
+          retention-days: 14

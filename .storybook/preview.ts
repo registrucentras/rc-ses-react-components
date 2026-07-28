@@ -1,3 +1,12 @@
+// The theme declares `fontFamily: 'Public sans, ...'` but nothing used to load
+// the font, so Storybook rendered in whichever generic sans-serif the OS
+// supplied - DejaVu on Linux, Arial/Helvetica on Windows. Bundling it here makes
+// Storybook render what users actually see and, critically, makes visual
+// regression baselines reproducible across machines and CI.
+import '@fontsource/public-sans/400.css'
+import '@fontsource/public-sans/500.css'
+import '@fontsource/public-sans/600.css'
+import '@fontsource/public-sans/700.css'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { withThemeFromJSXProvider } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
