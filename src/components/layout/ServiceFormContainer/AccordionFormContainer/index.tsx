@@ -1,4 +1,4 @@
-import { Container, Grid2 } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { ContainerProps } from '@mui/system'
 import React, { useMemo } from 'react'
 
@@ -60,29 +60,29 @@ function RcSesServiceFormContainer({
         ...slotProps?.container?.sx,
       }}
     >
-      <Grid2
+      <Grid
         container
         columns={showProgressStepper ? 2 : 1}
         sx={{ columnGap: 7.5, flexWrap: 'nowrap', justifyContent: 'center' }}
       >
         {showProgressStepper && (
-          <Grid2 sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
+          <Grid sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
             <ServiceWizardStepper
               steps={steps}
               orientation='vertical'
               activeStep={activeStep}
               onStepClick={handleStepClick}
             />
-          </Grid2>
+          </Grid>
         )}
 
-        <Grid2 sx={{ flexGrow: 1 }}>
+        <Grid sx={{ flexGrow: 1 }}>
           {areAccordionCollapseControlsVisible && (
             <AccordionCollapseControls controller={accordionController} />
           )}
           {children}
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </Container>
   )
 }

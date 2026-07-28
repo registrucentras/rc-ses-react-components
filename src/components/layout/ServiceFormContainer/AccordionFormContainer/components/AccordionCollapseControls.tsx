@@ -1,4 +1,4 @@
-import { Grid2 } from '@mui/material'
+import { Grid } from '@mui/material'
 
 import CollapseChevronsIcon from '@/assets/icons/CollapseChevronsIcon'
 import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
@@ -12,11 +12,11 @@ function AccordionCollapseControls({ controller }: Props) {
   const { collapseAll, expandAll } = controller
 
   return (
-    <Grid2
+    <Grid
       container
       sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}
     >
-      <Grid2>
+      <Grid>
         <Button
           variant='text'
           size='small'
@@ -25,8 +25,8 @@ function AccordionCollapseControls({ controller }: Props) {
         >
           Praskleisti visus
         </Button>
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <Button
           variant='text'
           size='small'
@@ -35,8 +35,8 @@ function AccordionCollapseControls({ controller }: Props) {
         >
           Suskleisti visus
         </Button>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   )
 }
 

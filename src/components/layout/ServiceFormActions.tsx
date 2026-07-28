@@ -1,4 +1,4 @@
-import { Card, Grid2 } from '@mui/material'
+import { Card, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
@@ -35,7 +35,7 @@ function ServiceFormActions({
           py: 4,
         }}
       >
-        <Grid2
+        <Grid
           container
           sx={{
             alignItems: 'center',
@@ -43,7 +43,7 @@ function ServiceFormActions({
             justifyContent: { xs: 'center', md: 'space-between' },
           }}
         >
-          <Grid2>
+          <Grid>
             <Button
               disabled={draftDisabled === true}
               onClick={() => onSaveDraft()}
@@ -52,8 +52,8 @@ function ServiceFormActions({
             >
               {t('draft')}
             </Button>
-          </Grid2>
-          <Grid2>
+          </Grid>
+          <Grid>
             <Button
               disabled={submitDisabled === true}
               endIcon={<ArrowRightIcon />}
@@ -63,15 +63,15 @@ function ServiceFormActions({
             >
               {t('submit')}
             </Button>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Card>
 
-      <Grid2
+      <Grid
         container
         sx={{ justifyContent: 'center', py: { xs: '1.5rem', md: '.875rem' } }}
       >
-        <Grid2>
+        <Grid>
           <Button
             variant='text'
             size='small'
@@ -81,8 +81,8 @@ function ServiceFormActions({
           >
             {t('discard')}
           </Button>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </>
   )
 }

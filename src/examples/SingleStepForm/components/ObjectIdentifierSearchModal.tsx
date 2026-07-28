@@ -13,7 +13,7 @@ import {
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Grid2 from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -87,52 +87,52 @@ function ObjectIdentifierSearchModal({ open, onSubmit, onClose }: Props) {
 
       <DialogContent>
         <form onSubmit={handleSubmit(handleOnSearch)} noValidate>
-          <Grid2 container columnSpacing={2} sx={{ mb: 2 }}>
-            <Grid2 size={{ xs: 12, md: 6 }}>
+          <Grid container columnSpacing={2} sx={{ mb: 2 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <RcSesTextField
                 label='Miestas'
                 errors={errors?.city}
                 {...register('city', { required: true })}
                 slotProps={{ wrapper: { labelOnTop: true } }}
               />
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ xs: 12, md: 6 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <RcSesTextField
                 label='Gatvė'
                 errors={errors?.street}
                 {...register('street', { required: true })}
                 slotProps={{ wrapper: { labelOnTop: true } }}
               />
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <RcSesTextField
                 label='Pastato nr.'
                 errors={errors?.addressNo}
                 {...register('addressNo', { required: true })}
                 slotProps={{ wrapper: { labelOnTop: true } }}
               />
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <RcSesTextField
                 label='Korpuso nr.'
                 errors={errors?.housingNo}
                 {...register('housingNo', { required: true })}
                 slotProps={{ wrapper: { labelOnTop: true } }}
               />
-            </Grid2>
+            </Grid>
 
-            <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <RcSesTextField
                 label='Patalpos nr.'
                 errors={errors?.aptNo}
                 {...register('aptNo', { required: true })}
                 slotProps={{ wrapper: { labelOnTop: true } }}
               />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
 
           <Stack justifyContent='flex-end' direction='row' spacing={1}>
             <Button type='submit'>Ieškoti</Button>
