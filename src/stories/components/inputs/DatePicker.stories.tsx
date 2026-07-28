@@ -1,6 +1,6 @@
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { Meta, StoryContext } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react-vite'
 import { lt } from 'date-fns/locale/lt'
 import { useForm } from 'react-hook-form'
 

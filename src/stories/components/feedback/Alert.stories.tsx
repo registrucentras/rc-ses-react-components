@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 
 import RcSesAlert from '@/components/common/Alert'
 import FieldPreview from '@/components/storybook/FieldPreview'

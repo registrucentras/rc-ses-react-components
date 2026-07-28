@@ -1,4 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
+import type { ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesPhoneInputFormControl from '@/components/form/inputs/PhoneInputFormControl'
@@ -15,7 +16,7 @@ const meta: Meta<typeof RcSesPhoneInputFormControl> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-function PhoneInputFormControlDemo({ label = 'Phone Number' }: { label?: string }) {
+function PhoneInputFormControlDemo({ label = 'Phone Number' }: { label?: ReactNode }) {
   const { control } = useForm({
     defaultValues: {
       phone: '',

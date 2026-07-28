@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { fn } from 'storybook/test'
 
 import RcSesSearchInput from '@/components/form/inputs/SearchInput'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'

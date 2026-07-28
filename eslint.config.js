@@ -105,12 +105,10 @@ export default [
       // which leaves every `@/*` import unresolved (~1000 no-unresolved +
       // extensions errors). Overriding resolver-next wins over airbnb's entry.
       //
-      // The alias has to be passed explicitly rather than read from
-      // tsconfig.json's `paths`: that file sets moduleResolution "Node"
-      // (legacy node10), under which the resolver does not apply path mappings.
-      // Declaring it here keeps tsconfig.json untouched - switching it to
-      // "Bundler" would be correct for a Vite project but changes what `tsc`
-      // accepts, which is a build concern and not part of LIB-05.
+      // The alias is passed explicitly because the resolver does not pick up
+      // `paths` from tsconfig.json here, even with baseUrl set and
+      // moduleResolution "Bundler" - most likely because of the project
+      // `references` entry. Retested and still needed as of Storybook 10.
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           project: './tsconfig.json',

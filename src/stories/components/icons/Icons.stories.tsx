@@ -1,5 +1,5 @@
 import { Box, FormControl, MenuItem, Select, Typography } from '@mui/material'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useMemo, useState } from 'react'
 import type { ReactElement } from 'react'
 

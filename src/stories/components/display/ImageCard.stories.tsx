@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import RcSesButton from '@/components/common/Button'

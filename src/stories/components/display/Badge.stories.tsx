@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 
 import RcSesBadge, { RcSesBadgeProps } from '@/components/common/Badge'

@@ -1,5 +1,5 @@
 import TextField from '@mui/material/TextField'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 
 import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
 

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'

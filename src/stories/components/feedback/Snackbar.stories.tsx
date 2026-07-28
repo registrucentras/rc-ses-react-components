@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material'
-import type { Meta } from '@storybook/react'
+import type { Meta } from '@storybook/react-vite'
 
 import RcSesSnackbar from '@/components/common/Snackbar'
 import {

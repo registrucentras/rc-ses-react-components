@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { Meta, StoryContext, StoryObj } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'

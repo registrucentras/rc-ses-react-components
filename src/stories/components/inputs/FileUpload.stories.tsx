@@ -1,4 +1,4 @@
-import { Meta, StoryContext } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 import RcSesFileUpload from '@/components/form/inputs/FileUpload'

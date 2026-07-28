@@ -1,4 +1,4 @@
-import { Meta, StoryContext, StoryObj } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 import RcSesSearchableField from '@/components/form/inputs/SearchableField'

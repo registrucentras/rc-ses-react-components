@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { FieldError, useForm } from 'react-hook-form'
 
 import RcSesFileDropzone from '@/components/form/inputs/FileDropzone'
