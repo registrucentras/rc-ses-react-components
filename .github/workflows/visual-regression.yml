@@ -39,7 +39,7 @@ jobs:
       - name: Accessibility
         if: always()
         run: |
-          npx vite preview --outDir storybook-static --port 6006 --strictPort &
+          npx vite preview --outDir storybook-static --host 127.0.0.1 --port 6006 --strictPort &
           for _ in $(seq 1 60); do
             curl -sf http://127.0.0.1:6006/iframe.html > /dev/null && break
             sleep 1

@@ -41,7 +41,7 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | --- | --- | --- |
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
-| 2b — Safety net | 2.5 → **3.5** | Playwright chosen; **now unblocked** |
+| 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
 | 3 — MUI 5 → 9 | 8.25 | — |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
@@ -53,7 +53,10 @@ Adjustments so far:
 - **+1h**: LIB-01 revised from 1.5h to 2.5h. The self-hosted Playwright harness is more work than wiring a hosted service, and Storybook turned out not to load its own webfont, which has to be fixed first or baselines are unstable.
 - **+0.5h**: LIB-07 ran to ~1.5h. Storybook 10 forced the `tsconfig` `moduleResolution` change that was scoped into SAV-6398, and the automigration's import rewrites needed a lint pass plus one real type fix.
 
-Running total **22.25h** against the 20h budget. **Phases 1 and 2 complete** (LIB-03, 04, 05, 06, 07); LIB-03b still open, blocked on LIB-01.
+Running total **22.25h** against the 20h budget.
+
+**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b).
+**Open:** LIB-02 (story coverage), LIB-03b (now unblocked), then Phase 3 onward.
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -163,7 +166,7 @@ Vite: no other package had to move — every plugin already supported 7. **Delib
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-01** | Vizualinės regresijos aplinka su Playwright + bazinė linija | **2.5h** | LIB-07 |
+| **LIB-01** | ✅ Vizualinės regresijos aplinka su Playwright + bazinė linija | **2.5h** | LIB-07 |
 | **LIB-02** | Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
 
 **Why this moved out of Phase 0** (decided 2026-07-27): a Storybook major can shift canvas padding and wrapper markup, so a baseline captured before LIB-07 would be invalidated by the Storybook upgrade itself — you would then be diffing Storybook's changes against MUI's. Capturing after LIB-07 leaves **MUI as the only variable**. Nothing in Phase 1 or 2 changes component rendering, so no coverage is lost by waiting. Ordering is therefore **LIB-05 → LIB-07 → LIB-01 → LIB-08a**.
@@ -182,7 +185,37 @@ Known cost: **PNG bloat in git history.** ~48 stories × 50–150 KB ≈ 3–7 M
 
 Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** and is fully configured for a11y (`injectAxe` + `checkA11y` with per-story rule overrides), with a `storybook-test` script — but **no workflow runs it**. Adding that job is ~15 minutes and catches "component throws and renders nothing", a real MUI-migration failure mode that pixel diffing alone reports as an empty image.
 
-*DoD:* CI produces a reviewable visual diff on every PR; baseline captured after LIB-07; a11y job green; `npm ls --all > docs/baseline-tree.txt` recorded.
+*DoD:* CI produces a reviewable visual diff on every PR; baseline captured after LIB-07; a11y job green.
+
+---
+
+#### LIB-01 — as built (2026-07-28)
+
+| File | Purpose |
+| --- | --- |
+| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise |
+| `visual/stories.spec.ts` | reads `storybook-static/index.json`, one test per story |
+| `visual/__snapshots__/` | committed baselines, **Linux-only** |
+| `.github/workflows/visual-regression.yml` | one job: build Storybook once → visual diff → a11y |
+| `npm run test:visual` | run locally against existing baselines |
+| `npm run test:visual:update` | **regenerate baselines in the CI image** — the only supported way |
+| `npm run test:visual:report` | open the HTML diff report |
+
+**154 stories, not 48** — the earlier figure counted `.stories.tsx` files. This retroactively confirms the Playwright decision: 154 snapshots per run would exhaust Chromatic's 5 000/month free tier in about **32 runs**, which Phase 3 would burn through in days.
+
+**Baselines are platform-specific and must never be generated on Windows.** `test:visual:update` runs `npm ci`, the Storybook build and Playwright inside `mcr.microsoft.com/playwright:v1.62.0-noble`, mounting the repo with an *anonymous volume over `node_modules`* so the host's Windows-native binaries (esbuild, rollup) are left intact. Three things must stay in step: the Playwright version in `package.json`, the image tag in that script, and the image tag in the workflow.
+
+**The font fix was a prerequisite, not a nicety.** The theme has always declared `fontFamily: 'Public sans, ...'` while nothing loaded the font, so Storybook rendered in whichever generic sans-serif the OS supplied — DejaVu on Linux, Arial/Helvetica on Windows. Without `@fontsource/public-sans` imported in `.storybook/preview.ts`, baselines would have been irreproducible between any two machines, making the whole harness unreliable rather than merely slightly inaccurate.
+
+**Serving:** `vite preview --outDir storybook-static` rather than adding a static-server dependency — Vite is already present.
+
+**`--host 127.0.0.1` is required, not cosmetic.** Without it `vite preview` binds to `localhost`, which inside the Linux container resolves to `::1` while Playwright polls `127.0.0.1` — the server is never detected and the run dies on a `webServer` timeout after the Storybook build has already succeeded. It happens to work either way on Windows, so this only shows up in the container and in CI. Applied in both `playwright.config.ts` and the workflow's a11y step.
+
+**`node_modules` uses a named Docker volume** (`rcses-visual-node-modules`) rather than an anonymous one, so repeat runs skip the `npm ci` — which is slow over a Windows bind mount. It still masks the host's `node_modules`, keeping Windows-native binaries (esbuild, rollup) intact.
+
+**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically.
+
+**The a11y check is now wired up too.** `.storybook/test-runner.ts` had `injectAxe`/`checkA11y` fully configured since before this ticket with no workflow calling it. It runs with `if: always()` so a visual failure cannot mask an accessibility regression, and it catches "story throws and renders nothing" — which pixel diffing alone reports only as an unexpectedly blank image.
 
 **LIB-02** — 48 stories cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots have no story and add them — `MuiButton` (388 lines) and `MuiAlert` (219 lines) first, then `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`, `MuiPickersLayout`, `MuiTable*`.
 

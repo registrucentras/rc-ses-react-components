@@ -53,7 +53,11 @@ export default defineConfig({
   // `vite preview` is used rather than adding a static-server dependency: Vite
   // is already a devDependency and can serve an arbitrary outDir.
   webServer: {
-    command: `npx vite preview --outDir storybook-static --port ${PORT} --strictPort`,
+    // --host 127.0.0.1 is required, not cosmetic: `vite preview` otherwise binds
+    // to `localhost`, which inside the Linux container resolves to ::1 while
+    // Playwright polls 127.0.0.1, so the server is never detected and the run
+    // dies on a webServer timeout. It happens to work on Windows either way.
+    command: `npx vite preview --outDir storybook-static --host 127.0.0.1 --port ${PORT} --strictPort`,
     url: `http://127.0.0.1:${PORT}/iframe.html`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
