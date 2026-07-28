@@ -180,9 +180,10 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
       : {}),
   }
 
+  // The native-input half is no longer nested here; it is passed separately as
+  // slotProps.htmlInput below.
   const mergedTextFieldInputProps: TFieldProps['InputProps'] = {
     ...slotFieldInputProps,
-    inputProps: mergedNativeInputProps,
     startAdornment: (
       <InputAdornment position='start' onClick={() => internalInputRef.current?.focus()}>
         <Box
@@ -234,7 +235,10 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
         <TextField
           id={id}
           inputRef={setInputRef}
-          InputProps={mergedTextFieldInputProps}
+          slotProps={{
+            input: mergedTextFieldInputProps,
+            htmlInput: mergedNativeInputProps,
+          }}
           error={!!visibleErrors}
           fullWidth
           {...restFieldProps}

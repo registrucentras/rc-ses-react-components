@@ -16,16 +16,19 @@ function AutocompleteInput(props: AutocompleteRenderInputParams) {
   return (
     <TextField
       autoFocus
-      inputProps={inputProps}
-      // eslint-disable-next-line react/jsx-no-duplicate-props
-      InputProps={{
-        ...InputProps,
-        endAdornment: null,
-        startAdornment: (
-          <InputAdornment position='start' sx={{ pl: 1 }}>
-            <MagnifyingGlassIcon fillColor={palette.grey[900]} />
-          </InputAdornment>
-        ),
+      // Autocomplete hands both of these down through renderInput; InputProps
+      // carries the ref and class names it needs, so it must be spread through.
+      slotProps={{
+        htmlInput: inputProps,
+        input: {
+          ...InputProps,
+          endAdornment: null,
+          startAdornment: (
+            <InputAdornment position='start' sx={{ pl: 1 }}>
+              <MagnifyingGlassIcon fillColor={palette.grey[900]} />
+            </InputAdornment>
+          ),
+        },
       }}
       placeholder={t('search')}
       sx={{

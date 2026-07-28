@@ -283,9 +283,10 @@ function RcSesSelect(props: Props) {
                   }
                 : {}),
             }}
-            InputProps={{
-              ...params.InputProps,
-              inputProps: {
+            slotProps={{
+              // params.InputProps carries the ref and classes Autocomplete needs.
+              input: params.InputProps,
+              htmlInput: {
                 ...params.inputProps,
                 readOnly: dropdownSearch,
               },
@@ -373,15 +374,25 @@ function RcSesSelect(props: Props) {
                       opacity: 1,
                     },
                   }}
-                  InputProps={{
-                    inputProps: {
-                      onKeyDown: (event) => event.stopPropagation(),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <Box sx={{ display: 'flex', m: '.625rem' }}>
+                          <MagnifyingGlassIcon
+                            size={20}
+                            fillColor={palette.grey['900']}
+                          />
+                        </Box>
+                      ),
                     },
-                    startAdornment: (
-                      <Box sx={{ display: 'flex', m: '.625rem' }}>
-                        <MagnifyingGlassIcon size={20} fillColor={palette.grey['900']} />
-                      </Box>
-                    ),
+                    // Keeps typing in the dropdown's search box from reaching
+                    // Autocomplete's own keyboard navigation. The parameter needs
+                    // annotating: inside slotProps it no longer gets a contextual
+                    // type the way it did on InputProps.
+                    htmlInput: {
+                      onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) =>
+                        event.stopPropagation(),
+                    },
                   }}
                 />
               </Box>

@@ -192,10 +192,16 @@ function RcSesNumberStepper(props: Props) {
           )
         }
         error={!!errors}
-        inputProps={{
-          disabled,
-          step,
-          value,
+        slotProps={{
+          // Was inputProps. Note this is OutlinedInput, not TextField: its
+          // native-input slot is called `input` (TextField's `input` is the
+          // OutlinedInput wrapper and its native slot is `htmlInput`), so the
+          // mapping is per-component rather than a blanket rename.
+          input: {
+            disabled,
+            step,
+            value,
+          },
         }}
         onChange={handleInputOnChange}
         type='number'
