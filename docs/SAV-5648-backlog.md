@@ -42,7 +42,7 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
 | 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
-| 3 — MUI 5 → 9 | 8.25 | — |
+| 3 — MUI 5 → 9 | 8.25 → **9.0** | LIB-08a, 08b done · 08c, 09, 10 open |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
 | **Total** | **21.75** | |
@@ -55,8 +55,8 @@ Adjustments so far:
 
 Running total **22.25h** against the 20h budget.
 
-**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b).
-**Open:** LIB-02 (story coverage), LIB-03b (now unblocked), then Phase 3 onward.
+**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b (Phase 3).
+**Open:** LIB-02 (story coverage), LIB-03b · **LIB-08c (MUI 7 → 9) is next**, then LIB-09 (theme) and LIB-10 (pickers).
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -227,7 +227,7 @@ Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` �
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-08a** | ✅ MUI 5 → 6 migracija | **0.75h → 1.5h** | LIB-07 |
-| **LIB-08b** | MUI 6 → 7 migracija (Grid, slots/slotProps) | **2h** | LIB-08a |
+| **LIB-08b** | ✅ MUI 6 → 7 migracija (Grid, slots/slotProps) | **2h → 2.5h** | LIB-08a |
 | **LIB-08c** | MUI 7 → 9 migracija | **1.5h** | LIB-08b |
 | **LIB-09** | Temos perrašymų (39 `Mui*` slots) suderinimas su MUI 9 | **3h** | LIB-08c ∥ |
 | **LIB-10** | `@mui/x-date-pickers` 7 → 9 atnaujinimas | **1h** | LIB-08c |
@@ -255,7 +255,37 @@ MUI 5.16.7 → **6.5.0**. `@mui/x-date-pickers` stayed at 7.17.0 — its peer al
 
 **`inputProps` is deprecated in v6 and removed in v7.** `Switch` is migrated to `slotProps.input`; the remaining sites still need it in LIB-08b — `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx`, `components/AutocompleteInput.tsx`.
 
-**LIB-08b** is the largest hop:
+#### LIB-08b — done 2026-07-28, as three commits
+
+| Step | Change | Visual |
+| --- | --- | --- |
+| 1 | `Grid` → `Grid2` on v6 (4 files, 17 usages) | 154/154, zero change |
+| 2 | MUI 6.5.0 → **7.3.11**, `Grid2` → `Grid` rename | 154/154, zero change |
+| 3 | `InputProps`/`inputProps` → `slotProps` (9 sites, 6 files) | 154/154, zero change |
+
+**Grid2-first was the right ordering.** Doing it on v6 made step 2 a pure rename, landing the JSX on v7's final API (`<Grid size={{ xs, md }}>`) without an intermediate shape needing a second pass. Grid2's headline breaking change is its spacing model (v1 used negative margins), but three of the four files use Grid purely as a flex wrapper with **no `spacing` at all** — layout driven by `sx` — so the difference could not apply. Only the demo modal uses `columnSpacing`, and it is not in the published library.
+
+**`@mui/x-date-pickers` 7.17.0 → 7.29.4 was forced.** 7.17.0 peers `@mui/material ^5.15.14 || ^6.0.0` and blocks MUI 7 outright. 7.29.4 adds `^7.0.0` while staying in major 7, keeping the pickers 7 → 9 work isolated in LIB-10.
+
+**Correction to the earlier plan: `InputProps` is *not* removed in v7.** It is deprecated but still accepted, and `tsc` passes untouched — so the slotProps migration was never a v7 blocker. It was done anyway, in its own commit, because both APIs coexist in v7 and the change could therefore be verified against a known-good baseline rather than discovered as forced breakage at v9.
+
+**`SearchableField` got 9 tests, written before the migration.** It had no coverage, and its click-to-open behaviour runs through the input slot. Those tests passed before *and* after, which settles something for LIB-08c: **`slotProps.htmlInput` does forward event handlers on TextField** — MUI 6's handler-dropping was specific to `SwitchBase`, not a general property of slot APIs.
+
+**Two traps the type-checker caught that a blanket rename would have got wrong:**
+
+1. **Slot names are per-component, not a uniform rename:**
+
+   | Component | Wrapper slot | Native `<input>` slot |
+   | --- | --- | --- |
+   | `TextField` | `input` | **`htmlInput`** |
+   | `OutlinedInput` | `root` | **`input`** |
+
+   `NumberStepper` uses `OutlinedInput`, so it maps to `slotProps.input` while every TextField site maps to `slotProps.htmlInput`. A uniform rule would have silently put props on the wrong element — and `tsc` only caught it because these were object literals; a `{...spread}` would have passed straight through. **Do not codemod this.**
+2. **Handler parameters lose their contextual type inside `slotProps`.** `onKeyDown: (event) => ...` type-checked under `InputProps` but became implicit `any` under `slotProps.htmlInput`, needing an explicit `React.KeyboardEvent<HTMLInputElement>`.
+
+The components' own **public** `slotProps` APIs were left untouched — `SearchInput` exposes `field.InputProps` to consumers, and changing that is a breaking API decision for the 2.0.0 review, not a mechanical migration. Worth listing in `MIGRATION-v2.md` (LIB-16).
+
+Original notes on this hop:
 - **Grid** — legacy `<Grid item xs={12} md={6}>` in 5 files: `layout/ServiceFormActions.tsx`, `layout/ServiceFormContainer/AccordionFormContainer/index.tsx` + `components/AccordionCollapseControls.tsx`, `examples/SingleStepForm/components/ObjectIdentifierSearchModal.tsx`. In v7 old `Grid` → `GridLegacy`; new `Grid` drops `item` for `size={{ xs: 12, md: 6 }}`. Codemod handles most; the flex hacks (`flex: '0 0 270px'`, `flexGrow: 1`) need manual review.
 - **slots/slotProps** — `InputProps={{...}}` in `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx` + `components/AutocompleteInput.tsx` → `slotProps.input`.
 
