@@ -40,8 +40,8 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | Phase | Hours | Status |
 | --- | --- | --- |
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
-| 2 — Toolchain | 3.25 → **3.0** | LIB-06 already satisfied |
-| 2b — Safety net | 2.5 → **3.5** | Playwright chosen; blocked by LIB-07 |
+| 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
+| 2b — Safety net | 2.5 → **3.5** | Playwright chosen; **now unblocked** |
 | 3 — MUI 5 → 9 | 8.25 | — |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
@@ -51,8 +51,9 @@ Adjustments so far:
 - **+1h**: LIB-03 split. The `react-hook-form` peer move turned out to be coupled to the build's externals config *and* to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit.
 - **−0.25h**: LIB-06 (TypeScript 5.9) was already satisfied — `^5.4.5` resolves to 5.9.3.
 - **+1h**: LIB-01 revised from 1.5h to 2.5h. The self-hosted Playwright harness is more work than wiring a hosted service, and Storybook turned out not to load its own webfont, which has to be fixed first or baselines are unstable.
+- **+0.5h**: LIB-07 ran to ~1.5h. Storybook 10 forced the `tsconfig` `moduleResolution` change that was scoped into SAV-6398, and the automigration's import rewrites needed a lint pass plus one real type fix.
 
-Running total **21.75h** against the 20h budget.
+Running total **22.25h** against the 20h budget. **Phases 1 and 2 complete** (LIB-03, 04, 05, 06, 07); LIB-03b still open, blocked on LIB-01.
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -100,8 +101,8 @@ Notable: **all `@storybook/*` addons went 8.4.6 → 8.6.x, fixing an existing in
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-05** | ✅ ESLint 9 + flat config migracija, airbnb → airbnb-extended | **2h** | LIB-04 |
-| **LIB-06** | TypeScript 5.9 — jau įvykdyta, tik patikrinimas | **0.25h → 0h** | LIB-05 |
-| **LIB-07** | Storybook 8 → 10 ir Vite 6 → 7 atnaujinimas | **1h** | LIB-06 |
+| **LIB-06** | ✅ TypeScript 5.9 — floor pin | **0.25h → 0h** | LIB-05 |
+| **LIB-07** | ✅ Storybook 8 → 10 ir Vite 6 → 7 atnaujinimas | **1h → 1.5h** | LIB-06 |
 
 **LIB-05** — ✅ **Done 2026-07-27.** `.eslintrc.cjs` + `.eslintignore` → `eslint.config.js` (flat), ESLint 8.57.1 → **9.39.5**. `eslint-config-airbnb` + `-typescript` replaced by **`eslint-config-airbnb-extended@3.1.1`**; `@typescript-eslint/*` 7 → unified `typescript-eslint@8`; `eslint-plugin-storybook` 0.8 → 0.11.6; `eslint-config-prettier` 9 → 10. `FlatCompat` was not needed. **ESLint 10 confirmed unreachable** — `eslint-plugin-import`, `-jsx-a11y`, `-react` all cap at `^9`.
 
@@ -140,7 +141,23 @@ Tracked as **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** 
 
 **LIB-06** — **already satisfied, no work needed.** The declared `^5.4.5` range resolves to **typescript 5.9.3** and lint/tests/build are all green on it. Reduce to a verification step: pin the floor to `^5.9.3` when LIB-05 touches `package.json`, so the intent is explicit rather than incidental. TS 6/7 remains out of scope.
 
-**LIB-07** — `npx storybook@latest upgrade` runs the addon migrations; `@storybook/test` folds into `storybook/test` in 9+. Keep `test-runner` and `addon-a11y` working, since LIB-01 may depend on them. LIB-04 already aligned every `@storybook/*` package to 8.6.x, so the upgrade starts from a consistent baseline. Note that `@storybook/test-runner` is the root of the jest advisory cascade seen in LIB-04.
+**LIB-07** — ✅ **Done 2026-07-28**, as **two commits**: Storybook 8.6 → 10.5.5, then Vite 6.4 → 7.3.6. They turned out to be **independent** — `@storybook/react-vite@10` accepts `vite ^5||^6||^7||^8` — so splitting them keeps a bisect possible.
+
+*Verification (both):* lint 0 errors · 193 tests pass · `storybook-build` green · `build:lib` green · `tsc` clean against both tsconfigs. Bundle byte-identical after Storybook; **shrank 401 048 → 396 565 bytes (−4 483)** after Vite 7, externals unchanged at 23 either way.
+
+Storybook: `storybook upgrade` handled the addon migrations. `addon-essentials` and `addon-interactions` dropped (viewport/controls/actions/interactions moved into core in v9); `@storybook/blocks` → `@storybook/addon-docs/blocks` and `@storybook/test` → `storybook/test`; `test-runner` 0.18 → 0.24.4, `@chromatic-com/storybook` 1 → 5.2.1, `addon-coverage` 1 → 3.0.2, `eslint-plugin-storybook` 0.11 → 10.5.5; `main.js` `docs.autodocs` removed.
+
+Five findings worth recording:
+
+1. **`tsconfig` `moduleResolution` "Node" → "Bundler" was forced here, not deferrable.** It was scoped into SAV-6398, but Storybook 10 exposes its types through `exports` maps that legacy node10 resolution cannot read — `tsc` fails outright and says so. Changed in **both** `tsconfig.json` and `tsconfig.lib.json`; `tsconfig.json` also gained `baseUrl: "."` for consistency. **SAV-6398 must be updated — that scope item is done.**
+2. **`tsconfig.lib.json` does not exclude `src/stories`**, so story files are part of the *library* type-check. That is what surfaced the failure above, and it is arguably wrong on its own — stories are not library code. Left as-is; candidate for a small follow-up.
+3. **The eslint resolver alias workaround could not be removed.** Retested after the Bundler switch, with `baseUrl` added: the resolver still ignores tsconfig `paths`, most likely because of the project `references` entry. The explicit `alias` stays, now with an accurate comment. Time-boxed rather than chased further.
+4. **The automigration added `@storybook/addon-mcp` unprompted** — removed, along with the legacy `@storybook/blocks` and `@storybook/test` packages the migration left in `package.json` after rewriting their imports.
+5. **One real type error** from Storybook 10's stricter story typings: `PhoneInputFormControl.stories.tsx` typed its demo `label` as `string` while the component accepts `ReactNode`. Fixed the demo to mirror the component API. The other 97 lint errors were pure import-ordering churn from the migration not honouring `@trivago/prettier-plugin-sort-imports` — autofixed.
+
+Also: **`storybook-static` and `debug-storybook.log` added to `.gitignore`.** Neither was ignored, and the first Storybook commit accidentally staged 444 build-output files / ~118k lines before it was caught and removed.
+
+Vite: no other package had to move — every plugin already supported 7. **Deliberately not taken:** `@vitejs/plugin-react` 6 and `vite-plugin-css-injected-by-js` 5 both peer-depend on **Vite 8**, so they are out of scope until Vite 8 is considered on its own.
 
 ### Phase 2b — Safety net (moved: must come *after* LIB-07)
 
