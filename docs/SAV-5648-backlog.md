@@ -39,10 +39,10 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 
 | Phase | Hours | Status |
 | --- | --- | --- |
-| 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
+| 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-03b, LIB-04 all done |
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
 | 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
-| 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-10 done · LIB-09 (1h, verification) open |
+| 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-09, LIB-10 all done |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
 | **Total** | **21.75** | |
@@ -60,8 +60,8 @@ Adjustments so far:
 
 Running total **23.25h** against the 20h budget.
 
-**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-10 (Phase 3).
-**Open:** LIB-09 (theme slot audit, 1h) · LIB-02 (story coverage) · LIB-03b (needs a decision on the library's i18next) · then Phase 4 and Phase 5.
+**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3).
+**Open:** LIB-02 (story coverage) · Phase 4 (runtime majors) · Phase 5 (release).
 
 **The library is on MUI 9.2.0 and x-date-pickers 9.10.1 as of 2026-07-29**, with all 154 visual baselines matching and 202 unit tests passing. Every MUI hop landed pixel-identical.
 
@@ -78,7 +78,7 @@ Dependencies are strict unless marked ∥ (parallelisable).
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-03** | ✅ Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | — |
-| **LIB-03b** | Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 (Phase 2b) |
+| **LIB-03b** | ✅ Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 (Phase 2b) |
 | **LIB-04** | ✅ Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 |
 
 **LIB-03** — ✅ **Done 2026-07-27.** Removed `axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet` (zero imports, verified across `src/` *and* config files). Moved `react-router-dom` → `devDependencies` (used only by `src/App.tsx`, `src/main.tsx`, `src/examples/**`), which takes the router 6 → 7 major off the critical path. Widened all 11 peers from exact pins to caret ranges, plus `react`/`react-dom` → `^18.3.1 || ^19.0.0`.
@@ -92,7 +92,26 @@ Two things discovered during execution that were **not** in the original plan:
 
 **LIB-03b** — the deferred half of LIB-03. `vite.config.lib.ts` derives its `external` array from **`Object.keys(pkg.dependencies)`**, so moving `react-hook-form` to `peerDependencies` would cause it to be **bundled** — the opposite of the intent. Fixing that means adding `...Object.keys(pkg.peerDependencies)` to `external`, which simultaneously externalises `date-fns`, `date-fns-tz`, `i18next` and `react-i18next` — all currently bundled.
 
-That is a **behaviour change, not a packaging change**, because `src/i18n/i18n.ts` calls `i18n.use(initReactI18next).init({...})` at import time and is pulled into the library entry graph as a side effect by `FormControlWrapper/index.tsx` and `PhoneInputFormControl/index.tsx`. Today the library initialises its **own bundled** i18next with its own `common`/`input` resources and syncs language via cookie. Externalising i18next would make that `init()` call apply to the **consumer's shared instance**, overwriting `fallbackLng`, `lng`, `supportedLngs` and `resources`. Needs LIB-01's visual/behavioural baseline and an explicit decision: *is the library's i18n self-contained or consumer-provided?* Do not fold this back into a packaging commit.
+✅ **Done 2026-07-29.** *Verification:* lint 0 errors · 202 tests pass · `build:lib` clean · visual 154/154, baselines untouched. Bundle **401.8 → 355.8 kB**.
+
+**Decision: the library's i18n stays self-contained.** `src/i18n/i18n.ts` calls `i18n.use(initReactI18next).init({...})` at import time and is pulled into the entry graph by `FormControlWrapper` and `PhoneInputFormControl`. Externalising i18next would apply that `init()` to the **host's shared instance**, silently overwriting its `fallbackLng`, `lng`, `supportedLngs` and `resources` the moment a component is imported. The `common`/`input` namespaces are library-owned component labels, not app config, and the single-spa graph cannot share one instance across independently-deployed MFEs anyway — cookie-based language sync is what actually works there.
+
+So the fix was **declaration, not externalisation**. The externals array now includes `peerDependencies`, which makes the intent self-enforcing:
+
+> **Peers and dependencies are external. The only bundled packages are the two named in `forceBundled` in `vite.config.lib.ts`.**
+
+| Package | Placement | Bundled? | Reason |
+| --- | --- | --- | --- |
+| `react-hook-form` | peer | no | two copies break form context |
+| `date-fns`, `date-fns-tz` | peer | no | stateless; the host needs `date-fns` as the x-date-pickers adapter regardless |
+| `@emotion/styled` | peer | no | was silently bundled — see below |
+| `i18next`, `react-i18next` | dependency | **yes** | the `init()` problem above |
+
+**`@emotion/styled` was being bundled — 33 kB of the 46 kB saved.** `StepConnector.tsx` imports `styled` from `@emotion/styled` directly rather than from `@mui/material/styles`. This had been missed because `library/index.ts`'s emotion import is type-only, so reading that file alone suggests emotion is never imported at runtime. **It also removes the library's own emotion copy, which was the concrete form of the two-emotion-instances risk in §5 of the analysis doc** — MFEs on different MUI majors sharing a page now share one emotion cache from the host.
+
+**`import-x/no-extraneous-dependencies` drove the final shape.** Putting the four bundled packages in `devDependencies` produced 25 lint errors: the rule correctly objects to shipped source importing devDependencies and has no concept of "bundled by the bundler". Rather than suppress it, the question became which packages genuinely *need* bundling — which is how `date-fns` came back out. Only `i18next` and `react-i18next` do.
+
+**Two breaking changes for `MIGRATION-v2.md` (LIB-16):** `react-hook-form` must now be installed by the consumer; and `date-fns`, `date-fns-tz`, `@emotion/styled` must be resolvable in the host (the first two were already declared peers, and MUI requires emotion regardless).
 
 **LIB-04** — ✅ **Done 2026-07-27.** `npm update` — 26 direct packages moved, all within their declared majors (verified no drift).
 
