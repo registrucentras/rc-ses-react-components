@@ -53,7 +53,13 @@ function ControlledDataPaginationDemo({ page: initialPage, onChange, ...args }: 
   const [page, setPage] = useState(initialPage ?? 1)
 
   return (
-    <Box display='flex' flexDirection='column' gap={2}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
       <Typography variant='body2'>Current page: {page}</Typography>
       <DataPagination
         {...args}

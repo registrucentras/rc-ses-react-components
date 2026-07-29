@@ -8,8 +8,12 @@ const MuiLinearProgress: Components['MuiLinearProgress'] = {
     root: {
       height: '2px',
     },
-    bar1Indeterminate: {
-      display: 'none',
+    // v9 removed the combined bar1Indeterminate key. The equivalent is the bar1
+    // slot scoped to the indeterminate variant class.
+    bar1: {
+      '&.MuiLinearProgress-bar1Indeterminate, .MuiLinearProgress-indeterminate &': {
+        display: 'none',
+      },
     },
   },
 }

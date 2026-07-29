@@ -88,11 +88,12 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     name,
     id: providedId,
   } = props
-  const {
-    InputProps: slotFieldInputProps,
-    inputProps: slotFieldNativeInputProps,
-    ...restFieldProps
-  } = slotProps?.field ?? {}
+  // BREAKING (2.0.0): consumers used to pass slotProps.field.InputProps and
+  // slotProps.field.inputProps. MUI 9 removed both from TextFieldProps, so this
+  // now mirrors MUI's shape - slotProps.field.slotProps.input and .htmlInput.
+  const { slotProps: slotFieldSlotProps, ...restFieldProps } = slotProps?.field ?? {}
+  const slotFieldInputProps = slotFieldSlotProps?.input
+  const slotFieldNativeInputProps = slotFieldSlotProps?.htmlInput
   const id = useMemo(() => providedId ?? uuidv4(), [providedId])
 
   const hasRequiredRule = rules?.required !== undefined
@@ -167,11 +168,16 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
     onChange(parsedValue)
   }
 
-  const mergedNativeInputProps: NonNullable<
-    NonNullable<TFieldProps['InputProps']>['inputProps']
-  > = {
-    ...(slotFieldInputProps?.inputProps ?? {}),
-    ...(slotFieldNativeInputProps ?? {}),
+  // MUI 9's slot props may be either an object or a callback taking ownerState.
+  // Only the object form can be merged here; the callback form is not supported
+  // for this slot and is ignored rather than silently mis-spread.
+  const nativeInputSlot =
+    typeof slotFieldNativeInputProps === 'function'
+      ? {}
+      : (slotFieldNativeInputProps ?? {})
+
+  const mergedNativeInputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+    ...nativeInputSlot,
     ...(onlyNumbers
       ? {
           inputMode: 'numeric',
@@ -182,7 +188,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
 
   // The native-input half is no longer nested here; it is passed separately as
   // slotProps.htmlInput below.
-  const mergedTextFieldInputProps: TFieldProps['InputProps'] = {
+  const mergedTextFieldInputProps = {
     ...slotFieldInputProps,
     startAdornment: (
       <InputAdornment position='start' onClick={() => internalInputRef.current?.focus()}>

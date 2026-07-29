@@ -11,17 +11,18 @@ function AutocompleteInput(props: AutocompleteRenderInputParams) {
     keyPrefix: 'components.RcSesFormControlWrapper',
   })
 
-  const { inputProps, InputProps } = props
+  // MUI 9 replaced the params' inputProps/InputProps with a ready-made slotProps
+  // object ({ inputLabel, input, htmlInput }), so it can be passed straight
+  // through. input still carries the ref and classes Autocomplete relies on.
+  const { slotProps } = props
 
   return (
     <TextField
       autoFocus
-      // Autocomplete hands both of these down through renderInput; InputProps
-      // carries the ref and class names it needs, so it must be spread through.
       slotProps={{
-        htmlInput: inputProps,
+        htmlInput: slotProps.htmlInput,
         input: {
-          ...InputProps,
+          ...slotProps.input,
           endAdornment: null,
           startAdornment: (
             <InputAdornment position='start' sx={{ pl: 1 }}>

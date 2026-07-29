@@ -133,7 +133,12 @@ function RcSesPhoneInputFormControl(props: Props) {
           // Was InputProps: targets the OutlinedInput wrapper.
           input: {
             startAdornment: (
-              <Stack alignItems='center' direction='row'>
+              <Stack
+                direction='row'
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
                 <InputAdornment position='start' sx={{ mr: 0 }}>
                   <Button
                     aria-describedby={popperId}
@@ -191,7 +196,6 @@ function RcSesPhoneInputFormControl(props: Props) {
           })
         }
       />
-
       <Popper
         anchorEl={anchorEl}
         id={popperId}
@@ -219,7 +223,6 @@ function RcSesPhoneInputFormControl(props: Props) {
               }
               getOptionLabel={(option) => option.name}
               isOptionEqualToValue={(o, v) => o.code === v.code}
-              ListboxComponent={ListboxComponent}
               onChange={(e, selection) => {
                 e.preventDefault()
                 setAnchorEl(null)
@@ -228,13 +231,20 @@ function RcSesPhoneInputFormControl(props: Props) {
               }}
               open
               options={countryOptions}
-              PopperComponent={PopperComponent}
               renderInput={AutocompleteInput}
               renderOption={(optionProps, option) =>
                 [optionProps, option] as React.ReactNode
               }
               sx={{ width: 300 }}
               {...slotProps?.autocomplete}
+              slots={{
+                popper: PopperComponent,
+              }}
+              slotProps={{
+                listbox: {
+                  component: ListboxComponent,
+                },
+              }}
             />
           </Box>
         </ClickAwayListener>

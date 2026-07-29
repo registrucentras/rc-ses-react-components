@@ -40,7 +40,8 @@ const MobileStepper = ({
           <Step key={step.id}>
             <StepButton disabled>
               <StyledStepLabel
-                StepIconComponent={CustomStepIcon}
+                // MUI 9 replaced StepIconComponent with the stepIcon slot.
+                slots={{ stepIcon: CustomStepIcon }}
                 stepState={getStepState(index)}
               />
             </StepButton>

@@ -42,9 +42,11 @@ function RcSesDialog({
       onClose={onClose}
       {...props}
       maxWidth={false}
-      PaperProps={{ sx: { width: dialogWidth, borderRadius: '16px' } }}
       aria-labelledby={titleId}
       aria-describedby={children ? contentId : undefined}
+      slotProps={{
+        paper: { sx: { width: dialogWidth, borderRadius: '16px' } },
+      }}
     >
       <DialogTitle
         id={titleId}
@@ -59,7 +61,6 @@ function RcSesDialog({
       >
         {dialogTitle}
       </DialogTitle>
-
       {children && (
         <DialogContent
           id={contentId}
@@ -70,7 +71,6 @@ function RcSesDialog({
           {children}
         </DialogContent>
       )}
-
       {actions && (
         <DialogActions
           sx={{

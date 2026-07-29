@@ -116,9 +116,13 @@ function RcSesCheckboxFormControl(props: Props) {
       {...slotProps?.label}
       slotProps={{
         typography: {
-          fontWeight: 400,
-          lineHeight: '1.25rem',
-          marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
+          // MUI 9 tightened this slot's type: style shorthands are no longer
+          // accepted alongside component props, so they move into sx.
+          sx: {
+            fontWeight: 400,
+            lineHeight: '1.25rem',
+            marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
+          },
           variant: variant === 'flat' ? 'body1' : 'body2',
           ...slotProps?.label?.slotProps?.typography,
         },

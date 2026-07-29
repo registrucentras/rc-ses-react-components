@@ -196,11 +196,6 @@ function RcSesSelect(props: Props) {
         blurOnSelect={false}
         clearOnBlur={false}
         handleHomeEndKeys={false}
-        ListboxProps={{
-          onMouseDown: (e) => {
-            e.preventDefault()
-          },
-        }}
         loading={loading}
         value={resolvedValue}
         inputValue={dropdownSearch ? undefined : inputValue}
@@ -220,7 +215,8 @@ function RcSesSelect(props: Props) {
         }}
         isOptionEqualToValue={(option, val) => option.value === val.value}
         getOptionLabel={(option) => option.label}
-        groupBy={() => ''} // to prevent default grouping when groupBy is not provided but dropdownSearch is enabled
+        // to prevent default grouping when groupBy is not provided but dropdownSearch is enabled
+        groupBy={() => ''}
         renderGroup={(params) => (
           <React.Fragment key={params.key}>
             {!!params.group && (
@@ -284,10 +280,11 @@ function RcSesSelect(props: Props) {
                 : {}),
             }}
             slotProps={{
-              // params.InputProps carries the ref and classes Autocomplete needs.
-              input: params.InputProps,
+              // Spreading params.slotProps keeps `input`, which carries the ref
+              // and classes Autocomplete relies on.
+              ...params.slotProps,
               htmlInput: {
-                ...params.inputProps,
+                ...params.slotProps.htmlInput,
                 readOnly: dropdownSearch,
               },
             }}
@@ -404,14 +401,17 @@ function RcSesSelect(props: Props) {
               key={key}
               component='li'
               {...rest}
-              display='flex'
-              alignItems='center'
-              gap={multiple ? '.75rem' : '.5rem'}
-              sx={{
-                flexDirection: 'row !important',
-                justifyContent: 'space-between',
-                minWidth: 0,
-              }}
+              sx={[
+                {
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: multiple ? '.75rem' : '.5rem',
+                  flexDirection: 'row !important',
+                  justifyContent: 'space-between',
+                  minWidth: 0,
+                },
+                ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx]),
+              ]}
             >
               {multiple && (
                 <Checkbox
@@ -434,11 +434,11 @@ function RcSesSelect(props: Props) {
                   }}
                 />
               )}
-
               <Box
-                flex={1}
                 sx={{
+                  flex: 1,
                   minWidth: 0,
+
                   ...(multiple && !option.description
                     ? {
                         alignItems: 'center',
@@ -456,7 +456,6 @@ function RcSesSelect(props: Props) {
                   </span>
                 )}
               </Box>
-
               {!multiple && selected && (
                 <CheckIcon
                   size={16}
@@ -469,15 +468,29 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
-        renderTags={(tagValues, getTagProps) => {
-          const visible = tagValues.slice(0, limitTags)
-          const hiddenCount = tagValues.length - visible.length
+        renderValue={(tagValues, getItemProps) => {
+          // MUI 9 merged renderTags into renderValue, so this now runs for
+          // single-select too where v7's renderTags did not. Single-select must
+          // keep showing the plain label - rendering a deletable Chip there both
+          // looks wrong and makes the field taller.
+          const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
+          if (!multiple) {
+            return selected[0]?.label ?? ''
+          }
+
+          const visible = selected.slice(0, limitTags)
+          const hiddenCount = selected.length - visible.length
           return (
             <>
-              {visible.map((option, index) => {
-                const { key, ...tagProps } = getTagProps({ index })
-                return <Chip key={key} label={option.label} size='small' {...tagProps} />
-              })}
+              {visible.map((option, index) => (
+                // getItemProps no longer returns a key, so it comes from the option.
+                <Chip
+                  key={option.value ?? index}
+                  label={option.label}
+                  size='small'
+                  {...getItemProps({ index })}
+                />
+              ))}
               {hiddenCount > 0 && (
                 <Box
                   component='span'
@@ -497,6 +510,13 @@ function RcSesSelect(props: Props) {
           )
         }}
         {...slotProps?.field}
+        slotProps={{
+          listbox: {
+            onMouseDown: (e) => {
+              e.preventDefault()
+            },
+          },
+        }}
       />
     </RcSesFormControlWrapper>
   )

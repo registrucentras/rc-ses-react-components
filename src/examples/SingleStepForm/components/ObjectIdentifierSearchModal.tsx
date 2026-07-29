@@ -84,7 +84,6 @@ function ObjectIdentifierSearchModal({ open, onSubmit, onClose }: Props) {
   return (
     <Dialog onClose={onClose} open={open} maxWidth='md'>
       <DialogTitle>Paieška pagal adresą</DialogTitle>
-
       <DialogContent>
         <form onSubmit={handleSubmit(handleOnSearch)} noValidate>
           <Grid container columnSpacing={2} sx={{ mb: 2 }}>
@@ -134,7 +133,13 @@ function ObjectIdentifierSearchModal({ open, onSubmit, onClose }: Props) {
             </Grid>
           </Grid>
 
-          <Stack justifyContent='flex-end' direction='row' spacing={1}>
+          <Stack
+            direction='row'
+            spacing={1}
+            sx={{
+              justifyContent: 'flex-end',
+            }}
+          >
             <Button type='submit'>Ieškoti</Button>
             <Button color='grey' variant='outlined' onClick={handleOnReset}>
               Išvalyti
@@ -171,7 +176,6 @@ function ObjectIdentifierSearchModal({ open, onSubmit, onClose }: Props) {
           </TableContainer>
         )}
       </DialogContent>
-
       <DialogActions>
         <Button disabled={!results?.length} onClick={handleOnSubmit}>
           Pridėti
