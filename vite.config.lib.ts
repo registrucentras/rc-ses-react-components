@@ -12,6 +12,20 @@ import pkg from './package.json'
 const scopedPackageName = pkg.name
 const packageName = scopedPackageName.replace('/', '-').replace('@', '')
 
+/**
+ * Declared as dependencies but deliberately bundled rather than externalised.
+ *
+ * src/i18n/i18n.ts calls i18n.use(initReactI18next).init() at import time, and is
+ * pulled into the entry graph by FormControlWrapper and PhoneInputFormControl.
+ * Bundling keeps that on the library's own i18next instance. Externalising would
+ * point it at the host's shared instance and silently overwrite its fallbackLng,
+ * lng, supportedLngs and resources the moment a component is imported.
+ *
+ * Everything else follows the plain rule: peerDependencies and dependencies are
+ * external, so the host resolves a single copy.
+ */
+const forceBundled = ['i18next', 'react-i18next']
+
 export default defineConfig({
   publicDir: false,
   build: {
@@ -27,7 +41,8 @@ export default defineConfig({
         main: path.resolve(__dirname, './src/library/index.ts'),
       },
       external: [
-        ...Object.keys(pkg.dependencies || {}),
+        ...Object.keys(pkg.dependencies || {}).filter((d) => !forceBundled.includes(d)),
+        ...Object.keys(pkg.peerDependencies || {}),
         /^@mui($|\/.+)/,
         'react',
         'react-dom'
