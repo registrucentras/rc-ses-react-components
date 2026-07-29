@@ -42,7 +42,7 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-04 done · LIB-03b open |
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
 | 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
-| 3 — MUI 5 → 9 | 8.25 → **9.0** | LIB-08a, 08b done · 08c, 09, 10 open |
+| 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-10 done · LIB-09 (1h, verification) open |
 | 4 — Runtime majors | 2.25 | — |
 | 5 — Release | 3.0 | — |
 | **Total** | **21.75** | |
@@ -52,11 +52,18 @@ Adjustments so far:
 - **−0.25h**: LIB-06 (TypeScript 5.9) was already satisfied — `^5.4.5` resolves to 5.9.3.
 - **+1h**: LIB-01 revised from 1.5h to 2.5h. The self-hosted Playwright harness is more work than wiring a hosted service, and Storybook turned out not to load its own webfont, which has to be fixed first or baselines are unstable.
 - **+0.5h**: LIB-07 ran to ~1.5h. Storybook 10 forced the `tsconfig` `moduleResolution` change that was scoped into SAV-6398, and the automigration's import rewrites needed a lint pass plus one real type fix.
+- **+0.5h**: LIB-08a ran to ~1.5h — two real regressions (Button's `loading` prop colliding with MUI 6's new native one, and Switch silently losing Enter-to-toggle).
+- **+0.5h**: LIB-08b ran to ~2.5h across three commits, including 9 new `SearchableField` tests written before touching it.
+- **+1.5h**: LIB-08c ran to ~3h. Pickers 7 → 9 skipped a major, and MUI 9 removed enough that ~25 type errors needed resolving.
+- **−1h**: LIB-10 absorbed into LIB-08c (MUI 9 forces pickers 9 anyway).
+- **−2h**: LIB-09 reduced from migration to verification — the compiler forced the mandatory theme work into LIB-08c.
 
-Running total **22.25h** against the 20h budget.
+Running total **23.25h** against the 20h budget.
 
-**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b (Phase 3).
-**Open:** LIB-02 (story coverage), LIB-03b · **LIB-08c (MUI 7 → 9) is next**, then LIB-09 (theme) and LIB-10 (pickers).
+**Done:** LIB-03, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-10 (Phase 3).
+**Open:** LIB-09 (theme slot audit, 1h) · LIB-02 (story coverage) · LIB-03b (needs a decision on the library's i18next) · then Phase 4 and Phase 5.
+
+**The library is on MUI 9.2.0 and x-date-pickers 9.10.1 as of 2026-07-29**, with all 154 visual baselines matching and 202 unit tests passing. Every MUI hop landed pixel-identical.
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -228,9 +235,9 @@ Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` �
 | --- | --- | --- | --- |
 | **LIB-08a** | ✅ MUI 5 → 6 migracija | **0.75h → 1.5h** | LIB-07 |
 | **LIB-08b** | ✅ MUI 6 → 7 migracija (Grid, slots/slotProps) | **2h → 2.5h** | LIB-08a |
-| **LIB-08c** | MUI 7 → 9 migracija | **1.5h** | LIB-08b |
-| **LIB-09** | Temos perrašymų (39 `Mui*` slots) suderinimas su MUI 9 | **3h** | LIB-08c ∥ |
-| **LIB-10** | `@mui/x-date-pickers` 7 → 9 atnaujinimas | **1h** | LIB-08c |
+| **LIB-08c** | ✅ MUI 7 → 9 migracija | **1.5h → 3h** | LIB-08b |
+| **LIB-09** | Temos slotų patikrinimas (nebe migracija) | **3h → 1h** | LIB-08c |
+| **LIB-10** | ✅ `@mui/x-date-pickers` 7 → 9 — įvykdyta LIB-08c apimtyje | **1h → 0h** | — |
 
 There is **no MUI v8** — majors are 5, 6, 7, 9. Run `npx @mui/codemod@latest` per hop, **one commit per hop** so a bisect is possible.
 
@@ -289,12 +296,51 @@ Original notes on this hop:
 - **Grid** — legacy `<Grid item xs={12} md={6}>` in 5 files: `layout/ServiceFormActions.tsx`, `layout/ServiceFormContainer/AccordionFormContainer/index.tsx` + `components/AccordionCollapseControls.tsx`, `examples/SingleStepForm/components/ObjectIdentifierSearchModal.tsx`. In v7 old `Grid` → `GridLegacy`; new `Grid` drops `item` for `size={{ xs: 12, md: 6 }}`. Codemod handles most; the flex hacks (`flex: '0 0 270px'`, `flexGrow: 1`) need manual review.
 - **slots/slotProps** — `InputProps={{...}}` in `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx` + `components/AutocompleteInput.tsx` → `slotProps.input`.
 
-**LIB-08c** — read the official v9 migration guide first; it is newer than any local knowledge. `@mui/codemod@9.1.0` ships the v9 transforms. v9 adds `@mui/material-pigment-css` as an optional peer — **we are not adopting Pigment CSS**. MUI 9 peers accept `react ^17 || ^18 || ^19`, so **no React 19 needed**.
+#### LIB-08c — done 2026-07-29, as two commits
 
-**LIB-09** — the effort sink. All 39 files in `src/theme/light/` use `defaultProps` + `styleOverrides` per slot; `MuiButton.tsx` (388 lines) and `MuiAlert.tsx` (219 lines) dominate.
+| Step | Change | Visual |
+| --- | --- | --- |
+| 1 | `@mui/x-date-pickers` 7.29.4 → **9.10.1**, still on MUI 7 | 154/154, zero change |
+| 2 | MUI 7.3.11 → **9.2.0** | 154/154 after two fixes |
+
+**LIB-10 is absorbed here.** Neither pickers 7 nor 8 supports `@mui/material` 9 — both peer `^5.15.14 || ^6.0.0 || ^7.0.0`. Pickers 9 peers `^7.3.0 || ^9.0.0`, so it went first while still on MUI 7, isolating the variable the same way Grid2-first did.
+
+**Pickers 7 → 9 skipped major 8**, so it was two majors of breaking changes. `@mui/x-codemod` `v8.0.0/preset-safe` then `v9.0.0/preset-safe` handled the renames; twelve errors needed hand work:
+
+| Removed | Replacement |
+| --- | --- |
+| `PickersActionBarProps.onAccept/onCancel/onClear/onSetToday` | `usePickerActionsContext()` → `clearValue`, `cancelValueChanges`, `acceptValueChanges`, `setValueToToday` |
+| `MuiPickersAdapterContext` | `usePickerAdapter()` for the adapter, `usePickerTranslations()` for `localeText` |
+| `onMonthChange(date, direction)` | direction argument dropped |
+| `DatePickerProps<Date, boolean>`, `PickersCalendarHeaderProps<Date>` | no longer generic |
+| `locales/utils/getPickersLocalization` | **not in the package `exports` map** — the file exists on disk, so this only breaks under `moduleResolution: "Bundler"`. Inlined; it is a four-line wrapper |
+
+Note `useLocalizationContext` reads like the natural replacement for the adapter context and is declared in the type definitions, but **is not exported** from `hooks/index`. Take v9 replacements from the installed `.d.ts` rather than from the guide.
+
+**MUI 7 → 9.** `deprecations/all` (a preset — do not run 50 individual transforms) plus `v9.0.0/system-props` covered Snackbar `TransitionComponent`, Dialog `PaperProps`, Autocomplete `ListboxComponent`/`ListboxProps`/`PopperComponent`, and the 11 system-prop sites. Hand work:
+
+- `AutocompleteRenderInputParams` now ships `params.slotProps` (`{ inputLabel, input, htmlInput }`) instead of `inputProps`/`InputProps`
+- `StepLabel` `StepIconComponent` → `slots.stepIcon`. **The codemod skipped both sites** because they sit on a `styled(StepLabel)` wrapper
+- `Modal` `disableEscapeKeyDown` removed — a no-op here, `FullPageLoader` takes no `onClose`
+- `FormControlLabel` `slotProps.typography` rejects style shorthands → `sx`
+
+**Three breaking changes for `MIGRATION-v2.md` (LIB-16). Two are runtime-visible in `ses-ui`, not just compile-time:**
+
+1. **`SearchInput`'s public API changed** — `slotProps.field.InputProps`/`.inputProps` → `slotProps.field.slotProps.input`/`.htmlInput`. Not a choice: v9 deleted both from `TextFieldProps`.
+2. **A standalone `Tab` now throws.** `Tabs` supplies `RovingTabIndexContext`; without it MUI raises *"RovingTabIndexContext is missing"*. A hard error, not a degradation.
+3. **`Stepper` is a `tablist` and `StepButton` a `tab`.** Anything selecting stepper steps by button role breaks — confirmed in `Stepper.js:114` and `StepButton.js:138`.
+
+**What the visual suite caught that nothing else did** — both after types and all 202 unit tests were green:
+
+- **`Select` rendered a deletable Chip in single-select mode.** v9 merged `renderTags` into `renderValue`, which now fires for both modes. Also made the field taller, cascading a vertical offset down the page.
+- **The three `Tab` stories rendered MUI's crash page**, showing up as an 87 kB screenshot against a 5.6 kB baseline. Because the harness captures full pages rather than asserting on elements, a throwing component is *more* legible than the blank image predicted in LIB-01, not less.
+
+**LIB-09 — scope reduced from migration to verification.** The compiler forced the mandatory theme work into LIB-08c: `MuiAlert` (all 15 combined `standard`/`filled`/`outlined` × severity keys restructured into nested `&.MuiAlert-color*` selectors — **pixel-identical**), `MuiTabs` (`flexContainer` slot renamed `list`), `MuiLinearProgress` (`bar1Indeterminate` removed, `bar1` scoped instead).
+
+The other 36 slots compile clean and render pixel-identical, so what remains is narrower than the original 3h: **audit for silently dead overrides** — `styleOverrides` keys that still type-check but no longer match anything in v9. `MuiButton.tsx` (388 lines) is the one to check first, since v9's class consolidation affects exactly the variant+colour patterns it targets. A key that has become dead will not fail the build or the visual suite; it just stops applying.
 *DoD:* LIB-01 visual diff reviewed **slot by slot**; every intentional change listed in the PR, every unintentional one fixed.
 
-**LIB-10** — `x-date-pickers@9` peers `@mui/material ^7.3.0 || ^9.0.0`. Verify the `PickerValidDateLookup` module augmentation in `src/library/index.ts:62` still exists under v9. Touch points: `theme/light/MuiPickersLayout.ts`, `form/inputs/Datepicker/index.tsx`.
+**LIB-10** — ✅ done inside LIB-08c (see above). The `PickerValidDateLookup` module augmentation in `src/library/index.ts` still resolves under v9; `theme/light/MuiPickersLayout.ts` was migrated by the x-codemod presets.
 
 ### Phase 4 — Remaining runtime majors
 
@@ -320,7 +366,17 @@ Original notes on this hop:
 | **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
 
 **LIB-15** — unlocked by LIB-08c. `src/components/common/Button/index.tsx` carries `// TODO: use MUI's loading prop when MUI lib upgrade is done`. Breaking, so it belongs in 2.0.0. Links to existing ticket **SAV-5916**.
-**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer; `react-router-dom` no longer provided; removed/renamed props; the radius token changes (3px → 8px on buttons and inputs). SAV-6098 cannot be planned without this.
+**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer; `react-router-dom` no longer provided; the radius token changes (3px → 8px on buttons and inputs, see §10 of the analysis doc). SAV-6098 cannot be planned without this.
+
+Breaking changes confirmed so far, to list verbatim:
+
+| Change | Kind |
+| --- | --- |
+| `SearchInput` `slotProps.field.InputProps`/`.inputProps` → `slotProps.field.slotProps.input`/`.htmlInput` | compile-time |
+| A standalone `RcSesTab` outside `RcSesTabs` **throws** (`RovingTabIndexContext is missing`) | **runtime** |
+| `Stepper` renders `role=tablist`, `StepButton` `role=tab` — selectors/tests targeting steps by button role break | **runtime** |
+| Peers now require `@mui/material` ^9, `@mui/system` ^9, `@mui/x-date-pickers` ^9 | install-time |
+| `react-hook-form` may become a peer (pending LIB-03b) | install-time |
 **LIB-17** — publish `2.0.0-rc.0` and have SAV-6098 validate before tagging final. `build-and-publish.yml` publishes on GitHub release, so an rc tag fits the existing pipeline.
 
 ---
