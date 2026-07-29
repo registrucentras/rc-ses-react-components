@@ -39,7 +39,6 @@ function ServiceDetailsForm() {
           { value: 'tikslas3', label: 'Tikslas 3' },
         ]}
       />
-
       <RcSesSelect
         id='legalBasis'
         name='legalBasis'
@@ -53,7 +52,6 @@ function ServiceDetailsForm() {
           { value: 'teisinisPagrindas3', label: 'Teisinis pagrindas 3' },
         ]}
       />
-
       <RcSesCheckbox
         id='agreement'
         name='agreement'
@@ -65,7 +63,6 @@ function ServiceDetailsForm() {
         Pagal užsakymą gautus duomenis naudosiu nurodytam duomenų tikslui ir šių duomenų
         neatskleisiu tretiesiems asmenims.
       </RcSesCheckbox>
-
       <RcSesSelect
         id='deadline'
         name='deadline'
@@ -78,7 +75,6 @@ function ServiceDetailsForm() {
           { value: 'terminas-2', label: 'iki mėnesio pabaigos' },
         ]}
       />
-
       <RcSesSelect
         id='address'
         name='address'
@@ -134,7 +130,6 @@ function ServiceDetailsForm() {
           },
         ]}
       />
-
       <RcSesNumberStepper
         id='numberOfCopies'
         name='numberOfCopies'
