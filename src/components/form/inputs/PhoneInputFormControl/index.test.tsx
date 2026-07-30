@@ -52,6 +52,10 @@ describe('RcSesPhoneInputFormControl', () => {
    * migration so that rewrite is verifiable.
    */
   describe('country dropdown', () => {
+    // Opening the dropdown renders all ~244 countries (see the note below), which
+    // is slow enough in jsdom to exceed the 5s default - more so since jsdom 29.
+    vi.setConfig({ testTimeout: 20_000 })
+
     const openDropdown = () => {
       fireEvent.click(screen.getByRole('button', { name: 'aria.countrySelectorLabel' }))
     }
