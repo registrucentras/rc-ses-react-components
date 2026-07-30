@@ -418,7 +418,7 @@ Two notes for whoever runs the release:
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-15** | SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
-| **LIB-16** | Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
+| **LIB-16** | ✅ Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
 | **LIB-17** | `2.0.0-rc.0` išleidimas ir validavimas su ses-ui | **1h** | LIB-16 |
 | **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
 
