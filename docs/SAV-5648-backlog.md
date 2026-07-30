@@ -43,7 +43,7 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
 | 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
 | 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-09, LIB-10 all done |
-| 4 — Runtime majors | 2.25 | — |
+| 4 — Runtime majors | 2.25 → **2.75** | ✅ LIB-11, 12, 13, 14, 15b all done |
 | 5 — Release | 3.0 | — |
 | **Total** | **21.75** | |
 
@@ -60,10 +60,22 @@ Adjustments so far:
 
 Running total **23.25h** against the 20h budget.
 
-**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3).
-**Open:** LIB-02 (story coverage) · Phase 4 (runtime majors) · Phase 5 (release).
+**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
+**Open:** LIB-02 (story coverage) · Phase 5 (release: MIGRATION-v2, 2.0.0-rc, 2.0.0).
 
-**The library is on MUI 9.2.0 and x-date-pickers 9.10.1 as of 2026-07-29**, with all 154 visual baselines matching and 202 unit tests passing. Every MUI hop landed pixel-identical.
+**As of 2026-07-30 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 154/154 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
+
+**Deliberately deferred, each with a reason:**
+
+| Deferred | Why |
+| --- | --- |
+| React 18 → 19 | needs a lockstep import-map deploy across the MFE graph — own epic |
+| ESLint 9 → 10 | `eslint-plugin-import`, `-jsx-a11y` and `-react` all cap at `^9` — SAV-6398 |
+| TypeScript 5.9 → 7 | own ticket |
+| Vite 7 → 8 | `@vitejs/plugin-react` 6 and `vite-plugin-css-injected-by-js` 5 both *require* Vite 8 |
+| `react-router-dom` 6 → 7 | devDependency only, used by the demo app |
+| `@rollup/plugin-commonjs` 26 → 29 | breaks the build — see LIB-15b |
+| `@emotion/*` 11.13 → 11.14, `react-hook-form` 7.53 → 7.83 | devDep pins deliberately match what `ses-ui` runs; peer ranges already permit newer |
 
 **The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
 
@@ -365,15 +377,41 @@ The other 36 slots compile clean and render pixel-identical, so what remains is 
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-11** | i18next 23 → 26 ir react-i18next 14 → 17 | **0.5h** | LIB-08c |
-| **LIB-12** | date-fns 3 → 4 atnaujinimas | **0.25h** | LIB-11 ∥ |
-| **LIB-13** | react-window 1 → 2 API migracija | **1h** | LIB-08c |
-| **LIB-14** | react-dropzone 14 → 15 ir uuid 11 → 14 | **0.5h** | LIB-08c ∥ |
+| **LIB-11** | ✅ i18next 23 → 26 ir react-i18next 14 → 17 | **0.5h** | LIB-08c |
+| **LIB-12** | ✅ date-fns 3 → 4 atnaujinimas | **0.25h** | LIB-11 ∥ |
+| **LIB-13** | ✅ react-window 1 → 2 API migracija | **1h → 1.5h** | LIB-08c |
+| **LIB-14** | ✅ react-dropzone 14 → 19 ir uuid 11 → 14 | **0.5h** | LIB-08c ∥ |
+| **LIB-15b** | ✅ Test/build harness devDeps atnaujinimas | **0.5h** | — |
 
-**LIB-11** — `react-i18next@17` peers `i18next >= 26.2.0` and `typescript ^5 || ^6 || ^7`, compatible with TS 5.9. Touch point: `src/i18n/i18n.ts`.
-**LIB-12** — light usage: `parseISO`, `fromZonedTime`, the `Locale` type, `enUS`/`lt` locale imports. Verify `date-fns/locale/lt` subpath still resolves. `@date-fns/tz` not needed.
-**LIB-13** — genuine **API rewrite**, not a version bump, but confined to 2 files: `form/inputs/PhoneInputFormControl/components/ListboxComponent.tsx` + `OuterElementType.tsx`. The 1h assumes the virtualised phone-country listbox is re-verified by hand — it is the one place an agent can produce compiling code that scrolls wrong.
-**LIB-14** — `react-dropzone` → `RcSesFileDropzone`; `uuid` 11 call sites, `v4` API unchanged.
+#### Phase 4 — done 2026-07-29/30
+
+All shipped as separate commits. Final state: **206 tests, lint 0 errors, visual 154/154, bundle 333.4 kB** (from 401.8 kB at the start of Phase 4).
+
+**LIB-13 (react-window 1 → 2) was the only real API rewrite** — `VariableSizeList` → `List`, `itemCount`/`itemSize`/`itemData` → `rowCount`/`rowHeight`/`rowProps`, row renderer from `children` → `rowComponent`, `innerElementType`/`outerElementType` → `tagName` + rest props, `ListChildComponentProps` → `RowComponentProps<T>`. It let **two helpers be deleted**: `OuterElementType.tsx` (only forwarded Autocomplete's listbox props through a context; `List` spreads rest props itself) and `hooks/useResetCache.ts` (no size cache in v2). `@types/react-window` dropped — v2 ships its own.
+
+**4 dropdown tests were written before that rewrite, and they were the only thing covering it.** The country listbox mounts only on click, so the visual baselines never capture it, and the one pre-existing test checked only the default dial code. They pass identically on v1 and v2.
+
+> **Finding worth its own ticket: the listbox renders all ~244 countries, not a virtualised window.** `height` is set to `rowCount × rowHeight`, so react-window treats every row as visible. The component therefore gains nothing from react-window in this configuration. Carried over unchanged to keep the migration comparable. A second-order effect: the test is heavy enough that jsdom 29 pushed it past the 5s default timeout (now 20s for that describe block). Constraining the height would fix both.
+
+**LIB-14 was under-done first time round: react-dropzone went to 15, but latest is 19.1.1.** The compatibility check ran `npm view react-dropzone@15`, which reports the newest version *within that range* — so "latest=15.0.0" read as confirmation when it was tautology. The plan's `14 → 15` target came from the May screenshot, before 16–19 shipped. **`npm outdated` against the finished state is what caught it; re-run that before the release rather than trusting planned target versions.**
+
+**LIB-12:** `date-fns` 3.6.0 → 4.4.0 forced `date-fns-tz` 3.1.3 → **3.2.0** (its peer is `^3.0.0 || ^4.0.0`; there is no tz 4.x). The peer range is deliberately `^3.6.0 || ^4.0.0` rather than requiring 4 — date-fns is external, everything used (`parseISO`, `fromZonedTime`, the `Locale` type, locale subpaths) exists in both majors, and x-date-pickers accepts either. Consumers on date-fns 3 keep working.
+
+**LIB-11 came through clean** — three majors each on i18next and react-i18next, with every option in `src/i18n/i18n.ts`'s `init()` unchanged. That was contained by the LIB-03b decision: the instance is bundled, so the blast radius was our own config rather than the host's.
+
+#### LIB-15b — test/build harness devDeps
+
+`jsdom` 27 → 29 · `@testing-library/jest-dom` 6 → 7 · `@trivago/prettier-plugin-sort-imports` 4 → 6 · `vite-plugin-dts` 4 → 5 · `vite-plugin-static-copy` 3 → 4 · `rollup-plugin-typescript2` 0.36 → 0.37.
+
+**`@rollup/plugin-commonjs` deliberately held at 26.** v29 no longer rewrites the CJS named exports of `react/jsx-runtime`, nor of `use-sync-external-store/shim` reached through the force-bundled `react-i18next`, so the build fails outright. Its only job here is CJS interop for those two bundled packages — upgrading buys nothing consumer-visible and would mean tuning plugin internals to stand still.
+
+**That failure exposed a gap in the LIB-03b externals invariant: it matched bare package names only.** `react` was external while `react/jsx-runtime` was bundled; `date-fns` external while `date-fns/locale` was bundled. Shipping part of a package the host also provides risks two copies of its internals. Externals are now generated as `^name($|/)` regexes covering subpaths — worth **−22 kB** on its own.
+
+Two notes for whoever runs the release:
+- `@trivago/prettier-plugin-sort-imports` 4 → 6 produced **zero** import churn; the explicit `importOrder` in `.prettierrc` holds ordering stable across both majors.
+- The Playwright container's npm now **warns** that it is gating install scripts for `esbuild`, `@swc/core` and `unrs-resolver`. Still working — esbuild's binary is present, Storybook builds — but if that gate becomes enforcement, CI fails in a way that looks nothing like a dependency problem.
+
+**Two peers are pinned one minor behind on purpose:** `@emotion/*` 11.13 (latest 11.14) and `react-hook-form` 7.53.2 (latest 7.83). The peer ranges already permit newer, and the devDep pins match what `ses-ui` actually runs, so the library builds against the consumer's real versions.
 
 ### Phase 5 — Release
 
