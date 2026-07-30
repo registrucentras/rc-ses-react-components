@@ -1,0 +1,13 @@
+import{j as o}from"./iframe-CzYWeAAM.js";import{R as t}from"./index-16ipXZ22.js";import{T as i}from"./TextField-BAtVt4Rf.js";import"./preload-helper-PPVm8Dsz.js";import"./i18n-CnhWQINR.js";import"./useFormControl-1-2Ejt4A.js";import"./memoTheme-B8PBHXaB.js";import"./styled-o9dTP5_L.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./useTranslation-C3PgZEFh.js";import"./index-BXD3M11i.js";import"./Box-DS5v1r08.js";import"./index-BGB6hCM8.js";import"./getThemeProps-CSIavC_u.js";import"./FormControl-Bjz1hJYW.js";import"./isMuiElement-CuNyLYNc.js";import"./FormLabel-BbpRQwN3.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./useSlot-DnlNrRlP.js";import"./mergeSlotProps-BZ3kvavi.js";import"./useReducedMotion-CkBLeDCZ.js";import"./Select-C3vQVpAz.js";import"./useSlotProps-Du2SzsHA.js";import"./Popover-BzQuhPrY.js";import"./mergeSlotProps-yOchpKHl.js";import"./ownerDocument-DW-IO8s5.js";import"./ownerWindow-HkKU3E4x.js";import"./debounce-Be36O1Ab.js";import"./Grow-D5dcb3WF.js";import"./Transition-DVaobtwT.js";import"./utils-cxgvJEOf.js";import"./getReactElementRef-D49jJWeM.js";import"./Modal-Bc5BHn-X.js";import"./createChainedFunction-BO_9K8Jh.js";import"./Portal-CHrLY6g1.js";import"./index-OGsvLktG.js";import"./index-AZ36-Lfq.js";import"./setRef-CQn2LYBI.js";import"./getActiveElement-BQgAPKnO.js";import"./contains-DSD8CO72.js";import"./Paper-avUaDfz-.js";import"./useRovingTabIndex-DkSpIyoX.js";import"./List-Bsa4_Dwt.js";import"./useControlled-6NanGQiB.js";import"./useTimeout-B5xTyLR2.js";import"./createSvgIcon-CZozAuyK.js";import"./OutlinedInput-BgBvezHV.js";import"./InputLabel-iRtmM5ko.js";const $={title:"components/form/FormControlWrapper",component:t,tags:["autodocs"],argTypes:{label:{control:"text"},description:{control:"text"},hideLabel:{control:"boolean"},labelOnTop:{control:"boolean"},required:{control:"boolean"}}},r={args:{label:"Label",description:"This is a helpful description",hideLabel:!1,labelOnTop:!1,required:!1},render:e=>o.jsx(t,{...e,children:o.jsx(i,{id:"input",placeholder:"Type text here",size:"small",fullWidth:!0})})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: 'Label',
+    description: 'This is a helpful description',
+    hideLabel: false,
+    labelOnTop: false,
+    required: false
+  },
+  render: args => <RcSesFormControlWrapper {...args}>
+      <TextField id='input' placeholder='Type text here' size='small' fullWidth />
+    </RcSesFormControlWrapper>
+}`,...r.parameters?.docs?.source}}};const rr=["Default"];export{r as Default,rr as __namedExportsOrder,$ as default};
+//# sourceMappingURL=FormControlWrapper.stories-CsLFORzZ.js.map
