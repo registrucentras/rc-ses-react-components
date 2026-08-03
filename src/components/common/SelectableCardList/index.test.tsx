@@ -68,6 +68,16 @@ describe('SelectableCardList', () => {
     expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
   })
 
+  test('shows only 3 items per page on mobile', () => {
+    mockedUseMediaQuery.mockReturnValue(true)
+
+    renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
+
+    expect(screen.getByText('Item 1')).toBeInTheDocument()
+    expect(screen.getByText('Item 3')).toBeInTheDocument()
+    expect(screen.queryByText('Item 4')).not.toBeInTheDocument()
+  })
+
   test('calls onSelect with the correct item id when a card is clicked', async () => {
     const onSelect = vi.fn()
 

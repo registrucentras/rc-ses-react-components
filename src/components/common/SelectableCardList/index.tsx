@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material'
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material'
 import { ReactNode, useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
@@ -19,25 +19,29 @@ export interface SelectableCardListProps {
 }
 
 const SKELETON_COUNT = 5
-const PAGE_SIZE = 5
+const MOBILE_PAGE_SIZE = 3
+const DESKTOP_PAGE_SIZE = 5
 const SelectableCardList = ({
   items,
   selectedId,
   onSelect,
   error,
 }: SelectableCardListProps) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
   const [page, setPage] = useState(1)
 
-  const totalPages = items ? Math.ceil(items.length / PAGE_SIZE) : 0
+  const totalPages = items ? Math.ceil(items.length / pageSize) : 0
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
   const pagedItems = useMemo(() => {
     if (!items) {
       return []
     }
 
-    const startIndex = (currentPage - 1) * PAGE_SIZE
-    return items.slice(startIndex, startIndex + PAGE_SIZE)
-  }, [currentPage, items])
+    const startIndex = (currentPage - 1) * pageSize
+    return items.slice(startIndex, startIndex + pageSize)
+  }, [currentPage, items, pageSize])
 
   const renderSkeletons = () =>
     Array.from({ length: SKELETON_COUNT }).map((_, i) => (
