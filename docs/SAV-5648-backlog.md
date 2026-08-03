@@ -513,14 +513,13 @@ Consumer pins to move to 2.0.0 once released: `ses-ui` **1.3.1**, `ses-bdar-repo
 
 ## Follow-up tickets created from this work
 
-Both under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodinis atnaujinimas*), linked to SAV-5648. Split deliberately: one is cosmetic churn, the other is potential render bugs, and they have **different gates**.
+All three under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodinis atnaujinimas*), linked to SAV-5648. Split deliberately — cosmetic churn, potential render bugs, and accessibility are separate pieces of work with **different gates**.
 
 | Ticket | Scope | Gate | Priority |
 | --- | --- | --- | --- |
 | **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
 | **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** | The 6 `react-hooks` v7 findings | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
-
-**Third follow-up, still needs a Jira ticket:** *Storybook a11y suite — clear the 70 pre-existing violations and make the job blocking again.* Scope: the 23 story files listed by `npm run storybook-test`, but the fixes belong in the components — accessible names for `CircularProgress`/`LinearProgress` (30), labels on icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures. **Gate: after 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, and every visual baseline would churn mid-release. Deliverable is removing `continue-on-error: true` from the Accessibility step in `visual-regression.yml`.
+| **[SAV-6451](https://jira.registrucentras.lt/jira/browse/SAV-6451)** | The 70 a11y violations across 23 story files, then drop `continue-on-error` from the Accessibility step. Fixes belong in the components, not the stories: accessible names for `CircularProgress` (30), icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures | **After 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, so every visual baseline would churn mid-release and hide real regressions among intentional ones | Major |
 
 SAV-6398 explicitly records the two rules that must stay **off permanently**, so nobody spends effort "fixing" them: `import-x/no-rename-default` (24 hits, all the deliberate `RcSes*` naming convention) and `import-x/no-empty-named-blocks` (6 hits, the intentional MUI module-augmentation blocks).
 
