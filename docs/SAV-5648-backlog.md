@@ -41,7 +41,7 @@ Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out 
 | --- | --- | --- |
 | 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-03b, LIB-04 all done |
 | 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
-| 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01 done · LIB-02 open |
+| 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01, LIB-02 both done |
 | 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-09, LIB-10 all done |
 | 4 — Runtime majors | 2.25 → **2.75** | ✅ LIB-11, 12, 13, 14, 15b all done |
 | 5 — Release | 3.0 | — |
@@ -60,10 +60,10 @@ Adjustments so far:
 
 Running total **23.25h** against the 20h budget.
 
-**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** LIB-02 (story coverage) · Phase 5 (release: MIGRATION-v2, 2.0.0-rc, 2.0.0).
+**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
+**Open:** Phase 5 (release: LIB-15, `2.0.0-rc` validation, 2.0.0).
 
-**As of 2026-07-30 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 154/154 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
+**As of 2026-07-31 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 161/161 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
 
 **Deliberately deferred, each with a reason:**
 
@@ -205,7 +205,7 @@ Vite: no other package had to move — every plugin already supported 7. **Delib
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
 | **LIB-01** | ✅ Vizualinės regresijos aplinka su Playwright + bazinė linija | **2.5h** | LIB-07 |
-| **LIB-02** | Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
+| **LIB-02** | ✅ Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
 
 **Why this moved out of Phase 0** (decided 2026-07-27): a Storybook major can shift canvas padding and wrapper markup, so a baseline captured before LIB-07 would be invalidated by the Storybook upgrade itself — you would then be diffing Storybook's changes against MUI's. Capturing after LIB-07 leaves **MUI as the only variable**. Nothing in Phase 1 or 2 changes component rendering, so no coverage is lost by waiting. Ordering is therefore **LIB-05 → LIB-07 → LIB-01 → LIB-08a**.
 
@@ -233,10 +233,12 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 | --- | --- |
 | `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise |
 | `visual/stories.spec.ts` | reads `storybook-static/index.json`, one test per story |
+| `visual/theme-slots.spec.ts` | asserts every themed `Mui*` slot reaches the DOM (added by LIB-02) |
 | `visual/__snapshots__/` | committed baselines, **Linux-only** |
 | `.github/workflows/visual-regression.yml` | one job: build Storybook once → visual diff → a11y |
 | `npm run test:visual` | run locally against existing baselines |
 | `npm run test:visual:update` | **regenerate baselines in the CI image** — the only supported way |
+| `npm run test:visual:update:new` | add baselines for *new* stories only, comparing the existing ones (added by LIB-02) |
 | `npm run test:visual:report` | open the HTML diff report |
 
 **154 stories, not 48** — the earlier figure counted `.stories.tsx` files. This retroactively confirms the Playwright decision: 154 snapshots per run would exhaust Chromatic's 5 000/month free tier in about **32 runs**, which Phase 3 would burn through in days.
@@ -255,10 +257,60 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 
 **The a11y check is now wired up too.** `.storybook/test-runner.ts` had `injectAxe`/`checkA11y` fully configured since before this ticket with no workflow calling it. It runs with `if: always()` so a visual failure cannot mask an accessibility regression, and it catches "story throws and renders nothing" — which pixel diffing alone reports only as an unexpectedly blank image.
 
-**LIB-02** — 48 stories cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots have no story and add them — `MuiButton` (388 lines) and `MuiAlert` (219 lines) first, then `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`, `MuiPickersLayout`, `MuiTable*`.
+**LIB-02** — 48 story files cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots no story renders and add them.
 
 Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` — dark and light resolve to the same module, so snapshotting both themes would double the count for identical images. **Snapshot `light` only** until a real dark theme exists.
 *DoD:* every slot in `src/theme/light/` is exercised by at least one story.
+
+#### LIB-02 — done 2026-07-31
+
+**The audit was measured, not guessed** — a browser pass over all 154 stories collecting every `Mui*` class prefix that reaches the DOM. Worth doing that way: the slots this backlog predicted would be uncovered (`MuiButton`, `MuiAlert`, `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`) were **already covered incidentally**, because slots nest — a story only has to render a component that happens to contain them. **31 of 39 covered, 8 not**, and they split by cause:
+
+| Uncovered slot | Why | Fix |
+| --- | --- | --- |
+| `MuiDialog`, `MuiPopover`, `MuiPickersLayout` | interaction-gated — the component exists and has stories, but every one starts closed behind a trigger, so the slot never mounts | render it open |
+| `MuiCardContent`, `MuiCardHeader`, `MuiLinearProgress`, `MuiTable`, `MuiTableCell` | **no `RcSes*` wrapper renders them at all** | new theme-coverage stories |
+
+**`RcSesCard` does not use MUI's `CardHeader`/`CardContent`** — it builds its own header and content out of `Stack`/`Box`. Together with `Table`/`TableCell` (used only by the demo modal, which is not in the published library) and `LinearProgress` (used nowhere), that is five overrides shipped to consumers and exercised by nothing. They are not dead — a consumer applying `RcSesTheme` to raw MUI components gets them — so the answer was coverage, not deletion.
+
+**7 new stories, 154 → 161:** `overlays/Dialog` → `Open`; a new `overlays/Popover` (`Default`, `WithoutHeader`); `inputs/DatePicker` → `CalendarOpen`; and a new `theme/Themed MUI components` (`Table`, `Card`, `LinearProgress`) for the five with no wrapper. `MuiCardContent`'s `.side` and `.full` variants each get their own card, and `LinearProgress` renders both determinate and indeterminate — the override hides the `bar1` slot only under the indeterminate class, which is the v9 replacement for the removed `bar1Indeterminate` key.
+
+**The calendar story needs a pinned `referenceDate`.** Without one the picker opens on the current month and the baseline would break on the 1st of every month — the kind of failure that trains people to re-record baselines without reading them.
+
+**The audit is now an assertion, not a one-off.** `visual/theme-slots.spec.ts` imports the real theme, reads `Object.keys(theme.components)` and fails if any slot with `styleOverrides` is absent from the DOM across every story. A `styleOverrides` key nothing renders is invisible — it does not fail the build, does not fail the unit tests, and the visual suite has nothing to diff it against, so an upgrade can quietly stop applying it. Adding a 40th slot without a story now fails CI instead.
+
+**Writing it that way immediately found something the file listing would not: the theme registers 40 component keys, not 39.** `createTheme(themePalette, ltLT, enUS, {...})` merges the x-date-pickers locale objects in, and they contribute a `MuiLocalizationProvider` entry carrying `defaultProps.localeText`. It renders no element, so it can never appear in the DOM — hence the filter is on *`styleOverrides` presence*, not on the key list.
+
+**Finding, not fixed here: `MuiDialog`'s theme override is shadowed for our own dialog.** `RcSesDialog` sets `padding: … !important` on `DialogTitle`, `DialogContent` and `DialogActions` inline, so the theme's padding for those three only ever applies to a consumer's raw MUI `Dialog`. Two sources of truth for the same three numbers. Reconciling them is a 2.0.0 styling decision rather than a coverage task, but both paths now sit in a baseline.
+
+Also added **`npm run test:visual:update:new`** — the same container as `test:visual:update` but `--update-snapshots missing`, which writes baselines for new stories while still *comparing* the existing ones. The blanket `--update-snapshots` would have silently rewritten all 154 rather than proving they were unchanged. Note it **exits non-zero on the run that creates the baselines** (`A snapshot doesn't exist …, writing actual`) — that is Playwright's normal first-run behaviour, not a failure; re-run to verify.
+
+*Verification:* lint 0 errors · 206 tests pass · `tsc` clean · slot assertion green (39/39) · visual **161/161**, the 154 pre-existing baselines unchanged · a11y: the 7 new stories clean.
+
+##### The a11y job turns out to have never run — deferred past 2.0.0
+
+Running the full CI job locally for the first time surfaced **57 failing a11y tests across 23 story files**. Not a LIB-02 regression: the same job on unmodified `HEAD` (`8308a91`, the `2.0.0-rc.0` commit) fails identically.
+
+| | Suites | Tests |
+| --- | --- | --- |
+| `HEAD` | 23 failed / 25 passed | 57 failed / 97 passed (154) |
+| with LIB-02 | 23 failed / 25 passed | 57 failed / **104** passed (161) |
+
+Same 23 suites, same 57 failures, +7 passing. **`visual-regression.yml` triggers on `pull_request` only and no PR has ever been opened for this branch**, so the a11y step LIB-01 added has never run against the migrated code — LIB-01's *DoD* "a11y job green" was never actually observed.
+
+70 violation instances, mostly **component** bugs rather than story bugs:
+
+| Rule | Impact | Count |
+| --- | --- | --- |
+| `aria-progressbar-name` | serious | 30 |
+| `color-contrast` | serious | 20 |
+| `button-name` | critical | 11 |
+| `label` | critical | 6 |
+| `aria-prohibited-attr`, `aria-input-field-name`, `heading-order`, `empty-heading` | serious → minor | 1 each |
+
+`aria-progressbar-name` alone is 30 of them — MUI's `CircularProgress` carries `role="progressbar"` with no accessible name, so every `RcSesLoadingSpinner`, `RcSesLoader` and loading `RcSesButton` ships that violation to consumers. `button-name` (11, critical) is icon-only buttons with no accessible label.
+
+**Decision: this is a new quality gate, not a regression, so it does not gate 2.0.0.** The step is marked `continue-on-error: true` — it still runs and reports on every PR, so a story that *throws* is still visible (the failure mode LIB-01 wanted it for), but it cannot block the release. Fixing 70 violations is component work with its own visual consequences (`color-contrast` means palette changes), which is exactly what should not be folded into a dependency-update release. Re-enabling is deleting one line.
 
 ### Phase 3 — MUI 5 → 9
 
@@ -467,6 +519,8 @@ Both under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodinis atn
 | --- | --- | --- | --- |
 | **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
 | **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** | The 6 `react-hooks` v7 findings | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
+
+**Third follow-up, still needs a Jira ticket:** *Storybook a11y suite — clear the 70 pre-existing violations and make the job blocking again.* Scope: the 23 story files listed by `npm run storybook-test`, but the fixes belong in the components — accessible names for `CircularProgress`/`LinearProgress` (30), labels on icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures. **Gate: after 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, and every visual baseline would churn mid-release. Deliverable is removing `continue-on-error: true` from the Accessibility step in `visual-regression.yml`.
 
 SAV-6398 explicitly records the two rules that must stay **off permanently**, so nobody spends effort "fixing" them: `import-x/no-rename-default` (24 hits, all the deliberate `RcSes*` naming convention) and `import-x/no-empty-named-blocks` (6 hits, the intentional MUI module-augmentation blocks).
 
