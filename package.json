@@ -39,6 +39,7 @@
     "test:visual": "playwright test",
     "test:visual:ci": "npm run storybook-build && playwright test",
     "test:visual:update": "docker run --rm -v .:/work -v rcses-visual-node-modules:/work/node_modules -w /work mcr.microsoft.com/playwright:v1.62.0-noble bash -c \"npm ci --no-audit --no-fund && npm run storybook-build && npx playwright test --update-snapshots\"",
+    "test:visual:update:new": "docker run --rm -v .:/work -v rcses-visual-node-modules:/work/node_modules -w /work mcr.microsoft.com/playwright:v1.62.0-noble bash -c \"npm ci --no-audit --no-fund && npm run storybook-build && npx playwright test --update-snapshots missing\"",
     "test:visual:report": "playwright show-report"
   },
   "repository": {
