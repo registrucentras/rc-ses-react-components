@@ -99,10 +99,6 @@ const AdvancedListItem = ({
     }
   }, [canAttachExpandToLeading, leading, onExpandedChange])
 
-  // Runs for every collapse, not just ones driven by the leading control's own onChange —
-  // an external trigger (e.g. a parent-level "collapse" action) sets `expanded` directly,
-  // bypassing that onChange entirely. Without this, focus is left stranded inside content
-  // that's about to become inert.
   useEffect(() => {
     if (!expanded && contentRef.current?.contains(document.activeElement)) {
       selectorRef.current?.focus()
@@ -199,7 +195,7 @@ const AdvancedListItem = ({
         gap='0.75rem'
       >
         {leading.type !== 'none' && (
-          <Box sx={{ alignSelf: 'center' }}>
+          <Box sx={{ alignSelf: 'center', order: { xs: -1, sm: 0 } }}>
             <AdvancedListItemLeading
               leading={leadingWithExpandNotify}
               disabled={isDisabled}
@@ -211,56 +207,68 @@ const AdvancedListItem = ({
           </Box>
         )}
 
-        {!!leadingMedia && <Box sx={LEADING_MEDIA_SX}>{leadingMedia}</Box>}
-
         <Box
           sx={{
-            flex: 1,
-            minWidth: 0,
             display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            gap: '0.75rem',
+            minWidth: 0,
+            flex: { xs: '1 1 100%', sm: '1 1 0%' },
             alignSelf: subtitle ? undefined : 'center',
           }}
         >
-          <Stack
-            direction='row'
-            alignItems='center'
-            flexWrap='wrap'
-            gap='0.5rem'
-            sx={{ alignSelf: 'stretch' }}
+          {!!leadingMedia && <Box sx={LEADING_MEDIA_SX}>{leadingMedia}</Box>}
+
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.25rem',
+            }}
           >
-            <Typography
-              id={titleId}
-              variant='h3'
-              sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
-              color={palette.grey[900]}
+            <Stack
+              direction='row'
+              alignItems='center'
+              flexWrap='wrap'
+              gap='0.5rem'
+              sx={{ alignSelf: 'stretch' }}
             >
-              {title}
-            </Typography>
-            {!!label && <RcSesBadge label={label} variant='neutral' size='small' />}
-          </Stack>
+              <Typography
+                id={titleId}
+                variant='h3'
+                sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
+                color={palette.grey[900]}
+              >
+                {title}
+              </Typography>
+              {!!label && <RcSesBadge label={label} variant='neutral' size='small' />}
+            </Stack>
 
-          {!!subtitle && (
-            <Typography
-              variant='body2'
-              sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '1.25rem' }}
-              color={palette.grey[600]}
-            >
-              {subtitle}
-            </Typography>
-          )}
+            {!!subtitle && (
+              <Typography
+                variant='body2'
+                sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '1.25rem' }}
+                color={palette.grey[600]}
+              >
+                {subtitle}
+              </Typography>
+            )}
 
-          {!!metaItems?.length && <ListWithIcons items={metaItems} layout='horizontal' />}
+            {!!metaItems?.length && (
+              <ListWithIcons items={metaItems} layout='horizontal' />
+            )}
+          </Box>
         </Box>
 
         {trailing.type !== 'none' && (
           <Box
             sx={{
               alignSelf: 'center',
-              flexBasis: { xs: '100%', sm: 'auto' },
-              display: 'flex',
-              justifyContent: { xs: 'flex-end', sm: 'flex-start' },
+              order: { xs: -1, sm: 0 },
+              marginLeft: { xs: 'auto', sm: 0 },
             }}
           >
             <AdvancedListItemTrailing trailing={trailing} disabled={isDisabled} />
@@ -283,14 +291,6 @@ const AdvancedListItem = ({
               borderRadius: BORDER_RADIUS,
               padding: '0.75rem 1rem',
             }}
-            // `@types/react` doesn't type `inert` on HTMLAttributes yet, hence the cast — but
-            // the more important part is the *value*: passing a boolean here (not just the
-            // cast) is a real runtime bug, not just a types gap. React only special-cases
-            // booleans for attributes it recognizes; for an unknown attribute name like
-            // `inert`, a boolean value hits its "non-boolean attribute" path and gets dropped
-            // entirely (with a dev warning) instead of being written to the DOM. A string
-            // (empty when present, `undefined` when absent) is what actually renders
-            // `inert=""` / omits the attribute.
             {...({
               inert: expanded ? undefined : '',
             } as React.HTMLAttributes<HTMLDivElement>)}
