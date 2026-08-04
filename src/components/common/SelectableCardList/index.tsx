@@ -18,7 +18,6 @@ export interface SelectableCardListProps {
   error?: ReactNode
 }
 
-const SKELETON_COUNT = 5
 const MOBILE_PAGE_SIZE = 3
 const DESKTOP_PAGE_SIZE = 5
 const SelectableCardList = ({
@@ -31,6 +30,12 @@ const SelectableCardList = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
   const [page, setPage] = useState(1)
+  const [prevPageSize, setPrevPageSize] = useState(pageSize)
+
+  if (pageSize !== prevPageSize) {
+    setPrevPageSize(pageSize)
+    setPage(1)
+  }
 
   const totalPages = items ? Math.ceil(items.length / pageSize) : 0
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
@@ -44,7 +49,7 @@ const SelectableCardList = ({
   }, [currentPage, items, pageSize])
 
   const renderSkeletons = () =>
-    Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+    Array.from({ length: pageSize }).map((_, i) => (
       <SelectableCardListItem
         // eslint-disable-next-line react/no-array-index-key
         key={i}

@@ -41,7 +41,7 @@ describe('SelectableCardList', () => {
     expect(screen.queryByRole('radio')).not.toBeInTheDocument()
   })
 
-  test('renders all items on the first page when count <= PAGE_SIZE', () => {
+  test('renders all items on the first page when count <= desktop page size', () => {
     renderList(<SelectableCardList items={makeItems(3)} onSelect={vi.fn()} />)
 
     expect(screen.getByText('Item 1')).toBeInTheDocument()
@@ -49,7 +49,7 @@ describe('SelectableCardList', () => {
     expect(screen.getByText('Item 3')).toBeInTheDocument()
   })
 
-  test('shows only 5 items per page', () => {
+  test('shows only 5 items per page on desktop', () => {
     renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
 
     expect(screen.getByText('Item 1')).toBeInTheDocument()
@@ -68,10 +68,33 @@ describe('SelectableCardList', () => {
     expect(screen.queryByText('Item 1')).not.toBeInTheDocument()
   })
 
-  test('shows only 3 items per page on mobile', () => {
+  test('shows only 3 items per page on mobile, split across 3 pages', () => {
     mockedUseMediaQuery.mockReturnValue(true)
 
     renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
+
+    expect(screen.getByText('Item 1')).toBeInTheDocument()
+    expect(screen.getByText('Item 3')).toBeInTheDocument()
+    expect(screen.queryByText('Item 4')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'page 1' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Go to page 3' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Go to page 4' })).not.toBeInTheDocument()
+  })
+
+  test('resets to page 1 when switching from desktop to mobile page size', () => {
+    const { rerender } = renderList(
+      <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Kitas' }))
+    expect(screen.getByText('Item 6')).toBeInTheDocument()
+
+    mockedUseMediaQuery.mockReturnValue(true)
+    rerender(
+      <ThemeProvider theme={theme}>
+        <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />
+      </ThemeProvider>,
+    )
 
     expect(screen.getByText('Item 1')).toBeInTheDocument()
     expect(screen.getByText('Item 3')).toBeInTheDocument()

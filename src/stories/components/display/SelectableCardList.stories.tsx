@@ -55,6 +55,14 @@ const meta = {
   title: 'components/display/SelectableCardList',
   component: SelectableCardList,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Paginates items client-side, showing 5 per page on desktop and 3 per page on mobile (below the `md` breakpoint). The page resets to 1 whenever the page size changes, e.g. when resizing across the breakpoint.',
+      },
+    },
+  },
   args: {
     items: buildItems(),
     selectedId: null,
