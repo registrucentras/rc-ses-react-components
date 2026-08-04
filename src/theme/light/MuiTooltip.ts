@@ -1,15 +1,15 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import palette, { common } from '../palette'
 
 const MuiTooltip: Components['MuiTooltip'] = {
   styleOverrides: {
     tooltip: {
-      backgroundColor: '#fff',
+      backgroundColor: common.white,
       color: palette.grey['900'],
       maxWidth: 480,
       padding: '12px 16px',
-      fontSize: '0.9rem',
+      fontSize: '.875rem',
       fontWeight: 400,
       lineHeight: 1.5,
       borderRadius: '8px',
@@ -31,7 +31,7 @@ const MuiTooltip: Components['MuiTooltip'] = {
     },
 
     arrow: {
-      color: '#fff',
+      color: common.white,
       fontSize: '1rem',
     },
   },
