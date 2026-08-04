@@ -62,7 +62,6 @@ function RcSesSelect(props: Props) {
   const {
     multiple = false,
     clearable,
-    limitTags = 1,
     control,
     errors,
     label,
@@ -103,6 +102,15 @@ function RcSesSelect(props: Props) {
 
     return options.find((o) => o.value === value) ?? null
   }, [value, options, multiple])
+
+  const selectedSingleLabel =
+    !multiple && resolvedValue && !Array.isArray(resolvedValue) ? resolvedValue.label : ''
+  let resolvedInputValue: string | undefined
+  if (multiple) {
+    resolvedInputValue = dropdownSearch ? undefined : inputValue
+  } else {
+    resolvedInputValue = ''
+  }
 
   const searchRowOption = useMemo<Option>(
     () => ({ label: '', value: dropdownSearchOptionValue }),
@@ -186,7 +194,7 @@ function RcSesSelect(props: Props) {
         open={open}
         onOpen={() => setOpen(true)}
         multiple={multiple}
-        limitTags={multiple ? limitTags : undefined}
+        limitTags={multiple ? -1 : undefined}
         disableCloseOnSelect={multiple}
         disabled={disabled}
         disableClearable={clearable === false}
@@ -203,11 +211,10 @@ function RcSesSelect(props: Props) {
         }}
         loading={loading}
         value={resolvedValue}
-        inputValue={dropdownSearch ? undefined : inputValue}
+        inputValue={resolvedInputValue}
         onChange={handleChange}
         onInputChange={(event, val, reason) => {
           if (dropdownSearch) return
-
           setInputValue(val ?? '')
           onInputChange?.(event, val, reason)
         }}
@@ -260,17 +267,19 @@ function RcSesSelect(props: Props) {
                 ? {
                     '& .MuiAutocomplete-inputRoot': {
                       alignItems: 'center',
-                      pb: '0 !important',
-                      pt: '0 !important',
+                      pb: '.25rem !important',
+                      pr: '3.5rem !important',
+                      pt: '.25rem !important',
+                      rowGap: '.25rem',
                     },
                     '& .MuiOutlinedInput-root': {
                       alignItems: 'center',
-                      flexWrap: 'nowrap',
-                      height: '2.75rem',
+                      flexWrap: 'wrap',
+                      height: 'auto',
                       minHeight: '2.75rem',
                       overflow: 'hidden',
                       pl: '.375rem',
-                      py: 0,
+                      py: '.25rem',
                     },
                     '& .MuiAutocomplete-tag': {
                       alignSelf: 'center',
@@ -278,16 +287,42 @@ function RcSesSelect(props: Props) {
                       maxWidth: 'calc(100% - 3.5rem)',
                     },
                     '& .MuiAutocomplete-input': {
+                      marginRight: '2rem !important',
                       minWidth: 0,
+                      overflowWrap: 'anywhere',
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
                     },
                   }
-                : {}),
+                : {
+                    '& .rc-ses-select-single-value': {
+                      boxSizing: 'border-box',
+                      display: 'block',
+                      overflowWrap: 'anywhere',
+                      paddingLeft: '.75rem',
+                      pointerEvents: 'none',
+                      whiteSpace: 'normal',
+                      width: '100%',
+                      wordBreak: 'break-word',
+                    },
+                    '& .MuiAutocomplete-input': {
+                      marginRight: '2rem !important',
+                      padding: 0,
+                      width: 0,
+                    },
+                  }),
             }}
             InputProps={{
               ...params.InputProps,
+              startAdornment:
+                !multiple && selectedSingleLabel ? (
+                  <Box className='rc-ses-select-single-value'>{selectedSingleLabel}</Box>
+                ) : (
+                  params.InputProps.startAdornment
+                ),
               inputProps: {
                 ...params.inputProps,
-                readOnly: dropdownSearch,
+                readOnly: dropdownSearch || !multiple,
               },
             }}
           />
@@ -458,33 +493,14 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
-        renderTags={(tagValues, getTagProps) => {
-          const visible = tagValues.slice(0, limitTags)
-          const hiddenCount = tagValues.length - visible.length
-          return (
-            <>
-              {visible.map((option, index) => {
-                const { key, ...tagProps } = getTagProps({ index })
-                return <Chip key={key} label={option.label} size='small' {...tagProps} />
-              })}
-              {hiddenCount > 0 && (
-                <Box
-                  component='span'
-                  sx={{
-                    alignSelf: 'center',
-                    color: 'text.secondary',
-                    flexShrink: 0,
-                    fontSize: '.8125rem',
-                    ml: '.25rem',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  +{hiddenCount}
-                </Box>
-              )}
-            </>
-          )
-        }}
+        renderTags={(tagValues, getTagProps) => (
+          <>
+            {tagValues.map((option, index) => {
+              const { key, ...tagProps } = getTagProps({ index })
+              return <Chip key={key} label={option.label} size='small' {...tagProps} />
+            })}
+          </>
+        )}
         {...slotProps?.field}
       />
     </RcSesFormControlWrapper>

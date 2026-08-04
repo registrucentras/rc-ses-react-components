@@ -90,7 +90,10 @@ function SelectDemo(args: any) {
           disabled={disabled}
           slotProps={slotProps}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -106,7 +109,10 @@ function SelectDemo(args: any) {
           label='Active'
           errors={errors?.selection}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -119,7 +125,10 @@ function SelectDemo(args: any) {
           disabled
           errors={errors?.selection}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -131,7 +140,10 @@ function SelectDemo(args: any) {
           label='Error'
           errors={{ message: 'Error Message', type: 'required' }}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -148,7 +160,10 @@ function SelectDemo(args: any) {
           slotProps={{ wrapper: { labelOnTop: true } }}
           errors={errors?.selection}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -162,7 +177,10 @@ function SelectDemo(args: any) {
           slotProps={{ wrapper: { labelOnTop: true } }}
           errors={errors?.selection}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -175,7 +193,10 @@ function SelectDemo(args: any) {
           slotProps={{ wrapper: { labelOnTop: true } }}
           errors={{ message: 'Error', type: 'required' }}
           options={[
-            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+            {
+              value: 'pasirinkimas-1',
+              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+            },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -204,7 +225,7 @@ const codeBlock = (args: any) => {
       errors={errors?.selection}
       slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
-        { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
+        { value: 'pasirinkimas-1', label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ' },
         { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
       ]}
 

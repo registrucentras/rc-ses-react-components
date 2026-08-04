@@ -82,6 +82,9 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
 
           '.rc-ses-select-option-label': {
             display: 'block',
+            overflowWrap: 'anywhere',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
           },
           '.rc-ses-select-option-description': {
             color: palette.grey['600'],
@@ -90,7 +93,10 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
             fontStyle: 'italic',
             lineHeight: '1rem',
             marginTop: '.25rem',
+            overflowWrap: 'anywhere',
+            whiteSpace: 'normal',
             fontWeight: 500,
+            wordBreak: 'break-word',
           },
         },
       },
