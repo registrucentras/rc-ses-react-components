@@ -192,7 +192,12 @@ const AdvancedListItem = ({
           : undefined,
       }}
     >
-      <Stack direction='row' alignItems='flex-start' gap='0.75rem'>
+      <Stack
+        direction='row'
+        alignItems='flex-start'
+        flexWrap={{ xs: 'wrap', sm: 'nowrap' }}
+        gap='0.75rem'
+      >
         {leading.type !== 'none' && (
           <Box sx={{ alignSelf: 'center' }}>
             <AdvancedListItemLeading
@@ -250,7 +255,14 @@ const AdvancedListItem = ({
         </Box>
 
         {trailing.type !== 'none' && (
-          <Box sx={{ alignSelf: 'center' }}>
+          <Box
+            sx={{
+              alignSelf: 'center',
+              flexBasis: { xs: '100%', sm: 'auto' },
+              display: 'flex',
+              justifyContent: { xs: 'flex-end', sm: 'flex-start' },
+            }}
+          >
             <AdvancedListItemTrailing trailing={trailing} disabled={isDisabled} />
           </Box>
         )}
