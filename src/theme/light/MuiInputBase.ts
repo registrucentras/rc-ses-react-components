@@ -14,9 +14,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
         fontSize: '.9375rem',
         height: '1.125rem',
         lineHeight: '1.125rem',
-        overflowWrap: 'anywhere',
         padding: '.8125rem .75rem',
-        wordBreak: 'break-word',
 
         '&::placeholder': {
           color: palette.grey['600'],
@@ -81,7 +79,6 @@ const MuiInputBase: Components['MuiInputBase'] = {
 
       '.MuiInputBase-inputMultiline': {
         overflowWrap: 'anywhere',
-        wordBreak: 'break-word',
       },
     },
     adornedStart: {

@@ -92,7 +92,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -111,7 +111,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -127,7 +127,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -142,7 +142,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -162,7 +162,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -179,7 +179,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -195,7 +195,7 @@ function SelectDemo(args: any) {
           options={[
             {
               value: 'pasirinkimas-1',
-              label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ',
+              label: 'Pasirinkimas #1 ',
             },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
@@ -225,7 +225,7 @@ const codeBlock = (args: any) => {
       errors={errors?.selection}
       slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
-        { value: 'pasirinkimas-1', label: 'Labai labai ilgas patikrinimui skirtas Pasirinkimas #1 ' },
+        { value: 'pasirinkimas-1', label: 'Pasirinkimas #1 ' },
         { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
       ]}
 
@@ -463,6 +463,42 @@ export const LongTextAndPlaceholder: Story = {
             />
           </VariantCard>
         </Box>
+      </Box>
+    )
+  },
+  parameters: {
+    controls: {
+      disable: true,
+    },
+  },
+}
+
+export const MultiSelectWithLimitTags: Story = {
+  render: () => {
+    const { control } = useForm<{ limitedMulti: string[] }>({
+      mode: 'all',
+      defaultValues: {
+        limitedMulti: ['option-1', 'option-2', 'option-3'],
+      },
+    })
+
+    return (
+      <Box sx={{ p: '1rem 0', width: '100%', maxWidth: { xs: '100%', sm: '30rem' } }}>
+        <VariantCard
+          title='Multi select with limitTags={1}'
+          description='Shows how the component collapses extra selected chips when the limit is set to one.'
+        >
+          <RcSesSelect
+            id='limited-multi-select'
+            name='limitedMulti'
+            control={control}
+            label='Pasirinkti'
+            slotProps={{ wrapper: { labelOnTop: true } }}
+            multiple
+            limitTags={1}
+            options={variantOptions}
+          />
+        </VariantCard>
       </Box>
     )
   },

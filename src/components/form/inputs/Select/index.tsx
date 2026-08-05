@@ -57,6 +57,7 @@ function RcSesSelect(props: Props) {
   const [dropdownSearchValue, setDropdownSearchValue] = React.useState('')
   const [open, setOpen] = React.useState(false)
   const dropdownSearchOptionValue = '__dropdown-search-option__'
+  const reservedSingleEndAdornmentWidth = 2
   const wrapperRef = React.useRef<HTMLDivElement>(null)
 
   const {
@@ -65,6 +66,7 @@ function RcSesSelect(props: Props) {
     control,
     errors,
     label,
+    limitTags,
     loading,
     onInputChange,
     options,
@@ -81,6 +83,7 @@ function RcSesSelect(props: Props) {
   const { disabled, name } = fieldProps
 
   const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
+  const selectedValueId = useMemo(() => `rc-ses-select-single-value-${id}`, [id])
 
   const {
     field: { onChange, value },
@@ -105,6 +108,15 @@ function RcSesSelect(props: Props) {
 
   const selectedSingleLabel =
     !multiple && resolvedValue && !Array.isArray(resolvedValue) ? resolvedValue.label : ''
+
+  const selectedTagCount =
+    multiple && Array.isArray(resolvedValue) ? resolvedValue.length : 0
+  const hasLimitTagCounter =
+    multiple && (limitTags ?? -1) > -1 && selectedTagCount > (limitTags ?? -1)
+  const reservedMultipleEndAdornmentWidth = hasLimitTagCounter
+    ? `${reservedSingleEndAdornmentWidth * 1.5}`
+    : `${reservedSingleEndAdornmentWidth * 1.1}`
+
   let resolvedInputValue: string | undefined
   if (multiple) {
     resolvedInputValue = dropdownSearch ? undefined : inputValue
@@ -194,7 +206,7 @@ function RcSesSelect(props: Props) {
         open={open}
         onOpen={() => setOpen(true)}
         multiple={multiple}
-        limitTags={multiple ? -1 : undefined}
+        limitTags={multiple ? (limitTags ?? -1) : undefined}
         disableCloseOnSelect={multiple}
         disabled={disabled}
         disableClearable={clearable === false}
@@ -254,7 +266,7 @@ function RcSesSelect(props: Props) {
             {...params}
             disabled={disabled}
             error={hasError}
-            placeholder={placeholder}
+            placeholder={!multiple && selectedSingleLabel ? undefined : placeholder}
             sx={{
               ...(dropdownSearch
                 ? {
@@ -268,30 +280,11 @@ function RcSesSelect(props: Props) {
                     '& .MuiAutocomplete-inputRoot': {
                       alignItems: 'center',
                       pb: '.25rem !important',
-                      pr: '3.5rem !important',
+                      pr: `calc(${reservedMultipleEndAdornmentWidth}rem) !important`,
                       pt: '.25rem !important',
-                      rowGap: '.25rem',
                     },
-                    '& .MuiOutlinedInput-root': {
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      height: 'auto',
-                      minHeight: '2.75rem',
-                      overflow: 'hidden',
-                      pl: '.375rem',
-                      py: '.25rem',
-                    },
-                    '& .MuiAutocomplete-tag': {
-                      alignSelf: 'center',
-                      m: '0 .25rem 0 .35rem',
-                      maxWidth: 'calc(100% - 3.5rem)',
-                    },
-                    '& .MuiAutocomplete-input': {
-                      marginRight: '2rem !important',
-                      minWidth: 0,
-                      overflowWrap: 'anywhere',
-                      whiteSpace: 'normal',
-                      wordBreak: 'break-word',
+                    '& .MuiChip-root': {
+                      maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem) !important`,
                     },
                   }
                 : {
@@ -301,14 +294,10 @@ function RcSesSelect(props: Props) {
                       overflowWrap: 'anywhere',
                       paddingLeft: '.75rem',
                       pointerEvents: 'none',
-                      whiteSpace: 'normal',
                       width: '100%',
-                      wordBreak: 'break-word',
                     },
                     '& .MuiAutocomplete-input': {
-                      marginRight: '2rem !important',
-                      padding: 0,
-                      width: 0,
+                      marginRight: `calc(${reservedSingleEndAdornmentWidth}rem) !important`,
                     },
                   }),
             }}
@@ -316,12 +305,16 @@ function RcSesSelect(props: Props) {
               ...params.InputProps,
               startAdornment:
                 !multiple && selectedSingleLabel ? (
-                  <Box className='rc-ses-select-single-value'>{selectedSingleLabel}</Box>
+                  <Box id={selectedValueId} className='rc-ses-select-single-value'>
+                    {selectedSingleLabel}
+                  </Box>
                 ) : (
                   params.InputProps.startAdornment
                 ),
               inputProps: {
                 ...params.inputProps,
+                'aria-describedby':
+                  !multiple && selectedSingleLabel ? selectedValueId : undefined,
                 readOnly: dropdownSearch || !multiple,
               },
             }}
@@ -493,14 +486,48 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
-        renderTags={(tagValues, getTagProps) => (
-          <>
-            {tagValues.map((option, index) => {
-              const { key, ...tagProps } = getTagProps({ index })
-              return <Chip key={key} label={option.label} size='small' {...tagProps} />
-            })}
-          </>
-        )}
+        renderTags={(tagValues, getTagProps, ownerState) => {
+          const visibleTagLimit = ownerState.limitTags ?? -1
+          const shouldLimitTags =
+            visibleTagLimit > -1 && tagValues.length > visibleTagLimit
+          const visibleTags = shouldLimitTags
+            ? tagValues.slice(0, visibleTagLimit)
+            : tagValues
+          const hiddenTagCount = tagValues.length - visibleTags.length
+
+          return (
+            <>
+              {visibleTags.map((option, index) => {
+                const { key, ...tagProps } = getTagProps({ index })
+                return (
+                  <Chip
+                    key={key}
+                    label={option.label}
+                    size='small'
+                    sx={{
+                      height: 'auto',
+                      maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem)`,
+                      '& .MuiChip-label': {
+                        display: 'block',
+                        overflowWrap: 'anywhere',
+                        py: '.25rem',
+                        textOverflow: 'clip',
+                        whiteSpace: 'normal',
+                      },
+                    }}
+                    {...tagProps}
+                  />
+                )
+              })}
+
+              {hiddenTagCount > 0 && (
+                <Box component='span' className='MuiAutocomplete-tag'>
+                  {ownerState.getLimitTagsText?.(hiddenTagCount) ?? `+${hiddenTagCount}`}
+                </Box>
+              )}
+            </>
+          )
+        }}
         {...slotProps?.field}
       />
     </RcSesFormControlWrapper>
