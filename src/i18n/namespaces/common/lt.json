@@ -22,12 +22,12 @@
       "toggle": "Perjungti",
       "vat": "su PVM"
     },
+    "Tooltip": {
+      "trigger": "Paaiškinimas"
+    },
     "AdvancedListItemLeading": {
       "moveUp": "Perkelti aukštyn",
       "moveDown": "Perkelti žemyn"
-    },
-    "Tooltip": {
-      "trigger": "Paaiškinimas"
     }
   }
 }

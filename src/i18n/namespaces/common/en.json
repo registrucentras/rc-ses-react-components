@@ -22,12 +22,12 @@
       "toggle": "Toggle",
       "vat": "incl. VAT"
     },
+    "Tooltip": {
+      "trigger": "Explanation"
+    },
     "AdvancedListItemLeading": {
       "moveUp": "Move up",
       "moveDown": "Move down"
-    },
-    "Tooltip": {
-      "trigger": "Explanation"
     }
   }
 }
