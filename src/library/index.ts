@@ -28,6 +28,7 @@ import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
 import RcSesTabsWrapper from '@/components/common/Tabs/TabsWrapper'
+import RcSesTooltip from '@/components/common/Tooltip'
 import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
@@ -101,6 +102,7 @@ export { RcSesSearchInput }
 export { RcSesSearchableField }
 export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
+export { RcSesTooltip }
 export { RcSesTextField }
 export { DataPagination }
 export { ListWithIcons }

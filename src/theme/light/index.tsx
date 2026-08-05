@@ -39,6 +39,7 @@ import MuiTable from '@/theme/light/MuiTable'
 import MuiTableCell from '@/theme/light/MuiTableCell'
 import MuiTabs from '@/theme/light/MuiTabs'
 import MuiTextField from '@/theme/light/MuiTextField'
+import MuiTooltip from '@/theme/light/MuiTooltip'
 import MuiTypography from '@/theme/light/MuiTypography'
 import themePalette from '@/theme/light/themePalette'
 
@@ -131,6 +132,7 @@ const theme = createTheme(themePalette, ltLT, enUS, {
     MuiTable,
     MuiTableCell,
     MuiTextField,
+    MuiTooltip,
     MuiTypography,
   },
 })

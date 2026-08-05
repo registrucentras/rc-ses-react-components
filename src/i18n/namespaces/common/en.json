@@ -25,6 +25,8 @@
     "AdvancedListItemLeading": {
       "moveUp": "Move up",
       "moveDown": "Move down"
+    "Tooltip": {
+      "trigger": "Explanation"
     }
   }
 }
