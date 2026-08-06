@@ -257,6 +257,7 @@ type VariantsFormModel = {
   singleSearchSelect: string | null
   descriptionSelect: string | null
   multiSelect: string[]
+  limitedMultiSelect: string[]
   multiSearchSelect: string[]
   phoneInput: string
 }
@@ -267,6 +268,16 @@ const variantOptions = [
   { value: 'option-3', label: '3rd option' },
   { value: 'option-4', label: '4th option' },
   { value: 'option-5', label: '5th option' },
+  {
+    value: 'long-option-1',
+    label:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  },
+  {
+    value: 'long-option-2',
+    label:
+      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
 ]
 
 const groupedVariantOptions: Array<
@@ -331,184 +342,6 @@ const VariantCard = ({
   </Box>
 )
 
-type LongTextFormModel = {
-  emptySingle: string | null
-  filledSingle: string | null
-  filledSingleNoPlaceholder: string | null
-  emptySingleSearch: string | null
-  emptyMulti: string[]
-  filledMulti: string[]
-}
-
-const longTextOptions = [
-  {
-    value: 'israsas-ilgas',
-    label:
-      'Juridinių asmenų registro išplėstinis išrašas su istorija ir dalyvių duomenimis',
-  },
-  {
-    value: 'tikslas-ilgas',
-    label:
-      'Duomenys reikalingi sandoriui su nekilnojamuoju turtu sudaryti ir notaro patvirtinti',
-  },
-  { value: 'trumpas', label: 'Trumpas pasirinkimas' },
-]
-
-export const LongTextAndPlaceholder: Story = {
-  render: () => {
-    const { control } = useForm<LongTextFormModel>({
-      mode: 'all',
-      defaultValues: {
-        emptySingle: null,
-        filledSingle: 'israsas-ilgas',
-        filledSingleNoPlaceholder: 'tikslas-ilgas',
-        emptySingleSearch: null,
-        emptyMulti: [],
-        filledMulti: ['israsas-ilgas', 'tikslas-ilgas'],
-      },
-    })
-
-    return (
-      <Box sx={{ p: '1rem 0', width: '100%', maxWidth: { xs: '100%', sm: '30rem' } }}>
-        <Box sx={{ display: 'grid', gap: '2rem', gridTemplateColumns: 'minmax(0, 1fr)' }}>
-          <VariantCard
-            title='1. Single, empty, with placeholder'
-            description='Expected: the placeholder "Pasirinkite išrašą" is visible. The single-select branch sets width: 0 on .MuiAutocomplete-input, so check whether it renders at all.'
-          >
-            <RcSesSelect
-              id='empty-single'
-              name='emptySingle'
-              control={control}
-              label='Pasirinkti'
-              placeholder='Pasirinkite išrašą'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              options={longTextOptions}
-            />
-          </VariantCard>
-
-          <VariantCard
-            title='2. Single, preselected long label'
-            description='Expected: the full label wraps onto several lines and the field grows. This is the SAV-6447 fix.'
-          >
-            <RcSesSelect
-              id='filled-single'
-              name='filledSingle'
-              control={control}
-              label='Pasirinkti'
-              placeholder='Pasirinkite išrašą'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              options={longTextOptions}
-            />
-          </VariantCard>
-
-          <VariantCard
-            title='3. Single + dropdownSearch, empty, with placeholder'
-            description='Same single-select styles, but this path was already readOnly before the change. Compare the placeholder against card 1.'
-          >
-            <RcSesSelect
-              id='empty-single-search'
-              name='emptySingleSearch'
-              control={control}
-              label='Pasirinkti'
-              placeholder='Pasirinkite išrašą'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              dropdownSearch
-              dropdownSearchPlaceholder='Ieškoti'
-              options={longTextOptions}
-            />
-          </VariantCard>
-
-          <VariantCard
-            title='4. Multiple, empty, with placeholder'
-            description='Control case: the multiple branch does not zero the input width, so the placeholder should be visible here. If card 1 is blank and this one is not, the width: 0 rule is the cause.'
-          >
-            <RcSesSelect
-              id='empty-multi'
-              name='emptyMulti'
-              control={control}
-              label='Pasirinkti'
-              placeholder='Pasirinkite išrašą'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              multiple
-              options={longTextOptions}
-            />
-          </VariantCard>
-
-          <VariantCard
-            title='5. Multiple, two long labels selected'
-            description='Expected: both chips render and wrap onto separate rows, with no +N collapse now that limitTags is fixed to -1.'
-          >
-            <RcSesSelect
-              id='filled-multi'
-              name='filledMulti'
-              control={control}
-              label='Pasirinkti'
-              placeholder='Pasirinkite išrašą'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              multiple
-              options={longTextOptions}
-            />
-          </VariantCard>
-          <VariantCard
-            title='6. Single, preselected long label, no placeholder'
-            description='Same as card 2 but with no placeholder prop. If the stray greyed "P..." next to the value disappears here, that text is the placeholder leaking through the emptied input.'
-          >
-            <RcSesSelect
-              id='filled-single-no-placeholder'
-              name='filledSingleNoPlaceholder'
-              control={control}
-              label='Pasirinkti'
-              slotProps={{ wrapper: { labelOnTop: true } }}
-              options={longTextOptions}
-            />
-          </VariantCard>
-        </Box>
-      </Box>
-    )
-  },
-  parameters: {
-    controls: {
-      disable: true,
-    },
-  },
-}
-
-export const MultiSelectWithLimitTags: Story = {
-  render: () => {
-    const { control } = useForm<{ limitedMulti: string[] }>({
-      mode: 'all',
-      defaultValues: {
-        limitedMulti: ['option-1', 'option-2', 'option-3'],
-      },
-    })
-
-    return (
-      <Box sx={{ p: '1rem 0', width: '100%', maxWidth: { xs: '100%', sm: '30rem' } }}>
-        <VariantCard
-          title='Multi select with limitTags={1}'
-          description='Shows how the component collapses extra selected chips when the limit is set to one.'
-        >
-          <RcSesSelect
-            id='limited-multi-select'
-            name='limitedMulti'
-            control={control}
-            label='Pasirinkti'
-            slotProps={{ wrapper: { labelOnTop: true } }}
-            multiple
-            limitTags={1}
-            options={variantOptions}
-          />
-        </VariantCard>
-      </Box>
-    )
-  },
-  parameters: {
-    controls: {
-      disable: true,
-    },
-  },
-}
-
 export const AllVariants: Story = {
   render: () => {
     const { control } = useForm<VariantsFormModel>({
@@ -519,6 +352,7 @@ export const AllVariants: Story = {
         singleSearchSelect: null,
         descriptionSelect: 'option-3',
         multiSelect: ['option-1', 'option-3'],
+        limitedMultiSelect: ['option-1', 'option-2', 'option-3'],
         multiSearchSelect: ['option-1', 'option-3', 'option-4', 'option-5'],
         phoneInput: '',
       },
@@ -611,6 +445,22 @@ export const AllVariants: Story = {
               label='Pasirinkti'
               slotProps={{ wrapper: { labelOnTop: true } }}
               multiple
+              options={variantOptions}
+            />
+          </VariantCard>
+
+          <VariantCard
+            title='Multi select + limit tags'
+            description='Daugybinis pasirinkimas su limitTags={1}, kai pertekliniai pasirinkimai sutraukiami i +N.'
+          >
+            <RcSesSelect
+              id='limited-multi-select'
+              name='limitedMultiSelect'
+              control={control}
+              label='Pasirinkti'
+              slotProps={{ wrapper: { labelOnTop: true } }}
+              multiple
+              limitTags={1}
               options={variantOptions}
             />
           </VariantCard>

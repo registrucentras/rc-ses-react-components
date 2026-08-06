@@ -1,4 +1,5 @@
 import { Box, Radio, Skeleton, Stack, Typography } from '@mui/material'
+import { KeyboardEvent } from 'react'
 
 import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
@@ -23,6 +24,13 @@ const SelectableCardListItem = ({
   onSelect,
   isLoading = false,
 }: Props) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onSelect()
+    }
+  }
+
   const titleTemplate = isLoading ? (
     <Stack direction='row' alignItems='center' gap='0.75rem'>
       <Skeleton variant='circular' width={20} height={20} />
@@ -33,18 +41,7 @@ const SelectableCardListItem = ({
       <Radio
         aria-label={`Select ${title}`}
         checked={selected}
-        onChange={(e) => {
-          e.stopPropagation()
-          onSelect()
-        }}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault()
-            e.stopPropagation()
-            onSelect()
-          }
-        }}
+        tabIndex={-1}
         sx={{
           p: 0,
           height: '1.25rem',
@@ -82,7 +79,12 @@ const SelectableCardListItem = ({
   )
   return (
     <RcSesCard
+      aria-label={`Select ${title}`}
+      aria-pressed={selected}
+      role='button'
+      tabIndex={isLoading ? -1 : 0}
       onClick={onSelect}
+      onKeyDown={isLoading ? undefined : handleKeyDown}
       sx={{
         cursor: isLoading ? 'default' : 'pointer',
         pointerEvents: isLoading ? 'none' : 'auto',
@@ -90,11 +92,8 @@ const SelectableCardListItem = ({
         borderRadius: '0.75rem',
         padding: { xs: '1rem' },
         borderColor: selected ? palette.primary.main : palette.grey[300],
-        transition: 'border-color 0.2s ease',
+        transition: 'all 0.2s ease',
         gap: { xs: '0.5rem', md: '0.25rem' },
-        '&:has(input:focus-visible)': {
-          borderColor: palette.grey[900],
-        },
       }}
       title={titleTemplate}
       slotProps={{

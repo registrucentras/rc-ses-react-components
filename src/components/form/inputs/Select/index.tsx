@@ -53,7 +53,6 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
   }
 
 function RcSesSelect(props: Props) {
-  const [inputValue, setInputValue] = React.useState('')
   const [dropdownSearchValue, setDropdownSearchValue] = React.useState('')
   const [open, setOpen] = React.useState(false)
   const dropdownSearchOptionValue = '__dropdown-search-option__'
@@ -117,12 +116,7 @@ function RcSesSelect(props: Props) {
     ? `${reservedSingleEndAdornmentWidth * 1.5}`
     : `${reservedSingleEndAdornmentWidth * 1.1}`
 
-  let resolvedInputValue: string | undefined
-  if (multiple) {
-    resolvedInputValue = dropdownSearch ? undefined : inputValue
-  } else {
-    resolvedInputValue = ''
-  }
+  const resolvedInputValue: string = ''
 
   const searchRowOption = useMemo<Option>(
     () => ({ label: '', value: dropdownSearchOptionValue }),
@@ -227,7 +221,6 @@ function RcSesSelect(props: Props) {
         onChange={handleChange}
         onInputChange={(event, val, reason) => {
           if (dropdownSearch) return
-          setInputValue(val ?? '')
           onInputChange?.(event, val, reason)
         }}
         onClose={(_event, reason) => {
@@ -279,9 +272,7 @@ function RcSesSelect(props: Props) {
                 ? {
                     '& .MuiAutocomplete-inputRoot': {
                       alignItems: 'center',
-                      pb: '.25rem !important',
                       pr: `calc(${reservedMultipleEndAdornmentWidth}rem) !important`,
-                      pt: '.25rem !important',
                     },
                     '& .MuiChip-root': {
                       maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem) !important`,
@@ -315,7 +306,7 @@ function RcSesSelect(props: Props) {
                 ...params.inputProps,
                 'aria-describedby':
                   !multiple && selectedSingleLabel ? selectedValueId : undefined,
-                readOnly: dropdownSearch || !multiple,
+                readOnly: true,
               },
             }}
           />
