@@ -101,6 +101,27 @@ describe('SelectableCardList', () => {
     expect(screen.queryByText('Item 4')).not.toBeInTheDocument()
   })
 
+  test('resets to page 1 when switching from mobile to desktop page size', () => {
+    mockedUseMediaQuery.mockReturnValue(true)
+    const { rerender } = renderList(
+      <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Go to page 3' }))
+    expect(screen.getByText('Item 7')).toBeInTheDocument()
+
+    mockedUseMediaQuery.mockReturnValue(false)
+    rerender(
+      <ThemeProvider theme={theme}>
+        <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />
+      </ThemeProvider>,
+    )
+
+    expect(screen.getByText('Item 1')).toBeInTheDocument()
+    expect(screen.getByText('Item 5')).toBeInTheDocument()
+    expect(screen.queryByText('Item 6')).not.toBeInTheDocument()
+  })
+
   test('calls onSelect with the correct item id when a card is clicked', async () => {
     const onSelect = vi.fn()
 

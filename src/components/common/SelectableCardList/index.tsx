@@ -20,22 +20,18 @@ export interface SelectableCardListProps {
 
 const MOBILE_PAGE_SIZE = 3
 const DESKTOP_PAGE_SIZE = 5
-const SelectableCardList = ({
+type SelectableCardListPagedProps = SelectableCardListProps & {
+  pageSize: number
+}
+
+const SelectableCardListPaged = ({
   items,
   selectedId,
   onSelect,
   error,
-}: SelectableCardListProps) => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
+  pageSize,
+}: SelectableCardListPagedProps) => {
   const [page, setPage] = useState(1)
-  const [prevPageSize, setPrevPageSize] = useState(pageSize)
-
-  if (pageSize !== prevPageSize) {
-    setPrevPageSize(pageSize)
-    setPage(1)
-  }
 
   const totalPages = items ? Math.ceil(items.length / pageSize) : 0
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
@@ -103,6 +99,14 @@ const SelectableCardList = ({
       )}
     </Container>
   )
+}
+
+const SelectableCardList = (props: SelectableCardListProps) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
+
+  return <SelectableCardListPaged key={pageSize} {...props} pageSize={pageSize} />
 }
 
 export default SelectableCardList

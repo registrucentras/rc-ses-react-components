@@ -109,6 +109,14 @@ export const Main: Story = {
   render: (args) => (
     <SelectableCardListStory {...args} onSelect={args.onSelect ?? (() => {})} />
   ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Responsive page size: desktop shows 5 cards per page, mobile (below md) shows 3 cards per page. When page size changes across breakpoints, current page is reset to 1.',
+      },
+    },
+  },
 }
 
 export const Loading: Story = {
