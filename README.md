@@ -5,7 +5,9 @@
  - struktūriniai sąsajos išdėstymo komponentai formų ir paslaugos užsakymo puslapio atvaizdavimui;
  - pavyzdinės (demo) formos komponentas su visais šioje bibliotekos versijoje prieinamais komponentais;
 
-Prisidėjimo gairės pateiktos `CONTRIBUTING.md` faile.
+Prisidėjimo gairės pateiktos [`CONTRIBUTING.md`](./CONTRIBUTING.md) faile. Prieš pradedant dirbti su
+biblioteka jas reikia perskaityti: jose aprašyta prieigos ir dizaino derinimo tvarka, šakų bei pull
+request'ų taisyklės ir versijų leidyba.
 
 ## Prerekvizitai
 
@@ -14,6 +16,8 @@ Prisidėjimo gairės pateiktos `CONTRIBUTING.md` faile.
     ```bash
     git clone git@github.com:registrucentras/rc-ses-react-components.git
     ```
+    Paslaugų teikėjų komandos dirba fork modelyje, todėl klonuoja savo repozitorijos kopiją. Sąranka
+    aprašyta [`CONTRIBUTING.md`](./CONTRIBUTING.md) skyriuje „Lokalus paruošimas“;
 3. Terminale atidarykite klonuoto projekto šakinį aplanką ir sudiekite projektui reikiamas bibliotekas:
     ```bash
     npm i
