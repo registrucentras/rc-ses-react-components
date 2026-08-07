@@ -91,10 +91,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           slotProps={slotProps}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
