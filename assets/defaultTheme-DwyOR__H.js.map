@@ -1,0 +1,1 @@
+{"version":3,"file":"defaultTheme-DwyOR__H.js","sources":["../../node_modules/@mui/material/styles/defaultTheme.js"],"sourcesContent":["'use client';\n\nimport createTheme from './createTheme';\nconst defaultTheme = createTheme();\nexport default defaultTheme;"],"names":["defaultTheme","createTheme"],"mappings":"8CAGK,MAACA,EAAeC,EAAW","x_google_ignoreList":[0]}
