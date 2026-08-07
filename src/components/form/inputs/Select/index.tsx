@@ -158,9 +158,7 @@ function RcSesSelect(props: Props) {
   )
 
   const filterOptions = (opts: Option[]) => {
-    if (hasCustomGroupBy) return opts
-
-    if (dropdownSearch) {
+    if (dropdownSearch && !hasCustomGroupBy) {
       const [searchOption, ...realOptions] = opts
       if (!dropdownSearchValue.trim()) return opts
 
@@ -169,6 +167,8 @@ function RcSesSelect(props: Props) {
 
       return [searchOption, ...filtered]
     }
+
+    if (dropdownSearch && hasCustomGroupBy) return opts
 
     if (!inputValue.trim()) return opts
 
