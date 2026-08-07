@@ -171,7 +171,7 @@ function RcSesSelect(props: Props) {
 
     if (dropdownSearch && hasCustomGroupBy) return opts
 
-    if (!inputValue.trim()) return opts
+    if (!inputValue.trim() || inputValue === selectedSingleLabel) return opts
 
     const filteredValues = new Set(filteredOptions.map((o) => o.value))
     return opts.filter((opt) => filteredValues.has(opt.value))
