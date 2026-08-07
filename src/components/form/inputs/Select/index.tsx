@@ -131,7 +131,10 @@ function RcSesSelect(props: Props) {
     }
   }
 
-  const filteredOptions = useFilteredOptions(options, dropdownSearchValue)
+  const filteredOptions = useFilteredOptions(
+    options,
+    dropdownSearch ? dropdownSearchValue : inputValue,
+  )
 
   const selectedValues = Array.isArray(value) ? value : []
   const { allSelected: allFilteredSelected, toggle: handleSelectAll } = useSelectAll(
@@ -141,15 +144,22 @@ function RcSesSelect(props: Props) {
   )
 
   const filterOptions = (opts: Option[]) => {
-    if (!dropdownSearch || hasCustomGroupBy) return opts
+    if (hasCustomGroupBy) return opts
 
-    const [searchOption, ...realOptions] = opts
-    if (!dropdownSearchValue.trim()) return opts
+    if (dropdownSearch) {
+      const [searchOption, ...realOptions] = opts
+      if (!dropdownSearchValue.trim()) return opts
+
+      const filteredValues = new Set(filteredOptions.map((o) => o.value))
+      const filtered = realOptions.filter((opt) => filteredValues.has(opt.value))
+
+      return [searchOption, ...filtered]
+    }
+
+    if (!inputValue.trim()) return opts
 
     const filteredValues = new Set(filteredOptions.map((o) => o.value))
-    const filtered = realOptions.filter((opt) => filteredValues.has(opt.value))
-
-    return [searchOption, ...filtered]
+    return opts.filter((opt) => filteredValues.has(opt.value))
   }
 
   const closeDropdown = () => {
