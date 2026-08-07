@@ -3,6 +3,9 @@
 Šioje repozitorijoje saugomas `@registrucentras/rc-ses-react-components` paketo išeities kodas.
 Šiame faile aprašyta, kaip reikėtų pildyti, keisti ir peržiūrėti bibliotekos komponentus.
 
+Gairės taikomos visiems, kurie prisideda prie bibliotekos. Bibliotekos savininkas yra Savitarnos
+komanda: ji peržiūri pull request'us, priima sprendimus dėl viešo API ir leidžia naujas paketo versijas.
+
 ## Taikymo sritis
 
 Ši biblioteka yra bendras SES aplikacijų React sąsajos sluoksnis. Pakeitimai turėtų patekti į vieną iš šių kategorijų:
@@ -15,9 +18,76 @@
 
 Į šią biblioteką nereikėtų dėti aplikacijai specifinės verslo logikos, puslapio lygio duomenų užklausų ar vienkartinių realizacijos detalių, kurios turi likti bibliotekos naudotojo projekte.
 
+## Prieš pradedant: dizaino ir architektūros derinimas
+
+Prieš rašant kodą pakeitimas turi būti suderintas dviem lygiais:
+
+1. **Dizainas.** Dizainas suderinamas su produkto savininku (PO) ir už dizainą atsakingu asmeniu.
+   Realizacija turi atitikti patvirtintą Figma dizainą.
+2. **Komponentų architektūra.** Suderinus dizainą, su Savitarnos komanda dar reikia suderinti, kaip
+   pakeitimas atrodys bibliotekoje: ar bus kuriamas naujas komponentas, ar išplečiamas esamas, kur
+   komponentas gyvens ir koks bus jo viešas API.
+
+## Prieiga ir GitHub paskyra
+
+Biblioteka saugoma [GitHub](https://github.com/registrucentras/rc-ses-react-components), todėl prisidėjimui reikia GitHub paskyros.
+
+- Naudokite bet kurią GitHub paskyrą: tinka ir asmeninė, ir su RC el. paštu susieta paskyra.
+  Reikalavimų dėl el. pašto adreso nėra.
+- Paskyros profilyje turi būti nurodytas tikras vardas, kad pull request'ų autorius būtų atpažįstamas.
+
+**Paslaugų teikėjų komandos dirba fork modelyje:** susikuriate asmeninę arba komandos repozitorijos
+kopiją (fork), dirbate joje ir teikiate pull request'ą į pagrindinę repozitoriją.
+
+**Savitarnos komandos nariai** šakas gali kurti tiesiai pagrindinėje repozitorijoje. Visa kita darbo
+tvarka, aprašyta žemiau, yra tokia pati.
+
+## Darbo tvarka
+
+Repozitorijoje naudojamos dvi ilgaamžės šakos:
+
+- `develop`: darbinė šaka, į kurią patenka visi pakeitimai;
+- `main`: atitinka paskutinę išleistą paketo versiją.
+
+Eiga:
+
+```
+develop
+  -> feature šaka SAV-XXXX-... (fork'e arba pagrindinėje repozitorijoje)
+  -> pull request į develop
+  -> Savitarnos komandos peržiūra ir patvirtinimas
+  -> merge į develop
+  -> develop į main (versijos leidyba, atlieka Savitarnos komanda)
+```
+
+Praktinės taisyklės:
+
+- Feature šakas kurkite **nuo `develop`**, ne nuo `main`.
+- Šakos pavadinimas turi prasidėti Jira užduoties numeriu, pvz. `SAV-6446-text-wrap-in-list-with-icons`.
+- Pull request'o bazinė šaka visada `develop`. Pull request'ų tiesiai į `main` neteikiame.
+- Pull request'o pavadinime nurodykite užduotį, pvz. `SAV-6446: Wrap longer texts in list with icons`.
+- Aprašymą pildykite pagal `.github/pull_request_template.md`: nuoroda į Jira užduotį, trumpas
+  paaiškinimas, ekrano nuotraukos, kontrolinis sąrašas ir žinomos rizikos.
+- Dirbdami fork'e, prieš teikdami pull request'ą, atnaujinkite savo `develop` šaką pagal pagrindinę
+  repozitoriją, kad peržiūroje nebūtų nesusijusių pakeitimų.
+- Pull request'us peržiūri Savitarnos komanda. Į `develop` jungiama tik po patvirtinimo.
+- Į `main` patenka tik patvirtintas kodas, ir tai daro Savitarnos komanda leisdama naują versiją
+  (žr. [Versijų leidyba](#versijų-leidyba)).
+
 ## Lokalus paruošimas
 
 CI aplinkoje šiuo metu naudojama Node.js 22 versija. Rekomenduojama ir lokaliai naudoti Node.js 22, kad validacija sutaptų su CI.
+
+Dirbdami fork'e, klonuokite savo kopiją ir pagrindinę repozitoriją pridėkite kaip `upstream`, kad
+galėtumėte atsinaujinti `develop` šaką:
+
+```bash
+git clone git@github.com:<jūsų-paskyra>/rc-ses-react-components.git
+cd rc-ses-react-components
+git remote add upstream git@github.com:registrucentras/rc-ses-react-components.git
+git fetch upstream
+git checkout -b SAV-XXXX-trumpas-aprasymas upstream/develop
+```
 
 Priklausomybių įdiegimas:
 
@@ -46,7 +116,7 @@ npm run build:lib
 - `src/library/index.ts`: viešas paketo įėjimo taškas. Visi vieši API turi būti eksportuojami čia.
 - `.storybook`: Storybook konfigūracija ir test runner nustatymai.
 
-## Prisidėjimo eiga
+## Pakeitimo apimtis
 
 Pakeitimai turėtų būti siauri ir aiškūs. Vienas pull request paprastai turėtų spręsti vieną iš šių uždavinių:
 
@@ -70,11 +140,25 @@ Komandą `npm run storybook` paleiskite tada, kai pakeitimas veikia atvaizdavim�
 
 Nauji vieši komponentai turi būti paruošti naudojimui produkcinėje aplinkoje, o ne tik vizualiai atrodantys teisingai.
 
+### Naujas komponentas ar esamo išplėtimas
+
+Ar kuriamas naujas komponentas, ar išplečiamas esamas, sprendžiama derinant su Savitarnos komanda
+(žr. [Prieš pradedant](#prieš-pradedant-dizaino-ir-architektūros-derinimas)). Bendra taisyklė:
+
+- Jei dizainas yra to paties komponento nauja iteracija arba papildomas variantas, **esamas
+  komponentas keičiamas vietoje**, o naujas elgsenos variantas atveriamas per props.
+- Naujas komponentas kuriamas tada, kai keičiasi pati komponento paskirtis arba jo viešas API su
+  esamu nebesuderinamas.
+- Jei senojo elgsenos varianto atsisakoma, tai laužantis pakeitimas: jį reikia suderinti su Savitarnos
+  komanda ir suplanuoti bibliotekos naudotojų projektuose.
+
 ### Pavadinimai
 
 - Viešiems komponentams, utility funkcijoms ir ikonoms naudokite jau esamą `RcSes` prefiksą.
 - Failų ir simbolių pavadinimai turi sutapti pagal prasmę.
 - Rinkitės aiškius props pavadinimus vietoj trumpų ar dviprasmiškų.
+- **Komponentų pavadinimuose nenaudokite versijų sufiksų** (`V2`, `New`, `Old` ir pan.). Šioje
+  bibliotekoje versiją apibrėžia paketo versija, o ne komponento pavadinimas.
 
 ### API projektavimas
 
@@ -139,6 +223,13 @@ Bent minimaliai istorijos turėtų padengti:
 
 Istorijų pavadinimai ir args turėtų būti trumpi ir orientuoti į bibliotekos naudotoją. Istorijos turi atspindėti realų naudojimą, o ne dirbtines props kombinacijų matricas.
 
+Išleistos versijos Storybook publikuojamas adresu
+[ses-react-storybook.registrucentras.lt](https://ses-react-storybook.registrucentras.lt/). Peržiūrai
+iš atskiros šakos Savitarnos komanda gali rankiniu būdu paleisti `Deploy Storybook to GitHub Pages`
+darbo eigą; ji publikuoja Storybook adresu `/preview/<šakos-pavadinimas>/`. Tai veikia tik tada, kai
+šaka yra pagrindinėje repozitorijoje, todėl fork'e dirbantiems peržiūrą reikia derinti su Savitarnos
+komanda.
+
 ## Testavimas
 
 Testai turi tikrinti elgseną, o ne realizacijos smulkmenas.
@@ -170,18 +261,42 @@ Naujas priklausomybes pridėkite atsargiai.
 - Naujos runtime priklausomybės turi turėti aiškų pagrindimą.
 - Su React, MUI, i18n ir datų bibliotekomis susiję versijų pakeitimai tiesiogiai veikia bibliotekos naudotojus, todėl juos vertinkite ypač atsargiai.
 - Peer dependencies ir runtime dependencies turi atitikti realią bibliotekos naudotojų schemą.
+- `package.json` versijos lauko nekeiskite (žr. [Versijų leidyba](#versijų-leidyba)).
 
 ## Pull request kontrolinis sąrašas
 
 Prieš prašydami peržiūros įsitikinkite, kad:
 
+- pakeitimas suderintas su PO, dizainu ir Savitarnos komanda;
+- pull request'o bazinė šaka yra `develop`, o pavadinime nurodytas Jira užduoties numeris;
+- aprašymas užpildytas pagal pull request šabloną;
 - viešas API yra tipizuotas ir minimalus;
 - prireikus atnaujinti vieši eksportai faile `src/library/index.ts`;
 - viešiems UI pakeitimams pridėtos arba atnaujintos Storybook istorijos;
 - pasikeitusiai elgsenai pridėti arba atnaujinti testai;
 - lokaliai sėkmingai praeina `npm run lint`, `npm run test:run` ir `npm run build:lib`;
-- įvertintas prieinamumo, i18n ir temos poveikis.
+- įvertintas prieinamumo, i18n ir temos poveikis;
+- `package.json` versija nepakeista.
+
+## Versijų leidyba
+
+Naujas paketo versijas leidžia **tik Savitarnos komanda**. Prisidedantiems tai reiškia, kad
+`package.json` versijos lauko pull request'uose keisti nereikia: versija pakeliama atskirai, ruošiant
+leidybą.
+
+Leidybos eiga:
+
+1. Savitarnos komanda `develop` šakoje pakelia `package.json` versiją;
+2. sukuriamas ir sujungiamas pull request iš `develop` į `main`;
+3. GitHub'e paskelbiamas release, kuris paleidžia `Build and Publish` darbo eigą;
+4. paketas publikuojamas į npm kaip `@registrucentras/rc-ses-react-components`, o išleistos versijos
+   Storybook publikuojamas į GitHub Pages.
+
+Jei release pažymėtas kaip prerelease, paketas publikuojamas su `rc` dist-tag, todėl `npm i` ir toliau
+parsiunčia stabilią `latest` versiją.
 
 ## CI/CD lūkesčiai
 
-CI pull request metu sėkmingai prasileidžia esamas pipeline.
+Kiekvienam pull request'ui `Build and Publish` darbo eiga su Node.js 22 paleidžia `npm run lint`,
+`npm run test:run` ir `npm run build:lib`, o testų rezultatus prideda kaip pull request'o patikrinimą.
+Pull request'as turi būti žalias: publikavimo žingsnis vykdomas tik paskelbus release.
