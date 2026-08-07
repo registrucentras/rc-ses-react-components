@@ -56,7 +56,7 @@ describe('RcSesSelect', () => {
     render(<TestWrapper />)
 
     const input = screen.getByRole('combobox')
-    expect(input).toHaveAttribute('readonly')
+    expect(input).not.toHaveAttribute('readonly')
 
     fireEvent.mouseDown(input)
     fireEvent.keyDown(input, { key: 'ArrowDown' })
