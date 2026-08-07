@@ -116,7 +116,8 @@ function RcSesSelect(props: Props) {
     ? `${reservedSingleEndAdornmentWidth * 1.5}`
     : `${reservedSingleEndAdornmentWidth * 1.1}`
 
-  const resolvedInputValue: string = ''
+  const [inputValue, setInputValue] = React.useState('')
+  const resolvedInputValue = dropdownSearch ? '' : inputValue
 
   const searchRowOption = useMemo<Option>(
     () => ({ label: '', value: dropdownSearchOptionValue }),
@@ -181,6 +182,13 @@ function RcSesSelect(props: Props) {
     setDropdownSearchValue('')
   }
 
+  // clear input when dropdown closes
+  const closeDropdownWithClear = () => {
+    setOpen(false)
+    setDropdownSearchValue('')
+    setInputValue('')
+  }
+
   const shouldKeepDropdownOpen = () => {
     const activeEl = document.activeElement
     if (!(activeEl instanceof Element)) return false
@@ -231,6 +239,7 @@ function RcSesSelect(props: Props) {
         onChange={handleChange}
         onInputChange={(event, val, reason) => {
           if (dropdownSearch) return
+          setInputValue(val as string)
           onInputChange?.(event, val, reason)
         }}
         onClose={(_event, reason) => {
@@ -238,7 +247,7 @@ function RcSesSelect(props: Props) {
             deferCloseCheck()
             return
           }
-          closeDropdown()
+          closeDropdownWithClear()
         }}
         isOptionEqualToValue={(option, val) => option.value === val.value}
         getOptionLabel={(option) => option.label}
@@ -271,7 +280,7 @@ function RcSesSelect(props: Props) {
             error={hasError}
             placeholder={!multiple && selectedSingleLabel ? undefined : placeholder}
             sx={{
-              ...(dropdownSearch
+              ...(dropdownSearch || (!multiple && selectedSingleLabel)
                 ? {
                     '& .MuiInputBase-input': {
                       caretColor: 'transparent',
@@ -316,7 +325,8 @@ function RcSesSelect(props: Props) {
                 ...params.inputProps,
                 'aria-describedby':
                   !multiple && selectedSingleLabel ? selectedValueId : undefined,
-                readOnly: true,
+                value: !multiple && selectedSingleLabel ? '' : params.inputProps?.value,
+                readOnly: dropdownSearch,
               },
             }}
           />

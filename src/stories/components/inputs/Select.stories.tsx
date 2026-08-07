@@ -77,7 +77,7 @@ function SelectDemo(args: any) {
     formState: { errors },
   } = useForm<SingleStepFormModel>({ mode: 'all', defaultValues: { selection: '' } })
 
-  const { label, disabled, slotProps } = args
+  const { label, disabled, placeholder, slotProps } = args
 
   return (
     <Fields>
@@ -88,6 +88,7 @@ function SelectDemo(args: any) {
           control={control}
           label={label}
           disabled={disabled}
+          placeholder={placeholder}
           slotProps={slotProps}
           options={[
             {
@@ -107,6 +108,7 @@ function SelectDemo(args: any) {
           control={control}
           rules={{ required: true }}
           label='Active'
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             {
@@ -123,6 +125,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Disabled'
           disabled
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             {
@@ -138,6 +141,7 @@ function SelectDemo(args: any) {
           control={control}
           rules={{ required: true }}
           label='Error'
+          placeholder={placeholder}
           errors={{ message: 'Error Message', type: 'required' }}
           options={[
             {
@@ -158,6 +162,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Active'
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             {
@@ -175,6 +180,7 @@ function SelectDemo(args: any) {
           label='Disabled'
           disabled
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             {
@@ -191,6 +197,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Error'
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={{ message: 'Error', type: 'required' }}
           options={[
             {
@@ -206,7 +213,7 @@ function SelectDemo(args: any) {
 }
 
 const codeBlock = (args: any) => {
-  const { label, disabled, slotProps } = args
+  const { label, disabled, placeholder, slotProps } = args
   return `
   import RcSesSelect from '@/components/form/inputs/Select'
 
@@ -222,6 +229,7 @@ const codeBlock = (args: any) => {
       rules={{ required: true }}
       label="${label}"
       disabled={${disabled}}
+      placeholder="${placeholder ?? ''}"
       errors={errors?.selection}
       slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
