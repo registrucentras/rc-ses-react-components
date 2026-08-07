@@ -14,6 +14,9 @@
     "SegmentedControl": {
       "options": "Parinktys",
       "tabs": "Skirtukai"
+    },
+    "Tooltip": {
+      "trigger": "Paaiškinimas"
     }
   }
 }
