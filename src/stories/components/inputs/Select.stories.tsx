@@ -108,10 +108,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={errors?.selection}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -125,10 +122,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={errors?.selection}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -141,10 +135,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={{ message: 'Error Message', type: 'required' }}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -162,10 +153,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={errors?.selection}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -180,10 +168,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={errors?.selection}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -197,10 +182,7 @@ function SelectDemo(args: any) {
           placeholder={placeholder}
           errors={{ message: 'Error', type: 'required' }}
           options={[
-            {
-              value: 'pasirinkimas-1',
-              label: 'Pasirinkimas #1 ',
-            },
+            { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
             { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
           ]}
         />
@@ -230,7 +212,7 @@ const codeBlock = (args: any) => {
       errors={errors?.selection}
       slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
-        { value: 'pasirinkimas-1', label: 'Pasirinkimas #1 ' },
+        { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
         { value: 'pasirinkimas-2', label: 'Pasirinkimas #2' },
       ]}
 

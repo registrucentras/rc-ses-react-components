@@ -52,7 +52,7 @@ describe('RcSesSelect', () => {
     ).toBeInTheDocument()
   })
 
-  test('single select lieka pasirenkamas klaviatura kai input yra readOnly', async () => {
+  test('single select lieka pasirenkamas klaviatura kai niekas nepasirinkta', async () => {
     render(<TestWrapper />)
 
     const input = screen.getByRole('combobox')
@@ -69,5 +69,34 @@ describe('RcSesSelect', () => {
         ),
       ).toBeInTheDocument()
     })
+  })
+
+  test('single select siulo visas parinktis kai reiksme jau pasirinkta', async () => {
+    render(<TestWrapper defaultValue='long-option' />)
+
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('option')).toHaveLength(options.length)
+    })
+  })
+
+  test('single select leidzia pakeisti jau pasirinkta reiksme', async () => {
+    render(<TestWrapper defaultValue='long-option' />)
+
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(await screen.findByRole('option', { name: 'Trumpas pasirinkimas' }))
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Trumpas pasirinkimas', { selector: 'div' }),
+      ).toBeInTheDocument()
+    })
+  })
+
+  test('single select neleidzia rasti kai reiksme jau pasirinkta', () => {
+    render(<TestWrapper defaultValue='long-option' />)
+
+    expect(screen.getByRole('combobox')).toHaveAttribute('readonly')
   })
 })
