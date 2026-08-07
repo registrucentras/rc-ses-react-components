@@ -77,7 +77,7 @@ function SelectDemo(args: any) {
     formState: { errors },
   } = useForm<SingleStepFormModel>({ mode: 'all', defaultValues: { selection: '' } })
 
-  const { label, disabled, slotProps } = args
+  const { label, disabled, placeholder, slotProps } = args
 
   return (
     <Fields>
@@ -88,6 +88,7 @@ function SelectDemo(args: any) {
           control={control}
           label={label}
           disabled={disabled}
+          placeholder={placeholder}
           slotProps={slotProps}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -104,6 +105,7 @@ function SelectDemo(args: any) {
           control={control}
           rules={{ required: true }}
           label='Active'
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -117,6 +119,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Disabled'
           disabled
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -129,6 +132,7 @@ function SelectDemo(args: any) {
           control={control}
           rules={{ required: true }}
           label='Error'
+          placeholder={placeholder}
           errors={{ message: 'Error Message', type: 'required' }}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -146,6 +150,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Active'
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -160,6 +165,7 @@ function SelectDemo(args: any) {
           label='Disabled'
           disabled
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={errors?.selection}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -173,6 +179,7 @@ function SelectDemo(args: any) {
           rules={{ required: true }}
           label='Error'
           slotProps={{ wrapper: { labelOnTop: true } }}
+          placeholder={placeholder}
           errors={{ message: 'Error', type: 'required' }}
           options={[
             { value: 'pasirinkimas-1', label: 'Pasirinkimas #1' },
@@ -185,7 +192,7 @@ function SelectDemo(args: any) {
 }
 
 const codeBlock = (args: any) => {
-  const { label, disabled, slotProps } = args
+  const { label, disabled, placeholder, slotProps } = args
   return `
   import RcSesSelect from '@/components/form/inputs/Select'
 
@@ -201,6 +208,7 @@ const codeBlock = (args: any) => {
       rules={{ required: true }}
       label="${label}"
       disabled={${disabled}}
+      placeholder="${placeholder ?? ''}"
       errors={errors?.selection}
       slotProps=${slotProps.wrapper.labelOnTop ? '{{ wrapper: { labelOnTop: true } }}' : '{{ wrapper: { labelOnTop: false} }}'}
       options={[
@@ -236,6 +244,7 @@ type VariantsFormModel = {
   singleSearchSelect: string | null
   descriptionSelect: string | null
   multiSelect: string[]
+  limitedMultiSelect: string[]
   multiSearchSelect: string[]
   phoneInput: string
 }
@@ -246,6 +255,16 @@ const variantOptions = [
   { value: 'option-3', label: '3rd option' },
   { value: 'option-4', label: '4th option' },
   { value: 'option-5', label: '5th option' },
+  {
+    value: 'long-option-1',
+    label:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  },
+  {
+    value: 'long-option-2',
+    label:
+      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
 ]
 
 const groupedVariantOptions: Array<
@@ -320,6 +339,7 @@ export const AllVariants: Story = {
         singleSearchSelect: null,
         descriptionSelect: 'option-3',
         multiSelect: ['option-1', 'option-3'],
+        limitedMultiSelect: ['option-1', 'option-2', 'option-3'],
         multiSearchSelect: ['option-1', 'option-3', 'option-4', 'option-5'],
         phoneInput: '',
       },
@@ -412,6 +432,22 @@ export const AllVariants: Story = {
               label='Pasirinkti'
               slotProps={{ wrapper: { labelOnTop: true } }}
               multiple
+              options={variantOptions}
+            />
+          </VariantCard>
+
+          <VariantCard
+            title='Multi select + limit tags'
+            description='Daugybinis pasirinkimas su limitTags={1}, kai pertekliniai pasirinkimai sutraukiami i +N.'
+          >
+            <RcSesSelect
+              id='limited-multi-select'
+              name='limitedMultiSelect'
+              control={control}
+              label='Pasirinkti'
+              slotProps={{ wrapper: { labelOnTop: true } }}
+              multiple
+              limitTags={1}
               options={variantOptions}
             />
           </VariantCard>
