@@ -105,30 +105,31 @@ const SelectableCardListItem = ({
       }}
       title={titleTemplate}
       headerAction={
-        hasActionButton &&
-        (isLoading ? (
+        isLoading ? (
           <Skeleton variant='rounded' width={100} height={38} />
         ) : (
-          <RcSesButton
-            color='grey'
-            sx={{
-              height: 'auto',
-              padding: '0.5rem 1rem',
-              fontSize: '0.875rem',
-              lineHeight: '1.25rem',
-              '&.MuiButton-colorGrey': {
-                color: palette.grey[800],
-              },
-            }}
-            onClick={(e) => {
-              e.stopPropagation()
-              onActionButtonClick?.()
-            }}
-            variant='outlined'
-          >
-            {actionButtonLabel}
-          </RcSesButton>
-        ))
+          hasActionButton && (
+            <RcSesButton
+              color='grey'
+              sx={{
+                height: 'auto',
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
+                lineHeight: '1.25rem',
+                '&.MuiButton-colorGrey': {
+                  color: palette.grey[800],
+                },
+              }}
+              onClick={(e) => {
+                e.stopPropagation()
+                onActionButtonClick?.()
+              }}
+              variant='outlined'
+            >
+              {actionButtonLabel}
+            </RcSesButton>
+          )
+        )
       }
       slotProps={{
         title: {

@@ -21,14 +21,14 @@ const ListWithIconsItem = ({
   const content = (
     <Box
       sx={{
-        display: 'inline-flex',
-        alignItems: 'center',
+        display: 'flex',
+        alignItems: 'flex-start',
         gap: 0.5,
-        maxWidth: { xs: '100%', md: 'none' },
+        maxWidth: '100%',
       }}
     >
       {Icon && (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', height: 20 }}>
           <Icon fillColor={textColor ?? palette.grey[600]} size={16} />
         </Box>
       )}
@@ -38,7 +38,8 @@ const ListWithIconsItem = ({
           fontSize: '14px',
           lineHeight: '20px',
           fontWeight: 300,
-          whiteSpace: 'nowrap',
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
           color: textColor,
         }}
       >
@@ -81,6 +82,7 @@ const ListWithIconsItem = ({
         display: 'flex',
         alignItems: 'center',
         width: { xs: '100%', md: isLoading ? '120px' : 'auto' },
+        maxWidth: '100%',
         gap: 0.5,
         minHeight: 20,
         opacity: disabled ? 0.5 : 1,

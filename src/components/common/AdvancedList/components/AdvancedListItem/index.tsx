@@ -71,10 +71,20 @@ const AdvancedListItem = ({
   const isExpandable = !!expandedContent
   const canAttachExpandToLeading =
     isExpandable && (leading.type === 'radio' || leading.type === 'checkbox')
+  const needsRootFocusFallback =
+    isExpandable && !canAttachExpandToLeading && !isRootFocusable
+
+  let rootTabIndex: number | undefined
+  if (isRootFocusable) {
+    rootTabIndex = 0
+  } else if (needsRootFocusFallback) {
+    rootTabIndex = -1
+  }
 
   const contentId = useId()
   const titleId = useId()
   const selectorRef = useRef<HTMLInputElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
@@ -99,9 +109,17 @@ const AdvancedListItem = ({
     }
   }, [canAttachExpandToLeading, leading, onExpandedChange])
 
+  // Runs for every collapse, not just ones driven by the leading control's own onChange —
+  // an external trigger (e.g. a parent-level "collapse" action) sets `expanded` directly,
+  // bypassing that onChange entirely. Without this, focus is left stranded inside content
+  // that's about to become inert.
   useEffect(() => {
     if (!expanded && contentRef.current?.contains(document.activeElement)) {
-      selectorRef.current?.focus()
+      if (selectorRef.current) {
+        selectorRef.current.focus()
+      } else {
+        rootRef.current?.focus()
+      }
     }
   }, [expanded])
 
@@ -157,8 +175,9 @@ const AdvancedListItem = ({
 
   return (
     <Box
+      ref={rootRef}
       role={isRootFocusable ? 'button' : undefined}
-      tabIndex={isRootFocusable ? 0 : undefined}
+      tabIndex={rootTabIndex}
       onClick={isClickable ? handleRootClick : undefined}
       onKeyDown={isRootFocusable ? handleRootKeyDown : undefined}
       aria-disabled={isDisabled || undefined}
@@ -191,11 +210,11 @@ const AdvancedListItem = ({
       <Stack
         direction='row'
         alignItems='flex-start'
-        flexWrap={{ xs: 'wrap', sm: 'nowrap' }}
+        flexWrap={{ xs: 'wrap', md: 'nowrap' }}
         gap='0.75rem'
       >
         {leading.type !== 'none' && (
-          <Box sx={{ alignSelf: 'center', order: { xs: -1, sm: 0 } }}>
+          <Box sx={{ alignSelf: 'center', order: { xs: -1, md: 0 } }}>
             <AdvancedListItemLeading
               leading={leadingWithExpandNotify}
               disabled={isDisabled}
@@ -214,7 +233,10 @@ const AdvancedListItem = ({
             alignItems: 'flex-start',
             gap: '0.75rem',
             minWidth: 0,
-            flex: { xs: '1 1 100%', sm: '1 1 0%' },
+            flex: {
+              xs: trailing.type !== 'none' ? '1 1 100%' : '1 1 0%',
+              md: '1 1 0%',
+            },
             alignSelf: subtitle ? undefined : 'center',
           }}
         >
@@ -267,8 +289,8 @@ const AdvancedListItem = ({
           <Box
             sx={{
               alignSelf: 'center',
-              order: { xs: -1, sm: 0 },
-              marginLeft: { xs: 'auto', sm: 0 },
+              order: leading.type !== 'none' ? { xs: -1, md: 0 } : 0,
+              marginLeft: leading.type !== 'none' ? { xs: 'auto', md: 0 } : 0,
             }}
           >
             <AdvancedListItemTrailing trailing={trailing} disabled={isDisabled} />
@@ -286,7 +308,7 @@ const AdvancedListItem = ({
             ref={contentRef}
             id={contentId}
             sx={{
-              marginLeft: leading.type !== 'none' ? '2rem' : 0,
+              marginLeft: leading.type !== 'none' ? { xs: 0, md: '2rem' } : 0,
               backgroundColor: palette.grey[50],
               borderRadius: BORDER_RADIUS,
               padding: '0.75rem 1rem',
