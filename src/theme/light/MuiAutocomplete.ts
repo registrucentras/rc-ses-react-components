@@ -82,15 +82,17 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
 
           '.rc-ses-select-option-label': {
             display: 'block',
+            overflowWrap: 'anywhere',
           },
           '.rc-ses-select-option-description': {
             color: palette.grey['600'],
             display: 'block',
             fontSize: '.75rem',
             fontStyle: 'italic',
+            fontWeight: 500,
             lineHeight: '1rem',
             marginTop: '.25rem',
-            fontWeight: 500,
+            overflowWrap: 'anywhere',
           },
         },
       },
