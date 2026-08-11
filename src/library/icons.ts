@@ -12,6 +12,8 @@ import CaretDownIcon from '@/assets/icons/CaretDownIcon'
 import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
+import CaretUpBoldIcon from '@/assets/icons/CaretUpBoldIcon'
+import CaretUpIcon from '@/assets/icons/CaretUpIcon'
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import CheckIcon from '@/assets/icons/CheckIcon'
@@ -23,11 +25,15 @@ import CopyIcon from '@/assets/icons/CopyIcon'
 import DotCircleFilledIcon from '@/assets/icons/DotCircleFilledIcon'
 import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
+import ListIcon from '@/assets/icons/ListIcon'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
 import MapPinAreaIcon from '@/assets/icons/MapPinAreaIcon'
 import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
+import MinusIcon from '@/assets/icons/MinusIcon'
+import NotePencilIcon from '@/assets/icons/NotePencilIcon'
 import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
+import PlusIcon from '@/assets/icons/PlusIcon'
 import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
 import QuestionIcon from '@/assets/icons/QuestionIcon'
 import ScalesIcon from '@/assets/icons/ScalesIcon'
@@ -35,7 +41,9 @@ import ScrollIcon from '@/assets/icons/ScrollIcon'
 import SearchHelpIcon from '@/assets/icons/SearchHelpIcon'
 import SearchXIcon from '@/assets/icons/SearchXIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
+import TrashIcon from '@/assets/icons/TrashIcon'
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
+import UserIcon from '@/assets/icons/UserIcon'
 import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
 import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
@@ -56,6 +64,8 @@ export {
   CaretLeftBoldIcon,
   CaretLeftIcon,
   CaretRightBoldIcon,
+  CaretUpIcon,
+  CaretUpBoldIcon,
   CheckBoldIcon,
   CheckCircleFillIcon,
   CheckIcon,
@@ -67,11 +77,15 @@ export {
   DotCircleFilledIcon,
   ExpandChevronsIcon,
   InfoFillIcon,
+  ListIcon,
   MagnifyingGlassIcon,
   MapPinAreaIcon,
   MinusBoldIcon,
+  MinusIcon,
+  NotePencilIcon,
   PencilSimpleLineIcon,
   PlusBoldIcon,
+  PlusIcon,
   QuestionFillIcon,
   QuestionIcon,
   ScalesIcon,
@@ -79,7 +93,9 @@ export {
   SearchHelpIcon,
   SearchXIcon,
   SpinnerGapBoldIcon,
+  TrashIcon,
   UploadSimpleIcon,
+  UserIcon,
   WarningDiamondFillIcon,
   WarningFillIcon,
   WarningCircleIcon,
