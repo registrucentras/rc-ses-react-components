@@ -1,4 +1,6 @@
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material'
+import type { ButtonTypeMap } from '@mui/material/Button'
+import type { ExtendButtonBase } from '@mui/material/ButtonBase'
 import { useTranslation } from 'react-i18next'
 
 import RcSesLoadingSpinner, { getSpinnerColor } from '@/components/loaders/LoadingSpinner'
@@ -27,7 +29,7 @@ const ICON_ONLY_SIZE_MAP = {
 // breaking change, tracked as SAV-5916.
 type Props = ButtonProps
 
-function RcSesButton(props: Props) {
+function RcSesButtonComponent(props: Props) {
   const { t } = useTranslation('common')
   const {
     children,
@@ -96,5 +98,17 @@ function RcSesButton(props: Props) {
     </MuiButton>
   )
 }
+
+/**
+ * Declared the way MUI declares its own `Button`, rather than as a plain
+ * function component. `component={Link}` has to bring the target component's
+ * props with it - without this, `<RcSesButton component={Link} to='/x' />` fails
+ * with "Property 'to' does not exist", which is how ~38 call sites in `ses-ui`
+ * were compiling against 1.x (it declared a bare `to?: string`, which allowed
+ * `to` even when no `component` was given).
+ */
+const RcSesButton = RcSesButtonComponent as ExtendButtonBase<
+  ButtonTypeMap<{ iconOnly?: boolean }>
+>
 
 export default RcSesButton
