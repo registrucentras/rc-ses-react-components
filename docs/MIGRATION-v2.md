@@ -65,6 +65,27 @@ MUI 9 deleted `InputProps` and `inputProps` from `TextFieldProps`, so the old na
   />
 ```
 
+### `RcSesButton` — polymorphic, so `to` comes from `component`
+
+1.x declared a bare `to?: string` on the button, which allowed `to` whether or not a `component` was given. 2.0.0 declares the button the way MUI declares its own `Button`, so `component={Link}` now brings the target's props with it:
+
+```tsx
+// still fine - `to` comes from react-router's Link
+<RcSesButton component={Link} to={route('cart')}>Cart</RcSesButton>
+
+// no longer type-checks - `to` means nothing on a <button>
+<RcSesButton to='/cart'>Cart</RcSesButton>
+```
+
+**`React.ComponentProps<typeof RcSesButton>` no longer does what you want.** On a polymorphic component it collapses to the default `'button'` overload, which has no `component`, so a wrapper typed that way fails as soon as it sets `component={Link}` itself. Type such wrappers with `ButtonProps` from `@mui/material` instead:
+
+```diff
+- function CartLinkButton(props: React.ComponentProps<typeof RcSesButton>) {
++ function CartLinkButton(props: ButtonProps) {
+    return <RcSesButton component={Link} to={route('cart')} {...props} />
+  }
+```
+
 ### `RcSesButton` — `loading` is now MUI's own prop
 
 MUI 6 added a native `loading` prop, so the library stopped declaring its own. The behaviour is unchanged — the custom spinner still renders — but the type is now `boolean | null` rather than `boolean`. Only matters if you were assigning it to a `boolean` variable.
