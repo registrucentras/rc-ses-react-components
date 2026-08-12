@@ -42,6 +42,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     onInputChange?: AutocompleteProps<Option, boolean, boolean, false>['onInputChange']
 
     slotProps?: {
+      controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
       field?: Partial<
         Omit<
           AutocompleteProps<Option, boolean, boolean, false>,
@@ -94,6 +95,7 @@ function RcSesSelect(props: Props) {
     name,
     rules,
     shouldUnregister: true,
+    ...slotProps?.controller,
   })
 
   const hasError = !!errors
