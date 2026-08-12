@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material'
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material'
 import { ReactNode, useMemo, useState } from 'react'
 
 import DataPagination from '../DataPagination'
@@ -10,6 +10,9 @@ export type SelectableCardListItemData = {
   title: string
   subtitle?: string
   listItems?: ListWithIconsItemData[]
+  hasActionButton?: boolean
+  actionButtonLabel?: string
+  onActionButtonClick?: () => void
 }
 export interface SelectableCardListProps {
   items?: SelectableCardListItemData[]
@@ -18,29 +21,34 @@ export interface SelectableCardListProps {
   error?: ReactNode
 }
 
-const SKELETON_COUNT = 5
-const PAGE_SIZE = 5
-const SelectableCardList = ({
+const MOBILE_PAGE_SIZE = 3
+const DESKTOP_PAGE_SIZE = 5
+type SelectableCardListPagedProps = SelectableCardListProps & {
+  pageSize: number
+}
+
+const SelectableCardListPaged = ({
   items,
   selectedId,
   onSelect,
   error,
-}: SelectableCardListProps) => {
+  pageSize,
+}: SelectableCardListPagedProps) => {
   const [page, setPage] = useState(1)
 
-  const totalPages = items ? Math.ceil(items.length / PAGE_SIZE) : 0
+  const totalPages = items ? Math.ceil(items.length / pageSize) : 0
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1
   const pagedItems = useMemo(() => {
     if (!items) {
       return []
     }
 
-    const startIndex = (currentPage - 1) * PAGE_SIZE
-    return items.slice(startIndex, startIndex + PAGE_SIZE)
-  }, [currentPage, items])
+    const startIndex = (currentPage - 1) * pageSize
+    return items.slice(startIndex, startIndex + pageSize)
+  }, [currentPage, items, pageSize])
 
   const renderSkeletons = () =>
-    Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+    Array.from({ length: pageSize }).map((_, i) => (
       <SelectableCardListItem
         // eslint-disable-next-line react/no-array-index-key
         key={i}
@@ -81,6 +89,9 @@ const SelectableCardList = ({
                     listItems={item.listItems || []}
                     selected={selectedId === item.id}
                     onSelect={() => onSelect(item.id)}
+                    hasActionButton={item.hasActionButton}
+                    actionButtonLabel={item.actionButtonLabel}
+                    onActionButtonClick={item.onActionButtonClick}
                   />
                 ))}
           </Box>
@@ -94,6 +105,14 @@ const SelectableCardList = ({
       )}
     </Container>
   )
+}
+
+const SelectableCardList = (props: SelectableCardListProps) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const pageSize = isMobile ? MOBILE_PAGE_SIZE : DESKTOP_PAGE_SIZE
+
+  return <SelectableCardListPaged key={pageSize} {...props} pageSize={pageSize} />
 }
 
 export default SelectableCardList

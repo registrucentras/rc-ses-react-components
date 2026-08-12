@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardContent,
   CardHeader,
@@ -10,21 +11,27 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 /**
- * Coverage stories for theme slots that no component in this library renders
- * (SAV-5648 / LIB-02).
+ * Coverage stories for theme slots no other story puts on the page
+ * (SAV-5648 / LIB-02). `visual/theme-slots.spec.ts` fails if one is missing.
  *
- * `src/theme/light/` overrides 39 `Mui*` slots, but the visual baselines only
- * protect the ones some story actually puts on the page. `MuiTable`,
- * `MuiTableCell`, `MuiCardHeader`, `MuiCardContent` and `MuiLinearProgress` have
- * no `RcSes*` wrapper - `RcSesCard` builds its own header and content out of
- * Stack/Box instead of MUI's slots - so they ship to consumers and were
- * exercised by nothing. These stories render the plain MUI components under the
- * theme, so a broken or silently dead override surfaces as a pixel diff.
+ * Two reasons a slot ends up here:
+ *
+ * 1. **No `RcSes*` wrapper renders it.** `MuiTable`, `MuiTableCell`,
+ *    `MuiCardHeader`, `MuiCardContent` and `MuiLinearProgress` ship to consumers
+ *    and are exercised by nothing - `RcSesCard` builds its own header and
+ *    content out of Stack/Box rather than MUI's slots.
+ * 2. **The wrapper never shows it open.** `MuiTooltip` is styled through
+ *    `RcSesTooltip`, but that component owns its open state internally and no
+ *    story can force it, so the popper never reaches a baseline.
+ *
+ * Either way these render the plain MUI component under the theme, so a broken
+ * or silently dead override surfaces as a pixel diff.
  */
 const meta: Meta = {
   title: 'theme/Themed MUI components',
@@ -32,7 +39,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Plain MUI components that the theme styles but this library does not wrap. They exist so the visual regression baselines cover every slot in `src/theme/light/`.',
+          'Plain MUI components the theme styles that no other story renders - either because this library does not wrap them, or because the wrapper never shows them open. They exist so the visual baselines cover every slot in `src/theme/light/`.',
       },
     },
   },
@@ -139,6 +146,32 @@ export const LinearProgressSlots: Story = {
         <Typography variant='body2'>indeterminate</Typography>
         <LinearProgress aria-label='indeterminate' />
       </Stack>
+    </Stack>
+  ),
+}
+
+export const TooltipSlots: Story = {
+  name: 'Tooltip',
+  // `arrow` and the bottom placement are both deliberate: the override styles
+  // the `arrow` slot separately, and shifts the tooltip via a
+  // [data-popper-placement*="bottom"] selector that only applies below.
+  render: () => (
+    <Stack
+      direction='row'
+      spacing={8}
+      sx={{ alignItems: 'center', justifyContent: 'center', py: '6rem' }}
+    >
+      <Tooltip arrow open placement='top' title='Paaiškinimas viršuje'>
+        <Box component='span' sx={{ border: '1px dashed', borderColor: 'divider', p: 1 }}>
+          top
+        </Box>
+      </Tooltip>
+
+      <Tooltip arrow open placement='bottom' title='Paaiškinimas apačioje'>
+        <Box component='span' sx={{ border: '1px dashed', borderColor: 'divider', p: 1 }}>
+          bottom
+        </Box>
+      </Tooltip>
     </Stack>
   ),
 }

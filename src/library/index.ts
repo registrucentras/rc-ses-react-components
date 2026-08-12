@@ -5,6 +5,8 @@ import type {} from '@mui/x-date-pickers/themeAugmentation'
 import RcSesIconProps from '@/assets/IconProps'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
+import RcSesAdvancedList from '@/components/common/AdvancedList'
+import RcSesAdvancedListItem from '@/components/common/AdvancedList/components/AdvancedListItem'
 import RcSesAlert from '@/components/common/Alert'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
@@ -26,6 +28,7 @@ import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
 import RcSesTabsWrapper from '@/components/common/Tabs/TabsWrapper'
+import RcSesTooltip from '@/components/common/Tooltip'
 import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
@@ -67,6 +70,7 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
+export { RcSesAdvancedList, RcSesAdvancedListItem }
 export {
   RcSesAlert,
   RcSesBadge,
@@ -98,6 +102,7 @@ export { RcSesSearchInput }
 export { RcSesSearchableField }
 export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
+export { RcSesTooltip }
 export { RcSesTextField }
 export { DataPagination }
 export { ListWithIcons }

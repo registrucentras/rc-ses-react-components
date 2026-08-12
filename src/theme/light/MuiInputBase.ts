@@ -76,6 +76,10 @@ const MuiInputBase: Components['MuiInputBase'] = {
     },
     multiline: {
       padding: '0 !important',
+
+      '.MuiInputBase-inputMultiline': {
+        overflowWrap: 'anywhere',
+      },
     },
     adornedStart: {
       paddingLeft: '0 !important',
