@@ -61,7 +61,33 @@ Adjustments so far:
 Running total **23.25h** against the 20h budget.
 
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** Phase 5 (release: LIB-15, `2.0.0-rc` validation, 2.0.0).
+**Open:** Phase 5 — LIB-15 (recommended: drop, see below) and LIB-18 (`2.0.0`). LIB-17 validation is done.
+
+### Phase 5 progress — as of 2026-08-12
+
+**`2.0.0-rc.1` is published** (`npm i @registrucentras/rc-ses-react-components@rc`), and `ses-ui` compiles and builds against it from a clean install. That is LIB-17's validation gate met.
+
+**`develop` was merged in** (`60cf941`) — Tooltip, AdvancedList/AdvancedListItem, 8 icons, `theme/motion`, plus the Select and SelectableCardList changes from #115, #116, #118, #119, #120. All were authored on MUI 5 and needed the same migration as the rest of the library: `v9.0.0/system-props` on the new code, `Checkbox`/`Radio` `inputRef`+`inputProps` → the `input` slot, Tooltip `PopperProps` → `slotProps.popper` and `TransitionComponent` → `slots.transition`, and the three new stories off the `@storybook/react` renderer package that Storybook 10 rejects. **This is the cost the top of this document warned about** — the freeze never happened and five PRs landed.
+
+`Select` conflicted twice, and both sides were real: develop's single-select value display had to be re-expressed as `slotProps.input`/`htmlInput`, and its chip wrapping plus `limitTags`/`getLimitTagsText` had to move from `renderTags` into `renderValue`, which MUI 9 merged — keeping the single-select early return that stops it rendering a deletable Chip.
+
+**`MuiTooltip` is a 40th theme slot, and `visual/theme-slots.spec.ts` failed on it** exactly as LIB-02 intended. `RcSesTooltip` owns its open state internally so no story can show the popper; it is covered from `theme/Themed MUI components` instead. Current totals: **270 tests, 195 visual snapshots**, bundle 359.3 kB (from 333.4 kB — the merged components).
+
+**Three baselines re-recorded** where develop deliberately changed rendering: `SelectableCardList` Main and Loading, `Select` All Variants. Each was inspected before being accepted.
+
+#### The `RcSesButton` regression — found by rc validation
+
+`2.0.0-rc.0` typed the button as a plain function rather than an `OverridableComponent`, so `component={Link}` no longer brought the target's props with it and `to` stopped type-checking — **38 call sites in `ses-ui`**. 1.x had hidden this behind a bare `to?: string`, which also allowed `to` with no `component` at all. Fixed in `2dc602d` by declaring it the way MUI declares its own `Button`, and documented in `MIGRATION-v2.md` §2. Type-only; no runtime effect.
+
+This is the entire argument for LIB-17 existing: nothing in this repo's own tests, lint or visual suite could have caught it, because the library never renders its own button with a `component` override.
+
+#### CI fix: pre-releases no longer overwrite the root Storybook
+
+`deploy-storybook.yml` deployed to the site root on *any* published release, so `v2.0.0-rc.0` replaced the published Storybook with an unreleased library and `main` had to be re-deployed by hand. Pre-releases now go to `preview/<tag>/` instead (`fd40f5e`), verified on the `rc.1` run — the root step shows as skipped. `build-and-publish.yml` already branched on the same `release.prerelease` flag for the npm dist-tag, which is why `latest` correctly stayed on `1.12.0`.
+
+#### LIB-15 — recommendation: drop from 2.0.0
+
+The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. Not breaking, so deferring it does not force a later major.
 
 **As of 2026-07-31 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 161/161 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
 
