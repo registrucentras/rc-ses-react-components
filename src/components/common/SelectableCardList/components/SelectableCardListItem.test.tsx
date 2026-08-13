@@ -148,6 +148,56 @@ describe('SelectableCardListItem', () => {
     expect(onSelect).toHaveBeenCalledTimes(1)
   })
 
+  test('renders action button with label when hasActionButton is true', () => {
+    renderItem(
+      <SelectableCardListItem
+        title='With action'
+        selected={false}
+        onSelect={vi.fn()}
+        listItems={[]}
+        hasActionButton
+        actionButtonLabel='Veiksmas'
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: 'Veiksmas' })).toBeInTheDocument()
+  })
+
+  test('omits action button when hasActionButton is false', () => {
+    renderItem(
+      <SelectableCardListItem
+        title='No action'
+        selected={false}
+        onSelect={vi.fn()}
+        listItems={[]}
+        actionButtonLabel='Veiksmas'
+      />,
+    )
+
+    expect(screen.queryByRole('button', { name: 'Veiksmas' })).not.toBeInTheDocument()
+  })
+
+  test('clicking action button calls onActionButtonClick and not onSelect', () => {
+    const onSelect = vi.fn()
+    const onActionButtonClick = vi.fn()
+    renderItem(
+      <SelectableCardListItem
+        title='With action'
+        selected={false}
+        onSelect={onSelect}
+        listItems={[]}
+        hasActionButton
+        actionButtonLabel='Veiksmas'
+        onActionButtonClick={onActionButtonClick}
+      />,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Veiksmas' }))
+
+    expect(onActionButtonClick).toHaveBeenCalledTimes(1)
+    expect(onSelect).not.toHaveBeenCalled()
+  })
+
   test('loading card is not selectable', () => {
     const onSelect = vi.fn()
     const { container } = renderItem(

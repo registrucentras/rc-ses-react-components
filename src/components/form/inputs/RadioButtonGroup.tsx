@@ -66,6 +66,7 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
     control,
     name,
     rules,
+    ...slotProps?.controller,
   })
 
   return (

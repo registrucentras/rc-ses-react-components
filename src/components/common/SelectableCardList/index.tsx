@@ -10,6 +10,9 @@ export type SelectableCardListItemData = {
   title: string
   subtitle?: string
   listItems?: ListWithIconsItemData[]
+  hasActionButton?: boolean
+  actionButtonLabel?: string
+  onActionButtonClick?: () => void
 }
 export interface SelectableCardListProps {
   items?: SelectableCardListItemData[]
@@ -86,6 +89,9 @@ const SelectableCardListPaged = ({
                     listItems={item.listItems || []}
                     selected={selectedId === item.id}
                     onSelect={() => onSelect(item.id)}
+                    hasActionButton={item.hasActionButton}
+                    actionButtonLabel={item.actionButtonLabel}
+                    onActionButtonClick={item.onActionButtonClick}
                   />
                 ))}
           </Box>

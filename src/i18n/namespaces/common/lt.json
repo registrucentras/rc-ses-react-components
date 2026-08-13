@@ -15,8 +15,19 @@
       "options": "Parinktys",
       "tabs": "Skirtukai"
     },
+    "AdvancedListItemTrailing": {
+      "decrease": "Sumažinti",
+      "increase": "Padidinti",
+      "delete": "Pašalinti",
+      "toggle": "Perjungti",
+      "vat": "su PVM"
+    },
     "Tooltip": {
       "trigger": "Paaiškinimas"
+    },
+    "AdvancedListItemLeading": {
+      "moveUp": "Perkelti aukštyn",
+      "moveDown": "Perkelti žemyn"
     }
   }
 }

@@ -57,6 +57,7 @@ function RcSesFileUpload(props: Props) {
     control,
     name,
     rules,
+    ...slotProps?.controller,
   })
 
   const handleChange = (e: { target: { files: any } }) => onChange(e.target.files)
