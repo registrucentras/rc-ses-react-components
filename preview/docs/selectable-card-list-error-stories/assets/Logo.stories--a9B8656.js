@@ -1,0 +1,2 @@
+import{L as a}from"./Logo-C43NXEWk.js";import"./jsx-runtime-Cf8x2fCZ.js";import"./index-yBjzXJbu.js";const p={title:"assets/Logo",component:a,parameters:{layout:"centered"}},e={};var o,r,t;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:"{}",...(t=(r=e.parameters)==null?void 0:r.docs)==null?void 0:t.source}}};const n=["Default"];export{e as Default,n as __namedExportsOrder,p as default};
+//# sourceMappingURL=Logo.stories--a9B8656.js.map

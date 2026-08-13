@@ -1,0 +1,2 @@
+import{G as m,a as l,T as n}from"./createTheme-cc7C8_Rz.js";import"./index-CqJgnuY1.js";import{d as p}from"./defaultTheme-SlYxhCq1.js";import{j as s}from"./jsx-runtime-Cf8x2fCZ.js";import{u}from"./useTheme-BNEP3wvB.js";function f({styles:o,themeId:e,defaultTheme:r={}}){const t=u(r),a=typeof o=="function"?o(e&&t[e]||t):o;return s.jsx(m,{styles:a})}function b(o){return s.jsx(f,l({},o,{defaultTheme:p,themeId:n}))}export{b as G};
+//# sourceMappingURL=GlobalStyles-BFM0LYBX.js.map

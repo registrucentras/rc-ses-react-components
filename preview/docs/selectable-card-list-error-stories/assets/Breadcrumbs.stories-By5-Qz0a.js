@@ -1,0 +1,6 @@
+import{R as e}from"./index-Bg74tWQ2.js";import"./jsx-runtime-Cf8x2fCZ.js";import"./index-yBjzXJbu.js";import"./createTheme-cc7C8_Rz.js";import"./index-CqJgnuY1.js";import"./_commonjsHelpers-gnU0ypJ3.js";import"./styled-CQgu8tRE.js";import"./generateUtilityClasses-w1ShjUKg.js";import"./defaultTheme-SlYxhCq1.js";import"./createSvgIcon-Cj1taIyO.js";import"./DefaultPropsProvider-DYP4WNeP.js";import"./composeClasses-fLhin0tj.js";import"./ButtonBase-Cbvckr1-.js";import"./useTimeout-DgQ6HlaJ.js";import"./TransitionGroupContext-BmD4SPXa.js";import"./useIsFocusVisible-DPtOLna9.js";import"./useSlotProps-BbwbZ62_.js";import"./resolveComponentProps-D3cSQ9RO.js";import"./isHostComponent-DVu5iVWx.js";import"./Typography-zwmJPfbY.js";const p=[{label:"Level 2",path:"level-2"},{label:"Level 3",path:"level-3"}],_={title:"components/navigation/Breadcrumbs",component:e,tags:["autodocs"]},t={args:{path:p}};var r,o,a;t.parameters={...t.parameters,docs:{...(r=t.parameters)==null?void 0:r.docs,source:{originalSource:`{
+  args: {
+    path: Path
+  }
+}`,...(a=(o=t.parameters)==null?void 0:o.docs)==null?void 0:a.source}}};const E=["Main"];export{t as Main,E as __namedExportsOrder,_ as default};
+//# sourceMappingURL=Breadcrumbs.stories-By5-Qz0a.js.map
