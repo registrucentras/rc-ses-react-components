@@ -1,6 +1,8 @@
 node_modules
 dist
 coverage
+storybook-static
+test-results
 .env
 .git
 .DS_Store
