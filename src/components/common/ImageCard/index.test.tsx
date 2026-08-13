@@ -63,7 +63,7 @@ describe('RcSesImageCard', () => {
           header: 'image-card-header',
           title: 'image-card-title',
           description: 'image-card-description',
-          content: 'image-card-content',
+          button: 'image-card-button',
         }}
       />,
     )
@@ -73,6 +73,6 @@ describe('RcSesImageCard', () => {
     expect(screen.getByTestId('image-card-header')).toBeInTheDocument()
     expect(screen.getByTestId('image-card-title')).toBeInTheDocument()
     expect(screen.getByTestId('image-card-description')).toBeInTheDocument()
-    expect(screen.getByTestId('image-card-content')).toBeInTheDocument()
+    expect(screen.getByTestId('image-card-button')).toBeInTheDocument()
   })
 })

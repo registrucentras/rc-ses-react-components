@@ -13,6 +13,7 @@ import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
 import RcSesCard from '@/components/common/Card'
+import RcSesCardHeader from '@/components/common/Card/CardHeader'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
@@ -48,7 +49,6 @@ import RcSesTextField from '@/components/form/inputs/TextField'
 import RcSesFooter from '@/components/layout/Footer'
 import RcSesServiceFormActions from '@/components/layout/ServiceFormActions'
 import RcSesServiceFormContainer from '@/components/layout/ServiceFormContainer/AccordionFormContainer'
-import RcSesCardFormContainer from '@/components/layout/ServiceFormContainer/CardFormContainer'
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
 import RcSesServicePage from '@/components/layout/ServicePage'
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
@@ -81,6 +81,7 @@ export {
   RcSesLoader,
   RcSesLoadingSpinner,
   RcSesCard,
+  RcSesCardHeader,
   RcSesDialog,
   RcSesFooter,
   RcSesImageCard,
@@ -110,12 +111,19 @@ export { ServiceWizardStepper }
 export { RcSesFormControlLabel }
 export { SelectableCardList }
 export type * from './types'
+export type {
+  CardTheme,
+  CardVariant,
+  CardHeadingLevel,
+  RcSesCardHeaderProps,
+  RcSesCardHeaderTestIds,
+  RcSesCardTestIds,
+} from '@/components/common/Card/types'
 export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
 
 export {
   RcSesServiceFormActions,
   RcSesServiceFormContainer,
-  RcSesCardFormContainer,
   RcSesFormControlWrapper,
   RcSesServiceHeader,
   RcSesServicePage,

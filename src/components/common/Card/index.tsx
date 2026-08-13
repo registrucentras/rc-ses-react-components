@@ -1,310 +1,98 @@
-import {
-  Box,
-  BoxProps,
-  CardProps,
-  Card as MuiCard,
-  Stack,
-  StackProps,
-  SxProps,
-  Theme,
-  Typography,
-  TypographyProps,
-} from '@mui/material'
-import { ReactNode } from 'react'
+import { Box, BoxProps, Stack } from '@mui/material'
 
-import palette from '@/theme/palette'
+import palette, { common } from '@/theme/palette'
 
-export type RcSesCardTestIds = {
-  root?: string
-  image?: string
-  header?: string
-  headerAction?: string
-  title?: string
-  description?: string
-  content?: string
-  actions?: string
-  leadingActions?: string
-  trailingActions?: string
+import { CardTheme, CardVariant, RcSesCardProps } from './types'
+
+const variantStyles: Record<CardVariant, object> = {
+  card: {
+    borderRadius: '0.75rem',
+    p: { xs: '1.25rem 1.5rem 1.5rem', md: '1.5rem 2rem 2rem' },
+    gap: { xs: '1rem', md: '1.5rem' },
+  },
+  subcard: {
+    borderRadius: '0.5rem',
+    p: { xs: '1rem', md: '1.25rem 1.5rem' },
+    gap: { xs: '0.75rem', md: '1rem' },
+  },
 }
 
-export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
-  title: ReactNode
-  description?: ReactNode
-  image?: ReactNode
-  headerAction?: ReactNode
-  centered?: boolean
-  contentBackground?: boolean
-  children?: ReactNode
-  leadingActions?: ReactNode
-  trailingActions?: ReactNode
-  testIds?: RcSesCardTestIds
-  slotProps?: {
-    actions?: StackProps
-    content?: BoxProps
-    description?: TypographyProps
-    header?: StackProps
-    headerAction?: BoxProps
-    image?: BoxProps
-    leadingActions?: StackProps
-    title?: TypographyProps
-    trailingActions?: StackProps
-  }
+const themeStyles: Record<CardTheme, object> = {
+  default: {
+    backgroundColor: common.white,
+    border: `1px solid ${palette.grey[300]}`,
+  },
+  brand: {
+    backgroundColor: palette.primary[50],
+    border: `1px solid ${palette.primary[200]}`,
+  },
+  sunken: {
+    backgroundColor: palette.grey[100],
+    border: `1px solid ${palette.grey[200]}`,
+  },
 }
 
-type SxEntry =
-  Extract<SxProps<Theme>, ReadonlyArray<unknown>> extends ReadonlyArray<infer T>
-    ? T
-    : never
-
-function isSxArray(sx: SxProps<Theme>): sx is ReadonlyArray<SxEntry> {
-  return Array.isArray(sx)
-}
-
-function normalizeSx(sx: SxProps<Theme> | undefined): SxEntry[] {
-  if (sx === undefined) {
-    return []
-  }
-
-  if (isSxArray(sx)) {
-    return [...sx]
-  }
-
-  return [sx]
-}
+type ShellProps = RcSesCardProps & Omit<BoxProps, keyof RcSesCardProps | 'children'>
 
 function RcSesCard({
-  title,
-  description,
-  image,
-  headerAction,
-  centered = false,
-  contentBackground = true,
+  variant = 'card',
+  theme = 'default',
+  fullHeight = false,
+  header,
   children,
-  leadingActions,
-  trailingActions,
+  footer,
+  className,
   testIds,
-  slotProps,
   sx,
-  ...cardProps
-}: RcSesCardProps) {
-  const actionsProps = slotProps?.actions
-  const contentProps = slotProps?.content
-  const descriptionProps = slotProps?.description
-  const headerProps = slotProps?.header
-  const headerActionProps = slotProps?.headerAction
-  const imageProps = slotProps?.image
-  const leadingActionsProps = slotProps?.leadingActions
-  const titleProps = slotProps?.title
-  const trailingActionsProps = slotProps?.trailingActions
-
-  const normalizedSx = normalizeSx(sx)
-  const normalizedTitleSx = normalizeSx(titleProps?.sx)
-  const normalizedDescriptionSx = normalizeSx(descriptionProps?.sx)
-  const normalizedHeaderActionSx = normalizeSx(headerActionProps?.sx)
-  const normalizedContentSx = normalizeSx(contentProps?.sx)
-  const normalizedActionsSx = normalizeSx(actionsProps?.sx)
-  const normalizedImageSx = normalizeSx(imageProps?.sx)
-  const normalizedLeadingActionsSx = normalizeSx(leadingActionsProps?.sx)
-  const normalizedTrailingActionsSx = normalizeSx(trailingActionsProps?.sx)
-
-  const hasActions = Boolean(leadingActions || trailingActions)
-
+  ...boxProps
+}: ShellProps) {
   return (
-    <MuiCard
-      {...cardProps}
+    <Box
+      {...boxProps}
+      className={className}
       data-testid={testIds?.root}
       sx={[
         {
           display: 'flex',
           flexDirection: 'column',
-          gap: { xs: '1rem', md: '1.5rem' },
-          p: { xs: '1.25rem 1.5rem 1.5rem', md: '1.5rem 2rem 2rem' },
+          height: fullHeight ? '100%' : 'auto',
+          minWidth: 0,
+          // enables stretched-link pattern in interactive compositions
+          position: 'relative',
+          ...variantStyles[variant],
+          ...themeStyles[theme],
         },
-        ...normalizedSx,
+        ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {image ? (
-        <Box
-          {...imageProps}
-          data-testid={testIds?.image}
-          sx={[
-            {
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-            },
-            ...normalizedImageSx,
-          ]}
-        >
-          {image}
+      {header ? (
+        <Box data-testid={testIds?.header} sx={{ minWidth: 0, width: '100%' }}>
+          {header}
         </Box>
       ) : null}
 
-      <Stack
-        direction='row'
-        sx={{
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
-        <Stack
-          {...headerProps}
-          data-testid={testIds?.header}
-          spacing={0.5}
-          sx={[
-            {
-              flex: 1,
-              minWidth: 0,
-            },
-            centered ? { alignItems: 'center' } : {},
-            ...normalizeSx(headerProps?.sx),
-          ]}
-        >
-          <Typography
-            data-testid={testIds?.title}
-            variant='h5'
-            {...titleProps}
-            sx={[
-              {
-                color: palette.grey[900],
-                lineHeight: '1.75rem',
-                ...(centered ? { textAlign: 'center' } : {}),
-              },
-              ...normalizedTitleSx,
-            ]}
-          >
-            {title}
-          </Typography>
-
-          {!!description && (
-            <Typography
-              data-testid={testIds?.description}
-              variant='body2'
-              {...descriptionProps}
-              sx={[
-                {
-                  color: palette.grey[800],
-                  fontWeight: 300,
-                  lineHeight: '1.25rem',
-                  ...(centered ? { textAlign: 'center' } : {}),
-                },
-                ...normalizedDescriptionSx,
-              ]}
-            >
-              {description}
-            </Typography>
-          )}
-        </Stack>
-
-        {headerAction ? (
-          <Box
-            {...headerActionProps}
-            data-testid={testIds?.headerAction}
-            sx={[
-              {
-                alignItems: 'flex-start',
-                display: 'flex',
-                flexShrink: 0,
-              },
-              ...normalizedHeaderActionSx,
-            ]}
-          >
-            {headerAction}
-          </Box>
-        ) : null}
-      </Stack>
-
       {children ? (
         <Box
-          {...contentProps}
           data-testid={testIds?.content}
-          sx={[
-            {
-              alignItems: 'center',
-              alignSelf: 'stretch',
-              ...(contentBackground ? { backgroundColor: palette.grey[100] } : {}),
-              borderRadius: '0.5rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem',
-              justifyContent: 'center',
-            },
-            ...normalizedContentSx,
-          ]}
+          sx={{ flexGrow: fullHeight ? 1 : 0, minWidth: 0, width: '100%' }}
         >
           {children}
         </Box>
       ) : null}
 
-      {hasActions && (
+      {footer ? (
         <Stack
-          {...actionsProps}
-          data-testid={testIds?.actions}
-          direction={{ xs: 'column', md: 'row' }}
-          sx={[
-            {
-              alignItems: { xs: 'stretch', md: 'center' },
-              justifyContent: {
-                xs: 'stretch',
-                md: leadingActions ? 'space-between' : 'flex-end',
-              },
-              pt: '0.5rem',
-              width: '100%',
-            },
-            ...normalizedActionsSx,
-          ]}
-          spacing={{ xs: 1, md: 3 }}
+          data-testid={testIds?.footer}
+          direction='row'
+          spacing='0.75rem'
+          sx={{ alignItems: 'center', justifyContent: 'space-between', width: '100%' }}
         >
-          {!!leadingActions && (
-            <Stack
-              {...leadingActionsProps}
-              data-testid={testIds?.leadingActions}
-              direction={{ xs: 'column', md: 'row' }}
-              sx={[
-                {
-                  display: { xs: 'none', md: 'flex' },
-                  alignItems: { xs: 'stretch', md: 'center' },
-                  minHeight: { md: '2.75rem' },
-                  width: { xs: '100%', md: 'auto' },
-
-                  '& > *': {
-                    width: { xs: '100%', md: 'auto' },
-                  },
-                },
-                ...normalizedLeadingActionsSx,
-              ]}
-            >
-              {leadingActions}
-            </Stack>
-          )}
-
-          {!!trailingActions && (
-            <Stack
-              {...trailingActionsProps}
-              data-testid={testIds?.trailingActions}
-              direction={{ xs: 'column', md: 'row' }}
-              sx={[
-                {
-                  alignItems: { xs: 'stretch', md: 'center' },
-                  justifyContent: { xs: 'stretch', md: 'flex-end' },
-                  width: { xs: '100%', md: 'auto' },
-
-                  '& > *': {
-                    width: { xs: '100%', md: 'auto' },
-                  },
-                },
-                ...normalizedTrailingActionsSx,
-              ]}
-              spacing={{ xs: 1, md: 1.5 }}
-            >
-              {trailingActions}
-            </Stack>
-          )}
+          {footer}
         </Stack>
-      )}
-    </MuiCard>
+      ) : null}
+    </Box>
   )
 }
 
 export default RcSesCard
+export type { RcSesCardProps }

@@ -1,9 +1,8 @@
-import { Box, Radio, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, BoxProps, Radio, Skeleton, Stack, Typography } from '@mui/material'
 
 import RcSesButton from '@/components/common/Button'
-import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
-import palette from '@/theme/palette'
+import palette, { common } from '@/theme/palette'
 
 import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
@@ -17,7 +16,10 @@ type Props = {
   hasActionButton?: boolean
   actionButtonLabel?: string
   onActionButtonClick?: () => void
+  className?: string
 }
+
+type ShellProps = Props & Omit<BoxProps, keyof Props | 'children'>
 
 const SelectableCardListItem = ({
   title,
@@ -29,7 +31,10 @@ const SelectableCardListItem = ({
   hasActionButton = false,
   actionButtonLabel,
   onActionButtonClick,
-}: Props) => {
+  className,
+  sx,
+  ...boxProps
+}: ShellProps) => {
   const titleTemplate = isLoading ? (
     <Stack
       direction='row'
@@ -99,25 +104,44 @@ const SelectableCardListItem = ({
       </Box>
     </Stack>
   )
+
   return (
-    <RcSesCard
+    <Box
+      {...boxProps}
+      className={className}
       onClick={onSelect}
-      sx={{
-        cursor: isLoading ? 'default' : 'pointer',
-        pointerEvents: isLoading ? 'none' : 'auto',
-        border: '0.125rem solid',
-        borderRadius: '0.75rem',
-        padding: { xs: '1rem' },
-        borderColor: selected ? palette.primary.main : palette.grey[300],
-        transition: 'border-color 0.2s ease',
-        gap: { xs: '0.5rem', md: '0.25rem' },
-        '&:has(input:focus-visible)': {
-          borderColor: palette.grey[900],
+      sx={[
+        {
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: common.white,
+          border: '0.125rem solid',
+          borderColor: selected ? palette.primary.main : palette.grey[300],
+          borderRadius: '0.75rem',
+          p: '1rem',
+          gap: { xs: '0.5rem', md: '0.25rem' },
+          minWidth: 0,
+          position: 'relative',
+          cursor: isLoading ? 'default' : 'pointer',
+          pointerEvents: isLoading ? 'none' : 'auto',
+          transition: 'border-color 0.2s ease',
+          '&:has(input:focus-visible)': {
+            borderColor: palette.grey[900],
+          },
         },
-      }}
-      title={titleTemplate}
-      headerAction={
-        isLoading ? (
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
+    >
+      <Stack
+        direction='row'
+        sx={{
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
+        {titleTemplate}
+        {isLoading ? (
           <Skeleton variant='rounded' width={100} height={38} />
         ) : (
           hasActionButton && (
@@ -128,6 +152,7 @@ const SelectableCardListItem = ({
                 padding: '0.5rem 1rem',
                 fontSize: '0.875rem',
                 lineHeight: '1.25rem',
+                flexShrink: 0,
                 '&.MuiButton-colorGrey': {
                   color: palette.grey[800],
                 },
@@ -141,28 +166,15 @@ const SelectableCardListItem = ({
               {actionButtonLabel}
             </RcSesButton>
           )
-        )
-      }
-      slotProps={{
-        title: {
-          sx: {
-            fontSize: '1rem',
-            fontWeight: 600,
-            lineHeight: '1.5rem',
-          },
-        },
-        content: {
-          sx: {
-            marginLeft: '2rem',
-            backgroundColor: 'transparent',
-          },
-        },
-      }}
-    >
+        )}
+      </Stack>
+
       {(isLoading || (!!listItems && listItems.length > 0)) && (
-        <ListWithIcons items={listItems} layout='horizontal' isLoading={isLoading} />
+        <Box sx={{ marginLeft: '2rem' }}>
+          <ListWithIcons items={listItems} layout='horizontal' isLoading={isLoading} />
+        </Box>
       )}
-    </RcSesCard>
+    </Box>
   )
 }
 

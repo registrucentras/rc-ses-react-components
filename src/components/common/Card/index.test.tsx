@@ -6,175 +6,122 @@ import { describe, expect, test } from 'vitest'
 
 import RcSesCard from '.'
 import theme from '../../../theme/light'
+import RcSesCardHeader from './CardHeader'
 
 const renderCard = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
 
-describe('RcSesCard', () => {
-  test('renders title, description, children, and actions', () => {
+describe('RcSesCard (shell)', () => {
+  test('renders header, content and footer slots when provided', () => {
     renderCard(
       <RcSesCard
-        title='Card title'
-        description='Card description'
-        headerAction={<button type='button'>Edit</button>}
-        leadingActions={<button type='button'>Back</button>}
-        trailingActions={<button type='button'>Continue</button>}
+        header={
+          <RcSesCardHeader
+            title='Kortelės antraštė'
+            description='Paaiškinimas apie šios kortelės turinį'
+            actions={<button type='button'>Redaguoti</button>}
+          />
+        }
+        footer={<button type='button'>Tęsti</button>}
       >
-        <div>Card content</div>
+        <div>Turinys</div>
       </RcSesCard>,
     )
 
-    expect(screen.getByText('Card title')).toBeInTheDocument()
-    expect(screen.getByText('Card description')).toBeInTheDocument()
-    expect(screen.getByText('Card content')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Back' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Kortelės antraštė' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Paaiškinimas apie šios kortelės turinį')).toBeInTheDocument()
+    expect(screen.getByText('Turinys')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Redaguoti' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Tęsti' })).toBeInTheDocument()
   })
 
-  test('omits optional description and actions when they are not provided', () => {
+  test('header slot is OFF when not provided (free-form slot content)', () => {
     renderCard(
-      <RcSesCard title='Only title'>
-        <div>Only content</div>
+      <RcSesCard testIds={{ header: 'card-header' }}>
+        <div>Laisvos formos turinys</div>
       </RcSesCard>,
     )
 
-    expect(screen.getByText('Only title')).toBeInTheDocument()
-    expect(screen.getByText('Only content')).toBeInTheDocument()
-    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('card-header')).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+    expect(screen.getByText('Laisvos formos turinys')).toBeInTheDocument()
   })
 
-  test('forwards slot props to internal sections', () => {
-    const { container } = renderCard(
-      <RcSesCard
-        title='Slotted title'
-        description='Slotted description'
-        headerAction={<button type='button'>Edit</button>}
-        leadingActions={<button type='button'>Leading</button>}
-        trailingActions={<button type='button'>Trailing</button>}
-        slotProps={{
-          actions: { className: 'actions-slot' },
-          content: { className: 'content-slot' },
-          description: { className: 'description-slot' },
-          header: { className: 'header-slot' },
-          headerAction: { className: 'header-action-slot' },
-          leadingActions: { className: 'leading-actions-slot' },
-          title: { className: 'title-slot' },
-          trailingActions: { className: 'trailing-actions-slot' },
-        }}
-      >
-        <div>Slotted content</div>
-      </RcSesCard>,
-    )
-
-    expect(container.querySelector('.header-slot')).toBeInTheDocument()
-    expect(container.querySelector('.header-action-slot')).toBeInTheDocument()
-    expect(container.querySelector('.title-slot')).toBeInTheDocument()
-    expect(container.querySelector('.description-slot')).toBeInTheDocument()
-    expect(container.querySelector('.content-slot')).toBeInTheDocument()
-    expect(container.querySelector('.actions-slot')).toBeInTheDocument()
-    expect(container.querySelector('.leading-actions-slot')).toBeInTheDocument()
-    expect(container.querySelector('.trailing-actions-slot')).toBeInTheDocument()
-  })
-
-  test('forwards testIds to internal sections', () => {
+  test('omits content slot when no children provided', () => {
     renderCard(
       <RcSesCard
-        title='Test id title'
-        description='Test id description'
-        headerAction={<button type='button'>Edit</button>}
-        leadingActions={<button type='button'>Leading</button>}
-        trailingActions={<button type='button'>Trailing</button>}
-        testIds={{
-          root: 'card-root',
-          header: 'card-header',
-          headerAction: 'card-header-action',
-          title: 'card-title',
-          description: 'card-description',
-          content: 'card-content',
-          actions: 'card-actions',
-          leadingActions: 'card-leading-actions',
-          trailingActions: 'card-trailing-actions',
-        }}
-      >
-        <div>Test id content</div>
+        header={<RcSesCardHeader title='Antraštė' />}
+        testIds={{ content: 'card-content' }}
+      />,
+    )
+
+    expect(screen.queryByTestId('card-content')).not.toBeInTheDocument()
+  })
+
+  test('omits footer when not provided', () => {
+    renderCard(
+      <RcSesCard testIds={{ footer: 'card-footer', root: 'card-root' }} variant='subcard'>
+        <div>Turinys</div>
       </RcSesCard>,
     )
 
     expect(screen.getByTestId('card-root')).toBeInTheDocument()
-    expect(screen.getByTestId('card-header')).toBeInTheDocument()
-    expect(screen.getByTestId('card-header-action')).toBeInTheDocument()
-    expect(screen.getByTestId('card-title')).toBeInTheDocument()
-    expect(screen.getByTestId('card-description')).toBeInTheDocument()
-    expect(screen.getByTestId('card-content')).toBeInTheDocument()
-    expect(screen.getByTestId('card-actions')).toBeInTheDocument()
-    expect(screen.getByTestId('card-leading-actions')).toBeInTheDocument()
-    expect(screen.getByTestId('card-trailing-actions')).toBeInTheDocument()
+    expect(screen.queryByTestId('card-footer')).not.toBeInTheDocument()
   })
 
-  test('accepts a plain sx object on the card root', () => {
-    const { container } = renderCard(
-      <RcSesCard title='Root sx object' sx={{ borderStyle: 'dashed' }}>
-        <div>Content</div>
-      </RcSesCard>,
-    )
-
-    expect(container.querySelector('.MuiCard-root')).toBeInTheDocument()
-    expect(screen.getByText('Root sx object')).toBeInTheDocument()
-  })
-
-  test('accepts an sx array in slot props', () => {
-    const { container } = renderCard(
-      <RcSesCard
-        title='Array sx'
-        slotProps={{
-          title: {
-            className: 'array-sx-title',
-            sx: [{ letterSpacing: '0.01em' }, { textTransform: 'uppercase' }],
-          },
-        }}
-      >
-        <div>Content</div>
-      </RcSesCard>,
-    )
-
-    expect(container.querySelector('.array-sx-title')).toBeInTheDocument()
-    expect(screen.getByText('Array sx')).toBeInTheDocument()
-  })
-
-  test('renders image slot when provided', () => {
+  test('fullHeight stretches the card and grows the content slot', () => {
     renderCard(
-      <RcSesCard title='Card with image' image={<img src='test.png' alt='test' />}>
-        <div>Content</div>
+      <RcSesCard fullHeight testIds={{ content: 'card-content', root: 'card-root' }}>
+        <div>Turinys</div>
       </RcSesCard>,
     )
 
-    expect(screen.getByRole('img', { name: 'test' })).toBeInTheDocument()
+    expect(screen.getByTestId('card-root')).toHaveStyle({ height: '100%' })
+    expect(screen.getByTestId('card-content')).toHaveStyle({ flexGrow: '1' })
+  })
+})
+
+describe('RcSesCardHeader', () => {
+  test('badge is part of the heading accessible name, not separately focusable', () => {
+    renderCard(<RcSesCardHeader badge={<span>4</span>} title='Pasirinktos teisės' />)
+
+    expect(
+      screen.getByRole('heading', { name: /Pasirinktos teisės\s?4/ }),
+    ).toBeInTheDocument()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
+    expect(document.querySelector('[tabindex]')).toBeNull()
   })
 
-  test('omits image slot when not provided', () => {
-    const { container } = renderCard(
-      <RcSesCard title='No image' testIds={{ image: 'card-image' }}>
-        <div>Content</div>
-      </RcSesCard>,
-    )
-
-    expect(container.querySelector('[data-testid="card-image"]')).not.toBeInTheDocument()
-  })
-
-  test('forwards image slot props and testId', () => {
+  test('icon-tile is decorative (aria-hidden)', () => {
     renderCard(
-      <RcSesCard
-        title='Image slot props'
-        image={<img src='test.png' alt='test' />}
-        testIds={{ image: 'card-image' }}
-        slotProps={{ image: { className: 'image-slot' } }}
-      >
-        <div>Content</div>
-      </RcSesCard>,
+      <RcSesCardHeader
+        icon={<svg data-testid='tile-icon' />}
+        testIds={{ icon: 'icon-wrapper' }}
+        title='Antraštė'
+      />,
     )
 
-    expect(screen.getByTestId('card-image')).toBeInTheDocument()
-    expect(screen.getByTestId('card-image')).toHaveClass('image-slot')
+    expect(screen.getByTestId('icon-wrapper')).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  test('respects headingLevel (shell introduces no own semantics)', () => {
+    renderCard(<RcSesCardHeader headingLevel={2} title='Antraštė' />)
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Antraštė' }),
+    ).toBeInTheDocument()
+  })
+
+  test('omits description when not provided', () => {
+    renderCard(
+      <RcSesCardHeader
+        testIds={{ description: 'header-description' }}
+        title='Antraštė'
+      />,
+    )
+
+    expect(screen.queryByTestId('header-description')).not.toBeInTheDocument()
   })
 })

@@ -214,7 +214,7 @@ describe('SelectableCardListItem', () => {
     expect(screen.queryByRole('radio')).toBeNull()
 
     // mouse clicks are blocked by pointer-events on the card root
-    const card = container.querySelector('.MuiCard-root')
+    const card = container.querySelector('.MuiBox-root')
     expect(card).toHaveStyle('pointer-events: none')
   })
 })
