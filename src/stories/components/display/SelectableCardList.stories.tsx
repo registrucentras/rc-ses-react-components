@@ -49,6 +49,9 @@ const buildItems = (): SelectableCardListItemData[] =>
     title: `Service option ${index + 1}`,
     subtitle: index % 2 === 0 ? 'Recommended for most users' : 'Alternative flow',
     listItems: getListItems(index),
+    hasActionButton: index === 0,
+    actionButtonLabel: 'Action',
+    onActionButtonClick: () => {},
   }))
 
 const meta = {

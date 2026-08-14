@@ -7,6 +7,9 @@
 dist
 public
 node_modules
+coverage
+storybook-static
+test-results
 
 jest.config.cjs
 vite.config.ts

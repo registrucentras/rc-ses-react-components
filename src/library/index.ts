@@ -5,6 +5,8 @@ import type {} from '@mui/x-date-pickers/themeAugmentation'
 import RcSesIconProps from '@/assets/IconProps'
 import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
+import RcSesAdvancedList from '@/components/common/AdvancedList'
+import RcSesAdvancedListItem from '@/components/common/AdvancedList/components/AdvancedListItem'
 import RcSesAlert from '@/components/common/Alert'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
@@ -68,6 +70,7 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
+export { RcSesAdvancedList, RcSesAdvancedListItem }
 export {
   RcSesAlert,
   RcSesBadge,

@@ -8,9 +8,7 @@ describe('RcSesTooltip', () => {
   test('renders default trigger button', () => {
     render(<RcSesTooltip title='Help text' />)
 
-    expect(
-      screen.getByRole('button', { name: 'components.Tooltip.trigger' }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Paaiškinimas' })).toBeInTheDocument()
   })
 
   test('opens tooltip on trigger click', async () => {
