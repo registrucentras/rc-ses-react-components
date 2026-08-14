@@ -21,6 +21,11 @@ export type RcSesCardV2TestIds = {
 export type RcSesCardV2Props = {
   tier?: CardTier
   theme?: CardTheme
+  /**
+   * When true, the card stretches to fill its container height and the footer
+   * is pinned to the bottom (useful in equal-height grids of cards).
+   */
+  fullHeight?: boolean
   heading?: ReactNode
   headingLevel?: CardHeadingLevel
   description?: ReactNode

@@ -28,6 +28,9 @@
     "AdvancedListItemLeading": {
       "moveUp": "Perkelti aukštyn",
       "moveDown": "Perkelti žemyn"
+    },
+    "GroupCard": {
+      "viewAll": "Žiūrėti visas"
     }
   }
 }

@@ -28,6 +28,9 @@
     "AdvancedListItemLeading": {
       "moveUp": "Move up",
       "moveDown": "Move down"
+    },
+    "GroupCard": {
+      "viewAll": "View all"
     }
   }
 }

@@ -14,6 +14,10 @@ import RcSesButton from '@/components/common/Button'
 import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover'
 import RcSesCard from '@/components/common/Card'
 import RcSesCardV2 from '@/components/common/CardV2'
+import RcSesCategoryTile from '@/components/common/CardV2/presets/CategoryTile'
+import RcSesGroupCard from '@/components/common/CardV2/presets/GroupCard'
+import RcSesHelpCard from '@/components/common/CardV2/presets/HelpCard'
+import RcSesPopularCard from '@/components/common/CardV2/presets/PopularCard'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
@@ -83,6 +87,10 @@ export {
   RcSesLoadingSpinner,
   RcSesCard,
   RcSesCardV2,
+  RcSesCategoryTile,
+  RcSesGroupCard,
+  RcSesHelpCard,
+  RcSesPopularCard,
   RcSesDialog,
   RcSesFooter,
   RcSesImageCard,
@@ -118,6 +126,22 @@ export type {
   RcSesCardV2Props,
   RcSesCardV2TestIds,
 } from '@/components/common/CardV2/types'
+export type {
+  RcSesCategoryTileProps,
+  RcSesCategoryTileTestIds,
+} from '@/components/common/CardV2/presets/CategoryTile'
+export type {
+  RcSesGroupCardLink,
+  RcSesGroupCardProps,
+} from '@/components/common/CardV2/presets/GroupCard'
+export type {
+  RcSesHelpCardProps,
+  RcSesHelpCardTestIds,
+} from '@/components/common/CardV2/presets/HelpCard'
+export type {
+  RcSesPopularCardProps,
+  RcSesPopularCardTestIds,
+} from '@/components/common/CardV2/presets/PopularCard'
 export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
 
 export {

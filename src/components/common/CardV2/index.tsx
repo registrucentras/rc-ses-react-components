@@ -36,6 +36,7 @@ const themeStyles: Record<CardTheme, object> = {
 function RcSesCardV2({
   tier = 'card',
   theme = 'default',
+  fullHeight = false,
   heading,
   headingLevel = 3,
   description,
@@ -56,7 +57,7 @@ function RcSesCardV2({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: 'auto',
+        height: fullHeight ? '100%' : 'auto',
         minWidth: 0,
         // Enables stretched-link pattern in interactive presets (e.g. Category-tile)
         position: 'relative',
@@ -117,7 +118,10 @@ function RcSesCardV2({
       ) : null}
 
       {children ? (
-        <Box data-testid={testIds?.content} sx={{ minWidth: 0, width: '100%' }}>
+        <Box
+          data-testid={testIds?.content}
+          sx={{ flexGrow: fullHeight ? 1 : 0, minWidth: 0, width: '100%' }}
+        >
           {children}
         </Box>
       ) : null}
