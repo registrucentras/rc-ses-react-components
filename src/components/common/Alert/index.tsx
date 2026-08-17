@@ -133,10 +133,7 @@ function RcSesAlert({
           onClick={onActionClick}
           sx={(theme) => ({
             flexBasis: '100%',
-            flexShrink: 0,
-            height: 'auto',
-            minWidth: 0,
-            padding: 0,
+            padding: '0.5rem 0.25rem',
             [theme.breakpoints.up('md')]: {
               flexBasis: 'auto',
             },
