@@ -36,7 +36,6 @@ const meta: Meta<typeof RcSesAlert> = {
       control: 'boolean',
     },
     showAction: {
-      
       control: 'boolean',
     },
     showClose: {
