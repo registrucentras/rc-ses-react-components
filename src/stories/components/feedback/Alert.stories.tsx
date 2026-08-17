@@ -1,4 +1,6 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { fn } from '@storybook/test'
+import { useState } from 'react'
 
 import RcSesAlert from '@/components/common/Alert'
 import FieldPreview from '@/components/storybook/FieldPreview'
@@ -9,12 +11,34 @@ import PreviewTitle from '@/components/storybook/PreviewTitle'
 const lorem =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard."
 
-const severities = ['info', 'warning', 'error', 'success'] as const
+const severities: Array<'grey' | 'info' | 'success' | 'warning' | 'error'> = [
+  'grey',
+  'info',
+  'success',
+  'warning',
+  'error',
+]
 
 const meta: Meta<typeof RcSesAlert> = {
   title: 'components/feedback/Alert',
   component: RcSesAlert,
   tags: ['autodocs'],
+  argTypes: {
+    severity: {
+      options: severities,
+      control: { type: 'select' },
+    },
+    variant: {
+      options: ['outlined', 'filled', 'standard'],
+      control: { type: 'select' },
+    },
+    showIcon: {
+      control: 'boolean',
+    },
+    actionLabel: {
+      control: 'text',
+    },
+  },
 }
 
 export default meta
@@ -44,6 +68,9 @@ export const Main: Story = {
   args: {
     children: lorem,
     severity: 'info',
+    actionLabel: 'Veiksmas',
+    onActionClick: fn(),
+    onClose: fn(),
   },
 }
 
@@ -74,6 +101,57 @@ export const Filled: Story = {
 export const Standard: Story = {
   render: renderVariants,
   args: { variant: 'standard' },
+}
+
+// ---------------------------------------------------------------------------
+// Action & close — buttons wired up, but not removing the alert on close
+// (see Dismissible below for that). Clicks are logged in the Actions panel.
+// ---------------------------------------------------------------------------
+
+export const WithActionAndClose: Story = {
+  render: renderVariants,
+  args: {
+    actionLabel: 'Veiksmas',
+    onActionClick: fn(),
+    onClose: fn(),
+  },
+}
+
+export const WithoutActionAndClose: Story = {
+  render: renderVariants,
+}
+
+// ---------------------------------------------------------------------------
+// Dismissible — action logs to the console, close actually removes the alert
+// ---------------------------------------------------------------------------
+
+function DismissibleTemplate() {
+  const [visibleSeverities, setVisibleSeverities] = useState<
+    Array<(typeof severities)[number]>
+  >([...severities])
+
+  return (
+    <>
+      {visibleSeverities.map((severity) => (
+        <RcSesAlert
+          key={severity}
+          severity={severity}
+          actionLabel='Veiksmas'
+          onActionClick={() => console.log(`${severity} alert action clicked`)}
+          onClose={() =>
+            setVisibleSeverities((prev) => prev.filter((item) => item !== severity))
+          }
+          sx={{ mb: 1 }}
+        >
+          {lorem}
+        </RcSesAlert>
+      ))}
+    </>
+  )
+}
+
+export const Dismissible: Story = {
+  render: () => <DismissibleTemplate />,
 }
 
 // ---------------------------------------------------------------------------
