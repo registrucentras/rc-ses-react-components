@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 
 import theme from '@/theme/light'
@@ -77,10 +77,10 @@ describe('RcSesAlert', () => {
       expect(actionButton.tagName).toBe('BUTTON')
       expect(closeButton.tagName).toBe('BUTTON')
 
-      actionButton.focus()
+      act(() => actionButton.focus())
       expect(actionButton).toHaveFocus()
 
-      closeButton.focus()
+      act(() => closeButton.focus())
       expect(closeButton).toHaveFocus()
     })
   })
