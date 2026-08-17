@@ -14,11 +14,11 @@ const MuiAlert: Components['MuiAlert'] = {
   defaultProps: {
     elevation: 0,
     iconMapping: {
-      grey: <InfoFillIcon weight='regular' />,
-      error: <WarningCircleIcon weight='regular' />,
-      info: <InfoFillIcon weight='regular' />,
-      success: <CheckCircleFillIcon weight='regular' />,
-      warning: <WarningFillIcon weight='regular' />,
+      grey: <InfoFillIcon weight='regular' aria-hidden />,
+      error: <WarningCircleIcon weight='regular' aria-hidden />,
+      info: <InfoFillIcon weight='regular' aria-hidden />,
+      success: <CheckCircleFillIcon weight='regular' aria-hidden />,
+      warning: <WarningFillIcon weight='regular' aria-hidden />,
     },
     slots: {
       closeIcon: CloseIcon,
@@ -28,7 +28,6 @@ const MuiAlert: Components['MuiAlert'] = {
   styleOverrides: {
     root: {
       flexWrap: 'wrap',
-      marginBottom: '1.5rem',
       padding: '.75rem .75rem .75rem .5rem',
 
       [breakpoints.up('sm')]: {
@@ -68,7 +67,6 @@ const MuiAlert: Components['MuiAlert'] = {
       paddingTop: 0,
 
       [breakpoints.up('sm')]: {
-        alignSelf: 'center',
         marginRight: '.75rem',
       },
     },
@@ -199,7 +197,7 @@ const MuiAlert: Components['MuiAlert'] = {
       },
 
       '.MuiAlert-icon': {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
         margin: 0,
         padding: 0,
       },

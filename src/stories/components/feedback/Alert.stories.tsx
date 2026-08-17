@@ -35,6 +35,13 @@ const meta: Meta<typeof RcSesAlert> = {
     showIcon: {
       control: 'boolean',
     },
+    showAction: {
+      
+      control: 'boolean',
+    },
+    showClose: {
+      control: 'boolean',
+    },
     actionLabel: {
       control: 'text',
     },
@@ -58,7 +65,7 @@ export const Main: Story = {
       <FieldPreview>
         <PreviewTitle>State previews</PreviewTitle>
         {severities.map((severity) => (
-          <RcSesAlert key={severity} severity={severity}>
+          <RcSesAlert key={severity} severity={severity} sx={{ mb: 1 }}>
             {lorem}
           </RcSesAlert>
         ))}
@@ -81,7 +88,7 @@ export const Main: Story = {
 const renderVariants: Story['render'] = (args) => (
   <>
     {severities.map((severity) => (
-      <RcSesAlert key={severity} {...args} severity={severity}>
+      <RcSesAlert key={severity} {...args} severity={severity} sx={{ mb: 1 }}>
         {lorem}
       </RcSesAlert>
     ))}
@@ -119,6 +126,53 @@ export const WithActionAndClose: Story = {
 
 export const WithoutActionAndClose: Story = {
   render: renderVariants,
+}
+
+// ---------------------------------------------------------------------------
+// Toggles — Type × showIcon/showAction/showClose combinations
+// ---------------------------------------------------------------------------
+
+export const Toggles: Story = {
+  render: () => (
+    <>
+      <PreviewTitle>showIcon = false</PreviewTitle>
+      {severities.map((severity) => (
+        <RcSesAlert key={severity} severity={severity} showIcon={false} sx={{ mb: 1 }}>
+          {lorem}
+        </RcSesAlert>
+      ))}
+
+      <PreviewTitle>action only (showClose = false)</PreviewTitle>
+      {severities.map((severity) => (
+        <RcSesAlert
+          key={severity}
+          severity={severity}
+          actionLabel='Veiksmas'
+          onActionClick={fn()}
+          onClose={fn()}
+          showClose={false}
+          sx={{ mb: 1 }}
+        >
+          {lorem}
+        </RcSesAlert>
+      ))}
+
+      <PreviewTitle>close only (showAction = false)</PreviewTitle>
+      {severities.map((severity) => (
+        <RcSesAlert
+          key={severity}
+          severity={severity}
+          actionLabel='Veiksmas'
+          onActionClick={fn()}
+          onClose={fn()}
+          showAction={false}
+          sx={{ mb: 1 }}
+        >
+          {lorem}
+        </RcSesAlert>
+      ))}
+    </>
+  ),
 }
 
 // ---------------------------------------------------------------------------

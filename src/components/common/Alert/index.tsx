@@ -12,6 +12,8 @@ import CloseIcon from '@/assets/icons/CloseIcon'
 type Props = Omit<MuiAlertProps, 'action' | 'onClose'> & {
   container?: boolean | ContainerProps
   showIcon?: boolean
+  showAction?: boolean
+  showClose?: boolean
   actionLabel?: string
   onActionClick?: () => void
   onClose?: () => void
@@ -43,21 +45,30 @@ const closeButtonStyles = {
   '&:hover': { opacity: 1 },
 }
 
+const URGENT_SEVERITIES: MuiAlertProps['severity'][] = ['warning', 'error']
+
 function RcSesAlert({
   container,
   children,
   icon,
   showIcon = true,
+  showAction = true,
+  showClose = true,
   actionLabel,
   onActionClick,
   onClose,
+  severity,
+  role,
   sx,
   ...props
 }: Props) {
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesAlert' })
 
-  const hasAction = Boolean(onActionClick) && Boolean(actionLabel)
-  const hasClose = Boolean(onClose)
+  const hasAction = showAction && Boolean(onActionClick) && Boolean(actionLabel)
+  const hasClose = showClose && Boolean(onClose)
+
+  const resolvedRole = role ?? (URGENT_SEVERITIES.includes(severity) ? 'alert' : 'status')
+  const resolvedAriaLive = resolvedRole === 'alert' ? 'assertive' : 'polite'
 
   const isContainer = Boolean(container)
   const containerParams = typeof container === 'object' ? container : {}
@@ -74,6 +85,9 @@ function RcSesAlert({
     <MuiAlert
       {...defaultProps}
       {...props}
+      severity={severity}
+      role={resolvedRole}
+      aria-live={resolvedAriaLive}
       icon={showIcon ? icon : false}
       action={
         hasClose ? (
