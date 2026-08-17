@@ -24,6 +24,7 @@ import {
   RcSesSnackbarProvider,
   useSnackbar,
 } from '@/components/common/Snackbar/SnackbarProvider'
+import RcSesStepCard from '@/components/common/StepCard'
 import RcSesSwitch from '@/components/common/Switch'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
@@ -82,6 +83,7 @@ export {
   RcSesLoadingSpinner,
   RcSesCard,
   RcSesCardHeader,
+  RcSesStepCard,
   RcSesDialog,
   RcSesFooter,
   RcSesImageCard,
@@ -119,6 +121,10 @@ export type {
   RcSesCardHeaderTestIds,
   RcSesCardTestIds,
 } from '@/components/common/Card/types'
+export type {
+  StepCardHeadingLevel,
+  RcSesStepCardTestIds,
+} from '@/components/common/StepCard/types'
 export type { SnackbarSize, SnackbarState } from '@/components/common/Snackbar/types'
 
 export {

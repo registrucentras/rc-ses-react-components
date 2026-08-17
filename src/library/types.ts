@@ -6,6 +6,7 @@ import {
   RcSesSegmentedControlProps,
 } from '@/components/common/SegmentedControl'
 import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
+import { RcSesStepCardProps } from '@/components/common/StepCard/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -32,6 +33,7 @@ export type {
   RcSesLoaderProps,
   RcSesLoaderSize,
   RcSesCardProps,
+  RcSesStepCardProps,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,
