@@ -39,11 +39,19 @@ describe('RcSesAlert', () => {
       ['success', 'status', 'polite'],
       ['warning', 'alert', 'assertive'],
       ['error', 'alert', 'assertive'],
-    ] as const)('severity=%s gets role=%s and aria-live=%s', (severity, expectedRole, expectedAriaLive) => {
-      const { unmount } = renderAlert(<RcSesAlert severity={severity}>message</RcSesAlert>)
-      expect(screen.getByRole(expectedRole)).toHaveAttribute('aria-live', expectedAriaLive)
-      unmount()
-    })
+    ] as const)(
+      'severity=%s gets role=%s and aria-live=%s',
+      (severity, expectedRole, expectedAriaLive) => {
+        const { unmount } = renderAlert(
+          <RcSesAlert severity={severity}>message</RcSesAlert>,
+        )
+        expect(screen.getByRole(expectedRole)).toHaveAttribute(
+          'aria-live',
+          expectedAriaLive,
+        )
+        unmount()
+      },
+    )
 
     test('an explicit role prop overrides the severity default', () => {
       renderAlert(
@@ -60,13 +68,20 @@ describe('RcSesAlert', () => {
     })
 
     test('severity icon is hidden from assistive tech', () => {
-      const { container } = renderAlert(<RcSesAlert severity='success'>message</RcSesAlert>)
+      const { container } = renderAlert(
+        <RcSesAlert severity='success'>message</RcSesAlert>,
+      )
       expect(container.querySelector('.MuiAlert-icon svg')).toHaveAttribute('aria-hidden')
     })
 
     test('close and action controls are reachable in normal Tab order', () => {
       renderAlert(
-        <RcSesAlert severity='error' actionLabel='Retry' onActionClick={() => {}} onClose={() => {}}>
+        <RcSesAlert
+          severity='error'
+          actionLabel='Retry'
+          onActionClick={() => {}}
+          onClose={() => {}}
+        >
           message
         </RcSesAlert>,
       )
