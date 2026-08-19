@@ -135,6 +135,7 @@ function RcSesNumberStepper(props: Props) {
     control,
     name,
     rules,
+    ...slotProps?.controller,
   })
 
   React.useEffect(() => {

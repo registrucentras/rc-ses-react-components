@@ -55,6 +55,7 @@ function RcSesFileDropzone(props: Props) {
     control,
     name,
     rules,
+    ...slotProps?.controller,
   })
 
   const onDrop = useCallback((acceptedFiles: Blob[]) => {

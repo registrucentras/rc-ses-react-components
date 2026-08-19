@@ -72,6 +72,7 @@ export default [
       'public/**',
       'coverage/**',
       'storybook-static/**',
+      'test-results/**',
       'vite.config.ts',
       'vite.config.lib.ts',
       'vitest.config.ts',

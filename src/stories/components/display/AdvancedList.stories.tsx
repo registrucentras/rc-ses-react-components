@@ -1,5 +1,7 @@
 import {
   Avatar,
+  Box,
+  Checkbox,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -7,15 +9,18 @@ import {
   RadioGroup,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import NotePencilIcon from '@/assets/icons/NotePencilIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import UserIcon from '@/assets/icons/UserIcon'
 import AdvancedList, { type AdvancedListItemData } from '@/components/common/AdvancedList'
+import RcSesSelect from '@/components/form/inputs/Select'
 
 const buildItems = (): AdvancedListItemData[] =>
   Array.from({ length: 8 }, (_, index) => ({
@@ -189,6 +194,132 @@ const OwnerTypeExpandStory = () => {
 export const OwnerTypeExpand: Story = {
   name: 'Preset: savininko tipas (radio + expand)',
   render: () => <OwnerTypeExpandStory />,
+}
+
+type OwnerBranchFormModel = {
+  individual: { municipality: string | null }
+  legalEntity: { legalForm: string | null }
+}
+
+const MUNICIPALITY_OPTIONS = [
+  { value: 'vilnius', label: 'Vilniaus m. sav.' },
+  { value: 'kaunas', label: 'Kauno m. sav.' },
+]
+
+const LEGAL_FORM_OPTIONS = [
+  { value: 'uab', label: 'UAB' },
+  { value: 'mb', label: 'Mažoji bendrija' },
+]
+
+const PANEL_SX = {
+  backgroundColor: 'grey.100',
+  borderRadius: '.5rem',
+  fontSize: '.75rem',
+  m: 0,
+  overflowX: 'auto',
+  p: 1.5,
+}
+
+const RadioBranchFormStory = () => {
+  const [ownerTypeId, setOwnerTypeId] = useState(OWNER_TYPE_OPTIONS[0].id)
+  const [shouldUnregister, setShouldUnregister] = useState(true)
+
+  const { control, watch } = useForm<OwnerBranchFormModel>({
+    defaultValues: {
+      individual: { municipality: null },
+      legalEntity: { legalForm: null },
+    },
+  })
+
+  const formState = watch()
+
+  // The non-selected branch stays in form state when shouldUnregister is off, so the
+  // submitted payload is built from the selected branch instead of the whole form.
+  const payload =
+    ownerTypeId === 'owner-legal'
+      ? { legalEntity: formState.legalEntity }
+      : { individual: formState.individual }
+
+  // Only the selected branch renders its fields, so switching unmounts the other one -
+  // that unmount is what makes shouldUnregister observable.
+  const renderBranchFields = (optionId: string) => {
+    if (optionId !== ownerTypeId) return undefined
+
+    if (optionId === 'owner-legal') {
+      return (
+        <RcSesSelect
+          id='owner-branch-legal-form'
+          control={control}
+          name='legalEntity.legalForm'
+          label='Juridinio asmens forma'
+          options={LEGAL_FORM_OPTIONS}
+          slotProps={{ controller: { shouldUnregister } }}
+        />
+      )
+    }
+
+    return (
+      <RcSesSelect
+        id='owner-branch-municipality'
+        control={control}
+        name='individual.municipality'
+        label='Savivaldybė'
+        options={MUNICIPALITY_OPTIONS}
+        slotProps={{ controller: { shouldUnregister } }}
+      />
+    )
+  }
+
+  const items: AdvancedListItemData[] = OWNER_TYPE_OPTIONS.map((option) => ({
+    id: option.id,
+    title: option.title,
+    state: ownerTypeId === option.id ? 'selected' : 'rest',
+    leading: {
+      type: 'radio',
+      name: 'owner-branch-form',
+      checked: ownerTypeId === option.id,
+      onChange: () => setOwnerTypeId(option.id),
+    },
+    expanded: ownerTypeId === option.id,
+    expandedContent: renderBranchFields(option.id),
+  }))
+
+  return (
+    <Stack gap={2}>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={shouldUnregister}
+            onChange={(event) => setShouldUnregister(event.target.checked)}
+          />
+        }
+        label='slotProps.controller.shouldUnregister (bibliotekos numatytoji reikšmė - true)'
+      />
+
+      <AdvancedList items={items} />
+
+      <Stack direction={{ xs: 'column', md: 'row' }} gap={2}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography variant='body2'>Formos būsena</Typography>
+          <Box component='pre' sx={PANEL_SX}>
+            {JSON.stringify(formState, null, 2)}
+          </Box>
+        </Box>
+
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography variant='body2'>Submit payload (tik pasirinkta šaka)</Typography>
+          <Box component='pre' sx={PANEL_SX}>
+            {JSON.stringify(payload, null, 2)}
+          </Box>
+        </Box>
+      </Stack>
+    </Stack>
+  )
+}
+
+export const RadioBranchForm: Story = {
+  name: 'Preset: radio šakos su react-hook-form',
+  render: () => <RadioBranchFormStory />,
 }
 
 const FigmaAnatomyStory = () => {
