@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import React from 'react'
-import { List } from 'react-window'
+import { FixedSizeList } from 'react-window'
 
 import RowComponent from './RowComponent'
 
@@ -38,18 +38,17 @@ const ListboxComponent = React.forwardRef<
 
   return (
     <Box lang='en' ref={ref} sx={{ m: 0.75, ul: { m: 0, p: 0, width: 'auto' } }}>
-      <List
+      <FixedSizeList
         {...other}
         overscanCount={5}
-        rowComponent={RowComponent}
-        rowCount={items.length}
-        rowHeight={ROW_HEIGHT}
-        rowProps={{ items }}
-        tagName='ul'
-        // Height tracks the content, as it did under v1, leaving the surrounding
-        // Autocomplete popper responsible for clipping and scrolling.
-        style={{ height: items.length * ROW_HEIGHT, overflow: 'hidden auto' }}
-      />
+        itemCount={items.length}
+        itemSize={ROW_HEIGHT}
+        itemData={{ items }}
+        width='auto'
+        height={items.length * ROW_HEIGHT}
+      >
+        {RowComponent}
+      </FixedSizeList>
     </Box>
   )
 })
