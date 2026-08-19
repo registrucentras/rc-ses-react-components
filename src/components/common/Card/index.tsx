@@ -162,12 +162,12 @@ function RcSesCard({
           ]}
         >
           <Typography
-            color={palette.grey[900]}
             data-testid={testIds?.title}
             variant='h5'
             {...titleProps}
             sx={[
               {
+                color: palette.grey[900],
                 lineHeight: '1.75rem',
                 ...(centered ? { textAlign: 'center' } : {}),
               },
@@ -179,12 +179,12 @@ function RcSesCard({
 
           {!!description && (
             <Typography
-              color={palette.grey[800]}
               data-testid={testIds?.description}
               variant='body2'
               {...descriptionProps}
               sx={[
                 {
+                  color: palette.grey[800],
                   fontWeight: 300,
                   lineHeight: '1.25rem',
                   ...(centered ? { textAlign: 'center' } : {}),

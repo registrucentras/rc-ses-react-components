@@ -179,7 +179,7 @@ function RcSesPhoneInputFormControl(props: Props) {
                 </InputAdornment>
 
                 <InputAdornment position='start'>
-                  <Typography color={palette.grey[900]} component='span'>
+                  <Typography sx={{ color: palette.grey[900] }} component='span'>
                     {country.code}
                   </Typography>
                 </InputAdornment>

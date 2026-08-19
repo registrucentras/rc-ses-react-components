@@ -146,16 +146,23 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
         <Box sx={PRICE_BLOCK_SX}>
           <Typography
             variant='body1'
-            sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
-            color={palette.grey[900]}
+            sx={{
+              color: palette.grey[900],
+              fontSize: '1rem',
+              fontWeight: 600,
+              lineHeight: '1.375rem',
+            }}
           >
             {trailing.amount}
           </Typography>
           {!!trailing.caption && (
             <Typography
               variant='caption'
-              sx={{ fontSize: '0.8125rem', lineHeight: '1.125rem' }}
-              color={palette.grey[600]}
+              sx={{
+                color: palette.grey[600],
+                fontSize: '0.8125rem',
+                lineHeight: '1.125rem',
+              }}
             >
               {trailing.caption}
             </Typography>

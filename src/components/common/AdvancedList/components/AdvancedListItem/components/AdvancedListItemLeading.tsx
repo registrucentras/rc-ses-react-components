@@ -157,8 +157,12 @@ const AdvancedListItemLeading = ({
       >
         <Typography
           variant='body2'
-          sx={{ fontSize: '0.9375rem', fontWeight: 400, lineHeight: '1.375rem' }}
-          color={palette.grey[600]}
+          sx={{
+            color: palette.grey[600],
+            fontSize: '0.9375rem',
+            fontWeight: 400,
+            lineHeight: '1.375rem',
+          }}
         >
           {leading.index}
         </Typography>

@@ -265,8 +265,12 @@ const AdvancedListItem = ({
               <Typography
                 id={titleId}
                 variant='h3'
-                sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
-                color={palette.grey[900]}
+                sx={{
+                  color: palette.grey[900],
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  lineHeight: '1.375rem',
+                }}
               >
                 {title}
               </Typography>
@@ -276,8 +280,12 @@ const AdvancedListItem = ({
             {!!subtitle && (
               <Typography
                 variant='body2'
-                sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '1.25rem' }}
-                color={palette.grey[600]}
+                sx={{
+                  color: palette.grey[600],
+                  fontSize: '0.875rem',
+                  fontWeight: 400,
+                  lineHeight: '1.25rem',
+                }}
               >
                 {subtitle}
               </Typography>
