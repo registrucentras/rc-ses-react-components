@@ -72,33 +72,38 @@ const RcSesSearchableField = React.forwardRef<HTMLInputElement, Props>((props, r
         <TextField
           id={id}
           inputRef={ref}
-          InputProps={{
-            inputProps: {
+          slotProps={{
+            // Was InputProps: targets the OutlinedInput wrapper.
+            input: {
+              readOnly: true,
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <IconButton
+                    aria-label={t('searchAriaLabel')}
+                    onClick={() => setModalOpen(true)}
+                  >
+                    <MagnifyingGlassIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              endAdornment: !!value && (
+                <InputAdornment position='end'>
+                  <IconButton
+                    aria-label={t('clearValueAriaLabel')}
+                    onClick={() => onChange('')}
+                  >
+                    <XCircleFillIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              sx: { cursor: 'pointer' },
+            },
+            // Was the inputProps nested inside InputProps: targets the native
+            // <input>. This is what makes clicking the field open the modal.
+            htmlInput: {
               onClick: () => setModalOpen(true),
               sx: { cursor: 'pointer' },
             },
-            readOnly: true,
-            startAdornment: (
-              <InputAdornment position='start'>
-                <IconButton
-                  aria-label={t('searchAriaLabel')}
-                  onClick={() => setModalOpen(true)}
-                >
-                  <MagnifyingGlassIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-            endAdornment: !!value && (
-              <InputAdornment position='end'>
-                <IconButton
-                  aria-label={t('clearValueAriaLabel')}
-                  onClick={() => onChange('')}
-                >
-                  <XCircleFillIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-            sx: { cursor: 'pointer' },
           }}
           error={!!errors}
           fullWidth

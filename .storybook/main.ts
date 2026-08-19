@@ -1,24 +1,23 @@
-import type { StorybookConfig } from "@storybook/react-vite";
+import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
   framework: {
-    name: "@storybook/react-vite",
+    name: '@storybook/react-vite',
     options: {},
   },
-  docs: {
-    autodocs: "tag",
-  },
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+
   addons: [
-    "@storybook/addon-onboarding",
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/addon-themes",
+    '@storybook/addon-onboarding',
+    '@storybook/addon-links',
+    '@chromatic-com/storybook',
+    '@storybook/addon-themes',
     '@storybook/addon-a11y',
-    '@storybook/addon-interactions',
     '@storybook/addon-coverage',
+    '@storybook/addon-docs',
   ],
+
   typescript: {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
@@ -36,5 +35,5 @@ const config: StorybookConfig = {
         prop.parent ? !/node_modules\/(?!@mui)/.test(prop.parent.fileName) : true,
     },
   },
-};
-export default config;
+}
+export default config

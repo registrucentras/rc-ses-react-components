@@ -63,9 +63,11 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
           wordBreak: 'break-word',
           fontFamily: '"Public Sans", sans-serif !important',
           border: `2px solid ${isFocused && !isDisabled ? primary['500'] : 'transparent'}`,
+
           backgroundColor: isSelected
             ? `${primary['50']} !important`
             : 'transparent !important',
+
           color: textColor,
           cursor: isDisabled ? 'not-allowed' : 'pointer',
           fontWeight: 500,

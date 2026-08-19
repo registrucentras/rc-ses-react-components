@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
@@ -194,10 +193,16 @@ function RcSesNumberStepper(props: Props) {
           )
         }
         error={!!errors}
-        inputProps={{
-          disabled,
-          step,
-          value,
+        slotProps={{
+          // Was inputProps. Note this is OutlinedInput, not TextField: its
+          // native-input slot is called `input` (TextField's `input` is the
+          // OutlinedInput wrapper and its native slot is `htmlInput`), so the
+          // mapping is per-component rather than a blanket rename.
+          input: {
+            disabled,
+            step,
+            value,
+          },
         }}
         onChange={handleInputOnChange}
         type='number'

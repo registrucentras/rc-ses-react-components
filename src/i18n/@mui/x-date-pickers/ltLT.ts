@@ -1,4 +1,18 @@
-import { getPickersLocalization } from '@mui/x-date-pickers/locales/utils/getPickersLocalization'
+/**
+ * x-date-pickers 9 no longer lists `locales/utils/getPickersLocalization` in its
+ * package `exports` map, so the deep import no longer resolves. The helper is a
+ * one-line wrapper, so it is reproduced here rather than reaching into the
+ * package's internals.
+ */
+const getPickersLocalization = (pickersTranslations: Record<string, unknown>) => ({
+  components: {
+    MuiLocalizationProvider: {
+      defaultProps: {
+        localeText: { ...pickersTranslations },
+      },
+    },
+  },
+})
 
 const ltLTPickers = {
   // Calendar navigation

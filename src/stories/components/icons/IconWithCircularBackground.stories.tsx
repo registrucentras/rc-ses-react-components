@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 
 import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'

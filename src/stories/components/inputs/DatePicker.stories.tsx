@@ -1,7 +1,6 @@
-/* eslint-disable react/function-component-definition */
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { Meta, StoryContext } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react-vite'
 import { lt } from 'date-fns/locale/lt'
 import { useForm } from 'react-hook-form'
 
@@ -29,7 +28,7 @@ const meta: Meta<typeof RcSesDatepicker> = {
 export default meta
 
 function DatePickerDemo(args: any) {
-  const { clearable, label, rules } = args
+  const { clearable, label, open, rules } = args
 
   const {
     control,
@@ -53,6 +52,19 @@ function DatePickerDemo(args: any) {
             rules={rules}
             label={label}
             errors={errors?.date}
+            slotProps={
+              open
+                ? {
+                    datepicker: {
+                      open: true,
+                      // Pinned month: without it the calendar follows the
+                      // current date and the visual baseline would change
+                      // every month.
+                      referenceDate: new Date(2026, 0, 15),
+                    },
+                  }
+                : undefined
+            }
           />
         </LocalizationProvider>
       </FieldView>
@@ -94,6 +106,28 @@ export const Main = {
         type: 'dynamic',
         transform: (code: string, storyContext: StoryContext) =>
           codeBlock(storyContext.args),
+      },
+    },
+  },
+}
+
+/**
+ * The calendar popup carries the `MuiPickersLayout` theme overrides, and it only
+ * mounts once the picker is opened - so nothing covered them until this story
+ * (SAV-5648 / LIB-02).
+ */
+export const CalendarOpen = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  args: {
+    clearable: true,
+    label: 'Terminas',
+    open: true,
+    rules: { required: true },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'The picker with its calendar open, pinned to a fixed month.',
       },
     },
   },

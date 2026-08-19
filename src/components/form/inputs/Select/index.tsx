@@ -233,11 +233,6 @@ function RcSesSelect(props: Props) {
         blurOnSelect={false}
         clearOnBlur={false}
         handleHomeEndKeys={false}
-        ListboxProps={{
-          onMouseDown: (e) => {
-            e.preventDefault()
-          },
-        }}
         loading={loading}
         value={resolvedValue}
         inputValue={resolvedInputValue}
@@ -256,7 +251,8 @@ function RcSesSelect(props: Props) {
         }}
         isOptionEqualToValue={(option, val) => option.value === val.value}
         getOptionLabel={(option) => option.label}
-        groupBy={() => ''} // to prevent default grouping when groupBy is not provided but dropdownSearch is enabled
+        // to prevent default grouping when groupBy is not provided but dropdownSearch is enabled
+        groupBy={() => ''}
         renderGroup={(params) => (
           <React.Fragment key={params.key}>
             {!!params.group && (
@@ -313,21 +309,29 @@ function RcSesSelect(props: Props) {
                     },
                   }),
             }}
-            InputProps={{
-              ...params.InputProps,
-              startAdornment:
-                !multiple && selectedSingleLabel ? (
-                  <Box id={selectedValueId} className='rc-ses-select-single-value'>
-                    {selectedSingleLabel}
-                  </Box>
-                ) : (
-                  params.InputProps.startAdornment
-                ),
-              inputProps: {
-                ...params.inputProps,
+            slotProps={{
+              // Spreading params.slotProps keeps `input`, which carries the ref
+              // and classes Autocomplete relies on.
+              ...params.slotProps,
+              input: {
+                ...params.slotProps.input,
+                startAdornment:
+                  !multiple && selectedSingleLabel ? (
+                    <Box id={selectedValueId} className='rc-ses-select-single-value'>
+                      {selectedSingleLabel}
+                    </Box>
+                  ) : (
+                    params.slotProps.input.startAdornment
+                  ),
+              },
+              htmlInput: {
+                ...params.slotProps.htmlInput,
                 'aria-describedby':
                   !multiple && selectedSingleLabel ? selectedValueId : undefined,
-                value: !multiple && selectedSingleLabel ? '' : params.inputProps?.value,
+                value:
+                  !multiple && selectedSingleLabel
+                    ? ''
+                    : params.slotProps.htmlInput?.value,
                 readOnly: dropdownSearch || (!multiple && !!selectedSingleLabel),
               },
             }}
@@ -414,15 +418,25 @@ function RcSesSelect(props: Props) {
                       opacity: 1,
                     },
                   }}
-                  InputProps={{
-                    inputProps: {
-                      onKeyDown: (event) => event.stopPropagation(),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <Box sx={{ display: 'flex', m: '.625rem' }}>
+                          <MagnifyingGlassIcon
+                            size={20}
+                            fillColor={palette.grey['900']}
+                          />
+                        </Box>
+                      ),
                     },
-                    startAdornment: (
-                      <Box sx={{ display: 'flex', m: '.625rem' }}>
-                        <MagnifyingGlassIcon size={20} fillColor={palette.grey['900']} />
-                      </Box>
-                    ),
+                    // Keeps typing in the dropdown's search box from reaching
+                    // Autocomplete's own keyboard navigation. The parameter needs
+                    // annotating: inside slotProps it no longer gets a contextual
+                    // type the way it did on InputProps.
+                    htmlInput: {
+                      onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) =>
+                        event.stopPropagation(),
+                    },
                   }}
                 />
               </Box>
@@ -434,14 +448,17 @@ function RcSesSelect(props: Props) {
               key={key}
               component='li'
               {...rest}
-              display='flex'
-              alignItems='center'
-              gap={multiple ? '.75rem' : '.5rem'}
-              sx={{
-                flexDirection: 'row !important',
-                justifyContent: 'space-between',
-                minWidth: 0,
-              }}
+              sx={[
+                {
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: multiple ? '.75rem' : '.5rem',
+                  flexDirection: 'row !important',
+                  justifyContent: 'space-between',
+                  minWidth: 0,
+                },
+                ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx]),
+              ]}
             >
               {multiple && (
                 <Checkbox
@@ -464,11 +481,11 @@ function RcSesSelect(props: Props) {
                   }}
                 />
               )}
-
               <Box
-                flex={1}
                 sx={{
+                  flex: 1,
                   minWidth: 0,
+
                   ...(multiple && !option.description
                     ? {
                         alignItems: 'center',
@@ -486,7 +503,6 @@ function RcSesSelect(props: Props) {
                   </span>
                 )}
               </Box>
-
               {!multiple && selected && (
                 <CheckIcon
                   size={16}
@@ -499,39 +515,46 @@ function RcSesSelect(props: Props) {
             </Box>
           )
         }}
-        renderTags={(tagValues, getTagProps, ownerState) => {
+        renderValue={(tagValues, getItemProps, ownerState) => {
+          // MUI 9 merged renderTags into renderValue, so this now runs for
+          // single-select too where v7's renderTags did not. Single-select must
+          // keep showing the plain label - rendering a deletable Chip there both
+          // looks wrong and makes the field taller.
+          const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
+          if (!multiple) {
+            return selected[0]?.label ?? ''
+          }
+
           const visibleTagLimit = ownerState.limitTags ?? -1
           const shouldLimitTags =
-            visibleTagLimit > -1 && tagValues.length > visibleTagLimit
+            visibleTagLimit > -1 && selected.length > visibleTagLimit
           const visibleTags = shouldLimitTags
-            ? tagValues.slice(0, visibleTagLimit)
-            : tagValues
-          const hiddenTagCount = tagValues.length - visibleTags.length
+            ? selected.slice(0, visibleTagLimit)
+            : selected
+          const hiddenTagCount = selected.length - visibleTags.length
 
           return (
             <>
-              {visibleTags.map((option, index) => {
-                const { key, ...tagProps } = getTagProps({ index })
-                return (
-                  <Chip
-                    key={key}
-                    label={option.label}
-                    size='small'
-                    sx={{
-                      height: 'auto',
-                      maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem)`,
-                      '& .MuiChip-label': {
-                        display: 'block',
-                        overflowWrap: 'anywhere',
-                        py: '.25rem',
-                        textOverflow: 'clip',
-                        whiteSpace: 'normal',
-                      },
-                    }}
-                    {...tagProps}
-                  />
-                )
-              })}
+              {visibleTags.map((option, index) => (
+                // getItemProps no longer returns a key, so it comes from the option.
+                <Chip
+                  key={option.value ?? index}
+                  label={option.label}
+                  size='small'
+                  sx={{
+                    height: 'auto',
+                    maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem)`,
+                    '& .MuiChip-label': {
+                      display: 'block',
+                      overflowWrap: 'anywhere',
+                      py: '.25rem',
+                      textOverflow: 'clip',
+                      whiteSpace: 'normal',
+                    },
+                  }}
+                  {...getItemProps({ index })}
+                />
+              ))}
 
               {hiddenTagCount > 0 && (
                 <Box component='span' className='MuiAutocomplete-tag'>
@@ -542,6 +565,13 @@ function RcSesSelect(props: Props) {
           )
         }}
         {...slotProps?.field}
+        slotProps={{
+          listbox: {
+            onMouseDown: (e) => {
+              e.preventDefault()
+            },
+          },
+        }}
       />
     </RcSesFormControlWrapper>
   )

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 
 import RcSesBadge, { RcSesBadgeProps } from '@/components/common/Badge'
@@ -83,8 +83,10 @@ export const AllCombinations: Story = {
           <Typography
             key={combo.key}
             align='center'
-            color='text.secondary'
             variant='body2'
+            sx={{
+              color: 'text.secondary',
+            }}
           >
             {combo.label}
           </Typography>
@@ -93,15 +95,32 @@ export const AllCombinations: Story = {
           sizes.map((size, sizeIndex) => (
             <Fragment key={`${variant}-${size}`}>
               {sizeIndex === 0 && (
-                <Typography sx={{ gridRow: 'span 2' }} variant='body2' fontWeight={600}>
+                <Typography
+                  variant='body2'
+                  sx={{
+                    fontWeight: 600,
+                    gridRow: 'span 2',
+                  }}
+                >
                   {variant}
                 </Typography>
               )}
-              <Typography color='text.secondary' variant='body2'>
+              <Typography
+                variant='body2'
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
                 {size}
               </Typography>
               {combos.map((combo) => (
-                <Box key={combo.key} display='flex' justifyContent='center'>
+                <Box
+                  key={combo.key}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
                   <RcSesBadge
                     label='Label'
                     variant={variant}

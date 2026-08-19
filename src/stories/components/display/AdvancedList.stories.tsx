@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -169,7 +169,7 @@ const OwnerTypeExpandStory = () => {
     expanded: ownerTypeId === option.id,
     expandedContent:
       option.id === 'owner-legal' ? (
-        <Stack gap={1.5}>
+        <Stack sx={{ gap: 1.5 }}>
           <TextField label='Įmonės pavadinimas' size='small' />
           <TextField label='Įmonės kodas' size='small' />
           <TextField label='Adresas' size='small' />
@@ -285,7 +285,7 @@ const RadioBranchFormStory = () => {
   }))
 
   return (
-    <Stack gap={2}>
+    <Stack sx={{ gap: 2 }}>
       <FormControlLabel
         control={
           <Checkbox
@@ -298,7 +298,7 @@ const RadioBranchFormStory = () => {
 
       <AdvancedList items={items} />
 
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={2}>
+      <Stack direction={{ xs: 'column', md: 'row' }} sx={{ gap: 2 }}>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography variant='body2'>Formos būsena</Typography>
           <Box component='pre' sx={PANEL_SX}>

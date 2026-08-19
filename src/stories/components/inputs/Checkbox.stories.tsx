@@ -1,5 +1,4 @@
-/* eslint-disable react/function-component-definition */
-import { Meta, StoryContext } from '@storybook/react'
+import { Meta, StoryContext } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'

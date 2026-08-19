@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
 import RcSesButton from '@/components/common/Button'
@@ -97,6 +97,40 @@ export function BasicDialog() {
     </>
   )
 }`,
+      },
+    },
+  },
+}
+
+/**
+ * Every other story here starts closed behind a trigger button, so the dialog
+ * itself never reached a visual baseline (SAV-5648 / LIB-02). This one renders
+ * it open.
+ */
+export const Open: Story = {
+  render: (args) => (
+    <RcSesDialog
+      {...args}
+      actions={
+        <>
+          <RcSesButton color='grey' variant='outlined'>
+            Cancel
+          </RcSesButton>
+          <RcSesButton variant='contained'>Confirm</RcSesButton>
+        </>
+      }
+      open
+    >
+      <Typography>Are you sure you want to proceed?</Typography>
+    </RcSesDialog>
+  ),
+  args: {
+    dialogTitle: 'Confirm Action',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'The dialog in its open state, without a trigger.',
       },
     },
   },

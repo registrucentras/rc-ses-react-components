@@ -209,9 +209,11 @@ const AdvancedListItem = ({
     >
       <Stack
         direction='row'
-        alignItems='flex-start'
-        flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-        gap='0.75rem'
+        sx={{
+          alignItems: 'flex-start',
+          flexWrap: { xs: 'wrap', md: 'nowrap' },
+          gap: '0.75rem',
+        }}
       >
         {leading.type !== 'none' && (
           <Box sx={{ alignSelf: 'center', order: { xs: -1, md: 0 } }}>
@@ -253,16 +255,22 @@ const AdvancedListItem = ({
           >
             <Stack
               direction='row'
-              alignItems='center'
-              flexWrap='wrap'
-              gap='0.5rem'
-              sx={{ alignSelf: 'stretch' }}
+              sx={{
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+                alignSelf: 'stretch',
+              }}
             >
               <Typography
                 id={titleId}
                 variant='h3'
-                sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
-                color={palette.grey[900]}
+                sx={{
+                  color: palette.grey[900],
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  lineHeight: '1.375rem',
+                }}
               >
                 {title}
               </Typography>
@@ -272,8 +280,12 @@ const AdvancedListItem = ({
             {!!subtitle && (
               <Typography
                 variant='body2'
-                sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '1.25rem' }}
-                color={palette.grey[600]}
+                sx={{
+                  color: palette.grey[600],
+                  fontSize: '0.875rem',
+                  fontWeight: 400,
+                  lineHeight: '1.25rem',
+                }}
               >
                 {subtitle}
               </Typography>
@@ -297,7 +309,6 @@ const AdvancedListItem = ({
           </Box>
         )}
       </Stack>
-
       {isExpandable && (
         <Collapse
           in={expanded}

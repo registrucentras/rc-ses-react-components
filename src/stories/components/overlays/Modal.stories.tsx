@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
 import RcSesModal from '@/components/overlays/Modal'

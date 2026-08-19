@@ -15,8 +15,10 @@ const SIZE_MAP: Record<DialogSize, string> = {
   lg: '800px',
 }
 
-export interface RcSesDialogProps
-  extends Omit<MuiDialogProps, 'children' | 'title' | 'PaperProps' | 'maxWidth'> {
+export interface RcSesDialogProps extends Omit<
+  MuiDialogProps,
+  'children' | 'title' | 'PaperProps' | 'maxWidth'
+> {
   dialogTitle: string | ReactNode
   children?: ReactNode
   actions: ReactNode
@@ -40,9 +42,11 @@ function RcSesDialog({
       onClose={onClose}
       {...props}
       maxWidth={false}
-      PaperProps={{ sx: { width: dialogWidth, borderRadius: '16px' } }}
       aria-labelledby={titleId}
       aria-describedby={children ? contentId : undefined}
+      slotProps={{
+        paper: { sx: { width: dialogWidth, borderRadius: '16px' } },
+      }}
     >
       <DialogTitle
         id={titleId}
@@ -57,7 +61,6 @@ function RcSesDialog({
       >
         {dialogTitle}
       </DialogTitle>
-
       {children && (
         <DialogContent
           id={contentId}
@@ -68,7 +71,6 @@ function RcSesDialog({
           {children}
         </DialogContent>
       )}
-
       {actions && (
         <DialogActions
           sx={{

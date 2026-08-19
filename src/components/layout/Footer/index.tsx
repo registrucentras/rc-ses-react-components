@@ -18,9 +18,12 @@ function RcSesFooter({ text }: Props) {
     >
       <Container>
         <Typography
-          color={palette.grey['200']}
           component='div'
-          sx={{ lineHeight: '1.25rem', whiteSpace: 'pre-line' }}
+          sx={{
+            color: palette.grey['200'],
+            lineHeight: '1.25rem',
+            whiteSpace: 'pre-line',
+          }}
           variant='caption'
         >
           {text}

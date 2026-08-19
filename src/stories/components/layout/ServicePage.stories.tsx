@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography'
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 
 import RcSesServicePage from '@/components/layout/ServicePage'
 

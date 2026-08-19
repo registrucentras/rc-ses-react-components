@@ -1,11 +1,15 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { ListChildComponentProps } from 'react-window'
+import type { RowComponentProps } from 'react-window'
 
-function RowComponent(props: ListChildComponentProps) {
-  const { data, index, style } = props
-  const [{ key, ...optionProps }, option] = data[index]
+// react-window 2 passes `index` and `style` plus whatever is given in `rowProps`,
+// replacing v1's single `data` array.
+type Props = RowComponentProps<{ items: any[] }>
+
+function RowComponent(props: Props) {
+  const { items, index, style } = props
+  const [{ key, ...optionProps }, option] = items[index]
 
   return (
     <Stack

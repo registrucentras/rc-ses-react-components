@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'

@@ -33,7 +33,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
         lineHeight: '1.125rem',
       },
 
-      '.MuiPickersDay-root': {
+      '.MuiPickerDay-root': {
         color: palette.grey['900'],
         fontSize: '.875rem',
         lineHeight: '1.125rem',
@@ -48,15 +48,15 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
         },
       },
 
-      '.MuiPickersDay-dayOutsideMonth': {
+      '.MuiPickerDay-dayOutsideMonth': {
         color: palette.grey['400'],
       },
 
       '.MuiDayCalendar-weekContainer': {
-        '.MuiPickersDay-root:nth-of-type(6), .MuiPickersDay-root:nth-of-type(7)': {
+        '.MuiPickerDay-root:nth-of-type(6), .MuiPickerDay-root:nth-of-type(7)': {
           color: palette.error['600'],
 
-          '&.MuiPickersDay-dayOutsideMonth': {
+          '&.MuiPickerDay-dayOutsideMonth': {
             color: palette.error['200'],
           },
         },

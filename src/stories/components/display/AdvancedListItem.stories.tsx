@@ -8,7 +8,7 @@ import {
   Stack,
   TextField,
 } from '@mui/material'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
 import NotePencilIcon from '@/assets/icons/NotePencilIcon'
@@ -125,7 +125,13 @@ const LeadingMediaStory = () => {
   const [checkedIds, setCheckedIds] = useState<string[]>(['rep-1'])
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       {PEOPLE_LIST_ITEMS.map((item) => {
         const checked = checkedIds.includes(item.id)
 
@@ -178,7 +184,13 @@ const RadioExpandStory = () => {
   const [ownerId, setOwnerId] = useState(OWNER_OPTIONS[0].id)
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       {OWNER_OPTIONS.map((option) => (
         <AdvancedListItem
           key={option.id}
@@ -193,7 +205,11 @@ const RadioExpandStory = () => {
           expanded={ownerId === option.id}
           expandedContent={
             option.id === 'owner-legal' ? (
-              <Stack gap={1.5}>
+              <Stack
+                sx={{
+                  gap: 1.5,
+                }}
+              >
                 <TextField label='Įmonės pavadinimas' size='small' />
                 <TextField label='Įmonės kodas' size='small' />
                 <TextField label='Adresas' size='small' />
@@ -220,7 +236,13 @@ const CheckboxExpandStory = () => {
   const [checkedIds, setCheckedIds] = useState<string[]>(['rep-1'])
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       {CHECKBOX_EXPAND_ITEMS.map((item) => {
         const checked = checkedIds.includes(item.id)
 
@@ -263,7 +285,11 @@ const NestedRadioGroupStory = () => {
       leading={{ type: 'radio', checked, onChange: setChecked }}
       expanded={checked}
       expandedContent={
-        <Stack gap={1.5}>
+        <Stack
+          sx={{
+            gap: 1.5,
+          }}
+        >
           <TextField label='Įmonės pavadinimas' size='small' />
           <TextField label='Adresas' size='small' />
           <FormControl>
@@ -298,7 +324,11 @@ const LongExpandedContentStory = () => {
       leading={{ type: 'checkbox', checked, onChange: setChecked }}
       expanded={checked}
       expandedContent={
-        <Stack gap={1.5}>
+        <Stack
+          sx={{
+            gap: 1.5,
+          }}
+        >
           {Array.from({ length: 10 }).map((_, index) => (
             <TextField
               // eslint-disable-next-line react/no-array-index-key
@@ -325,7 +355,13 @@ const TrailingShowcaseStory = () => {
   const [stepperValue, setStepperValue] = useState(1)
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       <AdvancedListItem
         title='Nėra'
         subtitle='Show-trailing: nėra (trailing praleistas)'
@@ -410,7 +446,13 @@ const LeadingShowcaseStory = () => {
   const [selected, setSelected] = useState(false)
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       <AdvancedListItem title='Nėra' subtitle='Show-leading: nėra (leading praleistas)' />
       <AdvancedListItem
         title='Reorder (abu)'
@@ -478,7 +520,13 @@ const UniversalPresetStory = () => {
   const [selectedId, setSelectedId] = useState(UNIVERSAL_PRESET_OPTIONS[0].id)
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       {UNIVERSAL_PRESET_OPTIONS.map((option) => (
         <AdvancedListItem
           key={option.id}
@@ -511,7 +559,13 @@ const PaymentTileStory = () => {
   const [selectedId, setSelectedId] = useState(PAYMENT_TILE_BANKS[0].id)
 
   return (
-    <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+    <Stack
+      sx={{
+        gap: 1,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
       {PAYMENT_TILE_BANKS.map((bank) => (
         <AdvancedListItem
           key={bank.id}
@@ -569,7 +623,13 @@ const KREPSELIS_ITEMS = [
 ]
 
 const KrepselisWithDeleteStory = () => (
-  <Stack gap={1} sx={{ width: '100%', maxWidth: '32rem' }}>
+  <Stack
+    sx={{
+      gap: 1,
+      width: '100%',
+      maxWidth: '32rem',
+    }}
+  >
     {KREPSELIS_ITEMS.map((item) => (
       <AdvancedListItem
         key={item.id}

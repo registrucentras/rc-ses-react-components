@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, useMediaQuery } from '@mui/material'
 import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { MuiPickersAdapterContext } from '@mui/x-date-pickers/LocalizationProvider'
+import { usePickerAdapter } from '@mui/x-date-pickers/hooks'
 import { parseISO } from 'date-fns'
 import { fromZonedTime } from 'date-fns-tz'
 import React, { useEffect, useMemo } from 'react'
@@ -28,7 +28,7 @@ type Props = TFieldProps &
     id?: string
     clearable?: boolean
     slotProps?: {
-      datepicker?: DatePickerProps<Date, boolean>
+      datepicker?: DatePickerProps
       wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>
     }
   }
@@ -39,7 +39,9 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
 
   const { id: idProp, clearable, errors, label, slotProps, ...controllerProps } = props
 
-  const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
+  // v9 no longer exports MuiPickersAdapterContext from LocalizationProvider;
+  // usePickerAdapter is the public replacement for the `utils` adapter.
+  const dateAdapter = usePickerAdapter()
 
   const {
     field: { onChange, value, disabled },
@@ -54,7 +56,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
   const handleOnChange = (newValue: Date | null) => {
     try {
       onChange((newValue && fromZonedTime(newValue, 'UTC').toISOString()) ?? '')
-    } catch (_) {
+    } catch {
       onChange(null)
     }
   }
@@ -76,7 +78,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
         inputRef={ref}
         closeOnSelect
         dayOfWeekFormatter={(date: Date) =>
-          dateAdapterContext?.utils?.format(date, 'weekdayShort').substring(0, 2) ?? ''
+          dateAdapter.format(date, 'weekdayShort').substring(0, 2)
         }
         disabled={disabled}
         onChange={handleOnChange}
@@ -102,34 +104,37 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
             id,
             error: !!errors,
             fullWidth: true,
-            InputProps: {
-              ...(!upMd
-                ? {
-                    startAdornment: (
-                      <InputAdornment
-                        aria-label={t('aria.openCalendar')}
-                        position='start'
-                        sx={{ mr: 0 }}
-                      >
-                        <IconButton>
-                          <CalendarBlankIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }
-                : {}),
-              endAdornment: !!value && clearable && (
-                <InputAdornment position='end'>
-                  <IconButton
-                    aria-label={t('aria.clearValue')}
-                    onClick={() => handleOnChange(null)}
-                  >
-                    <XCircleFillIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
             ...(slotProps?.datepicker?.slotProps?.textField ?? {}),
+
+            slotProps: {
+              input: {
+                ...(!upMd
+                  ? {
+                      startAdornment: (
+                        <InputAdornment
+                          aria-label={t('aria.openCalendar')}
+                          position='start'
+                          sx={{ mr: 0 }}
+                        >
+                          <IconButton>
+                            <CalendarBlankIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }
+                  : {}),
+                endAdornment: !!value && clearable && (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label={t('aria.clearValue')}
+                      onClick={() => handleOnChange(null)}
+                    >
+                      <XCircleFillIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            },
           },
           toolbar: { hidden: true },
         }}

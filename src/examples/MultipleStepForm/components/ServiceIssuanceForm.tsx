@@ -29,7 +29,6 @@ function ServiceIssuanceForm() {
         Primename, kad atsiimant rezultatus padalinyje su savimi privalote turėti asmens
         tapatybę patvirtinantį dokumentą.
       </RcSesAlert>
-
       <RcSesRadioButtonGroup
         id='issuanceMethod'
         name='issuanceMethod'
@@ -45,7 +44,6 @@ function ServiceIssuanceForm() {
         ]}
         hideNativeRadio
       />
-
       <RcSesSelect
         id='rcBranch'
         name='rcBranch'

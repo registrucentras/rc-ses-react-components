@@ -1,4 +1,4 @@
-import { Meta, StoryContext, StoryObj } from '@storybook/react'
+import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 
 import RcSesTextField from '@/components/form/inputs/TextField'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'

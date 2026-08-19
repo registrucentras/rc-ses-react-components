@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesSnackbar from './index'
+import RcSesSnackbar from '.'
 
 const DEFAULT_PROPS = { state: 'success' as const, message: 'Test', open: true }
 

@@ -66,7 +66,7 @@ function RcSesServiceFormContainer({
         sx={{ columnGap: 7.5, flexWrap: 'nowrap', justifyContent: 'center' }}
       >
         {showProgressStepper && (
-          <Grid item sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
+          <Grid sx={{ display: { xs: 'none', md: 'block' }, flex: '0 0 270px' }}>
             <ServiceWizardStepper
               steps={steps}
               orientation='vertical'
@@ -76,7 +76,7 @@ function RcSesServiceFormContainer({
           </Grid>
         )}
 
-        <Grid item sx={{ flexGrow: 1 }}>
+        <Grid sx={{ flexGrow: 1 }}>
           {areAccordionCollapseControlsVisible && (
             <AccordionCollapseControls controller={accordionController} />
           )}

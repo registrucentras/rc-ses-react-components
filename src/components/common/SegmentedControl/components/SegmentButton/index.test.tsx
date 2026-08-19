@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
 
-import RcSesSegmentButton, { type RcSesSegmentOption } from './index'
+import RcSesSegmentButton, { type RcSesSegmentOption } from '.'
 
 describe('RcSesSegmentButton', () => {
   const defaultOption: RcSesSegmentOption = {
