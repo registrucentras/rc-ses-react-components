@@ -285,7 +285,7 @@ const RadioBranchFormStory = () => {
   }))
 
   return (
-    <Stack gap={2}>
+    <Stack sx={{ gap: 2 }}>
       <FormControlLabel
         control={
           <Checkbox
@@ -298,7 +298,7 @@ const RadioBranchFormStory = () => {
 
       <AdvancedList items={items} />
 
-      <Stack direction={{ xs: 'column', md: 'row' }} gap={2}>
+      <Stack direction={{ xs: 'column', md: 'row' }} sx={{ gap: 2 }}>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography variant='body2'>Formos būsena</Typography>
           <Box component='pre' sx={PANEL_SX}>
