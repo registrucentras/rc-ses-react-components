@@ -63,6 +63,48 @@ Running total **23.25h** against the 20h budget.
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
 **Open:** Phase 5 — LIB-15 (recommended: drop, see below) and LIB-18 (`2.0.0`). LIB-17 validation is done.
 
+### Phase 5 progress — as of 2026-08-19
+
+**`2.0.0-rc.2` is published.** It fixes a colour regression that rc.1 shipped, and folds in the three
+commits `develop` gained since rc.1.
+
+#### The dropped `color` prop — found by `ses-ui-mfe-host` validation
+
+MUI 9 takes `Typography`'s `color` as a **palette key**, not as a CSS value: `Typography.js` consumes
+it only by matching `theme.palette[color]`. A raw value such as `palette.grey[200]` matches nothing,
+so no style is emitted and the text inherits. It still type-checks, because MUI 9 types the prop as
+`(string & {})`.
+
+Nine call sites across six components passed raw palette values that way — `Footer`, `Card` ×2,
+`AdvancedListItem` ×2, `AdvancedListItemLeading`, `AdvancedListItemTrailing` ×2 and
+`PhoneInputFormControl`. All are now in `sx` (`8e7d718`). The footer was the only *visible* failure,
+because it is the only component on a dark background: its text rendered black on `grey[900]` and the
+footer read as an empty band. The others degraded quietly to the default text colour.
+
+**The visual suite did not catch it, and the reason matters.** Screenshots are full page with
+`maxDiffPixelRatio: 0.01`. The footer baseline is 1280x720, so the budget is 9216 pixels while the
+footer text is only about 6563. An entirely invisible footer stayed under the threshold and the job
+stayed green. A pixel budget measured against a mostly empty full page screenshot will keep missing
+colour-only regressions — worth tightening the ratio or clipping shots to the component. In the
+meantime the footer colour is pinned by a unit assertion instead.
+
+This is the second regression in a row that only consumer validation found, after `RcSesButton` in
+rc.0. Both were invisible to this repo's own lint, tests and baselines.
+
+#### `develop` merged again
+
+`607519b`, `bcf9495` and `f442f0f` (#123) — Select controller `slotProps`, `RadioButtonGroup` and
+`Select` tests, ignore-file updates, and a new `AdvancedList` story. Conflicts were `package.json`
+(kept `2.0.0-rc.2`), `.eslintignore` (kept deleted, its new `test-results` entry ported into
+`eslint.config.js`), `.gitignore` (ours was already a superset) and the lockfile.
+
+The new story was authored on MUI 5 and used `<Stack gap={2}>`, a system prop MUI 9 removed, which
+broke `build:lib` while lint and unit tests stayed green — stories are not type-checked by vitest.
+Moved into `sx` (`3f0bb20`), and its baseline was recorded **after** that fix, since the dropped
+`gap` had otherwise been baked into the snapshot.
+
+Current totals: **275 tests, 196 visual snapshots**.
+
 ### Phase 5 progress — as of 2026-08-12
 
 **`2.0.0-rc.1` is published** (`npm i @registrucentras/rc-ses-react-components@rc`), and `ses-ui` compiles and builds against it from a clean install. That is LIB-17's validation gate met.
