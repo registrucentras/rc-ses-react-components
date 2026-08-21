@@ -32,7 +32,8 @@ const themeStyles: Record<CardShellTheme, object> = {
   },
 }
 
-type ShellProps = RcSesCardShellProps & Omit<BoxProps, keyof RcSesCardShellProps | 'children'>
+type ShellProps = RcSesCardShellProps &
+  Omit<BoxProps, keyof RcSesCardShellProps | 'children'>
 
 function RcSesCardShell({
   variant = 'card',

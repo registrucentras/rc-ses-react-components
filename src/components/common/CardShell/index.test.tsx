@@ -6,8 +6,9 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import RcSesButton from '@/components/common/Button'
-import RcSesCard from '.'
 import theme from '@/theme/light'
+
+import RcSesCard from '.'
 
 const renderCard = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
