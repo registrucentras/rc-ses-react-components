@@ -1,4 +1,10 @@
 import { RcSesCardProps } from '@/components/common/Card'
+import {
+  CardShellTheme,
+  CardShellVariant,
+  RcSesCardShellProps,
+  RcSesCardShellTestIds,
+} from '@/components/common/CardShell/types'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
@@ -34,6 +40,10 @@ export type {
   RcSesLoaderSize,
   RcSesCardFormContainerProps,
   RcSesCardProps,
+  RcSesCardShellProps,
+  RcSesCardShellTestIds,
+  CardShellVariant,
+  CardShellTheme,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,
