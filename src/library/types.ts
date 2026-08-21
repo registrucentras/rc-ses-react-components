@@ -5,6 +5,11 @@ import {
   RcSesCardShellProps,
   RcSesCardShellTestIds,
 } from '@/components/common/CardShell/types'
+import {
+  CardHeadingLevel,
+  RcSesCardHeaderProps,
+  RcSesCardHeaderTestIds,
+} from '@/components/common/CardShell/content/CardHeader/types'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
@@ -42,8 +47,11 @@ export type {
   RcSesCardProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
+  RcSesCardHeaderProps,
+  RcSesCardHeaderTestIds,
   CardShellVariant,
   CardShellTheme,
+  CardHeadingLevel,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,

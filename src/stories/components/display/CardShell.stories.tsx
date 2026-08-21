@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
+import RcSesCardHeader from '@/components/common/CardShell/content/CardHeader'
 
 const meta: Meta<typeof RcSesCardShell> = {
   title: 'components/display/CardShell',
@@ -66,14 +67,10 @@ export default meta
 type Story = StoryObj<typeof RcSesCardShell>
 
 const SampleHeader = () => (
-  <Box>
-    <Typography variant='h5' component='div' sx={{ mb: 0.5 }}>
-      Kortelės antraštė
-    </Typography>
-    <Typography variant='body2' color='text.secondary'>
-      Paaiškinimas apie šios kortelės turinį
-    </Typography>
-  </Box>
+  <RcSesCardHeader
+    title='Kortelės antraštė'
+    description='Paaiškinimas apie šios kortelės turinį'
+  />
 )
 
 const SampleContent = () => (
