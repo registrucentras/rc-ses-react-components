@@ -3,12 +3,12 @@ import {
   CardFooterAlign,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
-} from '@/components/common/CardShell/content/CardFooter/types'
+} from '@/components/common/CardShell/CardFooter/types'
 import {
   CardHeadingLevel,
   RcSesCardHeaderProps,
   RcSesCardHeaderTestIds,
-} from '@/components/common/CardShell/content/CardHeader/types'
+} from '@/components/common/CardShell/CardHeader/types'
 import {
   CardShellTheme,
   CardShellVariant,

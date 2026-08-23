@@ -195,6 +195,8 @@ Pridėdami naują viešą komponentą:
 - Visuotiniams MUI stiliaus pakeitimams teikite pirmenybę temos išplėtimams `src/theme/light` kataloge.
 - Komponentui specifinei elgsenai ar kompozicijai teikite pirmenybę wrapper komponentui `src/components` kataloge.
 - Nekoduokite spalvų, tarpų ar tipografijos reikšmių tiesiogiai, jei turėtų būti naudojamas esamas temos tokenas arba MUI temos nustatymas.
+- Kortelės paviršius (fonas, rėmelis, radius, paddingai, gap) priklauso vienam komponentui - `RcSesCardShell`; jo reikšmės gyvena `src/theme/cards.ts`.
+- Presetai ir receptai gali turėti kompoziciją bei tekstus, bet niekada savo paddingų, rėmelių ar fonų. Jei recepto dizainui reikia kitokio paviršiaus, prop'as pridedamas apvalkale, o ne recepte.
 - Išlaikykite nuoseklią vizualinę elgseną pagal jau egzistuojančią SES dizaino kalbą.
 - Jei pakeitimas vizualiai veikia kelis komponentus, prieš jungiant peržiūrėkite poveikį Storybook aplinkoje.
 

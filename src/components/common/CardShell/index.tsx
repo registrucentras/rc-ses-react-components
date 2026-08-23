@@ -1,8 +1,12 @@
 import { Box, BoxProps } from '@mui/material'
+import { ReactNode } from 'react'
 
 import cards from '@/theme/cards'
 
 import { RcSesCardShellProps } from './types'
+
+// A conditional slot renders as false rather than as nothing, so false is absent
+const hasSlot = (node: ReactNode) => node !== undefined && node !== null && node !== false
 
 type ShellProps = RcSesCardShellProps &
   Omit<BoxProps, keyof RcSesCardShellProps | 'children'>
@@ -41,13 +45,13 @@ function RcSesCardShell({
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {header ? (
+      {hasSlot(header) ? (
         <Box data-testid={testIds?.header} sx={{ minWidth: 0, width: '100%' }}>
           {header}
         </Box>
       ) : null}
 
-      {children ? (
+      {hasSlot(children) ? (
         <Box
           data-testid={testIds?.content}
           sx={{ flexGrow: fullHeight ? 1 : 0, minWidth: 0, width: '100%' }}
@@ -56,8 +60,11 @@ function RcSesCardShell({
         </Box>
       ) : null}
 
-      {footer ? (
-        <Box data-testid={testIds?.footer} sx={{ minWidth: 0, width: '100%' }}>
+      {hasSlot(footer) ? (
+        <Box
+          data-testid={testIds?.footer}
+          sx={{ minWidth: 0, mt: fullHeight ? 'auto' : 0, width: '100%' }}
+        >
           {footer}
         </Box>
       ) : null}
