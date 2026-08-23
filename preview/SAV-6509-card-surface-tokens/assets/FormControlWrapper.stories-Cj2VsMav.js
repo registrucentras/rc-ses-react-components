@@ -1,0 +1,13 @@
+import{j as o}from"./iframe-DEwrbrvD.js";import{R as t}from"./index-BNWrkcEe.js";import{T as i}from"./TextField-CEIbv1jK.js";import"./preload-helper-PPVm8Dsz.js";import"./i18n-BQ3_V9Ty.js";import"./useTranslation-C8aYK3Na.js";import"./index-DR7-7uGN.js";import"./Box-gYI2czhc.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./index-CPKWHu1X.js";import"./getThemeProps-NjVA3jNG.js";import"./FormControl-DecMNana.js";import"./useFormControl-BTpXANzx.js";import"./isMuiElement-Bh2tt8QV.js";import"./memoTheme-DbaPA1El.js";import"./styled-BW4KM9Aa.js";import"./FormLabel-De07Slly.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./FormHelperText-Cz9j6N1Z.js";import"./useSlot-xM4xXIxO.js";import"./mergeSlotProps-BYLa1DQO.js";import"./useReducedMotion-Dah1E74K.js";import"./Select-2BodPuko.js";import"./useSlotProps-Co8Ywrzn.js";import"./Popover-GIiXhzEj.js";import"./mergeSlotProps-B0z92gMv.js";import"./ownerDocument-DW-IO8s5.js";import"./ownerWindow-HkKU3E4x.js";import"./debounce-Be36O1Ab.js";import"./Grow-C8a1EWEu.js";import"./Transition-D9MnA48u.js";import"./utils-cxgvJEOf.js";import"./getReactElementRef-BSHAoxJi.js";import"./Modal-CPGdvKvr.js";import"./createChainedFunction-BO_9K8Jh.js";import"./Portal-BXPfECam.js";import"./index-DZXuNoqn.js";import"./index-Bbwj4z-m.js";import"./setRef-CQn2LYBI.js";import"./getActiveElement-BQgAPKnO.js";import"./contains-DSD8CO72.js";import"./Fade-D8ZaLFhl.js";import"./Paper-CJUMGq0O.js";import"./useRovingTabIndex-DikSUTLl.js";import"./List-BKwSuMHz.js";import"./useControlled-DqjhZN7Y.js";import"./useTimeout-4iFrUsfT.js";import"./createSvgIcon-B4ybSFrF.js";import"./OutlinedInput-CBkgkrMD.js";import"./InputLabel-B6Grod64.js";const or={title:"components/form/FormControlWrapper",component:t,tags:["autodocs"],argTypes:{label:{control:"text"},description:{control:"text"},hideLabel:{control:"boolean"},labelOnTop:{control:"boolean"},required:{control:"boolean"}}},r={args:{label:"Label",description:"This is a helpful description",hideLabel:!1,labelOnTop:!1,required:!1},render:e=>o.jsx(t,{...e,children:o.jsx(i,{id:"input",placeholder:"Type text here",size:"small",fullWidth:!0})})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: 'Label',
+    description: 'This is a helpful description',
+    hideLabel: false,
+    labelOnTop: false,
+    required: false
+  },
+  render: args => <RcSesFormControlWrapper {...args}>
+      <TextField id='input' placeholder='Type text here' size='small' fullWidth />
+    </RcSesFormControlWrapper>
+}`,...r.parameters?.docs?.source}}};const tr=["Default"];export{r as Default,tr as __namedExportsOrder,or as default};
+//# sourceMappingURL=FormControlWrapper.stories-Cj2VsMav.js.map
