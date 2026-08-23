@@ -21,6 +21,17 @@ const subcard = {
   padding: { xs: '1rem', md: '1.25rem 1.5rem' },
 }
 
+/**
+ * The two places the card header departs from the type scale: the title is `h6`
+ * at weight 600 rather than 500, and the description is `body2` on a 1.25rem
+ * line. Both are pending confirmation against the DS.
+ */
+const header = {
+  descriptionLineHeight: '1.25rem',
+  gap: '0.25rem',
+  titleFontWeight: 600,
+}
+
 const themes = {
   brand: {
     backgroundColor: palette.primary[50],
@@ -36,5 +47,5 @@ const themes = {
   },
 }
 
-export { borderWidth, card, subcard, themes }
-export default { borderWidth, card, subcard, themes }
+export { borderWidth, card, header, subcard, themes }
+export default { borderWidth, card, header, subcard, themes }

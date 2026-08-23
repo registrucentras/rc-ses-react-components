@@ -109,4 +109,24 @@ describe('RcSesCardHeader', () => {
       unmount()
     })
   })
+
+  test('title and description keep the design type ramp', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        description='Test description'
+        testIds={{ description: 'description' }}
+        title='Test Title'
+      />,
+    )
+
+    expect(screen.getByText('Test Title')).toHaveStyle({
+      fontSize: '1.125rem',
+      fontWeight: '600',
+      lineHeight: '1.5rem',
+    })
+    expect(screen.getByTestId('description')).toHaveStyle({
+      fontSize: '0.875rem',
+      lineHeight: '1.25rem',
+    })
+  })
 })

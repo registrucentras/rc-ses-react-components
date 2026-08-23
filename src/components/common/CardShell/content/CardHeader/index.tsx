@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material'
 
+import cards from '@/theme/cards'
 import palette from '@/theme/palette'
 
 import { RcSesCardHeaderProps } from './types'
@@ -17,18 +18,17 @@ function RcSesCardHeader({
     <Stack
       className={className}
       data-testid={testIds?.root}
-      spacing='0.25rem'
+      spacing={cards.header.gap}
       sx={{ width: '100%' }}
     >
       <HeadingTag data-testid={testIds?.heading} style={{ margin: 0 }}>
         <Typography
           component='span'
+          variant='h6'
           sx={{
             color: palette.grey[900],
             display: 'block',
-            fontSize: '1.125rem',
-            fontWeight: 600,
-            lineHeight: '1.5rem',
+            fontWeight: cards.header.titleFontWeight,
             overflowWrap: 'anywhere',
           }}
         >
@@ -39,10 +39,10 @@ function RcSesCardHeader({
       {description !== undefined && description !== null ? (
         <Typography
           data-testid={testIds?.description}
+          variant='body2'
           sx={{
             color: palette.grey[700],
-            fontSize: '0.875rem',
-            lineHeight: '1.25rem',
+            lineHeight: cards.header.descriptionLineHeight,
           }}
         >
           {description}
