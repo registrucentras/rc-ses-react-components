@@ -4,8 +4,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
-import RcSesCardFooter from '@/components/common/CardShell/content/CardFooter'
-import RcSesCardHeader from '@/components/common/CardShell/content/CardHeader'
+import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
+import RcSesCardHeader from '@/components/common/CardShell/CardHeader'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 
 const meta: Meta<typeof RcSesCardShell> = {
@@ -102,16 +102,6 @@ const SampleFooter = () => (
 )
 
 export const Default: Story = {
-  args: {
-    variant: 'card',
-    theme: 'default',
-    header: <SampleHeader />,
-    children: <SampleContent />,
-    footer: <SampleFooter />,
-  },
-}
-
-export const CardVariant: Story = {
   args: {
     variant: 'card',
     theme: 'default',
@@ -233,4 +223,26 @@ export const FullHeight: Story = {
       </Box>
     ),
   ],
+}
+
+export const MobileViewport: Story = {
+  args: {
+    variant: 'card',
+    theme: 'default',
+    header: <SampleHeader />,
+    children: <SampleContent />,
+    footer: <SampleFooter />,
+  },
+  tags: ['viewport-375'],
+}
+
+export const TabletViewport: Story = {
+  args: {
+    variant: 'card',
+    theme: 'default',
+    header: <SampleHeader />,
+    children: <SampleContent />,
+    footer: <SampleFooter />,
+  },
+  tags: ['viewport-768'],
 }

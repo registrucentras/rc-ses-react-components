@@ -47,9 +47,33 @@ if (stories.length === 0) {
   throw new Error('Story index contained no stories - was the Storybook build empty?')
 }
 
+/**
+ * Stories tagged `viewport-<width>` are captured at that width instead of the
+ * project's desktop default, so responsive values (the shell's xs paddings, the
+ * footer stacking below sm) get a baseline of their own. Height is fixed: the
+ * shots are fullPage anyway, so only the width decides which breakpoint wins.
+ */
+const viewportWidth = (tags: string[] | undefined) => {
+  const tag = tags?.find((entry) => entry.startsWith('viewport-'))
+  if (!tag) {
+    return null
+  }
+
+  const width = Number(tag.slice('viewport-'.length))
+  if (!Number.isFinite(width) || width <= 0) {
+    throw new Error(`Story tag "${tag}" is not a usable viewport width.`)
+  }
+
+  return width
+}
+
 test.describe('Storybook visual regression', () => {
   stories.forEach((story) => {
     test(`${story.title} - ${story.name}`, async ({ page }) => {
+      const width = viewportWidth(story.tags)
+      if (width !== null) {
+        await page.setViewportSize({ width, height: 900 })
+      }
       await page.goto(`/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story`, {
         waitUntil: 'domcontentloaded',
       })
