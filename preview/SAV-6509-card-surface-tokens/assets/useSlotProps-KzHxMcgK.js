@@ -1,0 +1,2 @@
+import{r as m,m as P,a as i}from"./mergeSlotProps-D2Gu3GfK.js";import{u as S}from"./useReducedMotion-DuL6HRZm.js";function g(o){const{elementType:s,externalSlotProps:t,ownerState:e,skipResolvingSlotProps:p=!1,...n}=o,r=p?{}:m(t,e),{props:l,internalRef:a}=P({...n,externalSlotProps:r}),f=S(a,r?.ref,o.additionalProps?.ref);return i(s,{...l,ref:f},e)}export{g as u};
+//# sourceMappingURL=useSlotProps-KzHxMcgK.js.map
