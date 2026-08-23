@@ -1,36 +1,8 @@
 import { Box, BoxProps, Stack } from '@mui/material'
 
-import palette, { common } from '@/theme/palette'
+import cards from '@/theme/cards'
 
-import { CardShellTheme, CardShellVariant, RcSesCardShellProps } from './types'
-
-const variantStyles: Record<CardShellVariant, object> = {
-  card: {
-    borderRadius: '0.75rem',
-    p: { xs: '1.25rem 1.5rem 1.5rem', md: '1.5rem 2rem 2rem' },
-    gap: { xs: '1rem', md: '1.5rem' },
-  },
-  subcard: {
-    borderRadius: '0.5rem',
-    p: { xs: '1rem', md: '1.25rem 1.5rem' },
-    gap: { xs: '0.75rem', md: '1rem' },
-  },
-}
-
-const themeStyles: Record<CardShellTheme, object> = {
-  default: {
-    backgroundColor: common.white,
-    border: `1px solid ${palette.grey[300]}`,
-  },
-  brand: {
-    backgroundColor: palette.primary[50],
-    border: `1px solid ${palette.primary[200]}`,
-  },
-  sunken: {
-    backgroundColor: palette.grey[100],
-    border: `1px solid ${palette.grey[200]}`,
-  },
-}
+import { RcSesCardShellProps } from './types'
 
 type ShellProps = RcSesCardShellProps &
   Omit<BoxProps, keyof RcSesCardShellProps | 'children'>
@@ -60,8 +32,11 @@ function RcSesCardShell({
           minWidth: 0,
           // enables stretched-link pattern in interactive compositions
           position: 'relative',
-          ...variantStyles[variant],
-          ...themeStyles[theme],
+          backgroundColor: cards.themes[theme].backgroundColor,
+          border: `${cards.borderWidth} solid ${cards.themes[theme].borderColor}`,
+          borderRadius: cards[variant].borderRadius,
+          gap: cards[variant].gap,
+          p: cards[variant].padding,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
