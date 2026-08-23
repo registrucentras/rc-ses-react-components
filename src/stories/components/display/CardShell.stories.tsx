@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
+import RcSesCardFooter from '@/components/common/CardShell/content/CardFooter'
 import RcSesCardHeader from '@/components/common/CardShell/content/CardHeader'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 
@@ -92,12 +93,12 @@ const SampleContent = () => (
 )
 
 const SampleFooter = () => (
-  <>
+  <RcSesCardFooter>
     <RcSesButton color='grey' variant='outlined'>
       Atšaukti
     </RcSesButton>
     <RcSesButton>Tęsti</RcSesButton>
-  </>
+  </RcSesCardFooter>
 )
 
 export const Default: Story = {
@@ -178,6 +179,20 @@ export const WithoutHeader: Story = {
     theme: 'default',
     children: <SampleContent />,
     footer: <SampleFooter />,
+  },
+}
+
+export const FooterSingleLink: Story = {
+  args: {
+    variant: 'card',
+    theme: 'default',
+    header: <SampleHeader />,
+    children: <SampleContent />,
+    footer: (
+      <RcSesCardFooter align='start' stretchOnMobile={false}>
+        <RcSesButton variant='link'>Žiūrėti visas</RcSesButton>
+      </RcSesCardFooter>
+    ),
   },
 }
 

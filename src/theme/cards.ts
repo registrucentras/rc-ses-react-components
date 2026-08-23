@@ -37,6 +37,10 @@ const header = {
   titleFontWeight: 600,
 }
 
+const footer = {
+  gap: '0.75rem',
+}
+
 const themes = {
   brand: {
     backgroundColor: palette.primary[50],
@@ -52,5 +56,5 @@ const themes = {
   },
 }
 
-export { borderWidth, card, header, subcard, themes }
-export default { borderWidth, card, header, subcard, themes }
+export { borderWidth, card, footer, header, subcard, themes }
+export default { borderWidth, card, footer, header, subcard, themes }

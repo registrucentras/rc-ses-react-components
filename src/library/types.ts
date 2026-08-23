@@ -1,5 +1,10 @@
 import { RcSesCardProps } from '@/components/common/Card'
 import {
+  CardFooterAlign,
+  RcSesCardFooterProps,
+  RcSesCardFooterTestIds,
+} from '@/components/common/CardShell/content/CardFooter/types'
+import {
   CardHeadingLevel,
   RcSesCardHeaderProps,
   RcSesCardHeaderTestIds,
@@ -49,6 +54,9 @@ export type {
   RcSesCardShellTestIds,
   RcSesCardHeaderProps,
   RcSesCardHeaderTestIds,
+  RcSesCardFooterProps,
+  RcSesCardFooterTestIds,
+  CardFooterAlign,
   CardShellVariant,
   CardShellTheme,
   CardHeadingLevel,

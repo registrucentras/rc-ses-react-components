@@ -1,4 +1,4 @@
-import { Box, BoxProps, Stack } from '@mui/material'
+import { Box, BoxProps } from '@mui/material'
 
 import cards from '@/theme/cards'
 
@@ -57,19 +57,9 @@ function RcSesCardShell({
       ) : null}
 
       {footer ? (
-        <Stack
-          data-testid={testIds?.footer}
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing='0.75rem'
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            '& > *': { width: { xs: '100%', sm: 'auto' } },
-          }}
-        >
+        <Box data-testid={testIds?.footer} sx={{ minWidth: 0, width: '100%' }}>
           {footer}
-        </Stack>
+        </Box>
       ) : null}
     </Box>
   )
