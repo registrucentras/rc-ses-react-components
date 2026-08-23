@@ -19,6 +19,12 @@ const meta: Meta<typeof RcSesCardShell> = {
           'CardShell is a low-level building-block component for card structure and styling. It provides header, content, and footer slots with different variants (card, subcard) and themes (default, brand, sunken). Unlike a ready-to-use Card component, CardShell has no built-in content and serves as a foundation for building more complex cards.',
       },
     },
+    viewport: {
+      options: {
+        mobile375: { name: 'Mobile 375', styles: { height: '900px', width: '375px' } },
+        tablet768: { name: 'Tablet 768', styles: { height: '900px', width: '768px' } },
+      },
+    },
     controls: {
       include: [
         'variant',
@@ -233,7 +239,13 @@ export const MobileViewport: Story = {
     children: <SampleContent />,
     footer: <SampleFooter />,
   },
-  tags: ['viewport-375'],
+  // Two separate mechanisms, deliberately: the tag sets Playwright's browser
+  // width for the baseline, the global sets the canvas iframe width for anyone
+  // reviewing in Storybook. Docs pages render stories inline at the container's
+  // width, where neither applies, so this one is kept out of the docs page
+  // rather than showing a desktop card under a mobile heading.
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
 }
 
 export const TabletViewport: Story = {
@@ -244,5 +256,6 @@ export const TabletViewport: Story = {
     children: <SampleContent />,
     footer: <SampleFooter />,
   },
-  tags: ['viewport-768'],
+  tags: ['viewport-768', '!autodocs'],
+  globals: { viewport: { value: 'tablet768' } },
 }
