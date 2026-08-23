@@ -1,9 +1,11 @@
 import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
+import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardHeader from '@/components/common/CardShell/content/CardHeader'
+import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 
 const meta: Meta<typeof RcSesCardShell> = {
   title: 'components/display/CardShell',
@@ -143,6 +145,28 @@ export const SunkenTheme: Story = {
     variant: 'card',
     theme: 'sunken',
     header: <SampleHeader />,
+    children: <SampleContent />,
+    footer: <SampleFooter />,
+  },
+}
+
+export const HeaderComplete: Story = {
+  args: {
+    variant: 'card',
+    theme: 'default',
+    header: (
+      <RcSesCardHeader
+        actions={
+          <RcSesButton color='grey' variant='outlined'>
+            Redaguoti
+          </RcSesButton>
+        }
+        count={4}
+        description='Paaiškinimas apie šios kortelės turinį'
+        icon={<RcSesIconWithCircularBackground Icon={UserIcon} size='medium' />}
+        title='Pasirinktos teisės'
+      />
+    ),
     children: <SampleContent />,
     footer: <SampleFooter />,
   },

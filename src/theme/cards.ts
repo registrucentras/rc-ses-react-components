@@ -22,13 +22,18 @@ const subcard = {
 }
 
 /**
- * The two places the card header departs from the type scale: the title is `h6`
- * at weight 600 rather than 500, and the description is `body2` on a 1.25rem
- * line. Both are pending confirmation against the DS.
+ * Card header values. Two of them are departures from the type scale: the title
+ * is `h6` at weight 600 rather than 500, and the description is `body2` on a
+ * 1.25rem line. The three gaps follow the surrounding components - the row gap
+ * matches the card gap and the actions gap matches the footer - rather than a
+ * measured token. All six are pending confirmation against the DS.
  */
 const header = {
+  actionsGap: '0.75rem',
+  badgeGap: '0.5rem',
   descriptionLineHeight: '1.25rem',
   gap: '0.25rem',
+  rowGap: '1rem',
   titleFontWeight: 600,
 }
 
