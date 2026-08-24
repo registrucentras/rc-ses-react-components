@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ElementType, ReactNode } from 'react'
 
 export type RcSesServiceLinksTestIds = {
   root?: string
@@ -22,18 +22,12 @@ export type RcSesServiceLinksProps = {
   isLoading?: boolean
   skeletonCount?: number
   /**
-   * Custom link wrapper for navigable rows. Receives href/target/rel/onClick
-   * and must render them on the returned node (e.g. router `<Link>`,
-   * `<NavLink>`). When omitted, a native `<a>` is used.
+   * Custom element used to render navigable rows. Receives `href` (and other
+   * anchor props). Falls back to a native `<a>` when omitted. For router
+   * links pass a small adapter, e.g.
+   * `({ href, ...rest }) => <RouterLink to={href} {...rest} />`.
    */
-  renderLink?: (args: {
-    href: string
-    target?: string
-    rel?: string
-    onClick?: (e: React.MouseEvent<HTMLElement>) => void
-    children: ReactNode
-    className?: string
-  }) => ReactNode
+  linkComponent?: ElementType
   className?: string
   testIds?: RcSesServiceLinksTestIds
 }

@@ -11,7 +11,7 @@ function RcSesServiceLinks({
   dividers = true,
   isLoading = false,
   skeletonCount = 4,
-  renderLink,
+  linkComponent,
   className,
   testIds,
 }: RcSesServiceLinksProps) {
@@ -40,7 +40,11 @@ function RcSesServiceLinks({
             {isLoading || !item ? (
               <ServiceLinkItem label='' isLoading testIds={testIds} />
             ) : (
-              <ServiceLinkItem {...item} renderLink={renderLink} testIds={testIds} />
+              <ServiceLinkItem
+                {...item}
+                linkComponent={linkComponent}
+                testIds={testIds}
+              />
             )}
           </Fragment>
         )

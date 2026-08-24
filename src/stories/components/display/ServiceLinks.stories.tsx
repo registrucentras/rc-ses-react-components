@@ -42,7 +42,7 @@ const meta: Meta<typeof RcSesServiceLinks> = {
     dividers: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     skeletonCount: { control: 'number' },
-    renderLink: { control: false },
+    linkComponent: { control: false },
     testIds: { control: false },
   },
 }
@@ -81,29 +81,39 @@ export const Loading: Story = {
 }
 
 /**
- * Passing a `renderLink` render-prop lets consumers wrap each navigable row
- * with any custom element (e.g. a router `<Link>`). The
- * component supplies href/target/rel/onClick and the row content as children;
- * the consumer decides how to render the anchor.
+ * Items with `target='_blank'` open in a new tab. The shell automatically
+ * adds `rel='noopener noreferrer'` on those rows for safety; other rows get
+ * no `rel` attribute.
+ */
+export const ExternalLinks: Story = {
+  args: {
+    items: [
+      { label: 'Vidinė nuoroda', href: '#internal' },
+      {
+        label: 'Išorinė nuoroda (naujame lange)',
+        href: 'https://example.com',
+        target: '_blank',
+      },
+    ],
+    dividers: true,
+  },
+}
+
+/**
+ * Passing a `linkComponent` renders every navigable row through it. The shell
+ * forwards `href`, `onClick`, and (when the item sets `target='_blank'`) also
+ * `target` and `rel='noopener noreferrer'`. Adapt a router `Link` with a
+ * one-line wrapper — as long as it renders a real `<a>` underneath,
+ * middle-click and "open in new tab" keep working.
  */
 export const WithRouterLink: Story = {
   args: {
     items: baseItems,
     dividers: true,
-    renderLink: ({
-      href,
-      onClick,
-      target,
-      rel,
-      children,
-    }: {
-      href: string
-      onClick?: (e: React.MouseEvent<HTMLElement>) => void
-      target?: string
-      rel?: string
-      children: React.ReactNode
-    }) => (
-      <a href={href} onClick={onClick} target={target} rel={rel} data-router-link>
+    linkComponent: ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+      // Stand-in for a router `Link`; a real adapter would forward `href`
+      // as `to`, e.g. `<RouterLink to={href!} {...rest}>{children}</RouterLink>`.
+      <a href={href} {...rest} data-router-link>
         {children}
       </a>
     ),

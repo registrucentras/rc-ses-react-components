@@ -41,6 +41,14 @@ describe('RcSesServiceLinks', () => {
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
+  test('does not set rel on same-tab links', () => {
+    renderServiceLinks(<RcSesServiceLinks items={[{ label: 'Same', href: '/s' }]} />)
+
+    const link = screen.getByRole('link', { name: 'Same' })
+    expect(link).not.toHaveAttribute('rel')
+    expect(link).not.toHaveAttribute('target')
+  })
+
   test('fires onClick on a link while keeping it a link', () => {
     const onClick = vi.fn()
     renderServiceLinks(
@@ -72,35 +80,40 @@ describe('RcSesServiceLinks', () => {
     expect(screen.getByTestId('row')).toHaveAttribute('tabindex', '-1')
   })
 
-  test('renders navigable rows through renderLink', () => {
-    renderServiceLinks(
-      <RcSesServiceLinks
-        items={baseItems}
-        renderLink={({ href, children, onClick }) => (
-          <a href={href} onClick={onClick} data-router-link>
-            {children}
-          </a>
-        )}
-      />,
+  test('renders navigable rows through a custom linkComponent', () => {
+    const RouterLink = ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+      <a href={href} data-router-link {...rest}>
+        {children}
+      </a>
     )
+
+    renderServiceLinks(<RcSesServiceLinks items={baseItems} linkComponent={RouterLink} />)
 
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(2)
     links.forEach((link) => expect(link).toHaveAttribute('data-router-link'))
+    expect(links[0]).toHaveAttribute('href', '#first')
   })
 
-  test('renderLink receives href, target, rel and onClick', () => {
+  test('linkComponent receives href, target, rel and onClick', () => {
     const onClick = vi.fn()
-    const renderLink = vi.fn(({ href, children }) => <a href={href}>{children}</a>)
+    const linkComponent = vi.fn(
+      ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+        <a href={href} {...rest}>
+          {children}
+        </a>
+      ),
+    )
 
     renderServiceLinks(
       <RcSesServiceLinks
         items={[{ label: 'Go', href: '/target', target: '_blank', onClick }]}
-        renderLink={renderLink}
+        linkComponent={linkComponent}
       />,
     )
 
-    expect(renderLink).toHaveBeenCalledWith(
+    expect(linkComponent).toHaveBeenCalled()
+    expect(linkComponent.mock.calls[0][0]).toEqual(
       expect.objectContaining({
         href: '/target',
         target: '_blank',
@@ -110,17 +123,44 @@ describe('RcSesServiceLinks', () => {
     )
   })
 
-  test('renderLink is not used for disabled items', () => {
-    const renderLink = vi.fn(({ href, children }) => <a href={href}>{children}</a>)
+  test('linkComponent does not receive rel for same-tab links', () => {
+    const linkComponent = vi.fn(
+      ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+        <a href={href} {...rest}>
+          {children}
+        </a>
+      ),
+    )
+
+    renderServiceLinks(
+      <RcSesServiceLinks
+        items={[{ label: 'Go', href: '/target' }]}
+        linkComponent={linkComponent}
+      />,
+    )
+
+    const props = linkComponent.mock.calls[0][0]
+    expect(props.rel).toBeUndefined()
+    expect(props.target).toBeUndefined()
+  })
+
+  test('linkComponent is not used for disabled items', () => {
+    const linkComponent = vi.fn(
+      ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+        <a href={href} {...rest}>
+          {children}
+        </a>
+      ),
+    )
 
     renderServiceLinks(
       <RcSesServiceLinks
         items={[{ label: 'Off', href: '/off', disabled: true }]}
-        renderLink={renderLink}
+        linkComponent={linkComponent}
       />,
     )
 
-    expect(renderLink).not.toHaveBeenCalled()
+    expect(linkComponent).not.toHaveBeenCalled()
     expect(screen.queryByRole('link', { name: 'Off' })).not.toBeInTheDocument()
   })
 })

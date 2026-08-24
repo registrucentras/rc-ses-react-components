@@ -1,5 +1,5 @@
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
-import { ElementType, MouseEvent, ReactNode } from 'react'
+import { ElementType } from 'react'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import { subcard } from '@/theme/cards'
@@ -16,24 +16,16 @@ const linkRow = {
   paddingBlock: '0.75rem',
 }
 
-type RenderLinkArgs = {
-  href: string
-  target?: string
-  rel?: string
-  onClick?: (e: MouseEvent<HTMLElement>) => void
-  children: ReactNode
-  className?: string
-}
-
 type Props = RcSesServiceLinkItem & {
   isLoading?: boolean
   testIds?: RcSesServiceLinksTestIds
   /**
-   * Custom link wrapper. Receives href/target/rel/onClick and must render
-   * them on the returned node (e.g. router `<Link>`, `<NavLink>`, `<a>` with
-   * extra behavior). When omitted, a native `<a>` is used.
+   * Custom element used to render navigable rows. Receives `href` (and other
+   * anchor props) and must render an interactive element. Falls back to `<a>`.
+   * For router links, pass a small adapter, e.g.
+   * `({ href, ...rest }) => <RouterLink to={href} {...rest} />`.
    */
-  renderLink?: (args: RenderLinkArgs) => ReactNode
+  linkComponent?: ElementType
 }
 
 function ServiceLinkItem({
@@ -43,7 +35,7 @@ function ServiceLinkItem({
   onClick,
   disabled = false,
   isLoading = false,
-  renderLink,
+  linkComponent,
   testIds,
 }: Props) {
   if (isLoading) {
@@ -71,23 +63,22 @@ function ServiceLinkItem({
   }
 
   const isLink = href !== undefined && !disabled
-  const useRenderLink = isLink && typeof renderLink === 'function'
 
-  // Navigable rows render as a native `<a>`; disabled or custom-wrapped rows
-  // collapse to a plain div (the custom wrapper adds the anchor around it).
-  const RowComponent: ElementType = isLink && !useRenderLink ? 'a' : 'div'
+  // Navigable rows render as `linkComponent` (or native `<a>`); a disabled row
+  // degrades to a static div. The Stack itself is the interactive element, so
+  // hover/focus styles, aria state and the anchor semantics all live on one node.
+  const RowComponent: ElementType = isLink ? (linkComponent ?? 'a') : 'div'
 
-  const interactiveProps =
-    isLink && !useRenderLink
-      ? {
-          href,
-          target,
-          rel: target === '_blank' ? 'noopener noreferrer' : undefined,
-          onClick,
-        }
-      : {}
+  const interactiveProps = isLink
+    ? {
+        href,
+        target,
+        rel: target === '_blank' ? 'noopener noreferrer' : undefined,
+        onClick,
+      }
+    : {}
 
-  const row = (
+  return (
     <Stack
       component={RowComponent}
       data-testid={testIds?.item}
@@ -98,6 +89,7 @@ function ServiceLinkItem({
       sx={{
         alignItems: 'center',
         borderRadius: linkRow.borderRadius,
+        color: 'inherit',
         cursor: disabled ? 'default' : 'pointer',
         gap: linkRow.gap,
         justifyContent: 'space-between',
@@ -162,29 +154,6 @@ function ServiceLinkItem({
       </Box>
     </Stack>
   )
-
-  if (useRenderLink) {
-    return (
-      <Box
-        sx={{
-          // Reset default anchor styles for consumer-provided link wrappers so
-          // the row's own styling (from Stack below) is what shows through.
-          display: 'contents',
-          '& a': { color: 'inherit', textDecoration: 'none' },
-        }}
-      >
-        {renderLink!({
-          href: href!,
-          target,
-          rel: target === '_blank' ? 'noopener noreferrer' : undefined,
-          onClick,
-          children: row,
-        })}
-      </Box>
-    )
-  }
-
-  return row
 }
 
 export default ServiceLinkItem
