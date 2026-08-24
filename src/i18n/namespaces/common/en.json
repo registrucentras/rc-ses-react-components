@@ -28,6 +28,10 @@
     "AdvancedListItemLeading": {
       "moveUp": "Move up",
       "moveDown": "Move down"
+    },
+    "RcSesSideNav": {
+      "title": "Topics",
+      "itemLabel": "{{label}}, {{count}}"
     }
   }
 }
