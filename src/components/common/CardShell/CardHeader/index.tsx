@@ -18,6 +18,7 @@ function RcSesCardHeader({
 }: RcSesCardHeaderProps) {
   const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   const hasCount = count !== undefined && count !== null
+  const hasDescription = description !== undefined && description !== null
 
   return (
     <Stack
@@ -25,7 +26,7 @@ function RcSesCardHeader({
       data-testid={testIds?.root}
       direction='row'
       spacing={cards.header.rowGap}
-      sx={{ alignItems: 'flex-start', width: '100%' }}
+      sx={{ alignItems: hasDescription ? 'flex-start' : 'center', width: '100%' }}
     >
       {icon ? (
         <Box

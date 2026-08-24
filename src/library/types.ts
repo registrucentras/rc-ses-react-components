@@ -22,6 +22,11 @@ import {
   RcSesSegmentedControlProps,
 } from '@/components/common/SegmentedControl'
 import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
+import {
+  RcSesServiceLinkItem,
+  RcSesServiceLinksProps,
+  RcSesServiceLinksTestIds,
+} from '@/components/common/ServiceLinks/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -41,6 +46,7 @@ import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 export type { ListWithIconsProps, ListWithIconsItemData }
+export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 
 export type {
