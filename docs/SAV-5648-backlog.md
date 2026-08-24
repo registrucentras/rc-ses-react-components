@@ -562,7 +562,21 @@ Note that this only closes the drift hole. It would not have caught the disabled
 because no story rendered those states, nor `calendar-open`, whose baseline was recorded *after* MUI 9
 and so enshrined the bug. Coverage and regeneration discipline are the other half.
 
-**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer; `react-router-dom` no longer provided; the radius token changes (3px → 8px on buttons and inputs, see §10 of the analysis doc). SAV-6098 cannot be planned without this.
+**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer;
+`react-router-dom` no longer provided. SAV-6098 cannot be planned without this.
+
+**The radius tokens are not a 2.0.0 change.** They moved inside the 1.x line and 2.0.0 leaves them
+alone, so the migration doc has to state which version a consumer is coming *from*:
+
+| Token | 3px until | 8px from |
+| --- | --- | --- |
+| Button radius, and its focus ring 6px → 12px | v1.3.1 | **v1.4.0** (`907948b`, SAV-5458) |
+| Input radius | v1.4.1 | **v1.5.0** (`d56742a`) |
+
+A consumer already on **1.5.0 or later sees no radius change at all** when moving to 2.0.0. `ses-ui` is
+pinned to **1.3.1**, so it crosses both and its theme pin is doing real work. `ses-ui-mfe-host` shipped
+**1.7.1**, so it was already on 8px and needs no pin - one was added there in error and should come
+out.
 
 Breaking changes confirmed so far, to list verbatim:
 
