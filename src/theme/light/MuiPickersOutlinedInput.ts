@@ -88,14 +88,6 @@ const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
           borderColor: palette.grey['900'],
         },
       },
-
-      '&.MuiPickersInputBase-adornedStart': {
-        paddingLeft: 0,
-      },
-
-      '&.MuiPickersInputBase-adornedEnd': {
-        paddingRight: 0,
-      },
     },
   },
 }
