@@ -9,12 +9,8 @@ import theme from '@/theme/light'
 import RcSesSideNav from '.'
 import { RcSesSideNavItem } from './SideNav.types'
 
-class ResizeObserverMock {
-  observe() {}
-
-  unobserve() {}
-
-  disconnect() {}
+function ResizeObserverMock() {
+  return { observe: () => {}, unobserve: () => {}, disconnect: () => {} }
 }
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock)
@@ -61,7 +57,9 @@ describe('RcSesSideNav', () => {
 
     const activeButtons = screen.getAllByRole('button', { name: 'Aš ir mano šeima, 4' })
     expect(activeButtons).toHaveLength(2)
-    activeButtons.forEach((button) => expect(button).toHaveAttribute('aria-current', 'page'))
+    activeButtons.forEach((button) =>
+      expect(button).toHaveAttribute('aria-current', 'page'),
+    )
   })
 
   it('does not set aria-current on inactive items', () => {
@@ -72,7 +70,9 @@ describe('RcSesSideNav', () => {
     const inactiveButtons = screen.getAllByRole('button', {
       name: 'Dokumentai apie gyventoją, 2',
     })
-    inactiveButtons.forEach((button) => expect(button).not.toHaveAttribute('aria-current'))
+    inactiveButtons.forEach((button) =>
+      expect(button).not.toHaveAttribute('aria-current'),
+    )
   })
 
   it('calls onItemClick with the clicked item id', () => {
@@ -93,7 +93,9 @@ describe('RcSesSideNav', () => {
   it('is interactive by default, even with no props beyond items', () => {
     renderSideNav(<RcSesSideNav items={items} />)
 
-    expect(screen.getAllByRole('button', { name: 'Elektroninis parašas' })).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: 'Elektroninis parašas' })).toHaveLength(
+      2,
+    )
   })
 
   it('does not throw when clicked with no matching section on the page', () => {

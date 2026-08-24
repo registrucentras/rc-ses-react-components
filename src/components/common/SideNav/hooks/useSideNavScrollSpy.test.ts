@@ -167,7 +167,10 @@ describe('useSideNavScrollSpy', () => {
   it('scrollToItem scrolls to the element and marks it active immediately', () => {
     const scrollToMock = vi.fn()
     vi.stubGlobal('scrollTo', scrollToMock)
-    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false })))
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false })),
+    )
 
     const { result } = renderHook(() =>
       useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
@@ -187,7 +190,10 @@ describe('useSideNavScrollSpy', () => {
   it('scrolls instantly when the user prefers reduced motion', () => {
     const scrollToMock = vi.fn()
     vi.stubGlobal('scrollTo', scrollToMock)
-    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true })),
+    )
 
     const { result } = renderHook(() =>
       useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
@@ -197,7 +203,9 @@ describe('useSideNavScrollSpy', () => {
       result.current.scrollToItem('signature')
     })
 
-    expect(scrollToMock).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }))
+    expect(scrollToMock).toHaveBeenCalledWith(
+      expect.objectContaining({ behavior: 'auto' }),
+    )
   })
 
   it('does nothing when scrolling to an id with no matching element', () => {
