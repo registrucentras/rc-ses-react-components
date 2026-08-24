@@ -61,6 +61,26 @@ afterEach(() => {
 })
 
 describe('useSideNavScrollSpy', () => {
+  it('keeps the first item active on a page that does not scroll at all', () => {
+    // maxScrollY is 0 here, so no section's own trigger is reachable - the first
+    // one on screen should stay active rather than the compression math treating
+    // "ran out of sections to check" the same as "found a reachable trigger" and
+    // collapsing everything onto the last item.
+    setViewport({ scrollY: 0, innerHeight: 800, scrollHeight: 800 })
+    setSectionTops([
+      { id: 'family', top: 200 },
+      { id: 'documents', top: 500 },
+      { id: 'signature', top: 650 },
+      { id: 'residence', top: 750 },
+    ])
+
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
+    )
+
+    expect(result.current.activeItemId).toBe('family')
+  })
+
   it('defaults the active item to the first id before any scroll', () => {
     const { result } = renderHook(() =>
       useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),

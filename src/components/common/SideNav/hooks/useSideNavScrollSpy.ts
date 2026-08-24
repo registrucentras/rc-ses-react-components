@@ -34,8 +34,8 @@ function useSideNavScrollSpy({ itemIds, offset = 0 }: UseSideNavScrollSpyOptions
       }
 
       const adjustedTriggers = [...triggers]
-      if (lastReachable < triggers.length - 1) {
-        const startTrigger = triggers[lastReachable]
+      const startTrigger = triggers[lastReachable]
+      if (lastReachable < triggers.length - 1 && startTrigger < maxScrollY) {
         const startTop = tops[lastReachable]
         const span = tops[tops.length - 1] - startTop
         for (let index = lastReachable + 1; index < triggers.length; index += 1) {
