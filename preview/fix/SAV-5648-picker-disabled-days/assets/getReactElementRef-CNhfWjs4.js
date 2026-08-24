@@ -1,0 +1,2 @@
+import{r as e}from"./iframe-CqM0kNtH.js";function n(r){return parseInt(e.version,10)>=19?r?.props?.ref||null:r?.ref||null}export{n as g};
+//# sourceMappingURL=getReactElementRef-CNhfWjs4.js.map

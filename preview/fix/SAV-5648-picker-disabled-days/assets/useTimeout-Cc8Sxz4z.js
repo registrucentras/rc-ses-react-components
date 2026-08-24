@@ -1,0 +1,2 @@
+import{d as u}from"./useReducedMotion-DpvjNof6.js";import{r as c}from"./iframe-CqM0kNtH.js";const n=[];function i(t){c.useEffect(t,n)}class e{static create(){return new e}currentId=null;start(r,s){this.clear(),this.currentId=setTimeout(()=>{this.currentId=null,s()},r)}clear=()=>{this.currentId!==null&&(clearTimeout(this.currentId),this.currentId=null)};disposeEffect=()=>this.clear}function l(){const t=u(e.create).current;return i(t.disposeEffect),t}export{e as T,i as a,l as u};
+//# sourceMappingURL=useTimeout-Cc8Sxz4z.js.map
