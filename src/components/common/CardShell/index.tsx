@@ -15,6 +15,7 @@ function RcSesCardShell({
   variant = 'card',
   theme = 'default',
   fullHeight = false,
+  borderless = false,
   header,
   children,
   footer,
@@ -37,7 +38,9 @@ function RcSesCardShell({
           // enables stretched-link pattern in interactive compositions
           position: 'relative',
           backgroundColor: cards.themes[theme].backgroundColor,
-          border: `${cards.borderWidth} solid ${cards.themes[theme].borderColor}`,
+          border: borderless
+            ? 'none'
+            : `${cards.borderWidth} solid ${cards.themes[theme].borderColor}`,
           borderRadius: cards[variant].borderRadius,
           gap: cards[variant].gap,
           p: cards[variant].padding,

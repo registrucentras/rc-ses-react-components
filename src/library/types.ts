@@ -6,6 +6,7 @@ import {
 } from '@/components/common/CardShell/CardFooter/types'
 import {
   CardHeadingLevel,
+  CardTitleVariant,
   RcSesCardHeaderProps,
   RcSesCardHeaderTestIds,
 } from '@/components/common/CardShell/CardHeader/types'
@@ -66,6 +67,7 @@ export type {
   CardShellVariant,
   CardShellTheme,
   CardHeadingLevel,
+  CardTitleVariant,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,

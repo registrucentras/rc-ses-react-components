@@ -2,6 +2,8 @@ import { ReactNode } from 'react'
 
 export type CardHeadingLevel = 2 | 3 | 4 | 5 | 6
 
+export type CardTitleVariant = 'h4' | 'h5' | 'h6'
+
 export type RcSesCardHeaderTestIds = {
   root?: string
   icon?: string
@@ -14,6 +16,12 @@ export type RcSesCardHeaderTestIds = {
 export type RcSesCardHeaderProps = {
   title: ReactNode
   headingLevel?: CardHeadingLevel
+  /**
+   * Visual size of the title, independent of `headingLevel`. The semantic tag
+   * (`headingLevel`) sets document structure; this sets the type scale.
+   * Defaults to `h6` (18px).
+   */
+  titleVariant?: CardTitleVariant
   /**
    * Decorative leading visual, `Icon-tile` once SAV-6476 lands. Rendered
    * `aria-hidden`, so it never contributes to the heading's accessible name.

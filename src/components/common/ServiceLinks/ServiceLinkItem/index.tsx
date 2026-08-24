@@ -1,5 +1,5 @@
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
-import { ElementType } from 'react'
+import { ElementType, MouseEvent, ReactNode } from 'react'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import { subcard } from '@/theme/cards'
@@ -16,10 +16,24 @@ const linkRow = {
   paddingBlock: '0.75rem',
 }
 
+type RenderLinkArgs = {
+  href: string
+  target?: string
+  rel?: string
+  onClick?: (e: MouseEvent<HTMLElement>) => void
+  children: ReactNode
+  className?: string
+}
+
 type Props = RcSesServiceLinkItem & {
   isLoading?: boolean
   testIds?: RcSesServiceLinksTestIds
-  linkComponent?: ElementType
+  /**
+   * Custom link wrapper. Receives href/target/rel/onClick and must render
+   * them on the returned node (e.g. router `<Link>`, `<NavLink>`, `<a>` with
+   * extra behavior). When omitted, a native `<a>` is used.
+   */
+  renderLink?: (args: RenderLinkArgs) => ReactNode
 }
 
 function ServiceLinkItem({
@@ -29,8 +43,7 @@ function ServiceLinkItem({
   onClick,
   disabled = false,
   isLoading = false,
-  component: itemComponent,
-  linkComponent,
+  renderLink,
   testIds,
 }: Props) {
   if (isLoading) {
@@ -58,49 +71,39 @@ function ServiceLinkItem({
   }
 
   const isLink = href !== undefined && !disabled
-  const isButton = !isLink && onClick !== undefined && !disabled
+  const useRenderLink = isLink && typeof renderLink === 'function'
 
-  // A custom element (router Link) only applies to navigable rows.
-  const LinkElement = itemComponent ?? linkComponent
-  const component: ElementType = isLink
-    ? (LinkElement ?? 'a')
-    : isButton
-      ? 'button'
-      : 'div'
+  // Navigable rows render as a native `<a>`; disabled or custom-wrapped rows
+  // collapse to a plain div (the custom wrapper adds the anchor around it).
+  const RowComponent: ElementType = isLink && !useRenderLink ? 'a' : 'div'
 
-  const interactiveProps = isLink
+  const interactiveProps = isLink && !useRenderLink
     ? {
         href,
         target,
         rel: target === '_blank' ? 'noopener noreferrer' : undefined,
         onClick,
       }
-    : isButton
-      ? { type: 'button' as const, onClick }
-      : {}
+    : {}
 
-  return (
+  const row = (
     <Stack
-      component={component}
+      component={RowComponent}
       data-testid={testIds?.item}
       direction='row'
       {...interactiveProps}
       aria-disabled={disabled || undefined}
+      tabIndex={disabled ? -1 : undefined}
       sx={{
         alignItems: 'center',
-        appearance: 'none',
-        background: 'transparent',
-        border: 'none',
         borderRadius: linkRow.borderRadius,
         cursor: disabled ? 'default' : 'pointer',
         gap: linkRow.gap,
         justifyContent: 'space-between',
-        m: 0,
         minHeight: linkRow.lineHeight,
         opacity: disabled ? 0.5 : 1,
         p: `${linkRow.paddingBlock} 0`,
         pointerEvents: disabled ? 'none' : 'auto',
-        textAlign: 'left',
         textDecoration: 'none',
         width: '100%',
 
@@ -158,6 +161,29 @@ function ServiceLinkItem({
       </Box>
     </Stack>
   )
+
+  if (useRenderLink) {
+    return (
+      <Box
+        sx={{
+          // Reset default anchor styles for consumer-provided link wrappers so
+          // the row's own styling (from Stack below) is what shows through.
+          display: 'contents',
+          '& a': { color: 'inherit', textDecoration: 'none' },
+        }}
+      >
+        {renderLink!({
+          href: href!,
+          target,
+          rel: target === '_blank' ? 'noopener noreferrer' : undefined,
+          onClick,
+          children: row,
+        })}
+      </Box>
+    )
+  }
+
+  return row
 }
 
 export default ServiceLinkItem

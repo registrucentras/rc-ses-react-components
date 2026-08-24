@@ -15,6 +15,8 @@ export type RcSesCardShellProps = {
   variant?: CardShellVariant
   theme?: CardShellTheme
   fullHeight?: boolean
+  /** Renders the shell without any border. */
+  borderless?: boolean
   /** Header row, normally `RcSesCardHeader`. The shell only provides the slot. */
   header?: ReactNode
   children?: ReactNode

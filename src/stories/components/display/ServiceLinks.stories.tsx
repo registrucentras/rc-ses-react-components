@@ -42,6 +42,7 @@ const meta: Meta<typeof RcSesServiceLinks> = {
     dividers: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     skeletonCount: { control: 'number' },
+    renderLink: { control: false },
     testIds: { control: false },
   },
 }
@@ -80,17 +81,23 @@ export const Loading: Story = {
 }
 
 /**
- * Passing a `linkComponent` (here a stand-in for a router `Link`) renders every
- * navigable row through it while keeping `href` as the real, navigable target.
- * A single item can also override this via its own `component` prop.
+ * Passing a `renderLink` render-prop lets consumers wrap each navigable row
+ * with any custom element (e.g. a router `<Link>`). The
+ * component supplies href/target/rel/onClick and the row content as children;
+ * the consumer decides how to render the anchor.
  */
 export const WithRouterLink: Story = {
   args: {
     items: baseItems,
     dividers: true,
-    linkComponent: ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
-      // Stand-in for React Router / Next `Link`; a real one would use `to`/`href`.
-      <a href={href} {...rest} data-router-link>
+    renderLink: ({ href, onClick, target, rel, children }: {
+      href: string
+      onClick?: (e: React.MouseEvent<HTMLElement>) => void
+      target?: string
+      rel?: string
+      children: React.ReactNode
+    }) => (
+      <a href={href} onClick={onClick} target={target} rel={rel} data-router-link>
         {children}
       </a>
     ),
@@ -105,14 +112,16 @@ export const InsideCardShell: Story = {
   render: (args: RcSesServiceLinksProps) => (
     <RcSesCardShell
       theme='brand'
+      borderless
       header={
         <RcSesCardHeader
           icon={<RcSesIconWithSquareBackground Icon={BriefcaseIcon} variant='solid' />}
           title='Įmonėms ir organizacijoms'
+          titleVariant='h5'
         />
       }
       footer={
-        <RcSesCardFooter align='start' stretchOnMobile={false}>
+        <RcSesCardFooter align='start'>
           <RcSesButton variant='contained' color='primary'>
             Žiūrėti visas
           </RcSesButton>

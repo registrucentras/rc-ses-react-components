@@ -9,6 +9,7 @@ import { RcSesCardHeaderProps } from './types'
 function RcSesCardHeader({
   title,
   headingLevel = 3,
+  titleVariant = 'h6',
   icon,
   count,
   description,
@@ -42,7 +43,7 @@ function RcSesCardHeader({
         <HeadingTag data-testid={testIds?.heading} style={{ margin: 0 }}>
           <Typography
             component='span'
-            variant='h6'
+            variant={titleVariant}
             sx={{
               color: palette.grey[900],
               // inline only when the badge has to sit on the heading's last line

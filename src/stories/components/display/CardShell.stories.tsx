@@ -30,6 +30,7 @@ const meta: Meta<typeof RcSesCardShell> = {
         'variant',
         'theme',
         'fullHeight',
+        'borderless',
         'header',
         'children',
         'footer',
@@ -51,6 +52,10 @@ const meta: Meta<typeof RcSesCardShell> = {
     fullHeight: {
       control: 'boolean',
       description: 'Whether the card should take full height of its container',
+    },
+    borderless: {
+      control: 'boolean',
+      description: 'Renders the shell without any border',
     },
     header: {
       control: false,
@@ -164,6 +169,17 @@ export const HeaderComplete: Story = {
         title='Pasirinktos teisės'
       />
     ),
+    children: <SampleContent />,
+    footer: <SampleFooter />,
+  },
+}
+
+export const Borderless: Story = {
+  args: {
+    variant: 'card',
+    theme: 'brand',
+    borderless: true,
+    header: <SampleHeader />,
     children: <SampleContent />,
     footer: <SampleFooter />,
   },

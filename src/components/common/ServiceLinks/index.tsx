@@ -11,7 +11,7 @@ function RcSesServiceLinks({
   dividers = true,
   isLoading = false,
   skeletonCount = 4,
-  linkComponent,
+  renderLink,
   className,
   testIds,
 }: RcSesServiceLinksProps) {
@@ -42,7 +42,7 @@ function RcSesServiceLinks({
             ) : (
               <ServiceLinkItem
                 {...item}
-                linkComponent={linkComponent}
+                renderLink={renderLink}
                 testIds={testIds}
               />
             )}
