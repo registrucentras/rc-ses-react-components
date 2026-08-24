@@ -44,6 +44,10 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
           backgroundColor: palette.primary['500'],
+          // Same specificity trap as the disabled day below: v9 sets the
+          // selected day contrast colour in a variant, which loses to the
+          // descendant selector above, leaving dark text on the blue fill.
+          color: 'white',
           fontWeight: 400,
         },
 

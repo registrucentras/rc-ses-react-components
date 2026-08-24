@@ -40,6 +40,30 @@ function Harness() {
   )
 }
 
+function SelectedHarness() {
+  const {
+    control,
+    formState: { errors },
+  } = useForm<{ date: string | null }>({
+    defaultValues: { date: '2026-01-15T00:00:00.000Z' },
+  })
+
+  return (
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+        <RcSesDatepicker
+          id='date'
+          name='date'
+          control={control}
+          label='Data'
+          errors={errors?.date}
+          slotProps={{ datepicker: { open: true, referenceDate: REFERENCE } }}
+        />
+      </LocalizationProvider>
+    </ThemeProvider>
+  )
+}
+
 const rgb = (hex: string) => {
   const n = parseInt(hex.slice(1), 16)
   // eslint-disable-next-line no-bitwise
@@ -64,6 +88,18 @@ describe('RcSesDatepicker calendar day colours', () => {
     render(<Harness />)
 
     expect(dayColour('21')).toBe(rgb(palette.grey['400']))
+  })
+
+  // 1.x painted the selected day white on the blue fill. v9 sets that contrast
+  // colour in a variant, so it lost to the theme and left dark text on blue.
+  test('the selected day is white on the blue fill', () => {
+    render(<SelectedHarness />)
+
+    const selected = document.querySelector('.Mui-selected') as HTMLElement
+    const cs = window.getComputedStyle(selected)
+
+    expect(cs.backgroundColor).toBe(rgb(palette.primary['500']))
+    expect(cs.color).toBe('rgb(255, 255, 255)')
   })
 
   test('a disabled weekend day stays red, as in 1.x', () => {
