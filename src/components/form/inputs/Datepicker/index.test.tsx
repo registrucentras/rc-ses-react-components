@@ -72,3 +72,32 @@ describe('RcSesDatepicker calendar day colours', () => {
     expect(dayColour('24')).toBe(rgb(palette.error['600']))
   })
 })
+
+// x-date-pickers 9 renders the field with its own PickersOutlinedInput rather
+// than MUI OutlinedInput, so MuiInputBase/MuiOutlinedInput stopped reaching it
+// and every date field fell back to MUI defaults - a 4px radius, a 56px row and
+// a transparent background. MuiPickersOutlinedInput restates them.
+describe('RcSesDatepicker field styling', () => {
+  test('the field keeps the shared input radius and background', () => {
+    render(<Harness />)
+
+    const field = document.querySelector('.MuiPickersInputBase-root') as HTMLElement
+    const cs = window.getComputedStyle(field)
+
+    expect(cs.borderRadius).toBe('0.5rem')
+    expect(cs.backgroundColor).toBe('rgb(255, 255, 255)')
+  })
+
+  test('the value text matches a plain input', () => {
+    render(<Harness />)
+
+    const sections = document.querySelector(
+      '.MuiPickersInputBase-sectionsContainer',
+    ) as HTMLElement
+    const cs = window.getComputedStyle(sections)
+
+    expect(cs.fontSize).toBe('0.9375rem')
+    expect(cs.height).toBe('1.125rem')
+    expect(cs.color).toBe(rgb(palette.grey['900']))
+  })
+})
