@@ -1,0 +1,13 @@
+import{j as o}from"./iframe-ybkpfesg.js";import{B as d}from"./Box-CxkQqgRU.js";import{T as m}from"./Typography-C7IK21PQ.js";import"./preload-helper-PPVm8Dsz.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./memoTheme-ECsbPGKm.js";import"./styled-njvUt4qA.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";function r(){var e="/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx",p="c38add89ed0ac4bed0df782400df1c86299fdce4",t=globalThis,s="__coverage__",l={path:"/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx",statementMap:{0:{start:{line:4,column:2},end:{line:4,column:48}},1:{start:{line:7,column:0},end:{line:12,column:51}},2:{start:{line:9,column:4},end:{line:9,column:44}},3:{start:{line:11,column:4},end:{line:11,column:229}}},fnMap:{0:{name:"ServicePage",decl:{start:{line:3,column:9},end:{line:3,column:20}},loc:{start:{line:3,column:35},end:{line:5,column:1}},line:3}},branchMap:{},s:{0:0,1:0,2:0,3:0},f:{0:0},b:{},inputSourceMap:{version:3,sources:["/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx"],names:[],mappings:"AAMS;AANT,SAAS,WAAW;AAKpB,SAAS,YAAY,EAAE,SAAS,GAAU;AACxC,SAAO,oBAAC,OAAK,UAAS;AACxB;AAEA,eAAe;"},_coverageSchema:"1a1c01bbd47fc00a2c39e90264f33305004495a9",hash:"c38add89ed0ac4bed0df782400df1c86299fdce4"},n=t[s]||(t[s]={});(!n[e]||n[e].hash!==p)&&(n[e]=l);var i=n[e];return r=function(){return i},i}r();function c({children:e}){return r().f[0]++,r().s[0]++,o.jsx(d,{children:e})}r().s[1]++;try{r().s[2]++,c.displayName="ServicePage",r().s[3]++,c.__docgenInfo={description:"",displayName:"ServicePage",filePath:"/home/runner/work/rc-ses-react-components/rc-ses-react-components/src/components/layout/ServicePage.tsx",methods:[],props:{},tags:{}}}catch{}const x={title:"components/layout/ServicePage",component:c,tags:["autodocs"]},a={render:()=>o.jsxs(c,{children:[o.jsx(m,{variant:"h2",sx:{mb:2},children:"Page Content"}),o.jsx(m,{variant:"body1",children:"This is the main content area of the service page."})]})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: () => <RcSesServicePage>
+      <Typography variant='h2' sx={{
+      mb: 2
+    }}>
+        Page Content
+      </Typography>
+      <Typography variant='body1'>
+        This is the main content area of the service page.
+      </Typography>
+    </RcSesServicePage>
+}`,...a.parameters?.docs?.source}}};const _=["Default"];export{a as Default,_ as __namedExportsOrder,x as default};
+//# sourceMappingURL=ServicePage.stories-IGpU47IJ.js.map
