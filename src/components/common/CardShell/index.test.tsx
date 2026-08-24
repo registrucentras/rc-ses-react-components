@@ -8,15 +8,15 @@ import { describe, expect, test } from 'vitest'
 import RcSesButton from '@/components/common/Button'
 import theme from '@/theme/light'
 
-import RcSesCard from '.'
+import RcSesCardShell from '.'
 
 const renderCard = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
 
-describe('RcSesCard (shell)', () => {
+describe('RcSesCardShell', () => {
   test('renders header, content and footer slots when provided', () => {
     renderCard(
-      <RcSesCard
+      <RcSesCardShell
         header={
           <Box>
             <Typography variant='h5' component='h3' sx={{ mb: 2.5 }}>
@@ -37,7 +37,7 @@ describe('RcSesCard (shell)', () => {
         }
       >
         <div>Turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     expect(
@@ -50,9 +50,9 @@ describe('RcSesCard (shell)', () => {
 
   test('header slot is OFF when not provided (free-form slot content)', () => {
     renderCard(
-      <RcSesCard testIds={{ header: 'card-header' }}>
+      <RcSesCardShell testIds={{ header: 'card-header' }}>
         <div>Laisvos formos turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     expect(screen.queryByTestId('card-header')).not.toBeInTheDocument()
@@ -62,7 +62,7 @@ describe('RcSesCard (shell)', () => {
 
   test('omits content slot when no children provided', () => {
     renderCard(
-      <RcSesCard header={<h3>Antraštė</h3>} testIds={{ content: 'card-content' }} />,
+      <RcSesCardShell header={<h3>Antraštė</h3>} testIds={{ content: 'card-content' }} />,
     )
 
     expect(screen.queryByTestId('card-content')).not.toBeInTheDocument()
@@ -70,9 +70,12 @@ describe('RcSesCard (shell)', () => {
 
   test('omits footer when not provided', () => {
     renderCard(
-      <RcSesCard testIds={{ footer: 'card-footer', root: 'card-root' }} variant='subcard'>
+      <RcSesCardShell
+        testIds={{ footer: 'card-footer', root: 'card-root' }}
+        variant='subcard'
+      >
         <div>Turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     expect(screen.getByTestId('card-root')).toBeInTheDocument()
@@ -81,9 +84,9 @@ describe('RcSesCard (shell)', () => {
 
   test('fullHeight stretches the card and grows the content slot', () => {
     renderCard(
-      <RcSesCard fullHeight testIds={{ content: 'card-content', root: 'card-root' }}>
+      <RcSesCardShell fullHeight testIds={{ content: 'card-content', root: 'card-root' }}>
         <div>Turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     expect(screen.getByTestId('card-root')).toHaveStyle({ height: '100%' })
@@ -92,9 +95,9 @@ describe('RcSesCard (shell)', () => {
 
   test('variant="card" applies larger border-radius', () => {
     renderCard(
-      <RcSesCard variant='card' testIds={{ root: 'card-root' }}>
+      <RcSesCardShell variant='card' testIds={{ root: 'card-root' }}>
         <div>Turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     const card = screen.getByTestId('card-root')
@@ -103,39 +106,32 @@ describe('RcSesCard (shell)', () => {
 
   test('variant="subcard" applies smaller border-radius', () => {
     renderCard(
-      <RcSesCard variant='subcard' testIds={{ root: 'card-root' }}>
+      <RcSesCardShell variant='subcard' testIds={{ root: 'card-root' }}>
         <div>Turinys</div>
-      </RcSesCard>,
+      </RcSesCardShell>,
     )
 
     const card = screen.getByTestId('card-root')
     expect(card).toHaveStyle({ borderRadius: '0.5rem' })
   })
 
-  test('applies different theme styles', () => {
-    const { rerender } = renderCard(
-      <RcSesCard theme='default' testIds={{ root: 'card-root' }}>
-        <div>Turinys</div>
-      </RcSesCard>,
-    )
-    expect(screen.getByTestId('card-root')).toBeInTheDocument()
-
-    rerender(
-      <ThemeProvider theme={theme}>
-        <RcSesCard theme='brand' testIds={{ root: 'card-root' }}>
+  test.each([
+    ['default', '#ffffff', '#c5cad1'],
+    ['brand', '#f3fbfe', '#b9e9fa'],
+    ['sunken', '#f0f2f5', '#dce0e5'],
+  ] as const)(
+    'theme=%s paints its own background and border',
+    (name, background, border) => {
+      renderCard(
+        <RcSesCardShell theme={name} testIds={{ root: 'card-root' }}>
           <div>Turinys</div>
-        </RcSesCard>
-      </ThemeProvider>,
-    )
-    expect(screen.getByTestId('card-root')).toBeInTheDocument()
+        </RcSesCardShell>,
+      )
 
-    rerender(
-      <ThemeProvider theme={theme}>
-        <RcSesCard theme='sunken' testIds={{ root: 'card-root' }}>
-          <div>Turinys</div>
-        </RcSesCard>
-      </ThemeProvider>,
-    )
-    expect(screen.getByTestId('card-root')).toBeInTheDocument()
-  })
+      expect(screen.getByTestId('card-root')).toHaveStyle({
+        backgroundColor: background,
+        borderColor: border,
+      })
+    },
+  )
 })

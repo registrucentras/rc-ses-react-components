@@ -109,4 +109,99 @@ describe('RcSesCardHeader', () => {
       unmount()
     })
   })
+
+  test('title and description keep the design type ramp', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        description='Test description'
+        testIds={{ description: 'description' }}
+        title='Test Title'
+      />,
+    )
+
+    expect(screen.getByText('Test Title')).toHaveStyle({
+      fontSize: '1.125rem',
+      fontWeight: '600',
+      lineHeight: '1.5rem',
+    })
+    expect(screen.getByTestId('description')).toHaveStyle({
+      fontSize: '0.875rem',
+      lineHeight: '1.25rem',
+    })
+  })
+
+  test('count renders a badge inside the heading accessible name', () => {
+    renderCardHeader(<RcSesCardHeader count={4} title='Pasirinktos teisės' />)
+
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Pasirinktos teisės 4' }),
+    ).toBeInTheDocument()
+  })
+
+  test('count of zero still renders the badge', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        count={0}
+        testIds={{ badge: 'badge' }}
+        title='Pasirinktos teisės'
+      />,
+    )
+
+    expect(screen.getByTestId('badge')).toHaveTextContent('0')
+  })
+
+  test('omits the badge when count is not provided', () => {
+    renderCardHeader(<RcSesCardHeader testIds={{ badge: 'badge' }} title='Test Title' />)
+
+    expect(screen.queryByTestId('badge')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Test Title' }),
+    ).toBeInTheDocument()
+  })
+
+  test('icon is decorative and stays out of the accessible name', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        icon={<span>dekoracija</span>}
+        testIds={{ icon: 'icon' }}
+        title='Test Title'
+      />,
+    )
+
+    expect(screen.getByTestId('icon')).toHaveAttribute('aria-hidden', 'true')
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Test Title' }),
+    ).toBeInTheDocument()
+  })
+
+  test('renders up to two actions at the end of the row', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        actions={
+          <>
+            <button type='button'>Atšaukti</button>
+            <button type='button'>Tęsti</button>
+          </>
+        }
+        testIds={{ actions: 'actions' }}
+        title='Test Title'
+      />,
+    )
+
+    const actions = screen.getByTestId('actions')
+    expect(actions).toContainElement(screen.getByRole('button', { name: 'Atšaukti' }))
+    expect(actions).toContainElement(screen.getByRole('button', { name: 'Tęsti' }))
+  })
+
+  test('omits the icon and actions slots when not provided', () => {
+    renderCardHeader(
+      <RcSesCardHeader
+        testIds={{ actions: 'actions', icon: 'icon' }}
+        title='Test Title'
+      />,
+    )
+
+    expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
+  })
 })

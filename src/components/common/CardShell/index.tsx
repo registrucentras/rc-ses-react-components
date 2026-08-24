@@ -1,36 +1,12 @@
-import { Box, BoxProps, Stack } from '@mui/material'
+import { Box, BoxProps } from '@mui/material'
+import { ReactNode } from 'react'
 
-import palette, { common } from '@/theme/palette'
+import cards from '@/theme/cards'
 
-import { CardShellTheme, CardShellVariant, RcSesCardShellProps } from './types'
+import { RcSesCardShellProps } from './types'
 
-const variantStyles: Record<CardShellVariant, object> = {
-  card: {
-    borderRadius: '0.75rem',
-    p: { xs: '1.25rem 1.5rem 1.5rem', md: '1.5rem 2rem 2rem' },
-    gap: { xs: '1rem', md: '1.5rem' },
-  },
-  subcard: {
-    borderRadius: '0.5rem',
-    p: { xs: '1rem', md: '1.25rem 1.5rem' },
-    gap: { xs: '0.75rem', md: '1rem' },
-  },
-}
-
-const themeStyles: Record<CardShellTheme, object> = {
-  default: {
-    backgroundColor: common.white,
-    border: `1px solid ${palette.grey[300]}`,
-  },
-  brand: {
-    backgroundColor: palette.primary[50],
-    border: `1px solid ${palette.primary[200]}`,
-  },
-  sunken: {
-    backgroundColor: palette.grey[100],
-    border: `1px solid ${palette.grey[200]}`,
-  },
-}
+// A conditional slot renders as false rather than as nothing, so false is absent
+const hasSlot = (node: ReactNode) => node !== undefined && node !== null && node !== false
 
 type ShellProps = RcSesCardShellProps &
   Omit<BoxProps, keyof RcSesCardShellProps | 'children'>
@@ -60,19 +36,22 @@ function RcSesCardShell({
           minWidth: 0,
           // enables stretched-link pattern in interactive compositions
           position: 'relative',
-          ...variantStyles[variant],
-          ...themeStyles[theme],
+          backgroundColor: cards.themes[theme].backgroundColor,
+          border: `${cards.borderWidth} solid ${cards.themes[theme].borderColor}`,
+          borderRadius: cards[variant].borderRadius,
+          gap: cards[variant].gap,
+          p: cards[variant].padding,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {header ? (
+      {hasSlot(header) ? (
         <Box data-testid={testIds?.header} sx={{ minWidth: 0, width: '100%' }}>
           {header}
         </Box>
       ) : null}
 
-      {children ? (
+      {hasSlot(children) ? (
         <Box
           data-testid={testIds?.content}
           sx={{ flexGrow: fullHeight ? 1 : 0, minWidth: 0, width: '100%' }}
@@ -81,20 +60,13 @@ function RcSesCardShell({
         </Box>
       ) : null}
 
-      {footer ? (
-        <Stack
+      {hasSlot(footer) ? (
+        <Box
           data-testid={testIds?.footer}
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing='0.75rem'
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            '& > *': { width: { xs: '100%', sm: 'auto' } },
-          }}
+          sx={{ minWidth: 0, mt: fullHeight ? 'auto' : 0, width: '100%' }}
         >
           {footer}
-        </Stack>
+        </Box>
       ) : null}
     </Box>
   )
