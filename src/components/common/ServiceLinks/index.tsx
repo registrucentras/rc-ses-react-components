@@ -40,11 +40,7 @@ function RcSesServiceLinks({
             {isLoading || !item ? (
               <ServiceLinkItem label='' isLoading testIds={testIds} />
             ) : (
-              <ServiceLinkItem
-                {...item}
-                renderLink={renderLink}
-                testIds={testIds}
-              />
+              <ServiceLinkItem {...item} renderLink={renderLink} testIds={testIds} />
             )}
           </Fragment>
         )
