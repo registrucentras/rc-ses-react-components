@@ -46,6 +46,16 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
           backgroundColor: palette.primary['500'],
           fontWeight: 400,
         },
+
+        // x-date-pickers 9 applies the disabled colour through a `variants`
+        // entry, which emits at single-class specificity and so loses to the
+        // descendant selector above - disabled days rendered in grey[900], the
+        // same as selectable ones. v7 used a compound selector and won on its
+        // own, which is why this was never needed before. Weekends stay red,
+        // because the rule below is more specific - same as 1.x.
+        '&.Mui-disabled': {
+          color: palette.grey['400'],
+        },
       },
 
       '.MuiPickerDay-dayOutsideMonth': {
