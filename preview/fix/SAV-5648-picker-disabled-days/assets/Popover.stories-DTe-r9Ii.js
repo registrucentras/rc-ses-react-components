@@ -1,0 +1,13 @@
+import{j as e,r as d}from"./iframe-HWDs9uQF.js";import{R as i}from"./index-Cc_KznzE.js";import{B as s}from"./Box-NDdpnIYT.js";import"./preload-helper-PPVm8Dsz.js";import"./Popover-DBMEQ2Hw.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./useSlot-bkgOc2Wj.js";import"./mergeSlotProps-oAUXU-0N.js";import"./useReducedMotion-CBECBIS6.js";import"./mergeSlotProps-CWMmaUK-.js";import"./ownerDocument-DW-IO8s5.js";import"./ownerWindow-HkKU3E4x.js";import"./debounce-Be36O1Ab.js";import"./Grow-DdVCKMHy.js";import"./Transition-Cw8F8IPM.js";import"./utils-cxgvJEOf.js";import"./getReactElementRef-COF4HxbT.js";import"./memoTheme-0w7JW093.js";import"./styled-DT5MOZ0R.js";import"./Modal--xnrMQbv.js";import"./createChainedFunction-BO_9K8Jh.js";import"./Portal-CpQhVANA.js";import"./index-D9kJUHHp.js";import"./index-DnRwGM1P.js";import"./setRef-CQn2LYBI.js";import"./getActiveElement-BQgAPKnO.js";import"./contains-DSD8CO72.js";import"./Fade-DeAwR5IV.js";import"./Paper-DeJfx7zk.js";const M={title:"components/overlays/Popover",component:i,tags:["autodocs"],argTypes:{header:{control:"text"}},parameters:{docs:{description:{component:"`RcSesButtonWithPopover` owns the popover's open state internally and starts\nclosed, so `MuiPopover` never reached a visual baseline (SAV-5648 / LIB-02).\nThese stories render the popover itself, already open against a fixed anchor."}}}};function a({children:r,header:p}){const[n,c]=d.useState(null);return e.jsxs(s,{sx:{pb:"12rem"},children:[e.jsx(s,{ref:c,sx:{border:"1px dashed",borderColor:"divider",borderRadius:1,display:"inline-block",px:1.5,py:1},children:"Anchor"}),e.jsx(i,{anchorEl:n,header:p,open:!!n,children:r})]})}const o={args:{header:"Information",children:"Hover or click the question icon to see this popover content"},render:r=>e.jsx(a,{header:r.header,children:r.children})},t={args:{children:"Tinkami formatai: .doc, .xdoc, .pdf, .pages"},render:r=>e.jsx(a,{children:r.children})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  args: {
+    header: 'Information',
+    children: 'Hover or click the question icon to see this popover content'
+  },
+  render: args => <OpenPopover header={args.header}>{args.children}</OpenPopover>
+}`,...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    children: 'Tinkami formatai: .doc, .xdoc, .pdf, .pages'
+  },
+  render: args => <OpenPopover>{args.children}</OpenPopover>
+}`,...t.parameters?.docs?.source}}};const V=["Default","WithoutHeader"];export{o as Default,t as WithoutHeader,V as __namedExportsOrder,M as default};
+//# sourceMappingURL=Popover.stories-DTe-r9Ii.js.map
