@@ -44,19 +44,14 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
           backgroundColor: palette.primary['500'],
-          // Same specificity trap as the disabled day below: v9 sets the
-          // selected day contrast colour in a variant, which loses to the
-          // descendant selector above, leaving dark text on the blue fill.
+          // v9 sets the contrast colour in a variant, which loses to the
+          // day colour above, so it has to be restated.
           color: 'white',
           fontWeight: 400,
         },
 
-        // x-date-pickers 9 applies the disabled colour through a `variants`
-        // entry, which emits at single-class specificity and so loses to the
-        // descendant selector above - disabled days rendered in grey[900], the
-        // same as selectable ones. v7 used a compound selector and won on its
-        // own, which is why this was never needed before. Weekends stay red,
-        // because the rule below is more specific - same as 1.x.
+        // Same as above: v9 sets the disabled colour in a variant, which loses
+        // to the day colour. Weekends stay red, their rule is more specific.
         '&.Mui-disabled': {
           color: palette.grey['400'],
         },

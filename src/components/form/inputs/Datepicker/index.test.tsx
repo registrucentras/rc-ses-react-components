@@ -74,10 +74,8 @@ const dayColour = (label: string) =>
   window.getComputedStyle(screen.getByRole('gridcell', { name: label })).color
 
 describe('RcSesDatepicker calendar day colours', () => {
-  // x-date-pickers 9 moved the disabled colour into a `variants` entry, which
-  // the theme's descendant selector outranked - disabled days stopped looking
-  // disabled. The visual suite cannot be relied on for this: the affected
-  // glyphs are a small fraction of a full page screenshot.
+  // Pinned here rather than left to the visual suite: a colour-only change on a
+  // few glyphs stays under its diff budget.
   test('a selectable weekday uses the default day colour', () => {
     render(<Harness />)
 
@@ -90,8 +88,7 @@ describe('RcSesDatepicker calendar day colours', () => {
     expect(dayColour('21')).toBe(rgb(palette.grey['400']))
   })
 
-  // 1.x painted the selected day white on the blue fill. v9 sets that contrast
-  // colour in a variant, so it lost to the theme and left dark text on blue.
+  // 1.x paints it white; v9 lost that to the theme's day colour.
   test('the selected day is white on the blue fill', () => {
     render(<SelectedHarness />)
 
@@ -109,10 +106,8 @@ describe('RcSesDatepicker calendar day colours', () => {
   })
 })
 
-// x-date-pickers 9 renders the field with its own PickersOutlinedInput rather
-// than MUI OutlinedInput, so MuiInputBase/MuiOutlinedInput stopped reaching it
-// and every date field fell back to MUI defaults - a 4px radius, a 56px row and
-// a transparent background. MuiPickersOutlinedInput restates them.
+// The picker field is not a MUI OutlinedInput, so it needs its own overrides to
+// match the other inputs.
 describe('RcSesDatepicker field styling', () => {
   test('the field keeps the shared input radius and background', () => {
     render(<Harness />)

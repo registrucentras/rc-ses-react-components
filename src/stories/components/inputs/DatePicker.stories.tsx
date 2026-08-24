@@ -27,8 +27,7 @@ const meta: Meta<typeof RcSesDatepicker> = {
 
 export default meta
 
-// Every story that opens the calendar pins itself to this month, so the visual
-// baselines do not change with the calendar date.
+// Pinned so the visual baselines do not change with the calendar date.
 const REFERENCE_DATE = new Date(2026, 0, 15)
 
 function DatePickerDemo(args: any) {
@@ -62,9 +61,6 @@ function DatePickerDemo(args: any) {
                 ? {
                     datepicker: {
                       ...(open ? { open: true } : {}),
-                      // Pinned month: without it the calendar follows the
-                      // current date and the visual baseline would change
-                      // every month.
                       referenceDate: REFERENCE_DATE,
                       ...(datepickerProps ?? {}),
                     },
@@ -140,9 +136,8 @@ export const CalendarOpen = {
 }
 
 /**
- * Disabled days, the case that regressed on x-date-pickers 9. Anything after the
- * 20th is out of range, so those days must render greyed out rather than merely
- * being unclickable. Weekends stay red even when disabled, matching 1.x.
+ * Days past the 20th are out of range: they must read as greyed out, not merely
+ * be unclickable. Disabled weekends stay red.
  */
 export const CalendarWithDisabledDates = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -156,8 +151,8 @@ export const CalendarWithDisabledDates = {
 }
 
 /**
- * A scattered disable rule rather than a range, so disabled days appear between
- * selectable ones. Covers the same styling from a different angle.
+ * A scattered rule rather than a range, so disabled days sit between selectable
+ * ones.
  */
 export const CalendarWithDisabledRule = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -173,7 +168,7 @@ export const CalendarWithDisabledRule = {
 }
 
 /**
- * A selected day, so the `Mui-selected` override in `MuiPickersLayout` is covered.
+ * Covers the `Mui-selected` day styling.
  */
 export const CalendarWithValue = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -187,7 +182,7 @@ export const CalendarWithValue = {
 }
 
 /**
- * The whole field disabled, which is a different state from a disabled day.
+ * The whole field disabled - a different state from a disabled day.
  */
 export const Disabled = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -200,7 +195,7 @@ export const Disabled = {
 }
 
 /**
- * The field in its error state, closed - the input border and helper text.
+ * The error state: input border and helper text.
  */
 export const WithError = {
   render: (args: any) => <DatePickerDemo {...args} />,
