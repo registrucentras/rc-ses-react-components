@@ -77,14 +77,15 @@ function ServiceLinkItem({
   // collapse to a plain div (the custom wrapper adds the anchor around it).
   const RowComponent: ElementType = isLink && !useRenderLink ? 'a' : 'div'
 
-  const interactiveProps = isLink && !useRenderLink
-    ? {
-        href,
-        target,
-        rel: target === '_blank' ? 'noopener noreferrer' : undefined,
-        onClick,
-      }
-    : {}
+  const interactiveProps =
+    isLink && !useRenderLink
+      ? {
+          href,
+          target,
+          rel: target === '_blank' ? 'noopener noreferrer' : undefined,
+          onClick,
+        }
+      : {}
 
   const row = (
     <Stack

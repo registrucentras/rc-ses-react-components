@@ -90,7 +90,13 @@ export const WithRouterLink: Story = {
   args: {
     items: baseItems,
     dividers: true,
-    renderLink: ({ href, onClick, target, rel, children }: {
+    renderLink: ({
+      href,
+      onClick,
+      target,
+      rel,
+      children,
+    }: {
       href: string
       onClick?: (e: React.MouseEvent<HTMLElement>) => void
       target?: string
