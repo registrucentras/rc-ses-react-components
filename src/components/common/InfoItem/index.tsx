@@ -5,8 +5,9 @@ import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import palette from '@/theme/palette'
 
 import RcSesCardHeader from '../CardShell/CardHeader'
-import RcSesIconWithCircularBackground from '../IconWithCircularBackground'
+import RcSesIconWithSquareBackground from '../IconWithSquareBackground'
 import { RcSesInfoItemProps } from './types'
+import { InfoIcon } from '@phosphor-icons/react/dist/icons/Info'
 
 function RcSesInfoItem({
   title,
@@ -23,17 +24,13 @@ function RcSesInfoItem({
   const displayArrow = showArrow ?? interactive
 
   const content = (
-    <Stack
-      direction='row'
-      spacing={2}
-      sx={{ alignItems: 'center', width: '100%' }}
-    >
+    <Stack direction='row' spacing={2} sx={{ alignItems: 'center', width: '100%' }}>
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <RcSesCardHeader
           title={title}
           description={description}
           headingLevel={headingLevel}
-          icon={<RcSesIconWithCircularBackground Icon={Icon} size='small' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant="soft" />}
           testIds={{
             root: testIds?.root,
             icon: testIds?.icon,

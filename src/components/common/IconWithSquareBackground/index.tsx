@@ -36,12 +36,12 @@ function IconWithSquareBackground(props: Props) {
       case 'soft':
         return {
           backgroundColor: palette.primary[50],
-          iconColorPath: 'primary.600',
+          iconColorPath: 'grey.900',
         }
       case 'muted':
         return {
           backgroundColor: palette.grey[100],
-          iconColorPath: 'grey.600',
+          iconColorPath: 'grey.900',
         }
       case 'solid':
       default:
