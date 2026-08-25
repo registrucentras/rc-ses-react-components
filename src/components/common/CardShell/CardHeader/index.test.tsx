@@ -204,4 +204,62 @@ describe('RcSesCardHeader', () => {
     expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
     expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
   })
+
+  describe('orientation', () => {
+    test('defaults to horizontal layout', () => {
+      renderCardHeader(
+        <RcSesCardHeader
+          description='Test description'
+          icon={<span>ikona</span>}
+          testIds={{ root: 'root' }}
+          title='Test Title'
+        />,
+      )
+
+      // MUI Stack renders `direction='row'` as `flex-direction: row`.
+      expect(screen.getByTestId('root')).toHaveStyle({ flexDirection: 'row' })
+    })
+
+    test('vertical orientation stacks children in a column', () => {
+      renderCardHeader(
+        <RcSesCardHeader
+          description='Test description'
+          icon={<span>ikona</span>}
+          orientation='vertical'
+          testIds={{ root: 'root' }}
+          title='Test Title'
+        />,
+      )
+
+      expect(screen.getByTestId('root')).toHaveStyle({ flexDirection: 'column' })
+    })
+
+    test('vertical orientation omits the actions slot even when provided', () => {
+      renderCardHeader(
+        <RcSesCardHeader
+          actions={<button type='button'>Redaguoti</button>}
+          orientation='vertical'
+          testIds={{ actions: 'actions' }}
+          title='Test Title'
+        />,
+      )
+
+      expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Redaguoti' })).not.toBeInTheDocument()
+    })
+
+    test('horizontal orientation renders the actions slot when provided', () => {
+      renderCardHeader(
+        <RcSesCardHeader
+          actions={<button type='button'>Redaguoti</button>}
+          orientation='horizontal'
+          testIds={{ actions: 'actions' }}
+          title='Test Title'
+        />,
+      )
+
+      expect(screen.getByTestId('actions')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Redaguoti' })).toBeInTheDocument()
+    })
+  })
 })

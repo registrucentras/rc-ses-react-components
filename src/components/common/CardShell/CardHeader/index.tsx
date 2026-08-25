@@ -10,6 +10,7 @@ function RcSesCardHeader({
   title,
   headingLevel = 3,
   titleVariant = 'h6',
+  orientation = 'horizontal',
   icon,
   count,
   description,
@@ -20,14 +21,22 @@ function RcSesCardHeader({
   const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
+  const isVertical = orientation === 'vertical'
 
   return (
     <Stack
       className={className}
       data-testid={testIds?.root}
-      direction='row'
+      direction={isVertical ? 'column' : 'row'}
       spacing={cards.header.rowGap}
-      sx={{ alignItems: hasDescription ? 'flex-start' : 'center', width: '100%' }}
+      sx={{
+        alignItems: isVertical
+          ? 'flex-start'
+          : hasDescription
+            ? 'flex-start'
+            : 'center',
+        width: '100%',
+      }}
     >
       {icon ? (
         <Box
@@ -39,7 +48,7 @@ function RcSesCardHeader({
         </Box>
       ) : null}
 
-      <Stack spacing={cards.header.gap} sx={{ flex: 1, minWidth: 0 }}>
+      <Stack spacing={cards.header.gap} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
         <HeadingTag data-testid={testIds?.heading} style={{ margin: 0 }}>
           <Typography
             component='span'
@@ -75,7 +84,7 @@ function RcSesCardHeader({
           ) : null}
         </HeadingTag>
 
-        {description !== undefined && description !== null ? (
+        {hasDescription ? (
           <Typography
             data-testid={testIds?.description}
             variant='body2'
@@ -89,7 +98,7 @@ function RcSesCardHeader({
         ) : null}
       </Stack>
 
-      {actions ? (
+      {actions && !isVertical ? (
         <Stack
           data-testid={testIds?.actions}
           direction='row'

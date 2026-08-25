@@ -4,6 +4,8 @@ export type CardHeadingLevel = 2 | 3 | 4 | 5 | 6
 
 export type CardTitleVariant = 'h4' | 'h5' | 'h6'
 
+export type CardHeaderOrientation = 'horizontal' | 'vertical'
+
 export type RcSesCardHeaderTestIds = {
   root?: string
   icon?: string
@@ -23,6 +25,15 @@ export type RcSesCardHeaderProps = {
    */
   titleVariant?: CardTitleVariant
   /**
+   * Layout of the icon relative to the title/description block.
+   * - `horizontal` (default): icon on the left, text on the right, actions on
+   *   the far right.
+   * - `vertical`: icon on top, text below. The `actions` slot is not rendered
+   *   in this mode — put any call-to-action in the surrounding `CardShell`'s
+   *   `footer` slot instead.
+   */
+  orientation?: CardHeaderOrientation
+  /**
    * Decorative leading visual, `Icon-tile` once SAV-6476 lands. Rendered
    * `aria-hidden`, so it never contributes to the heading's accessible name.
    */
@@ -36,7 +47,7 @@ export type RcSesCardHeaderProps = {
   /**
    * Up to two CTAs, rendered at the end of the header row. A trailing
    * affordance such as the Category-tile chevron is not a CTA and will need its
-   * own slot.
+   * own slot. Ignored when `orientation === 'vertical'`.
    */
   actions?: ReactNode
   className?: string
