@@ -1,9 +1,9 @@
+import { RcSesCardProps } from '@/components/common/Card'
 import {
   CardFooterAlign,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
-} from '@/components/common/ActionBar/types'
-import { RcSesCardProps } from '@/components/common/Card'
+} from '@/components/common/CardShell/CardFooter/types'
 import {
   CardShellTheme,
   CardShellVariant,

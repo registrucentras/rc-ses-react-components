@@ -31,11 +31,7 @@ function RcSesTitleBlock({
       direction={isVertical ? 'column' : 'row'}
       spacing={cards.header.rowGap}
       sx={{
-        alignItems: isVertical
-          ? 'flex-start'
-          : hasDescription
-            ? 'flex-start'
-            : 'center',
+        alignItems: isVertical || hasDescription ? 'flex-start' : 'center',
         width: '100%',
       }}
     >
