@@ -15,7 +15,7 @@ import RcSesButtonWithPopover from '@/components/common/Button/ButtonWithPopover
 import RcSesCard from '@/components/common/Card'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
-import RcSesCardHeader from '@/components/common/CardShell/CardHeader'
+import RcSesTitleBlock from '@/components/common/TitleBlock'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
@@ -87,7 +87,7 @@ export {
   RcSesLoadingSpinner,
   RcSesCard,
   RcSesCardShell,
-  RcSesCardHeader,
+  RcSesTitleBlock,
   RcSesCardFooter,
   RcSesDialog,
   RcSesFooter,

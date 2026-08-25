@@ -1,4 +1,6 @@
-import { Box, ButtonBase, Stack, Typography } from '@mui/material'
+import { Box, ButtonBase, Card, Stack, Typography } from '@mui/material'
+import { InfoIcon } from '@phosphor-icons/react/dist/icons/Info'
+import { PhoneCallIcon } from '@phosphor-icons/react/dist/ssr'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
@@ -7,12 +9,10 @@ import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
-import RcSesCardHeader from '@/components/common/CardShell/CardHeader'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
+import RcSesCardHeader from '@/components/common/TitleBlock'
 import palette from '@/theme/palette'
-import { InfoIcon } from '@phosphor-icons/react/dist/icons/Info'
-import { PhoneCallIcon } from '@phosphor-icons/react/dist/ssr'
 
 const meta: Meta<typeof RcSesCardShell> = {
   title: 'components/display/CardShell',
@@ -305,147 +305,3 @@ const FooterLink = ({ label, href }: { label: string; href: string }) => (
     <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
   </a>
 )
-
-/**
- * Horizontal, clickable tile with a trailing chevron. The whole card is the
- * action, so `ButtonBase` wraps the shell's children to make the entire
- * surface one focusable click target; `RcSesCardHeader` renders the icon +
- * title + description row next to the chevron.
- */
-export const ClickableHorizontalTile: Story = {
-  render: () => (
-    <RcSesCardShell variant='card' theme='default'>
-      <ButtonBase
-        component='a'
-        href='#'
-        sx={{
-          borderRadius: 'inherit',
-          display: 'block',
-          textAlign: 'left',
-          width: '100%',
-        }}
-      >
-        <Stack
-          direction='row'
-          spacing={2}
-          sx={{ alignItems: 'center', width: '100%' }}
-        >
-          <Box sx={{ alignSelf: 'center', flex: 1, minWidth: 0 }}>
-            <RcSesCardHeader
-              title='Paslaugos sutartiniams klientams'
-              description='Peržiūrėkite pagrindinius duomenis be užsakymo - dažniausias pirmas žingsnis.'
-              icon={
-                <RcSesIconWithSquareBackground
-                  Icon={InfoIcon}
-                  variant='soft'
-                />
-              }
-            />
-          </Box>
-          <Box
-            aria-hidden
-            sx={{
-              alignItems: 'center',
-              alignSelf: 'stretch',
-              color: palette.primary[600],
-              display: 'flex',
-              flexShrink: 0,
-            }}
-          >
-            <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-          </Box>
-        </Stack>
-      </ButtonBase>
-    </RcSesCardShell>
-  ),
-}
-
-/**
- * Vertical tile with a CTA link. `RcSesCardShell` supplies the surface and
- * `footer` slot; `RcSesCardHeader` with `orientation='vertical'` is passed
- * as children to render the stacked icon, title and description.
- */
-export const VerticalTile: Story = {
-  render: () => (
-    <RcSesCardShell
-      variant='card'
-      theme='default'
-      footer={<FooterLink label='Peržiūrėti DUK' href='#' />}
-    >
-      <RcSesCardHeader
-        orientation='vertical'
-        title='DUK'
-        description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
-        icon={
-          <RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />
-        }
-      />
-    </RcSesCardShell>
-  ),
-}
-
-/**
- * Three `VerticalTile`s in a CSS Grid row (`repeat(3, 1fr)`). Each shell
- * uses `fullHeight` so footer links align on the same baseline regardless
- * of description length.
- */
-export const VerticalTileRow: Story = {
-  render: () => (
-    <Box
-      sx={{
-        display: 'grid',
-        gap: 2,
-        gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
-      }}
-    >
-      <RcSesCardShell
-        variant='card'
-        theme='default'
-        fullHeight
-        footer={<FooterLink label='Peržiūrėti DUK' href='#' />}
-      >
-        <RcSesCardHeader
-          orientation='vertical'
-          title='DUK'
-          description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
-          icon={
-            <RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />
-          }
-        />
-      </RcSesCardShell>
-      <RcSesCardShell
-        variant='card'
-        theme='default'
-        fullHeight
-        footer={<FooterLink label='Visi kontaktai' href='#' />}
-      >
-        <RcSesCardHeader
-          orientation='vertical'
-          title='Kontaktai'
-          description='Konsultacijos telefonu (0 5) 268 8262 darbo dienomis 8:00-17:00.'
-          icon={
-            <RcSesIconWithSquareBackground Icon={PhoneCallIcon} variant='soft' />
-          }
-        />
-      </RcSesCardShell>
-      <RcSesCardShell
-        variant='card'
-        theme='default'
-        fullHeight
-        footer={<FooterLink label='Pradėkite registraciją' href='#' />}
-      >
-        <RcSesCardHeader
-          orientation='vertical'
-          title='Registracija vizitui'
-          description='Užduokite klausimą konsultantui pokalbių lange - atsakome darbo metu.'
-          icon={
-            <RcSesIconWithSquareBackground
-              Icon={CalendarBlankIcon}
-              variant='soft'
-            />
-          }
-        />
-      </RcSesCardShell>
-    </Box>
-  ),
-}

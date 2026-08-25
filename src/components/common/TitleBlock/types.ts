@@ -4,9 +4,9 @@ export type CardHeadingLevel = 2 | 3 | 4 | 5 | 6
 
 export type CardTitleVariant = 'h4' | 'h5' | 'h6'
 
-export type CardHeaderOrientation = 'horizontal' | 'vertical'
+export type TitleBlockOrientation = 'horizontal' | 'vertical'
 
-export type RcSesCardHeaderTestIds = {
+export type RcSesTitleBlockTestIds = {
   root?: string
   icon?: string
   heading?: string
@@ -15,7 +15,7 @@ export type RcSesCardHeaderTestIds = {
   actions?: string
 }
 
-export type RcSesCardHeaderProps = {
+export type RcSesTitleBlockProps = {
   title: ReactNode
   headingLevel?: CardHeadingLevel
   /**
@@ -25,6 +25,12 @@ export type RcSesCardHeaderProps = {
    */
   titleVariant?: CardTitleVariant
   /**
+   * Overrides the default title color (`palette.grey[900]`). Accepts any CSS
+   * color string, so palette tokens work directly:
+   * `titleColor={palette.primary[700]}`.
+   */
+  titleColor?: string
+  /**
    * Layout of the icon relative to the title/description block.
    * - `horizontal` (default): icon on the left, text on the right, actions on
    *   the far right.
@@ -32,7 +38,7 @@ export type RcSesCardHeaderProps = {
    *   in this mode — put any call-to-action in the surrounding `CardShell`'s
    *   `footer` slot instead.
    */
-  orientation?: CardHeaderOrientation
+  orientation?: TitleBlockOrientation
   /**
    * Decorative leading visual, `Icon-tile` once SAV-6476 lands. Rendered
    * `aria-hidden`, so it never contributes to the heading's accessible name.
@@ -51,5 +57,5 @@ export type RcSesCardHeaderProps = {
    */
   actions?: ReactNode
   className?: string
-  testIds?: RcSesCardHeaderTestIds
+  testIds?: RcSesTitleBlockTestIds
 }

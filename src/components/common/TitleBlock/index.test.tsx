@@ -6,15 +6,15 @@ import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesCardHeader from '.'
+import RcSesTitleBlock from '.'
 
-const renderCardHeader = (ui: ReactElement) =>
+const renderTitleBlock = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
 
-describe('RcSesCardHeader', () => {
+describe('RcSesTitleBlock', () => {
   test('renders title and description', () => {
-    renderCardHeader(
-      <RcSesCardHeader title='Test Title' description='Test description' />,
+    renderTitleBlock(
+      <RcSesTitleBlock title='Test Title' description='Test description' />,
     )
 
     expect(
@@ -24,13 +24,13 @@ describe('RcSesCardHeader', () => {
   })
 
   test('uses default heading level 3 when not provided', () => {
-    renderCardHeader(<RcSesCardHeader title='Test Title' />)
+    renderTitleBlock(<RcSesTitleBlock title='Test Title' />)
 
     expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument()
   })
 
   test('respects custom headingLevel prop', () => {
-    renderCardHeader(<RcSesCardHeader title='Test Title' headingLevel={2} />)
+    renderTitleBlock(<RcSesTitleBlock title='Test Title' headingLevel={2} />)
 
     expect(
       screen.getByRole('heading', { level: 2, name: 'Test Title' }),
@@ -38,16 +38,16 @@ describe('RcSesCardHeader', () => {
   })
 
   test('omits description when not provided', () => {
-    renderCardHeader(
-      <RcSesCardHeader title='Test Title' testIds={{ description: 'description' }} />,
+    renderTitleBlock(
+      <RcSesTitleBlock title='Test Title' testIds={{ description: 'description' }} />,
     )
 
     expect(screen.queryByTestId('description')).not.toBeInTheDocument()
   })
 
   test('applies testIds correctly', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         description='Test description'
         testIds={{
           root: 'header-root',
@@ -64,8 +64,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('handles ReactNode as title', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         title={
           <span>
             Complex <strong>Title</strong>
@@ -80,8 +80,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('handles ReactNode as description', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         description={
           <span>
             Description with <em>emphasis</em>
@@ -99,8 +99,8 @@ describe('RcSesCardHeader', () => {
     const levels = [2, 3, 4, 5, 6] as const
 
     levels.forEach((level) => {
-      const { unmount } = renderCardHeader(
-        <RcSesCardHeader headingLevel={level} title={`Level ${level} Title`} />,
+      const { unmount } = renderTitleBlock(
+        <RcSesTitleBlock headingLevel={level} title={`Level ${level} Title`} />,
       )
 
       expect(
@@ -111,8 +111,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('title and description keep the design type ramp', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         description='Test description'
         testIds={{ description: 'description' }}
         title='Test Title'
@@ -131,7 +131,7 @@ describe('RcSesCardHeader', () => {
   })
 
   test('count renders a badge inside the heading accessible name', () => {
-    renderCardHeader(<RcSesCardHeader count={4} title='Pasirinktos teisės' />)
+    renderTitleBlock(<RcSesTitleBlock count={4} title='Pasirinktos teisės' />)
 
     expect(
       screen.getByRole('heading', { level: 3, name: 'Pasirinktos teisės 4' }),
@@ -139,8 +139,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('count of zero still renders the badge', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         count={0}
         testIds={{ badge: 'badge' }}
         title='Pasirinktos teisės'
@@ -151,7 +151,7 @@ describe('RcSesCardHeader', () => {
   })
 
   test('omits the badge when count is not provided', () => {
-    renderCardHeader(<RcSesCardHeader testIds={{ badge: 'badge' }} title='Test Title' />)
+    renderTitleBlock(<RcSesTitleBlock testIds={{ badge: 'badge' }} title='Test Title' />)
 
     expect(screen.queryByTestId('badge')).not.toBeInTheDocument()
     expect(
@@ -160,8 +160,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('icon is decorative and stays out of the accessible name', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         icon={<span>dekoracija</span>}
         testIds={{ icon: 'icon' }}
         title='Test Title'
@@ -175,8 +175,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('renders up to two actions at the end of the row', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         actions={
           <>
             <button type='button'>Atšaukti</button>
@@ -194,8 +194,8 @@ describe('RcSesCardHeader', () => {
   })
 
   test('omits the icon and actions slots when not provided', () => {
-    renderCardHeader(
-      <RcSesCardHeader
+    renderTitleBlock(
+      <RcSesTitleBlock
         testIds={{ actions: 'actions', icon: 'icon' }}
         title='Test Title'
       />,
@@ -207,8 +207,8 @@ describe('RcSesCardHeader', () => {
 
   describe('orientation', () => {
     test('defaults to horizontal layout', () => {
-      renderCardHeader(
-        <RcSesCardHeader
+      renderTitleBlock(
+        <RcSesTitleBlock
           description='Test description'
           icon={<span>ikona</span>}
           testIds={{ root: 'root' }}
@@ -221,8 +221,8 @@ describe('RcSesCardHeader', () => {
     })
 
     test('vertical orientation stacks children in a column', () => {
-      renderCardHeader(
-        <RcSesCardHeader
+      renderTitleBlock(
+        <RcSesTitleBlock
           description='Test description'
           icon={<span>ikona</span>}
           orientation='vertical'
@@ -235,8 +235,8 @@ describe('RcSesCardHeader', () => {
     })
 
     test('vertical orientation omits the actions slot even when provided', () => {
-      renderCardHeader(
-        <RcSesCardHeader
+      renderTitleBlock(
+        <RcSesTitleBlock
           actions={<button type='button'>Redaguoti</button>}
           orientation='vertical'
           testIds={{ actions: 'actions' }}
@@ -249,8 +249,8 @@ describe('RcSesCardHeader', () => {
     })
 
     test('horizontal orientation renders the actions slot when provided', () => {
-      renderCardHeader(
-        <RcSesCardHeader
+      renderTitleBlock(
+        <RcSesTitleBlock
           actions={<button type='button'>Redaguoti</button>}
           orientation='horizontal'
           testIds={{ actions: 'actions' }}

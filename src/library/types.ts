@@ -3,13 +3,13 @@ import {
   CardFooterAlign,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
-} from '@/components/common/CardShell/CardFooter/types'
+} from '@/components/common/ActionBar/types'
 import {
   CardHeadingLevel,
   CardTitleVariant,
   RcSesCardHeaderProps,
   RcSesCardHeaderTestIds,
-} from '@/components/common/CardShell/CardHeader/types'
+} from '@/components/common/TitleBlock/types'
 import {
   CardShellTheme,
   CardShellVariant,

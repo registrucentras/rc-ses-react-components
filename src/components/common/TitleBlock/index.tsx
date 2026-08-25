@@ -4,12 +4,13 @@ import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
 import palette from '@/theme/palette'
 
-import { RcSesCardHeaderProps } from './types'
+import { RcSesTitleBlockProps } from './types'
 
-function RcSesCardHeader({
+function RcSesTitleBlock({
   title,
   headingLevel = 3,
   titleVariant = 'h6',
+  titleColor,
   orientation = 'horizontal',
   icon,
   count,
@@ -17,7 +18,7 @@ function RcSesCardHeader({
   actions,
   className,
   testIds,
-}: RcSesCardHeaderProps) {
+}: RcSesTitleBlockProps) {
   const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
@@ -54,7 +55,7 @@ function RcSesCardHeader({
             component='span'
             variant={titleVariant}
             sx={{
-              color: palette.grey[900],
+              color: titleColor ?? palette.grey[900],
               // inline only when the badge has to sit on the heading's last line
               display: hasCount ? 'inline' : 'block',
               fontWeight: cards.header.titleFontWeight,
@@ -112,4 +113,4 @@ function RcSesCardHeader({
   )
 }
 
-export default RcSesCardHeader
+export default RcSesTitleBlock
