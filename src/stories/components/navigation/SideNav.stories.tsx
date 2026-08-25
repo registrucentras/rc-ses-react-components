@@ -2,8 +2,8 @@ import { Box, Typography } from '@mui/material'
 import { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import RcSesSideNav from '@/components/common/SideNav'
 import { RcSesSideNavItem } from '@/components/common/SideNav/SideNav.types'
+import RcSesSideNavLayout from '@/components/common/SideNav/SideNavLayout'
 import FieldView from '@/components/storybook/FieldView'
 
 const ITEMS: RcSesSideNavItem[] = [
@@ -15,15 +15,42 @@ const ITEMS: RcSesSideNavItem[] = [
   { id: 'marriage', label: 'Santuoka ir skyrybos', count: 7 },
 ]
 
-const meta: Meta<typeof RcSesSideNav> = {
+const SECTION_HEIGHT = 320
+
+function Sections() {
+  return (
+    <>
+      {ITEMS.map((item) => (
+        <Box
+          key={item.id}
+          id={item.id}
+          sx={{
+            height: `${SECTION_HEIGHT}px`,
+            borderBottom: '1px dashed #dce0e5',
+            paddingTop: '1rem',
+          }}
+        >
+          <Typography variant='h3' sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+            {item.label}
+          </Typography>
+          <Typography sx={{ color: '#6b747f' }}>
+            {item.count} paslaugos šioje temoje.
+          </Typography>
+        </Box>
+      ))}
+    </>
+  )
+}
+
+const meta: Meta<typeof RcSesSideNavLayout> = {
   title: 'components/navigation/SideNav',
-  component: RcSesSideNav,
+  component: RcSesSideNavLayout,
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
         component:
-          "Renders a sticky topic list on desktop and a sticky, horizontally scrollable pill bar on mobile. Resize the preview (or use the viewport toolbar) below the `md` breakpoint to see the pill variant. By default (no `activeItemId`) it tracks scroll position itself and scrolls the page on click - pass `activeItemId`/`onItemClick` to take full control instead. See `WithScrollSpy` for the component's default, self-contained behavior; `Main` demonstrates the fully-controlled mode, which is why it wires the component's state itself.",
+          'RcSesSideNavLayout is the only supported way to use this component - it lays out the sticky nav column (a topic list on desktop, a horizontally scrollable pill bar on mobile) alongside its section children, which is what guarantees the desktop sticky behavior works. By default (no `activeItemId`) it tracks scroll position itself and scrolls the page on click - pass `activeItemId`/`onItemClick` to take full control instead. See `WithScrollSpy` for the default, self-contained behavior; `Main` demonstrates the fully-controlled mode, which is why it wires the state itself.',
       },
     },
   },
@@ -31,23 +58,29 @@ const meta: Meta<typeof RcSesSideNav> = {
 
 export default meta
 
-type Story = StoryObj<typeof RcSesSideNav>
+type Story = StoryObj<typeof RcSesSideNavLayout>
 
 function ControlledDemo({
   activeItemId: initialActiveItemId,
   ...args
-}: React.ComponentProps<typeof RcSesSideNav>) {
+}: React.ComponentProps<typeof RcSesSideNavLayout>) {
   const [activeItemId, setActiveItemId] = useState(initialActiveItemId ?? ITEMS[0].id)
 
   return (
-    <RcSesSideNav {...args} activeItemId={activeItemId} onItemClick={setActiveItemId} />
+    <RcSesSideNavLayout
+      {...args}
+      activeItemId={activeItemId}
+      onItemClick={setActiveItemId}
+    />
   )
 }
 
 export const Main: Story = {
   render: (args) => (
     <FieldView>
-      <ControlledDemo {...args} />
+      <ControlledDemo {...args}>
+        <Sections />
+      </ControlledDemo>
     </FieldView>
   ),
   args: {
@@ -56,56 +89,21 @@ export const Main: Story = {
   },
 }
 
-const SECTION_HEIGHT = 320
-
-function ScrollSpyDemo() {
-  return (
-    // The real page scrolls the window (as in the confirmed design), so this demo
-    // does too, rather than nesting its own scroll container. Below `md` the nav
-    // switches to the mobile pill bar, so it's stacked above the content instead
-    // of sitting in a side column. No activeItemId/onItemClick here - SideNav
-    // tracks scroll position and drives its own click-to-scroll by default.
-    <Box
-      sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '2rem' }}
-    >
-      <Box sx={{ width: { xs: '100%', md: '17rem' }, flexShrink: 0 }}>
-        <RcSesSideNav items={ITEMS} title='Temos' />
-      </Box>
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        {ITEMS.map((item) => (
-          <Box
-            key={item.id}
-            id={item.id}
-            sx={{
-              height: `${SECTION_HEIGHT}px`,
-              borderBottom: '1px dashed #dce0e5',
-              paddingTop: '1rem',
-            }}
-          >
-            <Typography variant='h3' sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
-              {item.label}
-            </Typography>
-            <Typography sx={{ color: '#6b747f' }}>
-              {item.count} paslaugos šioje temoje.
-            </Typography>
-          </Box>
-        ))}
-      </Box>
-    </Box>
-  )
-}
-
 export const WithScrollSpy: Story = {
   render: () => (
     <FieldView>
-      <ScrollSpyDemo />
+      {/* The real page scrolls the window (as in the confirmed design), so this demo
+          does too, rather than nesting its own scroll container. */}
+      <RcSesSideNavLayout items={ITEMS} title='Temos'>
+        <Sections />
+      </RcSesSideNavLayout>
     </FieldView>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          'The default, uncontrolled mode: no `activeItemId`/`onItemClick` passed, so SideNav tracks scroll position itself (via useSideNavScrollSpy internally) and scrolls to a section when its topic is clicked.',
+          'The default, uncontrolled mode: no `activeItemId`/`onItemClick` passed, so the nav tracks scroll position itself and scrolls to a section when its topic is clicked.',
       },
     },
   },

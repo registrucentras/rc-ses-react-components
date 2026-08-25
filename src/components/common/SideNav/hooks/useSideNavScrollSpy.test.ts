@@ -36,12 +36,25 @@ const fireScroll = async () => {
   })
 }
 
+let rafId = 0
+let cancelledRafIds: Set<number>
+
 beforeEach(() => {
+  rafId = 0
+  cancelledRafIds = new Set()
+  // Mirrors real cancellation semantics (unlike a no-op stub) so tests can verify
+  // behaviour after a frame is scheduled and then cancelled mid-flight.
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-    Promise.resolve().then(() => cb(0))
-    return 0
+    rafId += 1
+    const id = rafId
+    Promise.resolve().then(() => {
+      if (!cancelledRafIds.has(id)) cb(0)
+    })
+    return id
   })
-  vi.stubGlobal('cancelAnimationFrame', () => {})
+  vi.stubGlobal('cancelAnimationFrame', (id: number) => {
+    cancelledRafIds.add(id)
+  })
 
   document.body.innerHTML =
     '<div id="family"></div><div id="documents"></div><div id="signature"></div><div id="residence"></div>'
@@ -182,6 +195,61 @@ describe('useSideNavScrollSpy', () => {
     ])
     await fireScroll()
     expect(result.current.activeItemId).toBe('residence')
+  })
+
+  it('does not drift the active id when some ids have no matching element on the page', async () => {
+    // Only "documents" and "signature" exist on the page; "family" and "residence"
+    // never render. activeIndex is computed against the filtered (DOM-resolved)
+    // list, so reading the result back out of the original itemIds by that same
+    // index would return the wrong id as soon as the two arrays' lengths diverge.
+    document.body.innerHTML = '<div id="documents"></div><div id="signature"></div>'
+    setSectionTops([
+      { id: 'documents', top: -400 },
+      { id: 'signature', top: -100 },
+    ])
+
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
+    )
+
+    expect(result.current.activeItemId).toBe('signature')
+  })
+
+  it('does not permanently freeze scroll-spy when itemIds/offset change while a scroll frame is pending', async () => {
+    const { result, rerender } = renderHook(
+      ({ offset }: { offset: number }) =>
+        useSideNavScrollSpy({
+          itemIds: ['family', 'documents', 'signature', 'residence'],
+          offset,
+        }),
+      { initialProps: { offset: 0 } },
+    )
+
+    // Schedule a frame via a scroll event, then re-render with a different offset
+    // before that frame's callback has fired - this tears down and re-runs the
+    // effect (cancelling the pending frame) while rafRef.current is still set.
+    act(() => {
+      window.dispatchEvent(new Event('scroll'))
+    })
+    rerender({ offset: 5 })
+
+    // Let the now-cancelled frame's leftover microtask resolve.
+    await act(async () => {
+      await Promise.resolve()
+    })
+
+    // A fresh scroll after that should still be able to update the active item -
+    // if cleanup left rafRef.current stuck non-undefined, this would be a no-op
+    // and activeItemId would stay pinned on "family" forever.
+    setSectionTops([
+      { id: 'family', top: -400 },
+      { id: 'documents', top: -100 },
+      { id: 'signature', top: -10 },
+      { id: 'residence', top: 40 },
+    ])
+    await fireScroll()
+
+    expect(result.current.activeItemId).toBe('signature')
   })
 
   it('scrollToItem scrolls to the element and marks it active immediately', () => {
