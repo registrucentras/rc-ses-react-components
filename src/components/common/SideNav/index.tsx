@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import normalizeSx from '@/components/utils/normalizeSx'
 import palette, { common } from '@/theme/palette'
 
 import { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
@@ -41,7 +42,7 @@ function RcSesSideNav({
     <Box
       component='nav'
       aria-label={navTitle}
-      sx={{ width: '100%', height: '100%', ...sx }}
+      sx={[{ width: '100%', height: '100%' }, ...normalizeSx(sx)]}
     >
       <Box
         sx={{
