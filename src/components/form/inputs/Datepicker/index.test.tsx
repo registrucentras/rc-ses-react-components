@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
-import palette from '@/theme/palette'
+import palette, { common } from '@/theme/palette'
 
 import RcSesDatepicker from '.'
 
@@ -16,11 +16,18 @@ import RcSesDatepicker from '.'
 const REFERENCE = new Date(2026, 0, 15)
 const MAX = new Date(2026, 0, 20)
 
-function Harness() {
+type HarnessProps = {
+  /** Seeds the field, so a day renders as selected. */
+  value?: string | null
+  /** Bounds the calendar, so later days render as disabled. */
+  maxDate?: Date
+}
+
+function Harness({ value = null, maxDate }: HarnessProps) {
   const {
     control,
     formState: { errors },
-  } = useForm<{ date: string | null }>({ defaultValues: { date: null } })
+  } = useForm<{ date: string | null }>({ defaultValues: { date: value } })
 
   return (
     <ThemeProvider theme={theme}>
@@ -32,32 +39,8 @@ function Harness() {
           label='Data'
           errors={errors?.date}
           slotProps={{
-            datepicker: { open: true, referenceDate: REFERENCE, maxDate: MAX },
+            datepicker: { open: true, referenceDate: REFERENCE, maxDate },
           }}
-        />
-      </LocalizationProvider>
-    </ThemeProvider>
-  )
-}
-
-function SelectedHarness() {
-  const {
-    control,
-    formState: { errors },
-  } = useForm<{ date: string | null }>({
-    defaultValues: { date: '2026-01-15T00:00:00.000Z' },
-  })
-
-  return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
-        <RcSesDatepicker
-          id='date'
-          name='date'
-          control={control}
-          label='Data'
-          errors={errors?.date}
-          slotProps={{ datepicker: { open: true, referenceDate: REFERENCE } }}
         />
       </LocalizationProvider>
     </ThemeProvider>
@@ -77,30 +60,30 @@ describe('RcSesDatepicker calendar day colours', () => {
   // Pinned here rather than left to the visual suite: a colour-only change on a
   // few glyphs stays under its diff budget.
   test('a selectable weekday uses the default day colour', () => {
-    render(<Harness />)
+    render(<Harness maxDate={MAX} />)
 
     expect(dayColour('19')).toBe(rgb(palette.grey['900']))
   })
 
   test('a disabled weekday is greyed out', () => {
-    render(<Harness />)
+    render(<Harness maxDate={MAX} />)
 
     expect(dayColour('21')).toBe(rgb(palette.grey['400']))
   })
 
   // 1.x paints it white; v9 lost that to the theme's day colour.
   test('the selected day is white on the blue fill', () => {
-    render(<SelectedHarness />)
+    render(<Harness value='2026-01-15T00:00:00.000Z' />)
 
     const selected = document.querySelector('.Mui-selected') as HTMLElement
     const cs = window.getComputedStyle(selected)
 
     expect(cs.backgroundColor).toBe(rgb(palette.primary['500']))
-    expect(cs.color).toBe('rgb(255, 255, 255)')
+    expect(cs.color).toBe(rgb(common.white))
   })
 
   test('a disabled weekend day stays red, as in 1.x', () => {
-    render(<Harness />)
+    render(<Harness maxDate={MAX} />)
 
     expect(dayColour('24')).toBe(rgb(palette.error['600']))
   })
@@ -116,7 +99,7 @@ describe('RcSesDatepicker field styling', () => {
     const cs = window.getComputedStyle(field)
 
     expect(cs.borderRadius).toBe('0.5rem')
-    expect(cs.backgroundColor).toBe('rgb(255, 255, 255)')
+    expect(cs.backgroundColor).toBe(rgb(common.white))
   })
 
   test('the value text matches a plain input', () => {

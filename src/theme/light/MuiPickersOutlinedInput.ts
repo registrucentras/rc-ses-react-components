@@ -1,7 +1,7 @@
 import { decomposeColor } from '@mui/material'
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import palette from '../palette'
+import palette, { common } from '../palette'
 
 /**
  * x-date-pickers 9 gives the picker its own field components, which none of the
@@ -11,7 +11,7 @@ import palette from '../palette'
 const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
   styleOverrides: {
     root: {
-      backgroundColor: 'white',
+      backgroundColor: common.white,
       borderRadius: '.5rem',
       // The value renders as sections, not an <input>, so the horizontal
       // padding sits here and the vertical padding on the sections.
