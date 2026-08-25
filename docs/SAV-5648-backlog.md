@@ -63,6 +63,38 @@ Running total **23.25h** against the 20h budget.
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
 **Open:** Phase 5 — LIB-15 (recommended: drop, see below), LIB-19 (visual assertion) and LIB-18 (`2.0.0`). LIB-17 validation is done.
 
+### Phase 5 progress — as of 2026-08-25
+
+**`2.0.0-rc.3` is published.** It carries the DatePicker fixes from #137 and CardShell from #132.
+
+#### Four picker regressions, three of them one root cause
+
+Found by comparing the deployed 1.13.0 Storybook against the branch preview, measured in a browser
+rather than eyeballed:
+
+- **disabled days were not greyed** and **the selected day had dark text on the blue fill**. x-date-pickers 9
+  moved both colours into `variants` entries, which emit at single-class specificity and lose to the
+  theme's descendant selector. v7 used compound selectors and won unaided, which is why the theme
+  never had to state them.
+- **the whole field was unthemed.** v9 renders it with `PickersTextField` / `PickersOutlinedInput`
+  instead of MUI's `TextField` / `OutlinedInput`, so none of the `MuiInputBase` and
+  `MuiOutlinedInput` slots reach it. Radius, height, background, outline colour and value text had all
+  fallen back to MUI defaults. `MuiPickersOutlinedInput` restates them - **keep it in step with
+  `MuiInputBase`**.
+- **the open icon overflowed the field**, from copying `MuiInputBase`'s `adornedEnd` padding reset,
+  which the picker's own adornment layout does not need.
+
+Five DatePicker stories were added (disabled range, scattered rule, selected value, disabled field,
+error state) and all seven baselines re-recorded. `main`'s still dated from 2026-07-28, the day before
+MUI 9 landed, and had survived the migration because the drift stayed under the diff budget. The four
+open-calendar stories now render in their own docs iframe, since the portalled popup otherwise covered
+its neighbours on the docs page.
+
+Six unit tests pin the day colours and the field metrics, each confirmed to fail without its fix. That
+is deliberate: see **LIB-19**, logged because the visual budget has now hidden three regressions.
+
+Current totals: **311 tests, 213 visual snapshots**.
+
 ### Phase 5 progress — as of 2026-08-19
 
 **`2.0.0-rc.2` is published.** It fixes a colour regression that rc.1 shipped, and folds in the three
