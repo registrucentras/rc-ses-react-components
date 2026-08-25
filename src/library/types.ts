@@ -1,15 +1,9 @@
-import { RcSesCardProps } from '@/components/common/Card'
 import {
   CardFooterAlign,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
 } from '@/components/common/ActionBar/types'
-import {
-  CardHeadingLevel,
-  CardTitleVariant,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
-} from '@/components/common/TitleBlock/types'
+import { RcSesCardProps } from '@/components/common/Card'
 import {
   CardShellTheme,
   CardShellVariant,
@@ -28,6 +22,12 @@ import {
   RcSesServiceLinksProps,
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
+import {
+  CardHeadingLevel,
+  CardTitleVariant,
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
+} from '@/components/common/TitleBlock/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -59,8 +59,8 @@ export type {
   RcSesCardProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
   CardFooterAlign,

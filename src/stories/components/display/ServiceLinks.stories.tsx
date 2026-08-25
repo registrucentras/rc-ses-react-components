@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
-import RcSesCardFooter from '@/components/common/ActionBar'
-import RcSesCardHeader from '@/components/common/TitleBlock'
+import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesServiceLinks from '@/components/common/ServiceLinks'
 import {
   RcSesServiceLinkItem,
   RcSesServiceLinksProps,
 } from '@/components/common/ServiceLinks/types'
+import RcSesCardHeader from '@/components/common/TitleBlock'
 
 const baseItems: RcSesServiceLinkItem[] = [
   { label: 'Juridinių asmenų registro (JAR) išrašas', href: '#jar' },
