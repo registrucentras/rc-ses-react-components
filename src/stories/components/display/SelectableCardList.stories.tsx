@@ -9,6 +9,7 @@ import SelectableCardList, {
   type SelectableCardListItemData,
   type SelectableCardListProps,
 } from '@/components/common/SelectableCardList'
+import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
 
 const getListItems = (index: number): ListWithIconsItemData[] => {
   switch (index) {
@@ -61,8 +62,11 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component:
+        component: [
           'Paginates items client-side, showing 5 per page on desktop and 3 per page on mobile (below the `md` breakpoint). The page resets to 1 whenever the page size changes, e.g. when resizing across the breakpoint.',
+          '',
+          'The `error` prop is a data-loading failure state: whatever node it receives is rendered **instead of** the cards and the pagination. It is not meant for form validation messages - for those wrap the list in `RcSesFormControlWrapper` and pass `errors`, which keeps the cards visible and shows the message below them. Compare the `Error` and `ValidationError` stories.',
+        ].join('\n'),
       },
     },
   },
@@ -131,5 +135,33 @@ export const Loading: Story = {
 export const Error: Story = {
   args: {
     error: 'Unable to load selectable cards. Please try again.',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Data-loading failure state. `items` is still populated here, yet the cards and the pagination are replaced by the `error` node - that is what this prop does. Use it when the list could not be fetched, not to report an invalid selection.',
+      },
+    },
+  },
+}
+
+export const ValidationError: Story = {
+  render: (args) => (
+    <RcSesFormControlWrapper
+      label='Service option'
+      required
+      errors={{ type: 'required', message: 'Select one of the options' }}
+    >
+      <SelectableCardListStory {...args} onSelect={args.onSelect ?? (() => {})} />
+    </RcSesFormControlWrapper>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The way to report an invalid selection: wrap the list in `RcSesFormControlWrapper` and pass the react-hook-form `fieldState.error` as `errors`. The cards stay selectable and the message renders below them. Leave the list's own `error` prop unset.",
+      },
+    },
   },
 }
