@@ -174,7 +174,7 @@ describe('RcSesTitleBlock', () => {
     ).toBeInTheDocument()
   })
 
-  test('renders up to two actions at the end of the row', () => {
+  test('renders up to two actions in the actions slot', () => {
     renderTitleBlock(
       <RcSesTitleBlock
         actions={
@@ -205,19 +205,50 @@ describe('RcSesTitleBlock', () => {
     expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
   })
 
+  test('titleColor overrides the default title color', () => {
+    renderTitleBlock(<RcSesTitleBlock title='Test Title' titleColor='rgb(1, 2, 3)' />)
+
+    expect(screen.getByText('Test Title')).toHaveStyle({ color: 'rgb(1, 2, 3)' })
+  })
+
+  test('horizontal orientation glues icon and text into one group, separate from actions', () => {
+    renderTitleBlock(
+      <RcSesTitleBlock
+        actions={<button type='button'>Redaguoti</button>}
+        icon={<span>ikona</span>}
+        testIds={{ root: 'root', icon: 'icon', actions: 'actions' }}
+        title='Test Title'
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    // Two direct groups on horizontal: (icon + text) and (actions).
+    expect(root.children).toHaveLength(2)
+    const [textGroup, actionsGroup] = Array.from(root.children)
+    expect(textGroup).toContainElement(screen.getByTestId('icon'))
+    expect(textGroup).toContainElement(
+      screen.getByRole('heading', { level: 3, name: 'Test Title' }),
+    )
+    expect(actionsGroup).toContainElement(
+      screen.getByRole('button', { name: 'Redaguoti' }),
+    )
+  })
+
   describe('orientation', () => {
     test('defaults to horizontal layout', () => {
       renderTitleBlock(
         <RcSesTitleBlock
           description='Test description'
           icon={<span>ikona</span>}
-          testIds={{ root: 'root' }}
+          testIds={{ root: 'root', icon: 'icon' }}
           title='Test Title'
         />,
       )
 
-      // MUI Stack renders `direction='row'` as `flex-direction: row`.
-      expect(screen.getByTestId('root')).toHaveStyle({ flexDirection: 'row' })
+      // Icon precedes the heading in DOM order and lives in the same group.
+      const iconWrapper = screen.getByTestId('icon').parentElement
+      const heading = screen.getByRole('heading', { level: 3, name: 'Test Title' })
+      expect(iconWrapper).toContainElement(heading)
     })
 
     test('vertical orientation stacks children in a column', () => {
@@ -232,6 +263,25 @@ describe('RcSesTitleBlock', () => {
       )
 
       expect(screen.getByTestId('root')).toHaveStyle({ flexDirection: 'column' })
+    })
+
+    test('vertical orientation renders the icon before the text column', () => {
+      renderTitleBlock(
+        <RcSesTitleBlock
+          icon={<span>ikona</span>}
+          orientation='vertical'
+          testIds={{ root: 'root', icon: 'icon' }}
+          title='Test Title'
+        />,
+      )
+
+      const root = screen.getByTestId('root')
+      const iconWrapper = screen.getByTestId('icon')
+      const heading = screen.getByRole('heading', { level: 3, name: 'Test Title' })
+      // Icon and text column are siblings under root, icon comes first.
+      expect(iconWrapper.parentElement).toBe(root)
+      expect(root.children[0]).toBe(iconWrapper)
+      expect(root).toContainElement(heading)
     })
 
     test('vertical orientation omits the actions slot even when provided', () => {
