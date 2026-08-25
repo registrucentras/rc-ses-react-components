@@ -61,7 +61,7 @@ Adjustments so far:
 Running total **23.25h** against the 20h budget.
 
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** Phase 5 — LIB-15 (recommended: drop, see below) and LIB-18 (`2.0.0`). LIB-17 validation is done.
+**Open:** Phase 5 — LIB-15 (recommended: drop, see below), LIB-19 (visual assertion) and LIB-18 (`2.0.0`). LIB-17 validation is done.
 
 ### Phase 5 progress — as of 2026-08-19
 
@@ -540,10 +540,43 @@ Two notes for whoever runs the release:
 | **LIB-15** | SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
 | **LIB-16** | ✅ Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
 | **LIB-17** | `2.0.0-rc.0` išleidimas ir validavimas su ses-ui | **1h** | LIB-16 |
+| **LIB-19** | Vizualinio regreso tikrinimo sugriežtinimas (kadravimas iki komponento) | **0.5h** | - |
 | **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
 
 **LIB-15** — unlocked by LIB-08c. `src/components/common/Button/index.tsx` carries `// TODO: use MUI's loading prop when MUI lib upgrade is done`. Breaking, so it belongs in 2.0.0. Links to existing ticket **SAV-5916**.
-**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer; `react-router-dom` no longer provided; the radius token changes (3px → 8px on buttons and inputs, see §10 of the analysis doc). SAV-6098 cannot be planned without this.
+**LIB-19** — do this before 2.0.0 ships. `visual/stories.spec.ts` screenshots `fullPage` and
+`playwright.config.ts` allows `maxDiffPixelRatio: 0.01`, so the budget scales with the page while the
+component under test does not. On a 1280x720 shot that is 9216 pixels, which is often larger than the
+component itself, and three regressions have already passed through it:
+
+- the footer shipped invisible in `rc.1` (6563 pixels of text, under budget);
+- the picker field kept a 4px radius and a 56px row for a month (measured: 5417 pixels, ratio 0.0059);
+- `components-inputs-datepicker--main.png` still dated from 2026-07-28, the day before MUI 9 landed,
+  and nobody noticed because the drift never breached the threshold.
+
+Clipping to `#storybook-root` makes the denominator the component, so 1% means 1% of what is actually
+being tested. `maxDiffPixels` would be tighter still. Screenshots are deliberately left as they are
+for now, so this is a single change touching all baselines and wants its own PR.
+
+Note that this only closes the drift hole. It would not have caught the disabled or selected day,
+because no story rendered those states, nor `calendar-open`, whose baseline was recorded *after* MUI 9
+and so enshrined the bug. Coverage and regeneration discipline are the other half.
+
+**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer;
+`react-router-dom` no longer provided. SAV-6098 cannot be planned without this.
+
+**The radius tokens are not a 2.0.0 change.** They moved inside the 1.x line and 2.0.0 leaves them
+alone, so the migration doc has to state which version a consumer is coming *from*:
+
+| Token | 3px until | 8px from |
+| --- | --- | --- |
+| Button radius, and its focus ring 6px → 12px | v1.3.1 | **v1.4.0** (`907948b`, SAV-5458) |
+| Input radius | v1.4.1 | **v1.5.0** (`d56742a`) |
+
+A consumer already on **1.5.0 or later sees no radius change at all** when moving to 2.0.0. `ses-ui` is
+pinned to **1.3.1**, so it crosses both and its theme pin is doing real work. `ses-ui-mfe-host` shipped
+**1.7.1**, so it was already on 8px and needs no pin - one was added there in error and should come
+out.
 
 Breaking changes confirmed so far, to list verbatim:
 

@@ -27,8 +27,11 @@ const meta: Meta<typeof RcSesDatepicker> = {
 
 export default meta
 
+// Pinned so the visual baselines do not change with the calendar date.
+const REFERENCE_DATE = new Date(2026, 0, 15)
+
 function DatePickerDemo(args: any) {
-  const { clearable, label, open, rules } = args
+  const { clearable, datepickerProps, disabled, error, label, open, rules, value } = args
 
   const {
     control,
@@ -36,7 +39,7 @@ function DatePickerDemo(args: any) {
   } = useForm<SingleStepFormModel>({
     mode: 'all',
     defaultValues: {
-      date: null,
+      date: value ?? null,
     },
   })
 
@@ -49,18 +52,17 @@ function DatePickerDemo(args: any) {
             name='date'
             clearable={clearable}
             control={control}
+            disabled={disabled}
             rules={rules}
             label={label}
-            errors={errors?.date}
+            errors={error ? { type: 'manual', message: error } : errors?.date}
             slotProps={
-              open
+              open || datepickerProps
                 ? {
                     datepicker: {
-                      open: true,
-                      // Pinned month: without it the calendar follows the
-                      // current date and the visual baseline would change
-                      // every month.
-                      referenceDate: new Date(2026, 0, 15),
+                      ...(open ? { open: true } : {}),
+                      referenceDate: REFERENCE_DATE,
+                      ...(datepickerProps ?? {}),
                     },
                   }
                 : undefined
@@ -126,9 +128,103 @@ export const CalendarOpen = {
   },
   parameters: {
     docs: {
+      story: { inline: false, iframeHeight: 560 },
       description: {
         story: 'The picker with its calendar open, pinned to a fixed month.',
       },
     },
+  },
+}
+
+/**
+ * Days past the 20th are out of range: they must read as greyed out, not merely
+ * be unclickable. Disabled weekends stay red.
+ */
+export const CalendarWithDisabledDates = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
+  args: {
+    clearable: true,
+    label: 'Terminas',
+    open: true,
+    rules: { required: true },
+    datepickerProps: { maxDate: new Date(2026, 0, 20) },
+  },
+}
+
+/**
+ * A scattered rule rather than a range, so disabled days sit between selectable
+ * ones.
+ */
+export const CalendarWithDisabledRule = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
+  args: {
+    clearable: true,
+    label: 'Terminas',
+    open: true,
+    rules: { required: true },
+    datepickerProps: {
+      shouldDisableDate: (date: Date) => [8, 9, 10, 22, 23].includes(date.getDate()),
+    },
+  },
+}
+
+/**
+ * Covers the `Mui-selected` day styling.
+ */
+export const CalendarWithValue = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
+  args: {
+    clearable: true,
+    label: 'Terminas',
+    open: true,
+    rules: { required: true },
+    value: '2026-01-15T00:00:00.000Z',
+  },
+}
+
+/**
+ * The whole field disabled - a different state from a disabled day.
+ */
+export const Disabled = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  args: {
+    clearable: true,
+    disabled: true,
+    label: 'Terminas',
+    rules: { required: true },
+  },
+}
+
+/**
+ * The error state: input border and helper text.
+ */
+export const WithError = {
+  render: (args: any) => <DatePickerDemo {...args} />,
+  args: {
+    clearable: true,
+    error: 'Privaloma pasirinkti datą',
+    label: 'Terminas',
+    rules: { required: true },
   },
 }
