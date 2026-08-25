@@ -78,16 +78,17 @@ function RcSesAlert({
     </Box>
   ) : null
 
-  const resolvedAction = hasClose
-    ? action
-      ? (
-          <Box sx={actionContainerStyles}>
-            {action}
-            {closeButton}
-          </Box>
-        )
-      : closeButton
-    : action
+  let resolvedAction = action
+  if (hasClose) {
+    resolvedAction = action ? (
+      <Box sx={actionContainerStyles}>
+        {action}
+        {closeButton}
+      </Box>
+    ) : (
+      closeButton
+    )
+  }
 
   const resolvedRole = role ?? (URGENT_SEVERITIES.includes(severity) ? 'alert' : 'status')
   const resolvedAriaLive = resolvedRole === 'alert' ? 'assertive' : 'polite'
