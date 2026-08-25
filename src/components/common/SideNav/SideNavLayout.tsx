@@ -27,3 +27,4 @@ function RcSesSideNavLayout({
 }
 
 export default RcSesSideNavLayout
+export type { RcSesSideNavLayoutProps } from './SideNav.types'
