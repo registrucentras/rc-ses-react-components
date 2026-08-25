@@ -128,6 +128,7 @@ export const CalendarOpen = {
   },
   parameters: {
     docs: {
+      story: { inline: false, iframeHeight: 560 },
       description: {
         story: 'The picker with its calendar open, pinned to a fixed month.',
       },
@@ -141,6 +142,13 @@ export const CalendarOpen = {
  */
 export const CalendarWithDisabledDates = {
   render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   args: {
     clearable: true,
     label: 'Terminas',
@@ -156,6 +164,13 @@ export const CalendarWithDisabledDates = {
  */
 export const CalendarWithDisabledRule = {
   render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   args: {
     clearable: true,
     label: 'Terminas',
@@ -172,6 +187,13 @@ export const CalendarWithDisabledRule = {
  */
 export const CalendarWithValue = {
   render: (args: any) => <DatePickerDemo {...args} />,
+  // The calendar is portalled, so inline in the docs page it escapes this
+  // story's block and covers its neighbours. Its own iframe contains it.
+  parameters: {
+    docs: {
+      story: { inline: false, iframeHeight: 560 },
+    },
+  },
   args: {
     clearable: true,
     label: 'Terminas',
