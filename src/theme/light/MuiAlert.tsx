@@ -48,16 +48,10 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     action: {
-      flex: '0 1 100%',
-      marginLeft: '1.625rem',
-      marginRight: 0,
-      padding: '1rem 0 0 0',
-
-      [breakpoints.up('sm')]: {
-        flex: '0 1 auto',
-        marginLeft: 'auto',
-        padding: '0 0 0 1rem',
-      },
+      alignSelf: 'center',
+      flex: '0 0 auto',
+      margin: 0,
+      padding: 0,
     },
 
     icon: {
@@ -72,16 +66,25 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     message: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       flexGrow: 1,
+      minWidth: 0,
+      gap: '.75rem',
+      lineHeight: '1rem',
       overflowY: 'hidden',
+      padding: 0,
 
-      [breakpoints.down('sm')]: {
-        flex: '1 1 0',
-        padding: 0,
+      [breakpoints.up('md')]: {
+        flexWrap: 'nowrap',
+        lineHeight: '1.25rem',
       },
 
       a: {
         color: 'inherit',
+        fontWeight: 600,
       },
     },
 
@@ -198,34 +201,6 @@ const MuiAlert: Components['MuiAlert'] = {
 
       '.MuiAlert-icon': {
         alignSelf: 'flex-start',
-        margin: 0,
-        padding: 0,
-      },
-
-      '.MuiAlert-message': {
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexGrow: 1,
-        minWidth: 0,
-        gap: '.75rem',
-        lineHeight: '1rem',
-        padding: 0,
-
-        [breakpoints.up('md')]: {
-          flexWrap: 'nowrap',
-          lineHeight: '1.25rem',
-        },
-
-        a: {
-          fontWeight: 600,
-        },
-      },
-
-      '.MuiAlert-action': {
-        alignSelf: 'center',
-        flex: '0 0 auto',
         margin: 0,
         padding: 0,
       },

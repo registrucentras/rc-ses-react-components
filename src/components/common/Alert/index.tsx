@@ -9,19 +9,11 @@ import { useTranslation } from 'react-i18next'
 
 import CloseIcon from '@/assets/icons/CloseIcon'
 
-type Props = Omit<MuiAlertProps, 'action' | 'onClose'> & {
+type Props = Omit<MuiAlertProps, 'onClose'> & {
   container?: boolean | ContainerProps
   showIcon?: boolean
   showAction?: boolean
   showClose?: boolean
-  actionLabel?: string
-  onActionClick?: () => void
-  onClose?: () => void
-}
-export type RcSesInlineAlertProps = {
-  children: React.ReactNode
-  variant?: 'neutral' | 'info' | 'success' | 'warning' | 'error'
-  showIcon?: boolean
   actionLabel?: string
   onActionClick?: () => void
   onClose?: () => void
@@ -45,6 +37,12 @@ const closeButtonStyles = {
   '&:hover': { opacity: 1 },
 }
 
+const actionContainerStyles = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '.75rem',
+}
+
 const URGENT_SEVERITIES: MuiAlertProps['severity'][] = ['warning', 'error']
 
 function RcSesAlert({
@@ -57,6 +55,7 @@ function RcSesAlert({
   actionLabel,
   onActionClick,
   onClose,
+  action,
   severity,
   role,
   sx,
@@ -66,6 +65,29 @@ function RcSesAlert({
 
   const hasAction = showAction && Boolean(onActionClick) && Boolean(actionLabel)
   const hasClose = showClose && Boolean(onClose)
+
+  const closeButton = hasClose ? (
+    <Box
+      component='button'
+      type='button'
+      onClick={onClose}
+      aria-label={t('close')}
+      sx={closeButtonStyles}
+    >
+      <CloseIcon size={22} fillColor='currentColor' focusable={false} aria-hidden />
+    </Box>
+  ) : null
+
+  const resolvedAction = hasClose
+    ? action
+      ? (
+          <Box sx={actionContainerStyles}>
+            {action}
+            {closeButton}
+          </Box>
+        )
+      : closeButton
+    : action
 
   const resolvedRole = role ?? (URGENT_SEVERITIES.includes(severity) ? 'alert' : 'status')
   const resolvedAriaLive = resolvedRole === 'alert' ? 'assertive' : 'polite'
@@ -89,19 +111,7 @@ function RcSesAlert({
       role={resolvedRole}
       aria-live={resolvedAriaLive}
       icon={showIcon ? icon : false}
-      action={
-        hasClose ? (
-          <Box
-            component='button'
-            type='button'
-            onClick={onClose}
-            aria-label={t('close')}
-            sx={closeButtonStyles}
-          >
-            <CloseIcon size={22} fillColor='currentColor' focusable={false} aria-hidden />
-          </Box>
-        ) : undefined
-      }
+      action={resolvedAction}
       sx={[
         isContainer &&
           ((theme) => {
