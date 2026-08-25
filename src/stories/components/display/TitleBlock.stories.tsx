@@ -19,7 +19,7 @@ const meta: Meta<typeof RcSesTitleBlock> = {
     docs: {
       description: {
         component:
-          "TitleBlock lays out an optional icon, a title, an optional description and up to two trailing actions. It is the primitive used inside `CardShell`'s header slot, but it is slot-agnostic and can be dropped into any row that needs a titled unit (list items, section rows, modal headers).",
+          'TitleBlock lays out an optional icon, a title, an optional description and up to two trailing actions. It is the primitive that can be dropped into any row that needs a titled unit (card headers, list items, section rows, modal headers).',
       },
     },
   },
