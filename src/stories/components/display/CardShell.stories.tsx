@@ -1,16 +1,12 @@
-import { Box, ButtonBase, Card, Stack, Typography } from '@mui/material'
-import { InfoIcon } from '@phosphor-icons/react/dist/icons/Info'
-import { PhoneCallIcon } from '@phosphor-icons/react/dist/ssr'
+import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
-import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesCardHeader from '@/components/common/TitleBlock'
 import palette from '@/theme/palette'
 
@@ -200,20 +196,6 @@ export const WithoutHeader: Story = {
   },
 }
 
-export const FooterSingleLink: Story = {
-  args: {
-    variant: 'card',
-    theme: 'default',
-    header: <SampleHeader />,
-    children: <SampleContent />,
-    footer: (
-      <RcSesCardFooter align='start' stretchOnMobile={false}>
-        <RcSesButton variant='link'>Žiūrėti visas</RcSesButton>
-      </RcSesCardFooter>
-    ),
-  },
-}
-
 export const WithoutFooter: Story = {
   args: {
     variant: 'card',
@@ -281,27 +263,3 @@ export const TabletViewport: Story = {
   tags: ['viewport-768', '!autodocs'],
   globals: { viewport: { value: 'tablet768' } },
 }
-
-// ---------------------------------------------------------------------------
-// Compositions: recipes for common "tile" patterns built from CardShell +
-// CardHeader + IconWithSquareBackground + ButtonBase. Kept as stories rather
-// than dedicated components — the shape is thin enough that a demo is more
-// useful than an extra API surface.
-// ---------------------------------------------------------------------------
-
-const FooterLink = ({ label, href }: { label: string; href: string }) => (
-  <a
-    href={href}
-    style={{
-      alignItems: 'center',
-      color: palette.primary[600],
-      display: 'inline-flex',
-      fontWeight: 600,
-      gap: '0.5rem',
-      textDecoration: 'none',
-    }}
-  >
-    {label}
-    <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-  </a>
-)
