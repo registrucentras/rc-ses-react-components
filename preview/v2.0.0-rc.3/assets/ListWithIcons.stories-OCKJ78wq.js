@@ -1,0 +1,10 @@
+import{b as e,W as i}from"./iframe-DFr7-kBt.js";import{L as s}from"./index-KVWORDMc.js";import"./preload-helper-PPVm8Dsz.js";import"./Box-iOShl6QB.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./Typography-BvVD2MRL.js";import"./memoTheme-CYLlGCL0.js";import"./styled-LpAaHYDj.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./Tooltip-D2jZjHgG.js";import"./useReducedMotion-DEB_0ZrJ.js";import"./useSlot-BZ9gey8t.js";import"./mergeSlotProps-CAyQVs75.js";import"./useTimeout-C97wSRuf.js";import"./useControlled-BFWem-9L.js";import"./getReactElementRef-BKKxG5kB.js";import"./Grow-CQjZN6na.js";import"./Transition-BhDqb2nV.js";import"./utils-cxgvJEOf.js";import"./Popper-D_8OdrEy.js";import"./ownerDocument-DW-IO8s5.js";import"./Portal-C-r3lMVo.js";import"./index-BuQh4Z1_.js";import"./index-BR6mhfxi.js";import"./setRef-CQn2LYBI.js";import"./useSlotProps-DemC5Uog.js";import"./isFocusVisible-B8k4qzLc.js";import"./Skeleton-BtGpUaAQ.js";const a=[{icon:e,text:"Application received",tooltip:"The submission was successfully received."},{icon:i,text:"Requires review",tooltip:"A specialist will review the provided details."},{icon:i,text:"Unavailable item",tooltip:"This item is currently disabled.",disabled:!0}],E={title:"components/display/ListWithIcons",component:s,tags:["autodocs"],args:{items:a,layout:"vertical",isLoading:!1},argTypes:{layout:{control:{type:"radio"},options:["vertical","horizontal"]},isLoading:{control:{type:"boolean"}},items:{control:!1}}},o={},t={args:{layout:"horizontal"}},r={args:{isLoading:!0}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:"{}",...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    layout: 'horizontal'
+  }
+}`,...t.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  args: {
+    isLoading: true
+  }
+}`,...r.parameters?.docs?.source}}};const F=["Main","Horizontal","Loading"];export{t as Horizontal,r as Loading,o as Main,F as __namedExportsOrder,E as default};
+//# sourceMappingURL=ListWithIcons.stories-OCKJ78wq.js.map
