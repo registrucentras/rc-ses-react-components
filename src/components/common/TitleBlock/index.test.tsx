@@ -193,6 +193,52 @@ describe('RcSesTitleBlock', () => {
     expect(actions).toContainElement(screen.getByRole('button', { name: 'Tęsti' }))
   })
 
+  test('renders a single action in the actions slot', () => {
+    renderTitleBlock(
+      <RcSesTitleBlock
+        actions={<button type='button'>Užsakyti</button>}
+        testIds={{ actions: 'actions' }}
+        title='Test Title'
+      />,
+    )
+
+    expect(screen.getByTestId('actions')).toContainElement(
+      screen.getByRole('button', { name: 'Užsakyti' }),
+    )
+  })
+
+  test('actions slot stacks vertically on mobile (xs)', () => {
+    // MUI's responsive `direction={{ xs: 'column', sm: 'row' }}` emits
+    // `flex-direction: column` as the base (xs) rule; the sm breakpoint
+    // override lives behind a media query and does not affect the base style.
+    renderTitleBlock(
+      <RcSesTitleBlock
+        actions={
+          <>
+            <button type='button'>Užsakyti</button>
+            <button type='button'>Plačiau</button>
+          </>
+        }
+        testIds={{ actions: 'actions' }}
+        title='Paslaugos pavadinimas'
+      />,
+    )
+
+    expect(screen.getByTestId('actions')).toHaveStyle({ flexDirection: 'column' })
+  })
+
+  test('actions slot stacks vertically on mobile even with a single action', () => {
+    renderTitleBlock(
+      <RcSesTitleBlock
+        actions={<button type='button'>Užsakyti</button>}
+        testIds={{ actions: 'actions' }}
+        title='Paslaugos pavadinimas'
+      />,
+    )
+
+    expect(screen.getByTestId('actions')).toHaveStyle({ flexDirection: 'column' })
+  })
+
   test('omits the icon and actions slots when not provided', () => {
     renderTitleBlock(
       <RcSesTitleBlock

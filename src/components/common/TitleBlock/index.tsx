@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { Children, Fragment, type ReactNode, isValidElement } from 'react'
+import { type ReactNode } from 'react'
 
 import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
@@ -24,13 +24,6 @@ function RcSesTitleBlock({
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
   const isVertical = orientation === 'vertical'
-  // Fragments are unwrapped so <>{a}{b}</> counts as 2, not 1.
-  const hasMultipleActions = actions
-    ? (isValidElement(actions) && actions.type === Fragment
-        ? Children.toArray((actions.props as { children: ReactNode }).children)
-        : Children.toArray(actions)
-      ).length > 1
-    : false
 
   const iconNode = icon ? (
     <Box aria-hidden data-testid={testIds?.icon} sx={{ display: 'flex', flexShrink: 0 }}>
@@ -94,16 +87,11 @@ function RcSesTitleBlock({
     actions && !isVertical ? (
       <Stack
         data-testid={testIds?.actions}
-        direction={hasMultipleActions ? { xs: 'column', sm: 'row' } : 'row'}
+        direction={{ xs: 'column', sm: 'row' }}
         spacing={cards.header.actionsGap}
         sx={{
-          alignItems: 'center',
+          alignItems: { xs: 'flex-start', sm: 'center' },
           flexShrink: 0,
-          ...(hasMultipleActions && {
-            alignItems: { xs: 'stretch', sm: 'center' },
-            width: { xs: '100%', sm: 'auto' },
-            '& > *': { width: { xs: '100%', sm: 'auto' } },
-          }),
         }}
       >
         {actions}
