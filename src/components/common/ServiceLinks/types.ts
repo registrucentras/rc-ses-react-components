@@ -13,10 +13,15 @@ export type RcSesServiceLinkItem = {
   target?: string
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
   disabled?: boolean
+  /**
+   * Optional stable identity used as the React key when rendering the list.
+   * Stripped out before spreading onto the row, so it never reaches the DOM.
+   */
+  key?: string
 }
 
 export type RcSesServiceLinksProps = {
-  items: (RcSesServiceLinkItem & { key?: string })[]
+  items: RcSesServiceLinkItem[]
   dividers?: boolean
   isLoading?: boolean
   skeletonCount?: number
