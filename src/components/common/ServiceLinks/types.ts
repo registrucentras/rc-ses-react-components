@@ -13,11 +13,10 @@ export type RcSesServiceLinkItem = {
   target?: string
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
   disabled?: boolean
-  key?: string
 }
 
 export type RcSesServiceLinksProps = {
-  items: RcSesServiceLinkItem[]
+  items: (RcSesServiceLinkItem & { key?: string })[]
   dividers?: boolean
   isLoading?: boolean
   skeletonCount?: number

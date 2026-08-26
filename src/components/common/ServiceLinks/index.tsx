@@ -28,24 +28,31 @@ function RcSesServiceLinks({
       }}
     >
       {Array.from({ length: rowCount }).map((_, index) => {
+        if (isLoading) {
+          return (
+            <Fragment key={index}>
+              {dividers && index > 0 ? (
+                <Divider sx={{ borderColor: palette.grey[200] }} />
+              ) : null}
+              <ServiceLinkItem label='' isLoading testIds={testIds} />
+            </Fragment>
+          )
+        }
+
         const item = items[index]
-        const key = (!isLoading && item?.key) || String(index)
+        const { key: itemKey, ...itemProps } = item
+        const key = itemKey || String(index)
 
         return (
           <Fragment key={key}>
             {dividers && index > 0 ? (
               <Divider sx={{ borderColor: palette.grey[200] }} />
             ) : null}
-
-            {isLoading || !item ? (
-              <ServiceLinkItem label='' isLoading testIds={testIds} />
-            ) : (
-              <ServiceLinkItem
-                {...item}
-                linkComponent={linkComponent}
-                testIds={testIds}
-              />
-            )}
+            <ServiceLinkItem
+              {...itemProps}
+              linkComponent={linkComponent}
+              testIds={testIds}
+            />
           </Fragment>
         )
       })}

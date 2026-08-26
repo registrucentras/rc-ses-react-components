@@ -63,20 +63,31 @@ function ServiceLinkItem({
   }
 
   const isLink = href !== undefined && !disabled
+  const isButton = !isLink && onClick !== undefined && !disabled
+  const isInteractive = isLink || isButton
 
-  // Navigable rows render as `linkComponent` (or native `<a>`); a disabled row
-  // degrades to a static div. The Stack itself is the interactive element, so
-  // hover/focus styles, aria state and the anchor semantics all live on one node.
-  const RowComponent: ElementType = isLink ? (linkComponent ?? 'a') : 'div'
+  // Navigable rows render as `linkComponent` (or native `<a>`); click-only rows
+  // render as a native `<button>` so they stay keyboard reachable; a disabled or
+  // static row degrades to a plain div. The Stack itself is the interactive
+  // element, so hover/focus styles, aria state and semantics live on one node.
+  let RowComponent: ElementType = 'div'
+  if (isLink) RowComponent = linkComponent ?? 'a'
+  else if (isButton) RowComponent = 'button'
 
-  const interactiveProps = isLink
-    ? {
-        href,
-        target,
-        rel: target === '_blank' ? 'noopener noreferrer' : undefined,
-        onClick,
-      }
-    : {}
+  let interactiveProps: Record<string, unknown> = {}
+  if (isLink) {
+    interactiveProps = {
+      href,
+      target,
+      rel: target === '_blank' ? 'noopener noreferrer' : undefined,
+      onClick,
+    }
+  } else if (isButton) {
+    interactiveProps = {
+      type: 'button',
+      onClick,
+    }
+  }
 
   return (
     <Stack
@@ -88,15 +99,20 @@ function ServiceLinkItem({
       tabIndex={disabled ? -1 : undefined}
       sx={{
         alignItems: 'center',
+        appearance: 'none',
+        background: 'none',
+        border: 0,
         borderRadius: linkRow.borderRadius,
         color: 'inherit',
-        cursor: disabled ? 'default' : 'pointer',
+        cursor: disabled ? 'default' : isInteractive ? 'pointer' : 'default',
+        font: 'inherit',
         gap: linkRow.gap,
         justifyContent: 'space-between',
         minHeight: linkRow.lineHeight,
         opacity: disabled ? 0.5 : 1,
         p: `${linkRow.paddingBlock} 0`,
         pointerEvents: disabled ? 'none' : 'auto',
+        textAlign: 'left',
         textDecoration: 'none',
         width: '100%',
 
@@ -105,12 +121,14 @@ function ServiceLinkItem({
           outlineOffset: '2px',
         },
 
-        '&:hover .RcSesServiceLink-label, &:hover .RcSesServiceLink-icon': {
-          color: palette.primary[600],
-        },
-        '&:hover .RcSesServiceLink-icon': {
-          transform: 'translateX(2px)',
-        },
+        ...(isInteractive && {
+          '&:hover .RcSesServiceLink-label, &:hover .RcSesServiceLink-icon': {
+            color: palette.primary[600],
+          },
+          '&:hover .RcSesServiceLink-icon': {
+            transform: 'translateX(2px)',
+          },
+        }),
 
         '@media (prefers-reduced-motion: reduce)': {
           '& .RcSesServiceLink-label, & .RcSesServiceLink-icon': {

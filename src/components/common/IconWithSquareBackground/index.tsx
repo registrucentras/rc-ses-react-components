@@ -11,7 +11,6 @@ type SquareTileVariant = 'solid' | 'soft' | 'muted'
 
 type Props = {
   Icon: React.JSXElementConstructor<IconProps>
-  color?: keyof typeof palette
   size?: SquareTileSize
   variant?: SquareTileVariant
 }
@@ -24,7 +23,6 @@ const SIZE_TOKENS: Record<SquareTileSize, [string, string, string]> = {
 function IconWithSquareBackground(props: Props) {
   const { Icon } = props
 
-  const color = props?.color ?? 'primary'
   const size = props?.size ?? 44
   const variant = props?.variant ?? 'solid'
 
@@ -37,8 +35,8 @@ function IconWithSquareBackground(props: Props) {
     switch (variant) {
       case 'soft':
         return {
-          backgroundColor: palette[color][50],
-          iconColorPath: `${color}.600` as ThemeColors,
+          backgroundColor: palette.primary[50],
+          iconColorPath: 'primary.600',
         }
       case 'muted':
         return {
@@ -48,11 +46,11 @@ function IconWithSquareBackground(props: Props) {
       case 'solid':
       default:
         return {
-          backgroundColor: palette[color][500],
+          backgroundColor: palette.primary[500],
           iconColorPath: 'white',
         }
     }
-  }, [color, variant])
+  }, [variant])
 
   const StyledIcon = styled(Icon)({
     height: iconSize,
