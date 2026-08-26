@@ -71,6 +71,9 @@ beforeEach(() => {
 afterEach(() => {
   document.body.innerHTML = ''
   vi.unstubAllGlobals()
+  // Covers vi.spyOn mocks (e.g. Date.now) regardless of whether the test that
+  // created them failed before reaching its own manual restore.
+  vi.restoreAllMocks()
 })
 
 describe('useSideNavScrollSpy', () => {
@@ -275,6 +278,40 @@ describe('useSideNavScrollSpy', () => {
     expect(result.current.activeItemId).toBe('signature')
   })
 
+  it('does not let scroll events fired by its own smooth-scroll animation flicker activeItemId away from the clicked item', async () => {
+    // scrollToItem's window.scrollTo is a no-op in jsdom, so the scroll events it
+    // "fires" here are standing in for the real animation's intermediate frames -
+    // section positions still reflecting the pre-click layout is exactly what a
+    // scroll event mid-animation would see, and it must be ignored. Date.now is
+    // controlled directly (rather than via fake timers, which would also hijack
+    // this file's own requestAnimationFrame stub) to move past the suppression
+    // window deterministically.
+    vi.stubGlobal('scrollTo', vi.fn())
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false })),
+    )
+    const start = Date.now()
+    const nowSpy = vi.spyOn(Date, 'now').mockReturnValue(start)
+
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
+    )
+
+    act(() => {
+      result.current.scrollToItem('residence')
+    })
+    expect(result.current.activeItemId).toBe('residence')
+
+    nowSpy.mockReturnValue(start + 300)
+    await fireScroll()
+    expect(result.current.activeItemId).toBe('residence')
+
+    nowSpy.mockReturnValue(start + 700)
+    await fireScroll()
+    expect(result.current.activeItemId).toBe('family')
+  })
+
   it('scrolls instantly when the user prefers reduced motion', () => {
     const scrollToMock = vi.fn()
     vi.stubGlobal('scrollTo', scrollToMock)
@@ -294,6 +331,26 @@ describe('useSideNavScrollSpy', () => {
     expect(scrollToMock).toHaveBeenCalledWith(
       expect.objectContaining({ behavior: 'auto' }),
     )
+  })
+
+  it('does not suppress scroll-driven updates when the jump is instant (reduced motion)', async () => {
+    vi.stubGlobal('scrollTo', vi.fn())
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true })),
+    )
+
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents', 'signature', 'residence'] }),
+    )
+
+    act(() => {
+      result.current.scrollToItem('residence')
+    })
+    expect(result.current.activeItemId).toBe('residence')
+
+    await fireScroll()
+    expect(result.current.activeItemId).toBe('family')
   })
 
   it('does nothing when scrolling to an id with no matching element', () => {
@@ -327,5 +384,74 @@ describe('useSideNavScrollSpy', () => {
     await fireScroll()
 
     expect(result.current.activeItemId).toBe('family')
+  })
+
+  it('does not attach scroll/resize listeners when itemIds is empty', () => {
+    const addEventListenerSpy = vi.spyOn(window, 'addEventListener')
+
+    renderHook(() => useSideNavScrollSpy({ itemIds: [] }))
+
+    expect(addEventListenerSpy).not.toHaveBeenCalledWith('scroll', expect.anything())
+    expect(addEventListenerSpy).not.toHaveBeenCalledWith('resize', expect.anything())
+
+    addEventListenerSpy.mockRestore()
+  })
+
+  it('resolves ids only within the given scope, ignoring a same-id collision outside it', () => {
+    // A "documents" element outside the scope has already scrolled past the
+    // activation line - if resolution weren't bounded to `scope`, it (not the real
+    // one inside it) would win and wrongly mark "documents" active over "family".
+    document.body.innerHTML = ''
+
+    const outsideDocuments = document.createElement('div')
+    outsideDocuments.id = 'documents'
+    outsideDocuments.getBoundingClientRect = () => ({ top: -500 }) as DOMRect
+    document.body.appendChild(outsideDocuments)
+
+    const scopeEl = document.createElement('div')
+    const family = document.createElement('div')
+    family.id = 'family'
+    family.getBoundingClientRect = () => ({ top: 0 }) as DOMRect
+    const insideDocuments = document.createElement('div')
+    insideDocuments.id = 'documents'
+    insideDocuments.getBoundingClientRect = () => ({ top: 300 }) as DOMRect
+    scopeEl.appendChild(family)
+    scopeEl.appendChild(insideDocuments)
+    document.body.appendChild(scopeEl)
+
+    const scope = { current: scopeEl }
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents'], scope }),
+    )
+
+    expect(result.current.activeItemId).toBe('family')
+  })
+
+  it('picks up a lazily-added section immediately via the mutation observer, without waiting for a scroll or resize event', async () => {
+    document.body.innerHTML = '<div id="scope"><div id="family"></div></div>'
+    setViewport({ scrollY: 500, innerHeight: 800, scrollHeight: 3000 })
+    const scopeEl = document.getElementById('scope') as HTMLElement
+    const family = scopeEl.querySelector('#family') as HTMLElement
+    family.getBoundingClientRect = () => ({ top: -400 }) as DOMRect
+
+    const scope = { current: scopeEl }
+    const { result } = renderHook(() =>
+      useSideNavScrollSpy({ itemIds: ['family', 'documents'], scope }),
+    )
+
+    expect(result.current.activeItemId).toBe('family')
+
+    const documents = document.createElement('div')
+    documents.id = 'documents'
+    documents.getBoundingClientRect = () => ({ top: -100 }) as DOMRect
+
+    await act(async () => {
+      scopeEl.appendChild(documents)
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(result.current.activeItemId).toBe('documents')
   })
 })

@@ -84,26 +84,10 @@ describe('RcSesSideNav', () => {
     expect(handleClick).toHaveBeenCalledWith('signature')
   })
 
-  it('renders static, non-interactive content when fully controlled with no onItemClick', () => {
+  it('renders static, non-interactive content with no onItemClick', () => {
     renderSideNav(<RcSesSideNav items={items} activeItemId='family' />)
 
     expect(screen.queryAllByRole('button')).toHaveLength(0)
-  })
-
-  it('is interactive by default, even with no props beyond items', () => {
-    renderSideNav(<RcSesSideNav items={items} />)
-
-    expect(screen.getAllByRole('button', { name: 'Elektroninis parašas' })).toHaveLength(
-      2,
-    )
-  })
-
-  it('does not throw when clicked with no matching section on the page', () => {
-    renderSideNav(<RcSesSideNav items={items} />)
-
-    expect(() =>
-      screen.getAllByRole('button', { name: 'Elektroninis parašas' })[0].click(),
-    ).not.toThrow()
   })
 
   it('renders in English when the language is changed', async () => {

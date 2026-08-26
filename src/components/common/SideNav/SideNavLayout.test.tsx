@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { ReactElement } from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import i18n from '@/i18n/i18n'
 import theme from '@/theme/light'
@@ -13,7 +13,6 @@ function ResizeObserverMock() {
   return { observe: () => {}, unobserve: () => {}, disconnect: () => {} }
 }
 
-vi.stubGlobal('ResizeObserver', ResizeObserverMock)
 Element.prototype.scrollIntoView = vi.fn()
 
 const items: RcSesSideNavItem[] = [
@@ -26,7 +25,12 @@ const renderLayout = (ui: ReactElement) =>
 
 describe('RcSesSideNavLayout', () => {
   beforeEach(async () => {
+    vi.stubGlobal('ResizeObserver', ResizeObserverMock)
     await i18n.changeLanguage('lt')
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
   })
 
   it('renders the nav alongside its content children', () => {
@@ -54,6 +58,42 @@ describe('RcSesSideNavLayout', () => {
     screen.getAllByRole('button', { name: 'Dokumentai apie gyventoją, 2' })[0].click()
 
     expect(handleClick).toHaveBeenCalledWith('documents')
+  })
+
+  it('is interactive by default and scrolls to the clicked item when uncontrolled', () => {
+    const scrollToMock = vi.fn()
+    vi.stubGlobal('scrollTo', scrollToMock)
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false })),
+    )
+
+    renderLayout(
+      <RcSesSideNavLayout items={items} title='Temos'>
+        <div id='family' />
+        <div id='documents' />
+      </RcSesSideNavLayout>,
+    )
+
+    act(() => {
+      screen.getAllByRole('button', { name: 'Dokumentai apie gyventoją, 2' })[0].click()
+    })
+
+    expect(scrollToMock).toHaveBeenCalledWith(
+      expect.objectContaining({ behavior: 'smooth' }),
+    )
+  })
+
+  it('does not throw when clicked with no matching section in the content', () => {
+    renderLayout(
+      <RcSesSideNavLayout items={items} title='Temos'>
+        <div />
+      </RcSesSideNavLayout>,
+    )
+
+    expect(() =>
+      screen.getAllByRole('button', { name: 'Dokumentai apie gyventoją, 2' })[0].click(),
+    ).not.toThrow()
   })
 
   it('does not drop custom sx values passed as an array', () => {
