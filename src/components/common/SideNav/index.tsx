@@ -42,15 +42,16 @@ function RcSesSideNav({
     <Box
       component='nav'
       aria-label={navTitle}
-      sx={[{ width: '100%', height: '100%' }, ...normalizeSx(sx)]}
+      sx={[
+        { width: '100%', zIndex: 1, backgroundColor: common.white },
+        ...normalizeSx(sx),
+      ]}
     >
       <Box
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
           gap: '0.25rem',
-          position: 'sticky',
-          top: 0,
         }}
       >
         <Typography
@@ -75,15 +76,7 @@ function RcSesSideNav({
         ))}
       </Box>
 
-      <Box
-        sx={{
-          display: { xs: 'block', md: 'none' },
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          backgroundColor: common.white,
-        }}
-      >
+      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <SideNavPillList
           items={items}
           activeItemId={activeItemId}

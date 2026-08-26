@@ -8,6 +8,7 @@ import { RcSesSideNavLayoutProps } from './SideNav.types'
 function RcSesSideNavLayout({
   children,
   sidebarWidth = '17rem',
+  offset,
   sx,
   ...sideNavProps
 }: RcSesSideNavLayoutProps) {
@@ -18,9 +19,17 @@ function RcSesSideNavLayout({
         ...normalizeSx(sx),
       ]}
     >
-      <Box sx={{ width: { xs: '100%', md: sidebarWidth }, flexShrink: 0 }}>
-        <RcSesSideNav {...sideNavProps} />
-      </Box>
+      <RcSesSideNav
+        {...sideNavProps}
+        offset={offset}
+        sx={{
+          position: 'sticky',
+          top: `${offset ?? 0}px`,
+          alignSelf: { xs: 'stretch', md: 'flex-start' },
+          width: { md: sidebarWidth },
+          flexShrink: 0,
+        }}
+      />
       <Box sx={{ flex: 1, minWidth: 0 }}>{children}</Box>
     </Box>
   )
