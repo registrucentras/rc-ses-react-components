@@ -1,0 +1,2 @@
+import{L as o}from"./Logo-BaJb5bh9.js";import"./iframe-BKE99rMd.js";import"./preload-helper-PPVm8Dsz.js";const s={title:"assets/Logo",component:o,parameters:{layout:"centered"}},e={};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:"{}",...e.parameters?.docs?.source}}};const m=["Default"];export{e as Default,m as __namedExportsOrder,s as default};
+//# sourceMappingURL=Logo.stories-DSvgFDeO.js.map
