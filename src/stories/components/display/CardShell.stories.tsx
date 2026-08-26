@@ -1,14 +1,12 @@
 import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesCardHeader from '@/components/common/TitleBlock'
-import palette from '@/theme/palette'
 
 const meta: Meta<typeof RcSesCardShell> = {
   title: 'components/display/CardShell',
