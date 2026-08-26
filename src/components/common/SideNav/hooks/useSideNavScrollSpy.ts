@@ -1,24 +1,56 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 const ACTIVATION_LINE_EPSILON = 1
+// Long enough to cover a native smooth-scroll to any in-page section for this
+// component's use case (a single service page's sidebar nav, not an arbitrarily
+// long document).
+const PROGRAMMATIC_SCROLL_SETTLE_MS = 600
 
 type UseSideNavScrollSpyOptions = {
   itemIds: string[]
   offset?: number
+  // Bounds id resolution to this subtree so an id collision elsewhere on the page
+  // can't win or lose the activation check. Defaults to the whole document.
+  scope?: RefObject<HTMLElement>
 }
 
-function useSideNavScrollSpy({ itemIds, offset = 0 }: UseSideNavScrollSpyOptions) {
+function findScopedElement(root: Document | HTMLElement, id: string): HTMLElement | null {
+  if (root instanceof Document) return root.getElementById(id)
+  return (
+    Array.from(root.querySelectorAll<HTMLElement>('[id]')).find(
+      (element) => element.id === id,
+    ) ?? null
+  )
+}
+
+function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpyOptions) {
   const [activeItemId, setActiveItemId] = useState<string | undefined>(itemIds[0])
   const rafRef = useRef<number>()
+  const suppressUntilRef = useRef(0)
   const itemIdsKey = itemIds.join('|')
 
   useEffect(() => {
+    if (itemIds.length === 0) return undefined
+
+    const root: Document | HTMLElement = scope?.current ?? document
+
     // Resolved fresh on every call (not cached once at mount) so sections added to
-    // the DOM after mount - e.g. lazily-loaded content - still get picked up on the
-    // next scroll/resize.
+    // the DOM after mount - e.g. lazily-loaded content - still get picked up
+    // immediately via the MutationObserver below, or on the next scroll/resize.
     const updateActiveItem = () => {
+      // A click-driven scrollToItem() already set the correct activeItemId - the
+      // scroll events fired by its own smooth-scroll animation would otherwise
+      // recompute (and flicker) it through every section the animation passes over
+      // before landing on the clicked one.
+      if (Date.now() < suppressUntilRef.current) return
+
+      const idMap = new Map<string, HTMLElement>()
+      root.querySelectorAll<HTMLElement>('[id]').forEach((element) => {
+        if (!idMap.has(element.id)) idMap.set(element.id, element)
+      })
+
       const resolved = itemIds
-        .map((id) => ({ id, element: document.getElementById(id) }))
+        .map((id) => ({ id, element: idMap.get(id) ?? null }))
         .filter(
           (entry): entry is { id: string; element: HTMLElement } =>
             entry.element !== null,
@@ -80,21 +112,27 @@ function useSideNavScrollSpy({ itemIds, offset = 0 }: UseSideNavScrollSpyOptions
     window.addEventListener('scroll', scheduleUpdate, { passive: true })
     window.addEventListener('resize', scheduleUpdate)
 
+    // Sections added to the DOM after mount - e.g. lazily-loaded content - should
+    // register immediately rather than waiting for the next scroll/resize event.
+    const mutationObserver = new MutationObserver(scheduleUpdate)
+    mutationObserver.observe(root, { childList: true, subtree: true })
+
     return () => {
       window.removeEventListener('scroll', scheduleUpdate)
       window.removeEventListener('resize', scheduleUpdate)
+      mutationObserver.disconnect()
       // Also reset the ref, not just cancel the frame - otherwise the next effect
       // instance's scheduleUpdate sees a stale non-undefined handle on its in-flight
       // guard and silently refuses to ever schedule another update.
       if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current)
       rafRef.current = undefined
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- itemIdsKey stands in for itemIds
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- itemIdsKey stands in for itemIds; scope is a ref, its identity is stable
   }, [itemIdsKey, offset])
 
   const scrollToItem = useCallback(
     (id: string) => {
-      const element = document.getElementById(id)
+      const element = findScopedElement(scope?.current ?? document, id)
       if (!element) return
 
       const prefersReducedMotion = window.matchMedia(
@@ -102,9 +140,16 @@ function useSideNavScrollSpy({ itemIds, offset = 0 }: UseSideNavScrollSpyOptions
       ).matches
       const top = element.getBoundingClientRect().top + window.scrollY - offset
 
+      // Always (re)assign rather than only when animating, so an instant
+      // (reduced-motion) click can't leave a still-running suppression window
+      // from an earlier animated click blocking its own follow-up scroll updates.
+      suppressUntilRef.current = prefersReducedMotion
+        ? 0
+        : Date.now() + PROGRAMMATIC_SCROLL_SETTLE_MS
       window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
       setActiveItemId(id)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- scope is a ref, its identity is stable
     [offset],
   )
 
