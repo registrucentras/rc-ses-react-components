@@ -104,7 +104,7 @@ function ServiceLinkItem({
         border: 0,
         borderRadius: linkRow.borderRadius,
         color: 'inherit',
-        cursor: disabled ? 'default' : isInteractive ? 'pointer' : 'default',
+        cursor: !disabled && isInteractive ? 'pointer' : 'default',
         font: 'inherit',
         gap: linkRow.gap,
         justifyContent: 'space-between',
