@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vitest'
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import theme from '@/theme/light'
 
-import RcSesIconWithSquareBackground from './'
+import RcSesIconWithSquareBackground from '.'
 
 const renderTile = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
