@@ -12,12 +12,12 @@ export type RcSesSideNavProps = {
   activeItemId?: string
   onItemClick?: (id: string) => void
   title?: string
-  offset?: number
   sx?: SxProps<Theme>
 }
 
 export type RcSesSideNavLayoutProps = Omit<RcSesSideNavProps, 'sx'> & {
   children: ReactNode
   sidebarWidth?: string
+  offset?: number
   sx?: SxProps<Theme>
 }

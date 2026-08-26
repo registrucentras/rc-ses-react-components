@@ -30,6 +30,7 @@ function SideNavPill({ label, count, ariaLabel, active, onClick }: Props) {
         backgroundColor: active ? palette.primary[50] : common.white,
         padding: '0.5rem 1rem',
         cursor: onClick ? 'pointer' : 'default',
+        WebkitTapHighlightColor: 'transparent',
         '&:focus-visible': {
           outline: `0.125rem solid ${palette.primary.main}`,
           outlineOffset: '0.125rem',

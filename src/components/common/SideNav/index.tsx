@@ -7,31 +7,16 @@ import palette, { common } from '@/theme/palette'
 import { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
 import SideNavPillList from './components/SideNavPillList'
 import SideNavRow from './components/SideNavRow'
-import useSideNavScrollSpy from './hooks/useSideNavScrollSpy'
 
 function RcSesSideNav({
   items,
-  activeItemId: controlledActiveItemId,
+  activeItemId,
   onItemClick,
   title,
-  offset,
   sx,
 }: RcSesSideNavProps) {
   const { t } = useTranslation('common', { keyPrefix: 'components.RcSesSideNav' })
   const navTitle = title ?? t('title')
-
-  const isControlled = controlledActiveItemId !== undefined
-  const itemIds = items.map((item) => item.id)
-  const scrollSpy = useSideNavScrollSpy({ itemIds: isControlled ? [] : itemIds, offset })
-  const activeItemId = isControlled ? controlledActiveItemId : scrollSpy.activeItemId
-
-  const isInteractive = !isControlled || !!onItemClick
-  const handleItemClick = isInteractive
-    ? (id: string) => {
-        if (!isControlled) scrollSpy.scrollToItem(id)
-        onItemClick?.(id)
-      }
-    : undefined
 
   const getItemAriaLabel = (item: RcSesSideNavItem) =>
     item.count !== undefined
@@ -71,7 +56,7 @@ function RcSesSideNav({
             count={item.count}
             ariaLabel={getItemAriaLabel(item)}
             active={item.id === activeItemId}
-            onClick={handleItemClick ? () => handleItemClick(item.id) : undefined}
+            onClick={onItemClick ? () => onItemClick(item.id) : undefined}
           />
         ))}
       </Box>
@@ -80,7 +65,7 @@ function RcSesSideNav({
         <SideNavPillList
           items={items}
           activeItemId={activeItemId}
-          onItemClick={handleItemClick}
+          onItemClick={onItemClick}
           getItemAriaLabel={getItemAriaLabel}
         />
       </Box>
