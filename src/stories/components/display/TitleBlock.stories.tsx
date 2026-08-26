@@ -46,6 +46,16 @@ const FooterLink = ({ label, href }: { label: string; href: string }) => (
   </a>
 )
 
+export const TitleBlock: Story = {
+  render: () => (
+    <RcSesTitleBlock
+      title='Pažymos santuokai sudaryti užsienyje užsakymas'
+      description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+      titleColor={palette.primary['700']}
+    />
+  ),
+}
+
 export const WithPrimaryAction: Story = {
   render: () => (
     <RcSesTitleBlock
