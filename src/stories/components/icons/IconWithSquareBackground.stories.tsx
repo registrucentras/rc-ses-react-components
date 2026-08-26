@@ -41,9 +41,9 @@ export const AllVariantsAndSizes: Story = {
       {SIZES.map((size) => (
         <Stack key={size} spacing={1}>
           <Typography variant='caption'>size: {size}</Typography>
-          <Stack direction='row' spacing={2} alignItems='center'>
+          <Stack direction='row' spacing={2} sx={{ alignItems: 'center' }}>
             {VARIANTS.map((variant) => (
-              <Stack key={variant} spacing={0.5} alignItems='center'>
+              <Stack key={variant} spacing={0.5} sx={{ alignItems: 'center' }}>
                 <RcSesIconWithSquareBackground
                   Icon={InfoFillIcon}
                   size={size}
