@@ -21,6 +21,8 @@ type ScrollState = {
   showRightFade: boolean
   thumbWidth: number
   thumbOffset: number
+  // Gap to the viewport's right edge, so the fade can bleed over the page gutter.
+  edgeBleed: number
 }
 
 const INITIAL_SCROLL_STATE: ScrollState = {
@@ -28,6 +30,7 @@ const INITIAL_SCROLL_STATE: ScrollState = {
   showRightFade: false,
   thumbWidth: 100,
   thumbOffset: 0,
+  edgeBleed: 0,
 }
 
 function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }: Props) {
@@ -42,11 +45,18 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
     const showRightFade =
       hasOverflow && el.scrollLeft < el.scrollWidth - el.clientWidth - SCROLL_EPSILON
 
+    // Not innerWidth: that counts the vertical scrollbar.
+    const edgeBleed = Math.max(
+      0,
+      document.documentElement.clientWidth - el.getBoundingClientRect().right,
+    )
+
     const next: ScrollState = {
       hasOverflow,
       showRightFade,
       thumbWidth: hasOverflow ? (el.clientWidth / el.scrollWidth) * 100 : 100,
       thumbOffset: hasOverflow ? (el.scrollLeft / el.scrollWidth) * 100 : 0,
+      edgeBleed,
     }
 
     // onScroll fires far more often than these values actually change.
@@ -54,7 +64,8 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
       prev.hasOverflow === next.hasOverflow &&
       prev.showRightFade === next.showRightFade &&
       prev.thumbWidth === next.thumbWidth &&
-      prev.thumbOffset === next.thumbOffset
+      prev.thumbOffset === next.thumbOffset &&
+      prev.edgeBleed === next.edgeBleed
         ? prev
         : next,
     )
@@ -69,8 +80,13 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
     resizeObserver.observe(el)
     // The pills too: a late web font changes scrollWidth, not the container's size.
     Array.from(el.children).forEach((child) => resizeObserver.observe(child))
+    // A viewport resize inside a max-width container does not resize the list.
+    window.addEventListener('resize', updateScrollState)
 
-    return () => resizeObserver.disconnect()
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateScrollState)
+    }
   }, [items, updateScrollState])
 
   useEffect(() => {
@@ -131,9 +147,10 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
               position: 'absolute',
               top: 0,
               bottom: 0,
-              right: 0,
-              width: FADE_WIDTH,
-              background: `linear-gradient(to right, ${common.white}00, ${common.white})`,
+              right: `-${scrollState.edgeBleed}px`,
+              width: `calc(${FADE_WIDTH} + ${scrollState.edgeBleed}px)`,
+              // Stop at FADE_WIDTH, not 100%, so the bleed stays solid.
+              background: `linear-gradient(to right, ${common.white}00, ${common.white} ${FADE_WIDTH})`,
               pointerEvents: 'none',
             }}
           />
