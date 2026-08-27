@@ -79,5 +79,4 @@ export type RcSesTitleBlockVerticalProps = RcSesTitleBlockBaseProps & {
 }
 
 export type RcSesTitleBlockProps =
-  | RcSesTitleBlockHorizontalProps
-  | RcSesTitleBlockVerticalProps
+  RcSesTitleBlockHorizontalProps | RcSesTitleBlockVerticalProps
