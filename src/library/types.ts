@@ -23,10 +23,10 @@ import {
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
 import {
-  CardHeadingLevel,
-  CardTitleVariant,
   RcSesTitleBlockProps,
   RcSesTitleBlockTestIds,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
 } from '@/components/common/TitleBlock/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
@@ -66,8 +66,8 @@ export type {
   CardFooterAlign,
   CardShellVariant,
   CardShellTheme,
-  CardHeadingLevel,
-  CardTitleVariant,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,

@@ -1,12 +1,12 @@
 import { Box, ButtonBase, Divider, Stack } from '@mui/material'
-import { InfoIcon } from '@phosphor-icons/react/dist/icons/Info'
-import { PhoneCallIcon } from '@phosphor-icons/react/dist/ssr/PhoneCall'
+import { InfoIcon, PhoneCallIcon } from '@phosphor-icons/react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
+import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesTitleBlock from '@/components/common/TitleBlock'
 import palette from '@/theme/palette'
@@ -30,20 +30,33 @@ export default meta
 type Story = StoryObj<typeof RcSesTitleBlock>
 
 const FooterLink = ({ label, href }: { label: string; href: string }) => (
-  <a
-    href={href}
-    style={{
+  <RcSesCardFooter align='start' stretchOnMobile={false}>
+    <RcSesButton
+      variant='link'
+      href={href}
+      endIcon={<ArrowRightIcon fillColor={palette.primary[600]} size={20} />}
+    >
+      {label}
+    </RcSesButton>
+  </RcSesCardFooter>
+)
+
+// Decorative chevron sitting on the right edge of horizontal tile rows.
+// aria-hidden because the row is announced by the heading (and, when the
+// whole row is clickable, by the wrapping ButtonBase's accessible name).
+const TrailingArrow = () => (
+  <Box
+    aria-hidden
+    sx={{
       alignItems: 'center',
+      alignSelf: 'stretch',
       color: palette.primary[600],
-      display: 'inline-flex',
-      fontWeight: 600,
-      gap: '0.5rem',
-      textDecoration: 'none',
+      display: 'flex',
+      flexShrink: 0,
     }}
   >
-    {label}
     <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-  </a>
+  </Box>
 )
 
 export const TitleBlock: Story = {
@@ -51,118 +64,220 @@ export const TitleBlock: Story = {
     <RcSesTitleBlock
       title='Pažymos santuokai sudaryti užsienyje užsakymas'
       description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-      titleColor={palette.primary['700']}
+      titleTone='brand'
     />
   ),
 }
 
 export const WithPrimaryAction: Story = {
-  render: () => (
-    <RcSesTitleBlock
-      title='Pažymos santuokai sudaryti užsienyje užsakymas'
-      description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-      titleColor={palette.primary['700']}
-      actions={<RcSesButton>Užsakyti</RcSesButton>}
-    />
-  ),
+  render: () => {
+    const headingId = 'title-block-with-primary-action'
+    return (
+      <RcSesTitleBlock
+        headingId={headingId}
+        title='Pažymos santuokai sudaryti užsienyje užsakymas'
+        description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+        titleTone='brand'
+        actions={
+          <RcSesButton
+            id={`${headingId}-cta`}
+            aria-labelledby={`${headingId}-cta ${headingId}`}
+          >
+            Užsakyti
+          </RcSesButton>
+        }
+      />
+    )
+  },
 }
 
 export const WithLinkAction: Story = {
-  render: () => (
-    <RcSesTitleBlock
-      title='Santuoką liudijančio įrašo užsakymas'
-      description='Oficialus santuokos faktą patvirtinantis įrašas.'
-      titleColor={palette.primary['700']}
-      actions={<RcSesButton variant='link'>Plačiau</RcSesButton>}
-    />
-  ),
+  render: () => {
+    const headingId = 'title-block-with-link-action'
+    return (
+      <RcSesTitleBlock
+        headingId={headingId}
+        title='Santuoką liudijančio įrašo užsakymas'
+        description='Oficialus santuokos faktą patvirtinantis įrašas.'
+        titleTone='brand'
+        actions={
+          <RcSesButton
+            variant='link'
+            id={`${headingId}-cta`}
+            aria-labelledby={`${headingId}-cta ${headingId}`}
+          >
+            Plačiau
+          </RcSesButton>
+        }
+      />
+    )
+  },
 }
 
 export const WithPrimaryAndSecondaryActions: Story = {
-  render: () => (
-    <RcSesTitleBlock
-      title='Pažymos santuokai sudaryti užsienyje užsakymas'
-      description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-      titleColor={palette.primary['700']}
-      actions={
-        <>
-          <RcSesButton>Užsakyti</RcSesButton>
-          <RcSesButton variant='link'>Plačiau</RcSesButton>
-        </>
-      }
-    />
-  ),
+  render: () => {
+    const headingId = 'title-block-with-primary-and-secondary'
+    return (
+      <RcSesTitleBlock
+        headingId={headingId}
+        title='Pažymos santuokai sudaryti užsienyje užsakymas'
+        description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+        titleTone='brand'
+        actions={
+          <>
+            <RcSesButton
+              id={`${headingId}-order`}
+              aria-labelledby={`${headingId}-order ${headingId}`}
+            >
+              Užsakyti
+            </RcSesButton>
+            <RcSesButton
+              variant='link'
+              id={`${headingId}-more`}
+              aria-labelledby={`${headingId}-more ${headingId}`}
+            >
+              Plačiau
+            </RcSesButton>
+          </>
+        }
+      />
+    )
+  },
 }
 
 export const RowList: Story = {
-  render: () => (
-    <Stack divider={<Divider flexItem />} spacing={3}>
-      <RcSesTitleBlock
-        title='Santuoką liudijančio įrašo užsakymas'
-        description='Oficialus santuokos faktą patvirtinantis įrašas.'
-        titleColor={palette.primary['700']}
-        actions={<RcSesButton variant='link'>Plačiau</RcSesButton>}
-      />
-      <RcSesTitleBlock
-        title='Pažymos santuokai sudaryti užsienyje užsakymas'
-        description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-        titleColor={palette.primary['700']}
-        actions={<RcSesButton>Užsakyti</RcSesButton>}
-      />
-    </Stack>
-  ),
+  render: () => {
+    const rowAId = 'row-list-a'
+    const rowBId = 'row-list-b'
+    return (
+      <Stack divider={<Divider flexItem />} spacing={3}>
+        <RcSesTitleBlock
+          headingId={rowAId}
+          title='Santuoką liudijančio įrašo užsakymas'
+          description='Oficialus santuokos faktą patvirtinantis įrašas.'
+          titleTone='brand'
+          actions={
+            <RcSesButton
+              variant='link'
+              id={`${rowAId}-cta`}
+              aria-labelledby={`${rowAId}-cta ${rowAId}`}
+            >
+              Plačiau
+            </RcSesButton>
+          }
+        />
+        <RcSesTitleBlock
+          headingId={rowBId}
+          title='Pažymos santuokai sudaryti užsienyje užsakymas'
+          description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+          titleTone='brand'
+          actions={
+            <RcSesButton id={`${rowBId}-cta`} aria-labelledby={`${rowBId}-cta ${rowBId}`}>
+              Užsakyti
+            </RcSesButton>
+          }
+        />
+      </Stack>
+    )
+  },
 }
 
 export const RowListWithIcons: Story = {
-  render: () => (
-    <Stack divider={<Divider flexItem />} spacing={3}>
-      <RcSesTitleBlock
-        title='Santuoką liudijančio įrašo užsakymas'
-        description='Oficialus santuokos faktą patvirtinantis įrašas.'
-        titleColor={palette.primary['700']}
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
-        actions={<RcSesButton variant='link'>Plačiau</RcSesButton>}
-      />
-      <RcSesTitleBlock
-        title='Pažymos santuokai sudaryti užsienyje užsakymas'
-        description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-        titleColor={palette.primary['700']}
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
-        actions={<RcSesButton>Užsakyti</RcSesButton>}
-      />
-    </Stack>
-  ),
+  render: () => {
+    const rowAId = 'row-list-with-icons-a'
+    const rowBId = 'row-list-with-icons-b'
+    return (
+      <Stack divider={<Divider flexItem />} spacing={3}>
+        <RcSesTitleBlock
+          headingId={rowAId}
+          title='Santuoką liudijančio įrašo užsakymas'
+          description='Oficialus santuokos faktą patvirtinantis įrašas.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <RcSesButton
+              variant='link'
+              id={`${rowAId}-cta`}
+              aria-labelledby={`${rowAId}-cta ${rowAId}`}
+            >
+              Plačiau
+            </RcSesButton>
+          }
+        />
+        <RcSesTitleBlock
+          headingId={rowBId}
+          title='Pažymos santuokai sudaryti užsienyje užsakymas'
+          description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <RcSesButton id={`${rowBId}-cta`} aria-labelledby={`${rowBId}-cta ${rowBId}`}>
+              Užsakyti
+            </RcSesButton>
+          }
+        />
+      </Stack>
+    )
+  },
 }
 
 export const RowListWithIconsAndTwoActions: Story = {
-  render: () => (
-    <Stack divider={<Divider flexItem />} spacing={3}>
-      <RcSesTitleBlock
-        title='Santuoką liudijančio įrašo užsakymas'
-        description='Oficialus santuokos faktą patvirtinantis įrašas.'
-        titleColor={palette.primary['700']}
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
-        actions={
-          <>
-            <RcSesButton>Užsakyti</RcSesButton>
-            <RcSesButton variant='link'>Plačiau</RcSesButton>
-          </>
-        }
-      />
-      <RcSesTitleBlock
-        title='Pažymos santuokai sudaryti užsienyje užsakymas'
-        description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
-        titleColor={palette.primary['700']}
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
-        actions={
-          <>
-            <RcSesButton>Užsakyti</RcSesButton>
-            <RcSesButton variant='link'>Plačiau</RcSesButton>
-          </>
-        }
-      />
-    </Stack>
-  ),
+  render: () => {
+    const rowAId = 'row-list-two-actions-a'
+    const rowBId = 'row-list-two-actions-b'
+    return (
+      <Stack divider={<Divider flexItem />} spacing={3}>
+        <RcSesTitleBlock
+          headingId={rowAId}
+          title='Santuoką liudijančio įrašo užsakymas'
+          description='Oficialus santuokos faktą patvirtinantis įrašas.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <>
+              <RcSesButton
+                id={`${rowAId}-order`}
+                aria-labelledby={`${rowAId}-order ${rowAId}`}
+              >
+                Užsakyti
+              </RcSesButton>
+              <RcSesButton
+                variant='link'
+                id={`${rowAId}-more`}
+                aria-labelledby={`${rowAId}-more ${rowAId}`}
+              >
+                Plačiau
+              </RcSesButton>
+            </>
+          }
+        />
+        <RcSesTitleBlock
+          headingId={rowBId}
+          title='Pažymos santuokai sudaryti užsienyje užsakymas'
+          description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <>
+              <RcSesButton
+                id={`${rowBId}-order`}
+                aria-labelledby={`${rowBId}-order ${rowBId}`}
+              >
+                Užsakyti
+              </RcSesButton>
+              <RcSesButton
+                variant='link'
+                id={`${rowBId}-more`}
+                aria-labelledby={`${rowBId}-more ${rowBId}`}
+              >
+                Plačiau
+              </RcSesButton>
+            </>
+          }
+        />
+      </Stack>
+    )
+  },
 }
 
 export const HorizontalTitleBlockWithIconAndArrow: Story = {
@@ -172,22 +287,11 @@ export const HorizontalTitleBlockWithIconAndArrow: Story = {
         <RcSesTitleBlock
           title='Paslaugos pavadinimas'
           description='Trumpas paslaugos paaiškinimas'
-          titleColor={palette.primary['700']}
+          titleTone='brand'
           icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
         />
       </Box>
-      <Box
-        aria-hidden
-        sx={{
-          alignItems: 'center',
-          alignSelf: 'stretch',
-          color: palette.primary[600],
-          display: 'flex',
-          flexShrink: 0,
-        }}
-      >
-        <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-      </Box>
+      <TrailingArrow />
     </Stack>
   ),
 }
@@ -200,21 +304,10 @@ export const HorizontalTitleBlockWithArrowAndBrandCardShellTheme: Story = {
           <RcSesTitleBlock
             title='Paslaugos pavadinimas'
             description='Trumpas paslaugos paaiškinimas'
-            titleColor={palette.primary['700']}
+            titleTone='brand'
           />
         </Box>
-        <Box
-          aria-hidden
-          sx={{
-            alignItems: 'center',
-            alignSelf: 'stretch',
-            color: palette.primary[600],
-            display: 'flex',
-            flexShrink: 0,
-          }}
-        >
-          <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-        </Box>
+        <TrailingArrow />
       </Stack>
     </RcSesCardShell>
   ),
@@ -228,21 +321,10 @@ export const HorizontalTitleBlockWithArrowAndSunkenCardShellTheme: Story = {
           <RcSesTitleBlock
             title='Paslaugos pavadinimas'
             description='Trumpas paslaugos paaiškinimas'
-            titleColor={palette.primary['700']}
+            titleTone='brand'
           />
         </Box>
-        <Box
-          aria-hidden
-          sx={{
-            alignItems: 'center',
-            alignSelf: 'stretch',
-            color: palette.primary[600],
-            display: 'flex',
-            flexShrink: 0,
-          }}
-        >
-          <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-        </Box>
+        <TrailingArrow />
       </Stack>
     </RcSesCardShell>
   ),
@@ -269,18 +351,7 @@ export const ClickableHorizontalTitleBlockWithCardShellBase: Story = {
               icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
             />
           </Box>
-          <Box
-            aria-hidden
-            sx={{
-              alignItems: 'center',
-              alignSelf: 'stretch',
-              color: palette.primary[600],
-              display: 'flex',
-              flexShrink: 0,
-            }}
-          >
-            <ArrowRightIcon fillColor={palette.primary[600]} size={20} />
-          </Box>
+          <TrailingArrow />
         </Stack>
       </ButtonBase>
     </RcSesCardShell>
@@ -354,4 +425,82 @@ export const VerticalTitleBlock: Story = {
       </RcSesCardShell>
     </Box>
   ),
+}
+
+// Responsive baselines for SAV-6509 / SAV-6480 DoD ("Responsive patikra 375 /
+// 768 / 1440"). Exercises the mobile stacking of the actions slot
+// (direction={{ xs: 'column', sm: 'row' }}) so both the two-action and
+// vertical-grid layouts get pinned baselines at 375 and 768.
+
+const responsiveRowAId = 'responsive-row-a'
+const responsiveRowBId = 'responsive-row-b'
+
+const ResponsiveTwoActionsRowList = () => (
+  <Stack divider={<Divider flexItem />} spacing={3}>
+    <RcSesTitleBlock
+      headingId={responsiveRowAId}
+      title='Santuoką liudijančio įrašo užsakymas'
+      description='Oficialus santuokos faktą patvirtinantis įrašas.'
+      titleTone='brand'
+      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      actions={
+        <>
+          <RcSesButton
+            id={`${responsiveRowAId}-order`}
+            aria-labelledby={`${responsiveRowAId}-order ${responsiveRowAId}`}
+          >
+            Užsakyti
+          </RcSesButton>
+          <RcSesButton
+            variant='link'
+            id={`${responsiveRowAId}-more`}
+            aria-labelledby={`${responsiveRowAId}-more ${responsiveRowAId}`}
+          >
+            Plačiau
+          </RcSesButton>
+        </>
+      }
+    />
+    <RcSesTitleBlock
+      headingId={responsiveRowBId}
+      title='Pažymos santuokai sudaryti užsienyje užsakymas'
+      description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+      titleTone='brand'
+      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      actions={
+        <>
+          <RcSesButton
+            id={`${responsiveRowBId}-order`}
+            aria-labelledby={`${responsiveRowBId}-order ${responsiveRowBId}`}
+          >
+            Užsakyti
+          </RcSesButton>
+          <RcSesButton
+            variant='link'
+            id={`${responsiveRowBId}-more`}
+            aria-labelledby={`${responsiveRowBId}-more ${responsiveRowBId}`}
+          >
+            Plačiau
+          </RcSesButton>
+        </>
+      }
+    />
+  </Stack>
+)
+
+export const MobileViewport: Story = {
+  render: () => <ResponsiveTwoActionsRowList />,
+  // Two separate mechanisms, deliberately: the tag sets Playwright's browser
+  // width for the baseline, the global sets the canvas iframe width for anyone
+  // reviewing in Storybook. Docs pages render stories inline at the container's
+  // width, where neither applies, so this one is kept out of the docs page
+  // rather than showing a desktop row list under a mobile heading.
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
+}
+
+export const TabletViewport: Story = {
+  render: () => <ResponsiveTwoActionsRowList />,
+  tags: ['viewport-768', '!autodocs'],
+  globals: { viewport: { value: 'tablet768' } },
 }

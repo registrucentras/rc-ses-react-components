@@ -11,12 +11,13 @@ function RcSesTitleBlock({
   title,
   headingLevel = 3,
   titleVariant = 'h6',
-  titleColor,
+  titleTone = 'default',
   orientation = 'horizontal',
   icon,
   count,
   description,
   actions,
+  headingId,
   className,
   testIds,
 }: RcSesTitleBlockProps) {
@@ -33,12 +34,12 @@ function RcSesTitleBlock({
 
   const textColumn = (
     <Stack spacing={cards.header.gap} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
-      <HeadingTag data-testid={testIds?.heading} style={{ margin: 0 }}>
+      <HeadingTag id={headingId} data-testid={testIds?.heading} style={{ margin: 0 }}>
         <Typography
           component='span'
           variant={titleVariant}
           sx={{
-            color: titleColor ?? palette.grey[900],
+            color: titleTone === 'brand' ? palette.primary[700] : palette.grey[900],
             // inline only when the badge has to sit on the heading's last line
             display: hasCount ? 'inline' : 'block',
             fontWeight: cards.header.titleFontWeight,
@@ -83,20 +84,19 @@ function RcSesTitleBlock({
     </Stack>
   )
 
-  const actionsSlot =
-    actions && !isVertical ? (
-      <Stack
-        data-testid={testIds?.actions}
-        direction={{ xs: 'column', sm: 'row' }}
-        spacing={cards.header.actionsGap}
-        sx={{
-          alignItems: { xs: 'flex-start', sm: 'center' },
-          flexShrink: 0,
-        }}
-      >
-        {actions}
-      </Stack>
-    ) : null
+  const actionsSlot = actions ? (
+    <Stack
+      data-testid={testIds?.actions}
+      direction={{ xs: 'column', sm: 'row' }}
+      spacing={cards.header.actionsGap}
+      sx={{
+        alignItems: { xs: 'flex-start', sm: 'center' },
+        flexShrink: 0,
+      }}
+    >
+      {actions}
+    </Stack>
+  ) : null
 
   return (
     <Stack

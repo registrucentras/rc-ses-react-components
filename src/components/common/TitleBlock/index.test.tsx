@@ -5,6 +5,7 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
+import palette from '@/theme/palette'
 
 import RcSesTitleBlock from '.'
 
@@ -251,10 +252,12 @@ describe('RcSesTitleBlock', () => {
     expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
   })
 
-  test('titleColor overrides the default title color', () => {
-    renderTitleBlock(<RcSesTitleBlock title='Test Title' titleColor='rgb(1, 2, 3)' />)
+  test('titleTone="brand" applies the brand title color', () => {
+    renderTitleBlock(<RcSesTitleBlock title='Test Title' titleTone='brand' />)
 
-    expect(screen.getByText('Test Title')).toHaveStyle({ color: 'rgb(1, 2, 3)' })
+    expect(screen.getByText('Test Title')).toHaveStyle({
+      color: palette.primary[700],
+    })
   })
 
   test('horizontal orientation glues icon and text into one group, separate from actions', () => {
@@ -330,18 +333,20 @@ describe('RcSesTitleBlock', () => {
       expect(root).toContainElement(heading)
     })
 
-    test('vertical orientation omits the actions slot even when provided', () => {
+    test('vertical orientation rejects the actions slot at compile time', () => {
+      // The runtime guard trusts the discriminated union — `actions` is
+      // typed as `never` when orientation is 'vertical', so passing it is a
+      // compile error. The @ts-expect-error line documents the guarantee.
       renderTitleBlock(
+        // @ts-expect-error `actions` is not assignable when orientation is 'vertical'.
         <RcSesTitleBlock
           actions={<button type='button'>Redaguoti</button>}
           orientation='vertical'
-          testIds={{ actions: 'actions' }}
           title='Test Title'
         />,
       )
 
-      expect(screen.queryByTestId('actions')).not.toBeInTheDocument()
-      expect(screen.queryByRole('button', { name: 'Redaguoti' })).not.toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'Test Title' })).toBeInTheDocument()
     })
 
     test('horizontal orientation renders the actions slot when provided', () => {

@@ -10,7 +10,7 @@ import {
   RcSesServiceLinkItem,
   RcSesServiceLinksProps,
 } from '@/components/common/ServiceLinks/types'
-import RcSesCardHeader from '@/components/common/TitleBlock'
+import RcSesTitleBlock from '@/components/common/TitleBlock'
 
 const baseItems: RcSesServiceLinkItem[] = [
   { label: 'Juridinių asmenų registro (JAR) išrašas', href: '#jar' },
@@ -130,7 +130,7 @@ export const InsideCardShell: Story = {
       theme='brand'
       borderless
       header={
-        <RcSesCardHeader
+        <RcSesTitleBlock
           icon={<RcSesIconWithSquareBackground Icon={BriefcaseIcon} variant='solid' />}
           title='Įmonėms ir organizacijoms'
           titleVariant='h5'
