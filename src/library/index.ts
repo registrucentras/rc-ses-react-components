@@ -22,6 +22,7 @@ import RcSesImageCard from '@/components/common/ImageCard'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import RcSesSegmentedControl from '@/components/common/SegmentedControl'
 import RcSesServiceLinks from '@/components/common/ServiceLinks'
+import RcSesSideNavLayout from '@/components/common/SideNav/SideNavLayout'
 import RcSesSnackbar from '@/components/common/Snackbar'
 import {
   RcSesSnackbarProvider,
@@ -98,6 +99,7 @@ export {
   RcSesSwitch,
 }
 export { RcSesSegmentedControl }
+export { RcSesSideNavLayout }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { useSnackbar }
 export { RcSesDatepicker }

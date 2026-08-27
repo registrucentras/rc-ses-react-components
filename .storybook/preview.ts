@@ -11,6 +11,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { withThemeFromJSXProvider } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
 
+import '../src/i18n/i18n'
 import lightTheme from '../src/theme/light'
 
 // There is no dark theme yet - the addon's dark entry deliberately points at the

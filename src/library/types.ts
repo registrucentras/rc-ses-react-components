@@ -22,6 +22,8 @@ import {
   RcSesServiceLinksProps,
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
+import { RcSesSideNavItem } from '@/components/common/SideNav'
+import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
 import {
   RcSesTitleBlockProps,
   RcSesTitleBlockTestIds,
@@ -77,6 +79,8 @@ export type {
   RcSesLoadingSpinnerProps,
   RcSesSpinnerColor,
   RcSesTooltipProps,
+  RcSesSideNavItem,
+  RcSesSideNavLayoutProps,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }
