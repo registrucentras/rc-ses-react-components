@@ -4,13 +4,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
-import RcSesCardHeader from '@/components/common/CardShell/CardHeader'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesServiceLinks from '@/components/common/ServiceLinks'
 import {
   RcSesServiceLinkItem,
   RcSesServiceLinksProps,
 } from '@/components/common/ServiceLinks/types'
+import RcSesTitleBlock from '@/components/common/TitleBlock'
 
 const baseItems: RcSesServiceLinkItem[] = [
   { label: 'Juridinių asmenų registro (JAR) išrašas', href: '#jar' },
@@ -130,7 +130,7 @@ export const InsideCardShell: Story = {
       theme='brand'
       borderless
       header={
-        <RcSesCardHeader
+        <RcSesTitleBlock
           icon={<RcSesIconWithSquareBackground Icon={BriefcaseIcon} variant='solid' />}
           title='Įmonėms ir organizacijoms'
           titleVariant='h5'

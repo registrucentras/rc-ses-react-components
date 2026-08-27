@@ -12,7 +12,7 @@ const borderWidth = '1px'
 const card = {
   borderRadius: '0.75rem',
   gap: { xs: '1rem', md: '1.5rem' },
-  padding: { xs: '1.25rem 1.5rem 1.5rem', md: '1.5rem 2rem 2rem' },
+  padding: { xs: '1.25rem 1.5rem', md: '1.5rem 2rem' },
 }
 
 const subcard = {

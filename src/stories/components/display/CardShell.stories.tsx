@@ -5,8 +5,8 @@ import UserIcon from '@/assets/icons/UserIcon'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
-import RcSesCardHeader from '@/components/common/CardShell/CardHeader'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
+import RcSesTitleBlock from '@/components/common/TitleBlock'
 
 const meta: Meta<typeof RcSesCardShell> = {
   title: 'components/display/CardShell',
@@ -81,7 +81,7 @@ export default meta
 type Story = StoryObj<typeof RcSesCardShell>
 
 const SampleHeader = () => (
-  <RcSesCardHeader
+  <RcSesTitleBlock
     title='Kortelės antraštė'
     description='Paaiškinimas apie šios kortelės turinį'
   />
@@ -157,7 +157,7 @@ export const HeaderComplete: Story = {
     variant: 'card',
     theme: 'default',
     header: (
-      <RcSesCardHeader
+      <RcSesTitleBlock
         actions={
           <RcSesButton color='grey' variant='outlined'>
             Redaguoti
@@ -191,20 +191,6 @@ export const WithoutHeader: Story = {
     theme: 'default',
     children: <SampleContent />,
     footer: <SampleFooter />,
-  },
-}
-
-export const FooterSingleLink: Story = {
-  args: {
-    variant: 'card',
-    theme: 'default',
-    header: <SampleHeader />,
-    children: <SampleContent />,
-    footer: (
-      <RcSesCardFooter align='start' stretchOnMobile={false}>
-        <RcSesButton variant='link'>Žiūrėti visas</RcSesButton>
-      </RcSesCardFooter>
-    ),
   },
 }
 

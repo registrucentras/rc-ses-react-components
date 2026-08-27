@@ -5,12 +5,6 @@ import {
   RcSesCardFooterTestIds,
 } from '@/components/common/CardShell/CardFooter/types'
 import {
-  CardHeadingLevel,
-  CardTitleVariant,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
-} from '@/components/common/CardShell/CardHeader/types'
-import {
   CardShellTheme,
   CardShellVariant,
   RcSesCardShellProps,
@@ -28,6 +22,12 @@ import {
   RcSesServiceLinksProps,
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
+import {
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
+} from '@/components/common/TitleBlock/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -59,15 +59,15 @@ export type {
   RcSesCardProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
   CardFooterAlign,
   CardShellVariant,
   CardShellTheme,
-  CardHeadingLevel,
-  CardTitleVariant,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,
