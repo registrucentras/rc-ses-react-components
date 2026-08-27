@@ -3,8 +3,7 @@ import { Components, createTheme } from '@mui/material'
 import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import CloseIcon from '@/assets/icons/CloseIcon'
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import ScrollIcon from '@/assets/icons/ScrollIcon'
-import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
+import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 
 import palette from '../palette'
@@ -15,11 +14,11 @@ const MuiAlert: Components['MuiAlert'] = {
   defaultProps: {
     elevation: 0,
     iconMapping: {
-      grey: <InfoFillIcon />,
-      error: <WarningDiamondFillIcon />,
-      info: <ScrollIcon />,
-      success: <CheckCircleFillIcon />,
-      warning: <WarningFillIcon />,
+      grey: <InfoFillIcon weight='regular' aria-hidden />,
+      error: <WarningCircleIcon weight='regular' aria-hidden />,
+      info: <InfoFillIcon weight='regular' aria-hidden />,
+      success: <CheckCircleFillIcon weight='regular' aria-hidden />,
+      warning: <WarningFillIcon weight='regular' aria-hidden />,
     },
     slots: {
       closeIcon: CloseIcon,
@@ -69,13 +68,13 @@ const MuiAlert: Components['MuiAlert'] = {
       paddingTop: 0,
 
       [breakpoints.up('sm')]: {
-        alignSelf: 'center',
         marginRight: '.75rem',
       },
     },
 
     message: {
       flexGrow: 1,
+      minWidth: 0,
       overflowY: 'hidden',
 
       [breakpoints.down('sm')]: {
@@ -189,18 +188,28 @@ const MuiAlert: Components['MuiAlert'] = {
     outlined: {
       fontSize: '.8125rem',
       fontWeight: 400,
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      gap: '.75rem',
+      padding: '.75rem 1rem',
+      borderRadius: '0.5rem',
 
       [breakpoints.up('md')]: {
         fontSize: '.875rem',
+      },
+
+      '.MuiAlert-icon': {
+        alignSelf: 'flex-start',
+        margin: 0,
+        padding: 0,
       },
 
       '.MuiAlert-message': {
         lineHeight: '1rem',
         padding: 0,
 
-        [breakpoints.up('sm')]: {
+        [breakpoints.up('md')]: {
           lineHeight: '1.25rem',
-          padding: '.125rem 0',
         },
 
         a: {
@@ -210,31 +219,31 @@ const MuiAlert: Components['MuiAlert'] = {
     },
     outlinedGrey: {
       backgroundColor: palette.grey['50'],
-      borderColor: palette.grey['200'],
+      border: `1px solid ${palette.grey['200']}`,
 
       '.MuiAlert-icon': {
         color: palette.grey['600'],
       },
     },
     outlinedError: {
-      backgroundColor: palette.error['50'],
-      borderColor: palette.error['200'],
+      backgroundColor: palette.error['100'],
+      border: `1px solid ${palette.error['500']}`,
 
       '.MuiAlert-icon': {
         color: palette.error['600'],
       },
     },
     outlinedInfo: {
-      backgroundColor: palette.primary['50'],
-      borderColor: palette.primary['300'],
+      backgroundColor: palette.primary['100'],
+      border: `1px solid ${palette.primary['400']}`,
 
       '.MuiAlert-icon': {
-        color: palette.primary['500'],
+        color: palette.primary['600'],
       },
     },
     outlinedSuccess: {
       backgroundColor: palette.secondary['100'],
-      borderColor: palette.secondary['300'],
+      border: `1px solid ${palette.secondary['500']}`,
 
       '.MuiAlert-icon': {
         color: palette.secondary['600'],
@@ -242,10 +251,10 @@ const MuiAlert: Components['MuiAlert'] = {
     },
     outlinedWarning: {
       backgroundColor: palette.warning['100'],
-      borderColor: palette.warning['300'],
+      border: `1px solid ${palette.warning['400']}`,
 
       '.MuiAlert-icon': {
-        color: palette.warning['600'],
+        color: palette.warning['500'],
       },
     },
   },
