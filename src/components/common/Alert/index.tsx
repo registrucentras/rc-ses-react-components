@@ -4,6 +4,7 @@ import {
   ContainerProps,
   Alert as MuiAlert,
   AlertProps as MuiAlertProps,
+  Theme,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
@@ -28,6 +29,8 @@ const closeButtonStyles = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  minHeight: '1.5rem',
+  minWidth: '1.5rem',
   padding: 0,
   border: 'none',
   background: 'none',
@@ -42,6 +45,34 @@ const actionContainerStyles = {
   alignItems: 'center',
   gap: '.75rem',
 }
+
+// Only the alert body and its CTA form a row; the message slot itself stays a plain
+// block container so rich or multi-node children keep flowing normally.
+const messageRowStyles = (theme: Theme) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '.75rem',
+
+  [theme.breakpoints.up('md')]: {
+    flexWrap: 'nowrap',
+  },
+})
+
+// The close button is a fixed-size control, so it keeps the action slot tight instead of
+// stacking onto its own row the way a consumer-supplied action does.
+const closeOnlyActionStyles = {
+  '.MuiAlert-action': {
+    alignSelf: 'center',
+    flex: '0 0 auto',
+    margin: 0,
+    padding: 0,
+  },
+}
+
+// `breakpoints.values.xs` is 0, so an xs container banner needs an explicit content width.
+const XS_CONTAINER_MAX_WIDTH = 444
 
 const URGENT_SEVERITIES: MuiAlertProps['severity'][] = ['warning', 'error']
 
@@ -58,6 +89,7 @@ function RcSesAlert({
   action,
   severity,
   role,
+  'aria-live': ariaLive,
   sx,
   ...props
 }: Props) {
@@ -91,7 +123,7 @@ function RcSesAlert({
   }
 
   const resolvedRole = role ?? (URGENT_SEVERITIES.includes(severity) ? 'alert' : 'status')
-  const resolvedAriaLive = resolvedRole === 'alert' ? 'assertive' : 'polite'
+  const resolvedAriaLive = ariaLive ?? (resolvedRole === 'alert' ? 'assertive' : 'polite')
 
   const isContainer = Boolean(container)
   const containerParams = typeof container === 'object' ? container : {}
@@ -122,7 +154,7 @@ function RcSesAlert({
               if (typeof maxWidth === 'string') {
                 maxWidthValue =
                   maxWidth === 'xs'
-                    ? Math.max(theme.breakpoints.values.xs, 444)
+                    ? XS_CONTAINER_MAX_WIDTH
                     : theme.breakpoints.values[
                         maxWidth as keyof typeof theme.breakpoints.values
                       ]
@@ -141,31 +173,36 @@ function RcSesAlert({
               const gutterSm = disableGutters ? '' : ` + ${theme.spacing(3)}`
 
               containerStyles.px = `calc(max((100% - ${maxWidthValue}px) / 2, 0px)${gutterXs})`
-              containerStyles[theme.breakpoints.up('md')] = {
+              containerStyles[theme.breakpoints.up('sm')] = {
                 px: `calc(max((100% - ${maxWidthValue}px) / 2, 0px)${gutterSm})`,
               }
             }
 
             return containerStyles
           }),
+        hasClose && !action && closeOnlyActionStyles,
         ...normalizedSx,
       ]}
     >
-      {children}
-      {hasAction && (
-        <Button
-          variant='link'
-          onClick={onActionClick}
-          sx={(theme) => ({
-            flexBasis: '100%',
-            padding: '0.5rem 0.25rem',
-            [theme.breakpoints.up('md')]: {
-              flexBasis: 'auto',
-            },
-          })}
-        >
-          {actionLabel}
-        </Button>
+      {hasAction ? (
+        <Box sx={messageRowStyles}>
+          <Box sx={{ minWidth: 0 }}>{children}</Box>
+          <Button
+            variant='link'
+            onClick={onActionClick}
+            sx={(theme) => ({
+              flexBasis: '100%',
+              padding: '0.5rem 0.25rem',
+              [theme.breakpoints.up('md')]: {
+                flexBasis: 'auto',
+              },
+            })}
+          >
+            {actionLabel}
+          </Button>
+        </Box>
+      ) : (
+        children
       )}
     </MuiAlert>
   )

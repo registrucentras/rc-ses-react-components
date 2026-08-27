@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { act, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 
 import theme from '@/theme/light'
@@ -53,6 +53,15 @@ describe('RcSesAlert', () => {
       },
     )
 
+    test('an explicit aria-live prop overrides the severity default', () => {
+      renderAlert(
+        <RcSesAlert severity='error' aria-live='polite'>
+          message
+        </RcSesAlert>,
+      )
+      expect(screen.getByRole('alert')).toHaveAttribute('aria-live', 'polite')
+    })
+
     test('an explicit role prop overrides the severity default', () => {
       renderAlert(
         <RcSesAlert severity='error' role='status'>
@@ -97,6 +106,50 @@ describe('RcSesAlert', () => {
 
       act(() => closeButton.focus())
       expect(closeButton).toHaveFocus()
+    })
+  })
+
+  describe('close and action handlers', () => {
+    test('clicking close calls onClose', () => {
+      const onClose = vi.fn()
+      renderAlert(<RcSesAlert onClose={onClose}>message</RcSesAlert>)
+
+      fireEvent.click(screen.getByRole('button', { name: 'close' }))
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test('clicking the action calls onActionClick', () => {
+      const onActionClick = vi.fn()
+      renderAlert(
+        <RcSesAlert actionLabel='Retry' onActionClick={onActionClick}>
+          message
+        </RcSesAlert>,
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: 'Retry' }))
+
+      expect(onActionClick).toHaveBeenCalledTimes(1)
+    })
+
+    test('a consumer action renders alongside the close button', () => {
+      renderAlert(
+        <RcSesAlert action={<button type='button'>Custom</button>} onClose={() => {}}>
+          message
+        </RcSesAlert>,
+      )
+
+      expect(screen.getByRole('button', { name: 'Custom' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'close' })).toBeInTheDocument()
+    })
+
+    test('a consumer action renders when there is no close button', () => {
+      renderAlert(
+        <RcSesAlert action={<button type='button'>Custom</button>}>message</RcSesAlert>,
+      )
+
+      expect(screen.getByRole('button', { name: 'Custom' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'close' })).not.toBeInTheDocument()
     })
   })
 

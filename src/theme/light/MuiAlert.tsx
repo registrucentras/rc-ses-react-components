@@ -28,6 +28,7 @@ const MuiAlert: Components['MuiAlert'] = {
   styleOverrides: {
     root: {
       flexWrap: 'wrap',
+      marginBottom: '1.5rem',
       padding: '.75rem .75rem .75rem .5rem',
 
       [breakpoints.up('sm')]: {
@@ -48,10 +49,16 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     action: {
-      alignSelf: 'center',
-      flex: '0 0 auto',
-      margin: 0,
-      padding: 0,
+      flex: '0 1 100%',
+      marginLeft: '1.625rem',
+      marginRight: 0,
+      padding: '1rem 0 0 0',
+
+      [breakpoints.up('sm')]: {
+        flex: '0 1 auto',
+        marginLeft: 'auto',
+        padding: '0 0 0 1rem',
+      },
     },
 
     icon: {
@@ -66,25 +73,17 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     message: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      justifyContent: 'space-between',
       flexGrow: 1,
       minWidth: 0,
-      gap: '.75rem',
-      lineHeight: '1rem',
       overflowY: 'hidden',
-      padding: 0,
 
-      [breakpoints.up('md')]: {
-        flexWrap: 'nowrap',
-        lineHeight: '1.25rem',
+      [breakpoints.down('sm')]: {
+        flex: '1 1 0',
+        padding: 0,
       },
 
       a: {
         color: 'inherit',
-        fontWeight: 600,
       },
     },
 
@@ -203,6 +202,19 @@ const MuiAlert: Components['MuiAlert'] = {
         alignSelf: 'flex-start',
         margin: 0,
         padding: 0,
+      },
+
+      '.MuiAlert-message': {
+        lineHeight: '1rem',
+        padding: 0,
+
+        [breakpoints.up('md')]: {
+          lineHeight: '1.25rem',
+        },
+
+        a: {
+          fontWeight: 600,
+        },
       },
     },
     outlinedGrey: {
