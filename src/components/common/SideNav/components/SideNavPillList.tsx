@@ -42,12 +42,22 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
     const showRightFade =
       hasOverflow && el.scrollLeft < el.scrollWidth - el.clientWidth - SCROLL_EPSILON
 
-    setScrollState({
+    const next: ScrollState = {
       hasOverflow,
       showRightFade,
       thumbWidth: hasOverflow ? (el.clientWidth / el.scrollWidth) * 100 : 100,
       thumbOffset: hasOverflow ? (el.scrollLeft / el.scrollWidth) * 100 : 0,
-    })
+    }
+
+    // onScroll fires far more often than these values actually change.
+    setScrollState((prev) =>
+      prev.hasOverflow === next.hasOverflow &&
+      prev.showRightFade === next.showRightFade &&
+      prev.thumbWidth === next.thumbWidth &&
+      prev.thumbOffset === next.thumbOffset
+        ? prev
+        : next,
+    )
   }, [])
 
   useEffect(() => {
@@ -57,6 +67,8 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
 
     const resizeObserver = new ResizeObserver(updateScrollState)
     resizeObserver.observe(el)
+    // The pills too: a late web font changes scrollWidth, not the container's size.
+    Array.from(el.children).forEach((child) => resizeObserver.observe(child))
 
     return () => resizeObserver.disconnect()
   }, [items, updateScrollState])
@@ -69,15 +81,17 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
     )
     if (!container || !target) return
 
-    const containerLeft = container.scrollLeft
-    const containerRight = containerLeft + container.clientWidth
-    const targetLeft = target.offsetLeft
-    const targetRight = targetLeft + target.offsetWidth
+    // Viewport rects on both, so they agree: offsetLeft would be relative to the
+    // positioned wrapper, not the scroll container.
+    const containerRect = container.getBoundingClientRect()
+    const targetRect = target.getBoundingClientRect()
+    const overflowLeft = containerRect.left - targetRect.left
+    const overflowRight = targetRect.right - containerRect.right
 
-    if (targetLeft < containerLeft) {
-      container.scrollLeft = targetLeft
-    } else if (targetRight > containerRight) {
-      container.scrollLeft = targetRight - container.clientWidth
+    if (overflowLeft > 0) {
+      container.scrollLeft -= overflowLeft
+    } else if (overflowRight > 0) {
+      container.scrollLeft += overflowRight
     }
   }, [activeItemId])
 
