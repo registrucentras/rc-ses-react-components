@@ -1,6 +1,6 @@
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import palette from '../palette'
+import palette, { common } from '../palette'
 
 const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
@@ -44,7 +44,16 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
           backgroundColor: palette.primary['500'],
+          // v9 sets the contrast colour in a variant, which loses to the
+          // day colour above, so it has to be restated.
+          color: common.white,
           fontWeight: 400,
+        },
+
+        // Same as above: v9 sets the disabled colour in a variant, which loses
+        // to the day colour. Weekends stay red, their rule is more specific.
+        '&.Mui-disabled': {
+          color: palette.grey['400'],
         },
       },
 

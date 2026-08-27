@@ -62,6 +62,9 @@ const AdvancedListItem = ({
   const isSelectable = leading.type === 'checkbox' || leading.type === 'radio'
   const isClickable = (!!onClick || isSelectable) && !isDisabled
 
+  const effectiveState: AdvancedListItemState =
+    state === 'rest' && 'checked' in leading && leading.checked ? 'selected' : state
+
   const hasInteractiveChild =
     INTERACTIVE_LEADING_TYPES.has(leading.type) ||
     INTERACTIVE_TRAILING_TYPES.has(trailing.type) ||
@@ -88,8 +91,8 @@ const AdvancedListItem = ({
   const contentRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const borderColor = STATE_BORDER_COLOR[state]
-  const backgroundColor = state === 'selected' ? palette.primary[50] : undefined
+  const borderColor = STATE_BORDER_COLOR[effectiveState]
+  const backgroundColor = effectiveState === 'selected' ? palette.primary[50] : undefined
   const focusRingShadow = `0 0 0 ${FOCUS_RING_WIDTH} ${palette.primary.main}`
   const transitionTiming = `${motion.duration.standard}ms ${motion.easing.standard}`
 
@@ -184,7 +187,6 @@ const AdvancedListItem = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.75rem',
         width: '100%',
         boxSizing: 'border-box',
         border: `${BORDER_WIDTH} solid`,
@@ -195,12 +197,12 @@ const AdvancedListItem = ({
         opacity: isDisabled ? 0.6 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
         cursor: isClickable ? 'pointer' : 'default',
-        boxShadow: state === 'selected' ? focusRingShadow : 'none',
+        boxShadow: effectiveState === 'selected' ? focusRingShadow : 'none',
         transition: prefersReducedMotion
           ? 'none'
           : `border-color ${transitionTiming}, box-shadow ${transitionTiming}`,
         '&:hover': isClickable
-          ? { borderColor: state === 'rest' ? palette.grey[400] : borderColor }
+          ? { borderColor: effectiveState === 'rest' ? palette.grey[400] : borderColor }
           : undefined,
         '&:focus-visible, &:focus-within': !isDisabled
           ? { borderColor: palette.primary.main, boxShadow: focusRingShadow }
@@ -319,7 +321,7 @@ const AdvancedListItem = ({
             ref={contentRef}
             id={contentId}
             sx={{
-              marginLeft: leading.type !== 'none' ? { xs: 0, md: '2rem' } : 0,
+              marginTop: '0.5rem',
               backgroundColor: palette.grey[50],
               borderRadius: BORDER_RADIUS,
               padding: '0.75rem 1rem',

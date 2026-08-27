@@ -185,6 +185,12 @@ Between 1.3.1 and 1.11.0 the library gained **67 new components** and modified 1
 | Disabled button | `grey[500]` / `grey[50]` / `grey[400]` | `grey[600]` / `grey[300]` / `grey[600]`, `opacity: 1` |
 | Outlined border | `grey[600]` | `grey[300]`, explicit `1px` |
 
+**The three radius rows landed earlier than the rest**, so check what you are coming *from* before
+budgeting for them: the button radius and its focus ring changed in **v1.4.0** (`907948b`), the input
+radius in **v1.5.0** (`d56742a`). On **1.5.0 or later those three rows do not apply to you** - 2.0.0
+itself leaves the radii alone. `ses-ui` is pinned to 1.3.1 and crosses both; a consumer on 1.7.1 is
+already at 8px and needs no radius pin.
+
 The palette is **purely additive** — no existing colour value changed; only `light`, `ghost`, `overlays` and `common` were added.
 
 For `ses-ui` that is roughly **245 `RcSesButton` + 18 `<Button>`** and **60 `RcSesTextField` + 10 `RcSesSelect` + 6 `RcSesDatepicker`**. Note `ses-ui/src/theme/MuiCard.ts` pins `borderRadius: 0` on 7 of its 9 card variants, so expect square cards containing 8px-radius controls across ~109 `<Card>` usages until the redesign lands.
