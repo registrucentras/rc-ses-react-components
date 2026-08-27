@@ -16,11 +16,8 @@ type UseSideNavScrollSpyOptions = {
 
 function findScopedElement(root: Document | HTMLElement, id: string): HTMLElement | null {
   if (root instanceof Document) return root.getElementById(id)
-  return (
-    Array.from(root.querySelectorAll<HTMLElement>('[id]')).find(
-      (element) => element.id === id,
-    ) ?? null
-  )
+  // Attribute selector, so an id that is not a valid CSS selector cannot throw.
+  return root.querySelector<HTMLElement>(`[id="${id.replace(/"/g, '\\"')}"]`)
 }
 
 function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpyOptions) {
@@ -44,13 +41,8 @@ function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpy
       // before landing on the clicked one.
       if (Date.now() < suppressUntilRef.current) return
 
-      const idMap = new Map<string, HTMLElement>()
-      root.querySelectorAll<HTMLElement>('[id]').forEach((element) => {
-        if (!idMap.has(element.id)) idMap.set(element.id, element)
-      })
-
       const resolved = itemIds
-        .map((id) => ({ id, element: idMap.get(id) ?? null }))
+        .map((id) => ({ id, element: findScopedElement(root, id) }))
         .filter(
           (entry): entry is { id: string; element: HTMLElement } =>
             entry.element !== null,
@@ -114,13 +106,15 @@ function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpy
 
     // Sections added to the DOM after mount - e.g. lazily-loaded content - should
     // register immediately rather than waiting for the next scroll/resize event.
-    const mutationObserver = new MutationObserver(scheduleUpdate)
-    mutationObserver.observe(root, { childList: true, subtree: true })
+    // Skipped when unscoped, where it would observe the whole document.
+    const mutationObserver =
+      root instanceof Document ? undefined : new MutationObserver(scheduleUpdate)
+    mutationObserver?.observe(root, { childList: true, subtree: true })
 
     return () => {
       window.removeEventListener('scroll', scheduleUpdate)
       window.removeEventListener('resize', scheduleUpdate)
-      mutationObserver.disconnect()
+      mutationObserver?.disconnect()
       // Also reset the ref, not just cancel the frame - otherwise the next effect
       // instance's scheduleUpdate sees a stale non-undefined handle on its in-flight
       // guard and silently refuses to ever schedule another update.
