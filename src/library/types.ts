@@ -5,11 +5,6 @@ import {
   RcSesCardFooterTestIds,
 } from '@/components/common/CardShell/CardFooter/types'
 import {
-  CardHeadingLevel,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
-} from '@/components/common/CardShell/CardHeader/types'
-import {
   CardShellTheme,
   CardShellVariant,
   RcSesCardShellProps,
@@ -22,6 +17,17 @@ import {
   RcSesSegmentedControlProps,
 } from '@/components/common/SegmentedControl'
 import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
+import {
+  RcSesServiceLinkItem,
+  RcSesServiceLinksProps,
+  RcSesServiceLinksTestIds,
+} from '@/components/common/ServiceLinks/types'
+import {
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
+} from '@/components/common/TitleBlock/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -41,6 +47,7 @@ import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 export type { ListWithIconsProps, ListWithIconsItemData }
+export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 
 export type {
@@ -52,14 +59,15 @@ export type {
   RcSesCardProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
-  RcSesCardHeaderProps,
-  RcSesCardHeaderTestIds,
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
   RcSesCardFooterProps,
   RcSesCardFooterTestIds,
   CardFooterAlign,
   CardShellVariant,
   CardShellTheme,
-  CardHeadingLevel,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,
