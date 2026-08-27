@@ -28,7 +28,13 @@ function RcSesSideNav({
       component='nav'
       aria-label={navTitle}
       sx={[
-        { width: '100%', zIndex: 1, backgroundColor: common.white },
+        {
+          width: '100%',
+          // Only the mobile bar overlays scrolling content.
+          backgroundColor: { xs: common.white, md: 'transparent' },
+          // Above content setting zIndex: 1 - the nav precedes it in DOM order.
+          zIndex: 2,
+        },
         ...normalizeSx(sx),
       ]}
     >

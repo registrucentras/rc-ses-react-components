@@ -8,6 +8,7 @@ export type RcSesSideNavItem = {
 }
 
 export type RcSesSideNavProps = {
+  // In document order - scroll-spy compares section positions in list order.
   items: RcSesSideNavItem[]
   activeItemId?: string
   onItemClick?: (id: string) => void
