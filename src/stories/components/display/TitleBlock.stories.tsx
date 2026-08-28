@@ -427,8 +427,8 @@ export const VerticalTitleBlock: Story = {
   ),
 }
 
-// Card title as running body copy ("Populiariausios paslaugos", SAV-6419).
-// `titleVariant` moves the type scale only - `headingLevel` keeps the heading.
+// Card title as running body copy: `titleVariant` moves the type scale only,
+// `headingLevel` keeps the heading.
 export const BodyScaleTitleInCard: Story = {
   render: () => {
     const services = [

@@ -1,5 +1,4 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { type ReactNode } from 'react'
 
 import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
