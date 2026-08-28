@@ -427,6 +427,72 @@ export const VerticalTitleBlock: Story = {
   ),
 }
 
+// Card title as running body copy ("Populiariausios paslaugos", SAV-6419).
+// `titleVariant` moves the type scale only - `headingLevel` keeps the heading.
+export const BodyScaleTitleInCard: Story = {
+  render: () => {
+    const services = [
+      {
+        id: 'body-scale-title-a',
+        title: 'Pažymos apie asmens duomenis Gyventojų registre užsakymas',
+      },
+      {
+        id: 'body-scale-title-b',
+        title: 'Nekilnojamojo turto registro išrašo užsakymas',
+      },
+      {
+        id: 'body-scale-title-c',
+        title: 'Pažymos santuokai sudaryti užsienyje užsakymas',
+      },
+    ]
+
+    return (
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+        }}
+      >
+        {services.map((service) => (
+          <RcSesCardShell
+            key={service.id}
+            variant='card'
+            theme='brand'
+            fullHeight
+            header={
+              <RcSesTitleBlock
+                headingId={service.id}
+                headingLevel={3}
+                title={service.title}
+                titleVariant='body1'
+                titleTone='brand'
+              />
+            }
+            footer={
+              <RcSesCardFooter align='start'>
+                <RcSesButton
+                  id={`${service.id}-order`}
+                  aria-labelledby={`${service.id}-order ${service.id}`}
+                >
+                  Užsakyti
+                </RcSesButton>
+                <RcSesButton
+                  variant='link'
+                  id={`${service.id}-more`}
+                  aria-labelledby={`${service.id}-more ${service.id}`}
+                >
+                  Plačiau
+                </RcSesButton>
+              </RcSesCardFooter>
+            }
+          />
+        ))}
+      </Box>
+    )
+  },
+}
+
 // Responsive baselines for SAV-6509 / SAV-6480 DoD ("Responsive patikra 375 /
 // 768 / 1440"). Exercises the mobile stacking of the actions slot
 // (direction={{ xs: 'column', sm: 'row' }}) so both the two-action and

@@ -131,6 +131,39 @@ describe('RcSesTitleBlock', () => {
     })
   })
 
+  test('heading title variants keep the card-header weight', () => {
+    const variants = ['h4', 'h5', 'h6'] as const
+
+    variants.forEach((variant) => {
+      const { unmount } = renderTitleBlock(
+        <RcSesTitleBlock title={`${variant} Title`} titleVariant={variant} />,
+      )
+
+      expect(screen.getByText(`${variant} Title`)).toHaveStyle({ fontWeight: '600' })
+      unmount()
+    })
+  })
+
+  test('titleVariant="body1" drops the header weight for the body type scale', () => {
+    renderTitleBlock(<RcSesTitleBlock title='Test Title' titleVariant='body1' />)
+
+    expect(screen.getByText('Test Title')).toHaveStyle({
+      fontSize: '0.9375rem',
+      fontWeight: '400',
+      lineHeight: '1.125rem',
+    })
+  })
+
+  test('titleVariant="body1" still renders a heading at the requested level', () => {
+    renderTitleBlock(
+      <RcSesTitleBlock headingLevel={2} title='Test Title' titleVariant='body1' />,
+    )
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Test Title' }),
+    ).toBeInTheDocument()
+  })
+
   test('count renders a badge inside the heading accessible name', () => {
     renderTitleBlock(<RcSesTitleBlock count={4} title='Pasirinktos teisės' />)
 

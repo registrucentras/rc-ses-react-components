@@ -25,6 +25,8 @@ function RcSesTitleBlock({
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
   const isVertical = orientation === 'vertical'
+  // The card-header weight belongs to the heading variants only.
+  const isHeadingScale = titleVariant !== 'body1'
 
   const iconNode = icon ? (
     <Box aria-hidden data-testid={testIds?.icon} sx={{ display: 'flex', flexShrink: 0 }}>
@@ -42,7 +44,7 @@ function RcSesTitleBlock({
             color: titleTone === 'brand' ? palette.primary[700] : palette.grey[900],
             // inline only when the badge has to sit on the heading's last line
             display: hasCount ? 'inline' : 'block',
-            fontWeight: cards.header.titleFontWeight,
+            fontWeight: isHeadingScale ? cards.header.titleFontWeight : undefined,
             overflowWrap: 'anywhere',
           }}
         >
