@@ -24,7 +24,7 @@ function RcSesCardFooter({
       direction={{ xs: 'column', sm: 'row' }}
       spacing={cards.footer.gap}
       sx={{
-        alignItems: 'center',
+        alignItems: { xs: 'flex-start', sm: 'center' },
         justifyContent: justifyContent[align],
         width: '100%',
         ...(stretchOnMobile ? { '& > *': { width: { xs: '100%', sm: 'auto' } } } : {}),

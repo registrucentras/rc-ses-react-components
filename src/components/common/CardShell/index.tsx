@@ -66,7 +66,11 @@ function RcSesCardShell({
       {hasSlot(footer) ? (
         <Box
           data-testid={testIds?.footer}
-          sx={{ minWidth: 0, mt: fullHeight ? 'auto' : 0, width: '100%' }}
+          sx={{
+            minWidth: 0,
+            mt: fullHeight ? 'auto' : { xs: '-0.5rem', md: 0 },
+            width: '100%',
+          }}
         >
           {footer}
         </Box>
