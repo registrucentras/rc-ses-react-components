@@ -27,8 +27,31 @@ import Logo from '@/assets/Logo'
     {/* Overview */}
     <div style={{ marginBottom: '24px', padding: '24px', backgroundColor: grey['100'], borderRadius: '12px' }}>
       <p style={{ color: primary['600'], lineHeight: '1.7', margin: '0 0 16px 0', fontSize: '15px', fontWeight: '500' }}>
-        This is a comprehensive component library for RC SES React applications. All components are built with React 18, TypeScript, and styled with Material-UI (MUI) v5.
+        This is a comprehensive component library for RC SES React applications. All components are built with React 18/19, TypeScript, and styled with Material-UI (MUI) v9.
       </p>
+    </div>
+
+    {/* Atomic Design */}
+    <div style={{ marginBottom: '24px', padding: '24px', backgroundColor: 'white', borderRadius: '12px', border: `1px solid ${grey['200']}` }}>
+      <h2 style={{ marginTop: '0', color: grey['900'], marginBottom: '12px', fontSize: '18px', fontWeight: '600' }}>🧪 Built on Atomic Design</h2>
+      <p style={{ color: grey['700'], lineHeight: '1.7', margin: '0 0 16px 0', fontSize: '14px' }}>
+        The library follows Brad Frost's <a href='https://atomicdesign.bradfrost.com/chapter-2/' target='_blank' rel='noreferrer' style={{ color: primary['600'], textDecoration: 'none', fontWeight: 500 }}>Atomic Design</a> methodology. Components are organised by structural complexity, so composing UIs feels like snapping together predictable building blocks.
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+        {[
+          { icon: '⚛️', title: 'Atoms', desc: 'Buttons, inputs, icons, badges' },
+          { icon: '🧬', title: 'Molecules', desc: 'Form controls, cards, title blocks' },
+          { icon: '🦠', title: 'Organisms', desc: 'Lists, dialogs, headers, forms' },
+          { icon: '📐', title: 'Templates', desc: 'Page skeletons and layouts' },
+          { icon: '📄', title: 'Pages', desc: 'Concrete flows and examples' },
+        ].map((tier, idx) => (
+          <div key={idx} style={{ padding: '12px', backgroundColor: grey['50'], borderRadius: '8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}>{tier.icon}</div>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: grey['900'], marginBottom: '4px' }}>{tier.title}</div>
+            <div style={{ fontSize: '11px', color: grey['600'], lineHeight: 1.4 }}>{tier.desc}</div>
+          </div>
+        ))}
+      </div>
     </div>
 
     {/* Features */}
@@ -79,7 +102,7 @@ import Logo from '@/assets/Logo'
     <div style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: '#f0f8ff', borderRadius: '12px', borderLeft: '4px solid #0969da' }}>
       <h3 style={{ marginTop: '0', color: '#0969da', marginBottom: '0.75rem', fontSize: '1rem', fontWeight: '600' }}>🚀 Getting Started:</h3>
       <p style={{ color: '#555', lineHeight: '1.6', margin: '0', fontSize: '0.95rem' }}>
-        Use the sidebar navigation to explore components by category. Each component includes documentation, interactive examples, and code samples you can copy directly into your projects.
+        Use the sidebar to explore components grouped by their atomic tier — from atoms up to full pages. Each entry ships with documentation, interactive controls, and copy-ready code samples you can drop straight into your project.
       </p>
     </div>
 
