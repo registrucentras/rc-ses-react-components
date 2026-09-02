@@ -93,7 +93,7 @@ declare module '@mui/material' {
   }
 }
 
-const theme = createTheme(themePalette, ltLT, enUS {
+const theme = createTheme(themePalette, ltLT, enUS, {
   components: {
     MuiAccordion,
     MuiAccordionDetails,
