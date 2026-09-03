@@ -570,3 +570,25 @@ export const TabletViewport: Story = {
   tags: ['viewport-768', '!autodocs'],
   globals: { viewport: { value: 'tablet768' } },
 }
+
+// Pins the vertical-orientation mobile treatment (icon hidden, compressed
+// title, left-aligned link footer inside CardShell) so any regression in the
+// responsive gap/breakpoint stack shows up in the visual diff.
+export const VerticalMobileViewport: Story = {
+  render: () => (
+    <RcSesCardShell
+      variant='card'
+      theme='default'
+      footer={<FooterLink label='Peržiūrėti DUK' href='#' />}
+    >
+      <RcSesTitleBlock
+        orientation='vertical'
+        title='DUK'
+        description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
+        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      />
+    </RcSesCardShell>
+  ),
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
+}
