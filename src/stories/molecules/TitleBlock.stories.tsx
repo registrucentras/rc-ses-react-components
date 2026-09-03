@@ -434,7 +434,8 @@ export const BodyScaleTitleInCard: Story = {
     const services = [
       {
         id: 'body-scale-title-a',
-        title: 'Pažymos apie asmens duomenis Gyventojų registre užsakymas',
+        title:
+          'Pažymos apie asmens duomenis Gyventojų registre užsakymas. Labai ilgas tekstas, skirtas testavimui.',
       },
       {
         id: 'body-scale-title-b',
@@ -571,7 +572,7 @@ export const TabletViewport: Story = {
   globals: { viewport: { value: 'tablet768' } },
 }
 
-// Pins the vertical-orientation mobile treatment (icon hidden, compressed
+// Pins the vertical-orientation mobile treatment (compressed
 // title, left-aligned link footer inside CardShell) so any regression in the
 // responsive gap/breakpoint stack shows up in the visual diff.
 export const VerticalMobileViewport: Story = {
