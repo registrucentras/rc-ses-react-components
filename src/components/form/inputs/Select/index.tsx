@@ -15,9 +15,12 @@ import RcSesFormControlWrapper, {
 } from '../../components/FormControlWrapper'
 import { Option } from './Select.types'
 import {
+  dropdownGroupOptionValue,
   dropdownSearchFieldOption,
   dropdownSearchFieldValue,
   dropdownSelectAllValue,
+  groupNameFromOptionValue,
+  isGroupOptionValue,
   isInternalOptionValue,
 } from './Select.utils'
 import OptionCheckbox from './components/OptionCheckbox'
@@ -180,14 +183,6 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     [resolvedSelectAllLabel],
   )
 
-  const resolvedOptions = useMemo(() => {
-    if (!dropdownSearch) return options
-
-    const rows: Option[] = [dropdownSearchFieldOption]
-    if (multiple && selectAll) rows.push(selectAllOption)
-    return [...rows, ...options]
-  }, [dropdownSearch, multiple, selectAll, options, selectAllOption])
-
   const labelFilteredOptions = useFilteredOptions(options, searchText)
 
   const filteredOptions = useMemo(() => {
@@ -218,14 +213,76 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   }, [filteredOptions, groupBy])
 
   const selectedValues = Array.isArray(value) ? value : []
+
+  // A group header doubles as a "select all in this group" checkbox: it's
+  // checked exactly when every one of its items is selected, and toggling it
+  // selects/deselects every item in the group together - so unchecking any
+  // single item also un-checks the group, with no separate state to track.
+  const isGroupFullySelected = (groupValue: string) => {
+    const memberValues = filteredOptionsByGroup.get(groupValue) ?? []
+    return (
+      memberValues.length > 0 && memberValues.every((o) => selectedValueSet.has(o.value))
+    )
+  }
+
+  const toggleGroupValue = (groupValue: string) => {
+    const memberValues = (filteredOptionsByGroup.get(groupValue) ?? []).map(
+      (o) => o.value,
+    )
+
+    const next = isGroupFullySelected(groupValue)
+      ? selectedValues.filter((v) => !memberValues.includes(v))
+      : Array.from(new Set([...selectedValues, ...memberValues]))
+
+    onChange(next)
+  }
+
   const { allSelected: allFilteredSelected, toggle: handleSelectAll } = useSelectAll(
     filteredOptions,
     selectedValues,
     onChange,
   )
 
+  // Multi-select group headers are rendered as their own selectable option
+  // (see the isGroupOptionValue branch in renderOption) instead of living
+  // outside the listbox as a separate Tab-only element - that's what lets
+  // the header fully participate in the listbox's native keyboard
+  // navigation (arrows, Enter) and pick up the same focus ring as every
+  // other row, both of which a plain non-option DOM node can't get for free
+  // since MUI's Autocomplete manages highlighting via aria-activedescendant
+  // on the input, not real per-item DOM focus.
+  const optionsWithGroupMarkers = useMemo(() => {
+    if (!(multiple && groupBy)) return options
+
+    const seenGroups = new Set<string>()
+    const result: Option[] = []
+    options.forEach((option) => {
+      const group = groupBy(option)
+      if (group && !seenGroups.has(group)) {
+        seenGroups.add(group)
+        result.push({ label: group, value: dropdownGroupOptionValue(group) })
+      }
+      result.push(option)
+    })
+    return result
+  }, [multiple, groupBy, options])
+
+  const resolvedOptions = useMemo(() => {
+    if (!dropdownSearch) return optionsWithGroupMarkers
+
+    const rows: Option[] = [dropdownSearchFieldOption]
+    if (multiple && selectAll) rows.push(selectAllOption)
+    return [...rows, ...optionsWithGroupMarkers]
+  }, [dropdownSearch, multiple, selectAll, optionsWithGroupMarkers, selectAllOption])
+
   const handleChange = (_: React.SyntheticEvent, selected: Option | Option[] | null) => {
     if (Array.isArray(selected)) {
+      const groupItem = selected.find((item) => isGroupOptionValue(item.value))
+      if (groupItem) {
+        toggleGroupValue(groupNameFromOptionValue(groupItem.value))
+        return
+      }
+
       if (selected.some((item) => item.value === dropdownSelectAllValue)) {
         handleSelectAll()
         return
@@ -243,19 +300,36 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   }
 
   const filterOptions = (opts: Option[]) => {
+    const filteredValues = new Set(filteredOptions.map((o) => o.value))
+    const isVisibleAfterFilter = (opt: Option) => {
+      if (isGroupOptionValue(opt.value)) {
+        const groupValue = groupNameFromOptionValue(opt.value)
+        return (filteredOptionsByGroup.get(groupValue)?.length ?? 0) > 0
+      }
+      return filteredValues.has(opt.value)
+    }
+
     if (dropdownSearch) {
       if (!dropdownSearchValue.trim()) return opts
 
-      const filteredValues = new Set(filteredOptions.map((o) => o.value))
-      return opts.filter(
-        (opt) => isInternalOptionValue(opt.value) || filteredValues.has(opt.value),
-      )
+      return opts.filter((opt) => {
+        // Search field / select-all rows always stay visible; group markers
+        // are conditionally visible (only when the group still has filtered
+        // members) via isVisibleAfterFilter below - isInternalOptionValue
+        // covers both cases, so it can't be used as a blanket always-show.
+        if (
+          opt.value === dropdownSearchFieldValue ||
+          opt.value === dropdownSelectAllValue
+        ) {
+          return true
+        }
+        return isVisibleAfterFilter(opt)
+      })
     }
 
     if (!inputValue.trim() || inputValue === selectedSingleLabel) return opts
 
-    const filteredValues = new Set(filteredOptions.map((o) => o.value))
-    return opts.filter((opt) => filteredValues.has(opt.value))
+    return opts.filter((opt) => isVisibleAfterFilter(opt))
   }
 
   const closeDropdown = ({ clearInput = false } = {}) => {
@@ -278,25 +352,6 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         closeDropdown()
       }
     })
-  }
-
-  const isGroupFullySelected = (groupValue: string) => {
-    const memberValues = filteredOptionsByGroup.get(groupValue) ?? []
-    return (
-      memberValues.length > 0 && memberValues.every((o) => selectedValueSet.has(o.value))
-    )
-  }
-
-  const toggleGroupValue = (groupValue: string) => {
-    const memberValues = (filteredOptionsByGroup.get(groupValue) ?? []).map(
-      (o) => o.value,
-    )
-
-    const next = isGroupFullySelected(groupValue)
-      ? selectedValues.filter((v) => !memberValues.includes(v))
-      : Array.from(new Set([...selectedValues, ...memberValues]))
-
-    onChange(next)
   }
 
   return (
@@ -344,41 +399,19 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         getOptionLabel={(option) => option.label}
         renderGroup={(params) => {
           const groupValue = params.group
-          const groupSelectable = multiple && !disabled
-          const isGroupSelected = groupSelectable && isGroupFullySelected(groupValue)
 
           return (
             <React.Fragment key={params.key}>
-              {!!groupValue && (
+              {/* For multi-select this plain header is skipped: the group's
+                  own selectable row (rendered by renderOption's
+                  isGroupOptionValue branch, injected as the first item of
+                  each group) supplies the header visual instead, so it can
+                  fully participate in the listbox's native keyboard nav. */}
+              {!multiple && !!groupValue && (
                 <Box
                   className='MuiAutocomplete-groupLabel'
-                  role={groupSelectable ? 'checkbox' : undefined}
-                  aria-checked={groupSelectable ? isGroupSelected : undefined}
-                  tabIndex={groupSelectable ? 0 : undefined}
-                  onMouseDown={(event: React.MouseEvent) => {
-                    if (groupSelectable) event.preventDefault()
-                  }}
-                  onClick={
-                    groupSelectable ? () => toggleGroupValue(groupValue) : undefined
-                  }
-                  onKeyDown={
-                    groupSelectable
-                      ? (event: React.KeyboardEvent) => {
-                          if (event.key === 'Enter' || event.key === ' ') {
-                            event.preventDefault()
-                            toggleGroupValue(groupValue)
-                          }
-                        }
-                      : undefined
-                  }
-                  sx={{
-                    alignItems: 'center',
-                    cursor: groupSelectable ? 'pointer' : 'default',
-                    display: 'flex',
-                    gap: '.5rem',
-                  }}
+                  sx={{ alignItems: 'center', display: 'flex', gap: '.5rem' }}
                 >
-                  {groupSelectable && <OptionCheckbox checked={isGroupSelected} />}
                   {groupValue}
                   {groupCounts.has(groupValue) && (
                     <RcSesBadge
@@ -558,6 +591,60 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 <span className='rc-ses-select-option-label'>
                   {resolvedSelectAllLabel}
                 </span>
+              </Box>
+            )
+          }
+
+          if (isGroupOptionValue(option.value)) {
+            const groupValue = groupNameFromOptionValue(option.value)
+            const isGroupSelected = isGroupFullySelected(groupValue)
+
+            return (
+              <Box
+                key={key}
+                component='li'
+                {...rest}
+                className={className}
+                onMouseDown={(event: React.MouseEvent) => {
+                  event.preventDefault()
+                }}
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation()
+                  toggleGroupValue(groupValue)
+                }}
+                sx={{
+                  alignItems: 'center',
+                  backgroundColor: isGroupSelected
+                    ? palette.primary['50']
+                    : 'transparent',
+                  display: 'flex',
+                  flexDirection: 'row !important',
+                  gap: '.5rem',
+                }}
+              >
+                <OptionCheckbox checked={isGroupSelected} />
+                <Box
+                  component='span'
+                  sx={{
+                    color: isGroupSelected ? palette.primary['700'] : palette.grey['900'],
+                    flex: 1,
+                    fontFamily: '"Public Sans", sans-serif',
+                    fontSize: '.875rem',
+                    fontWeight: 600,
+                    lineHeight: '1.25rem',
+                    overflowWrap: 'anywhere',
+                  }}
+                >
+                  {groupValue}
+                </Box>
+                {groupCounts.has(groupValue) && (
+                  <RcSesBadge
+                    label={String(groupCounts.get(groupValue))}
+                    variant='neutral'
+                    size='small'
+                    showIcon={false}
+                  />
+                )}
               </Box>
             )
           }
