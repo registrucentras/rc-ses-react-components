@@ -28,11 +28,7 @@ function RcSesCardShell({
   const hasContent = hasSlot(children)
   const hasFooter = hasSlot(footer)
 
-  const footerMt = (() => {
-    if (fullHeight) return 'auto'
-    if (hasHeader || hasContent) return cards[variant].footerGap
-    return 0
-  })()
+  const footerMt = hasHeader || hasContent ? cards[variant].footerGap : 0
 
   return (
     <Box
@@ -58,7 +54,17 @@ function RcSesCardShell({
       ]}
     >
       {hasHeader ? (
-        <Box data-testid={testIds?.header} sx={{ minWidth: 0, width: '100%' }}>
+        <Box
+          data-testid={testIds?.header}
+          sx={{
+            // When fullHeight has no content slot to grow, let the header take
+            // the free space so the footer's `mt: 'auto'` has room to expand
+            // above the footerGap minimum.
+            flexGrow: fullHeight && !hasContent ? 1 : 0,
+            minWidth: 0,
+            width: '100%',
+          }}
+        >
           {header}
         </Box>
       ) : null}

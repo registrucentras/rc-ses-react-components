@@ -56,8 +56,8 @@ function RcSesTitleBlock({
             // Vertical orientation compresses the title on xs; desktop keeps
             // whatever size `titleVariant` defines. Keep lineHeight paired with
             // fontSize so wrapping titles do not clip descenders.
-            fontSize: isVertical ? { xs: '0.875rem', sm: undefined } : undefined,
-            lineHeight: isVertical ? { xs: 1.25, sm: undefined } : undefined,
+            fontSize: isVertical ? { xs: '0.875rem', sm: '1.5rem' } : undefined,
+            lineHeight: isVertical ? { xs: 1.25, sm: 1.33 } : undefined,
             fontWeight: isHeadingScale ? cards.header.titleFontWeight : undefined,
             overflowWrap: 'anywhere',
           }}
