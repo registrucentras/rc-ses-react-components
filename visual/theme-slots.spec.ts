@@ -15,7 +15,7 @@ import theme from '../src/theme/light'
  * and fails if a themed slot is missing from that set.
  *
  * When this fails, the fix is a story that renders the slot, not an exclusion.
- * Slots with no `RcSes*` wrapper are covered by `theme/Themed MUI components`.
+ * Slots with no `RcSes*` wrapper are covered by `Foundations/Themed MUI Components`.
  */
 
 type StoryIndexEntry = { type: string; id: string; tags?: string[] }
