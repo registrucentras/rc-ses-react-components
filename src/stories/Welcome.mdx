@@ -39,11 +39,11 @@ import Logo from '@/assets/Logo'
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
         {[
+          { icon: '🎨', title: 'Foundations', desc: 'Colors, typography, MUI theming' },
           { icon: '⚛️', title: 'Atoms', desc: 'Buttons, inputs, icons, badges' },
           { icon: '🧬', title: 'Molecules', desc: 'Form controls, cards, title blocks' },
           { icon: '🦠', title: 'Organisms', desc: 'Lists, dialogs, headers, forms' },
           { icon: '📐', title: 'Templates', desc: 'Page skeletons and layouts' },
-          { icon: '📄', title: 'Pages', desc: 'Concrete flows and examples' },
         ].map((tier, idx) => (
           <div key={idx} style={{ padding: '12px', backgroundColor: grey['50'], borderRadius: '8px', textAlign: 'center' }}>
             <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}>{tier.icon}</div>

@@ -34,7 +34,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
  * or silently dead override surfaces as a pixel diff.
  */
 const meta: Meta = {
-  title: 'theme/Themed MUI components',
+  title: 'Foundations/Themed MUI Components',
   parameters: {
     docs: {
       description: {
