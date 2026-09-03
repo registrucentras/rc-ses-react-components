@@ -1,48 +1,53 @@
-import { Box, Checkbox, Chip, TextField } from '@mui/material'
+import { Box, Chip, TextField } from '@mui/material'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
-import { UseControllerProps, useController } from 'react-hook-form'
+import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
-import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
+import CaretDownIcon from '@/assets/icons/CaretDownIcon'
 import CheckIcon from '@/assets/icons/CheckIcon'
-import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
-import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
+import RcSesBadge from '@/components/common/Badge'
 import palette from '@/theme/palette'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../../components/FormControlWrapper'
 import { Option } from './Select.types'
+import {
+  dropdownSearchFieldOption,
+  dropdownSearchFieldValue,
+  dropdownSelectAllValue,
+  isInternalOptionValue,
+} from './Select.utils'
+import OptionCheckbox from './components/OptionCheckbox'
 import useFilteredOptions from './hooks/useFilteredOptions'
 import useSelectAll from './hooks/useSelectAllLogic'
 
-type TControllerProps = UseControllerProps<any, any>
+type TControllerProps<TFieldValues extends FieldValues = FieldValues> =
+  UseControllerProps<TFieldValues>
 type ImmediateControllerProps = 'control' | 'rules' | 'name' | 'disabled'
 
 type TWrapperProps = RcSesFormControlWrapperProps
 type ImmediateWrapperProps = 'id' | 'label' | 'errors'
-type AutocompleteValue<T, Multiple extends boolean> = Multiple extends true
-  ? T[]
-  : T | null
 
-type Props = Pick<TControllerProps, ImmediateControllerProps> &
+type CommonSelectProps<TFieldValues extends FieldValues = FieldValues> = Pick<
+  TControllerProps<TFieldValues>,
+  ImmediateControllerProps
+> &
   Pick<TWrapperProps, ImmediateWrapperProps> & {
-    multiple?: boolean
     clearable?: boolean
-    limitTags?: number
     loading?: boolean
     options: Option[]
     placeholder?: string
     dropdownLabel?: string
     dropdownSearch?: boolean
     dropdownSearchPlaceholder?: string
-    selectAll?: boolean
 
     onInputChange?: AutocompleteProps<Option, boolean, boolean, false>['onInputChange']
 
     slotProps?: {
-      controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>
+      controller?: Partial<Omit<TControllerProps<TFieldValues>, ImmediateControllerProps>>
       field?: Partial<
         Omit<
           AutocompleteProps<Option, boolean, boolean, false>,
@@ -53,10 +58,31 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     }
   }
 
-function RcSesSelect(props: Props) {
+type SingleSelectProps<TFieldValues extends FieldValues = FieldValues> =
+  CommonSelectProps<TFieldValues> & {
+    multiple?: false
+    limitTags?: never
+    selectAll?: never
+    selectAllLabel?: never
+  }
+
+type MultiSelectProps<TFieldValues extends FieldValues = FieldValues> =
+  CommonSelectProps<TFieldValues> & {
+    multiple: true
+    limitTags?: number
+    selectAll?: boolean
+    selectAllLabel?: string
+  }
+
+type Props<TFieldValues extends FieldValues = FieldValues> =
+  SingleSelectProps<TFieldValues> | MultiSelectProps<TFieldValues>
+
+function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
+  props: Props<TFieldValues>,
+) {
+  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesSelect' })
   const [dropdownSearchValue, setDropdownSearchValue] = React.useState('')
   const [open, setOpen] = React.useState(false)
-  const dropdownSearchOptionValue = '__dropdown-search-option__'
   // rem widths reserved at the end of the input for the clear and dropdown adornments
   const reservedSingleEndAdornmentWidth = 2
   const reservedMultipleTagsEndAdornmentWidth = 2.2
@@ -78,10 +104,15 @@ function RcSesSelect(props: Props) {
     slotProps,
     dropdownLabel,
     dropdownSearch = false,
-    dropdownSearchPlaceholder = 'Ieškoti',
+    dropdownSearchPlaceholder,
     selectAll = false,
+    selectAllLabel,
     ...fieldProps
   } = props
+
+  const resolvedDropdownSearchPlaceholder =
+    dropdownSearchPlaceholder ?? t('searchPlaceholder')
+  const resolvedSelectAllLabel = selectAllLabel ?? t('selectAllLabel')
 
   const { disabled, name } = fieldProps
 
@@ -89,7 +120,7 @@ function RcSesSelect(props: Props) {
   const selectedValueId = useMemo(() => `rc-ses-select-single-value-${id}`, [id])
 
   const {
-    field: { onChange, value },
+    field: { onChange: rawOnChange, value: rawValue },
   } = useController({
     control,
     name,
@@ -98,17 +129,36 @@ function RcSesSelect(props: Props) {
     ...slotProps?.controller,
   })
 
+  const value = rawValue as string | string[] | null | undefined
+  const onChange = rawOnChange as (next: string | string[] | null) => void
+
   const hasError = !!errors
-  const hasCustomGroupBy = typeof slotProps?.field?.groupBy === 'function'
+  const groupBy = slotProps?.field?.groupBy
+  const hasCustomGroupBy = typeof groupBy === 'function'
+
+  const groupCounts = useMemo(() => {
+    if (!groupBy) return new Map<string, number>()
+
+    const counts = new Map<string, number>()
+    options.forEach((option) => {
+      const group = groupBy(option)
+      counts.set(group, (counts.get(group) ?? 0) + 1)
+    })
+    return counts
+  }, [groupBy, options])
+
+  const selectedValueSet = useMemo(
+    () => new Set(Array.isArray(value) ? value : []),
+    [value],
+  )
 
   const resolvedValue = useMemo(() => {
     if (multiple) {
-      if (!Array.isArray(value)) return []
-      return options.filter((o) => value.includes(o.value))
+      return options.filter((o) => selectedValueSet.has(o.value))
     }
 
     return options.find((o) => o.value === value) ?? null
-  }, [value, options, multiple])
+  }, [value, options, multiple, selectedValueSet])
 
   const selectedSingleLabel =
     !multiple && resolvedValue && !Array.isArray(resolvedValue) ? resolvedValue.label : ''
@@ -123,38 +173,49 @@ function RcSesSelect(props: Props) {
 
   const [inputValue, setInputValue] = React.useState('')
   const resolvedInputValue = dropdownSearch ? '' : inputValue
+  const searchText = dropdownSearch ? dropdownSearchValue : inputValue
 
-  const searchRowOption = useMemo<Option>(
-    () => ({ label: '', value: dropdownSearchOptionValue }),
-    [dropdownSearchOptionValue],
+  const selectAllOption = useMemo<Option>(
+    () => ({ label: resolvedSelectAllLabel, value: dropdownSelectAllValue }),
+    [resolvedSelectAllLabel],
   )
 
-  const resolvedOptions = useMemo(
-    () => (dropdownSearch && !hasCustomGroupBy ? [searchRowOption, ...options] : options),
-    [dropdownSearch, hasCustomGroupBy, options, searchRowOption],
-  )
+  const resolvedOptions = useMemo(() => {
+    if (!dropdownSearch) return options
 
-  const handleChange = (
-    _: React.SyntheticEvent,
-    selected: AutocompleteValue<Option, typeof multiple>,
-  ) => {
-    if (multiple) {
-      const values = (selected as Option[])
-        .filter((item) => item.value !== dropdownSearchOptionValue)
-        .map((item) => item.value)
+    const rows: Option[] = [dropdownSearchFieldOption]
+    if (multiple && selectAll) rows.push(selectAllOption)
+    return [...rows, ...options]
+  }, [dropdownSearch, multiple, selectAll, options, selectAllOption])
 
-      onChange(values)
-    } else {
-      const val = selected as Option | null
-      if (val?.value === dropdownSearchOptionValue) return
-      onChange(val?.value ?? null)
-    }
-  }
+  const labelFilteredOptions = useFilteredOptions(options, searchText)
 
-  const filteredOptions = useFilteredOptions(
-    options,
-    dropdownSearch ? dropdownSearchValue : inputValue,
-  )
+  const filteredOptions = useMemo(() => {
+    if (!groupBy) return labelFilteredOptions
+
+    const normalized = searchText.trim().toLowerCase()
+    if (!normalized) return labelFilteredOptions
+
+    const matchedValues = new Set(labelFilteredOptions.map((o) => o.value))
+    options.forEach((option) => {
+      if (groupBy(option).toLowerCase().includes(normalized)) {
+        matchedValues.add(option.value)
+      }
+    })
+
+    return options.filter((option) => matchedValues.has(option.value))
+  }, [groupBy, labelFilteredOptions, options, searchText])
+
+  const filteredOptionsByGroup = useMemo(() => {
+    const map = new Map<string, Option[]>()
+    filteredOptions.forEach((option) => {
+      const group = groupBy?.(option) ?? ''
+      const items = map.get(group) ?? []
+      items.push(option)
+      map.set(group, items)
+    })
+    return map
+  }, [filteredOptions, groupBy])
 
   const selectedValues = Array.isArray(value) ? value : []
   const { allSelected: allFilteredSelected, toggle: handleSelectAll } = useSelectAll(
@@ -163,18 +224,33 @@ function RcSesSelect(props: Props) {
     onChange,
   )
 
+  const handleChange = (_: React.SyntheticEvent, selected: Option | Option[] | null) => {
+    if (Array.isArray(selected)) {
+      if (selected.some((item) => item.value === dropdownSelectAllValue)) {
+        handleSelectAll()
+        return
+      }
+
+      const values = selected
+        .filter((item) => !isInternalOptionValue(item.value))
+        .map((item) => item.value)
+
+      onChange(values)
+    } else {
+      if (selected && isInternalOptionValue(selected.value)) return
+      onChange(selected?.value ?? null)
+    }
+  }
+
   const filterOptions = (opts: Option[]) => {
-    if (dropdownSearch && !hasCustomGroupBy) {
-      const [searchOption, ...realOptions] = opts
+    if (dropdownSearch) {
       if (!dropdownSearchValue.trim()) return opts
 
       const filteredValues = new Set(filteredOptions.map((o) => o.value))
-      const filtered = realOptions.filter((opt) => filteredValues.has(opt.value))
-
-      return [searchOption, ...filtered]
+      return opts.filter(
+        (opt) => isInternalOptionValue(opt.value) || filteredValues.has(opt.value),
+      )
     }
-
-    if (dropdownSearch && hasCustomGroupBy) return opts
 
     if (!inputValue.trim() || inputValue === selectedSingleLabel) return opts
 
@@ -182,16 +258,10 @@ function RcSesSelect(props: Props) {
     return opts.filter((opt) => filteredValues.has(opt.value))
   }
 
-  const closeDropdown = () => {
+  const closeDropdown = ({ clearInput = false } = {}) => {
     setOpen(false)
     setDropdownSearchValue('')
-  }
-
-  // clear input when dropdown closes
-  const closeDropdownWithClear = () => {
-    setOpen(false)
-    setDropdownSearchValue('')
-    setInputValue('')
+    if (clearInput) setInputValue('')
   }
 
   const shouldKeepDropdownOpen = () => {
@@ -209,6 +279,26 @@ function RcSesSelect(props: Props) {
       }
     })
   }
+
+  const isGroupFullySelected = (groupValue: string) => {
+    const memberValues = filteredOptionsByGroup.get(groupValue) ?? []
+    return (
+      memberValues.length > 0 && memberValues.every((o) => selectedValueSet.has(o.value))
+    )
+  }
+
+  const toggleGroupValue = (groupValue: string) => {
+    const memberValues = (filteredOptionsByGroup.get(groupValue) ?? []).map(
+      (o) => o.value,
+    )
+
+    const next = isGroupFullySelected(groupValue)
+      ? selectedValues.filter((v) => !memberValues.includes(v))
+      : Array.from(new Set([...selectedValues, ...memberValues]))
+
+    onChange(next)
+  }
+
   return (
     <RcSesFormControlWrapper
       id={id}
@@ -234,6 +324,7 @@ function RcSesSelect(props: Props) {
         clearOnBlur={false}
         handleHomeEndKeys={false}
         loading={loading}
+        popupIcon={<CaretDownIcon size={20} fillColor={palette.grey['600']} />}
         value={resolvedValue}
         inputValue={resolvedInputValue}
         onChange={handleChange}
@@ -247,33 +338,75 @@ function RcSesSelect(props: Props) {
             deferCloseCheck()
             return
           }
-          closeDropdownWithClear()
+          closeDropdown({ clearInput: true })
         }}
         isOptionEqualToValue={(option, val) => option.value === val.value}
         getOptionLabel={(option) => option.label}
-        // to prevent default grouping when groupBy is not provided but dropdownSearch is enabled
-        groupBy={() => ''}
-        renderGroup={(params) => (
-          <React.Fragment key={params.key}>
-            {!!params.group && (
-              <Box className='MuiAutocomplete-groupLabel'>{params.group}</Box>
-            )}
+        renderGroup={(params) => {
+          const groupValue = params.group
+          const groupSelectable = multiple && !disabled
+          const isGroupSelected = groupSelectable && isGroupFullySelected(groupValue)
 
-            {!params.group && !!dropdownLabel && (
-              <Box
-                sx={{
-                  padding: '1.1875rem 1.125rem .8125rem 1.125rem',
-                  fontSize: '.9375rem',
-                  color: palette.grey[600],
-                }}
-              >
-                {dropdownLabel}
-              </Box>
-            )}
+          return (
+            <React.Fragment key={params.key}>
+              {!!groupValue && (
+                <Box
+                  className='MuiAutocomplete-groupLabel'
+                  role={groupSelectable ? 'checkbox' : undefined}
+                  aria-checked={groupSelectable ? isGroupSelected : undefined}
+                  tabIndex={groupSelectable ? 0 : undefined}
+                  onMouseDown={(event: React.MouseEvent) => {
+                    if (groupSelectable) event.preventDefault()
+                  }}
+                  onClick={
+                    groupSelectable ? () => toggleGroupValue(groupValue) : undefined
+                  }
+                  onKeyDown={
+                    groupSelectable
+                      ? (event: React.KeyboardEvent) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault()
+                            toggleGroupValue(groupValue)
+                          }
+                        }
+                      : undefined
+                  }
+                  sx={{
+                    alignItems: 'center',
+                    cursor: groupSelectable ? 'pointer' : 'default',
+                    display: 'flex',
+                    gap: '.5rem',
+                  }}
+                >
+                  {groupSelectable && <OptionCheckbox checked={isGroupSelected} />}
+                  {groupValue}
+                  {groupCounts.has(groupValue) && (
+                    <RcSesBadge
+                      label={String(groupCounts.get(groupValue))}
+                      variant='neutral'
+                      size='small'
+                      showIcon={false}
+                    />
+                  )}
+                </Box>
+              )}
 
-            {params.children}
-          </React.Fragment>
-        )}
+              {!groupValue && !!dropdownLabel && (
+                <Box
+                  sx={{
+                    padding: '1.1875rem 1.125rem .8125rem 1.125rem',
+                    fontSize: '.9375rem',
+                    color: palette.grey[600],
+                  }}
+                >
+                  {dropdownLabel}
+                </Box>
+              )}
+
+              {params.children}
+            </React.Fragment>
+          )
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -310,8 +443,6 @@ function RcSesSelect(props: Props) {
                   }),
             }}
             slotProps={{
-              // Spreading params.slotProps keeps `input`, which carries the ref
-              // and classes Autocomplete relies on.
               ...params.slotProps,
               input: {
                 ...params.slotProps.input,
@@ -338,14 +469,15 @@ function RcSesSelect(props: Props) {
           />
         )}
         renderOption={(optionProps, option, { selected }) => {
-          const { key, ...rest } = optionProps as any
+          const { key, className, ...rest } = optionProps
 
-          if (option.value === dropdownSearchOptionValue) {
+          if (option.value === dropdownSearchFieldValue) {
             return (
               <Box
                 key={key}
                 component='li'
                 {...rest}
+                className={className}
                 onMouseDown={(event: React.MouseEvent) => {
                   event.preventDefault()
                 }}
@@ -354,50 +486,17 @@ function RcSesSelect(props: Props) {
                 }}
                 sx={{
                   '&:hover': { backgroundColor: 'transparent !important' },
-                  alignItems: 'center',
-                  borderBottom: `1px solid ${palette.grey['200']}`,
                   display: 'flex',
                   flexDirection: 'row !important',
-                  gap: '.75rem',
-                  mb: '.25rem',
-                  pb: '.5rem',
-                  pt: 0,
-                  px: '.75rem',
+                  px: '1rem',
+                  py: '.5rem',
                 }}
               >
-                {multiple && selectAll && (
-                  <Checkbox
-                    checked={allFilteredSelected}
-                    checkedIcon={
-                      <CheckBoldIcon fillColor={palette.primary.main} size={24} />
-                    }
-                    icon={
-                      <CheckUncheckedBoldIcon fillColor={palette.grey['500']} size={24} />
-                    }
-                    disableRipple
-                    onMouseDown={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleSelectAll()
-                    }}
-                    sx={{
-                      flexShrink: 0,
-                      alignSelf: 'center',
-                      height: '1.5rem',
-                      m: 0,
-                      p: 0,
-                      width: '1.5rem',
-                    }}
-                  />
-                )}
                 <TextField
                   fullWidth
                   value={dropdownSearchValue}
                   onChange={(event) => setDropdownSearchValue(event.target.value)}
-                  placeholder={dropdownSearchPlaceholder}
+                  placeholder={resolvedDropdownSearchPlaceholder}
                   size='small'
                   onMouseDown={(e) => {
                     e.stopPropagation()
@@ -413,26 +512,18 @@ function RcSesSelect(props: Props) {
                     event.stopPropagation()
                   }}
                   sx={{
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: palette.grey['200'],
+                    },
+                    '& .MuiInputBase-input': {
+                      padding: '.625rem .75rem',
+                    },
                     '& .MuiInputBase-input::placeholder': {
                       color: palette.grey.main,
                       opacity: 1,
                     },
                   }}
                   slotProps={{
-                    input: {
-                      startAdornment: (
-                        <Box sx={{ display: 'flex', m: '.625rem' }}>
-                          <MagnifyingGlassIcon
-                            size={20}
-                            fillColor={palette.grey['900']}
-                          />
-                        </Box>
-                      ),
-                    },
-                    // Keeps typing in the dropdown's search box from reaching
-                    // Autocomplete's own keyboard navigation. The parameter needs
-                    // annotating: inside slotProps it no longer gets a contextual
-                    // type the way it did on InputProps.
                     htmlInput: {
                       onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) =>
                         event.stopPropagation(),
@@ -443,44 +534,56 @@ function RcSesSelect(props: Props) {
             )
           }
 
+          if (option.value === dropdownSelectAllValue) {
+            return (
+              <Box
+                key={key}
+                component='li'
+                {...rest}
+                className={className}
+                onMouseDown={(event: React.MouseEvent) => {
+                  event.preventDefault()
+                }}
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation()
+                  handleSelectAll()
+                }}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row !important',
+                  gap: '.75rem',
+                }}
+              >
+                <OptionCheckbox checked={allFilteredSelected} />
+                <span className='rc-ses-select-option-label'>
+                  {resolvedSelectAllLabel}
+                </span>
+              </Box>
+            )
+          }
+
+          let indentClassName = ''
+          if (hasCustomGroupBy) {
+            indentClassName = multiple
+              ? 'rc-ses-select-option--indent-multi'
+              : 'rc-ses-select-option--indent-single'
+          }
+
           return (
             <Box
               key={key}
               component='li'
               {...rest}
-              sx={[
-                {
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: multiple ? '.75rem' : '.5rem',
-                  flexDirection: 'row !important',
-                  justifyContent: 'space-between',
-                  minWidth: 0,
-                },
-                ...(Array.isArray(rest.sx) ? rest.sx : [rest.sx]),
-              ]}
+              className={[className, indentClassName].filter(Boolean).join(' ')}
+              sx={{
+                display: 'flex',
+                gap: multiple ? '.75rem' : '.5rem',
+                flexDirection: 'row !important',
+                justifyContent: 'space-between',
+                minWidth: 0,
+              }}
             >
-              {multiple && (
-                <Checkbox
-                  checked={selected}
-                  checkedIcon={
-                    <CheckBoldIcon fillColor={palette.primary.main} size={24} />
-                  }
-                  icon={
-                    <CheckUncheckedBoldIcon fillColor={palette.grey['500']} size={24} />
-                  }
-                  tabIndex={-1}
-                  disableRipple
-                  sx={{
-                    alignSelf: 'center',
-                    height: '1.5rem',
-                    m: 0,
-                    p: 0,
-                    pointerEvents: 'none',
-                    width: '1.5rem',
-                  }}
-                />
-              )}
+              {multiple && <OptionCheckbox checked={selected} />}
               <Box
                 sx={{
                   flex: 1,
@@ -495,7 +598,12 @@ function RcSesSelect(props: Props) {
                     : {}),
                 }}
               >
-                <span className='rc-ses-select-option-label'>{option.label}</span>
+                <span
+                  className='rc-ses-select-option-label'
+                  style={selected ? { color: palette.primary['700'] } : undefined}
+                >
+                  {option.label}
+                </span>
 
                 {option.description && (
                   <span className='rc-ses-select-option-description'>
@@ -505,7 +613,7 @@ function RcSesSelect(props: Props) {
               </Box>
               {!multiple && selected && (
                 <CheckIcon
-                  size={16}
+                  size={20}
                   fillColor={palette.primary.main}
                   aria-hidden
                   weight='bold'
@@ -565,11 +673,26 @@ function RcSesSelect(props: Props) {
           )
         }}
         {...slotProps?.field}
+        groupBy={(option) => {
+          if (isInternalOptionValue(option.value)) return ''
+          return groupBy ? groupBy(option) : ''
+        }}
         slotProps={{
-          listbox: {
-            onMouseDown: (e) => {
-              e.preventDefault()
-            },
+          ...slotProps?.field?.slotProps,
+          listbox: (ownerState) => {
+            const consumerListboxSlotProps = slotProps?.field?.slotProps?.listbox
+            const resolved =
+              typeof consumerListboxSlotProps === 'function'
+                ? consumerListboxSlotProps(ownerState)
+                : consumerListboxSlotProps
+
+            return {
+              ...resolved,
+              onMouseDown: (e: React.MouseEvent<HTMLUListElement>) => {
+                resolved?.onMouseDown?.(e)
+                e.preventDefault()
+              },
+            }
           },
         }}
       />
