@@ -56,6 +56,11 @@
       "searchAriaLabel": "Open search"
     },
 
+    "RcSesSelect": {
+      "searchPlaceholder": "Search",
+      "selectAllLabel": "All"
+    },
+
     "RcSesSearchInput": {
       "clearValueAriaLabel": "Clear search value",
       "searchButtonLabel": "Search"
