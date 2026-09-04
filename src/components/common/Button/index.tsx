@@ -38,6 +38,13 @@ function RcSesButtonComponent(props: Props) {
   const isIconOnly =
     !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
 
+  // MUI centres the spinner over the label but keeps the label visible for
+  // width stability; Figma wants the label hidden while the spinner spins.
+  // Only relevant for the default/`center` position — `start`/`end` reserve
+  // their own slot next to a still-visible label.
+  const hideLabelWhileLoading =
+    loading && (loadingPosition === undefined || loadingPosition === 'center')
+
   // Match Figma: RcSesLoadingSpinner replaces MUI's default CircularProgress
   // so contained/outlined/link variants share the same spinner treatment.
   const indicator = loadingIndicator ?? (
@@ -72,9 +79,21 @@ function RcSesButtonComponent(props: Props) {
               },
             }
           : undefined,
+        hideLabelWhileLoading
+          ? {
+              // Hide the label + startIcon + endIcon in place so the button
+              // keeps its natural width while the centred spinner takes over.
+              // Target every direct child except the loadingIndicator so the
+              // spinner stays fully visible. Also hide direct SVG children
+              // (icon-only buttons render the icon as a direct child).
+              '& > *:not(.MuiButton-loadingIndicator), & > svg': {
+                visibility: 'hidden',
+              },
+            }
+          : undefined,
       ]}
     >
-      {children}
+      {hideLabelWhileLoading ? <span>{children}</span> : children}
     </MuiButton>
   )
 }

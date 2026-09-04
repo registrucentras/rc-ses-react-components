@@ -147,6 +147,15 @@ const MuiButton: Components['MuiButton'] = {
       position: 'relative',
       textTransform: 'none',
 
+      // MUI v9 defaults `.MuiButton-loadingIndicator` to `text.primary`,
+      // which overrides our spinner's `color='inherit'` and renders a dark
+      // spinner on top of dark-bg variants like `light`/`ghost`. Force it
+      // to inherit the button's current color so every variant's spinner
+      // matches its label.
+      '& .MuiButton-loadingIndicator': {
+        color: 'inherit',
+      },
+
       '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
         {
           background: 'transparent',

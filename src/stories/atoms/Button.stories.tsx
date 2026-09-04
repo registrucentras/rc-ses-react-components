@@ -167,6 +167,24 @@ export const PrimaryOutlined: Story = {
   },
 }
 
+export const PrimaryOutlinedWithPrefixIcon: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'primary',
+    variant: 'outlined',
+    startIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryOutlinedWithSuffixIcon: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'primary',
+    variant: 'outlined',
+    endIcon: <PlusBoldIcon />,
+  },
+}
+
 export const PrimaryOutlinedIconOnly: Story = {
   parameters: disableColorContrast,
   args: {
@@ -174,6 +192,68 @@ export const PrimaryOutlinedIconOnly: Story = {
     children: <PlusBoldIcon />,
     color: 'primary',
     iconOnly: true,
+    variant: 'outlined',
+  },
+}
+
+export const SecondaryContained: Story = {
+  args: {
+    color: 'secondary',
+    variant: 'contained',
+  },
+}
+
+export const SecondaryOutlined: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'secondary',
+    variant: 'outlined',
+  },
+}
+
+export const GreyContained: Story = {
+  args: {
+    color: 'grey',
+    variant: 'contained',
+  },
+}
+
+export const GreyOutlined: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'grey',
+    variant: 'outlined',
+  },
+}
+
+export const WarningContained: Story = {
+  args: {
+    variant: 'contained',
+    children: 'Button',
+    color: 'warning',
+  },
+}
+
+export const WarningOutlined: Story = {
+  parameters: disableColorContrast,
+  args: {
+    variant: 'outlined',
+    children: 'Button',
+    color: 'warning',
+  },
+}
+
+export const ErrorContained: Story = {
+  args: {
+    color: 'error',
+    variant: 'contained',
+  },
+}
+
+export const ErrorOutlined: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'error',
     variant: 'outlined',
   },
 }
@@ -314,6 +394,24 @@ export const PrimaryContainedLoading: Story = {
   },
 }
 
+export const PrimaryContainedLoadingWithIcon: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    loading: true,
+    startIcon: <PlusBoldIcon />,
+  },
+}
+
+export const PrimaryContainedLoadingWithEndIcon: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    loading: true,
+    endIcon: <PlusBoldIcon />,
+  },
+}
+
 export const PrimaryContainedIconOnlyLoading: Story = {
   args: {
     'aria-label': 'Add',
@@ -329,6 +427,74 @@ export const PrimaryOutlinedLoading: Story = {
   parameters: disableColorContrast,
   args: {
     color: 'primary',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const SecondaryContainedLoading: Story = {
+  args: {
+    color: 'secondary',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const SecondaryOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'secondary',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const GreyContainedLoading: Story = {
+  args: {
+    color: 'grey',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const GreyOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'grey',
+    variant: 'outlined',
+    loading: true,
+  },
+}
+
+export const WarningContainedLoading: Story = {
+  args: {
+    variant: 'contained',
+    color: 'warning',
+    loading: true,
+  },
+}
+
+export const WarningOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    variant: 'outlined',
+    color: 'warning',
+    loading: true,
+  },
+}
+
+export const ErrorContainedLoading: Story = {
+  args: {
+    color: 'error',
+    variant: 'contained',
+    loading: true,
+  },
+}
+
+export const ErrorOutlinedLoading: Story = {
+  parameters: disableColorContrast,
+  args: {
+    color: 'error',
     variant: 'outlined',
     loading: true,
   },
@@ -375,6 +541,32 @@ export const LightOutlinedLoading: Story = {
     variant: 'outlined',
     color: 'light' as any,
     children: 'Light Button',
+    loading: true,
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          backgroundColor: grey[900],
+          padding: '0.5rem',
+          borderRadius: '0.5rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+}
+
+export const LightOutlinedWithIconLoading: Story = {
+  args: {
+    variant: 'outlined',
+    color: 'light' as any,
+    startIcon: <PlusBoldIcon />,
+    children: 'Light Button with Icon',
     loading: true,
   },
   decorators: [
