@@ -434,7 +434,8 @@ export const BodyScaleTitleInCard: Story = {
     const services = [
       {
         id: 'body-scale-title-a',
-        title: 'Pažymos apie asmens duomenis Gyventojų registre užsakymas',
+        title:
+          'Pažymos apie asmens duomenis Gyventojų registre užsakymas. Labai ilgas tekstas, skirtas testavimui.',
       },
       {
         id: 'body-scale-title-b',
@@ -569,4 +570,26 @@ export const TabletViewport: Story = {
   render: () => <ResponsiveTwoActionsRowList />,
   tags: ['viewport-768', '!autodocs'],
   globals: { viewport: { value: 'tablet768' } },
+}
+
+// Pins the vertical-orientation mobile treatment (compressed
+// title, left-aligned link footer inside CardShell) so any regression in the
+// responsive gap/breakpoint stack shows up in the visual diff.
+export const VerticalMobileViewport: Story = {
+  render: () => (
+    <RcSesCardShell
+      variant='card'
+      theme='default'
+      footer={<FooterLink label='Peržiūrėti DUK' href='#' />}
+    >
+      <RcSesTitleBlock
+        orientation='vertical'
+        title='DUK'
+        description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
+        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      />
+    </RcSesCardShell>
+  ),
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
 }

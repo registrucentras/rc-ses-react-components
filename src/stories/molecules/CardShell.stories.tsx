@@ -261,3 +261,22 @@ export const TabletViewport: Story = {
   tags: ['viewport-768', '!autodocs'],
   globals: { viewport: { value: 'tablet768' } },
 }
+
+// Pins the CardFooter align='start' + single-action + stretchOnMobile={false}
+// path at 375, so the mobile left-align regression the FooterLink helper
+// depends on stays covered by the visual suite.
+export const LeftAlignedFooterMobileViewport: Story = {
+  args: {
+    variant: 'card',
+    theme: 'default',
+    header: <SampleHeader />,
+    children: <SampleContent />,
+    footer: (
+      <RcSesCardFooter align='start' stretchOnMobile={false}>
+        <RcSesButton variant='link'>Peržiūrėti DUK</RcSesButton>
+      </RcSesCardFooter>
+    ),
+  },
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
+}

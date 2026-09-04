@@ -28,13 +28,23 @@ function RcSesTitleBlock({
   const isHeadingScale = titleVariant !== 'body1'
 
   const iconNode = icon ? (
-    <Box aria-hidden data-testid={testIds?.icon} sx={{ display: 'flex', flexShrink: 0 }}>
+    <Box
+      aria-hidden
+      data-testid={testIds?.icon}
+      sx={{
+        display: 'flex',
+        flexShrink: 0,
+      }}
+    >
       {icon}
     </Box>
   ) : null
 
   const textColumn = (
-    <Stack spacing={cards.header.gap} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
+    <Stack
+      spacing={isVertical ? { xs: '0.5rem', sm: cards.header.rowGap } : cards.header.gap}
+      sx={{ flex: 1, minWidth: 0, width: '100%' }}
+    >
       <HeadingTag id={headingId} data-testid={testIds?.heading} style={{ margin: 0 }}>
         <Typography
           component='span'
@@ -43,6 +53,11 @@ function RcSesTitleBlock({
             color: titleTone === 'brand' ? palette.primary[700] : palette.grey[900],
             // inline only when the badge has to sit on the heading's last line
             display: hasCount ? 'inline' : 'block',
+            // Vertical orientation compresses the title on xs; desktop keeps
+            // whatever size `titleVariant` defines. Keep lineHeight paired with
+            // fontSize so wrapping titles do not clip descenders.
+            fontSize: isVertical ? { xs: '0.875rem', sm: '1.5rem' } : undefined,
+            lineHeight: isVertical ? { xs: 1.25, sm: 1.33 } : undefined,
             fontWeight: isHeadingScale ? cards.header.titleFontWeight : undefined,
             overflowWrap: 'anywhere',
           }}
@@ -105,6 +120,10 @@ function RcSesTitleBlock({
       data-testid={testIds?.root}
       direction={isVertical ? 'column' : { xs: 'column', sm: 'row' }}
       spacing={cards.header.rowGap}
+      // Flex gap skips items removed via `display: none`, so the icon's mobile
+      // hide in the vertical orientation actually collapses its slot instead of
+      // leaving a sibling-selector margin above the title.
+      useFlexGap
       sx={{
         alignItems:
           isVertical || hasDescription
