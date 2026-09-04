@@ -45,8 +45,13 @@ jobs:
       - name: Build the library
         run: npm run build:lib
 
+      # npm does not infer a dist-tag from a prerelease version, so without --tag
+      # a 2.0.0-rc.0 publish would become `latest` and a bare `npm i` would pull
+      # it. GitHub marks prereleases, so use that to pick the tag.
       - name: Publish to npm
         if: github.event_name == 'release'
-        run: npm publish --access public --registry=https://registry.npmjs.org
+        run: |
+          npm publish --access public --registry=https://registry.npmjs.org \
+            --tag "${{ github.event.release.prerelease && 'rc' || 'latest' }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

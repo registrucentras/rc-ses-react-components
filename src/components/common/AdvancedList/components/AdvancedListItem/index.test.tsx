@@ -8,7 +8,7 @@ import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import theme from '@/theme/light'
 
-import AdvancedListItem from './index'
+import AdvancedListItem from '.'
 
 const renderItem = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)

@@ -1,18 +1,14 @@
-import {getStoryContext, TestRunnerConfig} from '@storybook/test-runner'
-import { injectAxe, checkA11y } from 'axe-playwright'
+import { TestRunnerConfig, getStoryContext } from '@storybook/test-runner'
+import { checkA11y, injectAxe } from 'axe-playwright'
 
-type RuleArray = { id: string, enabled: boolean }[]
-type RuleObject = {[key: string]: {enabled: boolean}}
+type RuleArray = { id: string; enabled: boolean }[]
+type RuleObject = Record<string, { enabled: boolean }>
 
-const convertRules = (ruleArray?: RuleArray): RuleObject => {
-  const ruleObject: RuleObject = {}
-  if (ruleArray) {
-    for (const rule of ruleArray) {
-      ruleObject[rule.id] = { enabled: rule.enabled }
-    }
-  }
-  return ruleObject
-}
+const convertRules = (ruleArray?: RuleArray): RuleObject =>
+  (ruleArray ?? []).reduce<RuleObject>(
+    (acc, rule) => ({ ...acc, [rule.id]: { enabled: rule.enabled } }),
+    {},
+  )
 
 /*
  * See https://storybook.js.org/docs/writing-tests/test-runner#test-hook-api
@@ -35,10 +31,10 @@ const config: TestRunnerConfig = {
         html: true,
       },
       axeOptions: {
-        rules: convertRules(storyContext.parameters?.a11y?.config?.rules)
-      }
-    });
+        rules: convertRules(storyContext.parameters?.a11y?.config?.rules),
+      },
+    })
   },
 }
 
-export default config;
+export default config

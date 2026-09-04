@@ -2,8 +2,8 @@ import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import { MuiPickersAdapterContext } from '@mui/x-date-pickers/LocalizationProvider'
 import type { PickersCalendarHeaderProps } from '@mui/x-date-pickers/PickersCalendarHeader'
+import { usePickerAdapter, usePickerTranslations } from '@mui/x-date-pickers/hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -40,25 +40,25 @@ const StepperButton = styled(IconButton)({
   },
 })
 
-function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps<Date>) {
+// PickersCalendarHeaderProps is no longer generic in x-date-pickers 9.
+function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps) {
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker' })
 
   const { currentMonth, onMonthChange } = props
 
-  const dateAdapterContext = React.useContext(MuiPickersAdapterContext)
-  const { utils, localeText } = dateAdapterContext ?? {}
+  // v9 no longer exports MuiPickersAdapterContext, and useLocalizationContext is
+  // not public either, so the adapter and the translations come from separate
+  // hooks. Both are guaranteed by the picker context, so no null guard is needed.
+  const utils = usePickerAdapter()
+  const localeText = usePickerTranslations()
 
-  if (!utils) return null
+  const selectNextMonth = () => onMonthChange(utils.addMonths(currentMonth, 1))
 
-  const selectNextMonth = () => onMonthChange(utils.addMonths(currentMonth, 1), 'left')
+  const selectNextYear = () => onMonthChange(utils.addYears(currentMonth, 1))
 
-  const selectNextYear = () => onMonthChange(utils.addYears(currentMonth, 1), 'left')
+  const selectPreviousMonth = () => onMonthChange(utils.addMonths(currentMonth, -1))
 
-  const selectPreviousMonth = () =>
-    onMonthChange(utils.addMonths(currentMonth, -1), 'right')
-
-  const selectPreviousYear = () =>
-    onMonthChange(utils.addYears(currentMonth, -1), 'right')
+  const selectPreviousYear = () => onMonthChange(utils.addYears(currentMonth, -1))
 
   const monthLabel = utils.format(currentMonth, 'month')
 

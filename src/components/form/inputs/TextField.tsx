@@ -11,13 +11,7 @@ import RcSesFormControlWrapper, {
 
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>
 type ImmediateFieldProps =
-  | 'onChange'
-  | 'onBlur'
-  | 'disabled'
-  | 'name'
-  | 'ref'
-  | 'required'
-  | 'multiline'
+  'onChange' | 'onBlur' | 'disabled' | 'name' | 'ref' | 'required' | 'multiline'
 
 type TWrapperProps = RcSesFormControlWrapperProps
 type ImmediateWrapperProps = 'label' | 'errors'

@@ -43,7 +43,7 @@ function ServiceFormActions({
             justifyContent: { xs: 'center', md: 'space-between' },
           }}
         >
-          <Grid item>
+          <Grid>
             <Button
               disabled={draftDisabled === true}
               onClick={() => onSaveDraft()}
@@ -53,7 +53,7 @@ function ServiceFormActions({
               {t('draft')}
             </Button>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button
               disabled={submitDisabled === true}
               endIcon={<ArrowRightIcon />}
@@ -71,7 +71,7 @@ function ServiceFormActions({
         container
         sx={{ justifyContent: 'center', py: { xs: '1.5rem', md: '.875rem' } }}
       >
-        <Grid item>
+        <Grid>
           <Button
             variant='text'
             size='small'

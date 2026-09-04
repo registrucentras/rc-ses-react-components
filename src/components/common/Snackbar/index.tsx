@@ -98,10 +98,12 @@ function RcSesSnackbar({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onKeyDown={(e) => e.key === 'Escape' && handleClose()}
-      TransitionComponent={Slide}
       transitionDuration={prefersReducedMotion ? { enter: 0, exit: 0 } : undefined}
       sx={{
         transition: prefersReducedMotion ? 'none' : `bottom 150ms ease-in-out !important`,
+      }}
+      slots={{
+        transition: Slide,
       }}
     >
       <Box

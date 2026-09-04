@@ -26,9 +26,11 @@ describe('MobileStepper', () => {
       />,
     )
 
-    const buttons = screen.getAllByRole('button')
-
-    expect(buttons).toHaveLength(steps.length + 1)
+    // MUI 9 changed Stepper's semantics: the Stepper is a tablist and each
+    // StepButton is a tab, so the steps and the nav button are separate roles
+    // rather than all being buttons.
+    expect(screen.getAllByRole('tab')).toHaveLength(steps.length)
+    expect(screen.getAllByRole('button')).toHaveLength(1)
   })
 
   it('does not render back button on first step', () => {
@@ -41,8 +43,8 @@ describe('MobileStepper', () => {
       />,
     )
 
-    const buttons = screen.getAllByRole('button')
-
-    expect(buttons).toHaveLength(steps.length)
+    // Steps still render as tabs; only the back-navigation button is absent.
+    expect(screen.getAllByRole('tab')).toHaveLength(steps.length)
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 })

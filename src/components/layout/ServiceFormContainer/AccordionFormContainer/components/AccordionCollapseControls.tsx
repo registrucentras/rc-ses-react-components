@@ -16,7 +16,7 @@ function AccordionCollapseControls({ controller }: Props) {
       container
       sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}
     >
-      <Grid item>
+      <Grid>
         <Button
           variant='text'
           size='small'
@@ -26,7 +26,7 @@ function AccordionCollapseControls({ controller }: Props) {
           Praskleisti visus
         </Button>
       </Grid>
-      <Grid item>
+      <Grid>
         <Button
           variant='text'
           size='small'

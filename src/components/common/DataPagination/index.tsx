@@ -45,7 +45,13 @@ const DataPagination = ({
 
   if (isLoading) {
     return (
-      <Box display='flex' alignItems='center' gap={1}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
         <DataPaginationSkeleton isMobile={isMobile} />
       </Box>
     )
@@ -58,7 +64,13 @@ const DataPagination = ({
   }
 
   return (
-    <Box display='flex' alignItems='center' gap={1}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+      }}
+    >
       <>
         <PaginationButton
           onClick={() => handlePageChange(currentPage - 1)}

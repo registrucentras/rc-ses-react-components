@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 
 import theme from '@/theme/light'
 
-import RcSesSelect from './index'
+import RcSesSelect from '.'
 
 type TestWrapperProps = {
   defaultValue?: string | null

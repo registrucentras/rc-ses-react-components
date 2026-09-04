@@ -92,7 +92,6 @@ function SingleStepForm() {
         slotProps={{ container: { maxWidth: 'md' } }}
       >
         <RcSesAccordion id='form' controller={accordionController}>
-          {/* eslint-disable-next-line no-console */}
           <form onSubmit={handleSubmit(console.debug)} noValidate>
             <RcSesTextField
               id='text'
@@ -254,7 +253,6 @@ function SingleStepForm() {
                       }
                       reader.readAsArrayBuffer(file)
                     })
-                    // eslint-disable-next-line react-hooks/exhaustive-deps
                   },
                 },
                 wrapper: {

@@ -1,6 +1,6 @@
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import palette from '../palette'
+import palette, { common } from '../palette'
 
 const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
@@ -33,7 +33,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
         lineHeight: '1.125rem',
       },
 
-      '.MuiPickersDay-root': {
+      '.MuiPickerDay-root': {
         color: palette.grey['900'],
         fontSize: '.875rem',
         lineHeight: '1.125rem',
@@ -44,19 +44,28 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
           backgroundColor: palette.primary['500'],
+          // v9 sets the contrast colour in a variant, which loses to the
+          // day colour above, so it has to be restated.
+          color: common.white,
           fontWeight: 400,
+        },
+
+        // Same as above: v9 sets the disabled colour in a variant, which loses
+        // to the day colour. Weekends stay red, their rule is more specific.
+        '&.Mui-disabled': {
+          color: palette.grey['400'],
         },
       },
 
-      '.MuiPickersDay-dayOutsideMonth': {
+      '.MuiPickerDay-dayOutsideMonth': {
         color: palette.grey['400'],
       },
 
       '.MuiDayCalendar-weekContainer': {
-        '.MuiPickersDay-root:nth-of-type(6), .MuiPickersDay-root:nth-of-type(7)': {
+        '.MuiPickerDay-root:nth-of-type(6), .MuiPickerDay-root:nth-of-type(7)': {
           color: palette.error['600'],
 
-          '&.MuiPickersDay-dayOutsideMonth': {
+          '&.MuiPickerDay-dayOutsideMonth': {
             color: palette.error['200'],
           },
         },

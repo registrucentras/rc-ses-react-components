@@ -12,8 +12,7 @@ const FULL_PAGE_LOADER_CONTAINER_HEIGHT = 198
 type FullPageLoaderContentProps = Pick<RcSesLoaderProps, 'label' | 'showLabel'>
 
 export interface RcSesFullPageLoaderProps
-  extends Omit<BoxProps, 'children' | 'sx'>,
-    FullPageLoaderContentProps {
+  extends Omit<BoxProps, 'children' | 'sx'>, FullPageLoaderContentProps {
   backdrop?: RcSesLoaderBackdrop
 }
 
@@ -24,8 +23,10 @@ function RcSesFullPageLoader({
   ...props
 }: RcSesFullPageLoaderProps) {
   return (
+    // MUI 9 removed disableEscapeKeyDown in favour of inspecting the `reason`
+    // argument in onClose. Dropping it changes nothing here: this Modal is
+    // permanently open and takes no onClose, so Escape already had no effect.
     <Modal
-      disableEscapeKeyDown
       open
       slotProps={{
         backdrop: {

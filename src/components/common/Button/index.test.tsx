@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import Button from './index'
+import Button from '.'
 
 describe('Button Component', () => {
   describe('Loading State', () => {
@@ -128,7 +128,10 @@ describe('Button Component', () => {
       render(<Button variant='text'>Save</Button>)
 
       const button = screen.getByRole('button')
-      expect(button).toHaveClass('MuiButton-textPrimary')
+      // MUI 9 removed the combined variant+colour classes: MuiButton-textPrimary
+      // is now expressed as MuiButton-text plus MuiButton-colorPrimary.
+      expect(button).toHaveClass('MuiButton-text')
+      expect(button).toHaveClass('MuiButton-colorPrimary')
     })
   })
 

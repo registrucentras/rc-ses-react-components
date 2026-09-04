@@ -5,13 +5,12 @@ import {
   Card as MuiCard,
   Stack,
   StackProps,
-  SxProps,
-  Theme,
   Typography,
   TypographyProps,
 } from '@mui/material'
 import { ReactNode } from 'react'
 
+import normalizeSx from '@/components/utils/normalizeSx'
 import palette from '@/theme/palette'
 
 export type RcSesCardTestIds = {
@@ -49,27 +48,6 @@ export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
     title?: TypographyProps
     trailingActions?: StackProps
   }
-}
-
-type SxEntry =
-  Extract<SxProps<Theme>, ReadonlyArray<unknown>> extends ReadonlyArray<infer T>
-    ? T
-    : never
-
-function isSxArray(sx: SxProps<Theme>): sx is ReadonlyArray<SxEntry> {
-  return Array.isArray(sx)
-}
-
-function normalizeSx(sx: SxProps<Theme> | undefined): SxEntry[] {
-  if (sx === undefined) {
-    return []
-  }
-
-  if (isSxArray(sx)) {
-    return [...sx]
-  }
-
-  return [sx]
 }
 
 function RcSesCard({
@@ -162,12 +140,12 @@ function RcSesCard({
           ]}
         >
           <Typography
-            color={palette.grey[900]}
             data-testid={testIds?.title}
             variant='h5'
             {...titleProps}
             sx={[
               {
+                color: palette.grey[900],
                 lineHeight: '1.75rem',
                 ...(centered ? { textAlign: 'center' } : {}),
               },
@@ -179,12 +157,12 @@ function RcSesCard({
 
           {!!description && (
             <Typography
-              color={palette.grey[800]}
               data-testid={testIds?.description}
               variant='body2'
               {...descriptionProps}
               sx={[
                 {
+                  color: palette.grey[800],
                   fontWeight: 300,
                   lineHeight: '1.25rem',
                   ...(centered ? { textAlign: 'center' } : {}),

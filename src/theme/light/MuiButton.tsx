@@ -21,6 +21,12 @@ const MuiButton: Components['MuiButton'] = {
         fontSize: '.875rem',
         fontWeight: 600,
         height: '2.375rem',
+        // Link buttons are typographic elements — they sit flush with the
+        // surrounding text, not with contained/outlined button hit-area
+        // padding. sizeSmall/sizeLarge already opt out of the root horizontal
+        // padding; the default (medium) needs the same treatment so a
+        // any link lines up under a heading, not 20px indented.
+        padding: '.8125rem 0',
 
         '&.Mui-disabled': {
           opacity: 0.4,

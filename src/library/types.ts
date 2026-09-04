@@ -1,4 +1,15 @@
 import { RcSesCardProps } from '@/components/common/Card'
+import {
+  CardFooterAlign,
+  RcSesCardFooterProps,
+  RcSesCardFooterTestIds,
+} from '@/components/common/CardShell/CardFooter/types'
+import {
+  CardShellTheme,
+  CardShellVariant,
+  RcSesCardShellProps,
+  RcSesCardShellTestIds,
+} from '@/components/common/CardShell/types'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
@@ -6,6 +17,19 @@ import {
   RcSesSegmentedControlProps,
 } from '@/components/common/SegmentedControl'
 import { RcSesSegmentButtonProps } from '@/components/common/SegmentedControl/components/SegmentButton'
+import {
+  RcSesServiceLinkItem,
+  RcSesServiceLinksProps,
+  RcSesServiceLinksTestIds,
+} from '@/components/common/ServiceLinks/types'
+import { RcSesSideNavItem } from '@/components/common/SideNav'
+import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
+import {
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
+} from '@/components/common/TitleBlock/types'
 import { RcSesTooltipProps } from '@/components/common/Tooltip'
 import { RcSesFormControlLabelProps } from '@/components/form/inputs/FormControlLabel'
 import { SimpleCheckboxProps } from '@/components/form/inputs/SimpleCheckbox'
@@ -25,6 +49,7 @@ import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 export type { ListWithIconsProps, ListWithIconsItemData }
+export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 
 export type {
@@ -34,6 +59,17 @@ export type {
   RcSesLoaderSize,
   RcSesCardFormContainerProps,
   RcSesCardProps,
+  RcSesCardShellProps,
+  RcSesCardShellTestIds,
+  RcSesTitleBlockProps,
+  RcSesTitleBlockTestIds,
+  RcSesCardFooterProps,
+  RcSesCardFooterTestIds,
+  CardFooterAlign,
+  CardShellVariant,
+  CardShellTheme,
+  TitleBlockHeadingLevel,
+  TitleBlockTitleVariant,
   RcSesSegmentedControlProps,
   RcSesSegmentButtonProps,
   RcSesSegmentOption,
@@ -43,6 +79,8 @@ export type {
   RcSesLoadingSpinnerProps,
   RcSesSpinnerColor,
   RcSesTooltipProps,
+  RcSesSideNavItem,
+  RcSesSideNavLayoutProps,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }

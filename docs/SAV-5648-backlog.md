@@ -1,0 +1,670 @@
+# SAV-5648 — execution backlog
+
+Companion to [`SAV-5648-dependency-update.md`](./SAV-5648-dependency-update.md). That document is the analysis; this one is the ordered task list to work through.
+
+**Release model (decided 2026-07-27):** **single big-bang `2.0.0`**, no interim `1.12.0`. The new `ses-ui` design is already planned *against the latest component library*, so an interim 1.11.0 adoption would mean migrating `ses-ui` twice for one outcome. `2.0.0` ships as a combined release train: dependency update + new `ses-ui` design.
+
+**Consequences of that decision, recorded so they are not rediscovered later:**
+- §10 of the analysis doc (three-track incremental sequencing, temporary token pin) is **superseded**. Kept for the reasoning, not as the plan.
+- Phases are now **internal PR milestones into `develop`**, not releases. One npm publish at the end (plus release candidates).
+- **Phase 0 (visual baseline) becomes more important, not less** — every visual change now lands in one release, so there is no intermediate state to diff against unless we build one.
+- **SAV-6284** is blocked by SAV-6098, which now waits for `2.0.0`. Confirm that slip is acceptable with whoever owns SAV-6284's date.
+
+---
+
+## The sequencing constraint that matters most
+
+> **New redesign components must be authored *after* LIB-08 lands on `develop`, on MUI 9 — not before, on MUI 5.**
+
+Any component written against MUI 5 between now and then pays the migration twice: legacy `Grid item xs` → `size={{}}`, `InputProps` → `slotProps.input`, and theme-override churn across the 39 `Mui*` slots. The redesign will need components that do not exist yet ("*probably some components are missing at the moment but they will be created*") — those creation tickets should be scheduled **after LIB-08**.
+
+Practical implication: get LIB-01 → LIB-08 done **fast and first**. `src/theme/light/` is the conflict zone — 39 files, and almost every new component touches it. Long-lived parallel branches adding components during Phase 3 will conflict badly. Either land the migration quickly or freeze new-component PRs for its duration.
+
+---
+
+## Estimates — 20h, AI-agent execution
+
+Implementation is AI-agent driven, so the budget is the existing **20h** on `SAV-5654`, distributed below. Revise as real numbers come in.
+
+The split is deliberately **not** proportional to lines of code. Agents compress mechanical work hard — codemods, config migration, dependency edits, lint churn, story scaffolding — so those get thin slices. The hours are weighted toward what agents *don't* compress:
+
+| Doesn't compress | Why | Where the hours went |
+| --- | --- | --- |
+| Visual diff review | Judgment, not typing — a human decides whether an 8px radius on 39 themed slots is *intended* | LIB-09 **3h** — the largest single item |
+| Chromatic setup | Account, project token, CI secret — procurement, not code | LIB-01 **1.5h** |
+| MUI v9 semantics | Post-cutoff; the guide must be read and behaviour verified, not pattern-matched | LIB-08c **1.5h** |
+| rc validation | Wall-clock waiting on `ses-ui` to exercise it | LIB-17 **1h** |
+
+Execution order: **1 → 2 → 2b → 3 → 4 → 5.** The safety net moved out of Phase 0 to sit after the toolchain — see Phase 2b for why.
+
+| Phase | Hours | Status |
+| --- | --- | --- |
+| 1 — Hygiene + peers | 0.75 → **1.75** | ✅ LIB-03, LIB-03b, LIB-04 all done |
+| 2 — Toolchain | 3.25 → **3.5** | ✅ LIB-05, LIB-06, LIB-07 all done |
+| 2b — Safety net | 2.5 → **3.5** | ✅ LIB-01, LIB-02 both done |
+| 3 — MUI 5 → 9 | 8.25 → **8.75** | ✅ LIB-08a/b/c, LIB-09, LIB-10 all done |
+| 4 — Runtime majors | 2.25 → **2.75** | ✅ LIB-11, 12, 13, 14, 15b all done |
+| 5 — Release | 3.0 | — |
+| **Total** | **21.75** | |
+
+Adjustments so far:
+- **+1h**: LIB-03 split. The `react-hook-form` peer move turned out to be coupled to the build's externals config *and* to the library's i18n initialisation, so it became **LIB-03b** rather than shipping inside a packaging commit.
+- **−0.25h**: LIB-06 (TypeScript 5.9) was already satisfied — `^5.4.5` resolves to 5.9.3.
+- **+1h**: LIB-01 revised from 1.5h to 2.5h. The self-hosted Playwright harness is more work than wiring a hosted service, and Storybook turned out not to load its own webfont, which has to be fixed first or baselines are unstable.
+- **+0.5h**: LIB-07 ran to ~1.5h. Storybook 10 forced the `tsconfig` `moduleResolution` change that was scoped into SAV-6398, and the automigration's import rewrites needed a lint pass plus one real type fix.
+- **+0.5h**: LIB-08a ran to ~1.5h — two real regressions (Button's `loading` prop colliding with MUI 6's new native one, and Switch silently losing Enter-to-toggle).
+- **+0.5h**: LIB-08b ran to ~2.5h across three commits, including 9 new `SearchableField` tests written before touching it.
+- **+1.5h**: LIB-08c ran to ~3h. Pickers 7 → 9 skipped a major, and MUI 9 removed enough that ~25 type errors needed resolving.
+- **−1h**: LIB-10 absorbed into LIB-08c (MUI 9 forces pickers 9 anyway).
+- **−2h**: LIB-09 reduced from migration to verification — the compiler forced the mandatory theme work into LIB-08c.
+
+Running total **23.25h** against the 20h budget.
+
+**Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
+**Open:** Phase 5 — LIB-15 (recommended: drop, see below), LIB-19 (visual assertion) and LIB-18 (`2.0.0`). LIB-17 validation is done.
+
+### Phase 5 progress — as of 2026-08-25
+
+**`2.0.0-rc.3` is published.** It carries the DatePicker fixes from #137 and CardShell from #132.
+
+#### Four picker regressions, three of them one root cause
+
+Found by comparing the deployed 1.13.0 Storybook against the branch preview, measured in a browser
+rather than eyeballed:
+
+- **disabled days were not greyed** and **the selected day had dark text on the blue fill**. x-date-pickers 9
+  moved both colours into `variants` entries, which emit at single-class specificity and lose to the
+  theme's descendant selector. v7 used compound selectors and won unaided, which is why the theme
+  never had to state them.
+- **the whole field was unthemed.** v9 renders it with `PickersTextField` / `PickersOutlinedInput`
+  instead of MUI's `TextField` / `OutlinedInput`, so none of the `MuiInputBase` and
+  `MuiOutlinedInput` slots reach it. Radius, height, background, outline colour and value text had all
+  fallen back to MUI defaults. `MuiPickersOutlinedInput` restates them - **keep it in step with
+  `MuiInputBase`**.
+- **the open icon overflowed the field**, from copying `MuiInputBase`'s `adornedEnd` padding reset,
+  which the picker's own adornment layout does not need.
+
+Five DatePicker stories were added (disabled range, scattered rule, selected value, disabled field,
+error state) and all seven baselines re-recorded. `main`'s still dated from 2026-07-28, the day before
+MUI 9 landed, and had survived the migration because the drift stayed under the diff budget. The four
+open-calendar stories now render in their own docs iframe, since the portalled popup otherwise covered
+its neighbours on the docs page.
+
+Six unit tests pin the day colours and the field metrics, each confirmed to fail without its fix. That
+is deliberate: see **LIB-19**, logged because the visual budget has now hidden three regressions.
+
+Current totals: **311 tests, 213 visual snapshots**.
+
+### Phase 5 progress — as of 2026-08-19
+
+**`2.0.0-rc.2` is published.** It fixes a colour regression that rc.1 shipped, and folds in the three
+commits `develop` gained since rc.1.
+
+#### The dropped `color` prop — found by `ses-ui-mfe-host` validation
+
+MUI 9 takes `Typography`'s `color` as a **palette key**, not as a CSS value: `Typography.js` consumes
+it only by matching `theme.palette[color]`. A raw value such as `palette.grey[200]` matches nothing,
+so no style is emitted and the text inherits. It still type-checks, because MUI 9 types the prop as
+`(string & {})`.
+
+Nine call sites across six components passed raw palette values that way — `Footer`, `Card` ×2,
+`AdvancedListItem` ×2, `AdvancedListItemLeading`, `AdvancedListItemTrailing` ×2 and
+`PhoneInputFormControl`. All are now in `sx` (`8e7d718`). The footer was the only *visible* failure,
+because it is the only component on a dark background: its text rendered black on `grey[900]` and the
+footer read as an empty band. The others degraded quietly to the default text colour.
+
+**The visual suite did not catch it, and the reason matters.** Screenshots are full page with
+`maxDiffPixelRatio: 0.01`. The footer baseline is 1280x720, so the budget is 9216 pixels while the
+footer text is only about 6563. An entirely invisible footer stayed under the threshold and the job
+stayed green. A pixel budget measured against a mostly empty full page screenshot will keep missing
+colour-only regressions — worth tightening the ratio or clipping shots to the component. In the
+meantime the footer colour is pinned by a unit assertion instead.
+
+This is the second regression in a row that only consumer validation found, after `RcSesButton` in
+rc.0. Both were invisible to this repo's own lint, tests and baselines.
+
+#### `develop` merged again
+
+`607519b`, `bcf9495` and `f442f0f` (#123) — Select controller `slotProps`, `RadioButtonGroup` and
+`Select` tests, ignore-file updates, and a new `AdvancedList` story. Conflicts were `package.json`
+(kept `2.0.0-rc.2`), `.eslintignore` (kept deleted, its new `test-results` entry ported into
+`eslint.config.js`), `.gitignore` (ours was already a superset) and the lockfile.
+
+The new story was authored on MUI 5 and used `<Stack gap={2}>`, a system prop MUI 9 removed, which
+broke `build:lib` while lint and unit tests stayed green — stories are not type-checked by vitest.
+Moved into `sx` (`3f0bb20`), and its baseline was recorded **after** that fix, since the dropped
+`gap` had otherwise been baked into the snapshot.
+
+Current totals: **275 tests, 196 visual snapshots**.
+
+### Phase 5 progress — as of 2026-08-12
+
+**`2.0.0-rc.1` is published** (`npm i @registrucentras/rc-ses-react-components@rc`), and `ses-ui` compiles and builds against it from a clean install. That is LIB-17's validation gate met.
+
+**`develop` was merged in** (`60cf941`) — Tooltip, AdvancedList/AdvancedListItem, 8 icons, `theme/motion`, plus the Select and SelectableCardList changes from #115, #116, #118, #119, #120. All were authored on MUI 5 and needed the same migration as the rest of the library: `v9.0.0/system-props` on the new code, `Checkbox`/`Radio` `inputRef`+`inputProps` → the `input` slot, Tooltip `PopperProps` → `slotProps.popper` and `TransitionComponent` → `slots.transition`, and the three new stories off the `@storybook/react` renderer package that Storybook 10 rejects. **This is the cost the top of this document warned about** — the freeze never happened and five PRs landed.
+
+`Select` conflicted twice, and both sides were real: develop's single-select value display had to be re-expressed as `slotProps.input`/`htmlInput`, and its chip wrapping plus `limitTags`/`getLimitTagsText` had to move from `renderTags` into `renderValue`, which MUI 9 merged — keeping the single-select early return that stops it rendering a deletable Chip.
+
+**`MuiTooltip` is a 40th theme slot, and `visual/theme-slots.spec.ts` failed on it** exactly as LIB-02 intended. `RcSesTooltip` owns its open state internally so no story can show the popper; it is covered from `theme/Themed MUI components` instead. Current totals: **270 tests, 195 visual snapshots**, bundle 359.3 kB (from 333.4 kB — the merged components).
+
+**Three baselines re-recorded** where develop deliberately changed rendering: `SelectableCardList` Main and Loading, `Select` All Variants. Each was inspected before being accepted.
+
+#### The `RcSesButton` regression — found by rc validation
+
+`2.0.0-rc.0` typed the button as a plain function rather than an `OverridableComponent`, so `component={Link}` no longer brought the target's props with it and `to` stopped type-checking — **38 call sites in `ses-ui`**. 1.x had hidden this behind a bare `to?: string`, which also allowed `to` with no `component` at all. Fixed in `2dc602d` by declaring it the way MUI declares its own `Button`, and documented in `MIGRATION-v2.md` §2. Type-only; no runtime effect.
+
+This is the entire argument for LIB-17 existing: nothing in this repo's own tests, lint or visual suite could have caught it, because the library never renders its own button with a `component` override.
+
+#### CI fix: pre-releases no longer overwrite the root Storybook
+
+`deploy-storybook.yml` deployed to the site root on *any* published release, so `v2.0.0-rc.0` replaced the published Storybook with an unreleased library and `main` had to be re-deployed by hand. Pre-releases now go to `preview/<tag>/` instead (`fd40f5e`), verified on the `rc.1` run — the root step shows as skipped. `build-and-publish.yml` already branched on the same `release.prerelease` flag for the npm dist-tag, which is why `latest` correctly stayed on `1.12.0`.
+
+#### LIB-15 — recommendation: drop from 2.0.0
+
+The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. Not breaking, so deferring it does not force a later major.
+
+**As of 2026-07-31 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 161/161 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
+
+**Deliberately deferred, each with a reason:**
+
+| Deferred | Why |
+| --- | --- |
+| React 18 → 19 | needs a lockstep import-map deploy across the MFE graph — own epic |
+| ESLint 9 → 10 | `eslint-plugin-import`, `-jsx-a11y` and `-react` all cap at `^9` — SAV-6398 |
+| TypeScript 5.9 → 7 | own ticket |
+| Vite 7 → 8 | `@vitejs/plugin-react` 6 and `vite-plugin-css-injected-by-js` 5 both *require* Vite 8 |
+| `react-router-dom` 6 → 7 | devDependency only, used by the demo app |
+| `@rollup/plugin-commonjs` 26 → 29 | breaks the build — see LIB-15b |
+| `@emotion/*` 11.13 → 11.14, `react-hook-form` 7.53 → 7.83 | devDep pins deliberately match what `ses-ui` runs; peer ranges already permit newer |
+
+**The one assumption that breaks this:** LIB-09's 3h is *review*, and it presupposes LIB-01 produced a working visual baseline. Without one there is nothing to diff 39 themed slots against and that 3h buys nothing — theme verification then falls back to manual page-by-page checking, which is neither 3h nor agent-compressible. **LIB-01 is the load-bearing task in this budget.**
+
+---
+
+## Backlog
+
+Dependencies are strict unless marked ∥ (parallelisable).
+
+### Phase 1 — Hygiene + peers
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-03** | ✅ Nenaudojamų priklausomybių išėmimas ir deps/peers pertvarkymas | **0.5h** | — |
+| **LIB-03b** | ✅ Externals konfigūracijos sutvarkymas (`react-hook-form` → peer) | **1h** | LIB-01 (Phase 2b) |
+| **LIB-04** | ✅ Saugių minor versijų atnaujinimas | **0.25h** | LIB-03 |
+
+**LIB-03** — ✅ **Done 2026-07-27.** Removed `axios`, `notistack`, `@fontsource/public-sans`, `@types/react-helmet` (zero imports, verified across `src/` *and* config files). Moved `react-router-dom` → `devDependencies` (used only by `src/App.tsx`, `src/main.tsx`, `src/examples/**`), which takes the router 6 → 7 major off the critical path. Widened all 11 peers from exact pins to caret ranges, plus `react`/`react-dom` → `^18.3.1 || ^19.0.0`.
+
+Two things discovered during execution that were **not** in the original plan:
+
+1. **Every peer is now also pinned exactly in `devDependencies`.** None of the 11 peers had a devDep pin — they were auto-installed by npm at their exact declared versions. Since `build:lib` runs `npm i`, widening the peer ranges alone would have let npm resolve them upward on the next build, and four of them (`date-fns`, `date-fns-tz`, `i18next`, `react-i18next`) are **bundled into `dist`** — so a silent major could have shipped inside the artifact. The devDep pins make the build environment reproducible and are what keep peer widening safe. Verified: zero version drift after `npm i`.
+2. **`import/no-extraneous-dependencies` needed its allowlist extended** with `src/App.tsx`, `src/main.tsx`, `src/examples/**`. The rule correctly flagged the router move; those four files are demo-only. **Port this to the flat config in LIB-05.**
+
+*Verification:* lint clean · 29 files / 193 tests pass · `build:lib` clean · **shipped ESM bundle byte-identical** (400 037 bytes before and after, no change to the externals list) — a pure packaging change with zero runtime impact.
+
+**LIB-03b** — the deferred half of LIB-03. `vite.config.lib.ts` derives its `external` array from **`Object.keys(pkg.dependencies)`**, so moving `react-hook-form` to `peerDependencies` would cause it to be **bundled** — the opposite of the intent. Fixing that means adding `...Object.keys(pkg.peerDependencies)` to `external`, which simultaneously externalises `date-fns`, `date-fns-tz`, `i18next` and `react-i18next` — all currently bundled.
+
+✅ **Done 2026-07-29.** *Verification:* lint 0 errors · 202 tests pass · `build:lib` clean · visual 154/154, baselines untouched. Bundle **401.8 → 355.8 kB**.
+
+**Decision: the library's i18n stays self-contained.** `src/i18n/i18n.ts` calls `i18n.use(initReactI18next).init({...})` at import time and is pulled into the entry graph by `FormControlWrapper` and `PhoneInputFormControl`. Externalising i18next would apply that `init()` to the **host's shared instance**, silently overwriting its `fallbackLng`, `lng`, `supportedLngs` and `resources` the moment a component is imported. The `common`/`input` namespaces are library-owned component labels, not app config, and the single-spa graph cannot share one instance across independently-deployed MFEs anyway — cookie-based language sync is what actually works there.
+
+So the fix was **declaration, not externalisation**. The externals array now includes `peerDependencies`, which makes the intent self-enforcing:
+
+> **Peers and dependencies are external. The only bundled packages are the two named in `forceBundled` in `vite.config.lib.ts`.**
+
+| Package | Placement | Bundled? | Reason |
+| --- | --- | --- | --- |
+| `react-hook-form` | peer | no | two copies break form context |
+| `date-fns`, `date-fns-tz` | peer | no | stateless; the host needs `date-fns` as the x-date-pickers adapter regardless |
+| `@emotion/styled` | peer | no | was silently bundled — see below |
+| `i18next`, `react-i18next` | dependency | **yes** | the `init()` problem above |
+
+**`@emotion/styled` was being bundled — 33 kB of the 46 kB saved.** `StepConnector.tsx` imports `styled` from `@emotion/styled` directly rather than from `@mui/material/styles`. This had been missed because `library/index.ts`'s emotion import is type-only, so reading that file alone suggests emotion is never imported at runtime. **It also removes the library's own emotion copy, which was the concrete form of the two-emotion-instances risk in §5 of the analysis doc** — MFEs on different MUI majors sharing a page now share one emotion cache from the host.
+
+**`import-x/no-extraneous-dependencies` drove the final shape.** Putting the four bundled packages in `devDependencies` produced 25 lint errors: the rule correctly objects to shipped source importing devDependencies and has no concept of "bundled by the bundler". Rather than suppress it, the question became which packages genuinely *need* bundling — which is how `date-fns` came back out. Only `i18next` and `react-i18next` do.
+
+**Two breaking changes for `MIGRATION-v2.md` (LIB-16):** `react-hook-form` must now be installed by the consumer; and `date-fns`, `date-fns-tz`, `@emotion/styled` must be resolvable in the host (the first two were already declared peers, and MUI requires emotion regardless).
+
+**LIB-04** — ✅ **Done 2026-07-27.** `npm update` — 26 direct packages moved, all within their declared majors (verified no drift).
+
+Notable: **all `@storybook/*` addons went 8.4.6 → 8.6.x, fixing an existing inconsistency** where `storybook` itself was already 8.6.18 while every addon sat at 8.4.6 — Storybook requires them aligned. That de-risks LIB-07. Also `vitest`/`@vitest/coverage-v8` 4.0.17 → 4.1.10, `@vitejs/plugin-react` 4.3.4 → 4.7.0, `@types/react` 18.3.12 → 18.3.31, `prettier` 3.4.1 → 3.9.6, `eslint-plugin-*` and `vite-plugin-*` minors.
+
+**Deliberately not taken** (they are other tasks' scope, not "safe minors"): `@emotion/*` 11.14 and `jsdom` 29 — both are peer/bundled-adjacent and `jsdom` 27 → 29 is a major. `date-fns`, `i18next`, `react-i18next`, `react`, `@mui/*` stay pinned by the LIB-03 devDep pins.
+
+*Verification:* lint clean · 193 tests pass · `build:lib` clean · **externals list unchanged (23 → 23, nothing newly bundled)**. Bundle grew 400 037 → 401 048 bytes (+1 011), attributable to `vite` 6.4.2 → 6.4.3 and `@vitejs/plugin-react` 4.3.4 → 4.7.0 output differences, not to new dependencies.
+
+`prettier` 3.9 reformatted **5 files** (union-type and `extends`-clause line breaking) — autofixed via `lint:fix`, cosmetic only: `form/inputs/TextField.tsx`, `loaders/FullPageLoader/index.tsx`, `overlays/Dialog/index.tsx`, `overlays/Modal/index.tsx`, `types/common/ColorType.tsx`.
+
+**Audit note:** `npm audit` went 24 → 59 advisories, but **`npm audit --omit=dev` reports 0** — every one is dev-only tooling, nothing reaches consumers. The roots are the ESLint ecosystem (`eslint` 8.57.1, `eslint-config-airbnb`, `@typescript-eslint/*`, `eslint-plugin-*`) and jest via `@storybook/test-runner` — i.e. **exactly what LIB-05 and LIB-07 remove**. No action needed here; it resolves as a side effect of the toolchain phase.
+
+### Phase 2 — Toolchain
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-05** | ✅ ESLint 9 + flat config migracija, airbnb → airbnb-extended | **2h** | LIB-04 |
+| **LIB-06** | ✅ TypeScript 5.9 — floor pin | **0.25h → 0h** | LIB-05 |
+| **LIB-07** | ✅ Storybook 8 → 10 ir Vite 6 → 7 atnaujinimas | **1h → 1.5h** | LIB-06 |
+
+**LIB-05** — ✅ **Done 2026-07-27.** `.eslintrc.cjs` + `.eslintignore` → `eslint.config.js` (flat), ESLint 8.57.1 → **9.39.5**. `eslint-config-airbnb` + `-typescript` replaced by **`eslint-config-airbnb-extended@3.1.1`**; `@typescript-eslint/*` 7 → unified `typescript-eslint@8`; `eslint-plugin-storybook` 0.8 → 0.11.6; `eslint-config-prettier` 9 → 10. `FlatCompat` was not needed. **ESLint 10 confirmed unreachable** — `eslint-plugin-import`, `-jsx-a11y`, `-react` all cap at `^9`.
+
+*Verification:* lint **0 errors / 6 warnings** · 193 tests pass · `build:lib` clean · **bundle byte-identical** to LIB-04 (401 048 bytes, externals unchanged).
+
+Six findings from doing the work:
+
+1. **`airbnb-extended` bundles its own plugin copies** (import-x, jsx-a11y, n, react, react-hooks, typescript-eslint, @stylistic). Our direct devDeps for those were redundant *and* blocking: `eslint-plugin-react-hooks@^4.6.2` peers ESLint ≤8, which made `npm install` ERESOLVE. Removed 8 now-redundant packages: `eslint-plugin-{react-hooks,react,jsx-a11y,n,import,promise}`, `eslint-import-resolver-alias`, and later re-added `eslint-import-resolver-typescript` explicitly because the config imports it. Note `eslint-plugin-promise` had never been referenced by the old config at all — a dead devDep.
+2. **It uses `eslint-plugin-import-x`, so rules are namespaced `import-x/*`.** Our `import/no-extraneous-dependencies` customisation had to be renamed, and an inline `// eslint-disable-next-line import/prefer-default-export` in `FormControlLayoutVariables.ts` had become a hard error ("rule not found").
+3. **Flat config needs plugins registered before any config references them** — `configs.*` alone throws `could not find plugin "import-x"`. `airbnb-extended` exports `plugins.*` objects for this.
+4. **The `@/*` alias would not resolve — 1 027 of the initial 1 163 errors** (`import-x/no-unresolved` + `import-x/extensions`) came from this single cause. `tsconfig.json` declares `paths` under `moduleResolution: "Node"` (legacy node10), and the resolver does not apply path mappings in that mode. Verified by probe: the same resolver works against a tsconfig using `"Bundler"`. Fixed by passing `alias` explicitly to `createTypeScriptImportResolver` rather than editing `tsconfig.json` — switching to `"Bundler"` is arguably correct for a Vite project but changes what `tsc` accepts, which is a build concern outside this task. **Worth a follow-up ticket.**
+5. **`.eslintignore` had entries I nearly lost** — it excluded `vite.config.ts`, `vite.config.lib.ts`, `public`, `jest.config.cjs`. Ported into the flat `ignores` block. Separately, `.storybook/**` sits outside `tsconfig.json`'s `include: ["src"]`, so the project service cannot type it; those files get `projectService: false` plus `tseslint.configs.disableTypeChecked.rules`, since airbnb's type-aware rules *throw* rather than fail without type info.
+6. **`--fix` mangled a JSX comment.** Removing an unused `{/* eslint-disable-next-line no-console */}` directive left a stray `{}` in `src/examples/SingleStepForm/index.tsx`. Harmless at runtime but junk; cleaned up by hand. Worth diffing autofix output rather than trusting it.
+
+**Rules deliberately switched off** to hold enforcement at the previous level — `airbnb-extended` is stricter than `airbnb` + `airbnb-typescript` was. Turning these on means ~100 source edits with no functional change, which belongs in its own decision, not in a toolchain migration:
+
+| Rule | Occurrences | Why deferred |
+| --- | --- | --- |
+| `@typescript-eslint/consistent-type-definitions` | 53 | would rewrite `type` → `interface` across the codebase |
+| `import-x/no-rename-default` | 24 | all of them the deliberate `RcSes*` public-name convention |
+| `@typescript-eslint/no-unnecessary-type-assertion` | 13 | |
+| `@typescript-eslint/array-type` | 7 | |
+| `@typescript-eslint/no-unnecessary-type-arguments` | 2 | |
+| `@typescript-eslint/no-empty-object-type` | 1 | |
+| `import-x/no-empty-named-blocks` | 6 | **must stay off** — flags the intentional `import type {} from '@mui/system'` module-augmentation blocks in `src/library/index.ts` |
+
+**6 remaining warnings are real findings** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
+
+- `react-hooks/set-state-in-effect` — `Snackbar/index.tsx:60`, `NumberStepper.tsx:142`, `examples/ListWithPagination/index.tsx:61`
+- `react-hooks/static-components` — `IconWithCircularBackground.tsx:68` ("cannot create components during render")
+- `react-hooks/incompatible-library` ×2 — `CheckboxFormControl.stories.tsx:199,315`, react-hook-form's `watch()` cannot be memoised safely
+
+Tracked as **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** — see the follow-ups section below.
+
+**Source changes** (40 files, all mechanical): 22 test files `'./index'` → `'.'` (`import-x/no-useless-path-segments`), removal of now-unused eslint-disable directives, prettier reformatting of `.storybook/*`, plus four deliberate one-liners — `catch (_)` → `catch` in `Datepicker/index.tsx`, `import type` in `env.tsx` (correct anyway under `isolatedModules`), the duplicate `darkTheme` import in `.storybook/preview.ts` (dark and light resolved to the same module — see LIB-02), and a `for...of` → `reduce` in `.storybook/test-runner.ts`.
+
+**LIB-06** — **already satisfied, no work needed.** The declared `^5.4.5` range resolves to **typescript 5.9.3** and lint/tests/build are all green on it. Reduce to a verification step: pin the floor to `^5.9.3` when LIB-05 touches `package.json`, so the intent is explicit rather than incidental. TS 6/7 remains out of scope.
+
+**LIB-07** — ✅ **Done 2026-07-28**, as **two commits**: Storybook 8.6 → 10.5.5, then Vite 6.4 → 7.3.6. They turned out to be **independent** — `@storybook/react-vite@10` accepts `vite ^5||^6||^7||^8` — so splitting them keeps a bisect possible.
+
+*Verification (both):* lint 0 errors · 193 tests pass · `storybook-build` green · `build:lib` green · `tsc` clean against both tsconfigs. Bundle byte-identical after Storybook; **shrank 401 048 → 396 565 bytes (−4 483)** after Vite 7, externals unchanged at 23 either way.
+
+Storybook: `storybook upgrade` handled the addon migrations. `addon-essentials` and `addon-interactions` dropped (viewport/controls/actions/interactions moved into core in v9); `@storybook/blocks` → `@storybook/addon-docs/blocks` and `@storybook/test` → `storybook/test`; `test-runner` 0.18 → 0.24.4, `@chromatic-com/storybook` 1 → 5.2.1, `addon-coverage` 1 → 3.0.2, `eslint-plugin-storybook` 0.11 → 10.5.5; `main.js` `docs.autodocs` removed.
+
+Five findings worth recording:
+
+1. **`tsconfig` `moduleResolution` "Node" → "Bundler" was forced here, not deferrable.** It was scoped into SAV-6398, but Storybook 10 exposes its types through `exports` maps that legacy node10 resolution cannot read — `tsc` fails outright and says so. Changed in **both** `tsconfig.json` and `tsconfig.lib.json`; `tsconfig.json` also gained `baseUrl: "."` for consistency. **SAV-6398 must be updated — that scope item is done.**
+2. **`tsconfig.lib.json` does not exclude `src/stories`**, so story files are part of the *library* type-check. That is what surfaced the failure above, and it is arguably wrong on its own — stories are not library code. Left as-is; candidate for a small follow-up.
+3. **The eslint resolver alias workaround could not be removed.** Retested after the Bundler switch, with `baseUrl` added: the resolver still ignores tsconfig `paths`, most likely because of the project `references` entry. The explicit `alias` stays, now with an accurate comment. Time-boxed rather than chased further.
+4. **The automigration added `@storybook/addon-mcp` unprompted** — removed, along with the legacy `@storybook/blocks` and `@storybook/test` packages the migration left in `package.json` after rewriting their imports.
+5. **One real type error** from Storybook 10's stricter story typings: `PhoneInputFormControl.stories.tsx` typed its demo `label` as `string` while the component accepts `ReactNode`. Fixed the demo to mirror the component API. The other 97 lint errors were pure import-ordering churn from the migration not honouring `@trivago/prettier-plugin-sort-imports` — autofixed.
+
+Also: **`storybook-static` and `debug-storybook.log` added to `.gitignore`.** Neither was ignored, and the first Storybook commit accidentally staged 444 build-output files / ~118k lines before it was caught and removed.
+
+Vite: no other package had to move — every plugin already supported 7. **Deliberately not taken:** `@vitejs/plugin-react` 6 and `vite-plugin-css-injected-by-js` 5 both peer-depend on **Vite 8**, so they are out of scope until Vite 8 is considered on its own.
+
+### Phase 2b — Safety net (moved: must come *after* LIB-07)
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-01** | ✅ Vizualinės regresijos aplinka su Playwright + bazinė linija | **2.5h** | LIB-07 |
+| **LIB-02** | ✅ Storybook istorijų aprėpties užpildymas temos komponentams | **1h** | LIB-01 ∥ |
+
+**Why this moved out of Phase 0** (decided 2026-07-27): a Storybook major can shift canvas padding and wrapper markup, so a baseline captured before LIB-07 would be invalidated by the Storybook upgrade itself — you would then be diffing Storybook's changes against MUI's. Capturing after LIB-07 leaves **MUI as the only variable**. Nothing in Phase 1 or 2 changes component rendering, so no coverage is lost by waiting. Ordering is therefore **LIB-05 → LIB-07 → LIB-01 → LIB-08a**.
+
+**LIB-01 — approach chosen: self-hosted Playwright, not Chromatic.** Rationale: the repo is **public**, so GitHub Actions minutes are free and unlimited, making the marginal cost genuinely zero; Chromatic's free tier (5 000 snapshots/month) would be outgrown during Phase 3's frequent pushes, and it would mean uploading the built Storybook to a third-party US SaaS. `playwright` 1.62.0 is **already installed** as an `axe-playwright` transitive; only `@playwright/test` needs adding for `toHaveScreenshot()`.
+
+Implementation: enumerate stories from Storybook's `index.json`, capture each at `/iframe.html?id=<storyId>`, diff via `toHaveScreenshot()`, serve `storybook-static` in CI.
+
+Three things that must be handled or the suite will be flaky:
+
+1. **Storybook does not load Public Sans.** The theme declares `fontFamily: 'Public sans, sans-serif, Arial'` (`theme/light/themePalette.tsx:21`, `MuiAutocomplete.ts:39`) but there is no `preview-head.html`, no font import in `preview.ts`, and no `@fontsource` import anywhere — so Storybook renders in the OS generic sans-serif (DejaVu on Linux, Arial/Helvetica on Windows). **Re-add `@fontsource/public-sans` as a `devDependency` and import it in `.storybook/preview.ts`.** This bundles the font into the Storybook build: deterministic, no CDN, and Storybook finally renders what users actually see. Removing it from `dependencies` in LIB-03 was still correct — consumers should not inherit it.
+2. **MUI animations** — ripples, transitions, `Fade`/`Grow` — need `reducedMotion: 'reduce'` plus a CSS override zeroing transitions, or captures land mid-animation.
+3. **Baselines must be generated inside `mcr.microsoft.com/playwright:v1.62.0-jammy`** to match CI. They cannot be refreshed from a Windows dev machine.
+
+Known cost: **PNG bloat in git history.** ~48 stories × 50–150 KB ≈ 3–7 MB initially, and every intentional theme change in Phase 3 leaves the old blobs in history permanently. Acceptable, but if it becomes a problem the fallback is keeping baselines as CI artifacts and committing only once the theme settles.
+
+Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** and is fully configured for a11y (`injectAxe` + `checkA11y` with per-story rule overrides), with a `storybook-test` script — but **no workflow runs it**. Adding that job is ~15 minutes and catches "component throws and renders nothing", a real MUI-migration failure mode that pixel diffing alone reports as an empty image.
+
+*DoD:* CI produces a reviewable visual diff on every PR; baseline captured after LIB-07; a11y job green.
+
+---
+
+#### LIB-01 — as built (2026-07-28)
+
+| File | Purpose |
+| --- | --- |
+| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise |
+| `visual/stories.spec.ts` | reads `storybook-static/index.json`, one test per story |
+| `visual/theme-slots.spec.ts` | asserts every themed `Mui*` slot reaches the DOM (added by LIB-02) |
+| `visual/__snapshots__/` | committed baselines, **Linux-only** |
+| `.github/workflows/visual-regression.yml` | one job: build Storybook once → visual diff → a11y |
+| `npm run test:visual` | run locally against existing baselines |
+| `npm run test:visual:update` | **regenerate baselines in the CI image** — the only supported way |
+| `npm run test:visual:update:new` | add baselines for *new* stories only, comparing the existing ones (added by LIB-02) |
+| `npm run test:visual:report` | open the HTML diff report |
+
+**154 stories, not 48** — the earlier figure counted `.stories.tsx` files. This retroactively confirms the Playwright decision: 154 snapshots per run would exhaust Chromatic's 5 000/month free tier in about **32 runs**, which Phase 3 would burn through in days.
+
+**Baselines are platform-specific and must never be generated on Windows.** `test:visual:update` runs `npm ci`, the Storybook build and Playwright inside `mcr.microsoft.com/playwright:v1.62.0-noble`, mounting the repo with an *anonymous volume over `node_modules`* so the host's Windows-native binaries (esbuild, rollup) are left intact. Three things must stay in step: the Playwright version in `package.json`, the image tag in that script, and the image tag in the workflow.
+
+**The font fix was a prerequisite, not a nicety.** The theme has always declared `fontFamily: 'Public sans, ...'` while nothing loaded the font, so Storybook rendered in whichever generic sans-serif the OS supplied — DejaVu on Linux, Arial/Helvetica on Windows. Without `@fontsource/public-sans` imported in `.storybook/preview.ts`, baselines would have been irreproducible between any two machines, making the whole harness unreliable rather than merely slightly inaccurate.
+
+**Serving:** `vite preview --outDir storybook-static` rather than adding a static-server dependency — Vite is already present.
+
+**`--host 127.0.0.1` is required, not cosmetic.** Without it `vite preview` binds to `localhost`, which inside the Linux container resolves to `::1` while Playwright polls `127.0.0.1` — the server is never detected and the run dies on a `webServer` timeout after the Storybook build has already succeeded. It happens to work either way on Windows, so this only shows up in the container and in CI. Applied in both `playwright.config.ts` and the workflow's a11y step.
+
+**`node_modules` uses a named Docker volume** (`rcses-visual-node-modules`) rather than an anonymous one, so repeat runs skip the `npm ci` — which is slow over a Windows bind mount. It still masks the host's `node_modules`, keeping Windows-native binaries (esbuild, rollup) intact.
+
+**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically.
+
+**The a11y check is now wired up too.** `.storybook/test-runner.ts` had `injectAxe`/`checkA11y` fully configured since before this ticket with no workflow calling it. It runs with `if: always()` so a visual failure cannot mask an accessibility regression, and it catches "story throws and renders nothing" — which pixel diffing alone reports only as an unexpectedly blank image.
+
+**LIB-02** — 48 story files cover ~50 components, but the risk surface is the **39 themed `Mui*` slots**. Audit which slots no story renders and add them.
+
+Note: `.storybook/preview.ts` has `import darkTheme from '../src/theme/light'` — dark and light resolve to the same module, so snapshotting both themes would double the count for identical images. **Snapshot `light` only** until a real dark theme exists.
+*DoD:* every slot in `src/theme/light/` is exercised by at least one story.
+
+#### LIB-02 — done 2026-07-31
+
+**The audit was measured, not guessed** — a browser pass over all 154 stories collecting every `Mui*` class prefix that reaches the DOM. Worth doing that way: the slots this backlog predicted would be uncovered (`MuiButton`, `MuiAlert`, `MuiInputBase`, `MuiAutocomplete`, `MuiPagination`, `MuiStepper`) were **already covered incidentally**, because slots nest — a story only has to render a component that happens to contain them. **31 of 39 covered, 8 not**, and they split by cause:
+
+| Uncovered slot | Why | Fix |
+| --- | --- | --- |
+| `MuiDialog`, `MuiPopover`, `MuiPickersLayout` | interaction-gated — the component exists and has stories, but every one starts closed behind a trigger, so the slot never mounts | render it open |
+| `MuiCardContent`, `MuiCardHeader`, `MuiLinearProgress`, `MuiTable`, `MuiTableCell` | **no `RcSes*` wrapper renders them at all** | new theme-coverage stories |
+
+**`RcSesCard` does not use MUI's `CardHeader`/`CardContent`** — it builds its own header and content out of `Stack`/`Box`. Together with `Table`/`TableCell` (used only by the demo modal, which is not in the published library) and `LinearProgress` (used nowhere), that is five overrides shipped to consumers and exercised by nothing. They are not dead — a consumer applying `RcSesTheme` to raw MUI components gets them — so the answer was coverage, not deletion.
+
+**7 new stories, 154 → 161:** `overlays/Dialog` → `Open`; a new `overlays/Popover` (`Default`, `WithoutHeader`); `inputs/DatePicker` → `CalendarOpen`; and a new `theme/Themed MUI components` (`Table`, `Card`, `LinearProgress`) for the five with no wrapper. `MuiCardContent`'s `.side` and `.full` variants each get their own card, and `LinearProgress` renders both determinate and indeterminate — the override hides the `bar1` slot only under the indeterminate class, which is the v9 replacement for the removed `bar1Indeterminate` key.
+
+**The calendar story needs a pinned `referenceDate`.** Without one the picker opens on the current month and the baseline would break on the 1st of every month — the kind of failure that trains people to re-record baselines without reading them.
+
+**The audit is now an assertion, not a one-off.** `visual/theme-slots.spec.ts` imports the real theme, reads `Object.keys(theme.components)` and fails if any slot with `styleOverrides` is absent from the DOM across every story. A `styleOverrides` key nothing renders is invisible — it does not fail the build, does not fail the unit tests, and the visual suite has nothing to diff it against, so an upgrade can quietly stop applying it. Adding a 40th slot without a story now fails CI instead.
+
+**Writing it that way immediately found something the file listing would not: the theme registers 40 component keys, not 39.** `createTheme(themePalette, ltLT, enUS, {...})` merges the x-date-pickers locale objects in, and they contribute a `MuiLocalizationProvider` entry carrying `defaultProps.localeText`. It renders no element, so it can never appear in the DOM — hence the filter is on *`styleOverrides` presence*, not on the key list.
+
+**Finding, not fixed here: `MuiDialog`'s theme override is shadowed for our own dialog.** `RcSesDialog` sets `padding: … !important` on `DialogTitle`, `DialogContent` and `DialogActions` inline, so the theme's padding for those three only ever applies to a consumer's raw MUI `Dialog`. Two sources of truth for the same three numbers. Reconciling them is a 2.0.0 styling decision rather than a coverage task, but both paths now sit in a baseline.
+
+Also added **`npm run test:visual:update:new`** — the same container as `test:visual:update` but `--update-snapshots missing`, which writes baselines for new stories while still *comparing* the existing ones. The blanket `--update-snapshots` would have silently rewritten all 154 rather than proving they were unchanged. Note it **exits non-zero on the run that creates the baselines** (`A snapshot doesn't exist …, writing actual`) — that is Playwright's normal first-run behaviour, not a failure; re-run to verify.
+
+*Verification:* lint 0 errors · 206 tests pass · `tsc` clean · slot assertion green (39/39) · visual **161/161**, the 154 pre-existing baselines unchanged · a11y: the 7 new stories clean.
+
+##### The a11y job turns out to have never run — deferred past 2.0.0
+
+Running the full CI job locally for the first time surfaced **57 failing a11y tests across 23 story files**. Not a LIB-02 regression: the same job on unmodified `HEAD` (`8308a91`, the `2.0.0-rc.0` commit) fails identically.
+
+| | Suites | Tests |
+| --- | --- | --- |
+| `HEAD` | 23 failed / 25 passed | 57 failed / 97 passed (154) |
+| with LIB-02 | 23 failed / 25 passed | 57 failed / **104** passed (161) |
+
+Same 23 suites, same 57 failures, +7 passing. **`visual-regression.yml` triggers on `pull_request` only and no PR has ever been opened for this branch**, so the a11y step LIB-01 added has never run against the migrated code — LIB-01's *DoD* "a11y job green" was never actually observed.
+
+70 violation instances, mostly **component** bugs rather than story bugs:
+
+| Rule | Impact | Count |
+| --- | --- | --- |
+| `aria-progressbar-name` | serious | 30 |
+| `color-contrast` | serious | 20 |
+| `button-name` | critical | 11 |
+| `label` | critical | 6 |
+| `aria-prohibited-attr`, `aria-input-field-name`, `heading-order`, `empty-heading` | serious → minor | 1 each |
+
+`aria-progressbar-name` alone is 30 of them — MUI's `CircularProgress` carries `role="progressbar"` with no accessible name, so every `RcSesLoadingSpinner`, `RcSesLoader` and loading `RcSesButton` ships that violation to consumers. `button-name` (11, critical) is icon-only buttons with no accessible label.
+
+**Decision: this is a new quality gate, not a regression, so it does not gate 2.0.0.** The step is marked `continue-on-error: true` — it still runs and reports on every PR, so a story that *throws* is still visible (the failure mode LIB-01 wanted it for), but it cannot block the release. Fixing 70 violations is component work with its own visual consequences (`color-contrast` means palette changes), which is exactly what should not be folded into a dependency-update release. Re-enabling is deleting one line.
+
+### Phase 3 — MUI 5 → 9
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-08a** | ✅ MUI 5 → 6 migracija | **0.75h → 1.5h** | LIB-07 |
+| **LIB-08b** | ✅ MUI 6 → 7 migracija (Grid, slots/slotProps) | **2h → 2.5h** | LIB-08a |
+| **LIB-08c** | ✅ MUI 7 → 9 migracija | **1.5h → 3h** | LIB-08b |
+| **LIB-09** | Temos slotų patikrinimas (nebe migracija) | **3h → 1h** | LIB-08c |
+| **LIB-10** | ✅ `@mui/x-date-pickers` 7 → 9 — įvykdyta LIB-08c apimtyje | **1h → 0h** | — |
+
+There is **no MUI v8** — majors are 5, 6, 7, 9. Run `npx @mui/codemod@latest` per hop, **one commit per hop** so a bisect is possible.
+
+#### LIB-08a — done 2026-07-28
+
+MUI 5.16.7 → **6.5.0**. `@mui/x-date-pickers` stayed at 7.17.0 — its peer already allows `@mui/material ^6.0.0`, so it did not need to move (one fewer variable).
+
+*Verification:* `tsc` clean (lib + app) · lint 0 errors · **193 unit tests pass** · `build:lib` clean · **visual regression 154/154 passed against the MUI 5 baselines, zero pixel change**. Bundle 396 565 → 396 774 bytes (+209).
+
+**The visual result is the headline: MUI 5 → 6 is pixel-identical across all 154 stories.** v6's changes are internal (styled engine, opt-in CSS variables) rather than default-style changes. Baselines were left untouched by the run, confirming a genuine comparison rather than a rewrite.
+
+**Codemods: run, reviewed, reverted.** There is no `v6.0.0/preset-safe` — that was a v5 concept. The actual v6 transforms are `all`, `grid-v2-props`, `list-item-button-prop` and `styled`. Findings:
+- `styled` + `list-item-button-prop` produced **almost entirely jscodeshift printer noise** across 5 files — redundant parens around JSX, inserted blank lines, dropped trailing commas — plus one genuine conversion in `StyledStepLabel.tsx` from callback styling to v6's `variants` API. That conversion is *correct* (it properly decomposes `orientation === 'vertical' && !isLast` with the nested `stepState` ternary into a base variant plus an override), but `styled()`'s callback form is **not deprecated in v6**, so adopting `variants` is optional modernisation, not migration. Reverted; the type-checker was then allowed to say what v6 actually requires.
+- **The codemod rewrote all 258 files with CRLF.** `.gitattributes` (`* text=auto eol=lf`) neutralised it in git, but this is a landmine for LIB-08b/c — always check `git diff --stat` before trusting a codemod's file count.
+- `grid-v2-props` was deliberately not run: Grid belongs to LIB-08b.
+
+**Two real regressions, both fixed:**
+
+1. **`Button` — MUI 6 added a native `loading` prop** (`boolean | null`, with `loadingIndicator` and `loadingPosition`). Our custom `loading?: boolean` conflicted with MUI's nullable type at every call site spreading `ButtonProps` (`ButtonWithPopover.tsx:39`, `SearchInput/index.tsx:267`). Fixed by no longer re-declaring the prop — `loading` is still destructured out and drives `RcSesLoadingSpinner`, so it never reaches `MuiButton` and behaviour is unchanged.
+   → **SAV-5916 / LIB-15 is actionable at MUI 6, not v9** — three hops earlier than planned.
+2. **`Switch` stopped toggling on Enter**, caught by a unit test. Diagnosed with a throwaway probe against a bare MUI Switch: `slotProps.input.onKeyDown` → 0 calls, `inputProps.onKeyDown` → 0, root `onKeyDown` → 1. **As of MUI 6, `SwitchBase` applies plain attributes from the input slot but drops event handlers.** Handler moved to the Switch root (keydown bubbles from the input) and now reaches the checkbox to toggle it.
+
+**`inputProps` is deprecated in v6 and removed in v7.** `Switch` is migrated to `slotProps.input`; the remaining sites still need it in LIB-08b — `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx`, `components/AutocompleteInput.tsx`.
+
+#### LIB-08b — done 2026-07-28, as three commits
+
+| Step | Change | Visual |
+| --- | --- | --- |
+| 1 | `Grid` → `Grid2` on v6 (4 files, 17 usages) | 154/154, zero change |
+| 2 | MUI 6.5.0 → **7.3.11**, `Grid2` → `Grid` rename | 154/154, zero change |
+| 3 | `InputProps`/`inputProps` → `slotProps` (9 sites, 6 files) | 154/154, zero change |
+
+**Grid2-first was the right ordering.** Doing it on v6 made step 2 a pure rename, landing the JSX on v7's final API (`<Grid size={{ xs, md }}>`) without an intermediate shape needing a second pass. Grid2's headline breaking change is its spacing model (v1 used negative margins), but three of the four files use Grid purely as a flex wrapper with **no `spacing` at all** — layout driven by `sx` — so the difference could not apply. Only the demo modal uses `columnSpacing`, and it is not in the published library.
+
+**`@mui/x-date-pickers` 7.17.0 → 7.29.4 was forced.** 7.17.0 peers `@mui/material ^5.15.14 || ^6.0.0` and blocks MUI 7 outright. 7.29.4 adds `^7.0.0` while staying in major 7, keeping the pickers 7 → 9 work isolated in LIB-10.
+
+**Correction to the earlier plan: `InputProps` is *not* removed in v7.** It is deprecated but still accepted, and `tsc` passes untouched — so the slotProps migration was never a v7 blocker. It was done anyway, in its own commit, because both APIs coexist in v7 and the change could therefore be verified against a known-good baseline rather than discovered as forced breakage at v9.
+
+**`SearchableField` got 9 tests, written before the migration.** It had no coverage, and its click-to-open behaviour runs through the input slot. Those tests passed before *and* after, which settles something for LIB-08c: **`slotProps.htmlInput` does forward event handlers on TextField** — MUI 6's handler-dropping was specific to `SwitchBase`, not a general property of slot APIs.
+
+**Two traps the type-checker caught that a blanket rename would have got wrong:**
+
+1. **Slot names are per-component, not a uniform rename:**
+
+   | Component | Wrapper slot | Native `<input>` slot |
+   | --- | --- | --- |
+   | `TextField` | `input` | **`htmlInput`** |
+   | `OutlinedInput` | `root` | **`input`** |
+
+   `NumberStepper` uses `OutlinedInput`, so it maps to `slotProps.input` while every TextField site maps to `slotProps.htmlInput`. A uniform rule would have silently put props on the wrong element — and `tsc` only caught it because these were object literals; a `{...spread}` would have passed straight through. **Do not codemod this.**
+2. **Handler parameters lose their contextual type inside `slotProps`.** `onKeyDown: (event) => ...` type-checked under `InputProps` but became implicit `any` under `slotProps.htmlInput`, needing an explicit `React.KeyboardEvent<HTMLInputElement>`.
+
+The components' own **public** `slotProps` APIs were left untouched — `SearchInput` exposes `field.InputProps` to consumers, and changing that is a breaking API decision for the 2.0.0 review, not a mechanical migration. Worth listing in `MIGRATION-v2.md` (LIB-16).
+
+Original notes on this hop:
+- **Grid** — legacy `<Grid item xs={12} md={6}>` in 5 files: `layout/ServiceFormActions.tsx`, `layout/ServiceFormContainer/AccordionFormContainer/index.tsx` + `components/AccordionCollapseControls.tsx`, `examples/SingleStepForm/components/ObjectIdentifierSearchModal.tsx`. In v7 old `Grid` → `GridLegacy`; new `Grid` drops `item` for `size={{ xs: 12, md: 6 }}`. Codemod handles most; the flex hacks (`flex: '0 0 270px'`, `flexGrow: 1`) need manual review.
+- **slots/slotProps** — `InputProps={{...}}` in `form/inputs/Select/index.tsx` (×2), `SearchInput/index.tsx`, `SearchableField.tsx`, `PhoneInputFormControl/index.tsx` + `components/AutocompleteInput.tsx` → `slotProps.input`.
+
+#### LIB-08c — done 2026-07-29, as two commits
+
+| Step | Change | Visual |
+| --- | --- | --- |
+| 1 | `@mui/x-date-pickers` 7.29.4 → **9.10.1**, still on MUI 7 | 154/154, zero change |
+| 2 | MUI 7.3.11 → **9.2.0** | 154/154 after two fixes |
+
+**LIB-10 is absorbed here.** Neither pickers 7 nor 8 supports `@mui/material` 9 — both peer `^5.15.14 || ^6.0.0 || ^7.0.0`. Pickers 9 peers `^7.3.0 || ^9.0.0`, so it went first while still on MUI 7, isolating the variable the same way Grid2-first did.
+
+**Pickers 7 → 9 skipped major 8**, so it was two majors of breaking changes. `@mui/x-codemod` `v8.0.0/preset-safe` then `v9.0.0/preset-safe` handled the renames; twelve errors needed hand work:
+
+| Removed | Replacement |
+| --- | --- |
+| `PickersActionBarProps.onAccept/onCancel/onClear/onSetToday` | `usePickerActionsContext()` → `clearValue`, `cancelValueChanges`, `acceptValueChanges`, `setValueToToday` |
+| `MuiPickersAdapterContext` | `usePickerAdapter()` for the adapter, `usePickerTranslations()` for `localeText` |
+| `onMonthChange(date, direction)` | direction argument dropped |
+| `DatePickerProps<Date, boolean>`, `PickersCalendarHeaderProps<Date>` | no longer generic |
+| `locales/utils/getPickersLocalization` | **not in the package `exports` map** — the file exists on disk, so this only breaks under `moduleResolution: "Bundler"`. Inlined; it is a four-line wrapper |
+
+Note `useLocalizationContext` reads like the natural replacement for the adapter context and is declared in the type definitions, but **is not exported** from `hooks/index`. Take v9 replacements from the installed `.d.ts` rather than from the guide.
+
+**MUI 7 → 9.** `deprecations/all` (a preset — do not run 50 individual transforms) plus `v9.0.0/system-props` covered Snackbar `TransitionComponent`, Dialog `PaperProps`, Autocomplete `ListboxComponent`/`ListboxProps`/`PopperComponent`, and the 11 system-prop sites. Hand work:
+
+- `AutocompleteRenderInputParams` now ships `params.slotProps` (`{ inputLabel, input, htmlInput }`) instead of `inputProps`/`InputProps`
+- `StepLabel` `StepIconComponent` → `slots.stepIcon`. **The codemod skipped both sites** because they sit on a `styled(StepLabel)` wrapper
+- `Modal` `disableEscapeKeyDown` removed — a no-op here, `FullPageLoader` takes no `onClose`
+- `FormControlLabel` `slotProps.typography` rejects style shorthands → `sx`
+
+**Three breaking changes for `MIGRATION-v2.md` (LIB-16). Two are runtime-visible in `ses-ui`, not just compile-time:**
+
+1. **`SearchInput`'s public API changed** — `slotProps.field.InputProps`/`.inputProps` → `slotProps.field.slotProps.input`/`.htmlInput`. Not a choice: v9 deleted both from `TextFieldProps`.
+2. **A standalone `Tab` now throws.** `Tabs` supplies `RovingTabIndexContext`; without it MUI raises *"RovingTabIndexContext is missing"*. A hard error, not a degradation.
+3. **`Stepper` is a `tablist` and `StepButton` a `tab`.** Anything selecting stepper steps by button role breaks — confirmed in `Stepper.js:114` and `StepButton.js:138`.
+
+**What the visual suite caught that nothing else did** — both after types and all 202 unit tests were green:
+
+- **`Select` rendered a deletable Chip in single-select mode.** v9 merged `renderTags` into `renderValue`, which now fires for both modes. Also made the field taller, cascading a vertical offset down the page.
+- **The three `Tab` stories rendered MUI's crash page**, showing up as an 87 kB screenshot against a 5.6 kB baseline. Because the harness captures full pages rather than asserting on elements, a throwing component is *more* legible than the blank image predicted in LIB-01, not less.
+
+**LIB-09 — scope reduced from migration to verification.** The compiler forced the mandatory theme work into LIB-08c: `MuiAlert` (all 15 combined `standard`/`filled`/`outlined` × severity keys restructured into nested `&.MuiAlert-color*` selectors — **pixel-identical**), `MuiTabs` (`flexContainer` slot renamed `list`), `MuiLinearProgress` (`bar1Indeterminate` removed, `bar1` scoped instead).
+
+The other 36 slots compile clean and render pixel-identical, so what remains is narrower than the original 3h: **audit for silently dead overrides** — `styleOverrides` keys that still type-check but no longer match anything in v9. `MuiButton.tsx` (388 lines) is the one to check first, since v9's class consolidation affects exactly the variant+colour patterns it targets. A key that has become dead will not fail the build or the visual suite; it just stops applying.
+*DoD:* LIB-01 visual diff reviewed **slot by slot**; every intentional change listed in the PR, every unintentional one fixed.
+
+**LIB-10** — ✅ done inside LIB-08c (see above). The `PickerValidDateLookup` module augmentation in `src/library/index.ts` still resolves under v9; `theme/light/MuiPickersLayout.ts` was migrated by the x-codemod presets.
+
+### Phase 4 — Remaining runtime majors
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-11** | ✅ i18next 23 → 26 ir react-i18next 14 → 17 | **0.5h** | LIB-08c |
+| **LIB-12** | ✅ date-fns 3 → 4 atnaujinimas | **0.25h** | LIB-11 ∥ |
+| **LIB-13** | ✅ react-window 1 → 2 API migracija | **1h → 1.5h** | LIB-08c |
+| **LIB-14** | ✅ react-dropzone 14 → 19 ir uuid 11 → 14 | **0.5h** | LIB-08c ∥ |
+| **LIB-15b** | ✅ Test/build harness devDeps atnaujinimas | **0.5h** | — |
+
+#### Phase 4 — done 2026-07-29/30
+
+All shipped as separate commits. Final state: **206 tests, lint 0 errors, visual 154/154, bundle 333.4 kB** (from 401.8 kB at the start of Phase 4).
+
+**LIB-13 (react-window 1 → 2) was the only real API rewrite** — `VariableSizeList` → `List`, `itemCount`/`itemSize`/`itemData` → `rowCount`/`rowHeight`/`rowProps`, row renderer from `children` → `rowComponent`, `innerElementType`/`outerElementType` → `tagName` + rest props, `ListChildComponentProps` → `RowComponentProps<T>`. It let **two helpers be deleted**: `OuterElementType.tsx` (only forwarded Autocomplete's listbox props through a context; `List` spreads rest props itself) and `hooks/useResetCache.ts` (no size cache in v2). `@types/react-window` dropped — v2 ships its own.
+
+**4 dropdown tests were written before that rewrite, and they were the only thing covering it.** The country listbox mounts only on click, so the visual baselines never capture it, and the one pre-existing test checked only the default dial code. They pass identically on v1 and v2.
+
+> **Finding worth its own ticket: the listbox renders all ~244 countries, not a virtualised window.** `height` is set to `rowCount × rowHeight`, so react-window treats every row as visible. The component therefore gains nothing from react-window in this configuration. Carried over unchanged to keep the migration comparable. A second-order effect: the test is heavy enough that jsdom 29 pushed it past the 5s default timeout (now 20s for that describe block). Constraining the height would fix both.
+
+**LIB-14 was under-done first time round: react-dropzone went to 15, but latest is 19.1.1.** The compatibility check ran `npm view react-dropzone@15`, which reports the newest version *within that range* — so "latest=15.0.0" read as confirmation when it was tautology. The plan's `14 → 15` target came from the May screenshot, before 16–19 shipped. **`npm outdated` against the finished state is what caught it; re-run that before the release rather than trusting planned target versions.**
+
+**LIB-12:** `date-fns` 3.6.0 → 4.4.0 forced `date-fns-tz` 3.1.3 → **3.2.0** (its peer is `^3.0.0 || ^4.0.0`; there is no tz 4.x). The peer range is deliberately `^3.6.0 || ^4.0.0` rather than requiring 4 — date-fns is external, everything used (`parseISO`, `fromZonedTime`, the `Locale` type, locale subpaths) exists in both majors, and x-date-pickers accepts either. Consumers on date-fns 3 keep working.
+
+**LIB-11 came through clean** — three majors each on i18next and react-i18next, with every option in `src/i18n/i18n.ts`'s `init()` unchanged. That was contained by the LIB-03b decision: the instance is bundled, so the blast radius was our own config rather than the host's.
+
+#### LIB-15b — test/build harness devDeps
+
+`jsdom` 27 → 29 · `@testing-library/jest-dom` 6 → 7 · `@trivago/prettier-plugin-sort-imports` 4 → 6 · `vite-plugin-dts` 4 → 5 · `vite-plugin-static-copy` 3 → 4 · `rollup-plugin-typescript2` 0.36 → 0.37.
+
+**`@rollup/plugin-commonjs` deliberately held at 26.** v29 no longer rewrites the CJS named exports of `react/jsx-runtime`, nor of `use-sync-external-store/shim` reached through the force-bundled `react-i18next`, so the build fails outright. Its only job here is CJS interop for those two bundled packages — upgrading buys nothing consumer-visible and would mean tuning plugin internals to stand still.
+
+**That failure exposed a gap in the LIB-03b externals invariant: it matched bare package names only.** `react` was external while `react/jsx-runtime` was bundled; `date-fns` external while `date-fns/locale` was bundled. Shipping part of a package the host also provides risks two copies of its internals. Externals are now generated as `^name($|/)` regexes covering subpaths — worth **−22 kB** on its own.
+
+Two notes for whoever runs the release:
+- `@trivago/prettier-plugin-sort-imports` 4 → 6 produced **zero** import churn; the explicit `importOrder` in `.prettierrc` holds ordering stable across both majors.
+- The Playwright container's npm now **warns** that it is gating install scripts for `esbuild`, `@swc/core` and `unrs-resolver`. Still working — esbuild's binary is present, Storybook builds — but if that gate becomes enforcement, CI fails in a way that looks nothing like a dependency problem.
+
+**Two peers are pinned one minor behind on purpose:** `@emotion/*` 11.13 (latest 11.14) and `react-hook-form` 7.53.2 (latest 7.83). The peer ranges already permit newer, and the devDep pins match what `ses-ui` actually runs, so the library builds against the consumer's real versions.
+
+### Phase 5 — Release
+
+| ID | Summary (LT, for Jira) | Est. | Depends |
+| --- | --- | --- | --- |
+| **LIB-15** | SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
+| **LIB-16** | ✅ Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
+| **LIB-17** | `2.0.0-rc.0` išleidimas ir validavimas su ses-ui | **1h** | LIB-16 |
+| **LIB-19** | Vizualinio regreso tikrinimo sugriežtinimas (kadravimas iki komponento) | **0.5h** | - |
+| **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
+
+**LIB-15** — unlocked by LIB-08c. `src/components/common/Button/index.tsx` carries `// TODO: use MUI's loading prop when MUI lib upgrade is done`. Breaking, so it belongs in 2.0.0. Links to existing ticket **SAV-5916**.
+**LIB-19** — do this before 2.0.0 ships. `visual/stories.spec.ts` screenshots `fullPage` and
+`playwright.config.ts` allows `maxDiffPixelRatio: 0.01`, so the budget scales with the page while the
+component under test does not. On a 1280x720 shot that is 9216 pixels, which is often larger than the
+component itself, and three regressions have already passed through it:
+
+- the footer shipped invisible in `rc.1` (6563 pixels of text, under budget);
+- the picker field kept a 4px radius and a 56px row for a month (measured: 5417 pixels, ratio 0.0059);
+- `components-inputs-datepicker--main.png` still dated from 2026-07-28, the day before MUI 9 landed,
+  and nobody noticed because the drift never breached the threshold.
+
+Clipping to `#storybook-root` makes the denominator the component, so 1% means 1% of what is actually
+being tested. `maxDiffPixels` would be tighter still. Screenshots are deliberately left as they are
+for now, so this is a single change touching all baselines and wants its own PR.
+
+Note that this only closes the drift hole. It would not have caught the disabled or selected day,
+because no story rendered those states, nor `calendar-open`, whose baseline was recorded *after* MUI 9
+and so enshrined the bug. Coverage and regeneration discipline are the other half.
+
+**LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer;
+`react-router-dom` no longer provided. SAV-6098 cannot be planned without this.
+
+**The radius tokens are not a 2.0.0 change.** They moved inside the 1.x line and 2.0.0 leaves them
+alone, so the migration doc has to state which version a consumer is coming *from*:
+
+| Token | 3px until | 8px from |
+| --- | --- | --- |
+| Button radius, and its focus ring 6px → 12px | v1.3.1 | **v1.4.0** (`907948b`, SAV-5458) |
+| Input radius | v1.4.1 | **v1.5.0** (`d56742a`) |
+
+A consumer already on **1.5.0 or later sees no radius change at all** when moving to 2.0.0. `ses-ui` is
+pinned to **1.3.1**, so it crosses both and its theme pin is doing real work. `ses-ui-mfe-host` shipped
+**1.7.1**, so it was already on 8px and needs no pin - one was added there in error and should come
+out.
+
+Breaking changes confirmed so far, to list verbatim:
+
+| Change | Kind |
+| --- | --- |
+| `SearchInput` `slotProps.field.InputProps`/`.inputProps` → `slotProps.field.slotProps.input`/`.htmlInput` | compile-time |
+| A standalone `RcSesTab` outside `RcSesTabs` **throws** (`RovingTabIndexContext is missing`) | **runtime** |
+| `Stepper` renders `role=tablist`, `StepButton` `role=tab` — selectors/tests targeting steps by button role break | **runtime** |
+| Peers now require `@mui/material` ^9, `@mui/system` ^9, `@mui/x-date-pickers` ^9 | install-time |
+| `react-hook-form` may become a peer (pending LIB-03b) | install-time |
+**LIB-17** — publish `2.0.0-rc.0` and have SAV-6098 validate before tagging final. `build-and-publish.yml` publishes on GitHub release, so an rc tag fits the existing pipeline.
+
+---
+
+## Downstream — already ticketed, do not duplicate
+
+| Ticket | Scope | Fix version |
+| --- | --- | --- |
+| **SAV-6098** | `ses-ui` adopts the new library + new design | NS_1.0.25 |
+| **SAV-6284** | New services-area layout — **blocked by SAV-6098** | — |
+| **SAV-5916** | Button `loading` prop → MUI native (= LIB-15) | — |
+| **SAV-5534** | `ses-ui` own dependency versions | NS_1.0.27 |
+| **SAV-5535** | `ses-admin-ui` own dependency versions | NS_1.0.27 |
+| **SAV-5536** | `ses-bdar-report-ui` own dependency versions | NS_1.0.27 |
+| **SAV-5538** | `ses-cms` own dependency versions | NS_1.0.27 |
+| **SAV-5539** | `ses-ui-mfe-host` own dependency versions | NS_1.0.25 |
+
+Consumer pins to move to 2.0.0 once released: `ses-ui` **1.3.1**, `ses-bdar-report-ui` **1.2.2**, `mfe-host` **^1.7.1**, `mfe-navigation` **^1.7.1**.
+
+**Still needs a ticket:** *React 18 → 19 across the MFE graph + SystemJS import map.* `mfe-host/src/index.ejs` pins react/react-dom to **18.3.1 from jsDelivr** as a shared singleton for every MFE, so React 19 is a lockstep multi-repo deploy. Out of scope for 2.0.0 — the peer range widening in LIB-03 is all that is needed here.
+
+**To verify during rollout, not assume:** with per-MFE bundling of MUI/emotion (only `@rc-ses/*`, `react`, `react-dom` are shared), a partially migrated shell puts `mfe-navigation` on MUI 5 next to a MUI 9 MFE. Two emotion instances and two `CssBaseline`s can fight over injection order. Test before any partial rollout.
+
+---
+
+## Follow-up tickets created from this work
+
+All three under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodinis atnaujinimas*), linked to SAV-5648. Split deliberately — cosmetic churn, potential render bugs, and accessibility are separate pieces of work with **different gates**.
+
+| Ticket | Scope | Gate | Priority |
+| --- | --- | --- | --- |
+| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
+| **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** | The 6 `react-hooks` v7 findings | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
+| **[SAV-6451](https://jira.registrucentras.lt/jira/browse/SAV-6451)** | The 70 a11y violations across 23 story files, then drop `continue-on-error` from the Accessibility step. Fixes belong in the components, not the stories: accessible names for `CircularProgress` (30), icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures | **After 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, so every visual baseline would churn mid-release and hide real regressions among intentional ones | Major |
+
+SAV-6398 explicitly records the two rules that must stay **off permanently**, so nobody spends effort "fixing" them: `import-x/no-rename-default` (24 hits, all the deliberate `RcSes*` naming convention) and `import-x/no-empty-named-blocks` (6 hits, the intentional MUI module-augmentation blocks).
+
+---
+
+## Jira — deferred
+
+**No Jira sub-tasks are being created for the LIB-xx breakdown.** This document is the working backlog; SAV-5648 and its existing sub-task **`SAV-5654`** (20h, In Progress) remain the only tracking for the work itself, and the 20h above is budgeted against SAV-5654 as-is. Nothing double-counts, because no sibling sub-tasks exist. (SAV-6398 and SAV-6399 above are separate follow-up stories, not part of this ticket's estimate.)
+
+If that changes later:
+- Sub-task creation in project SAV requires **`assignee` + `originalEstimate`** (hidden workflow validators).
+- Summaries above are already drafted in Lithuanian to match project convention; descriptions can be English.
+- `SAV-5654` is an empty placeholder (description = title, zero worklogs, assigned to algada, auto-created 2026-05-06 as the estimate carrier). Repurpose it as LIB-01 rather than adding a 19th ticket alongside it.
+
+Progress is tracked by ticking LIB-xx here and in the PR titles (`SAV-5648: <LIB-xx> …`).

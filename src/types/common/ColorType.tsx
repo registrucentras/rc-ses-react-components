@@ -1,11 +1,5 @@
 export type ColorType =
-  | 'inherit'
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'error'
-  | 'info'
-  | 'warning'
+  'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
 
 export function isColorType(type: any): boolean {
   return [

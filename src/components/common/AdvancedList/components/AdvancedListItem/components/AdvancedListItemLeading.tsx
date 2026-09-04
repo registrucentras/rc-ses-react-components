@@ -44,7 +44,12 @@ const AdvancedListItemLeading = ({
 
   if (leading.type === 'reorder') {
     return (
-      <Stack alignItems='center' onClick={stop}>
+      <Stack
+        onClick={stop}
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         {!!leading.onMoveUp && (
           <IconButton
             aria-label={t('moveUp')}
@@ -152,8 +157,12 @@ const AdvancedListItemLeading = ({
       >
         <Typography
           variant='body2'
-          sx={{ fontSize: '0.9375rem', fontWeight: 400, lineHeight: '1.375rem' }}
-          color={palette.grey[600]}
+          sx={{
+            color: palette.grey[600],
+            fontSize: '0.9375rem',
+            fontWeight: 400,
+            lineHeight: '1.375rem',
+          }}
         >
           {leading.index}
         </Typography>
@@ -166,13 +175,16 @@ const AdvancedListItemLeading = ({
       <RcSesSimpleCheckbox
         checked={leading.checked}
         disabled={disabled}
-        inputRef={inputRef}
-        inputProps={{
-          ...getAccessibleNameProps(leading['aria-label'], titleId),
-          ...(expandableId && {
-            'aria-expanded': expanded,
-            'aria-controls': expandableId,
-          }),
+        // MUI 9 replaced inputRef/inputProps with the `input` slot.
+        slotProps={{
+          input: {
+            ref: inputRef,
+            ...getAccessibleNameProps(leading['aria-label'], titleId),
+            ...(expandableId && {
+              'aria-expanded': expanded,
+              'aria-controls': expandableId,
+            }),
+          },
         }}
         onClick={stop}
         onChange={(e) => {
@@ -190,13 +202,15 @@ const AdvancedListItemLeading = ({
         checked={leading.checked}
         disabled={disabled}
         name={leading.name}
-        inputRef={inputRef}
-        inputProps={{
-          ...getAccessibleNameProps(leading['aria-label'], titleId),
-          ...(expandableId && {
-            'aria-expanded': expanded,
-            'aria-controls': expandableId,
-          }),
+        slotProps={{
+          input: {
+            ref: inputRef,
+            ...getAccessibleNameProps(leading['aria-label'], titleId),
+            ...(expandableId && {
+              'aria-expanded': expanded,
+              'aria-controls': expandableId,
+            }),
+          },
         }}
         onClick={stop}
         onChange={(e) => {

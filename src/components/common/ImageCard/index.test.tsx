@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import RcSesImageCard from '.'
 import theme from '../../../theme/light'
-import RcSesImageCard from './index'
 
 const renderCard = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)

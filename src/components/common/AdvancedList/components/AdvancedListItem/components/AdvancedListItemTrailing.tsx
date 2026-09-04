@@ -81,7 +81,16 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
 
   if (trailing.type === 'actions') {
     return (
-      <Stack direction='row' gap='0.5rem' onClick={stop} sx={NO_SHRINK_SX}>
+      <Stack
+        direction='row'
+        onClick={stop}
+        sx={[
+          {
+            gap: '0.5rem',
+          },
+          ...(Array.isArray(NO_SHRINK_SX) ? NO_SHRINK_SX : [NO_SHRINK_SX]),
+        ]}
+      >
         {trailing.actions.map(
           ({ label, icon: Icon, disabled: actionDisabled, onClick }) => (
             <RcSesButton
@@ -124,20 +133,36 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
 
   if (trailing.type === 'price') {
     return (
-      <Stack direction='row' alignItems='center' gap='0.5rem' sx={NO_SHRINK_SX}>
+      <Stack
+        direction='row'
+        sx={[
+          {
+            alignItems: 'center',
+            gap: '0.5rem',
+          },
+          ...(Array.isArray(NO_SHRINK_SX) ? NO_SHRINK_SX : [NO_SHRINK_SX]),
+        ]}
+      >
         <Box sx={PRICE_BLOCK_SX}>
           <Typography
             variant='body1'
-            sx={{ fontSize: '1rem', fontWeight: 600, lineHeight: '1.375rem' }}
-            color={palette.grey[900]}
+            sx={{
+              color: palette.grey[900],
+              fontSize: '1rem',
+              fontWeight: 600,
+              lineHeight: '1.375rem',
+            }}
           >
             {trailing.amount}
           </Typography>
           {!!trailing.caption && (
             <Typography
               variant='caption'
-              sx={{ fontSize: '0.8125rem', lineHeight: '1.125rem' }}
-              color={palette.grey[600]}
+              sx={{
+                color: palette.grey[600],
+                fontSize: '0.8125rem',
+                lineHeight: '1.125rem',
+              }}
             >
               {trailing.caption}
             </Typography>
@@ -163,7 +188,7 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
       <RcSesSimpleCheckbox
         checked={trailing.checked}
         disabled={disabled}
-        inputProps={{ 'aria-label': trailing['aria-label'] }}
+        slotProps={{ input: { 'aria-label': trailing['aria-label'] } }}
         onClick={stop}
         onChange={withStop((e) => trailing.onChange(e.target.checked))}
         sx={{ padding: 0, ...NO_SHRINK_SX }}
@@ -177,7 +202,7 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
         checked={trailing.checked}
         disabled={disabled}
         name={trailing.name}
-        inputProps={{ 'aria-label': trailing['aria-label'] }}
+        slotProps={{ input: { 'aria-label': trailing['aria-label'] } }}
         onClick={stop}
         onChange={withStop((e) => trailing.onChange(e.target.checked))}
         sx={{ padding: 0, ...NO_SHRINK_SX }}
@@ -201,10 +226,14 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
     return (
       <Stack
         direction='row'
-        alignItems='center'
-        gap='0.25rem'
         onClick={stop}
-        sx={NO_SHRINK_SX}
+        sx={[
+          {
+            alignItems: 'center',
+            gap: '0.25rem',
+          },
+          ...(Array.isArray(NO_SHRINK_SX) ? NO_SHRINK_SX : [NO_SHRINK_SX]),
+        ]}
       >
         <IconButton
           aria-label={t('decrease')}

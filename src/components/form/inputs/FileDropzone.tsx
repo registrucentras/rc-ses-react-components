@@ -127,7 +127,12 @@ function RcSesFileDropzone(props: Props) {
             Icon={UploadSimpleIcon}
           />
 
-          <Stack gap={0.5} sx={{ flexGrow: 1 }}>
+          <Stack
+            sx={{
+              gap: 0.5,
+              flexGrow: 1,
+            }}
+          >
             {hasValidFileSelection && (
               <Stack>
                 {value.map((file: File, index) => (
