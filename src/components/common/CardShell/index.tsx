@@ -24,6 +24,12 @@ function RcSesCardShell({
   sx,
   ...boxProps
 }: ShellProps) {
+  const hasHeader = hasSlot(header)
+  const hasContent = hasSlot(children)
+  const hasFooter = hasSlot(footer)
+
+  const footerMt = hasHeader || hasContent ? cards[variant].footerGap : 0
+
   return (
     <Box
       {...boxProps}
@@ -42,31 +48,49 @@ function RcSesCardShell({
             ? 'none'
             : `${cards.borderWidth} solid ${cards.themes[theme].borderColor}`,
           borderRadius: cards[variant].borderRadius,
-          gap: cards[variant].gap,
           p: cards[variant].padding,
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      {hasSlot(header) ? (
-        <Box data-testid={testIds?.header} sx={{ minWidth: 0, width: '100%' }}>
+      {hasHeader ? (
+        <Box
+          data-testid={testIds?.header}
+          sx={{
+            // When fullHeight has no content slot to grow, let the header take
+            // the free space so the footer's `mt: 'auto'` has room to expand
+            // above the footerGap minimum.
+            flexGrow: fullHeight && !hasContent ? 1 : 0,
+            minWidth: 0,
+            width: '100%',
+          }}
+        >
           {header}
         </Box>
       ) : null}
 
-      {hasSlot(children) ? (
+      {hasContent ? (
         <Box
           data-testid={testIds?.content}
-          sx={{ flexGrow: fullHeight ? 1 : 0, minWidth: 0, width: '100%' }}
+          sx={{
+            flexGrow: fullHeight ? 1 : 0,
+            minWidth: 0,
+            mt: hasHeader ? cards[variant].gap : 0,
+            width: '100%',
+          }}
         >
           {children}
         </Box>
       ) : null}
 
-      {hasSlot(footer) ? (
+      {hasFooter ? (
         <Box
           data-testid={testIds?.footer}
-          sx={{ minWidth: 0, mt: fullHeight ? 'auto' : 0, width: '100%' }}
+          sx={{
+            minWidth: 0,
+            mt: footerMt,
+            width: '100%',
+          }}
         >
           {footer}
         </Box>
