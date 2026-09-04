@@ -93,7 +93,7 @@ function RcSesButtonComponent(props: Props) {
           : undefined,
       ]}
     >
-      {hideLabelWhileLoading ? <span>{children}</span> : children}
+      <span>{children}</span>
     </MuiButton>
   )
 }
