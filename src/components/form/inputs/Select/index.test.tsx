@@ -113,6 +113,7 @@ const GroupedMultiTestWrapper = ({
         label='Teikėjai'
         multiple
         dropdownSearch={dropdownSearch}
+        selectAll
         options={groupedOptions}
         slotProps={{
           field: {
@@ -217,7 +218,10 @@ describe('RcSesSelect', () => {
 
     fireEvent.mouseDown(screen.getByRole('combobox'))
     fireEvent.click(
-      await screen.findByRole('option', { name: 'Nekilnojamasis turtas' }),
+      // The badge showing the group's member count is part of the row's
+      // accessible name (it's not aria-hidden - screen readers should
+      // announce the count), so this can't be an exact-string match.
+      await screen.findByRole('option', { name: /^Nekilnojamasis turtas/ }),
     )
 
     const { providers } = readGroupedFormValues()
@@ -239,7 +243,10 @@ describe('RcSesSelect', () => {
 
     fireEvent.mouseDown(screen.getByRole('combobox'))
     fireEvent.click(
-      await screen.findByRole('option', { name: 'Nekilnojamasis turtas' }),
+      // The badge showing the group's member count is part of the row's
+      // accessible name (it's not aria-hidden - screen readers should
+      // announce the count), so this can't be an exact-string match.
+      await screen.findByRole('option', { name: /^Nekilnojamasis turtas/ }),
     )
 
     const { providers } = readGroupedFormValues()
