@@ -79,6 +79,18 @@ const meta = {
         defaultValue: { summary: 'false' },
       },
     },
+    loadingPosition: {
+      control: {
+        type: 'select',
+      },
+      options: ['start', 'end', 'center'],
+      table: {
+        defaultValue: { summary: 'center' },
+        type: { summary: "'start' | 'end' | 'center'" },
+      },
+      description:
+        "Where the loading indicator sits while `loading` is true. Defaults to MUI's `center`, which overlays the label. `start`/`end` reserve space next to the label so the button width stays stable.",
+    },
   },
   tags: ['autodocs'],
   args: {
@@ -485,6 +497,42 @@ export const ErrorOutlinedLoading: Story = {
     color: 'error',
     variant: 'outlined',
     loading: true,
+  },
+}
+
+// Loading position variants (MUI 9 native)
+
+export const LoadingPositionStart: Story = {
+  args: {
+    children: 'Save',
+    loading: true,
+    loadingPosition: 'start',
+    startIcon: <PlusBoldIcon />,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The spinner replaces the start icon slot and the label stays visible. Use when the label needs to stay readable during the loading state.',
+      },
+    },
+  },
+}
+
+export const LoadingPositionEnd: Story = {
+  args: {
+    children: 'Save',
+    loading: true,
+    loadingPosition: 'end',
+    endIcon: <PlusBoldIcon />,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The spinner replaces the end icon slot and the label stays visible. Mirror of `start` for buttons that trail with an icon.',
+      },
+    },
   },
 }
 

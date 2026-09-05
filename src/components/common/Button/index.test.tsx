@@ -26,32 +26,34 @@ describe('Button Component', () => {
       expect(button).toBeDisabled()
     })
 
-    it('should show spinner instead of children when loading', () => {
+    it('should show spinner alongside hidden children when loading', () => {
       render(<Button loading>Save</Button>)
 
-      expect(screen.queryByText('Save')).not.toBeInTheDocument()
+      // MUI keeps children mounted so the button width stays stable; visibility
+      // is handled by the native `data-loading` state, not by DOM removal.
+      expect(screen.getByText('Save')).toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
-    it('should replace startIcon with spinner when loading', () => {
+    it('should keep startIcon mounted while loading (spinner overlays center)', () => {
       render(
         <Button loading startIcon={<span data-testid='start-icon'>+</span>}>
           Add
         </Button>,
       )
 
-      expect(screen.queryByTestId('start-icon')).not.toBeInTheDocument()
+      expect(screen.getByTestId('start-icon')).toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
-    it('should replace endIcon with spinner when loading', () => {
+    it('should keep endIcon mounted while loading (spinner overlays center)', () => {
       render(
         <Button loading endIcon={<span data-testid='end-icon'>→</span>}>
           Next
         </Button>,
       )
 
-      expect(screen.queryByTestId('end-icon')).not.toBeInTheDocument()
+      expect(screen.getByTestId('end-icon')).toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
@@ -136,7 +138,7 @@ describe('Button Component', () => {
   })
 
   describe('Icon Only Buttons', () => {
-    it('should show spinner in place of icon when loading and iconOnly', () => {
+    it('should keep startIcon mounted and overlay spinner when loading and iconOnly', () => {
       render(
         <Button
           loading
@@ -148,7 +150,7 @@ describe('Button Component', () => {
         </Button>,
       )
 
-      expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
+      expect(screen.getByTestId('icon')).toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
   })
