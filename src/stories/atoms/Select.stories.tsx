@@ -240,6 +240,7 @@ export const Main: Story = {
 type VariantsFormModel = {
   singleSelect: string | null
   groupedSelect: string | null
+  groupedMultiSelect: string[]
   singleSearchSelect: string | null
   descriptionSelect: string | null
   multiSelect: string[]
@@ -274,11 +275,11 @@ const groupedVariantOptions: Array<
     label: string
   }
 > = [
-  { value: 'group-1-option-1', label: '1st option', group: 'GROUP 1' },
-  { value: 'group-1-option-2', label: '2st option', group: 'GROUP 1' },
-  { value: 'group-1-option-3', label: '3rd option', group: 'GROUP 1' },
-  { value: 'group-2-option-4', label: '4th option', group: 'GROUP 2' },
-  { value: 'group-2-option-5', label: '5th option', group: 'GROUP 2' },
+  { value: 'group-1-option-1', label: '1st option', group: 'Group 1' },
+  { value: 'group-1-option-2', label: '2st option', group: 'Group 1' },
+  { value: 'group-1-option-3', label: '3rd option', group: 'Group 1' },
+  { value: 'group-2-option-4', label: '4th option', group: 'Group 2' },
+  { value: 'group-2-option-5', label: '5th option', group: 'Group 2' },
 ]
 
 const optionsWithDescriptions = [
@@ -335,6 +336,7 @@ export const AllVariants: Story = {
       defaultValues: {
         singleSelect: null,
         groupedSelect: null,
+        groupedMultiSelect: ['group-2-option-4', 'group-2-option-5'],
         singleSearchSelect: null,
         descriptionSelect: 'option-3',
         multiSelect: ['option-1', 'option-3'],
@@ -403,6 +405,32 @@ export const AllVariants: Story = {
                     )?.group ?? '',
                 },
               }}
+              options={groupedVariantOptions}
+            />
+          </VariantCard>
+
+          <VariantCard
+            title='Grouped multi select + search'
+            description='Grupė yra pati savarankiškai pažymima reikšmė - pažymėjus grupę pažymimi visi jos nariai, nužymėjus bet kurį narį grupė automatiškai nužymima.'
+          >
+            <RcSesSelect
+              id='grouped-multi-select'
+              name='groupedMultiSelect'
+              control={control}
+              label='Pasirinkti'
+              slotProps={{
+                wrapper: { labelOnTop: true },
+                field: {
+                  groupBy: (option) =>
+                    groupedVariantOptions.find(
+                      (groupedOption) => groupedOption.value === option.value,
+                    )?.group ?? '',
+                },
+              }}
+              multiple
+              dropdownSearch
+              selectAll
+              dropdownSearchPlaceholder='Ieškoti'
               options={groupedVariantOptions}
             />
           </VariantCard>

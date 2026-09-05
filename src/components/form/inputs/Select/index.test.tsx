@@ -80,6 +80,62 @@ const TestWrapper = ({ defaultValue = null }: TestWrapperProps) => {
   )
 }
 
+const groupedOptions = [
+  { value: 'rc', label: 'Registrų centras', group: 'Nekilnojamasis turtas' },
+  { value: 'vtpsi', label: 'VTPSI', group: 'Nekilnojamasis turtas' },
+  { value: 'regitra', label: 'Regitra', group: 'Transportas' },
+]
+
+type GroupedFormModel = {
+  providers: string[]
+}
+
+type GroupedMultiTestWrapperProps = {
+  defaultValue?: string[]
+  dropdownSearch?: boolean
+}
+
+const GroupedMultiTestWrapper = ({
+  defaultValue = [],
+  dropdownSearch = false,
+}: GroupedMultiTestWrapperProps) => {
+  const { control, getValues } = useForm<GroupedFormModel>({
+    defaultValues: { providers: defaultValue },
+  })
+  const [formValues, setFormValues] = useState('')
+
+  return (
+    <ThemeProvider theme={theme}>
+      <RcSesSelect
+        id='providers'
+        name='providers'
+        control={control}
+        label='Teikėjai'
+        multiple
+        dropdownSearch={dropdownSearch}
+        selectAll
+        options={groupedOptions}
+        slotProps={{
+          field: {
+            groupBy: (option) =>
+              groupedOptions.find((o) => o.value === option.value)?.group ?? '',
+          },
+        }}
+      />
+
+      <button type='button' onClick={() => setFormValues(JSON.stringify(getValues()))}>
+        Read
+      </button>
+      <div data-testid='form-values'>{formValues}</div>
+    </ThemeProvider>
+  )
+}
+
+const readGroupedFormValues = (): GroupedFormModel => {
+  fireEvent.click(screen.getByRole('button', { name: 'Read' }))
+  return JSON.parse(screen.getByTestId('form-values').textContent ?? '{}')
+}
+
 describe('RcSesSelect', () => {
   test('single select rodo pilna pasirinktos reiksmes label', () => {
     render(<TestWrapper defaultValue='long-option' />)
@@ -155,5 +211,76 @@ describe('RcSesSelect', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Read' }))
 
     expect(screen.getByTestId('form-values')).toHaveTextContent('short-option')
+  })
+
+  test('clicking a group selects all of its members', async () => {
+    render(<GroupedMultiTestWrapper />)
+
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(
+      // The badge showing the group's member count is part of the row's
+      // accessible name (it's not aria-hidden - screen readers should
+      // announce the count), so this can't be an exact-string match.
+      await screen.findByRole('option', { name: /^Nekilnojamasis turtas/ }),
+    )
+
+    const { providers } = readGroupedFormValues()
+    expect([...providers].sort()).toEqual(['rc', 'vtpsi'])
+  })
+
+  test('unchecking one member un-checks its (previously fully-selected) group', async () => {
+    render(<GroupedMultiTestWrapper defaultValue={['rc', 'vtpsi']} />)
+
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(await screen.findByRole('option', { name: 'Registrų centras' }))
+
+    const { providers } = readGroupedFormValues()
+    expect(providers).toEqual(['vtpsi'])
+  })
+
+  test('re-clicking a fully-selected group deselects all of its members', async () => {
+    render(<GroupedMultiTestWrapper defaultValue={['rc', 'vtpsi']} />)
+
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(
+      // The badge showing the group's member count is part of the row's
+      // accessible name (it's not aria-hidden - screen readers should
+      // announce the count), so this can't be an exact-string match.
+      await screen.findByRole('option', { name: /^Nekilnojamasis turtas/ }),
+    )
+
+    const { providers } = readGroupedFormValues()
+    expect(providers).toEqual([])
+  })
+
+  test('the group row is reachable by keyboard and Enter toggles it', async () => {
+    render(<GroupedMultiTestWrapper />)
+
+    const input = screen.getByRole('combobox')
+    fireEvent.mouseDown(input)
+    await screen.findByRole('option', { name: 'Registrų centras' })
+
+    // The group marker is the first option ahead of its own members.
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    fireEvent.keyDown(input, { key: 'Enter' })
+
+    const { providers } = readGroupedFormValues()
+    expect([...providers].sort()).toEqual(['rc', 'vtpsi'])
+  })
+
+  test('keyboard Enter on the "select all" row selects every option', async () => {
+    render(<GroupedMultiTestWrapper dropdownSearch />)
+
+    const input = screen.getByRole('combobox')
+    fireEvent.mouseDown(input)
+    await screen.findByRole('option', { name: 'Registrų centras' })
+
+    // The search field is the first row, "Visi" the second.
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    fireEvent.keyDown(input, { key: 'Enter' })
+
+    const { providers } = readGroupedFormValues()
+    expect([...providers].sort()).toEqual(['rc', 'regitra', 'vtpsi'])
   })
 })
