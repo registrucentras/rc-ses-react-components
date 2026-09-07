@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import palette, { common } from '@/theme/palette'
 
 import { RcSesSideNavItem } from '../SideNav.types'
+import useKeepActiveItemInView from '../hooks/useKeepActiveItemInView'
 import SideNavPill from './SideNavPill'
 
 const FADE_WIDTH = '2rem'
@@ -89,27 +90,11 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
     }
   }, [items, updateScrollState])
 
-  useEffect(() => {
-    if (!activeItemId) return
-    const container = scrollRef.current
-    const target = container?.querySelector<HTMLElement>(
-      `[data-item-id="${activeItemId}"]`,
-    )
-    if (!container || !target) return
-
-    // Viewport rects on both, so they agree: offsetLeft would be relative to the
-    // positioned wrapper, not the scroll container.
-    const containerRect = container.getBoundingClientRect()
-    const targetRect = target.getBoundingClientRect()
-    const overflowLeft = containerRect.left - targetRect.left
-    const overflowRight = targetRect.right - containerRect.right
-
-    if (overflowLeft > 0) {
-      container.scrollLeft -= overflowLeft
-    } else if (overflowRight > 0) {
-      container.scrollLeft += overflowRight
-    }
-  }, [activeItemId])
+  useKeepActiveItemInView({
+    containerRef: scrollRef,
+    activeItemId,
+    axis: 'horizontal',
+  })
 
   return (
     <Box>

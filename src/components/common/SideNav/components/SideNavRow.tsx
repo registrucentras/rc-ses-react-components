@@ -5,6 +5,7 @@ import palette from '@/theme/palette'
 const BORDER_WIDTH = '0.125rem'
 
 type Props = {
+  itemId: string
   label: string
   count?: number
   ariaLabel?: string
@@ -12,12 +13,13 @@ type Props = {
   onClick?: () => void
 }
 
-function SideNavRow({ label, count, ariaLabel, active, onClick }: Props) {
+function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props) {
   return (
     <Box
       component={onClick ? 'button' : 'div'}
       type={onClick ? 'button' : undefined}
       onClick={onClick}
+      data-item-id={itemId}
       aria-current={active ? 'page' : undefined}
       aria-label={ariaLabel}
       sx={{
@@ -32,6 +34,8 @@ function SideNavRow({ label, count, ariaLabel, active, onClick }: Props) {
         backgroundColor: active ? palette.primary[50] : 'transparent',
         padding: '0.75rem 1rem',
         textAlign: 'left',
+        // A scrolling list (overflow='scroll') must not shrink its rows to fit.
+        flexShrink: 0,
         cursor: onClick ? 'pointer' : 'default',
         '&:hover': onClick && !active ? { backgroundColor: palette.grey[50] } : undefined,
         '&:focus-visible': {
