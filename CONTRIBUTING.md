@@ -130,9 +130,13 @@ Prieš atidarant pull request, įsitikinkite, kad šios komandos prasileidžia b
 
 ```bash
 npm run lint
+npm run typecheck
 npm run test:run
 npm run build:lib
 ```
+
+`npm run typecheck` tikrina visą `src` (istorijas, testus, demo aplikaciją), o `npm run build:lib`
+tikrina tik tai, kas patenka į biblioteką, todėl vien jo neužtenka.
 
 Komandą `npm run storybook` paleiskite tada, kai pakeitimas veikia atvaizdavimą, būsenas, valdiklius ar dokumentaciją.
 
@@ -300,5 +304,6 @@ parsiunčia stabilią `latest` versiją.
 ## CI/CD lūkesčiai
 
 Kiekvienam pull request'ui `Build and Publish` darbo eiga su Node.js 22 paleidžia `npm run lint`,
-`npm run test:run` ir `npm run build:lib`, o testų rezultatus prideda kaip pull request'o patikrinimą.
+`npm run typecheck`, `npm run test:run` ir `npm run build:lib`, o testų rezultatus prideda kaip
+pull request'o patikrinimą.
 Pull request'as turi būti žalias: publikavimo žingsnis vykdomas tik paskelbus release.
