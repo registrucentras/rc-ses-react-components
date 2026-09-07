@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import CloseIcon from '@/assets/icons/CloseIcon'
@@ -53,13 +53,19 @@ function RcSesSnackbar({
   const { t } = useTranslation('input')
   const [internalOpen, setInternalOpen] = useState(controlledOpen ?? true)
   const [isPaused, setIsPaused] = useState(false)
+  const [prevControlledOpen, setPrevControlledOpen] = useState(controlledOpen)
   const persist = controlledPersist ?? state === 'action-needed'
 
-  useEffect(() => {
+  // The `open` prop drives the internal state, but closing from the inside
+  // (Escape, autohide, close button) has to keep working while the parent holds
+  // `open` at true. Adjusting the state during render instead of in an effect
+  // preserves both without the extra render pass an effect would cause.
+  if (controlledOpen !== prevControlledOpen) {
+    setPrevControlledOpen(controlledOpen)
     if (controlledOpen !== undefined) {
       setInternalOpen(controlledOpen)
     }
-  }, [controlledOpen])
+  }
 
   const config = stateConfig[state]
   const StateIcon = config.icon

@@ -1,5 +1,5 @@
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import RcSesCheckboxFormControl from '@/components/form/inputs/CheckboxFormControl'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
@@ -186,7 +186,7 @@ type IndeterminateFormModel = {
 }
 
 function CheckboxIndeterminateDemo() {
-  const { control, watch, setValue } = useForm<IndeterminateFormModel>({
+  const { control, setValue } = useForm<IndeterminateFormModel>({
     mode: 'all',
     defaultValues: {
       parent: false,
@@ -196,11 +196,7 @@ function CheckboxIndeterminateDemo() {
     },
   })
 
-  const child1Value = watch('child1')
-  const child2Value = watch('child2')
-  const child3Value = watch('child3')
-
-  const childValues = [child1Value, child2Value, child3Value]
+  const childValues = useWatch({ control, name: ['child1', 'child2', 'child3'] })
 
   const handleParentChange = (newChildValues: boolean[]) => {
     setValue('child1', newChildValues[0])
@@ -232,7 +228,7 @@ function CheckboxIndeterminateDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child1Value}
+                  checked={childValues[0]}
                   onChange={(e) => setValue('child1', e.target.checked)}
                 />
               }
@@ -241,7 +237,7 @@ function CheckboxIndeterminateDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child2Value}
+                  checked={childValues[1]}
                   onChange={(e) => setValue('child2', e.target.checked)}
                 />
               }
@@ -250,7 +246,7 @@ function CheckboxIndeterminateDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child3Value}
+                  checked={childValues[2]}
                   onChange={(e) => setValue('child3', e.target.checked)}
                 />
               }
@@ -302,7 +298,7 @@ export const Indeterminate: Story = {
 }
 
 function CheckboxIndeterminateLoadingDemo() {
-  const { control, watch, setValue } = useForm<IndeterminateFormModel>({
+  const { control, setValue } = useForm<IndeterminateFormModel>({
     mode: 'all',
     defaultValues: {
       parent: false,
@@ -312,11 +308,7 @@ function CheckboxIndeterminateLoadingDemo() {
     },
   })
 
-  const child1Value = watch('child1')
-  const child2Value = watch('child2')
-  const child3Value = watch('child3')
-
-  const childValues = [child1Value, child2Value, child3Value]
+  const childValues = useWatch({ control, name: ['child1', 'child2', 'child3'] })
 
   const handleParentChange = (newChildValues: boolean[]) => {
     setValue('child1', newChildValues[0])
@@ -349,7 +341,7 @@ function CheckboxIndeterminateLoadingDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child1Value}
+                  checked={childValues[0]}
                   onChange={(e) => setValue('child1', e.target.checked)}
                   loading
                 />
@@ -360,7 +352,7 @@ function CheckboxIndeterminateLoadingDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child2Value}
+                  checked={childValues[1]}
                   onChange={(e) => setValue('child2', e.target.checked)}
                   loading
                 />
@@ -371,7 +363,7 @@ function CheckboxIndeterminateLoadingDemo() {
             <RcSesFormControlLabel
               control={
                 <RcSesSimpleCheckbox
-                  checked={child3Value}
+                  checked={childValues[2]}
                   onChange={(e) => setValue('child3', e.target.checked)}
                   loading
                 />
