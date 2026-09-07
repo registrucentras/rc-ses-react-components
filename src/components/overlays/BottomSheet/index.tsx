@@ -49,13 +49,7 @@ const SlideUpTransition = forwardRef<
 
 export interface RcSesBottomSheetProps extends Omit<
   MuiDialogProps,
-  | 'children'
-  | 'title'
-  | 'PaperProps'
-  | 'maxWidth'
-  | 'onClose'
-  | 'slots'
-  | 'slotProps'
+  'children' | 'title' | 'PaperProps' | 'maxWidth' | 'onClose' | 'slots' | 'slotProps'
 > {
   title?: string
   children?: ReactNode
