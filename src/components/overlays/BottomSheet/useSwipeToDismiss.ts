@@ -9,6 +9,7 @@ import {
 const DISMISS_DISTANCE_PX = 96
 const DISMISS_VELOCITY_PX_PER_MS = 0.5
 const SNAP_BACK_MS = 200
+const STATIONARY_AFTER_MS = 50
 
 export interface UseSwipeToDismissOptions {
   open: boolean
@@ -18,8 +19,9 @@ export interface UseSwipeToDismissOptions {
 
 interface DragState {
   startY: number
-  lastY: number
-  lastTime: number
+  lastMoveY: number
+  lastMoveTime: number
+  velocity: number
 }
 
 function useSwipeToDismiss({
@@ -57,7 +59,12 @@ function useSwipeToDismiss({
     if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return
 
     const now = performance.now()
-    dragState.current = { startY: event.clientY, lastY: event.clientY, lastTime: now }
+    dragState.current = {
+      startY: event.clientY,
+      lastMoveY: event.clientY,
+      lastMoveTime: now,
+      velocity: 0,
+    }
     setIsDragging(true)
     event.currentTarget.setPointerCapture(event.pointerId)
   }, [])
@@ -68,8 +75,12 @@ function useSwipeToDismiss({
       if (!state) return
       const offsetPx = Math.max(0, event.clientY - state.startY)
       applyTransform(offsetPx, 'none')
-      state.lastY = event.clientY
-      state.lastTime = performance.now()
+
+      const now = performance.now()
+      const elapsedMs = Math.max(1, now - state.lastMoveTime)
+      state.velocity = Math.max(0, event.clientY - state.lastMoveY) / elapsedMs
+      state.lastMoveY = event.clientY
+      state.lastMoveTime = now
     },
     [applyTransform],
   )
@@ -83,8 +94,9 @@ function useSwipeToDismiss({
       event.currentTarget.releasePointerCapture(event.pointerId)
 
       const offsetPx = Math.max(0, event.clientY - state.startY)
-      const releaseElapsedMs = Math.max(1, performance.now() - state.lastTime)
-      const releaseVelocity = Math.max(0, event.clientY - state.lastY) / releaseElapsedMs
+      const timeSinceLastMoveMs = performance.now() - state.lastMoveTime
+      const releaseVelocity =
+        timeSinceLastMoveMs <= STATIONARY_AFTER_MS ? state.velocity : 0
 
       const shouldDismiss =
         offsetPx > DISMISS_DISTANCE_PX || releaseVelocity > DISMISS_VELOCITY_PX_PER_MS

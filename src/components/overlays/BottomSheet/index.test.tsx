@@ -162,7 +162,7 @@ describe('RcSesBottomSheet', () => {
     )
 
     const handle = screen.getByTestId('rc-ses-bottom-sheet-handle')
-    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1 })
+    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1, isPrimary: true })
     fireEvent.pointerUp(handle, { clientY: 150, pointerId: 1 })
 
     expect(onClose).toHaveBeenCalledWith(expect.anything(), 'swipeDown')
@@ -177,7 +177,7 @@ describe('RcSesBottomSheet', () => {
     )
 
     const handle = screen.getByTestId('rc-ses-bottom-sheet-handle')
-    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1 })
+    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1, isPrimary: true })
     fireEvent.pointerUp(handle, { clientY: 10, pointerId: 1 })
 
     expect(onClose).not.toHaveBeenCalled()
@@ -210,7 +210,7 @@ describe('RcSesBottomSheet', () => {
     )
 
     const handle = screen.getByTestId('rc-ses-bottom-sheet-handle')
-    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1 })
+    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1, isPrimary: true })
     fireEvent.pointerCancel(handle, { clientY: 150, pointerId: 1 })
 
     expect(onClose).not.toHaveBeenCalled()
@@ -246,7 +246,7 @@ describe('RcSesBottomSheet', () => {
     )
 
     const handle = screen.getByTestId('rc-ses-bottom-sheet-handle')
-    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1 })
+    fireEvent.pointerDown(handle, { clientY: 0, pointerId: 1, isPrimary: true })
     fireEvent.pointerUp(handle, { clientY: 150, pointerId: 1 })
 
     const [event, reason] = onClose.mock.calls[0]

@@ -82,6 +82,7 @@ describe('useSwipeToDismiss', () => {
 
     act(() => result.current.handleProps.onPointerDown(makePointerEvent(0)))
     act(() => vi.advanceTimersByTime(10))
+    act(() => result.current.handleProps.onPointerMove(makePointerEvent(20)))
     act(() => result.current.handleProps.onPointerUp(makePointerEvent(20)))
 
     expect(onDismiss).toHaveBeenCalledTimes(1)
