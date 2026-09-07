@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
  * Opt a story out by adding the `no-snapshot` tag to it.
  */
 
-type StoryIndexEntry = {
+interface StoryIndexEntry {
   type: string
   id: string
   name: string

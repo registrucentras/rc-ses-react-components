@@ -51,7 +51,7 @@ const NumberInput = styled(OutlinedInput)({
   },
 })
 
-type ArrowButtonProps = {
+interface ArrowButtonProps {
   ariaLabel: string
   direction: 'plus' | 'minus'
   disabled: boolean

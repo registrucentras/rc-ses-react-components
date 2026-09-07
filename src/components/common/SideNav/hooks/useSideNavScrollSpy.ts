@@ -6,7 +6,7 @@ const ACTIVATION_LINE_EPSILON = 1
 // long document).
 const PROGRAMMATIC_SCROLL_SETTLE_MS = 600
 
-type UseSideNavScrollSpyOptions = {
+interface UseSideNavScrollSpyOptions {
   itemIds: string[]
   offset?: number
   // Bounds id resolution to this subtree so an id collision elsewhere on the page

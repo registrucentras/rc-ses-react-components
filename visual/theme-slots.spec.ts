@@ -18,7 +18,11 @@ import theme from '../src/theme/light'
  * Slots with no `RcSes*` wrapper are covered by `Foundations/Themed MUI Components`.
  */
 
-type StoryIndexEntry = { type: string; id: string; tags?: string[] }
+interface StoryIndexEntry {
+  type: string
+  id: string
+  tags?: string[]
+}
 
 const indexPath = fileURLToPath(
   new URL('../storybook-static/index.json', import.meta.url),

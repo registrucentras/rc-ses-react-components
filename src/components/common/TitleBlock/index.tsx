@@ -4,7 +4,7 @@ import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
 import palette from '@/theme/palette'
 
-import { RcSesTitleBlockProps } from './types'
+import { RcSesTitleBlockProps, TitleBlockHeadingLevel } from './types'
 
 function RcSesTitleBlock({
   title,
@@ -20,7 +20,10 @@ function RcSesTitleBlock({
   className,
   testIds,
 }: RcSesTitleBlockProps) {
-  const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  // Annotated rather than asserted: a template literal expression widens to
+  // `string` without a contextual type, and JSX cannot resolve an intrinsic
+  // element from that.
+  const HeadingTag: `h${TitleBlockHeadingLevel}` = `h${headingLevel}`
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
   const isVertical = orientation === 'vertical'

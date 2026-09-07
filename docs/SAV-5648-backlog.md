@@ -270,6 +270,8 @@ Six findings from doing the work:
 | `@typescript-eslint/no-empty-object-type` | 1 | |
 | `import-x/no-empty-named-blocks` | 6 | **must stay off** — flags the intentional `import type {} from '@mui/system'` module-augmentation blocks in `src/library/index.ts` |
 
+**✅ Adopted in SAV-6398**, except the two marked *must stay off*, which are now grouped as `permanentlyDisabledRules` in `eslint.config.js`. The five type-style rules had grown from 76 occurrences to 113 by then. `--fix` handled all but one and, as in LIB-05, could not be trusted blindly: it stripped two **load-bearing** assertions that `tsc` then rejected — the `HeadingTag` union in `TitleBlock` (a template literal widens to `string` without a contextual type, so JSX cannot resolve an intrinsic element) and `getByRole` in `SearchableField.test.tsx`. Both were rewritten without an assertion rather than re-suppressed. Proof that the compiled output is unaffected: **both `dist` JS bundles are byte-identical** before and after, and the only `.d.ts` changes are 48 `type` → `interface`, 2 `Array<T>` → `T[]`, and one `ReadonlyArray<infer T>` → `readonly (infer T)[]`.
+
 **6 remaining warnings are real findings** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
 
 - `react-hooks/set-state-in-effect` — `Snackbar/index.tsx:60`, `NumberStepper.tsx:142`, `examples/ListWithPagination/index.tsx:61`
@@ -652,7 +654,7 @@ All three under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodini
 
 | Ticket | Scope | Gate | Priority |
 | --- | --- | --- | --- |
-| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
+| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** — ✅ done | Re-enable the deferred stricter lint rules (76 at the time of writing, 113 by the time it was picked up); records why ESLint 10 is unreachable. The `moduleResolution` item was already closed by LIB-07, and the resolver-alias workaround stays: retested here, and dropping it puts lint back to 1296 errors (653 `no-unresolved` + 643 `extensions`) | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
 | **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** — ✅ done | The `react-hooks` v7 findings (6 at the time of writing, 8 by the time it was picked up) | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
 | **[SAV-6451](https://jira.registrucentras.lt/jira/browse/SAV-6451)** | The 70 a11y violations across 23 story files, then drop `continue-on-error` from the Accessibility step. Fixes belong in the components, not the stories: accessible names for `CircularProgress` (30), icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures | **After 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, so every visual baseline would churn mid-release and hide real regressions among intentional ones | Major |
 

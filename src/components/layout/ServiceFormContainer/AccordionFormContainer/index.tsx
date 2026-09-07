@@ -9,7 +9,7 @@ import ServiceWizardStepper from '../../ServiceWizardStepper'
 import AccordionCollapseControls from './components/AccordionCollapseControls'
 import mapAccordionStateToSteps from './utils'
 
-type Props = {
+interface Props {
   accordionController: ReturnType<typeof useAccordionController>
   children: React.ReactNode
   showAccordionCollapseControls?: boolean

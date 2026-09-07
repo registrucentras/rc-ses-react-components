@@ -4,7 +4,7 @@ import palette from '@/theme/palette'
 
 const BORDER_WIDTH = '0.125rem'
 
-type Props = {
+interface Props {
   itemId: string
   label: string
   count?: number

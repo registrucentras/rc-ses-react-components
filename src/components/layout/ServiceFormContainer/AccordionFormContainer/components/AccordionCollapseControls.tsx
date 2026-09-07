@@ -5,7 +5,7 @@ import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import Button from '@/components/common/Button'
 
-type Props = {
+interface Props {
   controller: ReturnType<typeof useAccordionController>
 }
 function AccordionCollapseControls({ controller }: Props) {

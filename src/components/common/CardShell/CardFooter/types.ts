@@ -2,11 +2,11 @@ import { ReactNode } from 'react'
 
 export type CardFooterAlign = 'start' | 'between' | 'end'
 
-export type RcSesCardFooterTestIds = {
+export interface RcSesCardFooterTestIds {
   root?: string
 }
 
-export type RcSesCardFooterProps = {
+export interface RcSesCardFooterProps {
   children?: ReactNode
   /**
    * Horizontal distribution of the row. `between` pushes the first and last

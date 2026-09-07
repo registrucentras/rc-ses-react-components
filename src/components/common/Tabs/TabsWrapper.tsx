@@ -3,7 +3,7 @@ import React from 'react'
 
 import palette from '@/theme/palette'
 
-type Props = {
+interface Props {
   children?: React.ReactNode
   heading?: React.ReactNode
 }

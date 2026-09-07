@@ -16,7 +16,7 @@ import RcSesDatepicker from '.'
 const REFERENCE = new Date(2026, 0, 15)
 const MAX = new Date(2026, 0, 20)
 
-type HarnessProps = {
+interface HarnessProps {
   /** Seeds the field, so a day renders as selected. */
   value?: string | null
   /** Bounds the calendar, so later days render as disabled. */

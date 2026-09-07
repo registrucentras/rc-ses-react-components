@@ -10,7 +10,7 @@ import palette from '@/theme/palette'
 
 import { AdvancedListItemLeading as AdvancedListItemLeadingData } from '../AdvancedListItem.types'
 
-type Props = {
+interface Props {
   leading: AdvancedListItemLeadingData
   disabled?: boolean
   inputRef?: RefObject<HTMLInputElement>

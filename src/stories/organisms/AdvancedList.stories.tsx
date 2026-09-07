@@ -196,7 +196,7 @@ export const OwnerTypeExpand: Story = {
   render: () => <OwnerTypeExpandStory />,
 }
 
-type OwnerBranchFormModel = {
+interface OwnerBranchFormModel {
   individual: { municipality: string | null }
   legalEntity: { legalForm: string | null }
 }

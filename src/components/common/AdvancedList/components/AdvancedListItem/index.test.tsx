@@ -496,7 +496,7 @@ describe('AdvancedListItem', () => {
 
       renderItem(<Wrapper />)
 
-      const input = screen.getByLabelText('Company name') as HTMLInputElement
+      const input = screen.getByLabelText('Company name')
       fireEvent.change(input, { target: { value: 'UAB Įmonė' } })
       expect(input).toHaveValue('UAB Įmonė')
 
@@ -571,7 +571,7 @@ describe('AdvancedListItem', () => {
         />,
       )
 
-      const field = screen.getByLabelText('Field') as HTMLInputElement
+      const field = screen.getByLabelText('Field')
       const contentContainer = field.closest('[id]') as HTMLElement
 
       // jsdom doesn't implement the `.inert` IDL property (it's always undefined there even
