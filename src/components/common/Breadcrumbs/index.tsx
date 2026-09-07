@@ -1,8 +1,11 @@
 import { Link, Breadcrumbs as MuiBreadcrumbs, SxProps, Theme } from '@mui/material'
 
-export type BreadcrumbItem = { label: string; path: string }
+export interface BreadcrumbItem {
+  label: string
+  path: string
+}
 
-type Props = {
+interface Props {
   path: BreadcrumbItem[]
   sx?: SxProps<Theme>
 }

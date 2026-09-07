@@ -25,7 +25,7 @@ vi.mock('react-i18next', () => ({
  * the runtime breaks. These tests pin the behaviour so the migration is verifiable.
  */
 
-type ModalProps = {
+interface ModalProps {
   open: boolean
   onSubmit: (value: string) => void
   onClose: () => void
@@ -58,7 +58,7 @@ const TestWrapper = ({ defaultValue = '' }: { defaultValue?: string }) => {
   )
 }
 
-const getField = () => screen.getByRole('textbox') as HTMLInputElement
+const getField = () => screen.getByRole<HTMLInputElement>('textbox')
 
 describe('RcSesSearchableField', () => {
   it('should render the field with the value from the form', () => {

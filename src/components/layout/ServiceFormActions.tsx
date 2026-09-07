@@ -6,7 +6,7 @@ import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
 import Button from '@/components/common/Button'
 import palette from '@/theme/palette'
 
-type Props = {
+interface Props {
   onDiscard: () => void
   onSaveDraft: () => void
   onSubmit: () => void

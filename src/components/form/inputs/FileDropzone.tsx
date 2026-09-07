@@ -70,10 +70,7 @@ function RcSesFileDropzone(props: Props) {
 
   const hasValidFileSelection = value && Array.isArray(value) && value.length > 0
 
-  const onRemoveFile = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    index: number,
-  ) => {
+  const onRemoveFile = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault()
     e.stopPropagation()
 

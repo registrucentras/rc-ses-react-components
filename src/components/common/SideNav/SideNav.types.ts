@@ -1,13 +1,13 @@
 import { SxProps, Theme } from '@mui/material'
 import { ReactNode } from 'react'
 
-export type RcSesSideNavItem = {
+export interface RcSesSideNavItem {
   id: string
   label: string
   count?: number
 }
 
-export type RcSesSideNavProps = {
+export interface RcSesSideNavProps {
   // In document order - scroll-spy compares section positions in list order.
   items: RcSesSideNavItem[]
   activeItemId?: string

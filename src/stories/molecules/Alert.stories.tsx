@@ -11,7 +11,7 @@ import PreviewTitle from '@/components/storybook/PreviewTitle'
 const lorem =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard."
 
-const severities: Array<'grey' | 'info' | 'success' | 'warning' | 'error'> = [
+const severities: ('grey' | 'info' | 'success' | 'warning' | 'error')[] = [
   'grey',
   'info',
   'success',
@@ -180,7 +180,7 @@ export const Toggles: Story = {
 
 function DismissibleTemplate() {
   const [visibleSeverities, setVisibleSeverities] = useState<
-    Array<(typeof severities)[number]>
+    (typeof severities)[number][]
   >([...severities])
 
   return (

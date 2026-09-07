@@ -13,7 +13,7 @@ import { ReactNode } from 'react'
 import normalizeSx from '@/components/utils/normalizeSx'
 import palette from '@/theme/palette'
 
-export type RcSesCardTestIds = {
+export interface RcSesCardTestIds {
   root?: string
   image?: string
   header?: string

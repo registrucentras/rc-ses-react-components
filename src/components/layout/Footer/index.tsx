@@ -2,7 +2,7 @@ import { Box, Container, Typography } from '@mui/material'
 
 import palette from '@/theme/palette'
 
-type Props = {
+interface Props {
   text: string
 }
 

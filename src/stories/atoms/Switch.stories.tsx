@@ -15,7 +15,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-type ControlledDemoProps = {
+interface ControlledDemoProps {
   initialChecked?: boolean
   disabled?: boolean
   label?: string

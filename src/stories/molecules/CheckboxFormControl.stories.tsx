@@ -46,7 +46,7 @@ const meta: Meta<typeof RcSesCheckboxFormControl> = {
   tags: ['autodocs'],
 }
 
-type FormModel = {
+interface FormModel {
   agreement: string
 }
 
@@ -178,7 +178,7 @@ export const Loading: Story = {
   },
 }
 
-type IndeterminateFormModel = {
+interface IndeterminateFormModel {
   parent: boolean
   child1: boolean
   child2: boolean

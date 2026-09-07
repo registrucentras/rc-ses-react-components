@@ -1,4 +1,4 @@
-type InputIconProps = {
+interface InputIconProps {
   disabled?: boolean
 }
 

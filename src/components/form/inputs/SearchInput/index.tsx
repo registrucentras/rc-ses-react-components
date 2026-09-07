@@ -62,7 +62,7 @@ const RcSesSearchInput = React.forwardRef<HTMLInputElement, Props>((props, ref) 
       if (typeof ref === 'function') {
         ref(el)
       } else if (ref) {
-        ;(ref as React.MutableRefObject<HTMLInputElement | null>).current = el
+        ref.current = el
       }
     },
     [ref],
