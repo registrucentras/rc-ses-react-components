@@ -147,6 +147,13 @@ const MuiButton: Components['MuiButton'] = {
       position: 'relative',
       textTransform: 'none',
 
+      '&.MuiButton-loadingPositionCenter.MuiButton-loading, &.MuiButton-loadingPositionCenter.Mui-disabled':
+        {
+          color: 'transparent !important',
+          '& .MuiButton-startIcon, & .MuiButton-endIcon': {
+            visibility: 'hidden',
+          },
+        },
       '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
         {
           background: 'transparent',
@@ -378,6 +385,14 @@ const MuiButton: Components['MuiButton'] = {
         '&.Mui-disabled': {
           borderColor: `${grey[500]} !important`,
           color: `${grey[500]} !important`,
+          // Same reasoning as ghost - MUI hard-codes the loading indicator to
+          // `palette.action.disabled` which is invisible on dark surfaces.
+          '& .MuiButton-loadingIndicator': {
+            color: grey[500],
+          },
+          '&.MuiButton-loadingPositionCenter': {
+            color: 'transparent !important',
+          },
         },
       },
 
@@ -394,6 +409,22 @@ const MuiButton: Components['MuiButton'] = {
         },
         '&.Mui-disabled': {
           borderColor: `transparent !important`,
+          // Ghost buttons live on dark surfaces; the root outlined
+          // `.Mui-disabled` rule paints text `grey[600]`, which disappears on
+          // a near-black background. Keep the light color and, importantly,
+          // override MUI's `.MuiButton-loadingIndicator { color: action.disabled }`
+          // (dark grey ~ #0000000042) so the spinner stays visible while loading.
+          color: `${grey[300]} !important`,
+          '& .MuiButton-loadingIndicator': {
+            color: grey[300],
+          },
+          // The root `.MuiButton-loadingPositionCenter` transparent rule loses
+          // the specificity fight against the color override above (nested
+          // inside `.MuiButton-colorGhost`), so re-apply it here to hide the
+          // label/icon while the centered spinner shows.
+          '&.MuiButton-loadingPositionCenter': {
+            color: 'transparent !important',
+          },
         },
       },
     },
