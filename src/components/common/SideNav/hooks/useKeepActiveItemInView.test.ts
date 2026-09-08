@@ -4,7 +4,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import useKeepActiveItemInView from './useKeepActiveItemInView'
 
-type Rect = { top: number; bottom: number; left: number; right: number }
+interface Rect {
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
 
 const CONTAINER_RECT: Rect = { top: 100, bottom: 400, left: 100, right: 400 }
 

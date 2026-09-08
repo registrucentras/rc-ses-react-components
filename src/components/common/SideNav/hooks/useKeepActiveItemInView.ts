@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from 'react'
 
-type UseKeepActiveItemInViewOptions = {
+interface UseKeepActiveItemInViewOptions {
   // The element with `overflow: auto`. Its items are matched by `data-item-id`.
   containerRef: RefObject<HTMLElement>
   activeItemId?: string
