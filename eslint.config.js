@@ -127,12 +127,11 @@ export default [
       // emotion module augmentations (src/library/index.ts, src/main.tsx).
       // Those blocks are deliberately empty and must not be removed.
       'import-x/no-empty-named-blocks': 'off',
-      // eslint-plugin-react-hooks v7 (was v4) adds rules that flag real but
-      // pre-existing patterns. Surfaced as warnings so the ESLint 9 migration
-      // stays green; triage is a follow-up, not part of LIB-05.
-      'react-hooks/set-state-in-effect': 'warn',
-      'react-hooks/incompatible-library': 'warn',
-      'react-hooks/static-components': 'warn',
+      // react-hooks v7 ships this one as a warning, unlike set-state-in-effect
+      // and static-components. A React Compiler bailout silently drops
+      // memoization for the whole component, so it is worth failing the build:
+      // `useWatch({ control })` is the memoizable replacement for `watch()`.
+      'react-hooks/incompatible-library': 'error',
       'react/react-in-jsx-scope': 'off',
       'react/require-default-props': 'off',
       'linebreak-style': 'off',

@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 
 import IconProps from '@/assets/IconProps'
@@ -40,11 +40,6 @@ function IconWithCircularBackground(props: Props) {
     }
   }, [size])
 
-  const StyledIcon = styled(Icon)({
-    height: sizes[1],
-    width: sizes[1],
-  })
-
   return (
     <Box
       className='IconWithCircularBackground-root'
@@ -58,6 +53,10 @@ function IconWithCircularBackground(props: Props) {
         width: sizes[0],
         aspectRatio: '1 / 1',
 
+        svg: {
+          height: sizes[1],
+          width: sizes[1],
+        },
         'svg path': {
           fill: resolvePaletteColorPath(
             iconShade === 'white' ? 'white' : `${color}.${iconShade}`,
@@ -65,7 +64,7 @@ function IconWithCircularBackground(props: Props) {
         },
       }}
     >
-      <StyledIcon />
+      <Icon />
     </Box>
   )
 }

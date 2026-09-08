@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import InfoFillIcon from '@/assets/icons/InfoFillIcon'
 import NotePencilIcon from '@/assets/icons/NotePencilIcon'
@@ -224,14 +224,14 @@ const RadioBranchFormStory = () => {
   const [ownerTypeId, setOwnerTypeId] = useState(OWNER_TYPE_OPTIONS[0].id)
   const [shouldUnregister, setShouldUnregister] = useState(true)
 
-  const { control, watch } = useForm<OwnerBranchFormModel>({
+  const { control } = useForm<OwnerBranchFormModel>({
     defaultValues: {
       individual: { municipality: null },
       legalEntity: { legalForm: null },
     },
   })
 
-  const formState = watch()
+  const formState = useWatch({ control })
 
   // The non-selected branch stays in form state when shouldUnregister is off, so the
   // submitted payload is built from the selected branch instead of the whole form.
