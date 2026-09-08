@@ -13,6 +13,7 @@ function RcSesSideNavLayout({
   activeItemId: controlledActiveItemId,
   onItemClick,
   title,
+  overflow,
   offset,
   sidebarWidth = '17rem',
   sx,
@@ -48,6 +49,8 @@ function RcSesSideNavLayout({
         activeItemId={activeItemId}
         onItemClick={handleItemClick}
         title={title}
+        overflow={overflow}
+        offset={offset}
         sx={{
           position: 'sticky',
           top: `${offset ?? 0}px`,
