@@ -31,11 +31,11 @@ function useKeepActiveItemInView({
     if (!enabled || !activeItemId) return
 
     const container = containerRef.current
-    // Attribute selector with escaped quotes, so an id that is not a valid CSS
-    // selector (a slug is not guaranteed to be one) cannot throw.
-    const target = container?.querySelector<HTMLElement>(
-      `[data-item-id="${activeItemId.replace(/"/g, '\\"')}"]`,
-    )
+    // Compared as an attribute value rather than interpolated into a selector:
+    // ids are arbitrary strings, and quotes or backslashes break a selector.
+    const target = Array.from(
+      container?.querySelectorAll<HTMLElement>('[data-item-id]') ?? [],
+    ).find((element) => element.dataset.itemId === activeItemId)
     if (!container || !target) return
 
     // Viewport rects on both, so they agree: offsetTop/offsetLeft would be

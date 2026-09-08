@@ -16,8 +16,9 @@ type UseSideNavScrollSpyOptions = {
 
 function findScopedElement(root: Document | HTMLElement, id: string): HTMLElement | null {
   if (root instanceof Document) return root.getElementById(id)
-  // Attribute selector, so an id that is not a valid CSS selector cannot throw.
-  return root.querySelector<HTMLElement>(`[id="${id.replace(/"/g, '\\"')}"]`)
+  // Attribute selector, so an id that is not a valid CSS identifier still
+  // resolves. Escapes both characters a CSS string cannot hold raw.
+  return root.querySelector<HTMLElement>(`[id="${id.replace(/["\\]/g, '\\$&')}"]`)
 }
 
 function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpyOptions) {

@@ -13,10 +13,10 @@ const stubRect = (element: HTMLElement, rect: Rect) => {
   element.getBoundingClientRect = () => rect as DOMRect
 }
 
-const setup = (itemRect: Rect) => {
+const setup = (itemRect: Rect, itemId = 'documents') => {
   const container = document.createElement('div')
   const item = document.createElement('div')
-  item.setAttribute('data-item-id', 'documents')
+  item.setAttribute('data-item-id', itemId)
   container.appendChild(item)
   document.body.appendChild(container)
 
@@ -228,17 +228,26 @@ describe('useKeepActiveItemInView', () => {
     expect(getScrollTop()).toBe(0)
   })
 
-  it('does not throw on an id that is not a valid CSS selector', () => {
-    const { containerRef } = setup({ top: 380, bottom: 425, left: 100, right: 400 })
+  // An id is an arbitrary string, not a CSS identifier, so quotes and
+  // backslashes have to survive the lookup.
+  it.each(['te"ma 1', 'tema\\1', 'trailing\\'])(
+    'still finds the item for the awkward id %j',
+    (itemId) => {
+      const { containerRef, getScrollTop } = setup(
+        { top: 380, bottom: 425, left: 100, right: 400 },
+        itemId,
+      )
 
-    expect(() =>
-      renderHook(() =>
-        useKeepActiveItemInView({
-          containerRef,
-          activeItemId: 'te"ma 1',
-          axis: 'vertical',
-        }),
-      ),
-    ).not.toThrow()
-  })
+      expect(() =>
+        renderHook(() =>
+          useKeepActiveItemInView({
+            containerRef,
+            activeItemId: itemId,
+            axis: 'vertical',
+          }),
+        ),
+      ).not.toThrow()
+      expect(getScrollTop()).toBe(25)
+    },
+  )
 })
