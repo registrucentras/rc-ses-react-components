@@ -6,12 +6,7 @@ import Button from '@/components/common/Button'
 import { grey } from '@/theme/palette'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-const variantOptions: Array<ButtonProps['variant']> = [
-  'contained',
-  'outlined',
-  'link',
-  'text',
-]
+const variantOptions: ButtonProps['variant'][] = ['contained', 'outlined', 'link', 'text']
 const colorOptions = [
   'primary',
   'secondary',
@@ -249,7 +244,7 @@ export const ErrorOutlined: Story = {
 export const LightOutlined: Story = {
   args: {
     variant: 'outlined',
-    color: 'light' as any,
+    color: 'light',
     children: 'Light Button',
   },
   decorators: [
@@ -273,7 +268,7 @@ export const LightOutlined: Story = {
 export const LightOutlinedWithIcon: Story = {
   args: {
     variant: 'outlined',
-    color: 'light' as any,
+    color: 'light',
     startIcon: <PlusBoldIcon />,
     children: 'Light Button with Icon',
   },
@@ -298,7 +293,7 @@ export const LightOutlinedWithIcon: Story = {
 export const LightOutlinedDisabled: Story = {
   args: {
     variant: 'outlined',
-    color: 'light' as any,
+    color: 'light',
     children: 'Light Button Disabled',
     disabled: true,
   },
@@ -324,7 +319,7 @@ export const GhostOutlinedIconOnly: Story = {
   args: {
     'aria-label': 'Close',
     children: <PlusBoldIcon />,
-    color: 'ghost' as any,
+    color: 'ghost',
     iconOnly: true,
     variant: 'outlined',
   },
@@ -350,7 +345,7 @@ export const GhostOutlinedIconOnlyDisabled: Story = {
   args: {
     'aria-label': 'Close',
     children: <PlusBoldIcon />,
-    color: 'ghost' as any,
+    color: 'ghost',
     disabled: true,
     iconOnly: true,
     variant: 'outlined',
@@ -491,7 +486,7 @@ export const ErrorOutlinedLoading: Story = {
 export const LightOutlinedLoading: Story = {
   args: {
     variant: 'outlined',
-    color: 'light' as any,
+    color: 'light',
     children: 'Light Button',
     loading: true,
   },
@@ -516,7 +511,7 @@ export const LightOutlinedLoading: Story = {
 export const LightOutlinedWithIconLoading: Story = {
   args: {
     variant: 'outlined',
-    color: 'light' as any,
+    color: 'light',
     startIcon: <PlusBoldIcon />,
     children: 'Light Button with Icon',
     loading: true,
@@ -543,7 +538,7 @@ export const GhostOutlinedIconOnlyLoading: Story = {
   args: {
     'aria-label': 'Close',
     children: <PlusBoldIcon />,
-    color: 'ghost' as any,
+    color: 'ghost',
     iconOnly: true,
     variant: 'outlined',
     loading: true,

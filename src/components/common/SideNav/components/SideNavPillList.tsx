@@ -10,14 +10,14 @@ import SideNavPill from './SideNavPill'
 const FADE_WIDTH = '2rem'
 const SCROLL_EPSILON = 1
 
-type Props = {
+interface Props {
   items: RcSesSideNavItem[]
   activeItemId?: string
   onItemClick?: (id: string) => void
   getItemAriaLabel: (item: RcSesSideNavItem) => string | undefined
 }
 
-type ScrollState = {
+interface ScrollState {
   hasOverflow: boolean
   showRightFade: boolean
   thumbWidth: number

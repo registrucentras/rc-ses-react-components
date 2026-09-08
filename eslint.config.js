@@ -45,22 +45,21 @@ const devOnlyPaths = [
 ]
 
 /**
- * Rules that eslint-config-airbnb-extended enables but the previous
- * airbnb + airbnb-typescript pair did not. Switching them on here would mean
- * ~75 source edits with no functional change, which is outside LIB-05's scope
- * ("ESLint 9 on flat config at equivalent enforcement"). Tightening the ruleset
- * is a separate, deliberate decision - see docs/SAV-5648-backlog.md (LIB-05).
+ * The stricter rules eslint-config-airbnb-extended enables and the old
+ * airbnb + airbnb-typescript pair did not were deferred out of LIB-05 and then
+ * adopted in SAV-6398. These two are the exception: they stay off permanently,
+ * because both flag a deliberate convention and "fixing" either would make the
+ * code worse. Do not spend effort on them.
  */
-const deferredStricterRules = {
-  '@typescript-eslint/consistent-type-definitions': 'off', // 53 occurrences
-  '@typescript-eslint/no-unnecessary-type-assertion': 'off', // 13
-  '@typescript-eslint/array-type': 'off', // 7
-  '@typescript-eslint/no-unnecessary-type-arguments': 'off', // 2
-  '@typescript-eslint/no-empty-object-type': 'off', // 1
+const permanentlyDisabledRules = {
   // 24 occurrences, all of them the deliberate `RcSes*` public-name convention:
   // e.g. ServiceHeader.tsx default-exports `ServiceHeader`, imported as
   // `RcSesServiceHeader`. The rule has no way to know that is intentional.
   'import-x/no-rename-default': 'off',
+  // The library relies on `import type {} from '...'` to pull in MUI and
+  // emotion module augmentations (src/library/index.ts, src/main.tsx).
+  // Those blocks are deliberately empty and must not be removed.
+  'import-x/no-empty-named-blocks': 'off',
 }
 
 export default [
@@ -111,7 +110,8 @@ export default [
       // The alias is passed explicitly because the resolver does not pick up
       // `paths` from tsconfig.json here, even with baseUrl set and
       // moduleResolution "Bundler" - most likely because of the project
-      // `references` entry. Retested and still needed as of Storybook 10.
+      // `references` entry. Retested again in SAV-6398: dropping it puts lint
+      // back to 1296 errors (653 no-unresolved + 643 extensions), so it stays.
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           project: './tsconfig.json',
@@ -121,12 +121,8 @@ export default [
       ],
     },
     rules: {
-      ...deferredStricterRules,
+      ...permanentlyDisabledRules,
       'prettier/prettier': 'error',
-      // The library relies on `import type {} from '...'` to pull in MUI and
-      // emotion module augmentations (src/library/index.ts, src/main.tsx).
-      // Those blocks are deliberately empty and must not be removed.
-      'import-x/no-empty-named-blocks': 'off',
       // react-hooks v7 ships this one as a warning, unlike set-state-in-effect
       // and static-components. A React Compiler bailout silently drops
       // memoization for the whole component, so it is worth failing the build:

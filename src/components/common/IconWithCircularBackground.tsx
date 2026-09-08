@@ -7,7 +7,7 @@ import palette from '@/theme/palette'
 
 type Shade = keyof (typeof palette)[keyof typeof palette]
 
-type Props = {
+interface Props {
   bgShade?: Shade | 'white'
   color?: keyof typeof palette
   Icon: React.JSXElementConstructor<IconProps>

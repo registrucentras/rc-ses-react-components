@@ -6,7 +6,7 @@ import theme from '@/theme/light'
 
 import RcSesNumberStepper from './NumberStepper'
 
-type TestWrapperProps = {
+interface TestWrapperProps {
   defaultValue?: number
   disabled?: boolean
   max?: number

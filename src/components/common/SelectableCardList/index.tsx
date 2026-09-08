@@ -5,7 +5,7 @@ import DataPagination from '../DataPagination'
 import { ListWithIconsItemData } from '../ListWithIcons/ListWithIcons.types'
 import SelectableCardListItem from './components/SelectableCardListItem'
 
-export type SelectableCardListItemData = {
+export interface SelectableCardListItemData {
   id: string
   title: string
   subtitle?: string

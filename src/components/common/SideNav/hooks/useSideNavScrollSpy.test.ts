@@ -3,8 +3,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import useSideNavScrollSpy from './useSideNavScrollSpy'
 
-type Viewport = { scrollY: number; innerHeight: number; scrollHeight: number }
-type SectionTop = { id: string; top: number }
+interface Viewport {
+  scrollY: number
+  innerHeight: number
+  scrollHeight: number
+}
+interface SectionTop {
+  id: string
+  top: number
+}
 
 const setViewport = ({ scrollY, innerHeight, scrollHeight }: Viewport) => {
   Object.defineProperty(window, 'scrollY', { value: scrollY, configurable: true })

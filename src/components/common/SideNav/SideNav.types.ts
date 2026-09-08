@@ -1,7 +1,7 @@
 import { SxProps, Theme } from '@mui/material'
 import { ReactNode } from 'react'
 
-export type RcSesSideNavItem = {
+export interface RcSesSideNavItem {
   id: string
   label: string
   count?: number
@@ -12,7 +12,7 @@ export type RcSesSideNavItem = {
 // keeping the active item reachable when there are more topics than fit.
 export type RcSesSideNavOverflow = 'fit' | 'scroll'
 
-export type RcSesSideNavProps = {
+export interface RcSesSideNavProps {
   // In document order - scroll-spy compares section positions in list order.
   items: RcSesSideNavItem[]
   activeItemId?: string

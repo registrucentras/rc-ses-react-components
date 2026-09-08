@@ -9,7 +9,7 @@ import palette from '@/theme/palette'
 type SquareTileSize = 40 | 44
 type SquareTileVariant = 'solid' | 'soft' | 'muted'
 
-type Props = {
+interface Props {
   Icon: React.JSXElementConstructor<IconProps>
   size?: SquareTileSize
   variant?: SquareTileVariant
