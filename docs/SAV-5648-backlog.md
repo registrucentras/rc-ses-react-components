@@ -61,7 +61,7 @@ Adjustments so far:
 Running total **23.25h** against the 20h budget.
 
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** Phase 5 — LIB-15 (recommended: drop, see below), LIB-19 (visual assertion) and LIB-18 (`2.0.0`). LIB-17 validation is done.
+**Open:** Phase 5 — LIB-15 (recommended: drop, see below) and LIB-18 (`2.0.0`). LIB-17 validation is done, LIB-19 is done.
 
 ### Phase 5 progress — as of 2026-08-25
 
@@ -337,7 +337,7 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 
 | File | Purpose |
 | --- | --- |
-| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise |
+| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise plus a 400-pixel absolute cap (LIB-19) |
 | `visual/stories.spec.ts` | reads `storybook-static/index.json`, one test per story |
 | `visual/theme-slots.spec.ts` | asserts every themed `Mui*` slot reaches the DOM (added by LIB-02) |
 | `visual/__snapshots__/` | committed baselines, **Linux-only** |
@@ -359,7 +359,7 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 
 **`node_modules` uses a named Docker volume** (`rcses-visual-node-modules`) rather than an anonymous one, so repeat runs skip the `npm ci` — which is slow over a Windows bind mount. It still masks the host's `node_modules`, keeping Windows-native binaries (esbuild, rollup) intact.
 
-**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically.
+**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically. Since LIB-19 a story can also be tagged `snapshot-fullpage` to force a whole-page capture, for the rare case where the portal detection does not see what the story is actually testing.
 
 **The a11y check is now wired up too.** `.storybook/test-runner.ts` had `injectAxe`/`checkA11y` fully configured since before this ticket with no workflow calling it. It runs with `if: always()` so a visual failure cannot mask an accessibility regression, and it catches "story throws and renders nothing" — which pixel diffing alone reports only as an unexpectedly blank image.
 
@@ -599,6 +599,39 @@ for now, so this is a single change touching all baselines and wants its own PR.
 Note that this only closes the drift hole. It would not have caught the disabled or selected day,
 because no story rendered those states, nor `calendar-open`, whose baseline was recorded *after* MUI 9
 and so enshrined the bug. Coverage and regeneration discipline are the other half.
+
+#### LIB-19 — done 2026-09-08
+
+Both halves shipped: shots clip to `#storybook-root`, and `maxDiffPixels: 400` sits alongside the
+ratio. Playwright takes `Math.min` of the two (checked in `playwright-core`), so the ratio governs
+small components and the cap governs large ones. **Median budget is 23x tighter**; 238 of 248
+baselines were re-recorded.
+
+| Baseline | allowed before | allowed now |
+| --- | --- | --- |
+| `organisms-sidenav--with-scroll-overflow` (1248x3936) | 50790 | 400 |
+| any 1280x720 story | 9216 | 400 |
+| `atoms-switch--on` (32x32 root) | 9216 | 10 |
+
+**The plan above was incomplete: clipping to the root alone would have broken 10 stories.** MUI
+renders dialogs, popovers, tooltips, the full-page loader and the open-calendar popup through a
+portal on `<body>`, outside `#storybook-root`. `organisms-dialog--open` is the sharp case — its root
+holds only the 32x32 trigger, so the shot would have captured a button and quietly stopped testing
+the dialog. Those stories are detected at runtime and stay `fullPage`; the absolute cap is what makes
+their budget meaningful, taking them from 9216 to 400 even though their dimensions do not change.
+Detection is runtime rather than a hardcoded list, for the same reason the story list is read from
+the build output. `snapshot-fullpage` forces the path if the check ever misses.
+
+Also added a wait for the story to actually paint. `body.sb-show-main` goes on when Storybook hands
+the story to React, which can be a frame before layout — a probe over all 248 stories measured 30
+roots as 0-height purely from reading too early. The suite never showed this because
+`toHaveScreenshot` retries; the wait makes an empty story fail as an empty story rather than as a
+screenshot timeout.
+
+**Verified against the real escape, not just arithmetic.** Re-introducing the `rc.1` footer bug (text
+recoloured to the background) produces **4352 differing pixels**. Against the old 9216 budget that
+passed, which is exactly how it shipped; it now fails. A clean run is 249 passed, so the 400-pixel
+cap does not flake in the CI image.
 
 **LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer;
 `react-router-dom` no longer provided. SAV-6098 cannot be planned without this.
