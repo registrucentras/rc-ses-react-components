@@ -12,11 +12,11 @@ describe('Button Component', () => {
       expect(spinner).toBeInTheDocument()
     })
 
-    it('should set aria-busy attribute when loading', () => {
+    it('should mark the button with the MUI loading class when loading', () => {
       render(<Button loading>Save</Button>)
 
       const button = screen.getByRole('button')
-      expect(button).toHaveAttribute('aria-busy', 'true')
+      expect(button).toHaveClass('MuiButton-loading')
     })
 
     it('should disable button when loading=true', () => {
@@ -26,32 +26,40 @@ describe('Button Component', () => {
       expect(button).toBeDisabled()
     })
 
-    it('should show spinner instead of children when loading', () => {
+    it('should keep children in the DOM alongside the spinner when loading (label is visually hidden via CSS)', () => {
       render(<Button loading>Save</Button>)
 
-      expect(screen.queryByText('Save')).not.toBeInTheDocument()
+      expect(screen.getByText('Save')).toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
-    it('should replace startIcon with spinner when loading', () => {
+    it('should hide startIcon when loadingPosition is "start"', () => {
       render(
-        <Button loading startIcon={<span data-testid='start-icon'>+</span>}>
+        <Button
+          loading
+          loadingPosition='start'
+          startIcon={<span data-testid='start-icon'>+</span>}
+        >
           Add
         </Button>,
       )
 
-      expect(screen.queryByTestId('start-icon')).not.toBeInTheDocument()
+      expect(screen.getByRole('button')).toHaveClass('MuiButton-loadingPositionStart')
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
-    it('should replace endIcon with spinner when loading', () => {
+    it('should hide endIcon when loadingPosition is "end"', () => {
       render(
-        <Button loading endIcon={<span data-testid='end-icon'>→</span>}>
+        <Button
+          loading
+          loadingPosition='end'
+          endIcon={<span data-testid='end-icon'>→</span>}
+        >
           Next
         </Button>,
       )
 
-      expect(screen.queryByTestId('end-icon')).not.toBeInTheDocument()
+      expect(screen.getByRole('button')).toHaveClass('MuiButton-loadingPositionEnd')
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
 
@@ -104,7 +112,7 @@ describe('Button Component', () => {
 
       const button = screen.getByRole('button')
       expect(button).toBeDisabled()
-      expect(button).toHaveAttribute('aria-busy', 'true')
+      expect(button).toHaveClass('MuiButton-loading')
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
   })
@@ -136,20 +144,21 @@ describe('Button Component', () => {
   })
 
   describe('Icon Only Buttons', () => {
-    it('should show spinner in place of icon when loading and iconOnly', () => {
+    it('should render spinner when loading and iconOnly (icon visually hidden via CSS)', () => {
       render(
         <Button
           loading
           iconOnly
           variant='contained'
+          aria-label='Add'
           startIcon={<span data-testid='icon'>+</span>}
         >
           Add
         </Button>,
       )
 
-      expect(screen.queryByTestId('icon')).not.toBeInTheDocument()
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
+      expect(screen.getByRole('button')).toHaveClass('MuiButton-loading')
     })
   })
 
