@@ -106,11 +106,12 @@ function RcSesTitleBlock({
   const actionsSlot = actions ? (
     <Stack
       data-testid={testIds?.actions}
-      direction={{ xs: 'column', sm: 'row' }}
+      direction='row'
       spacing={cards.header.actionsGap}
       sx={{
-        alignItems: { xs: 'flex-start', sm: 'center' },
+        alignItems: 'center',
         flexShrink: 0,
+        flexWrap: 'wrap',
       }}
     >
       {actions}
@@ -148,7 +149,7 @@ function RcSesTitleBlock({
           direction='row'
           spacing={cards.header.rowGap}
           sx={{
-            alignItems: hasDescription ? 'flex-start' : 'center',
+            alignItems: 'center',
             flex: 1,
             minWidth: 0,
             width: '100%',
