@@ -250,6 +250,40 @@ Testai turi tikrinti elgseną, o ne realizacijos smulkmenas.
 
 UI pakeitimams užtikrinkite, kad storybook ir testai išliktų suderinti.
 
+### Vizualinių regresijų testai
+
+Kiekviena Storybook istorija automatiškai gauna vizualinį etaloną (`visual/__snapshots__`) — istorijų
+registruoti niekur nereikia, sąrašas skaitomas iš Storybook build'o. Todėl **nauja istorija reiškia ir
+naują etaloną**.
+
+**Etalonai yra platformai specifiniai ir jų negalima generuoti Windows aplinkoje.** Šriftų
+rasterizacija skiriasi, todėl etalonai turi būti sukurti tame pačiame Docker atvaizde, kurį naudoja
+CI:
+
+```bash
+npm run test:visual              # palyginti su esamais etalonais
+npm run test:visual:update:new   # pridėti etalonus tik naujoms istorijoms
+npm run test:visual:update       # perrašyti visus etalonus
+npm run test:visual:report       # atidaryti HTML skirtumų raportą
+```
+
+Kadrai apkerpami iki `#storybook-root`, o leistinas skirtumas yra 1 % kadro pikselių, bet ne daugiau
+kaip 400 pikselių. Taip biudžetas priklauso nuo tikrinamo komponento, o ne nuo puslapio aplink jį.
+
+Istorijos elgseną galima keisti žymomis (`tags`):
+
+| Žyma | Poveikis |
+| --- | --- |
+| `no-snapshot` | istorija visai neįtraukiama į vizualinius testus |
+| `viewport-<plotis>` | kadras daromas nurodytu pločiu, pvz. `viewport-375` arba `viewport-768` |
+| `snapshot-fullpage` | kadras daromas per visą puslapį, o ne apkerpamas iki `#storybook-root` |
+
+`snapshot-fullpage` reikia tik tada, kai istorijos tikrinamas turinys atsiranda per portalą už
+`#storybook-root` ribų, o automatinis atpažinimas jo nepamato. MUI portalus (`Dialog`, `Modal`,
+`Popover`, `Popper`, `Tooltip`, `Menu`, `Drawer`, `Snackbar`) testas atpažįsta pats ir tokias
+istorijas kadruoja per visą puslapį be jokių žymų — pavyzdžiui `organisms-dialog--open`, kurios
+`#storybook-root` yra tik 32x32 mygtukas, o pats dialogas yra portale.
+
 ## Internacionalizacija
 
 Biblioteka šiuo metu turi lietuviškus ir angliškus resursus.
@@ -280,7 +314,10 @@ Prieš prašydami peržiūros įsitikinkite, kad:
 - prireikus atnaujinti vieši eksportai faile `src/library/index.ts`;
 - viešiems UI pakeitimams pridėtos arba atnaujintos Storybook istorijos;
 - pasikeitusiai elgsenai pridėti arba atnaujinti testai;
-- lokaliai sėkmingai praeina `npm run lint`, `npm run test:run` ir `npm run build:lib`;
+- naujoms istorijoms sugeneruoti vizualiniai etalonai (`npm run test:visual:update:new`), o sąmoningai
+  pakeitus išvaizdą — perrašyti esami;
+- lokaliai sėkmingai praeina `npm run lint`, `npm run typecheck`, `npm run test:run` ir
+  `npm run build:lib`;
 - įvertintas prieinamumo, i18n ir temos poveikis;
 - `package.json` versija nepakeista.
 
@@ -306,4 +343,10 @@ parsiunčia stabilią `latest` versiją.
 Kiekvienam pull request'ui `Build and Publish` darbo eiga su Node.js 22 paleidžia `npm run lint`,
 `npm run typecheck`, `npm run test:run` ir `npm run build:lib`, o testų rezultatus prideda kaip
 pull request'o patikrinimą.
+
+Atskira `Visual regression` darbo eiga tame pačiame Docker atvaizde, kurį naudoja
+`npm run test:visual:update`, sukuria Storybook build'ą, palygina jį su etalonais ir paleidžia
+prieinamumo patikras. Jei ši eiga nurodo skirtumus, o išvaizda pakeista sąmoningai, etalonus reikia
+perrašyti ir įtraukti į tą patį pull request'ą.
+
 Pull request'as turi būti žalias: publikavimo žingsnis vykdomas tik paskelbus release.

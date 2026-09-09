@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { Page, expect, test } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
@@ -11,7 +11,27 @@ import { fileURLToPath } from 'node:url'
  * up automatically and no one has to remember to register them here.
  *
  * Opt a story out by adding the `no-snapshot` tag to it.
+ *
+ * Shots are clipped to `#storybook-root`, so the diff budget is a share of the
+ * component rather than of the page around it (LIB-19).
  */
+
+/**
+ * Layers MUI renders through a portal on `<body>`, outside `#storybook-root`.
+ * A story rendering one has to be captured `fullPage` or the shot misses it:
+ * `organisms-dialog--open` keeps only its 32x32 trigger in the root.
+ */
+const PORTAL_LAYER_SELECTOR = [
+  '.MuiModal-root',
+  '.MuiDialog-root',
+  '.MuiPopover-root',
+  '.MuiPopper-root',
+  '.MuiTooltip-popper',
+  '.MuiDrawer-root',
+  '.MuiSnackbar-root',
+  '.MuiMenu-root',
+  '.MuiBackdrop-root',
+].join(',')
 
 interface StoryIndexEntry {
   type: string
@@ -50,8 +70,8 @@ if (stories.length === 0) {
 /**
  * Stories tagged `viewport-<width>` are captured at that width instead of the
  * project's desktop default, so responsive values (the shell's xs paddings, the
- * footer stacking below sm) get a baseline of their own. Height is fixed: the
- * shots are fullPage anyway, so only the width decides which breakpoint wins.
+ * footer stacking below sm) get a baseline of their own. Only the width matters:
+ * MUI breakpoints are width-based, and the clip decides the captured height.
  */
 const viewportWidth = (tags: string[] | undefined) => {
   const tag = tags?.find((entry) => entry.startsWith('viewport-'))
@@ -66,6 +86,46 @@ const viewportWidth = (tags: string[] | undefined) => {
 
   return width
 }
+
+/**
+ * `body.sb-show-main` is set when Storybook hands the story to React, which can
+ * be a frame before anything is laid out, so wait for a measurable box.
+ */
+const waitForStoryPaint = (page: Page) =>
+  page.waitForFunction((selector: string) => {
+    const root = document.querySelector('#storybook-root')
+    if (!root) {
+      return false
+    }
+
+    const box = root.getBoundingClientRect()
+    if (box.width > 0 && box.height > 0) {
+      return true
+    }
+
+    // A story whose only output is portalled leaves the root itself empty.
+    return Array.from(document.querySelectorAll(selector)).some((element) => {
+      const portalBox = element.getBoundingClientRect()
+      return portalBox.width > 0 && portalBox.height > 0
+    })
+  }, PORTAL_LAYER_SELECTOR)
+
+const hasPortalledLayer = (page: Page) =>
+  page.evaluate((selector: string) => {
+    const root = document.querySelector('#storybook-root')
+    if (!root) {
+      return false
+    }
+
+    return Array.from(document.querySelectorAll(selector)).some((element) => {
+      if (root.contains(element)) {
+        return false
+      }
+
+      const box = element.getBoundingClientRect()
+      return box.width > 0 && box.height > 0
+    })
+  }, PORTAL_LAYER_SELECTOR)
 
 test.describe('Storybook visual regression', () => {
   stories.forEach((story) => {
@@ -82,12 +142,22 @@ test.describe('Storybook visual regression', () => {
       await page.waitForSelector('body.sb-show-main', { state: 'attached' })
       await expect(page.locator('body.sb-show-errordisplay')).toHaveCount(0)
       await expect(page.locator('#storybook-root')).toBeAttached()
+      await waitForStoryPaint(page)
 
       // Without this, the first stories in a run can capture fallback glyphs
       // before Public Sans has finished loading.
       await page.evaluate(() => document.fonts.ready)
 
-      await expect(page).toHaveScreenshot(`${story.id}.png`, { fullPage: true })
+      // `snapshot-fullpage` overrides the check, for a portal it cannot see.
+      const isPortalled =
+        story.tags?.includes('snapshot-fullpage') || (await hasPortalledLayer(page))
+
+      if (isPortalled) {
+        await expect(page).toHaveScreenshot(`${story.id}.png`, { fullPage: true })
+        return
+      }
+
+      await expect(page.locator('#storybook-root')).toHaveScreenshot(`${story.id}.png`)
     })
   })
 })
