@@ -12,11 +12,11 @@ describe('Button Component', () => {
       expect(spinner).toBeInTheDocument()
     })
 
-    it('should mark the button with the MUI loading class when loading', () => {
+    it('should mark the button as busy when loading', () => {
       render(<Button loading>Save</Button>)
 
       const button = screen.getByRole('button')
-      expect(button).toHaveClass('MuiButton-loading')
+      expect(button).toHaveAttribute('aria-busy', 'true')
     })
 
     it('should disable button when loading=true', () => {
@@ -112,7 +112,7 @@ describe('Button Component', () => {
 
       const button = screen.getByRole('button')
       expect(button).toBeDisabled()
-      expect(button).toHaveClass('MuiButton-loading')
+      expect(button).toHaveAttribute('aria-busy', 'true')
       expect(screen.getByRole('progressbar')).toBeInTheDocument()
     })
   })

@@ -1,16 +1,4 @@
-import { ButtonOwnProps, CircularProgress } from '@mui/material'
-
-const VALID_SPINNER_COLORS = [
-  'primary',
-  'secondary',
-  'error',
-  'warning',
-  'info',
-  'success',
-  'inherit',
-] as const
-
-export type RcSesSpinnerColor = (typeof VALID_SPINNER_COLORS)[number]
+import { CircularProgress } from '@mui/material'
 
 const SPINNER_SIZE_MAP = {
   small: '16px',
@@ -18,19 +6,8 @@ const SPINNER_SIZE_MAP = {
   large: '24px',
 } as const
 
-// Custom colors that aren't MUI standard map to inherit (uses parent color)
-const CUSTOM_COLOR_MAP: Record<string, RcSesSpinnerColor> = {
-  light: 'inherit',
-  ghost: 'inherit',
-  dark: 'inherit',
-}
-
-export function getSpinnerColor(color: ButtonOwnProps['color']): RcSesSpinnerColor {
-  if (color && VALID_SPINNER_COLORS.includes(color as RcSesSpinnerColor)) {
-    return color as RcSesSpinnerColor
-  }
-  return CUSTOM_COLOR_MAP[color as string] ?? 'inherit'
-}
+export type RcSesSpinnerColor =
+  'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'inherit'
 
 export interface RcSesLoadingSpinnerProps {
   color?: RcSesSpinnerColor

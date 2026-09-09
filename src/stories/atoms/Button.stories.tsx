@@ -72,10 +72,15 @@ const disableColorContrast = {
   },
 }
 
-const variantColors: Array<{
+interface VariantColorCombo {
   variant: Exclude<ButtonProps['variant'], undefined>
   color: ButtonProps['color']
-}> = [
+}
+
+// Split so axe color-contrast stays enforced on light-surface combos and is
+// only disabled for the dark-surface grid, where light/ghost intentionally
+// render on top of a dark backdrop that axe cannot see through the DOM.
+const lightSurfaceCombos: VariantColorCombo[] = [
   { variant: 'contained', color: 'primary' },
   { variant: 'contained', color: 'secondary' },
   { variant: 'contained', color: 'grey' },
@@ -86,21 +91,26 @@ const variantColors: Array<{
   { variant: 'outlined', color: 'grey' },
   { variant: 'outlined', color: 'warning' },
   { variant: 'outlined', color: 'error' },
+  // link/text carry their own loading baseline - link disabled ships with
+  // opacity: 0.4 so its centered indicator is fainter than the theme's
+  // grey[600] measurement suggests. Keep primary + grey rows to cover both
+  // the tinted and the neutral disabled paths.
+  { variant: 'link', color: 'primary' },
+  { variant: 'link', color: 'grey' },
+  { variant: 'text', color: 'primary' },
+  { variant: 'text', color: 'grey' },
+]
+
+const darkSurfaceCombos: VariantColorCombo[] = [
   { variant: 'outlined', color: 'light' },
   { variant: 'outlined', color: 'ghost' },
 ]
 
-// light/ghost are designed for dark surfaces; wrap those cells so the outline
-// and text stay legible.
-const DARK_BG_COLORS = new Set(['light', 'ghost'])
-
-const variantRowSpans = variantColors.reduce<Record<string, number>>(
-  (acc, { variant }) => {
+const rowSpansFor = (combos: VariantColorCombo[]) =>
+  combos.reduce<Record<string, number>>((acc, { variant }) => {
     acc[variant] = (acc[variant] ?? 0) + 1
     return acc
-  },
-  {},
-)
+  }, {})
 
 const iconOnlyArgs: Partial<ButtonProps> = {
   iconOnly: true,
@@ -144,96 +154,95 @@ const states: {
   },
 ]
 
-const CellWrapper = ({
-  color,
-  children,
-}: {
-  color: ButtonProps['color']
-  children: React.ReactNode
-}) => {
-  if (color && DARK_BG_COLORS.has(color as string)) {
-    return (
-      <Box
-        sx={{
-          backgroundColor: grey[900],
-          px: 1,
-          py: 0.5,
-          borderRadius: 0.75,
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {children}
-      </Box>
-    )
-  }
-  return <>{children}</>
+const CombinationsGrid = ({ combos }: { combos: VariantColorCombo[] }) => {
+  const rowSpans = rowSpansFor(combos)
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: `110px 90px repeat(${states.length}, minmax(140px, 1fr))`,
+        rowGap: 1.5,
+        columnGap: 1.5,
+        alignItems: 'center',
+      }}
+    >
+      {/* header row: two empty cells for the variant/color labels, then state labels */}
+      <Box />
+      <Box />
+      {states.map((state) => (
+        <Typography
+          key={state.key}
+          align='center'
+          variant='body2'
+          sx={{ color: 'text.secondary' }}
+        >
+          {state.label}
+        </Typography>
+      ))}
+      {combos.map(({ variant, color }, rowIndex) => {
+        const prevVariant = combos[rowIndex - 1]?.variant
+        const isFirstOfVariant = variant !== prevVariant
+        const rowSpan = rowSpans[variant]
+        return (
+          <Fragment key={`${variant}-${color}`}>
+            {isFirstOfVariant ? (
+              <Typography
+                variant='body2'
+                sx={{ fontWeight: 600, gridRow: `span ${rowSpan}` }}
+              >
+                {variant}
+              </Typography>
+            ) : null}
+            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+              {color}
+            </Typography>
+            {states.map((state) => {
+              const { children, ...restArgs } = state.args
+              return (
+                <Box key={state.key} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button variant={variant} color={color} {...restArgs}>
+                    {children ?? 'Button'}
+                  </Button>
+                </Box>
+              )
+            })}
+          </Fragment>
+        )
+      })}
+    </Box>
+  )
 }
 
 export const CoreCombinations: Story = {
   parameters: {
-    ...disableColorContrast,
     layout: 'padded',
   },
   render: () => (
     <>
       <PreviewTitle>
-        {variantColors.length} variant+color rows x {states.length} states ={' '}
-        {variantColors.length * states.length} buttons
+        Light surface: {lightSurfaceCombos.length} variant+color rows x {states.length}{' '}
+        states = {lightSurfaceCombos.length * states.length} buttons. Axe color-contrast
+        stays enforced here.
       </PreviewTitle>
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: `110px 90px repeat(${states.length}, minmax(140px, 1fr))`,
-          rowGap: 1.5,
-          columnGap: 1.5,
-          alignItems: 'center',
-        }}
-      >
-        {states.map((state) => (
-          <Typography
-            key={state.key}
-            align='center'
-            variant='body2'
-            sx={{ color: 'text.secondary' }}
-          >
-            {state.label}
-          </Typography>
-        ))}
-        {variantColors.map(({ variant, color }, rowIndex) => {
-          const prevVariant = variantColors[rowIndex - 1]?.variant
-          const isFirstOfVariant = variant !== prevVariant
-          const rowSpan = variantRowSpans[variant]
-          return (
-            <Fragment key={`${variant}-${color}`}>
-              {isFirstOfVariant ? (
-                <Typography
-                  variant='body2'
-                  sx={{ fontWeight: 600, gridRow: `span ${rowSpan}` }}
-                >
-                  {variant}
-                </Typography>
-              ) : null}
-              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                {color}
-              </Typography>
-              {states.map((state) => {
-                const { children, ...restArgs } = state.args
-                return (
-                  <Box key={state.key} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CellWrapper color={color}>
-                      <Button variant={variant} color={color} {...restArgs}>
-                        {children ?? 'Button'}
-                      </Button>
-                    </CellWrapper>
-                  </Box>
-                )
-              })}
-            </Fragment>
-          )
-        })}
-      </Box>
+      <CombinationsGrid combos={lightSurfaceCombos} />
     </>
+  ),
+}
+
+export const DarkSurfaceCombinations: Story = {
+  parameters: {
+    ...disableColorContrast,
+    layout: 'padded',
+  },
+  render: () => (
+    <Box sx={{ backgroundColor: grey[900], borderRadius: 1, p: 3, color: grey[50] }}>
+      <PreviewTitle>
+        Dark surface: {darkSurfaceCombos.length} variant+color rows x {states.length}{' '}
+        states = {darkSurfaceCombos.length * states.length} buttons. Axe color-contrast is
+        disabled - light/ghost render on top of this dark backdrop which axe cannot see
+        through the DOM.
+      </PreviewTitle>
+      <CombinationsGrid combos={darkSurfaceCombos} />
+    </Box>
   ),
 }

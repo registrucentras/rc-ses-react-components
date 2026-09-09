@@ -147,13 +147,22 @@ const MuiButton: Components['MuiButton'] = {
       position: 'relative',
       textTransform: 'none',
 
-      '&.MuiButton-loadingPositionCenter.MuiButton-loading, &.MuiButton-loadingPositionCenter.Mui-disabled':
-        {
-          color: 'transparent !important',
-          '& .MuiButton-startIcon, & .MuiButton-endIcon': {
-            visibility: 'hidden',
-          },
+      // MUI hard-codes the centered loading indicator to
+      // `palette.action.disabled` (rgba(0,0,0,0.26)) which fails WCAG 1.4.11
+      // on every light-surface variant (~1.85:1). Override to grey[600] here —
+      // (0,3,0) specificity beats MUI's single-class rule, while the more
+      // specific colorLight / colorGhost blocks below still win on dark
+      // surfaces. The `.Mui-disabled` half is dropped: `loadingPositionCenter`
+      // is only applied while `loading` is truthy.
+      '&.MuiButton-loadingPositionCenter.MuiButton-loading': {
+        color: 'transparent !important',
+        '& .MuiButton-startIcon, & .MuiButton-endIcon': {
+          visibility: 'hidden',
         },
+        '& .MuiButton-loadingIndicator': {
+          color: grey[600],
+        },
+      },
       '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
         {
           background: 'transparent',

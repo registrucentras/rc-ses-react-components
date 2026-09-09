@@ -3,6 +3,7 @@ import type { ButtonTypeMap } from '@mui/material/Button'
 import type { ExtendButtonBase } from '@mui/material/ButtonBase'
 import { useTranslation } from 'react-i18next'
 
+import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const defaultProps: Partial<MuiButtonProps> = {
@@ -33,10 +34,14 @@ function RcSesButtonComponent(props: Props) {
       {...rest}
       size={size}
       variant={currentVariant}
+      aria-busy={rest.loading || undefined}
       aria-label={
         rest.loading && rest['aria-label']
           ? `${rest['aria-label']} – ${t('components.Button.loading')}`
           : rest['aria-label']
+      }
+      loadingIndicator={
+        rest.loadingIndicator ?? <RcSesLoadingSpinner color='inherit' size={size} />
       }
       sx={[
         ...(Array.isArray(sx) ? sx : [sx]),
