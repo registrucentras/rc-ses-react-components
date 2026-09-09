@@ -241,10 +241,9 @@ describe('RcSesTitleBlock', () => {
     )
   })
 
-  test('actions slot stays inline on mobile and wraps when needed', () => {
-    // Actions render as a wrapping row at every breakpoint so mobile keeps
-    // the buttons on the same line and only breaks between them when they
-    // do not fit.
+  test('actions slot renders as a wrapping row', () => {
+    // jsdom does not evaluate media queries or measure widths, so this only
+    // asserts the base flex styles — not the actual mobile wrap behaviour.
     renderTitleBlock(
       <RcSesTitleBlock
         actions={
@@ -264,7 +263,7 @@ describe('RcSesTitleBlock', () => {
     })
   })
 
-  test('actions slot stays inline on mobile with a single action', () => {
+  test('actions slot renders as a row with a single action', () => {
     renderTitleBlock(
       <RcSesTitleBlock
         actions={<button type='button'>Užsakyti</button>}
