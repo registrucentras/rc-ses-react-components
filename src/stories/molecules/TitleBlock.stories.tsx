@@ -30,7 +30,7 @@ export default meta
 type Story = StoryObj<typeof RcSesTitleBlock>
 
 const FooterLink = ({ label, href }: { label: string; href: string }) => (
-  <RcSesCardFooter align='start' stretchOnMobile={false}>
+  <RcSesCardFooter align='start'>
     <RcSesButton
       variant='link'
       href={href}

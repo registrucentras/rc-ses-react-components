@@ -108,6 +108,9 @@ function RcSesTitleBlock({
       data-testid={testIds?.actions}
       direction='row'
       spacing={cards.header.actionsGap}
+      // Flex gap instead of sibling margin, so wrapped rows get the vertical
+      // gap and the first action of each row has no stray left margin.
+      useFlexGap
       sx={{
         alignItems: 'center',
         flexShrink: 0,

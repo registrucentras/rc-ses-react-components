@@ -22,6 +22,9 @@ function RcSesCardFooter({
       data-testid={testIds?.root}
       direction='row'
       spacing={cards.footer.gap}
+      // Flex gap instead of sibling margin, so wrapped lines pick up the
+      // vertical gap and the first child of each row has no stray left margin.
+      useFlexGap
       sx={{
         alignItems: 'center',
         justifyContent: justifyContent[align],

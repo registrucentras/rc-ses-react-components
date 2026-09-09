@@ -18,7 +18,6 @@ export interface RcSesCardFooterProps {
    * Whether direct children stretch to the full width once the row stacks.
    * Right for buttons, wrong for a text link, which is why it is a prop.
    */
-  stretchOnMobile?: boolean
   className?: string
   testIds?: RcSesCardFooterTestIds
 }
