@@ -30,7 +30,7 @@ export default meta
 type Story = StoryObj<typeof RcSesTitleBlock>
 
 const FooterLink = ({ label, href }: { label: string; href: string }) => (
-  <RcSesCardFooter align='start' stretchOnMobile={false}>
+  <RcSesCardFooter align='start'>
     <RcSesButton
       variant='link'
       href={href}
@@ -208,6 +208,45 @@ export const RowListWithIcons: Story = {
           headingId={rowBId}
           title='Pažymos santuokai sudaryti užsienyje užsakymas'
           description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <RcSesButton id={`${rowBId}-cta`} aria-labelledby={`${rowBId}-cta ${rowBId}`}>
+              Užsakyti
+            </RcSesButton>
+          }
+        />
+      </Stack>
+    )
+  },
+}
+
+export const RowListWithIconsAndLongText: Story = {
+  render: () => {
+    const rowAId = 'row-list-long-text-a'
+    const rowBId = 'row-list-long-text-b'
+    return (
+      <Stack divider={<Divider flexItem />} spacing={3}>
+        <RcSesTitleBlock
+          headingId={rowAId}
+          title='Santuoką liudijančio įrašo, patvirtinančio santuokos sudarymo faktą užsienio valstybėje, užsakymas su visomis papildomomis pastabomis'
+          description='Oficialus santuokos faktą patvirtinantis įrašas, apimantis visus civilinės metrikacijos duomenis, reikalingus tolimesnėms teisinėms procedūroms tiek Lietuvoje, tiek užsienyje. Įrašas gali būti pateikiamas įvairioms institucijoms ir naudojamas kaip oficialus patvirtinimas.'
+          titleTone='brand'
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          actions={
+            <RcSesButton
+              variant='link'
+              id={`${rowAId}-cta`}
+              aria-labelledby={`${rowAId}-cta ${rowAId}`}
+            >
+              Plačiau
+            </RcSesButton>
+          }
+        />
+        <RcSesTitleBlock
+          headingId={rowBId}
+          title='Pažymos, patvirtinančios, kad nėra kliūčių Lietuvos Respublikos piliečiui sudaryti santuoką užsienio valstybėje, užsakymas'
+          description='Ši pažyma reikalinga tais atvejais, kai Lietuvos Respublikos pilietis planuoja sudaryti santuoką užsienio valstybėje ir vietos civilinės metrikacijos institucija reikalauja oficialaus patvirtinimo, kad asmens šeiminė padėtis Lietuvoje neturi kliūčių santuokos sudarymui.'
           titleTone='brand'
           icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
           actions={

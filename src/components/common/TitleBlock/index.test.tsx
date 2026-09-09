@@ -241,10 +241,9 @@ describe('RcSesTitleBlock', () => {
     )
   })
 
-  test('actions slot stacks vertically on mobile (xs)', () => {
-    // MUI's responsive `direction={{ xs: 'column', sm: 'row' }}` emits
-    // `flex-direction: column` as the base (xs) rule; the sm breakpoint
-    // override lives behind a media query and does not affect the base style.
+  test('actions slot renders as a wrapping row', () => {
+    // jsdom does not evaluate media queries or measure widths, so this only
+    // asserts the base flex styles — not the actual mobile wrap behaviour.
     renderTitleBlock(
       <RcSesTitleBlock
         actions={
@@ -258,10 +257,13 @@ describe('RcSesTitleBlock', () => {
       />,
     )
 
-    expect(screen.getByTestId('actions')).toHaveStyle({ flexDirection: 'column' })
+    expect(screen.getByTestId('actions')).toHaveStyle({
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    })
   })
 
-  test('actions slot stacks vertically on mobile even with a single action', () => {
+  test('actions slot renders as a row with a single action', () => {
     renderTitleBlock(
       <RcSesTitleBlock
         actions={<button type='button'>Užsakyti</button>}
@@ -270,7 +272,7 @@ describe('RcSesTitleBlock', () => {
       />,
     )
 
-    expect(screen.getByTestId('actions')).toHaveStyle({ flexDirection: 'column' })
+    expect(screen.getByTestId('actions')).toHaveStyle({ flexDirection: 'row' })
   })
 
   test('omits the icon and actions slots when not provided', () => {

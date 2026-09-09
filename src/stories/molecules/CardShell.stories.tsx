@@ -262,9 +262,9 @@ export const TabletViewport: Story = {
   globals: { viewport: { value: 'tablet768' } },
 }
 
-// Pins the CardFooter align='start' + single-action + stretchOnMobile={false}
-// path at 375, so the mobile left-align regression the FooterLink helper
-// depends on stays covered by the visual suite.
+// Pins the CardFooter align='start' + single-action path at 375, so the
+// mobile left-align regression the FooterLink helper depends on stays
+// covered by the visual suite.
 export const LeftAlignedFooterMobileViewport: Story = {
   args: {
     variant: 'card',
@@ -272,7 +272,7 @@ export const LeftAlignedFooterMobileViewport: Story = {
     header: <SampleHeader />,
     children: <SampleContent />,
     footer: (
-      <RcSesCardFooter align='start' stretchOnMobile={false}>
+      <RcSesCardFooter align='start'>
         <RcSesButton variant='link'>Peržiūrėti DUK</RcSesButton>
       </RcSesCardFooter>
     ),
