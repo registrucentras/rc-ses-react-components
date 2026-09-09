@@ -40,6 +40,11 @@ function Sections({ items = ITEMS }: { items?: RcSesSideNavItem[] }) {
             height: `${SECTION_HEIGHT}px`,
             borderBottom: '1px dashed #dce0e5',
             paddingTop: '1rem',
+            // Published by the layout: the page header offset plus the mobile
+            // bar, which is sticky over the content. Without it a section the
+            // page scrolls to by its own means - a #hash deep link, say - lands
+            // with its heading behind the bar.
+            scrollMarginTop: 'var(--rc-ses-sidenav-scroll-offset, 0px)',
           }}
         >
           <Typography variant='h3' sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
@@ -62,7 +67,7 @@ const meta: Meta<typeof RcSesSideNavLayout> = {
     docs: {
       description: {
         component:
-          'RcSesSideNavLayout is the only supported way to use this component - it lays out the sticky nav column (a topic list on desktop, a horizontally scrollable pill bar on mobile) alongside its section children, which is what guarantees the desktop sticky behavior works. By default (no `activeItemId`) it tracks scroll position itself and scrolls the page on click - pass `activeItemId`/`onItemClick` to take full control instead. See `WithScrollSpy` for the default, self-contained behavior; `Main` demonstrates the fully-controlled mode, which is why it wires the state itself. `overflow` decides what happens when there are more topics than fit the screen - see `WithScrollOverflow`.',
+          'RcSesSideNavLayout is the only supported way to use this component - it lays out the sticky nav column (a topic list on desktop, a horizontally scrollable pill bar on mobile) alongside its section children, which is what guarantees the desktop sticky behavior works. By default (no `activeItemId`) it tracks scroll position itself and scrolls the page on click - pass `activeItemId`/`onItemClick` to take full control instead. See `WithScrollSpy` for the default, self-contained behavior; `Main` demonstrates the fully-controlled mode, which is why it wires the state itself. `overflow` decides what happens when there are more topics than fit the screen - see `WithScrollOverflow`. Scrolling to a section on click already clears both the page header (`offset`) and the mobile pill bar; sections scrolled to any other way should set `scrollMarginTop` to `var(--rc-ses-sidenav-scroll-offset)`, which the layout keeps up to date on the element wrapping them.',
       },
     },
   },

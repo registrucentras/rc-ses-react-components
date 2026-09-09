@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import normalizeSx from '@/components/utils/normalizeSx'
@@ -8,6 +8,7 @@ import palette, { common } from '@/theme/palette'
 import { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
 import SideNavPillList from './components/SideNavPillList'
 import SideNavRow from './components/SideNavRow'
+import useElementHeight from './hooks/useElementHeight'
 import useKeepActiveItemInView from './hooks/useKeepActiveItemInView'
 
 const ROW_GAP = '0.25rem'
@@ -19,11 +20,13 @@ function RcSesSideNav({
   title,
   overflow = 'fit',
   offset = 0,
+  onOverlayHeightChange,
   sx,
 }: RcSesSideNavProps) {
   const { t } = useTranslation('common', { keyPrefix: 'components.RcSesSideNav' })
   const navTitle = title ?? t('title')
   const rowListRef = useRef<HTMLDivElement>(null)
+  const pillBarRef = useRef<HTMLDivElement>(null)
 
   const isScrollable = overflow === 'scroll'
   useKeepActiveItemInView({
@@ -33,6 +36,13 @@ function RcSesSideNav({
     enabled: isScrollable,
     behavior: 'smooth',
   })
+
+  // 0 above the mobile breakpoint, where the bar is display: none and the nav is
+  // a column beside the content rather than a layer on top of it.
+  const overlayHeight = useElementHeight(pillBarRef)
+  useEffect(() => {
+    onOverlayHeightChange?.(overlayHeight)
+  }, [overlayHeight, onOverlayHeightChange])
 
   const getItemAriaLabel = (item: RcSesSideNavItem) =>
     item.count !== undefined
@@ -98,7 +108,7 @@ function RcSesSideNav({
         </Box>
       </Box>
 
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      <Box ref={pillBarRef} sx={{ display: { xs: 'block', md: 'none' } }}>
         <SideNavPillList
           items={items}
           activeItemId={activeItemId}
