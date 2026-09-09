@@ -129,10 +129,7 @@ function RcSesTitleBlock({
       // leaving a sibling-selector margin above the title.
       useFlexGap
       sx={{
-        alignItems:
-          isVertical || hasDescription
-            ? 'flex-start'
-            : { xs: 'flex-start', sm: 'center' },
+        alignItems: isVertical ? 'flex-start' : { xs: 'flex-start', sm: 'center' },
         width: '100%',
       }}
     >
