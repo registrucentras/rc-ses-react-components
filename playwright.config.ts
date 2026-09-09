@@ -35,15 +35,9 @@ export default defineConfig({
       // Anti-aliasing differs very slightly even within the same image; a small
       // pixel budget avoids false positives without hiding real changes.
       //
-      // The ratio is a share of the captured image, and shots are clipped to the
-      // component (see visual/stories.spec.ts), so 1% now means 1% of what is
-      // being tested. It is still the wrong shape for the largest baselines:
-      // `organisms-sidenav--with-scroll-overflow` is 1248x3936, where 1% is
-      // ~49000 pixels. `maxDiffPixels` caps that in absolute terms, and
-      // Playwright applies `Math.min` of the two, so whichever is stricter for a
-      // given baseline wins. Both are deliberate: the ratio keeps small
-      // components from being held to a budget bigger than themselves, the cap
-      // keeps large ones from being held to no real budget at all.
+      // Playwright takes `Math.min` of the two, so the ratio binds on small
+      // baselines and the cap on large ones - 1% of the 1248x3936 SideNav shot
+      // would otherwise be ~49000 pixels.
       maxDiffPixelRatio: 0.01,
       maxDiffPixels: 400,
       // Give fonts and MUI transitions a moment to settle before capturing.

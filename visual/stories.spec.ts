@@ -12,20 +12,14 @@ import { fileURLToPath } from 'node:url'
  *
  * Opt a story out by adding the `no-snapshot` tag to it.
  *
- * Shots are clipped to `#storybook-root` rather than captured `fullPage`, so the
- * diff budget is a share of the component under test instead of a share of the
- * page around it (LIB-19). Under `fullPage` a 1280x720 shot gave every story the
- * same 9216-pixel allowance, which for a 32x32 switch was larger than the whole
- * component - three regressions reached a release through that gap.
+ * Shots are clipped to `#storybook-root`, so the diff budget is a share of the
+ * component rather than of the page around it (LIB-19).
  */
 
 /**
- * Layers MUI renders through a portal on `<body>`, i.e. outside
- * `#storybook-root`. Ten stories currently rely on one: the dialog, popover,
- * tooltip, full-page loader and open-calendar stories. `organisms-dialog--open`
- * is the clearest case - its root holds only the 32x32 trigger button while the
- * dialog itself is portalled, so clipping to the root would capture the trigger
- * and silently stop testing the dialog.
+ * Layers MUI renders through a portal on `<body>`, outside `#storybook-root`.
+ * A story rendering one has to be captured `fullPage` or the shot misses it:
+ * `organisms-dialog--open` keeps only its 32x32 trigger in the root.
  */
 const PORTAL_LAYER_SELECTOR = [
   '.MuiModal-root',
@@ -94,11 +88,8 @@ const viewportWidth = (tags: string[] | undefined) => {
 }
 
 /**
- * `body.sb-show-main` goes on as soon as Storybook hands the story to React, so
- * it can be set a frame before anything is laid out. Waiting for a measurable
- * box makes that race explicit: without it the run leans on
- * `toHaveScreenshot`'s retries, which turns a genuinely empty story into a
- * screenshot timeout rather than a clear failure.
+ * `body.sb-show-main` is set when Storybook hands the story to React, which can
+ * be a frame before anything is laid out, so wait for a measurable box.
  */
 const waitForStoryPaint = (page: Page) =>
   page.waitForFunction((selector: string) => {
@@ -157,9 +148,7 @@ test.describe('Storybook visual regression', () => {
       // before Public Sans has finished loading.
       await page.evaluate(() => document.fonts.ready)
 
-      // Detected rather than declared, so a new portalled story needs no
-      // registration - the same reason the story list is read from the build.
-      // `snapshot-fullpage` forces this path for anything the check misses.
+      // `snapshot-fullpage` overrides the check, for a portal it cannot see.
       const isPortalled =
         story.tags?.includes('snapshot-fullpage') || (await hasPortalledLayer(page))
 
