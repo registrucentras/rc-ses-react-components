@@ -7,12 +7,13 @@ import useElementHeight from './useElementHeight'
 type ResizeCallback = () => void
 
 const resizeCallbacks: ResizeCallback[] = []
+const disconnect = vi.fn()
 
 // Matches the sibling SideNav suites: a plain function, so `new` hands back the
 // object below rather than a class instance ESLint wants methods on.
 function ResizeObserverMock(callback: ResizeCallback) {
   resizeCallbacks.push(callback)
-  return { observe: () => {}, unobserve: () => {}, disconnect: () => {} }
+  return { observe: () => {}, unobserve: () => {}, disconnect }
 }
 
 function elementOfHeight(height: number) {
@@ -21,6 +22,12 @@ function elementOfHeight(height: number) {
     () => ({ height }) as DOMRect,
   )
   return element
+}
+
+function remeasureAt(element: HTMLElement, height: number) {
+  vi.spyOn(element, 'getBoundingClientRect').mockImplementation(
+    () => ({ height }) as DOMRect,
+  )
 }
 
 function renderWithElement(element: HTMLElement | null) {
@@ -32,6 +39,7 @@ function renderWithElement(element: HTMLElement | null) {
 describe('useElementHeight', () => {
   afterEach(() => {
     resizeCallbacks.length = 0
+    disconnect.mockClear()
     vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
@@ -73,44 +81,53 @@ describe('useElementHeight', () => {
     const element = elementOfHeight(62)
 
     const { result } = renderWithElement(element)
-    vi.spyOn(element, 'getBoundingClientRect').mockImplementation(
-      () => ({ height: 104 }) as DOMRect,
-    )
+    remeasureAt(element, 104)
     act(() => resizeCallbacks.forEach((callback) => callback()))
 
     expect(result.current).toBe(104)
   })
 
-  it('re-measures on a viewport resize', () => {
+  // A viewport resize that changes the element's box is a resize of the element,
+  // so the observer already reports it and a second listener would only measure
+  // the same thing twice.
+  it('does not listen for viewport resizes alongside the observer', () => {
     vi.stubGlobal('ResizeObserver', ResizeObserverMock)
+    const addEventListener = vi.spyOn(window, 'addEventListener')
+
+    renderWithElement(elementOfHeight(62))
+
+    expect(addEventListener).not.toHaveBeenCalledWith('resize', expect.anything())
+  })
+
+  it('falls back to a viewport resize listener where ResizeObserver is missing', () => {
+    vi.stubGlobal('ResizeObserver', undefined)
     const element = elementOfHeight(62)
 
     const { result } = renderWithElement(element)
-    vi.spyOn(element, 'getBoundingClientRect').mockImplementation(
-      () => ({ height: 0 }) as DOMRect,
-    )
+    expect(result.current).toBe(62)
+
+    remeasureAt(element, 0)
     act(() => window.dispatchEvent(new Event('resize')))
 
     expect(result.current).toBe(0)
   })
 
-  it('still measures where ResizeObserver is unavailable', () => {
-    vi.stubGlobal('ResizeObserver', undefined)
+  it('disconnects the observer once unmounted', () => {
+    vi.stubGlobal('ResizeObserver', ResizeObserverMock)
 
-    const { result } = renderWithElement(elementOfHeight(62))
+    const { unmount } = renderWithElement(elementOfHeight(62))
+    unmount()
 
-    expect(result.current).toBe(62)
+    expect(disconnect).toHaveBeenCalled()
   })
 
-  it('stops listening once unmounted', () => {
-    vi.stubGlobal('ResizeObserver', ResizeObserverMock)
+  it('drops the fallback listener once unmounted', () => {
+    vi.stubGlobal('ResizeObserver', undefined)
     const element = elementOfHeight(62)
 
     const { result, unmount } = renderWithElement(element)
     unmount()
-    vi.spyOn(element, 'getBoundingClientRect').mockImplementation(
-      () => ({ height: 104 }) as DOMRect,
-    )
+    remeasureAt(element, 104)
     act(() => window.dispatchEvent(new Event('resize')))
 
     expect(result.current).toBe(62)
