@@ -1,0 +1,10 @@
+import{l as e,W as i}from"./iframe-CENckQZf.js";import{L as s}from"./index-D3LR9fvm.js";import"./preload-helper-PPVm8Dsz.js";import"./Box-bPJk0iff.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./Typography-C6XD4amE.js";import"./memoTheme-DuGMjUk-.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./Tooltip-ClNxWc8_.js";import"./useReducedMotion-DHyYPphk.js";import"./useSlot-C1HhZ5nJ.js";import"./mergeSlotProps-DpW5LE0-.js";import"./useTimeout-BgjeWFP0.js";import"./useControlled-DHaLmav_.js";import"./getReactElementRef-tsQrQASR.js";import"./Grow-BIFGtsfY.js";import"./Transition-Du9SiglK.js";import"./utils-cxgvJEOf.js";import"./Popper-1nC-_I6K.js";import"./ownerDocument-DW-IO8s5.js";import"./Portal-CsiVW1-D.js";import"./index-BzZIx3ol.js";import"./index-CKla6tS1.js";import"./setRef-CQn2LYBI.js";import"./useSlotProps-_Ee7A4Hi.js";import"./isFocusVisible-B8k4qzLc.js";import"./Skeleton-8Msd68Ku.js";const a=[{icon:e,text:"Application received",tooltip:"The submission was successfully received."},{icon:i,text:"Requires review",tooltip:"A specialist will review the provided details."},{icon:i,text:"Unavailable item",tooltip:"This item is currently disabled.",disabled:!0}],q={title:"Molecules/ListWithIcons",component:s,tags:["autodocs"],args:{items:a,layout:"vertical",isLoading:!1},argTypes:{layout:{control:{type:"radio"},options:["vertical","horizontal"]},isLoading:{control:{type:"boolean"}},items:{control:!1}}},o={},t={args:{layout:"horizontal"}},r={args:{isLoading:!0}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:"{}",...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    layout: 'horizontal'
+  }
+}`,...t.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  args: {
+    isLoading: true
+  }
+}`,...r.parameters?.docs?.source}}};const E=["Main","Horizontal","Loading"];export{t as Horizontal,r as Loading,o as Main,E as __namedExportsOrder,q as default};
+//# sourceMappingURL=ListWithIcons.stories-C0fl0EyU.js.map
