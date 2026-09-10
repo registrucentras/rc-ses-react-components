@@ -61,7 +61,7 @@ Adjustments so far:
 Running total **23.25h** against the 20h budget.
 
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** Phase 5 — LIB-15 (recommended: drop, see below) and LIB-18 (`2.0.0`). LIB-17 validation is done, LIB-19 is done.
+**Open:** Phase 5 — LIB-18 (`2.0.0`) only. LIB-17 validation is done, LIB-19 is done. LIB-15 is **deferred out of 2.0.0** to the 2.1.0 line (decided 2026-09-10, see below); it ships as #154.
 
 ### Phase 5 progress — as of 2026-08-25
 
@@ -159,9 +159,9 @@ This is the entire argument for LIB-17 existing: nothing in this repo's own test
 
 `deploy-storybook.yml` deployed to the site root on *any* published release, so `v2.0.0-rc.0` replaced the published Storybook with an unreleased library and `main` had to be re-deployed by hand. Pre-releases now go to `preview/<tag>/` instead (`fd40f5e`), verified on the `rc.1` run — the root step shows as skipped. `build-and-publish.yml` already branched on the same `release.prerelease` flag for the npm dist-tag, which is why `latest` correctly stayed on `1.12.0`.
 
-#### LIB-15 — recommendation: drop from 2.0.0
+#### LIB-15 — dropped from 2.0.0, decided 2026-09-10
 
-The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. Not breaking, so deferring it does not force a later major.
+The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. No prop is added or removed, so deferring it does not force a later major — but it is not render-identical either: in #154 children stay in the DOM behind a CSS-hidden label instead of being replaced by the spinner, and `startIcon`/`endIcon` only hide when `loadingPosition` is set. The library's own Button tests had to be rewritten for it, so consumer tests asserting the 1.x / 2.0.0 behaviour will break on the minor. It wants calling out in the 2.1.0 release notes rather than shipping silently.
 
 **As of 2026-07-31 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 161/161 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
 
@@ -575,13 +575,13 @@ Two notes for whoever runs the release:
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-15** | SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
+| **LIB-15** | ⏭️ *Atidėta į 2.1.0* — SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
 | **LIB-16** | ✅ Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
 | **LIB-17** | `2.0.0-rc.0` išleidimas ir validavimas su ses-ui | **1h** | LIB-16 |
 | **LIB-19** | Vizualinio regreso tikrinimo sugriežtinimas (kadravimas iki komponento) | **0.5h** | - |
 | **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
 
-**LIB-15** — unlocked by LIB-08c. `src/components/common/Button/index.tsx` carries `// TODO: use MUI's loading prop when MUI lib upgrade is done`. Breaking, so it belongs in 2.0.0. Links to existing ticket **SAV-5916**.
+**LIB-15** — unlocked by LIB-08c, but **deferred out of 2.0.0** to the 2.1.0 line, for the reasons under *LIB-15 — dropped from 2.0.0* above. The `// TODO: use MUI's loading prop when MUI lib upgrade is done` it was written against is gone: LIB-08a replaced it with the comment now at `src/components/common/Button/index.tsx:29`, which records why the swap is a separate change. 2.0.0 therefore ships the custom `RcSesLoadingSpinner`, and the swap ships as #154. Links to existing ticket **SAV-5916**.
 **LIB-19** — do this before 2.0.0 ships. `visual/stories.spec.ts` screenshots `fullPage` and
 `playwright.config.ts` allows `maxDiffPixelRatio: 0.01`, so the budget scales with the page while the
 component under test does not. On a 1280x720 shot that is 9216 pixels, which is often larger than the
