@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 
-type Props = {
+interface Props {
   activeTab: number
   children?: React.ReactNode
   index: number

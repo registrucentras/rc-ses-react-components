@@ -4,8 +4,8 @@ import { ReactElement } from 'react'
 
 import theme from '@/theme/light'
 
+import RcSesCardFormContainer from '.'
 import { StepItem } from '../../ServiceWizardStepper/StepperTypes'
-import RcSesCardFormContainer from './index'
 
 const baseSteps: StepItem[] = [
   { id: '1', title: 'Step 1' },

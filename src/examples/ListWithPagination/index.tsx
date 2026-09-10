@@ -58,8 +58,6 @@ function ListWithPagination() {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
 
   useEffect(() => {
-    setIsLoading(true)
-
     const timer = setTimeout(() => {
       setData(mapToSelectableItems(mockApiData))
       setIsLoading(false)

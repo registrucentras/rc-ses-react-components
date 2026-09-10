@@ -2,7 +2,11 @@ node_modules
 dist
 coverage
 storybook-static
+debug-storybook.log
+playwright-report
 test-results
+blob-report
+.playwright
 .env
 .git
 .DS_Store

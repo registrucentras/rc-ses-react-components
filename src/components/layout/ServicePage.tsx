@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 
-type Props = {
+interface Props {
   children: React.ReactNode
 }
 function ServicePage({ children }: Props) {

@@ -124,60 +124,68 @@ function RcSesPhoneInputFormControl(props: Props) {
       <TextField
         {...controllerProps}
         fullWidth
-        InputProps={{
-          startAdornment: (
-            <Stack alignItems='center' direction='row'>
-              <InputAdornment position='start' sx={{ mr: 0 }}>
-                <Button
-                  aria-describedby={popperId}
-                  aria-label={t('aria.countrySelectorLabel')}
-                  aria-haspopup
-                  color='inherit'
-                  onClick={handleClick}
-                  sx={{
-                    backgroundColor: 'white',
-                    minWidth: 'unset',
-                    px: 1.5,
-                  }}
-                >
-                  <Box
-                    className={`flag-sprite-map flag-${country?.iso}`}
+        slotProps={{
+          // Was inputProps: targets the native <input>.
+          htmlInput: {
+            id,
+            pattern: '^[0-9\\(\\)\\- ]*$/',
+          },
+          // Was InputProps: targets the OutlinedInput wrapper.
+          input: {
+            startAdornment: (
+              <Stack
+                direction='row'
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
+                <InputAdornment position='start' sx={{ mr: 0 }}>
+                  <Button
+                    aria-describedby={popperId}
+                    aria-label={t('aria.countrySelectorLabel')}
+                    aria-haspopup
+                    color='inherit'
+                    onClick={handleClick}
                     sx={{
-                      backgroundSize: '2rem auto',
-                      borderRadius: '50%',
-                      height: '1.25rem',
-                      width: '1.25rem',
+                      backgroundColor: 'white',
+                      minWidth: 'unset',
+                      px: 1.5,
                     }}
-                    title={country?.name}
+                  >
+                    <Box
+                      className={`flag-sprite-map flag-${country?.iso}`}
+                      sx={{
+                        backgroundSize: '2rem auto',
+                        borderRadius: '50%',
+                        height: '1.25rem',
+                        width: '1.25rem',
+                      }}
+                      title={country?.name}
+                    />
+                    <Box component='span' sx={{ display: 'flex', ml: 1 }}>
+                      <CaretDownFill aria-hidden size={12} />
+                    </Box>
+                  </Button>
+                </InputAdornment>
+
+                <InputAdornment position='start'>
+                  <Divider
+                    orientation='vertical'
+                    sx={{
+                      borderColor: palette.grey[500],
+                      height: '1.25rem',
+                    }}
                   />
-                  <Box component='span' sx={{ display: 'flex', ml: 1 }}>
-                    <CaretDownFill aria-hidden size={12} />
-                  </Box>
-                </Button>
-              </InputAdornment>
+                </InputAdornment>
 
-              <InputAdornment position='start'>
-                <Divider
-                  orientation='vertical'
-                  sx={{
-                    borderColor: palette.grey[500],
-                    height: '1.25rem',
-                  }}
-                />
-              </InputAdornment>
-
-              <InputAdornment position='start'>
-                <Typography color={palette.grey[900]} component='span'>
-                  {country.code}
-                </Typography>
-              </InputAdornment>
-            </Stack>
-          ),
-        }}
-        // eslint-disable-next-line react/jsx-no-duplicate-props
-        inputProps={{
-          id,
-          pattern: '^[0-9\\(\\)\\- ]*$/',
+                <InputAdornment position='start'>
+                  <Typography sx={{ color: palette.grey[900] }} component='span'>
+                    {country.code}
+                  </Typography>
+                </InputAdornment>
+              </Stack>
+            ),
+          },
         }}
         placeholder={mask.opts.mask?.toString()}
         value={mask.masked(phoneValue.replace(country.code ?? '', ''))}
@@ -188,7 +196,6 @@ function RcSesPhoneInputFormControl(props: Props) {
           })
         }
       />
-
       <Popper
         anchorEl={anchorEl}
         id={popperId}
@@ -216,7 +223,6 @@ function RcSesPhoneInputFormControl(props: Props) {
               }
               getOptionLabel={(option) => option.name}
               isOptionEqualToValue={(o, v) => o.code === v.code}
-              ListboxComponent={ListboxComponent}
               onChange={(e, selection) => {
                 e.preventDefault()
                 setAnchorEl(null)
@@ -225,13 +231,20 @@ function RcSesPhoneInputFormControl(props: Props) {
               }}
               open
               options={countryOptions}
-              PopperComponent={PopperComponent}
               renderInput={AutocompleteInput}
               renderOption={(optionProps, option) =>
                 [optionProps, option] as React.ReactNode
               }
               sx={{ width: 300 }}
               {...slotProps?.autocomplete}
+              slots={{
+                popper: PopperComponent,
+              }}
+              slotProps={{
+                listbox: {
+                  component: ListboxComponent,
+                },
+              }}
             />
           </Box>
         </ClickAwayListener>

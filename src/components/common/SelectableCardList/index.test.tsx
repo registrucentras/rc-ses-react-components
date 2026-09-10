@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 import theme from '@/theme/light'
 
-import SelectableCardList, { type SelectableCardListItemData } from './index'
+import SelectableCardList, { type SelectableCardListItemData } from '.'
 
 vi.mock('@mui/material', async () => {
   const actual = await vi.importActual<typeof import('@mui/material')>('@mui/material')

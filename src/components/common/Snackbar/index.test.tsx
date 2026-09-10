@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesSnackbar from './index'
+import RcSesSnackbar from '.'
 
 const DEFAULT_PROPS = { state: 'success' as const, message: 'Test', open: true }
 
@@ -113,6 +113,46 @@ describe('RcSesSnackbar', () => {
     )
 
     expect(screen.queryByRole('button', { name: 'Undo' })).not.toBeInTheDocument()
+  })
+
+  test('follows the open prop when the parent toggles it', () => {
+    const { rerender } = renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} open />)
+    expect(screen.getByText('Test')).toBeInTheDocument()
+
+    rerender(
+      <ThemeProvider theme={theme}>
+        <RcSesSnackbar {...DEFAULT_PROPS} open={false} />
+      </ThemeProvider>,
+    )
+    act(() => {
+      vi.runOnlyPendingTimers()
+    })
+    expect(screen.queryByText('Test')).not.toBeInTheDocument()
+
+    rerender(
+      <ThemeProvider theme={theme}>
+        <RcSesSnackbar {...DEFAULT_PROPS} open />
+      </ThemeProvider>,
+    )
+    expect(screen.getByText('Test')).toBeInTheDocument()
+  })
+
+  test('still closes from the inside while the parent holds open at true', () => {
+    const { rerender } = renderSnackbar(<RcSesSnackbar {...DEFAULT_PROPS} open />)
+    fireEvent.keyDown(getMuiSnackbar(), { key: 'Escape', code: 'Escape' })
+    act(() => {
+      vi.runOnlyPendingTimers()
+    })
+    expect(screen.queryByText('Test')).not.toBeInTheDocument()
+
+    // A re-render with `open` unchanged must not resurrect it - only an actual
+    // false -> true transition of the prop may reopen the snackbar.
+    rerender(
+      <ThemeProvider theme={theme}>
+        <RcSesSnackbar {...DEFAULT_PROPS} open />
+      </ThemeProvider>,
+    )
+    expect(screen.queryByText('Test')).not.toBeInTheDocument()
   })
 
   test('has correct accessibility attributes', () => {

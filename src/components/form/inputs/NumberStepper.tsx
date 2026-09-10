@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Button, OutlinedInput, OutlinedInputProps, styled } from '@mui/material'
 import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
@@ -52,7 +51,7 @@ const NumberInput = styled(OutlinedInput)({
   },
 })
 
-type ArrowButtonProps = {
+interface ArrowButtonProps {
   ariaLabel: string
   direction: 'plus' | 'minus'
   disabled: boolean
@@ -111,8 +110,6 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
 function RcSesNumberStepper(props: Props) {
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesNumberStepper' })
 
-  const [buttonState, setButtonState] = React.useState<[boolean, boolean]>([true, true])
-
   const {
     control,
     displayStepperControls,
@@ -139,20 +136,21 @@ function RcSesNumberStepper(props: Props) {
     ...slotProps?.controller,
   })
 
-  React.useEffect(() => {
+  // [subtractDisabled, addDisabled] - derived from the current value and the
+  // controller rules, so the buttons render with the right state on first paint.
+  const buttonState = useMemo<[boolean, boolean]>(() => {
     if (disabled) {
-      setButtonState([true, true])
-      return
+      return [true, true]
     }
 
-    setButtonState([
+    return [
       Number.isInteger(rules?.min)
         ? parseInt(rules?.min as string, 10) >= parseInt((value ?? 0) as string, 10)
         : false,
       Number.isInteger(rules?.max)
         ? parseInt(rules?.max as string, 10) <= parseInt((value ?? 0) as string, 10)
         : false,
-    ])
+    ]
   }, [disabled, rules?.max, rules?.min, value])
 
   const handleInputOnChange = (
@@ -194,10 +192,16 @@ function RcSesNumberStepper(props: Props) {
           )
         }
         error={!!errors}
-        inputProps={{
-          disabled,
-          step,
-          value,
+        slotProps={{
+          // Was inputProps. Note this is OutlinedInput, not TextField: its
+          // native-input slot is called `input` (TextField's `input` is the
+          // OutlinedInput wrapper and its native slot is `htmlInput`), so the
+          // mapping is per-component rather than a blanket rename.
+          input: {
+            disabled,
+            step,
+            value,
+          },
         }}
         onChange={handleInputOnChange}
         type='number'

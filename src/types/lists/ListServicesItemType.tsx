@@ -1,8 +1,8 @@
 import React from 'react'
 
-export type ListServicesItemType = {
+export interface ListServicesItemType {
   title: string
   Icon?: React.FC | undefined
   limit?: number | undefined
-  items: Array<string>
+  items: string[]
 }

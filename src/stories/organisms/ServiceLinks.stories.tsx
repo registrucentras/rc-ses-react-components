@@ -1,0 +1,154 @@
+import { BriefcaseIcon } from '@phosphor-icons/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+
+import RcSesButton from '@/components/common/Button'
+import RcSesCardShell from '@/components/common/CardShell'
+import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
+import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
+import RcSesServiceLinks from '@/components/common/ServiceLinks'
+import {
+  RcSesServiceLinkItem,
+  RcSesServiceLinksProps,
+} from '@/components/common/ServiceLinks/types'
+import RcSesTitleBlock from '@/components/common/TitleBlock'
+
+const baseItems: RcSesServiceLinkItem[] = [
+  { label: 'Juridinių asmenų registro (JAR) išrašas', href: '#jar' },
+  { label: 'Juridinio asmens steigimas', href: '#steigimas' },
+  { label: 'Dalyvių sąrašo teikimas (JADIS)', href: '#jadis' },
+  { label: 'Įmonių ir organizacijų dokumentų kopijos', href: '#kopijos' },
+]
+
+const meta: Meta<typeof RcSesServiceLinks> = {
+  title: 'Organisms/ServiceLinks',
+  component: RcSesServiceLinks,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'ServiceLinks is a standalone, vertical list of navigational service links, each row pairing a label with a trailing arrow. It carries no card shell of its own and is intended to be placed inside a CardShell content, could be together with a CardHeader and CardFooter.',
+      },
+    },
+    viewport: {
+      options: {
+        mobile375: { name: 'Mobile 375', styles: { height: '900px', width: '375px' } },
+        tablet768: { name: 'Tablet 768', styles: { height: '900px', width: '768px' } },
+      },
+    },
+  },
+  argTypes: {
+    items: { control: false },
+    dividers: { control: 'boolean' },
+    isLoading: { control: 'boolean' },
+    skeletonCount: { control: 'number' },
+    linkComponent: { control: false },
+    testIds: { control: false },
+  },
+}
+
+export default meta
+
+type Story = StoryObj<typeof RcSesServiceLinks>
+
+export const Default: Story = {
+  args: {
+    items: baseItems,
+    dividers: true,
+  },
+}
+
+export const WithoutDividers: Story = {
+  args: {
+    items: baseItems,
+    dividers: false,
+  },
+}
+
+export const WithDisabledItem: Story = {
+  args: {
+    items: [...baseItems.slice(0, 3), { label: 'Netrukus (neaktyvus)', disabled: true }],
+    dividers: true,
+  },
+}
+
+export const Loading: Story = {
+  args: {
+    items: [],
+    isLoading: true,
+    skeletonCount: 4,
+  },
+}
+
+/**
+ * Items with `target='_blank'` open in a new tab. The shell automatically
+ * adds `rel='noopener noreferrer'` on those rows for safety; other rows get
+ * no `rel` attribute.
+ */
+export const ExternalLinks: Story = {
+  args: {
+    items: [
+      { label: 'Vidinė nuoroda', href: '#internal' },
+      {
+        label: 'Išorinė nuoroda (naujame lange)',
+        href: 'https://example.com',
+        target: '_blank',
+      },
+    ],
+    dividers: true,
+  },
+}
+
+/**
+ * Passing a `linkComponent` renders every navigable row through it. The shell
+ * forwards `href`, `onClick`, and (when the item sets `target='_blank'`) also
+ * `target` and `rel='noopener noreferrer'`. Adapt a router `Link` with a
+ * one-line wrapper — as long as it renders a real `<a>` underneath,
+ * middle-click and "open in new tab" keep working.
+ */
+export const WithRouterLink: Story = {
+  args: {
+    items: baseItems,
+    dividers: true,
+    linkComponent: ({ href, children, ...rest }: React.ComponentProps<'a'>) => (
+      // Stand-in for a router `Link`; a real adapter would forward `href`
+      // as `to`, e.g. `<RouterLink to={href!} {...rest}>{children}</RouterLink>`.
+      <a href={href} {...rest} data-router-link>
+        {children}
+      </a>
+    ),
+  },
+}
+
+/**
+ * The intended composition: ServiceLinks placed inside a CardShell as the
+ * content slot, framed by a CardHeader and a CardFooter.
+ */
+export const InsideCardShell: Story = {
+  render: (args: RcSesServiceLinksProps) => (
+    <RcSesCardShell
+      theme='brand'
+      borderless
+      header={
+        <RcSesTitleBlock
+          icon={<RcSesIconWithSquareBackground Icon={BriefcaseIcon} variant='solid' />}
+          title='Įmonėms ir organizacijoms'
+          titleVariant='h5'
+        />
+      }
+      footer={
+        <RcSesCardFooter align='start'>
+          <RcSesButton variant='contained' color='primary'>
+            Žiūrėti visas
+          </RcSesButton>
+        </RcSesCardFooter>
+      }
+    >
+      <RcSesServiceLinks {...args} />
+    </RcSesCardShell>
+  ),
+  args: {
+    items: baseItems,
+    dividers: true,
+  },
+}

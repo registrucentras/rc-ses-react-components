@@ -1,4 +1,6 @@
 import { Button as MuiButton, ButtonProps as MuiButtonProps } from '@mui/material'
+import type { ButtonTypeMap } from '@mui/material/Button'
+import type { ExtendButtonBase } from '@mui/material/ButtonBase'
 import { useTranslation } from 'react-i18next'
 
 import RcSesLoadingSpinner, { getSpinnerColor } from '@/components/loaders/LoadingSpinner'
@@ -16,12 +18,18 @@ const ICON_ONLY_SIZE_MAP = {
   large: '3rem',
 } as const
 
-// TODO: use MUI's loading prop when MUI lib upgrade is done
-type Props = ButtonProps & {
-  loading?: boolean
-}
+// MUI 6 added a native `loading` prop (`boolean | null`, alongside
+// `loadingIndicator` and `loadingPosition`), so it no longer needs declaring
+// here - re-declaring it as `boolean` conflicted with MUI's nullable type at
+// every call site that spreads ButtonProps.
+//
+// Behaviour is unchanged: `loading` is still destructured out below and drives
+// the custom RcSesLoadingSpinner, so it never reaches MuiButton and the native
+// indicator stays inactive. Switching over to MUI's implementation is a
+// breaking change, tracked as SAV-5916.
+type Props = ButtonProps
 
-function RcSesButton(props: Props) {
+function RcSesButtonComponent(props: Props) {
   const { t } = useTranslation('common')
   const {
     children,
@@ -90,5 +98,17 @@ function RcSesButton(props: Props) {
     </MuiButton>
   )
 }
+
+/**
+ * Declared the way MUI declares its own `Button`, rather than as a plain
+ * function component. `component={Link}` has to bring the target component's
+ * props with it - without this, `<RcSesButton component={Link} to='/x' />` fails
+ * with "Property 'to' does not exist", which is how ~38 call sites in `ses-ui`
+ * were compiling against 1.x (it declared a bare `to?: string`, which allowed
+ * `to` even when no `component` was given).
+ */
+const RcSesButton = RcSesButtonComponent as ExtendButtonBase<
+  ButtonTypeMap<{ iconOnly?: boolean }>
+>
 
 export default RcSesButton

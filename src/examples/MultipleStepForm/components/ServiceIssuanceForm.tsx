@@ -4,7 +4,7 @@ import RcSesAlert from '@/components/common/Alert'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSelect from '@/components/form/inputs/Select'
 
-type FormModel = {
+interface FormModel {
   issuanceMethod: string
   rcBranch: string
 }
@@ -29,7 +29,6 @@ function ServiceIssuanceForm() {
         Primename, kad atsiimant rezultatus padalinyje su savimi privalote turėti asmens
         tapatybę patvirtinantį dokumentą.
       </RcSesAlert>
-
       <RcSesRadioButtonGroup
         id='issuanceMethod'
         name='issuanceMethod'
@@ -45,7 +44,6 @@ function ServiceIssuanceForm() {
         ]}
         hideNativeRadio
       />
-
       <RcSesSelect
         id='rcBranch'
         name='rcBranch'

@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import inputEn from '@/i18n/namespaces/input/en.json'
 import inputLt from '@/i18n/namespaces/input/lt.json'
 
-import RcSesModal from './index'
+import RcSesModal from '.'
 
 beforeAll(() => {
   if (!i18n.isInitialized) {

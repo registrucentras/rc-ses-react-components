@@ -55,25 +55,26 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
     }, [isDisabled, isSelected])
 
     const buttonStyles = useMemo(
-      () =>
-        ({
-          flex: '0 1 auto',
-          minWidth: '0',
-          height: 'auto',
-          wordBreak: 'break-word',
-          fontFamily: '"Public Sans", sans-serif !important',
-          border: `2px solid ${isFocused && !isDisabled ? primary['500'] : 'transparent'}`,
-          backgroundColor: isSelected
-            ? `${primary['50']} !important`
-            : 'transparent !important',
-          color: textColor,
-          cursor: isDisabled ? 'not-allowed' : 'pointer',
-          fontWeight: 500,
-          borderRadius: '8px',
-          transition: 'all 150ms ease-in-out',
-          whiteSpace: 'normal',
-          ...sizeStyles,
-        }) as React.CSSProperties,
+      () => ({
+        flex: '0 1 auto',
+        minWidth: '0',
+        height: 'auto',
+        wordBreak: 'break-word',
+        fontFamily: '"Public Sans", sans-serif !important',
+        border: `2px solid ${isFocused && !isDisabled ? primary['500'] : 'transparent'}`,
+
+        backgroundColor: isSelected
+          ? `${primary['50']} !important`
+          : 'transparent !important',
+
+        color: textColor,
+        cursor: isDisabled ? 'not-allowed' : 'pointer',
+        fontWeight: 500,
+        borderRadius: '8px',
+        transition: 'all 150ms ease-in-out',
+        whiteSpace: 'normal',
+        ...sizeStyles,
+      }),
       [sizeStyles, isDisabled, isSelected, isFocused, textColor],
     )
 

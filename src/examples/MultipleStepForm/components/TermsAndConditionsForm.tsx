@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 
-type FormModel = {
+interface FormModel {
   agreement: boolean
 }
 
@@ -32,8 +32,8 @@ function TermsAndConditionsForm() {
           label: {
             slotProps: {
               typography: {
-                fontWeight: 600,
-                lineHeight: '1.3125rem',
+                // MUI 9 no longer accepts style shorthands on this slot.
+                sx: { fontWeight: 600, lineHeight: '1.3125rem' },
                 variant: 'body1',
               },
             },
