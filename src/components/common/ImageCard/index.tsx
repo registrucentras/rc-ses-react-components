@@ -7,7 +7,7 @@ export type RcSesImageCardTestIds = Pick<
   'root' | 'image' | 'header' | 'title' | 'description' | 'content'
 >
 
-export type RcSesImageCardProps = {
+export interface RcSesImageCardProps {
   image: ReactNode
   title: ReactNode
   description?: ReactNode

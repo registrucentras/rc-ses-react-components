@@ -1,4 +1,4 @@
-type SingleStepFormModel = {
+interface SingleStepFormModel {
   text: string
   multilineText: string
   selection: string

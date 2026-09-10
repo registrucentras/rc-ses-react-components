@@ -19,20 +19,35 @@ const formControlLabelStyles = {
 function RcSesSwitch(props: RcSesSwitchProps) {
   const { label, ariaLabel, disabled, ...switchProps } = props
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !disabled) {
-      event.preventDefault()
-      event.currentTarget.click()
+  // The handler has to sit on the Switch root rather than on the input: as of
+  // MUI 6, SwitchBase applies plain attributes from the input slot but silently
+  // drops event handlers, so an onKeyDown passed through `slotProps.input` (or
+  // the deprecated `inputProps`) never fires. keydown bubbles up from the input,
+  // so a root-level handler still sees it.
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Enter' || disabled) {
+      return
     }
+    event.preventDefault()
+    // currentTarget is the root, so reach for the checkbox to toggle it.
+    event.currentTarget.querySelector<HTMLInputElement>('input[type="checkbox"]')?.click()
   }
 
+  // `slotProps.input` rather than `inputProps`: the latter is deprecated in MUI 6
+  // and removed in v7.
   const inputProps = {
     ...(label === undefined && { 'aria-label': ariaLabel }),
     role: 'switch',
-    onKeyDown: handleKeyDown,
   }
 
-  const switchEl = <Switch disabled={disabled} inputProps={inputProps} {...switchProps} />
+  const switchEl = (
+    <Switch
+      disabled={disabled}
+      onKeyDown={handleKeyDown}
+      slotProps={{ input: inputProps }}
+      {...switchProps}
+    />
+  )
 
   return label ? (
     <FormControlLabel

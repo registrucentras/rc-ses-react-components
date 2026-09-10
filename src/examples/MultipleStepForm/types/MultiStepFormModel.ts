@@ -1,4 +1,4 @@
-type MultiStepFormModel = {
+interface MultiStepFormModel {
   purpose: string
   legalBasis: string
   agreement: boolean

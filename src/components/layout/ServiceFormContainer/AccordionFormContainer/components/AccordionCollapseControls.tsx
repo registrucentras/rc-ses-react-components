@@ -5,7 +5,7 @@ import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import Button from '@/components/common/Button'
 
-type Props = {
+interface Props {
   controller: ReturnType<typeof useAccordionController>
 }
 function AccordionCollapseControls({ controller }: Props) {
@@ -16,7 +16,7 @@ function AccordionCollapseControls({ controller }: Props) {
       container
       sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}
     >
-      <Grid item>
+      <Grid>
         <Button
           variant='text'
           size='small'
@@ -26,7 +26,7 @@ function AccordionCollapseControls({ controller }: Props) {
           Praskleisti visus
         </Button>
       </Grid>
-      <Grid item>
+      <Grid>
         <Button
           variant='text'
           size='small'

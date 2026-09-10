@@ -12,6 +12,39 @@ import pkg from './package.json'
 const scopedPackageName = pkg.name
 const packageName = scopedPackageName.replace('/', '-').replace('@', '')
 
+/**
+ * Declared as dependencies but deliberately bundled rather than externalised.
+ *
+ * src/i18n/i18n.ts calls i18n.use(initReactI18next).init() at import time, and is
+ * pulled into the entry graph by FormControlWrapper and PhoneInputFormControl.
+ * Bundling keeps that on the library's own i18next instance. Externalising would
+ * point it at the host's shared instance and silently overwrite its fallbackLng,
+ * lng, supportedLngs and resources the moment a component is imported.
+ *
+ * Everything else follows the plain rule: peerDependencies and dependencies are
+ * external, so the host resolves a single copy.
+ */
+const forceBundled = ['i18next', 'react-i18next']
+
+/**
+ * Matches a package and everything under it, so subpath imports are externalised
+ * alongside the package root.
+ *
+ * Listing bare names was not enough: `react` was external while
+ * `react/jsx-runtime` was bundled, and `date-fns` was external while
+ * `date-fns/locale` was bundled. Bundling part of a package the host also
+ * provides risks two copies of its internals, and it broke outright under
+ * @rollup/plugin-commonjs 29, which no longer rewrites react/jsx-runtime's CJS
+ * named exports.
+ */
+const packageAndSubpaths = (name: string) =>
+  new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|/)`)
+
+const externalPackages = [
+  ...Object.keys(pkg.dependencies || {}).filter((d) => !forceBundled.includes(d)),
+  ...Object.keys(pkg.peerDependencies || {}),
+]
+
 export default defineConfig({
   publicDir: false,
   build: {
@@ -26,12 +59,7 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, './src/library/index.ts'),
       },
-      external: [
-        ...Object.keys(pkg.dependencies || {}),
-        /^@mui($|\/.+)/,
-        'react',
-        'react-dom'
-      ],
+      external: [...externalPackages.map(packageAndSubpaths), /^@mui($|\/.+)/],
       output: {
         exports: 'named',
         preserveModules: false,

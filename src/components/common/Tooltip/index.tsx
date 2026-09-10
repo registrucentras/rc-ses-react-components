@@ -1,4 +1,4 @@
-import type { IconButtonProps, TooltipProps } from '@mui/material'
+import type { IconButtonProps, PopperProps, TooltipProps } from '@mui/material'
 import { Fade, IconButton, Tooltip } from '@mui/material'
 import { useForkRef } from '@mui/material/utils'
 import React from 'react'
@@ -25,7 +25,8 @@ export type RcSesTooltipProps = {
 // only one tooltip should be visible, no need for context for that
 let closeCurrent: (() => void) | null = null
 
-const popperProps: TooltipProps['PopperProps'] = {
+// MUI 9 removed Tooltip's PopperProps in favour of the `popper` slot.
+const popperProps: Partial<PopperProps> = {
   popperOptions: {
     modifiers: [
       { name: 'arrow', options: { padding: 14 } },
@@ -147,8 +148,8 @@ function RcSesTooltip({
       placement={placement}
       leaveDelay={100}
       disableTouchListener
-      TransitionComponent={Fade}
-      PopperProps={popperProps}
+      slots={{ transition: Fade }}
+      slotProps={{ popper: popperProps }}
       onOpen={show}
       onClose={hide}
     >

@@ -1,4 +1,4 @@
-export type AccordionState = {
+export interface AccordionState {
   canToggle?: boolean | undefined
   disabled?: boolean | undefined
   expanded: boolean | undefined

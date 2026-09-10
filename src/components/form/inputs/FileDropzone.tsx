@@ -70,10 +70,7 @@ function RcSesFileDropzone(props: Props) {
 
   const hasValidFileSelection = value && Array.isArray(value) && value.length > 0
 
-  const onRemoveFile = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    index: number,
-  ) => {
+  const onRemoveFile = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -127,7 +124,12 @@ function RcSesFileDropzone(props: Props) {
             Icon={UploadSimpleIcon}
           />
 
-          <Stack gap={0.5} sx={{ flexGrow: 1 }}>
+          <Stack
+            sx={{
+              gap: 0.5,
+              flexGrow: 1,
+            }}
+          >
             {hasValidFileSelection && (
               <Stack>
                 {value.map((file: File, index) => (

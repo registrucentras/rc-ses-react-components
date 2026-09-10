@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 
 import theme from '@/theme/light'
 
-import RcSesSearchInput from './index'
+import RcSesSearchInput from '.'
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({

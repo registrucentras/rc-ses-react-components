@@ -1,6 +1,6 @@
 import { Box, SxProps, Theme } from '@mui/material'
 
-type Props = {
+interface Props {
   children: React.ReactNode
   sx?: SxProps<Theme>
 }

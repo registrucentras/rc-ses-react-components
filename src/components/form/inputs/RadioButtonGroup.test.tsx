@@ -12,7 +12,7 @@ const options = [
   { label: 'Juridinis asmuo', value: 'legal' },
 ]
 
-type TestWrapperProps = {
+interface TestWrapperProps {
   shouldUnregister?: boolean
 }
 

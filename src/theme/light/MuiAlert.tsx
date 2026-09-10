@@ -115,30 +115,33 @@ const MuiAlert: Components['MuiAlert'] = {
           fontWeight: 500,
         },
       },
-    },
-    standardGrey: {
-      backgroundColor: palette.grey['50'],
-      borderLeftColor: palette.grey['500'],
-      color: palette.grey['900'],
-    },
-    standardError: {
-      backgroundColor: palette.error['50'],
-      borderLeftColor: palette.error['500'],
-      color: palette.error['900'],
-    },
-    standardInfo: {
-      backgroundColor: palette.primary['50'],
-      borderLeftColor: palette.primary['300'],
-      color: palette.primary['900'],
-    },
-    standardSuccess: {
-      backgroundColor: palette.secondary['50'],
-      borderLeftColor: palette.secondary['500'],
-      color: palette.secondary['900'],
-    },
-    standardWarning: {
-      backgroundColor: palette.warning['50'],
-      borderLeftColor: palette.warning['300'],
+
+      // v9 removed the combined standard<Severity> keys in favour of composing
+      // the base variant class with the colour class, so these move inside.
+      '&.MuiAlert-colorGrey': {
+        backgroundColor: palette.grey['50'],
+        borderLeftColor: palette.grey['500'],
+        color: palette.grey['900'],
+      },
+      '&.MuiAlert-colorError': {
+        backgroundColor: palette.error['50'],
+        borderLeftColor: palette.error['500'],
+        color: palette.error['900'],
+      },
+      '&.MuiAlert-colorInfo': {
+        backgroundColor: palette.primary['50'],
+        borderLeftColor: palette.primary['300'],
+        color: palette.primary['900'],
+      },
+      '&.MuiAlert-colorSuccess': {
+        backgroundColor: palette.secondary['50'],
+        borderLeftColor: palette.secondary['500'],
+        color: palette.secondary['900'],
+      },
+      '&.MuiAlert-colorWarning': {
+        backgroundColor: palette.warning['50'],
+        borderLeftColor: palette.warning['300'],
+      },
     },
 
     filled: {
@@ -162,27 +165,29 @@ const MuiAlert: Components['MuiAlert'] = {
           fontWeight: 600,
         },
       },
-    },
-    filledGrey: {
-      backgroundColor: palette.grey['600'],
-      borderColor: palette.grey['600'],
-      color: 'white',
-    },
-    filledError: {
-      backgroundColor: palette.error['600'],
-      borderColor: palette.error['600'],
-    },
-    filledInfo: {
-      backgroundColor: palette.primary['600'],
-      borderColor: palette.primary['600'],
-    },
-    filledSuccess: {
-      backgroundColor: palette.secondary['700'],
-      borderColor: palette.secondary['700'],
-    },
-    filledWarning: {
-      backgroundColor: palette.warning['300'],
-      borderColor: palette.warning['300'],
+
+      // Was filled<Severity>; see the note on standard above.
+      '&.MuiAlert-colorGrey': {
+        backgroundColor: palette.grey['600'],
+        borderColor: palette.grey['600'],
+        color: 'white',
+      },
+      '&.MuiAlert-colorError': {
+        backgroundColor: palette.error['600'],
+        borderColor: palette.error['600'],
+      },
+      '&.MuiAlert-colorInfo': {
+        backgroundColor: palette.primary['600'],
+        borderColor: palette.primary['600'],
+      },
+      '&.MuiAlert-colorSuccess': {
+        backgroundColor: palette.secondary['700'],
+        borderColor: palette.secondary['700'],
+      },
+      '&.MuiAlert-colorWarning': {
+        backgroundColor: palette.warning['300'],
+        borderColor: palette.warning['300'],
+      },
     },
 
     outlined: {
@@ -216,45 +221,46 @@ const MuiAlert: Components['MuiAlert'] = {
           fontWeight: 600,
         },
       },
-    },
-    outlinedGrey: {
-      backgroundColor: palette.grey['50'],
-      border: `1px solid ${palette.grey['200']}`,
+      // Was outlined<Severity>; see the note on standard above.
+      '&.MuiAlert-colorGrey': {
+        backgroundColor: palette.grey['50'],
+        border: `1px solid ${palette.grey['200']}`,
 
-      '.MuiAlert-icon': {
-        color: palette.grey['600'],
+        '.MuiAlert-icon': {
+          color: palette.grey['600'],
+        },
       },
-    },
-    outlinedError: {
-      backgroundColor: palette.error['100'],
-      border: `1px solid ${palette.error['500']}`,
+      '&.MuiAlert-colorError': {
+        backgroundColor: palette.error['100'],
+        border: `1px solid ${palette.error['500']}`,
 
-      '.MuiAlert-icon': {
-        color: palette.error['600'],
+        '.MuiAlert-icon': {
+          color: palette.error['600'],
+        },
       },
-    },
-    outlinedInfo: {
-      backgroundColor: palette.primary['100'],
-      border: `1px solid ${palette.primary['400']}`,
+      '&.MuiAlert-colorInfo': {
+        backgroundColor: palette.primary['100'],
+        border: `1px solid ${palette.primary['400']}`,
 
-      '.MuiAlert-icon': {
-        color: palette.primary['600'],
+        '.MuiAlert-icon': {
+          color: palette.primary['600'],
+        },
       },
-    },
-    outlinedSuccess: {
-      backgroundColor: palette.secondary['100'],
-      border: `1px solid ${palette.secondary['500']}`,
+      '&.MuiAlert-colorSuccess': {
+        backgroundColor: palette.secondary['100'],
+        border: `1px solid ${palette.secondary['500']}`,
 
-      '.MuiAlert-icon': {
-        color: palette.secondary['600'],
+        '.MuiAlert-icon': {
+          color: palette.secondary['600'],
+        },
       },
-    },
-    outlinedWarning: {
-      backgroundColor: palette.warning['100'],
-      border: `1px solid ${palette.warning['400']}`,
+      '&.MuiAlert-colorWarning': {
+        backgroundColor: palette.warning['100'],
+        border: `1px solid ${palette.warning['400']}`,
 
-      '.MuiAlert-icon': {
-        color: palette.warning['500'],
+        '.MuiAlert-icon': {
+          color: palette.warning['500'],
+        },
       },
     },
   },
