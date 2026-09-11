@@ -94,6 +94,20 @@ const MuiButton: Components['MuiButton'] = {
         '.MuiButton-endIcon': {
           marginLeft: '.25rem',
         },
+
+        // MUI absolutely positions the start/end loading indicator at
+        // `left/right: 14px` to sit inside the root's default horizontal
+        // padding. Link variant has zero horizontal padding, so 14px lands
+        // on top of the label. Reserve room on the loading side and pin the
+        // indicator to the edge so spinner and label sit side by side.
+        '&.MuiButton-loadingPositionStart.MuiButton-loading': {
+          paddingLeft: '1.5rem',
+          '.MuiButton-loadingIndicatorStart': { left: 0 },
+        },
+        '&.MuiButton-loadingPositionEnd.MuiButton-loading': {
+          paddingRight: '1.5rem',
+          '.MuiButton-loadingIndicatorEnd': { right: 0 },
+        },
       },
     },
     {
@@ -147,6 +161,22 @@ const MuiButton: Components['MuiButton'] = {
       position: 'relative',
       textTransform: 'none',
 
+      // MUI hard-codes the centered loading indicator to
+      // `palette.action.disabled` (rgba(0,0,0,0.26)) which fails WCAG 1.4.11
+      // on every light-surface variant (~1.85:1). Override to grey[600] here —
+      // (0,3,0) specificity beats MUI's single-class rule, while the more
+      // specific colorLight / colorGhost blocks below still win on dark
+      // surfaces. The `.Mui-disabled` half is dropped: `loadingPositionCenter`
+      // is only applied while `loading` is truthy.
+      '&.MuiButton-loadingPositionCenter.MuiButton-loading': {
+        color: 'transparent !important',
+        '& .MuiButton-startIcon, & .MuiButton-endIcon': {
+          visibility: 'hidden',
+        },
+        '& .MuiButton-loadingIndicator': {
+          color: grey[600],
+        },
+      },
       '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
         {
           background: 'transparent',
@@ -378,6 +408,14 @@ const MuiButton: Components['MuiButton'] = {
         '&.Mui-disabled': {
           borderColor: `${grey[500]} !important`,
           color: `${grey[500]} !important`,
+          // Same reasoning as ghost - MUI hard-codes the loading indicator to
+          // `palette.action.disabled` which is invisible on dark surfaces.
+          '& .MuiButton-loadingIndicator': {
+            color: grey[500],
+          },
+          '&.MuiButton-loadingPositionCenter': {
+            color: 'transparent !important',
+          },
         },
       },
 
@@ -394,6 +432,22 @@ const MuiButton: Components['MuiButton'] = {
         },
         '&.Mui-disabled': {
           borderColor: `transparent !important`,
+          // Ghost buttons live on dark surfaces; the root outlined
+          // `.Mui-disabled` rule paints text `grey[600]`, which disappears on
+          // a near-black background. Keep the light color and, importantly,
+          // override MUI's `.MuiButton-loadingIndicator { color: action.disabled }`
+          // (dark grey ~ #0000000042) so the spinner stays visible while loading.
+          color: `${grey[300]} !important`,
+          '& .MuiButton-loadingIndicator': {
+            color: grey[300],
+          },
+          // The root `.MuiButton-loadingPositionCenter` transparent rule loses
+          // the specificity fight against the color override above (nested
+          // inside `.MuiButton-colorGhost`), so re-apply it here to hide the
+          // label/icon while the centered spinner shows.
+          '&.MuiButton-loadingPositionCenter': {
+            color: 'transparent !important',
+          },
         },
       },
     },
