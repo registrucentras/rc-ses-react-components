@@ -259,8 +259,7 @@ export const DarkSurfaceCombinations: Story = {
       <PreviewTitle>
         Dark surface: {darkSurfaceCombos.length} variant+color rows x {states.length}{' '}
         states = {darkSurfaceCombos.length * states.length} buttons. Axe color-contrast is
-        disabled - light/ghost render on top of this dark backdrop which axe cannot see
-        through the DOM.
+        disabled - light/ghost render on top of this dark backdrop.
       </PreviewTitle>
       <CombinationsGrid combos={darkSurfaceCombos} onDark />
     </Box>
