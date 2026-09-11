@@ -246,7 +246,16 @@ export const DarkSurfaceCombinations: Story = {
     layout: 'padded',
   },
   render: () => (
-    <Box sx={{ backgroundColor: grey[900], borderRadius: 1, p: 3, color: grey[50] }}>
+    <Box
+      sx={{
+        backgroundColor: grey[900],
+        borderRadius: 1,
+        p: 3,
+        color: grey[50],
+        width: 'fit-content',
+        minWidth: '100%',
+      }}
+    >
       <PreviewTitle>
         Dark surface: {darkSurfaceCombos.length} variant+color rows x {states.length}{' '}
         states = {darkSurfaceCombos.length * states.length} buttons. Axe color-contrast is
