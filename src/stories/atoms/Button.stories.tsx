@@ -154,8 +154,15 @@ const states: {
   },
 ]
 
-const CombinationsGrid = ({ combos }: { combos: VariantColorCombo[] }) => {
+const CombinationsGrid = ({
+  combos,
+  onDark = false,
+}: {
+  combos: VariantColorCombo[]
+  onDark?: boolean
+}) => {
   const rowSpans = rowSpansFor(combos)
+  const labelColor = onDark ? grey[50] : 'text.secondary'
   return (
     <Box
       sx={{
@@ -174,7 +181,7 @@ const CombinationsGrid = ({ combos }: { combos: VariantColorCombo[] }) => {
           key={state.key}
           align='center'
           variant='body2'
-          sx={{ color: 'text.secondary' }}
+          sx={{ color: labelColor }}
         >
           {state.label}
         </Typography>
@@ -188,12 +195,16 @@ const CombinationsGrid = ({ combos }: { combos: VariantColorCombo[] }) => {
             {isFirstOfVariant ? (
               <Typography
                 variant='body2'
-                sx={{ fontWeight: 600, gridRow: `span ${rowSpan}` }}
+                sx={{
+                  color: onDark ? grey[50] : undefined,
+                  fontWeight: 600,
+                  gridRow: `span ${rowSpan}`,
+                }}
               >
                 {variant}
               </Typography>
             ) : null}
-            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+            <Typography variant='body2' sx={{ color: labelColor }}>
               {color}
             </Typography>
             {states.map((state) => {
@@ -242,7 +253,7 @@ export const DarkSurfaceCombinations: Story = {
         disabled - light/ghost render on top of this dark backdrop which axe cannot see
         through the DOM.
       </PreviewTitle>
-      <CombinationsGrid combos={darkSurfaceCombos} />
+      <CombinationsGrid combos={darkSurfaceCombos} onDark />
     </Box>
   ),
 }

@@ -94,6 +94,20 @@ const MuiButton: Components['MuiButton'] = {
         '.MuiButton-endIcon': {
           marginLeft: '.25rem',
         },
+
+        // MUI absolutely positions the start/end loading indicator at
+        // `left/right: 14px` to sit inside the root's default horizontal
+        // padding. Link variant has zero horizontal padding, so 14px lands
+        // on top of the label. Reserve room on the loading side and pin the
+        // indicator to the edge so spinner and label sit side by side.
+        '&.MuiButton-loadingPositionStart.MuiButton-loading': {
+          paddingLeft: '1.5rem',
+          '.MuiButton-loadingIndicatorStart': { left: 0 },
+        },
+        '&.MuiButton-loadingPositionEnd.MuiButton-loading': {
+          paddingRight: '1.5rem',
+          '.MuiButton-loadingIndicatorEnd': { right: 0 },
+        },
       },
     },
     {
