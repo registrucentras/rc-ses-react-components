@@ -1,0 +1,2 @@
+import{L as o}from"./Logo-D_pTwG2B.js";import"./iframe-CIXJIlmg.js";import"./preload-helper-PPVm8Dsz.js";const s={title:"Atoms/Logo",component:o,parameters:{layout:"centered"}},e={};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:"{}",...e.parameters?.docs?.source}}};const m=["Default"];export{e as Default,m as __namedExportsOrder,s as default};
+//# sourceMappingURL=Logo.stories-DKhvfNEh.js.map
