@@ -11,6 +11,13 @@
     "Button": {
       "loading": "Loading"
     },
+    "StepCard": {
+      "cancel": "Cancel",
+      "back": "Back",
+      "continue": "Continue",
+      "addToCart": "Add to cart",
+      "totalWithoutVat": "Total excl. VAT"
+    },
     "SegmentedControl": {
       "options": "Options",
       "tabs": "Tabs"

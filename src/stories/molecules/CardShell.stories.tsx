@@ -31,6 +31,8 @@ const meta: Meta<typeof RcSesCardShell> = {
         'theme',
         'fullHeight',
         'borderless',
+        'contentGap',
+        'footerGap',
         'header',
         'children',
         'footer',
@@ -56,6 +58,14 @@ const meta: Meta<typeof RcSesCardShell> = {
     borderless: {
       control: 'boolean',
       description: 'Renders the shell without any border',
+    },
+    contentGap: {
+      control: 'text',
+      description: "Overrides the variant preset's header-to-content gap (e.g. '1.5rem')",
+    },
+    footerGap: {
+      control: 'text',
+      description: "Overrides the variant preset's content-to-footer gap (e.g. '1.5rem')",
     },
     header: {
       control: false,
@@ -91,6 +101,10 @@ const SampleContent = () => (
   <Box
     sx={{
       alignItems: 'center',
+      backgroundColor: 'grey.100',
+      borderRadius: 1,
+      border: '1px dashed',
+      borderColor: 'grey.300',
       color: 'text.primary',
       display: 'flex',
       justifyContent: 'center',
@@ -218,8 +232,28 @@ export const FullHeight: Story = {
     fullHeight: true,
     header: <SampleHeader />,
     children: (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography align='center'>Pilno aukščio turinys</Typography>
+      <Box
+        sx={{
+          alignItems: 'center',
+          backgroundColor: 'grey.100',
+          border: '1px dashed',
+          borderColor: 'grey.300',
+          borderRadius: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+          height: '100%',
+          justifyContent: 'center',
+          px: 3,
+        }}
+      >
+        <Typography align='center' variant='h6'>
+          Pilno aukščio turinys
+        </Typography>
+        <Typography align='center' variant='body2' sx={{ color: 'text.secondary' }}>
+          Šis blokas užpildo visą turimą aukštį tarp antraštės ir poraštės, nepriklausomai
+          nuo turinio kiekio.
+        </Typography>
       </Box>
     ),
     footer: <SampleFooter />,
