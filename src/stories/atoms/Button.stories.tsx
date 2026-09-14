@@ -1,8 +1,11 @@
+import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Fragment } from 'react'
 import { fn } from 'storybook/test'
 
 import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
 import Button from '@/components/common/Button'
+import PreviewTitle from '@/components/storybook/PreviewTitle'
 import { grey } from '@/theme/palette'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
@@ -30,60 +33,36 @@ const meta = {
   argTypes: {
     variant: {
       options: variantOptions,
-      mapping: variantOptions,
-      control: {
-        type: 'select',
-        labels: variantOptions,
-      },
-      table: {
-        defaultValue: {},
-      },
+      control: { type: 'select' },
     },
     color: {
       options: colorOptions,
-      mapping: colorOptions,
-      control: {
-        type: 'select',
-        labels: colorOptions,
-      },
-      table: {
-        defaultValue: {},
-      },
+      control: { type: 'select' },
     },
-    disabled: {
-      control: {
-        type: 'boolean',
-      },
-      table: {
-        defaultValue: {},
-      },
-    },
-    iconOnly: {
-      control: {
-        type: 'boolean',
-      },
-      table: {
-        defaultValue: {},
-      },
-    },
-    loading: {
-      control: {
-        type: 'boolean',
-      },
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
+    disabled: { control: 'boolean' },
+    iconOnly: { control: 'boolean' },
+    loading: { control: 'boolean' },
+    children: { control: 'text' },
   },
-  tags: ['autodocs'],
   args: {
     children: 'Button',
     onClick: fn(),
   },
+  tags: ['autodocs'],
 } satisfies Meta<typeof Button>
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+export const PrimaryContained: Story = {
+  args: {
+    variant: 'contained',
+    color: 'primary',
+    disabled: false,
+    iconOnly: false,
+    loading: false,
+  },
+}
 
 const disableColorContrast = {
   a11y: {
@@ -93,470 +72,196 @@ const disableColorContrast = {
   },
 }
 
-export const PrimaryContained: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    disabled: false,
-  },
-  /* play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
-    // See https://storybook.js.org/docs/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(canvas.getByRole('button'))
-
-    // 👇 Assert DOM structure
-    await expect(
-      canvas.getByText(
-        'Everything is perfect. Your account is ready and we should probably get you started!',
-      ),
-    ).toBeInTheDocument()
-  }, */
+interface VariantColorCombo {
+  variant: Exclude<ButtonProps['variant'], undefined>
+  color: ButtonProps['color']
 }
 
-export const PrimaryContainedWithPrefixIcon: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    disabled: false,
-    startIcon: <PlusBoldIcon />,
-  },
+// Split so axe color-contrast stays enforced on light-surface combos and is
+// only disabled for the dark-surface grid, where light/ghost intentionally
+// render on top of a dark backdrop that axe cannot see through the DOM.
+const lightSurfaceCombos: VariantColorCombo[] = [
+  { variant: 'contained', color: 'primary' },
+  { variant: 'contained', color: 'secondary' },
+  { variant: 'contained', color: 'grey' },
+  { variant: 'contained', color: 'warning' },
+  { variant: 'contained', color: 'error' },
+  { variant: 'outlined', color: 'primary' },
+  { variant: 'outlined', color: 'secondary' },
+  { variant: 'outlined', color: 'grey' },
+  { variant: 'outlined', color: 'warning' },
+  { variant: 'outlined', color: 'error' },
+  // link/text carry their own loading baseline - link disabled ships with
+  // opacity: 0.4 so its centered indicator is fainter than the theme's
+  // grey[600] measurement suggests. Keep primary + grey rows to cover both
+  // the tinted and the neutral disabled paths.
+  { variant: 'link', color: 'primary' },
+  { variant: 'link', color: 'grey' },
+  { variant: 'text', color: 'primary' },
+  { variant: 'text', color: 'grey' },
+]
+
+const darkSurfaceCombos: VariantColorCombo[] = [
+  { variant: 'outlined', color: 'light' },
+  { variant: 'outlined', color: 'ghost' },
+]
+
+const rowSpansFor = (combos: VariantColorCombo[]) =>
+  combos.reduce<Record<string, number>>((acc, { variant }) => {
+    acc[variant] = (acc[variant] ?? 0) + 1
+    return acc
+  }, {})
+
+const iconOnlyArgs: Partial<ButtonProps> = {
+  iconOnly: true,
+  'aria-label': 'Add',
+  children: <PlusBoldIcon />,
 }
 
-export const PrimaryContainedWithSuffixIcon: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    disabled: false,
-    endIcon: <PlusBoldIcon />,
+const states: {
+  key: string
+  label: string
+  args: Partial<ButtonProps>
+}[] = [
+  { key: 'default', label: 'Default', args: {} },
+  {
+    key: 'prefixIcon',
+    label: 'Prefix Icon',
+    args: { startIcon: <PlusBoldIcon /> },
   },
+  {
+    key: 'suffixIcon',
+    label: 'Suffix Icon',
+    args: { endIcon: <PlusBoldIcon /> },
+  },
+  { key: 'iconOnly', label: 'Icon Only', args: iconOnlyArgs },
+  { key: 'disabled', label: 'Disabled', args: { disabled: true } },
+  { key: 'loading', label: 'Loading', args: { loading: true } },
+  {
+    key: 'loadingStart',
+    label: 'Loading Position Start',
+    args: { loading: true, loadingPosition: 'start', startIcon: <PlusBoldIcon /> },
+  },
+  {
+    key: 'loadingEnd',
+    label: 'Loading Position End',
+    args: { loading: true, loadingPosition: 'end', endIcon: <PlusBoldIcon /> },
+  },
+  {
+    key: 'loadingIconOnly',
+    label: 'Loading Icon Only',
+    args: { ...iconOnlyArgs, loading: true },
+  },
+]
+
+const CombinationsGrid = ({
+  combos,
+  onDark = false,
+}: {
+  combos: VariantColorCombo[]
+  onDark?: boolean
+}) => {
+  const rowSpans = rowSpansFor(combos)
+  const labelColor = onDark ? grey[50] : 'text.secondary'
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: `110px 90px repeat(${states.length}, minmax(140px, 1fr))`,
+        rowGap: 1.5,
+        columnGap: 1.5,
+        alignItems: 'center',
+      }}
+    >
+      {/* header row: two empty cells for the variant/color labels, then state labels */}
+      <Box />
+      <Box />
+      {states.map((state) => (
+        <Typography
+          key={state.key}
+          align='center'
+          variant='body2'
+          sx={{ color: labelColor }}
+        >
+          {state.label}
+        </Typography>
+      ))}
+      {combos.map(({ variant, color }, rowIndex) => {
+        const prevVariant = combos[rowIndex - 1]?.variant
+        const isFirstOfVariant = variant !== prevVariant
+        const rowSpan = rowSpans[variant]
+        return (
+          <Fragment key={`${variant}-${color}`}>
+            {isFirstOfVariant ? (
+              <Typography
+                variant='body2'
+                sx={{
+                  color: onDark ? grey[50] : undefined,
+                  fontWeight: 600,
+                  gridRow: `span ${rowSpan}`,
+                }}
+              >
+                {variant}
+              </Typography>
+            ) : null}
+            <Typography variant='body2' sx={{ color: labelColor }}>
+              {color}
+            </Typography>
+            {states.map((state) => {
+              const { children, ...restArgs } = state.args
+              return (
+                <Box key={state.key} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button variant={variant} color={color} {...restArgs}>
+                    {children ?? 'Button'}
+                  </Button>
+                </Box>
+              )
+            })}
+          </Fragment>
+        )
+      })}
+    </Box>
+  )
 }
 
-export const PrimaryContainedIconOnly: Story = {
-  args: {
-    'aria-label': 'Add',
-    children: <PlusBoldIcon />,
-    color: 'primary',
-    iconOnly: true,
-    variant: 'contained',
+export const CoreCombinations: Story = {
+  parameters: {
+    layout: 'padded',
   },
+  render: () => (
+    <>
+      <PreviewTitle>
+        Light surface: {lightSurfaceCombos.length} variant+color rows x {states.length}{' '}
+        states = {lightSurfaceCombos.length * states.length} buttons. Axe color-contrast
+        stays enforced here.
+      </PreviewTitle>
+      <CombinationsGrid combos={lightSurfaceCombos} />
+    </>
+  ),
 }
 
-export const PrimaryOutlined: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'primary',
-    variant: 'outlined',
+export const DarkSurfaceCombinations: Story = {
+  parameters: {
+    ...disableColorContrast,
+    layout: 'padded',
   },
-}
-
-export const PrimaryOutlinedWithPrefixIcon: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'primary',
-    variant: 'outlined',
-    startIcon: <PlusBoldIcon />,
-  },
-}
-
-export const PrimaryOutlinedWithSuffixIcon: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'primary',
-    variant: 'outlined',
-    endIcon: <PlusBoldIcon />,
-  },
-}
-
-export const PrimaryOutlinedIconOnly: Story = {
-  parameters: disableColorContrast,
-  args: {
-    'aria-label': 'Add',
-    children: <PlusBoldIcon />,
-    color: 'primary',
-    iconOnly: true,
-    variant: 'outlined',
-  },
-}
-
-export const SecondaryContained: Story = {
-  args: {
-    color: 'secondary',
-    variant: 'contained',
-  },
-}
-
-export const SecondaryOutlined: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'secondary',
-    variant: 'outlined',
-  },
-}
-
-export const GreyContained: Story = {
-  args: {
-    color: 'grey',
-    variant: 'contained',
-  },
-}
-
-export const GreyOutlined: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'grey',
-    variant: 'outlined',
-  },
-}
-
-export const WarningContained: Story = {
-  args: {
-    variant: 'contained',
-    children: 'Button',
-    color: 'warning',
-  },
-}
-
-export const WarningOutlined: Story = {
-  parameters: disableColorContrast,
-  args: {
-    variant: 'outlined',
-    children: 'Button',
-    color: 'warning',
-  },
-}
-
-export const ErrorContained: Story = {
-  args: {
-    color: 'error',
-    variant: 'contained',
-  },
-}
-
-export const ErrorOutlined: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'error',
-    variant: 'outlined',
-  },
-}
-
-export const LightOutlined: Story = {
-  args: {
-    variant: 'outlined',
-    color: 'light',
-    children: 'Light Button',
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const LightOutlinedWithIcon: Story = {
-  args: {
-    variant: 'outlined',
-    color: 'light',
-    startIcon: <PlusBoldIcon />,
-    children: 'Light Button with Icon',
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const LightOutlinedDisabled: Story = {
-  args: {
-    variant: 'outlined',
-    color: 'light',
-    children: 'Light Button Disabled',
-    disabled: true,
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const GhostOutlinedIconOnly: Story = {
-  args: {
-    'aria-label': 'Close',
-    children: <PlusBoldIcon />,
-    color: 'ghost',
-    iconOnly: true,
-    variant: 'outlined',
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const GhostOutlinedIconOnlyDisabled: Story = {
-  args: {
-    'aria-label': 'Close',
-    children: <PlusBoldIcon />,
-    color: 'ghost',
-    disabled: true,
-    iconOnly: true,
-    variant: 'outlined',
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-// Loading states
-export const PrimaryContainedLoading: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    loading: true,
-  },
-}
-
-export const PrimaryContainedLoadingWithIcon: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    loading: true,
-    startIcon: <PlusBoldIcon />,
-  },
-}
-
-export const PrimaryContainedLoadingWithEndIcon: Story = {
-  args: {
-    variant: 'contained',
-    color: 'primary',
-    loading: true,
-    endIcon: <PlusBoldIcon />,
-  },
-}
-
-export const PrimaryContainedIconOnlyLoading: Story = {
-  args: {
-    'aria-label': 'Add',
-    children: <PlusBoldIcon />,
-    color: 'primary',
-    iconOnly: true,
-    variant: 'contained',
-    loading: true,
-  },
-}
-
-export const PrimaryOutlinedLoading: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'primary',
-    variant: 'outlined',
-    loading: true,
-  },
-}
-
-export const SecondaryContainedLoading: Story = {
-  args: {
-    color: 'secondary',
-    variant: 'contained',
-    loading: true,
-  },
-}
-
-export const SecondaryOutlinedLoading: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'secondary',
-    variant: 'outlined',
-    loading: true,
-  },
-}
-
-export const GreyContainedLoading: Story = {
-  args: {
-    color: 'grey',
-    variant: 'contained',
-    loading: true,
-  },
-}
-
-export const GreyOutlinedLoading: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'grey',
-    variant: 'outlined',
-    loading: true,
-  },
-}
-
-export const WarningContainedLoading: Story = {
-  args: {
-    variant: 'contained',
-    color: 'warning',
-    loading: true,
-  },
-}
-
-export const WarningOutlinedLoading: Story = {
-  parameters: disableColorContrast,
-  args: {
-    variant: 'outlined',
-    color: 'warning',
-    loading: true,
-  },
-}
-
-export const ErrorContainedLoading: Story = {
-  args: {
-    color: 'error',
-    variant: 'contained',
-    loading: true,
-  },
-}
-
-export const ErrorOutlinedLoading: Story = {
-  parameters: disableColorContrast,
-  args: {
-    color: 'error',
-    variant: 'outlined',
-    loading: true,
-  },
-}
-
-export const LightOutlinedLoading: Story = {
-  args: {
-    variant: 'outlined',
-    color: 'light',
-    children: 'Light Button',
-    loading: true,
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const LightOutlinedWithIconLoading: Story = {
-  args: {
-    variant: 'outlined',
-    color: 'light',
-    startIcon: <PlusBoldIcon />,
-    children: 'Light Button with Icon',
-    loading: true,
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
-}
-
-export const GhostOutlinedIconOnlyLoading: Story = {
-  args: {
-    'aria-label': 'Close',
-    children: <PlusBoldIcon />,
-    color: 'ghost',
-    iconOnly: true,
-    variant: 'outlined',
-    loading: true,
-  },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          backgroundColor: grey[900],
-          padding: '0.5rem',
-          borderRadius: '0.5rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Story />
-      </div>
-    ),
-  ],
+  render: () => (
+    <Box
+      sx={{
+        backgroundColor: grey[900],
+        borderRadius: 1,
+        p: 3,
+        color: grey[50],
+        width: 'fit-content',
+        minWidth: '100%',
+      }}
+    >
+      <PreviewTitle>
+        Dark surface: {darkSurfaceCombos.length} variant+color rows x {states.length}{' '}
+        states = {darkSurfaceCombos.length * states.length} buttons. Axe color-contrast is
+        disabled - light/ghost render on top of this dark backdrop.
+      </PreviewTitle>
+      <CombinationsGrid combos={darkSurfaceCombos} onDark />
+    </Box>
+  ),
 }
