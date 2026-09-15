@@ -9,6 +9,10 @@ Prisidėjimo gairės pateiktos [`CONTRIBUTING.md`](./CONTRIBUTING.md) faile. Pri
 biblioteka jas reikia perskaityti: jose aprašyta prieigos ir dizaino derinimo tvarka, šakų bei pull
 request'ų taisyklės ir versijų leidyba.
 
+> [!IMPORTANT]
+> Naujinantis iš `1.x` į **`2.0.0`** (MUI 5 → 9), migracijos gairės pateiktos
+> [`docs/MIGRATION-v2.md`](./docs/MIGRATION-v2.md) faile.
+
 ## Prerekvizitai
 
 1. Įsitikinkite, kad turite įdiegtą **Node.js 22.x** versiją. Tokia pati Node.js versija šiuo metu naudojama ir CI aplinkoje;

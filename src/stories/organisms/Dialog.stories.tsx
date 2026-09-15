@@ -104,8 +104,7 @@ export function BasicDialog() {
 
 /**
  * Every other story here starts closed behind a trigger button, so the dialog
- * itself never reached a visual baseline (SAV-5648 / LIB-02). This one renders
- * it open.
+ * itself never reached a visual baseline. This one renders it open.
  */
 export const Open: Story = {
   render: (args) => (

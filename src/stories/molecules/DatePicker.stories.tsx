@@ -115,8 +115,7 @@ export const Main = {
 
 /**
  * The calendar popup carries the `MuiPickersLayout` theme overrides, and it only
- * mounts once the picker is opened - so nothing covered them until this story
- * (SAV-5648 / LIB-02).
+ * mounts once the picker is opened - so nothing covered them until this story.
  */
 export const CalendarOpen = {
   render: (args: any) => <DatePickerDemo {...args} />,
