@@ -160,7 +160,7 @@ function SnackbarDemoCompactWithText() {
           <Button
             key={snackbarState}
             variant='contained'
-            color={getButtonColor(snackbarState) as any}
+            color={getButtonColor(snackbarState)}
             startIcon={<Icon />}
             onClick={() =>
               showSnackbar({ state: snackbarState, message, size: 'compact' })
@@ -233,7 +233,7 @@ function SnackbarDemoStandardWithButtons() {
           <Button
             key={snackbarState}
             variant='contained'
-            color={getButtonColor(snackbarState) as any}
+            color={getButtonColor(snackbarState)}
             startIcon={<Icon />}
             onClick={() =>
               showSnackbar({

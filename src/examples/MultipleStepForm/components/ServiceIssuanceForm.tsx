@@ -4,7 +4,7 @@ import RcSesAlert from '@/components/common/Alert'
 import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
 import RcSesSelect from '@/components/form/inputs/Select'
 
-type FormModel = {
+interface FormModel {
   issuanceMethod: string
   rcBranch: string
 }

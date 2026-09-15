@@ -2,7 +2,7 @@ import React from 'react'
 
 import { AccordionControllerState } from '../types/AccordionControllerState'
 
-type Props = {
+interface Props {
   initialState: AccordionControllerState
 }
 

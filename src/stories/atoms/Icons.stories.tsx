@@ -51,7 +51,7 @@ import palette from '@/theme/palette'
 
 type StoryArgs = IconProps
 
-type IconStoryItem = {
+interface IconStoryItem {
   name: string
   render: (args: StoryArgs) => ReactElement
 }

@@ -16,7 +16,7 @@ import {
   AdvancedListItemTrailing as AdvancedListItemTrailingData,
 } from '../AdvancedListItem.types'
 
-type Props = {
+interface Props {
   trailing: AdvancedListItemTrailingData
   disabled?: boolean
 }

@@ -5,7 +5,7 @@ import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import theme from '@/theme/light'
 import { common } from '@/theme/palette'
 
-type Props = {
+interface Props {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
   children?: React.ReactNode
   title: string

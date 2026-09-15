@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesTextField from '@/components/form/inputs/TextField'
 
-type FormModel = {
+interface FormModel {
   city: string
   street: string
   addressNo: string
@@ -27,7 +27,7 @@ type FormModel = {
   aptNo: string
 }
 
-type Props = {
+interface Props {
   open: boolean
   onSubmit: (value: string) => void
   onClose: () => void

@@ -22,7 +22,7 @@ import {
   RcSesServiceLinksProps,
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
-import { RcSesSideNavItem } from '@/components/common/SideNav'
+import { RcSesSideNavItem, RcSesSideNavOverflow } from '@/components/common/SideNav'
 import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
 import {
   RcSesTitleBlockProps,
@@ -81,6 +81,7 @@ export type {
   RcSesTooltipProps,
   RcSesSideNavItem,
   RcSesSideNavLayoutProps,
+  RcSesSideNavOverflow,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }

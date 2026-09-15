@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
 
-type FormModel = {
+interface FormModel {
   agreement: boolean
 }
 

@@ -6,7 +6,7 @@ export type AdvancedListItemState = 'rest' | 'selected' | 'disabled' | 'error'
 
 export type AdvancedListItemStatusColor = 'grey' | 'warning' | 'success' | 'error'
 
-export type AdvancedListItemAction = {
+export interface AdvancedListItemAction {
   label: string
   icon?: ComponentType<{ fillColor?: string; size?: number }>
   onClick: () => void

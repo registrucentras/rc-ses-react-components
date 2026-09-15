@@ -61,7 +61,7 @@ Adjustments so far:
 Running total **23.25h** against the 20h budget.
 
 **Done:** LIB-03, LIB-03b, LIB-04 (Phase 1) · LIB-05, LIB-06, LIB-07 (Phase 2) · LIB-01, LIB-02 (Phase 2b) · LIB-08a, LIB-08b, LIB-08c, LIB-09, LIB-10 (Phase 3) · LIB-11, LIB-12, LIB-13, LIB-14, LIB-15b (Phase 4).
-**Open:** Phase 5 — LIB-15 (recommended: drop, see below), LIB-19 (visual assertion) and LIB-18 (`2.0.0`). LIB-17 validation is done.
+**Open:** Phase 5 — LIB-18 (`2.0.0`) only. LIB-17 validation is done, LIB-19 is done. LIB-15 is **deferred out of 2.0.0** to the 2.1.0 line (decided 2026-09-10, see below); it ships as #154.
 
 ### Phase 5 progress — as of 2026-08-25
 
@@ -159,9 +159,9 @@ This is the entire argument for LIB-17 existing: nothing in this repo's own test
 
 `deploy-storybook.yml` deployed to the site root on *any* published release, so `v2.0.0-rc.0` replaced the published Storybook with an unreleased library and `main` had to be re-deployed by hand. Pre-releases now go to `preview/<tag>/` instead (`fd40f5e`), verified on the `rc.1` run — the root step shows as skipped. `build-and-publish.yml` already branched on the same `release.prerelease` flag for the npm dist-tag, which is why `latest` correctly stayed on `1.12.0`.
 
-#### LIB-15 — recommendation: drop from 2.0.0
+#### LIB-15 — dropped from 2.0.0, decided 2026-09-10
 
-The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. Not breaking, so deferring it does not force a later major.
+The breaking part already shipped in LIB-08a and is documented. What remains is swapping `RcSesLoadingSpinner` for MUI's native loading indicator, which is a *visual* change that churns Button baselines for no consumer-facing benefit — and MUI's indicator is a `CircularProgress`, i.e. more `aria-progressbar-name` work that belongs with **SAV-6451**. No prop is added or removed, so deferring it does not force a later major — but it is not render-identical either: in #154 children stay in the DOM behind a CSS-hidden label instead of being replaced by the spinner, and `startIcon`/`endIcon` only hide when `loadingPosition` is set. The library's own Button tests had to be rewritten for it, so consumer tests asserting the 1.x / 2.0.0 behaviour will break on the minor. It wants calling out in the 2.1.0 release notes rather than shipping silently.
 
 **As of 2026-07-31 every dependency is current** except the documented deferrals below: MUI 9.2.0, x-date-pickers 9.10.1, Storybook 10.5.5, Vite 7.3.6, ESLint 9 flat config, TypeScript 5.9.3, i18next 26, date-fns 4, react-window 2, react-dropzone 19. 206 tests, 161/161 visual, bundle 333.4 kB. Every MUI hop landed pixel-identical.
 
@@ -270,6 +270,8 @@ Six findings from doing the work:
 | `@typescript-eslint/no-empty-object-type` | 1 | |
 | `import-x/no-empty-named-blocks` | 6 | **must stay off** — flags the intentional `import type {} from '@mui/system'` module-augmentation blocks in `src/library/index.ts` |
 
+**✅ Adopted in SAV-6398**, except the two marked *must stay off*, which are now grouped as `permanentlyDisabledRules` in `eslint.config.js`. The five type-style rules had grown from 76 occurrences to 113 by then. `--fix` handled all but one and, as in LIB-05, could not be trusted blindly: it stripped two **load-bearing** assertions that `tsc` then rejected — the `HeadingTag` union in `TitleBlock` (a template literal widens to `string` without a contextual type, so JSX cannot resolve an intrinsic element) and `getByRole` in `SearchableField.test.tsx`. Both were rewritten without an assertion rather than re-suppressed. Proof that the compiled output is unaffected: **both `dist` JS bundles are byte-identical** before and after, and the only `.d.ts` changes are 48 `type` → `interface`, 2 `Array<T>` → `T[]`, and one `ReadonlyArray<infer T>` → `readonly (infer T)[]`.
+
 **6 remaining warnings are real findings** — all from `eslint-plugin-react-hooks` v4 → v7, which adds rules the old version did not have. Not regressions; pre-existing patterns now visible:
 
 - `react-hooks/set-state-in-effect` — `Snackbar/index.tsx:60`, `NumberStepper.tsx:142`, `examples/ListWithPagination/index.tsx:61`
@@ -277,6 +279,8 @@ Six findings from doing the work:
 - `react-hooks/incompatible-library` ×2 — `CheckboxFormControl.stories.tsx:199,315`, react-hook-form's `watch()` cannot be memoised safely
 
 Tracked as **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** — see the follow-ups section below.
+
+**✅ Fixed in SAV-6399.** Two more findings had appeared by then — `IconWithSquareBackground/index.tsx` (`static-components`, the same `styled(Icon)`-in-render shape) and `AdvancedList.stories.tsx` (`incompatible-library`) — so eight in total. The three `warn` overrides are gone from `eslint.config.js`; `set-state-in-effect` and `static-components` come back as `error` from the preset, while `incompatible-library` ships as a warning upstream and is now pinned to `error` explicitly.
 
 **Source changes** (40 files, all mechanical): 22 test files `'./index'` → `'.'` (`import-x/no-useless-path-segments`), removal of now-unused eslint-disable directives, prettier reformatting of `.storybook/*`, plus four deliberate one-liners — `catch (_)` → `catch` in `Datepicker/index.tsx`, `import type` in `env.tsx` (correct anyway under `isolatedModules`), the duplicate `darkTheme` import in `.storybook/preview.ts` (dark and light resolved to the same module — see LIB-02), and a `for...of` → `reduce` in `.storybook/test-runner.ts`.
 
@@ -292,6 +296,8 @@ Five findings worth recording:
 
 1. **`tsconfig` `moduleResolution` "Node" → "Bundler" was forced here, not deferrable.** It was scoped into SAV-6398, but Storybook 10 exposes its types through `exports` maps that legacy node10 resolution cannot read — `tsc` fails outright and says so. Changed in **both** `tsconfig.json` and `tsconfig.lib.json`; `tsconfig.json` also gained `baseUrl: "."` for consistency. **SAV-6398 must be updated — that scope item is done.**
 2. **`tsconfig.lib.json` does not exclude `src/stories`**, so story files are part of the *library* type-check. That is what surfaced the failure above, and it is arguably wrong on its own — stories are not library code. Left as-is; candidate for a small follow-up.
+
+   **✅ Done in the follow-up**, but not as the one-liner it looks like. Excluding `src/stories` drops 58 dead `.d.ts` from `dist` (174K, 56 of them importing the devDependency `@storybook/react-vite`) — none of it reachable from the `types` entry or the `exports` map, so it was tarball weight rather than broken types. The catch: `build:lib` is the **only** full `tsc` pass CI runs, so excluding stories would have removed them from type-checking altogether — and story files are exactly where the undefined-identifier bug in SAV-6399 lived, which ESLint does not flag. So the exclude ships together with a `typecheck` script (`tsc -p tsconfig.json --noEmit`, covering all of `src`) and a CI step, which also closes the same pre-existing gap for test files and the demo app.
 3. **The eslint resolver alias workaround could not be removed.** Retested after the Bundler switch, with `baseUrl` added: the resolver still ignores tsconfig `paths`, most likely because of the project `references` entry. The explicit `alias` stays, now with an accurate comment. Time-boxed rather than chased further.
 4. **The automigration added `@storybook/addon-mcp` unprompted** — removed, along with the legacy `@storybook/blocks` and `@storybook/test` packages the migration left in `package.json` after rewriting their imports.
 5. **One real type error** from Storybook 10's stricter story typings: `PhoneInputFormControl.stories.tsx` typed its demo `label` as `string` while the component accepts `ReactNode`. Fixed the demo to mirror the component API. The other 97 lint errors were pure import-ordering churn from the migration not honouring `@trivago/prettier-plugin-sort-imports` — autofixed.
@@ -331,7 +337,7 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 
 | File | Purpose |
 | --- | --- |
-| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise |
+| `playwright.config.ts` | chromium, `reducedMotion: 'reduce'`, `animations: 'disabled'`, `caret: 'hide'`, 1 % pixel budget for anti-aliasing noise plus a 400-pixel absolute cap (LIB-19) |
 | `visual/stories.spec.ts` | reads `storybook-static/index.json`, one test per story |
 | `visual/theme-slots.spec.ts` | asserts every themed `Mui*` slot reaches the DOM (added by LIB-02) |
 | `visual/__snapshots__/` | committed baselines, **Linux-only** |
@@ -353,7 +359,7 @@ Also worth wiring up regardless: **`.storybook/test-runner.ts` already exists** 
 
 **`node_modules` uses a named Docker volume** (`rcses-visual-node-modules`) rather than an anonymous one, so repeat runs skip the `npm ci` — which is slow over a Windows bind mount. It still masks the host's `node_modules`, keeping Windows-native binaries (esbuild, rollup) intact.
 
-**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically.
+**Opting a story out:** add the `no-snapshot` tag to it. `docs` entries are skipped automatically. Since LIB-19 a story can also be tagged `snapshot-fullpage` to force a whole-page capture, for the rare case where the portal detection does not see what the story is actually testing.
 
 **The a11y check is now wired up too.** `.storybook/test-runner.ts` had `injectAxe`/`checkA11y` fully configured since before this ticket with no workflow calling it. It runs with `if: always()` so a visual failure cannot mask an accessibility regression, and it catches "story throws and renders nothing" — which pixel diffing alone reports only as an unexpectedly blank image.
 
@@ -569,13 +575,13 @@ Two notes for whoever runs the release:
 
 | ID | Summary (LT, for Jira) | Est. | Depends |
 | --- | --- | --- | --- |
-| **LIB-15** | SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
+| **LIB-15** | ⏭️ *Atidėta į 2.1.0* — SAV-5916: custom Button `loading` propo pakeitimas MUI native | **0.5h** | LIB-08c |
 | **LIB-16** | ✅ Migracijos dokumentacija vartotojams (`MIGRATION-v2.md`) | **1h** | LIB-14 |
 | **LIB-17** | `2.0.0-rc.0` išleidimas ir validavimas su ses-ui | **1h** | LIB-16 |
 | **LIB-19** | Vizualinio regreso tikrinimo sugriežtinimas (kadravimas iki komponento) | **0.5h** | - |
 | **LIB-18** | `2.0.0` išleidimas | **0.5h** | LIB-17 |
 
-**LIB-15** — unlocked by LIB-08c. `src/components/common/Button/index.tsx` carries `// TODO: use MUI's loading prop when MUI lib upgrade is done`. Breaking, so it belongs in 2.0.0. Links to existing ticket **SAV-5916**.
+**LIB-15** — unlocked by LIB-08c, but **deferred out of 2.0.0** to the 2.1.0 line, for the reasons under *LIB-15 — dropped from 2.0.0* above. The `// TODO: use MUI's loading prop when MUI lib upgrade is done` it was written against is gone: LIB-08a replaced it with the comment now at `src/components/common/Button/index.tsx:29`, which records why the swap is a separate change. 2.0.0 therefore ships the custom `RcSesLoadingSpinner`, and the swap ships as #154. Links to existing ticket **SAV-5916**.
 **LIB-19** — do this before 2.0.0 ships. `visual/stories.spec.ts` screenshots `fullPage` and
 `playwright.config.ts` allows `maxDiffPixelRatio: 0.01`, so the budget scales with the page while the
 component under test does not. On a 1280x720 shot that is 9216 pixels, which is often larger than the
@@ -593,6 +599,39 @@ for now, so this is a single change touching all baselines and wants its own PR.
 Note that this only closes the drift hole. It would not have caught the disabled or selected day,
 because no story rendered those states, nor `calendar-open`, whose baseline was recorded *after* MUI 9
 and so enshrined the bug. Coverage and regeneration discipline are the other half.
+
+#### LIB-19 — done 2026-09-08
+
+Both halves shipped: shots clip to `#storybook-root`, and `maxDiffPixels: 400` sits alongside the
+ratio. Playwright takes `Math.min` of the two (checked in `playwright-core`), so the ratio governs
+small components and the cap governs large ones. **Median budget is 23x tighter**; 238 of 248
+baselines were re-recorded.
+
+| Baseline | allowed before | allowed now |
+| --- | --- | --- |
+| `organisms-sidenav--with-scroll-overflow` (1248x3936) | 50790 | 400 |
+| any 1280x720 story | 9216 | 400 |
+| `atoms-switch--on` (32x32 root) | 9216 | 10 |
+
+**The plan above was incomplete: clipping to the root alone would have broken 10 stories.** MUI
+renders dialogs, popovers, tooltips, the full-page loader and the open-calendar popup through a
+portal on `<body>`, outside `#storybook-root`. `organisms-dialog--open` is the sharp case — its root
+holds only the 32x32 trigger, so the shot would have captured a button and quietly stopped testing
+the dialog. Those stories are detected at runtime and stay `fullPage`; the absolute cap is what makes
+their budget meaningful, taking them from 9216 to 400 even though their dimensions do not change.
+Detection is runtime rather than a hardcoded list, for the same reason the story list is read from
+the build output. `snapshot-fullpage` forces the path if the check ever misses.
+
+Also added a wait for the story to actually paint. `body.sb-show-main` goes on when Storybook hands
+the story to React, which can be a frame before layout — a probe over all 248 stories measured 30
+roots as 0-height purely from reading too early. The suite never showed this because
+`toHaveScreenshot` retries; the wait makes an empty story fail as an empty story rather than as a
+screenshot timeout.
+
+**Verified against the real escape, not just arithmetic.** Re-introducing the `rc.1` footer bug (text
+recoloured to the background) produces **4352 differing pixels**. Against the old 9216 budget that
+passed, which is exactly how it shipped; it now fails. A clean run is 249 passed, so the 400-pixel
+cap does not flake in the CI image.
 
 **LIB-16** — must cover: MUI 9 now required in the host app; `react-hook-form` is a peer;
 `react-router-dom` no longer provided. SAV-6098 cannot be planned without this.
@@ -650,8 +689,8 @@ All three under epic **SAV-4872** (*Projektuose naudojamų bibliotekų periodini
 
 | Ticket | Scope | Gate | Priority |
 | --- | --- | --- | --- |
-| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** | Re-enable the 76 deferred stricter lint rules; `tsconfig.json` `moduleResolution` `"Node"` → `"Bundler"` (removes the resolver-alias workaround from LIB-05); records why ESLint 10 is unreachable | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
-| **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** | The 6 `react-hooks` v7 findings | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
+| **[SAV-6398](https://jira.registrucentras.lt/jira/browse/SAV-6398)** — ✅ done | Re-enable the deferred stricter lint rules (76 at the time of writing, 113 by the time it was picked up); records why ESLint 10 is unreachable. The `moduleResolution` item was already closed by LIB-07, and the resolver-alias workaround stays: retested here, and dropping it puts lint back to 1296 errors (653 `no-unresolved` + 643 `extensions`) | **After 2.0.0** — doing it earlier would collide with the theme rewrites in Phase 3 | Minor |
+| **[SAV-6399](https://jira.registrucentras.lt/jira/browse/SAV-6399)** — ✅ done | The `react-hooks` v7 findings (6 at the time of writing, 8 by the time it was picked up) | **Before the React 18 → 19 migration**, not merely "after updates". React 19 is stricter about cascading renders and effects, so `set-state-in-effect` and `static-components` can surface as real failures rather than warnings. Independent of 2.0.0 — can run in parallel | Major |
 | **[SAV-6451](https://jira.registrucentras.lt/jira/browse/SAV-6451)** | The 70 a11y violations across 23 story files, then drop `continue-on-error` from the Accessibility step. Fixes belong in the components, not the stories: accessible names for `CircularProgress` (30), icon-only buttons (11), form-control labels (6), and a palette-level look at 20 `color-contrast` failures | **After 2.0.0**, same reasoning as SAV-6398 — contrast fixes move pixels, so every visual baseline would churn mid-release and hide real regressions among intentional ones | Major |
 
 SAV-6398 explicitly records the two rules that must stay **off permanently**, so nobody spends effort "fixing" them: `import-x/no-rename-default` (24 hits, all the deliberate `RcSes*` naming convention) and `import-x/no-empty-named-blocks` (6 hits, the intentional MUI module-augmentation blocks).

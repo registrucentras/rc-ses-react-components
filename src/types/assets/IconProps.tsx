@@ -1,6 +1,6 @@
 import { ColorType } from '@/types/common/ColorType'
 
-type IconProps = {
+interface IconProps {
   className?: string
   width?: number
   height?: number

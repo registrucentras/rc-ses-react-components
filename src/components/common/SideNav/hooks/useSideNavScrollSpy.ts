@@ -6,7 +6,7 @@ const ACTIVATION_LINE_EPSILON = 1
 // long document).
 const PROGRAMMATIC_SCROLL_SETTLE_MS = 600
 
-type UseSideNavScrollSpyOptions = {
+interface UseSideNavScrollSpyOptions {
   itemIds: string[]
   offset?: number
   // Bounds id resolution to this subtree so an id collision elsewhere on the page
@@ -16,8 +16,9 @@ type UseSideNavScrollSpyOptions = {
 
 function findScopedElement(root: Document | HTMLElement, id: string): HTMLElement | null {
   if (root instanceof Document) return root.getElementById(id)
-  // Attribute selector, so an id that is not a valid CSS selector cannot throw.
-  return root.querySelector<HTMLElement>(`[id="${id.replace(/"/g, '\\"')}"]`)
+  // Attribute selector, so an id that is not a valid CSS identifier still
+  // resolves. Escapes both characters a CSS string cannot hold raw.
+  return root.querySelector<HTMLElement>(`[id="${id.replace(/["\\]/g, '\\$&')}"]`)
 }
 
 function useSideNavScrollSpy({ itemIds, offset = 0, scope }: UseSideNavScrollSpyOptions) {

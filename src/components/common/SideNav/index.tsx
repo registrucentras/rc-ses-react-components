@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import normalizeSx from '@/components/utils/normalizeSx'
@@ -7,16 +8,41 @@ import palette, { common } from '@/theme/palette'
 import { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
 import SideNavPillList from './components/SideNavPillList'
 import SideNavRow from './components/SideNavRow'
+import useElementHeight from './hooks/useElementHeight'
+import useKeepActiveItemInView from './hooks/useKeepActiveItemInView'
+
+const ROW_GAP = '0.25rem'
 
 function RcSesSideNav({
   items,
   activeItemId,
   onItemClick,
   title,
+  overflow = 'fit',
+  offset = 0,
+  onOverlayHeightChange,
   sx,
 }: RcSesSideNavProps) {
   const { t } = useTranslation('common', { keyPrefix: 'components.RcSesSideNav' })
   const navTitle = title ?? t('title')
+  const rowListRef = useRef<HTMLDivElement>(null)
+  const pillBarRef = useRef<HTMLDivElement>(null)
+
+  const isScrollable = overflow === 'scroll'
+  useKeepActiveItemInView({
+    containerRef: rowListRef,
+    activeItemId,
+    axis: 'vertical',
+    enabled: isScrollable,
+    behavior: 'smooth',
+  })
+
+  // 0 above the mobile breakpoint, where the bar is display: none and the nav is
+  // a column beside the content rather than a layer on top of it.
+  const overlayHeight = useElementHeight(pillBarRef)
+  useEffect(() => {
+    onOverlayHeightChange?.(overlayHeight)
+  }, [overlayHeight, onOverlayHeightChange])
 
   const getItemAriaLabel = (item: RcSesSideNavItem) =>
     item.count !== undefined
@@ -42,7 +68,11 @@ function RcSesSideNav({
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          gap: '0.25rem',
+          gap: ROW_GAP,
+          // Capped to what is left of the viewport below the sticky header, so
+          // the list can never run past the bottom of the screen. The title stays
+          // put and only the rows scroll, hence minHeight: 0 on this flex column.
+          ...(isScrollable && { maxHeight: `calc(100vh - ${offset}px)`, minHeight: 0 }),
         }}
       >
         <Typography
@@ -55,19 +85,30 @@ function RcSesSideNav({
         >
           {navTitle}
         </Typography>
-        {items.map((item) => (
-          <SideNavRow
-            key={item.id}
-            label={item.label}
-            count={item.count}
-            ariaLabel={getItemAriaLabel(item)}
-            active={item.id === activeItemId}
-            onClick={onItemClick ? () => onItemClick(item.id) : undefined}
-          />
-        ))}
+        <Box
+          ref={rowListRef}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: ROW_GAP,
+            ...(isScrollable && { overflowY: 'auto', minHeight: 0 }),
+          }}
+        >
+          {items.map((item) => (
+            <SideNavRow
+              key={item.id}
+              itemId={item.id}
+              label={item.label}
+              count={item.count}
+              ariaLabel={getItemAriaLabel(item)}
+              active={item.id === activeItemId}
+              onClick={onItemClick ? () => onItemClick(item.id) : undefined}
+            />
+          ))}
+        </Box>
       </Box>
 
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      <Box ref={pillBarRef} sx={{ display: { xs: 'block', md: 'none' } }}>
         <SideNavPillList
           items={items}
           activeItemId={activeItemId}
@@ -80,4 +121,8 @@ function RcSesSideNav({
 }
 
 export default RcSesSideNav
-export type { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
+export type {
+  RcSesSideNavItem,
+  RcSesSideNavOverflow,
+  RcSesSideNavProps,
+} from './SideNav.types'

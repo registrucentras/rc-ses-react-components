@@ -1,11 +1,9 @@
 import { SxProps, Theme } from '@mui/material'
 
 type SxEntry =
-  Extract<SxProps<Theme>, ReadonlyArray<unknown>> extends ReadonlyArray<infer T>
-    ? T
-    : never
+  Extract<SxProps<Theme>, readonly unknown[]> extends readonly (infer T)[] ? T : never
 
-function isSxArray(sx: SxProps<Theme>): sx is ReadonlyArray<SxEntry> {
+function isSxArray(sx: SxProps<Theme>): sx is readonly SxEntry[] {
   return Array.isArray(sx)
 }
 

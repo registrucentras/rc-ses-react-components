@@ -1,13 +1,13 @@
 import { ElementType, ReactNode } from 'react'
 
-export type RcSesServiceLinksTestIds = {
+export interface RcSesServiceLinksTestIds {
   root?: string
   item?: string
   itemLabel?: string
   itemIcon?: string
 }
 
-export type RcSesServiceLinkItem = {
+export interface RcSesServiceLinkItem {
   label: ReactNode
   href?: string
   target?: string
@@ -20,7 +20,7 @@ export type RcSesServiceLinkItem = {
   key?: string
 }
 
-export type RcSesServiceLinksProps = {
+export interface RcSesServiceLinksProps {
   items: RcSesServiceLinkItem[]
   dividers?: boolean
   isLoading?: boolean

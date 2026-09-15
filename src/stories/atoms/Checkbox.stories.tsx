@@ -11,7 +11,7 @@ const variants = ['outlined', 'flat']
 
 const lorem = 'Lorem Ipsum has been the standard.'
 
-type FormModel = {
+interface FormModel {
   agreement: string
 }
 

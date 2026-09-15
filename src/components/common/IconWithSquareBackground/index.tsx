@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 
 import IconProps from '@/assets/IconProps'
@@ -9,7 +9,7 @@ import palette from '@/theme/palette'
 type SquareTileSize = 40 | 44
 type SquareTileVariant = 'solid' | 'soft' | 'muted'
 
-type Props = {
+interface Props {
   Icon: React.JSXElementConstructor<IconProps>
   size?: SquareTileSize
   variant?: SquareTileVariant
@@ -52,11 +52,6 @@ function IconWithSquareBackground(props: Props) {
     }
   }, [variant])
 
-  const StyledIcon = styled(Icon)({
-    height: iconSize,
-    width: iconSize,
-  })
-
   return (
     <Box
       className='IconWithSquareBackground-root'
@@ -70,12 +65,16 @@ function IconWithSquareBackground(props: Props) {
         width: boxSize,
         aspectRatio: '1 / 1',
 
+        svg: {
+          height: iconSize,
+          width: iconSize,
+        },
         'svg path': {
           fill: resolvePaletteColorPath(iconColorPath),
         },
       }}
     >
-      <StyledIcon />
+      <Icon />
     </Box>
   )
 }

@@ -237,7 +237,7 @@ export const Main: Story = {
   },
 }
 
-type VariantsFormModel = {
+interface VariantsFormModel {
   singleSelect: string | null
   groupedSelect: string | null
   groupedMultiSelect: string[]
@@ -267,14 +267,12 @@ const variantOptions = [
   },
 ]
 
-const groupedVariantOptions: Array<
-  {
-    group: string
-  } & {
-    value: string
-    label: string
-  }
-> = [
+const groupedVariantOptions: ({
+  group: string
+} & {
+  value: string
+  label: string
+})[] = [
   { value: 'group-1-option-1', label: '1st option', group: 'Group 1' },
   { value: 'group-1-option-2', label: '2st option', group: 'Group 1' },
   { value: 'group-1-option-3', label: '3rd option', group: 'Group 1' },

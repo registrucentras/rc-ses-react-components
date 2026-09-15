@@ -4,14 +4,14 @@ export type CardShellVariant = 'card' | 'subcard'
 
 export type CardShellTheme = 'default' | 'brand' | 'sunken'
 
-export type RcSesCardShellTestIds = {
+export interface RcSesCardShellTestIds {
   root?: string
   header?: string
   content?: string
   footer?: string
 }
 
-export type RcSesCardShellProps = {
+export interface RcSesCardShellProps {
   variant?: CardShellVariant
   theme?: CardShellTheme
   fullHeight?: boolean

@@ -4,7 +4,7 @@ import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
 import palette from '@/theme/palette'
 
-import { RcSesTitleBlockProps } from './types'
+import { RcSesTitleBlockProps, TitleBlockHeadingLevel } from './types'
 
 function RcSesTitleBlock({
   title,
@@ -20,7 +20,10 @@ function RcSesTitleBlock({
   className,
   testIds,
 }: RcSesTitleBlockProps) {
-  const HeadingTag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  // Annotated rather than asserted: a template literal expression widens to
+  // `string` without a contextual type, and JSX cannot resolve an intrinsic
+  // element from that.
+  const HeadingTag: `h${TitleBlockHeadingLevel}` = `h${headingLevel}`
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
   const isVertical = orientation === 'vertical'
@@ -103,11 +106,15 @@ function RcSesTitleBlock({
   const actionsSlot = actions ? (
     <Stack
       data-testid={testIds?.actions}
-      direction={{ xs: 'column', sm: 'row' }}
+      direction='row'
       spacing={cards.header.actionsGap}
+      // Flex gap instead of sibling margin, so wrapped rows get the vertical
+      // gap and the first action of each row has no stray left margin.
+      useFlexGap
       sx={{
-        alignItems: { xs: 'flex-start', sm: 'center' },
+        alignItems: 'center',
         flexShrink: 0,
+        flexWrap: 'wrap',
       }}
     >
       {actions}
@@ -125,10 +132,7 @@ function RcSesTitleBlock({
       // leaving a sibling-selector margin above the title.
       useFlexGap
       sx={{
-        alignItems:
-          isVertical || hasDescription
-            ? 'flex-start'
-            : { xs: 'flex-start', sm: 'center' },
+        alignItems: isVertical ? 'flex-start' : { xs: 'flex-start', sm: 'center' },
         width: '100%',
       }}
     >
@@ -145,7 +149,7 @@ function RcSesTitleBlock({
           direction='row'
           spacing={cards.header.rowGap}
           sx={{
-            alignItems: hasDescription ? 'flex-start' : 'center',
+            alignItems: 'center',
             flex: 1,
             minWidth: 0,
             width: '100%',

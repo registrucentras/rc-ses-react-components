@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import RcSesTextField from '@/components/form/inputs/TextField'
 
-type FormModel = {
+interface FormModel {
   additionalServices: string
 }
 

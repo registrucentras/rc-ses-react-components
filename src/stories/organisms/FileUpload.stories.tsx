@@ -7,7 +7,7 @@ import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 
-type FormModel = {
+interface FormModel {
   uploadFile: string
   uploadFile2: string
   uploadFile3: string

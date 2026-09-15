@@ -7,7 +7,7 @@ import palette from '@/theme/palette'
 
 import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
-type Props = {
+interface Props {
   title: string
   subtitle?: string
   listItems: ListWithIconsItemData[]

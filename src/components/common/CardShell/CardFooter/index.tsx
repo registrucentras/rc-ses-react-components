@@ -10,19 +10,9 @@ const justifyContent: Record<CardFooterAlign, string> = {
   start: 'flex-start',
 }
 
-// On xs the Stack is column, so cross-axis alignment (alignItems) is what
-// positions children horizontally. Mirror `align` onto it so `end` still
-// renders on the right on mobile when children are not full-width.
-const mobileAlignItems: Record<CardFooterAlign, string> = {
-  between: 'flex-start',
-  end: 'flex-end',
-  start: 'flex-start',
-}
-
 function RcSesCardFooter({
   children,
   align = 'between',
-  stretchOnMobile = true,
   className,
   testIds,
 }: RcSesCardFooterProps) {
@@ -30,13 +20,16 @@ function RcSesCardFooter({
     <Stack
       className={className}
       data-testid={testIds?.root}
-      direction={{ xs: 'column', sm: 'row' }}
+      direction='row'
       spacing={cards.footer.gap}
+      // Flex gap instead of sibling margin, so wrapped lines pick up the
+      // vertical gap and the first child of each row has no stray left margin.
+      useFlexGap
       sx={{
-        alignItems: { xs: mobileAlignItems[align], sm: 'center' },
+        alignItems: 'center',
         justifyContent: justifyContent[align],
         width: '100%',
-        ...(stretchOnMobile ? { '& > *': { width: { xs: '100%', sm: 'auto' } } } : {}),
+        flexWrap: 'wrap',
       }}
     >
       {children}
