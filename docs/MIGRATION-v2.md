@@ -4,7 +4,7 @@
 
 **React stays on 18.** MUI 9 accepts React 17/18/19, so nothing here forces a React upgrade. The peer range is `^18.3.1 || ^19.0.0`.
 
-Sections 1-4 apply to every consumer. Section 5 applies only if you are upgrading from a 1.x older than 1.11.0.
+Sections 1-4 apply to every consumer. Section 5 applies only if you are upgrading from a 1.x older than 1.11.0 - every token change it lists landed at or before that release, and the 1.x line ended at 1.13.0.
 
 ---
 
@@ -109,11 +109,16 @@ MUI 9 made `Stepper` a `tablist` and `StepButton` a `tab`. **Any test or query s
 + const steps = screen.getAllByRole('tab')
 ```
 
-### Language switching and the library's i18next
+### Language switching no longer follows your app's i18next
 
-The library bundles its own i18next instance, initialised with its own `common` and `input` namespaces, and reads the current language from the cookie named by `ENV_LANGUAGE_COOKIE_NAME`. It does **not** read your app's i18next instance.
+In 1.x `i18next` was a peer, so the library and your app resolved to the **same** instance. Two things followed from that, and both stop in 2.0.0:
 
-This is unchanged from 1.x - recorded here because `i18next` disappearing from the peers makes it look like something changed. Nothing did. Switching language still means setting that cookie; calling `i18n.changeLanguage()` on *your* instance will not move the library's labels.
+- your `i18n.changeLanguage()` moved the library's labels;
+- the library's own `init()` overwrote your `fallbackLng`, `lng`, `supportedLngs` and `resources` as soon as one of its components was imported.
+
+2.0.0 bundles `i18next` and `react-i18next`, so the library runs on its own instance. Your `changeLanguage()` no longer moves its labels, and it no longer clobbers your i18next config.
+
+The library picks its language **once, at import time**, from the cookie named by `ENV_LANGUAGE_COOKIE_NAME` (falling back to `ENV_FRONTEND_DEFAULT_LANG`), using its own `common` and `input` namespaces. The instance is not exported, so switching language means setting that cookie and reloading.
 
 ---
 
@@ -164,7 +169,7 @@ Grep your own theme for `Mui[A-Za-z]+-(text|contained|outlined|filled|standard)(
 
 ## 5. Visual changes when coming from a 1.x below 1.11.0
 
-Across the full 1.3.1 → 1.11.0 span the library gained **67 new components** and modified 15 existing ones; your own jump is a subset of that. New components are opt-in - installing 2.0.0 renders none of them until you use them. What *does* change everywhere is the token-level styling:
+The 1.x line ended at **1.13.0**. Between 1.3.1 and 1.11.0 the library gained **67 new components** and modified 15 existing ones; 1.12.0 and 1.13.0 added two more, plus text-wrapping fixes and a tooltip theme. Your own jump is a subset of that. New components are opt-in - installing 2.0.0 renders none of them until you use them. What *does* change everywhere is the token-level styling:
 
 | Token | before | after | changed in |
 | --- | --- | --- | --- |
