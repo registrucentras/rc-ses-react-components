@@ -5,6 +5,7 @@ import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import ShoppingCartIcon from '@/assets/icons/ShoppingCartIcon'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
+import { typography } from '@/theme/light/MuiTypography'
 
 export interface RcSesStepCardFooterProps {
   activeStep: number
@@ -24,7 +25,7 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
         alignItems: { xs: 'baseline', sm: 'flex-end' },
         display: 'flex',
         flexDirection: { xs: 'row', sm: 'column' },
-        gap: 0.25,
+        gap: { xs: 1, sm: 0.25 },
         justifyContent: 'center',
         textAlign: { xs: 'center', sm: 'right' },
       }}
@@ -32,10 +33,7 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
       <Typography variant='caption' sx={{ color: 'grey.500' }}>
         {label}:
       </Typography>
-      <Typography
-        variant='h5'
-        sx={{ color: 'grey.900', fontSize: 18, fontWeight: 500, lineHeight: '24px' }}
-      >
+      <Typography variant='h5' sx={typography.priceEmphasis}>
         {price}
       </Typography>
     </Box>
@@ -66,7 +64,13 @@ function RcSesStepCardFooter({
 
   return (
     <RcSesCardFooter align='between'>
-      <Box sx={{ order: { xs: 1, sm: 0 }, ...responsiveWidthSx }}>
+      <Box
+        sx={{
+          mt: { xs: 0.5, sm: 0 },
+          order: { xs: 1, sm: 0 },
+          ...responsiveWidthSx,
+        }}
+      >
         <Button
           color='grey'
           variant='outlined'

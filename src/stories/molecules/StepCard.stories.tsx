@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ComponentProps, useState } from 'react'
 
@@ -13,6 +13,13 @@ const meta: Meta<typeof RcSesStepCard> = {
   title: 'Molecules/StepCard',
   component: RcSesStepCard,
   tags: ['autodocs'],
+  parameters: {
+    viewport: {
+      options: {
+        mobile375: { name: 'Mobile 375', styles: { height: '900px', width: '375px' } },
+      },
+    },
+  },
   args: {
     title: 'Antraštės tekstas',
     description: 'Papildomas aprašymo tekstas',
@@ -22,7 +29,7 @@ const meta: Meta<typeof RcSesStepCard> = {
 export default meta
 
 const DemoContent = () => (
-  <Container
+  <Box
     sx={{
       alignItems: 'center',
       backgroundColor: 'grey.100',
@@ -32,10 +39,11 @@ const DemoContent = () => (
       display: 'flex',
       height: 140,
       justifyContent: 'center',
+      width: '100%',
     }}
   >
     <Typography variant='body2'>Turinys (Body slot)</Typography>
-  </Container>
+  </Box>
 )
 
 type Story = StoryObj<typeof RcSesStepCard>
@@ -141,4 +149,33 @@ export const CustomFooter: Story = {
       </FieldView>
     </Fields>
   ),
+}
+
+/**
+ * Last-step footer pinned at a 375px viewport - the trailing CTA + price
+ * summary stack above the leading button and the price row goes inline, per
+ * the mobile Figma spec.
+ */
+export const MobileViewport: Story = {
+  render: (args) => (
+    <Fields>
+      <FieldView>
+        <RcSesStepCard
+          {...args}
+          activeStep={STEP_COUNT - 1}
+          stepCount={STEP_COUNT}
+          totalPrice='4,01 €'
+        >
+          <DemoContent />
+        </RcSesStepCard>
+      </FieldView>
+    </Fields>
+  ),
+  // Two separate mechanisms, deliberately: the tag sets Playwright's browser
+  // width for the visual baseline, the global sets the canvas iframe width for
+  // anyone reviewing in Storybook. Docs pages render stories inline at the
+  // container's width, where neither applies, so this one is kept out of the
+  // docs page rather than showing a desktop card under a mobile heading.
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
 }

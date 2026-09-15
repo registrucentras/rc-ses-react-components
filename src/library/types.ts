@@ -25,6 +25,10 @@ import {
 import { RcSesSideNavItem, RcSesSideNavOverflow } from '@/components/common/SideNav'
 import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
 import {
+  RcSesStepCardProps,
+  RcSesStepCardTestIds,
+} from '@/components/common/StepCard/types'
+import {
   RcSesTitleBlockProps,
   RcSesTitleBlockTestIds,
   TitleBlockHeadingLevel,
@@ -82,6 +86,8 @@ export type {
   RcSesSideNavItem,
   RcSesSideNavLayoutProps,
   RcSesSideNavOverflow,
+  RcSesStepCardProps,
+  RcSesStepCardTestIds,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }
