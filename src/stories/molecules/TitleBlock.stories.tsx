@@ -533,8 +533,8 @@ export const BodyScaleTitleInCard: Story = {
   },
 }
 
-// Responsive baselines for SAV-6509 / SAV-6480 DoD ("Responsive patikra 375 /
-// 768 / 1440"). Exercises the mobile stacking of the actions slot
+// Responsive baselines for the 375 / 768 / 1440 responsive check. Exercises
+// the mobile stacking of the actions slot
 // (direction={{ xs: 'column', sm: 'row' }}) so both the two-action and
 // vertical-grid layouts get pinned baselines at 375 and 768.
 

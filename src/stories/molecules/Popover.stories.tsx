@@ -6,7 +6,7 @@ import RcSesPopover from '@/components/common/Popover'
 
 /**
  * `RcSesButtonWithPopover` owns the popover's open state internally and starts
- * closed, so `MuiPopover` never reached a visual baseline (SAV-5648 / LIB-02).
+ * closed, so `MuiPopover` never reached a visual baseline.
  * These stories render the popover itself, already open against a fixed anchor.
  */
 const meta: Meta<typeof RcSesPopover> = {

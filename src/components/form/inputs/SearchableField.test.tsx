@@ -18,7 +18,7 @@ vi.mock('react-i18next', () => ({
 }))
 
 /**
- * Added ahead of the inputProps -> slotProps migration (SAV-5648 / LIB-08b).
+ * Added ahead of the inputProps -> slotProps migration.
  * This component had no tests, and its "click the field to open the modal"
  * behaviour is wired through the input slot - the same API that silently stopped
  * forwarding event handlers on Switch in MUI 6, where types keep passing and only

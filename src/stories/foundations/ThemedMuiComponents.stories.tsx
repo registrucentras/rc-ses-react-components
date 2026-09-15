@@ -17,8 +17,8 @@ import {
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 /**
- * Coverage stories for theme slots no other story puts on the page
- * (SAV-5648 / LIB-02). `visual/theme-slots.spec.ts` fails if one is missing.
+ * Coverage stories for theme slots no other story puts on the page.
+ * `visual/theme-slots.spec.ts` fails if one is missing.
  *
  * Two reasons a slot ends up here:
  *

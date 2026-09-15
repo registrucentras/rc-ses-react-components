@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 import tseslint from 'typescript-eslint'
 
 /**
- * Flat config, replacing the legacy .eslintrc.cjs (SAV-5648 / LIB-05).
+ * Flat config, replacing the legacy .eslintrc.cjs.
  *
  * The chain below mirrors the previous `extends` order:
  *   eslint:recommended -> import -> react -> react/jsx-runtime ->
@@ -46,10 +46,10 @@ const devOnlyPaths = [
 
 /**
  * The stricter rules eslint-config-airbnb-extended enables and the old
- * airbnb + airbnb-typescript pair did not were deferred out of LIB-05 and then
- * adopted in SAV-6398. These two are the exception: they stay off permanently,
- * because both flag a deliberate convention and "fixing" either would make the
- * code worse. Do not spend effort on them.
+ * airbnb + airbnb-typescript pair did not have since been adopted. These two
+ * are the exception: they stay off permanently, because both flag a deliberate
+ * convention and "fixing" either would make the code worse. Do not spend effort
+ * on them.
  */
 const permanentlyDisabledRules = {
   // 24 occurrences, all of them the deliberate `RcSes*` public-name convention:
@@ -110,8 +110,8 @@ export default [
       // The alias is passed explicitly because the resolver does not pick up
       // `paths` from tsconfig.json here, even with baseUrl set and
       // moduleResolution "Bundler" - most likely because of the project
-      // `references` entry. Retested again in SAV-6398: dropping it puts lint
-      // back to 1296 errors (653 no-unresolved + 643 extensions), so it stays.
+      // `references` entry. Retested since: dropping it puts lint back to 1296
+      // errors (653 no-unresolved + 643 extensions), so it stays.
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           project: './tsconfig.json',
