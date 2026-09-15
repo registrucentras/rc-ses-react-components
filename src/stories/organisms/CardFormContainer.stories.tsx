@@ -24,7 +24,7 @@ const longSteps: StepItem[] = [
 const meta: Meta<typeof RcSesCardFormContainer> = {
   title: 'Organisms/CardFormContainer',
   component: RcSesCardFormContainer,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'deprecated'],
   argTypes: {
     steps: { table: { disable: true } },
     onStepClick: { table: { disable: true } },
