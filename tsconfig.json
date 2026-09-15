@@ -2,6 +2,9 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    // Required alongside `paths` for eslint-import-resolver-typescript to pick
+    // up the `@/*` mapping. tsconfig.lib.json already sets it.
+    "baseUrl": ".",
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -13,7 +16,10 @@
     ],
     "types": ["vitest/globals"],
     "module": "ESNext",
-    "moduleResolution": "Node",
+    // "Bundler" is required from Storybook 10 on: its packages expose types via
+    // `exports` maps, which the legacy node10 resolution cannot read. It is also
+    // the correct setting for a Vite-built project.
+    "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
       "@/*": ["./src/*"],

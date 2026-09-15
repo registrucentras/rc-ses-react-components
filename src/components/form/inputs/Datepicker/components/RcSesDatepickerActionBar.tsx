@@ -1,11 +1,14 @@
 import { Button, DialogActions } from '@mui/material'
 import type { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
-import { usePickersTranslations } from '@mui/x-date-pickers/hooks'
+import { usePickerActionsContext, usePickerTranslations } from '@mui/x-date-pickers/hooks'
 
 function RcSesDatepickerActionBar(props: PickersActionBarProps) {
-  const { actions, onAccept, onCancel, onClear, onSetToday, ...other } = props
+  const { actions, ...other } = props
 
-  const translations = usePickersTranslations()
+  const translations = usePickerTranslations()
+  // x-date-pickers 9 dropped the onAccept/onCancel/onClear/onSetToday props from
+  // PickersActionBarProps; the actions now come from the picker's context.
+  const { clearValue, cancelValueChanges } = usePickerActionsContext()
 
   if (actions == null || actions.length === 0) {
     return null
@@ -15,13 +18,13 @@ function RcSesDatepickerActionBar(props: PickersActionBarProps) {
     switch (actionType) {
       case 'clear':
         return (
-          <Button key={actionType} color='error' onClick={onClear} variant='text'>
+          <Button key={actionType} color='error' onClick={clearValue} variant='text'>
             {translations.clearButtonLabel}
           </Button>
         )
       case 'cancel':
         return (
-          <Button key={actionType} onClick={onCancel} variant='text'>
+          <Button key={actionType} onClick={cancelValueChanges} variant='text'>
             {translations.cancelButtonLabel}
           </Button>
         )

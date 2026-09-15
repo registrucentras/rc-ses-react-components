@@ -8,7 +8,7 @@ import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import theme from '@/theme/light'
 
-import AdvancedListItem from './index'
+import AdvancedListItem from '.'
 
 const renderItem = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
@@ -496,7 +496,7 @@ describe('AdvancedListItem', () => {
 
       renderItem(<Wrapper />)
 
-      const input = screen.getByLabelText('Company name') as HTMLInputElement
+      const input = screen.getByLabelText('Company name')
       fireEvent.change(input, { target: { value: 'UAB Įmonė' } })
       expect(input).toHaveValue('UAB Įmonė')
 
@@ -571,7 +571,7 @@ describe('AdvancedListItem', () => {
         />,
       )
 
-      const field = screen.getByLabelText('Field') as HTMLInputElement
+      const field = screen.getByLabelText('Field')
       const contentContainer = field.closest('[id]') as HTMLElement
 
       // jsdom doesn't implement the `.inert` IDL property (it's always undefined there even

@@ -1,0 +1,163 @@
+import { Page, expect, test } from '@playwright/test'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
+/**
+ * Screenshots every story in the built Storybook and compares it against a
+ * committed baseline (SAV-5648 / LIB-01).
+ *
+ * Requires `npm run storybook-build` to have been run first - the story list is
+ * read from the build output rather than hard-coded, so new stories are picked
+ * up automatically and no one has to remember to register them here.
+ *
+ * Opt a story out by adding the `no-snapshot` tag to it.
+ *
+ * Shots are clipped to `#storybook-root`, so the diff budget is a share of the
+ * component rather than of the page around it (LIB-19).
+ */
+
+/**
+ * Layers MUI renders through a portal on `<body>`, outside `#storybook-root`.
+ * A story rendering one has to be captured `fullPage` or the shot misses it:
+ * `organisms-dialog--open` keeps only its 32x32 trigger in the root.
+ */
+const PORTAL_LAYER_SELECTOR = [
+  '.MuiModal-root',
+  '.MuiDialog-root',
+  '.MuiPopover-root',
+  '.MuiPopper-root',
+  '.MuiTooltip-popper',
+  '.MuiDrawer-root',
+  '.MuiSnackbar-root',
+  '.MuiMenu-root',
+  '.MuiBackdrop-root',
+].join(',')
+
+interface StoryIndexEntry {
+  type: string
+  id: string
+  name: string
+  title: string
+  tags?: string[]
+}
+
+const indexPath = fileURLToPath(
+  new URL('../storybook-static/index.json', import.meta.url),
+)
+
+let entries: StoryIndexEntry[]
+try {
+  const index = JSON.parse(readFileSync(indexPath, 'utf8')) as {
+    entries: Record<string, StoryIndexEntry>
+  }
+  entries = Object.values(index.entries)
+} catch {
+  throw new Error(
+    `Could not read ${indexPath}. Run \`npm run storybook-build\` before the visual tests.`,
+  )
+}
+
+const stories = entries
+  // `docs` entries are generated documentation pages, not component renderings.
+  .filter((entry) => entry.type === 'story')
+  .filter((entry) => !entry.tags?.includes('no-snapshot'))
+  .sort((a, b) => a.id.localeCompare(b.id))
+
+if (stories.length === 0) {
+  throw new Error('Story index contained no stories - was the Storybook build empty?')
+}
+
+/**
+ * Stories tagged `viewport-<width>` are captured at that width instead of the
+ * project's desktop default, so responsive values (the shell's xs paddings, the
+ * footer stacking below sm) get a baseline of their own. Only the width matters:
+ * MUI breakpoints are width-based, and the clip decides the captured height.
+ */
+const viewportWidth = (tags: string[] | undefined) => {
+  const tag = tags?.find((entry) => entry.startsWith('viewport-'))
+  if (!tag) {
+    return null
+  }
+
+  const width = Number(tag.slice('viewport-'.length))
+  if (!Number.isFinite(width) || width <= 0) {
+    throw new Error(`Story tag "${tag}" is not a usable viewport width.`)
+  }
+
+  return width
+}
+
+/**
+ * `body.sb-show-main` is set when Storybook hands the story to React, which can
+ * be a frame before anything is laid out, so wait for a measurable box.
+ */
+const waitForStoryPaint = (page: Page) =>
+  page.waitForFunction((selector: string) => {
+    const root = document.querySelector('#storybook-root')
+    if (!root) {
+      return false
+    }
+
+    const box = root.getBoundingClientRect()
+    if (box.width > 0 && box.height > 0) {
+      return true
+    }
+
+    // A story whose only output is portalled leaves the root itself empty.
+    return Array.from(document.querySelectorAll(selector)).some((element) => {
+      const portalBox = element.getBoundingClientRect()
+      return portalBox.width > 0 && portalBox.height > 0
+    })
+  }, PORTAL_LAYER_SELECTOR)
+
+const hasPortalledLayer = (page: Page) =>
+  page.evaluate((selector: string) => {
+    const root = document.querySelector('#storybook-root')
+    if (!root) {
+      return false
+    }
+
+    return Array.from(document.querySelectorAll(selector)).some((element) => {
+      if (root.contains(element)) {
+        return false
+      }
+
+      const box = element.getBoundingClientRect()
+      return box.width > 0 && box.height > 0
+    })
+  }, PORTAL_LAYER_SELECTOR)
+
+test.describe('Storybook visual regression', () => {
+  stories.forEach((story) => {
+    test(`${story.title} - ${story.name}`, async ({ page }) => {
+      const width = viewportWidth(story.tags)
+      if (width !== null) {
+        await page.setViewportSize({ width, height: 900 })
+      }
+      await page.goto(`/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story`, {
+        waitUntil: 'domcontentloaded',
+      })
+
+      // Storybook toggles these classes on <body> once the story has rendered.
+      await page.waitForSelector('body.sb-show-main', { state: 'attached' })
+      await expect(page.locator('body.sb-show-errordisplay')).toHaveCount(0)
+      await expect(page.locator('#storybook-root')).toBeAttached()
+      await waitForStoryPaint(page)
+
+      // Without this, the first stories in a run can capture fallback glyphs
+      // before Public Sans has finished loading.
+      await page.evaluate(() => document.fonts.ready)
+
+      // `snapshot-fullpage` overrides the check, for a portal it cannot see.
+      const isPortalled =
+        story.tags?.includes('snapshot-fullpage') || (await hasPortalledLayer(page))
+
+      if (isPortalled) {
+        await expect(page).toHaveScreenshot(`${story.id}.png`, { fullPage: true })
+        return
+      }
+
+      await expect(page.locator('#storybook-root')).toHaveScreenshot(`${story.id}.png`)
+    })
+  })
+})

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form'
 
 import theme from '@/theme/light'
 
-import RcSesSelect from './index'
+import RcSesSelect from '.'
 
-type TestWrapperProps = {
+interface TestWrapperProps {
   defaultValue?: string | null
 }
 
@@ -22,13 +22,13 @@ const options = [
   },
 ]
 
-type UnregisterTestWrapperProps = {
+interface UnregisterTestWrapperProps {
   shouldUnregister?: boolean
 }
 
 const UnregisterTestWrapper = ({ shouldUnregister }: UnregisterTestWrapperProps) => {
   const { control, getValues } = useForm({
-    defaultValues: { selection: 'short-option' as string | null },
+    defaultValues: { selection: 'short-option' },
   })
   const [mounted, setMounted] = useState(true)
   const [formValues, setFormValues] = useState('')

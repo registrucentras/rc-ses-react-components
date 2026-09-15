@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import i18n from '@/i18n/i18n'
 import theme from '@/theme/light'
 
-import RcSesBadge from './index'
+import RcSesBadge from '.'
 
 const getCloseAriaLabel = (label: string) =>
   i18n.t('components.RcSesBadge.aria.close', { label, ns: 'input' })

@@ -47,14 +47,24 @@ function RcSesLoader({
       role='status'
       aria-live='polite'
       aria-label={!showLabel ? (ariaLabel ?? resolvedLabel) : ariaLabel}
-      alignItems='center'
-      gap={gap}
-      sx={[{ color: RcSesPalette.primary[700] }, ...(Array.isArray(sx) ? sx : [sx])]}
       {...props}
+      sx={[
+        {
+          alignItems: 'center',
+          gap,
+        },
+        { color: RcSesPalette.primary[700] },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       <RcSesLoadingSpinner color='inherit' size={spinnerSize} />
       {showLabel && (
-        <Typography color='text.secondary' variant={textVariant}>
+        <Typography
+          variant={textVariant}
+          sx={{
+            color: 'text.secondary',
+          }}
+        >
           {resolvedLabel}
         </Typography>
       )}

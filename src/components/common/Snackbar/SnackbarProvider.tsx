@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 
-import RcSesSnackbar from './index'
+import RcSesSnackbar from '.'
 import { type SnackbarSize, type SnackbarState } from './types'
 
 export interface SnackbarConfig {

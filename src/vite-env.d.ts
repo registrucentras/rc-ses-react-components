@@ -8,7 +8,7 @@ export declare global {
   }
 }
 
-export type EnvVariables = {
+export interface EnvVariables {
   ENV_BUILD_VERSION: string;
 
   ENV_PUBLIC_PORTAL_URL: string;
@@ -37,7 +37,7 @@ export type EnvVariables = {
   ENV_KEYCLOAK_SERVER_URL: string;
 }
 
-export type MFEEnvVariables = {
+export interface MFEEnvVariables {
   ENV_SERVICE_ROUTES: { path: string, application: string }[];
   ENV_OWNED_PROPERTIES_ROUTES: { path: string, application: string }[];
 }

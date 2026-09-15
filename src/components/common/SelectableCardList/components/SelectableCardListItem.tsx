@@ -7,7 +7,7 @@ import palette from '@/theme/palette'
 
 import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
-type Props = {
+interface Props {
   title: string
   subtitle?: string
   listItems: ListWithIconsItemData[]
@@ -31,12 +31,24 @@ const SelectableCardListItem = ({
   onActionButtonClick,
 }: Props) => {
   const titleTemplate = isLoading ? (
-    <Stack direction='row' alignItems='center' gap='0.75rem'>
+    <Stack
+      direction='row'
+      sx={{
+        alignItems: 'center',
+        gap: '0.75rem',
+      }}
+    >
       <Skeleton variant='circular' width={20} height={20} />
       <Skeleton variant='text' width={100} />
     </Stack>
   ) : (
-    <Stack direction='row' alignItems='flex-start' gap='0.75rem'>
+    <Stack
+      direction='row'
+      sx={{
+        alignItems: 'flex-start',
+        gap: '0.75rem',
+      }}
+    >
       <Radio
         aria-label={`Select ${title}`}
         checked={selected}

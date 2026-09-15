@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import RcSesDialog from './index'
+import RcSesDialog from '.'
 
 describe('RcSesDialog', () => {
   it('should render dialog title', () => {

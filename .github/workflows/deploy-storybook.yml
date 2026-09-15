@@ -30,8 +30,12 @@ jobs:
       - name: Build Storybook
         run: npm run storybook-build
 
+      # Only a full release replaces the published Storybook. A pre-release
+      # (2.0.0-rc.0 and friends) must not, or the site at the root advertises an
+      # unreleased library - which is exactly what happened on 2.0.0-rc.0 and
+      # had to be undone by re-deploying from main by hand.
       - name: Deploy release to root
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && !github.event.release.prerelease
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,6 +43,27 @@ jobs:
           destination_dir: .
           keep_files: true
           cname: ses-react-storybook.registrucentras.lt
+
+      # Pre-releases still get a Storybook, just not the root one - it goes to a
+      # per-tag preview so an rc can be reviewed before it is promoted.
+      - name: Deploy pre-release to preview
+        if: github.event_name == 'release' && github.event.release.prerelease
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: storybook-static
+          destination_dir: preview/${{ github.event.release.tag_name }}
+          keep_files: true
+          cname: ses-react-storybook.registrucentras.lt
+
+      - name: Pre-release Storybook URL
+        if: github.event_name == 'release' && github.event.release.prerelease
+        run: |
+          echo "### Storybook (pre-release)" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 https://ses-react-storybook.registrucentras.lt/preview/${{ github.event.release.tag_name }}/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The root Storybook was left untouched because this release is marked as a pre-release." >> $GITHUB_STEP_SUMMARY
+
       - name: Deploy preview from branch
         if: github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v4

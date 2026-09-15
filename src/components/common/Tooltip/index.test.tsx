@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createRef } from 'react'
 import { describe, expect, test, vi } from 'vitest'
 
-import RcSesTooltip from './index'
+import RcSesTooltip from '.'
 
 describe('RcSesTooltip', () => {
   test('renders default trigger button', () => {

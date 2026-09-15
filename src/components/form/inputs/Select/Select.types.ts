@@ -1,4 +1,4 @@
-export type Option = {
+export interface Option {
   label: string
   value: string
   description?: string

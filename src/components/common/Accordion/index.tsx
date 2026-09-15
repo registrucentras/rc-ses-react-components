@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import React from 'react'
 
@@ -20,10 +19,7 @@ function RcSesAccordion(props: Props) {
       ? state[id]
       : { canToggle: true, disabled: false, expanded: false, title: '' }
 
-  const handleOnChange = (
-    event: React.SyntheticEvent<Element, Event>,
-    isExpanded: boolean,
-  ) => {
+  const handleOnChange = (event: React.SyntheticEvent, isExpanded: boolean) => {
     if (canToggle === false) return
 
     toggleAccordion(id, isExpanded)

@@ -28,6 +28,10 @@
     "AdvancedListItemLeading": {
       "moveUp": "Perkelti aukštyn",
       "moveDown": "Perkelti žemyn"
+    },
+    "RcSesSideNav": {
+      "title": "Temos",
+      "itemLabel": "{{label}}, {{count}}"
     }
   }
 }

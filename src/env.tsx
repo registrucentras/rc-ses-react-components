@@ -1,4 +1,4 @@
-import { EnvVariables, MFEEnvVariables } from './vite-env'
+import type { EnvVariables, MFEEnvVariables } from './vite-env'
 
 const env: EnvVariables & MFEEnvVariables = {
   ENV_BUILD_VERSION: window.ENV?.ENV_BUILD_VERSION ?? import.meta.env.VITE_BUILD_VERSION,

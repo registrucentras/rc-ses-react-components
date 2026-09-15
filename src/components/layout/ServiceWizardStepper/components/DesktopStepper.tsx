@@ -46,7 +46,8 @@ const DesktopStepper = ({
         <Step key={step.id}>
           <StepButton onClick={() => handleStepClick(index)} disabled={!isClickable}>
             <StyledStepLabel
-              StepIconComponent={CustomStepIcon}
+              // MUI 9 replaced StepIconComponent with the stepIcon slot.
+              slots={{ stepIcon: CustomStepIcon }}
               stepState={stepState}
               orientation={resolvedOrientation}
               isLast={index === stepEntries.length - 1}

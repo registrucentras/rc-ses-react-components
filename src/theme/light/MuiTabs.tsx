@@ -12,7 +12,8 @@ const MuiTabs: Components['MuiTabs'] = {
       minHeight: '2.25rem',
       textTransform: 'none',
     },
-    flexContainer: {
+    // v9 renamed the flexContainer slot to list.
+    list: {
       borderBottomStyle: 'solid',
       borderBottomColor: palette.grey['300'],
       borderBottomWidth: 1,

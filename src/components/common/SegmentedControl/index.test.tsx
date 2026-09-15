@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, test, vi } from 'vitest'
 
-import RcSesSegmentedControl, { type RcSesSegmentOption } from './index'
+import RcSesSegmentedControl, { type RcSesSegmentOption } from '.'
 
 describe('RcSesSegmentedControl', () => {
   const options: RcSesSegmentOption[] = [
