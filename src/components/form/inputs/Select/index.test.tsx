@@ -86,11 +86,11 @@ const groupedOptions = [
   { value: 'regitra', label: 'Regitra', group: 'Transportas' },
 ]
 
-type GroupedFormModel = {
+interface GroupedFormModel {
   providers: string[]
 }
 
-type GroupedMultiTestWrapperProps = {
+interface GroupedMultiTestWrapperProps {
   defaultValue?: string[]
   dropdownSearch?: boolean
 }

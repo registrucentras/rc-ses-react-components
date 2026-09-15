@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import CheckIcon from '@/assets/icons/CheckIcon'
 import palette from '@/theme/palette'
 
-type Props = {
+interface Props {
   checked: boolean
 }
 
