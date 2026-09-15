@@ -1,11 +1,14 @@
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesTitleBlock from '@/components/common/TitleBlock'
 import { typography } from '@/theme/light/MuiTypography'
 import { spacing } from '@/theme/spacing'
 
-import RcSesStepCardFooter from './StepCardFooter'
+import RcSesStepCardFooter, {
+  stepCardFooterLeadingSx,
+  stepCardFooterTrailingSx,
+} from './StepCardFooter'
 import { RcSesStepCardProps } from './types'
 
 function RcSesStepCard({
@@ -21,7 +24,17 @@ function RcSesStepCard({
   children,
   testIds,
 }: RcSesStepCardProps) {
-  const resolvedFooter = footer ?? (
+  const resolvedFooter = footer ? (
+    <Box
+      sx={{
+        width: '100%',
+        '& > * > :first-of-type': stepCardFooterLeadingSx,
+        '& > * > :last-child': stepCardFooterTrailingSx,
+      }}
+    >
+      {footer}
+    </Box>
+  ) : (
     <RcSesStepCardFooter
       activeStep={activeStep}
       stepCount={stepCount}

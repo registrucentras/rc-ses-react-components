@@ -18,6 +18,17 @@ export interface RcSesStepCardFooterProps {
 
 const responsiveWidthSx = { width: { xs: '100%', sm: 'auto' } } as const
 
+export const stepCardFooterLeadingSx = {
+  mt: { xs: 0.5, sm: 0 },
+  order: { xs: 1, sm: 0 },
+  ...responsiveWidthSx,
+} as const
+
+export const stepCardFooterTrailingSx = {
+  order: { xs: 0, sm: 1 },
+  ...responsiveWidthSx,
+} as const
+
 function PriceSummary({ label, price }: { label: string; price: string }) {
   return (
     <Box
@@ -64,13 +75,7 @@ function RcSesStepCardFooter({
 
   return (
     <RcSesCardFooter align='between'>
-      <Box
-        sx={{
-          mt: { xs: 0.5, sm: 0 },
-          order: { xs: 1, sm: 0 },
-          ...responsiveWidthSx,
-        }}
-      >
+      <Box sx={stepCardFooterLeadingSx}>
         <Button
           color='grey'
           variant='outlined'
@@ -88,8 +93,7 @@ function RcSesStepCardFooter({
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           gap: 2,
-          order: { xs: 0, sm: 1 },
-          ...responsiveWidthSx,
+          ...stepCardFooterTrailingSx,
         }}
       >
         {showPriceSummary ? (
