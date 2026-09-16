@@ -1,0 +1,10 @@
+import{l as e,W as i}from"./iframe-BL6TfiF8.js";import{L as s}from"./index-B5XvTtHH.js";import"./preload-helper-PPVm8Dsz.js";import"./Box-Be2iuQIH.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./Typography-DTX_nK23.js";import"./memoTheme-ilhfXMHW.js";import"./createSimplePaletteValueFilter-bm0fmN_7.js";import"./Tooltip-ByjN-BF3.js";import"./useReducedMotion-BwTtuJ8i.js";import"./useSlot-ChGHh0xv.js";import"./mergeSlotProps-CMBTMKO6.js";import"./useTimeout-Dl239K_i.js";import"./useControlled-C5ebXLLz.js";import"./getReactElementRef-XhjLfU4n.js";import"./Grow-3QPdhEwv.js";import"./Transition-Dm_cEf0X.js";import"./utils-cxgvJEOf.js";import"./Popper-BMxpz2H4.js";import"./ownerDocument-DW-IO8s5.js";import"./Portal-B1Llepq4.js";import"./index-4I1EOtY9.js";import"./index-9r9QSjo7.js";import"./setRef-CQn2LYBI.js";import"./useSlotProps-B_Z0mDz5.js";import"./isFocusVisible-B8k4qzLc.js";import"./Skeleton-DAAn5MWQ.js";const a=[{icon:e,text:"Application received",tooltip:"The submission was successfully received."},{icon:i,text:"Requires review",tooltip:"A specialist will review the provided details."},{icon:i,text:"Unavailable item",tooltip:"This item is currently disabled.",disabled:!0}],q={title:"Molecules/ListWithIcons",component:s,tags:["autodocs"],args:{items:a,layout:"vertical",isLoading:!1},argTypes:{layout:{control:{type:"radio"},options:["vertical","horizontal"]},isLoading:{control:{type:"boolean"}},items:{control:!1}}},o={},t={args:{layout:"horizontal"}},r={args:{isLoading:!0}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:"{}",...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    layout: 'horizontal'
+  }
+}`,...t.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  args: {
+    isLoading: true
+  }
+}`,...r.parameters?.docs?.source}}};const E=["Main","Horizontal","Loading"];export{t as Horizontal,r as Loading,o as Main,E as __namedExportsOrder,q as default};
+//# sourceMappingURL=ListWithIcons.stories-COSg_21T.js.map
