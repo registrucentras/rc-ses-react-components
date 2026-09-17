@@ -4,6 +4,7 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
+import { secondary } from '@/theme/palette'
 
 import ListWithIcons from '.'
 
@@ -61,5 +62,35 @@ describe('ListWithIcons', () => {
     fireEvent.mouseOver(screen.getByText('Hover me'))
 
     expect(await screen.findByRole('tooltip')).toHaveTextContent('Helpful tooltip text')
+  })
+
+  test('applies the DS Text token color for the given textColor tone name', () => {
+    renderListWithIcons(
+      <ListWithIcons
+        items={[
+          { text: 'Default text', textColor: 'default' },
+          { text: 'Secondary text', textColor: 'secondary' },
+          { text: 'Muted text', textColor: 'muted' },
+          { text: 'Disabled text', textColor: 'disabled' },
+          { text: 'Link text', textColor: 'link' },
+          { text: 'Link hover text', textColor: 'linkHover' },
+        ]}
+      />,
+    )
+
+    expect(screen.getByText('Default text')).toBeInTheDocument()
+    expect(screen.getByText('Secondary text')).toBeInTheDocument()
+    expect(screen.getByText('Muted text')).toBeInTheDocument()
+    expect(screen.getByText('Disabled text')).toBeInTheDocument()
+    expect(screen.getByText('Link text')).toBeInTheDocument()
+    expect(screen.getByText('Link hover text')).toBeInTheDocument()
+  })
+
+  test('accepts a raw palette color value for textColor, not just a named tone', () => {
+    renderListWithIcons(
+      <ListWithIcons items={[{ text: 'Custom colored', textColor: secondary['700'] }]} />,
+    )
+
+    expect(screen.getByText('Custom colored')).toHaveStyle({ color: secondary['700'] })
   })
 })
