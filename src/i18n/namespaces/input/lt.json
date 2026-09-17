@@ -83,6 +83,12 @@
         },
         "cancel": "Atšaukti"
       }
+    },
+
+    "RcSesBottomSheet": {
+      "aria": {
+        "back": "Atgal"
+      }
     }
   }
 }

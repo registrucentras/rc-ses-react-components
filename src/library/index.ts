@@ -62,6 +62,7 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import RcSesFullPageLoader from '@/components/loaders/FullPageLoader'
 import RcSesLoader from '@/components/loaders/Loader'
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
+import RcSesBottomSheet from '@/components/overlays/BottomSheet'
 import RcSesDialog from '@/components/overlays/Dialog'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
@@ -99,6 +100,7 @@ export {
   RcSesModal,
   RcSesStepCard,
   RcSesSwitch,
+  RcSesBottomSheet,
 }
 export { RcSesSegmentedControl }
 export { RcSesSideNavLayout }
