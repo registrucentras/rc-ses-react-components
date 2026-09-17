@@ -20,6 +20,14 @@ const darkTheme = lightTheme
 
 const preview: Preview = {
   parameters: {
+    tagBadges: [
+      {
+        tags: 'deprecated',
+        badge: {
+          text: 'Deprecated',
+        },
+      },
+    ],
     controls: {
       matchers: {
         color: /(background|color)$/i,

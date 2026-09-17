@@ -40,6 +40,7 @@ import ScalesIcon from '@/assets/icons/ScalesIcon'
 import ScrollIcon from '@/assets/icons/ScrollIcon'
 import SearchHelpIcon from '@/assets/icons/SearchHelpIcon'
 import SearchXIcon from '@/assets/icons/SearchXIcon'
+import ShoppingCartIcon from '@/assets/icons/ShoppingCartIcon'
 import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
@@ -92,6 +93,7 @@ export {
   ScrollIcon,
   SearchHelpIcon,
   SearchXIcon,
+  ShoppingCartIcon,
   SpinnerGapBoldIcon,
   TrashIcon,
   UploadSimpleIcon,

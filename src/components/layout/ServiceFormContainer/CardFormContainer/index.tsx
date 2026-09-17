@@ -15,6 +15,9 @@ export interface RcSesCardFormContainerProps extends RcSesCardProps {
   isLoading?: boolean
 }
 
+/**
+ * @deprecated Use `RcSesStepCard` instead. Will be removed in a future major release.
+ */
 const RcSesCardFormContainer = ({
   steps,
   onStepClick,
