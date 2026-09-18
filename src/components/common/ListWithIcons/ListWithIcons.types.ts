@@ -12,11 +12,6 @@ import {
 
 export type ListWithIconsItemTone = 'default' | 'secondary' | 'muted' | 'link'
 
-/**
- * Any color value that exists in the design system palette (`@/theme/palette`),
- * e.g. `secondary['700']` or `primary.main`. Prevents passing arbitrary/hardcoded
- * colors that aren't sourced from the palette.
- */
 export type PaletteColor =
   | (typeof primary)[keyof typeof primary]
   | (typeof secondary)[keyof typeof secondary]
@@ -31,10 +26,5 @@ export interface ListWithIconsItemData {
   text?: string
   disabled?: boolean
   tooltip?: string
-  /**
-   * DS "Text" token name, or a custom color from `@/theme/palette`.
-   * Defaults to `'secondary'` (grey[600]), matching the Figma Meta component
-   * (node 46320:2805) which binds meta icon + text to Text/secondary.
-   */
   textColor?: ListWithIconsItemTone | PaletteColor
 }
