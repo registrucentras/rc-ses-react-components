@@ -11,7 +11,11 @@ import {
   RcSesCardShellTestIds,
 } from '@/components/common/CardShell/types'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
-import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
+import {
+  ListWithIconsItemData,
+  ListWithIconsItemTone,
+  PaletteColor,
+} from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
   RcSesSegmentOption,
   RcSesSegmentedControlProps,
@@ -52,7 +56,12 @@ import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-export type { ListWithIconsProps, ListWithIconsItemData }
+export type {
+  ListWithIconsProps,
+  ListWithIconsItemData,
+  ListWithIconsItemTone,
+  PaletteColor,
+}
 export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 

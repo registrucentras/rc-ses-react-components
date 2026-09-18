@@ -2,10 +2,17 @@ import { Box, Skeleton, Tooltip, Typography } from '@mui/material'
 
 import palette from '@/theme/palette'
 
-import { ListWithIconsItemData } from '../ListWithIcons.types'
+import { ListWithIconsItemData, ListWithIconsItemTone } from '../ListWithIcons.types'
 
 interface Props extends ListWithIconsItemData {
   isLoading?: boolean
+}
+
+const TEXT_TONE_COLORS: Record<ListWithIconsItemTone, string> = {
+  default: palette.grey[900],
+  secondary: palette.grey[600],
+  muted: palette.grey[500],
+  link: palette.primary['700'],
 }
 
 const ListWithIconsItem = ({
@@ -13,10 +20,12 @@ const ListWithIconsItem = ({
   text,
   disabled,
   tooltip,
-  textColor,
+  textColor = 'secondary',
   isLoading,
 }: Props) => {
   const Icon = icon
+
+  const resolvedColor = TEXT_TONE_COLORS[textColor as ListWithIconsItemTone] ?? textColor
 
   const content = (
     <Box
@@ -29,7 +38,7 @@ const ListWithIconsItem = ({
     >
       {Icon && (
         <Box sx={{ display: 'flex', alignItems: 'center', height: 20 }}>
-          <Icon fillColor={textColor ?? palette.grey[600]} size={16} />
+          <Icon fillColor={resolvedColor} size={16} />
         </Box>
       )}
       <Typography
@@ -40,7 +49,7 @@ const ListWithIconsItem = ({
           fontWeight: 300,
           whiteSpace: 'normal',
           wordBreak: 'break-word',
-          color: textColor,
+          color: resolvedColor,
         }}
       >
         {text}
