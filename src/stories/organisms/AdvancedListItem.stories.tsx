@@ -655,7 +655,7 @@ export const KrepselisWithDeletePreset: Story = {
 }
 
 export const MetaInfoTones: Story = {
-  name: 'Meta info: Text tokenai (default/secondary/muted/disabled/link/linkHover)',
+  name: 'Meta info: textColor tokens (default/secondary/muted/disabled/link/linkHover)',
   render: () => (
     <Stack
       sx={{
@@ -696,16 +696,6 @@ export const MetaInfoTones: Story = {
       </Stack>
       <Stack sx={{ gap: 0.5 }}>
         <Typography variant='caption' sx={{ color: 'text.secondary' }}>
-          textColor: disabled
-        </Typography>
-        <AdvancedListItem
-          title='Neaktyvus įrašas'
-          subtitle='Reg. Nr. 4400-1234-5678'
-          metaItems={[{ text: 'Nepasiekiama', textColor: 'disabled' }]}
-        />
-      </Stack>
-      <Stack sx={{ gap: 0.5 }}>
-        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
           textColor: link
         </Typography>
         <AdvancedListItem
@@ -716,17 +706,7 @@ export const MetaInfoTones: Story = {
       </Stack>
       <Stack sx={{ gap: 0.5 }}>
         <Typography variant='caption' sx={{ color: 'text.secondary' }}>
-          textColor: linkHover
-        </Typography>
-        <AdvancedListItem
-          title='Nuoroda (hover)'
-          subtitle='Reg. Nr. 4400-1234-5678'
-          metaItems={[{ text: 'Peržiūrėti dokumentą', textColor: 'linkHover' }]}
-        />
-      </Stack>
-      <Stack sx={{ gap: 0.5 }}>
-        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
-          textColor: default + secondary + link (keli meta elementai vienoje eilutėje)
+          textColor: default + secondary + link (multiple meta items in one row)
         </Typography>
         <AdvancedListItem
           title='Keli meta elementai vienoje eilutėje'
@@ -740,12 +720,12 @@ export const MetaInfoTones: Story = {
       </Stack>
       <Stack sx={{ gap: 0.5 }}>
         <Typography variant='caption' sx={{ color: 'text.secondary' }}>
-          textColor: custom spalva iš palette (pvz. JADIS)
+          textColor: custom color from the palette
         </Typography>
         <AdvancedListItem
           title='JADIS pažymėjimas'
           subtitle='Reg. Nr. 4400-1234-5678'
-          metaItems={[{ text: 'JADIS', textColor: secondary['700'] }]}
+          metaItems={[{ text: 'Peržiūrėti dokumentą', textColor: secondary['700'] }]}
         />
       </Stack>
     </Stack>

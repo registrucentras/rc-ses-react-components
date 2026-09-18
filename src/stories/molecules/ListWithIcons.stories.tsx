@@ -74,9 +74,7 @@ const toneItems: ListWithIconsItemData[] = [
   { text: 'Default', textColor: 'default' },
   { text: 'Secondary', textColor: 'secondary' },
   { text: 'Muted', textColor: 'muted' },
-  { text: 'Disabled', textColor: 'disabled' },
   { text: 'Link', textColor: 'link' },
-  { text: 'Link hover', textColor: 'linkHover' },
 ]
 
 export const TextTones: Story = {

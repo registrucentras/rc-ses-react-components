@@ -8,6 +8,7 @@ import SelectableCardList, {
 import ServiceHeader from '@/components/layout/ServiceHeader'
 import ServicePage from '@/components/layout/ServicePage'
 import { BarcodeIcon, MapPinAreaIcon, ScalesIcon } from '@/library'
+import { error } from '@/theme/palette'
 
 interface ApiItem {
   id: string
@@ -42,7 +43,7 @@ const mapToSelectableItems = (data: ApiItem[]): SelectableCardListItemData[] =>
         id: 'status',
         icon: ScalesIcon,
         text: item.legalStatusName,
-        textColor: item.legalStatusName === 'Neįregistruotas' ? 'red' : undefined,
+        textColor: item.legalStatusName === 'Neįregistruotas' ? error['600'] : undefined,
       },
       {
         id: 'address',

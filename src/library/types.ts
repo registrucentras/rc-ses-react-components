@@ -14,6 +14,7 @@ import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import {
   ListWithIconsItemData,
   ListWithIconsItemTone,
+  PaletteColor,
 } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
   RcSesSegmentOption,
@@ -51,7 +52,12 @@ import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-export type { ListWithIconsProps, ListWithIconsItemData, ListWithIconsItemTone }
+export type {
+  ListWithIconsProps,
+  ListWithIconsItemData,
+  ListWithIconsItemTone,
+  PaletteColor,
+}
 export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 
