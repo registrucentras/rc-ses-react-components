@@ -1,4 +1,4 @@
-import { Box, Chip, TextField } from '@mui/material'
+import { Box, Chip, Paper, TextField } from '@mui/material'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
 import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
@@ -80,6 +80,35 @@ type MultiSelectProps<TFieldValues extends FieldValues = FieldValues> =
 type Props<TFieldValues extends FieldValues = FieldValues> =
   SingleSelectProps<TFieldValues> | MultiSelectProps<TFieldValues>
 
+interface DropdownPaperProps extends React.ComponentProps<typeof Paper> {
+  dropdownLabel?: string
+  ownerState?: unknown
+}
+
+function DropdownPaper({
+  children,
+  dropdownLabel,
+  ownerState: _ownerState,
+  ...paperProps
+}: DropdownPaperProps) {
+  return (
+    <Paper {...paperProps}>
+      {!!dropdownLabel && (
+        <Box
+          sx={{
+            padding: '1.1875rem 1.125rem .8125rem 1.125rem',
+            fontSize: '.9375rem',
+            color: palette.grey[600],
+          }}
+        >
+          {dropdownLabel}
+        </Box>
+      )}
+      {children}
+    </Paper>
+  )
+}
+
 function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   props: Props<TFieldValues>,
 ) {
@@ -138,17 +167,6 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   const hasError = !!errors
   const groupBy = slotProps?.field?.groupBy
   const hasCustomGroupBy = typeof groupBy === 'function'
-
-  const groupCounts = useMemo(() => {
-    if (!groupBy) return new Map<string, number>()
-
-    const counts = new Map<string, number>()
-    options.forEach((option) => {
-      const group = groupBy(option)
-      counts.set(group, (counts.get(group) ?? 0) + 1)
-    })
-    return counts
-  }, [groupBy, options])
 
   const selectedValueSet = useMemo(
     () => new Set(Array.isArray(value) ? value : []),
@@ -211,6 +229,14 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     })
     return map
   }, [filteredOptions, groupBy])
+
+  const groupCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    filteredOptionsByGroup.forEach((items, group) => {
+      counts.set(group, items.length)
+    })
+    return counts
+  }, [filteredOptionsByGroup])
 
   const selectedValues = Array.isArray(value) ? value : []
 
@@ -424,18 +450,6 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 </Box>
               )}
 
-              {!groupValue && !!dropdownLabel && (
-                <Box
-                  sx={{
-                    padding: '1.1875rem 1.125rem .8125rem 1.125rem',
-                    fontSize: '.9375rem',
-                    color: palette.grey[600],
-                  }}
-                >
-                  {dropdownLabel}
-                </Box>
-              )}
-
               {params.children}
             </React.Fragment>
           )
@@ -573,6 +587,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 key={key}
                 component='li'
                 {...rest}
+                aria-selected={allFilteredSelected}
                 className={className}
                 onMouseDown={(event: React.MouseEvent) => {
                   event.preventDefault()
@@ -604,6 +619,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 key={key}
                 component='li'
                 {...rest}
+                aria-selected={isGroupSelected}
                 className={className}
                 onMouseDown={(event: React.MouseEvent) => {
                   event.preventDefault()
@@ -761,11 +777,30 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         }}
         {...slotProps?.field}
         groupBy={(option) => {
+          if (isGroupOptionValue(option.value)) {
+            return groupNameFromOptionValue(option.value)
+          }
           if (isInternalOptionValue(option.value)) return ''
           return groupBy ? groupBy(option) : ''
         }}
+        slots={{
+          ...slotProps?.field?.slots,
+          paper: DropdownPaper,
+        }}
         slotProps={{
           ...slotProps?.field?.slotProps,
+          paper: (ownerState) => {
+            const consumerPaperSlotProps = slotProps?.field?.slotProps?.paper
+            const resolved =
+              typeof consumerPaperSlotProps === 'function'
+                ? consumerPaperSlotProps(ownerState)
+                : consumerPaperSlotProps
+
+            return {
+              ...resolved,
+              dropdownLabel,
+            }
+          },
           listbox: (ownerState) => {
             const consumerListboxSlotProps = slotProps?.field?.slotProps?.listbox
             const resolved =
