@@ -16,6 +16,8 @@ function RcSesCardShell({
   theme = 'default',
   fullHeight = false,
   borderless = false,
+  contentGap,
+  footerGap,
   header,
   children,
   footer,
@@ -28,7 +30,9 @@ function RcSesCardShell({
   const hasContent = hasSlot(children)
   const hasFooter = hasSlot(footer)
 
-  const footerMt = hasHeader || hasContent ? cards[variant].footerGap : 0
+  const resolvedContentGap = contentGap ?? cards[variant].gap
+  const resolvedFooterGap = footerGap ?? cards[variant].footerGap
+  const footerMt = hasHeader || hasContent ? resolvedFooterGap : 0
 
   return (
     <Box
@@ -75,7 +79,7 @@ function RcSesCardShell({
           sx={{
             flexGrow: fullHeight ? 1 : 0,
             minWidth: 0,
-            mt: hasHeader ? cards[variant].gap : 0,
+            mt: hasHeader ? resolvedContentGap : 0,
             width: '100%',
           }}
         >

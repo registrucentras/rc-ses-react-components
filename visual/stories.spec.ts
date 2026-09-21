@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 /**
  * Screenshots every story in the built Storybook and compares it against a
- * committed baseline (SAV-5648 / LIB-01).
+ * committed baseline.
  *
  * Requires `npm run storybook-build` to have been run first - the story list is
  * read from the build output rather than hard-coded, so new stories are picked
@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
  * Opt a story out by adding the `no-snapshot` tag to it.
  *
  * Shots are clipped to `#storybook-root`, so the diff budget is a share of the
- * component rather than of the page around it (LIB-19).
+ * component rather than of the page around it.
  */
 
 /**

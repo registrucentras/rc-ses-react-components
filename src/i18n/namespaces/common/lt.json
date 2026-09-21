@@ -11,6 +11,13 @@
     "Button": {
       "loading": "Kraunasi"
     },
+    "StepCard": {
+      "cancel": "Atšaukti",
+      "back": "Atgal",
+      "continue": "Tęsti",
+      "addToCart": "Pridėti į krepšelį",
+      "totalWithoutVat": "Suma be PVM"
+    },
     "SegmentedControl": {
       "options": "Parinktys",
       "tabs": "Skirtukai"

@@ -36,7 +36,7 @@ export interface RcSesTitleBlockBaseProps {
    */
   titleTone?: 'default' | 'brand'
   /**
-   * Decorative leading visual, `Icon-tile` once SAV-6476 lands. Rendered
+   * Decorative leading visual, `Icon-tile` once that component lands. Rendered
    * `aria-hidden`, so it never contributes to the heading's accessible name.
    */
   icon?: ReactNode

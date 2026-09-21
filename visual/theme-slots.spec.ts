@@ -6,7 +6,7 @@ import theme from '../src/theme/light'
 
 /**
  * Asserts that every `Mui*` slot the theme overrides is rendered by at least one
- * story, and is therefore protected by a visual baseline (SAV-5648 / LIB-02).
+ * story, and is therefore protected by a visual baseline.
  *
  * A `styleOverrides` key nothing renders is invisible: it does not fail the
  * build, it does not fail the unit tests, and the visual suite has nothing to

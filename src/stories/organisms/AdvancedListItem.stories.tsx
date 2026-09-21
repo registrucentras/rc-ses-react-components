@@ -7,6 +7,7 @@ import {
   RadioGroup,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
@@ -15,6 +16,7 @@ import NotePencilIcon from '@/assets/icons/NotePencilIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import UserIcon from '@/assets/icons/UserIcon'
 import AdvancedListItem from '@/components/common/AdvancedList/components/AdvancedListItem'
+import { secondary } from '@/theme/palette'
 
 const meta = {
   title: 'Organisms/AdvancedListItem',
@@ -650,4 +652,82 @@ const KrepselisWithDeleteStory = () => (
 export const KrepselisWithDeletePreset: Story = {
   name: 'Preset: Krepšelis (su trynimu)',
   render: () => <KrepselisWithDeleteStory />,
+}
+
+export const MetaInfoTones: Story = {
+  name: 'Meta info: textColor tokens (default/secondary/muted/disabled/link/linkHover)',
+  render: () => (
+    <Stack
+      sx={{
+        gap: 2,
+        width: '100%',
+        maxWidth: '32rem',
+      }}
+    >
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: default
+        </Typography>
+        <AdvancedListItem
+          title='Prašymas pateiktas'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[{ text: 'Sukurta 2026-01-05', textColor: 'default' }]}
+        />
+      </Stack>
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: secondary
+        </Typography>
+        <AdvancedListItem
+          title='Papildoma informacija'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[{ text: 'Antrinis tekstas', textColor: 'secondary' }]}
+        />
+      </Stack>
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: muted
+        </Typography>
+        <AdvancedListItem
+          title='Archyvuotas įrašas'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[{ text: 'Nebeaktualu', textColor: 'muted' }]}
+        />
+      </Stack>
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: link
+        </Typography>
+        <AdvancedListItem
+          title='Nuoroda'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[{ text: 'Peržiūrėti dokumentą', textColor: 'link' }]}
+        />
+      </Stack>
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: default + secondary + link (multiple meta items in one row)
+        </Typography>
+        <AdvancedListItem
+          title='Keli meta elementai vienoje eilutėje'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[
+            { text: 'Sukurta 2026-01-05', textColor: 'default' },
+            { text: 'Antrinis tekstas', textColor: 'secondary' },
+            { text: 'Peržiūrėti dokumentą', textColor: 'link' },
+          ]}
+        />
+      </Stack>
+      <Stack sx={{ gap: 0.5 }}>
+        <Typography variant='caption' sx={{ color: 'text.secondary' }}>
+          textColor: custom color from the palette
+        </Typography>
+        <AdvancedListItem
+          title='JADIS pažymėjimas'
+          subtitle='Reg. Nr. 4400-1234-5678'
+          metaItems={[{ text: 'Peržiūrėti dokumentą', textColor: secondary['700'] }]}
+        />
+      </Stack>
+    </Stack>
+  ),
 }

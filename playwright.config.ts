@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Visual regression harness for the Storybook (SAV-5648 / LIB-01).
+ * Visual regression harness for the Storybook.
  *
  * Chosen over Chromatic because this repository is public, so GitHub Actions
  * minutes are free and unlimited, whereas Chromatic's free tier (5 000

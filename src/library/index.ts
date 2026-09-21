@@ -28,6 +28,7 @@ import {
   RcSesSnackbarProvider,
   useSnackbar,
 } from '@/components/common/Snackbar/SnackbarProvider'
+import RcSesStepCard from '@/components/common/StepCard'
 import RcSesSwitch from '@/components/common/Switch'
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabPanel from '@/components/common/Tabs/TabPanel'
@@ -96,6 +97,7 @@ export {
   RcSesSnackbar,
   RcSesSnackbarProvider,
   RcSesModal,
+  RcSesStepCard,
   RcSesSwitch,
 }
 export { RcSesSegmentedControl }

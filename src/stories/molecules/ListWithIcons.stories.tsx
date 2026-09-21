@@ -4,6 +4,7 @@ import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
 import WarningFillIcon from '@/assets/icons/WarningFillIcon'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import { type ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
+import { secondary } from '@/theme/palette'
 
 const baseItems: ListWithIconsItemData[] = [
   {
@@ -66,5 +67,30 @@ export const Horizontal: Story = {
 export const Loading: Story = {
   args: {
     isLoading: true,
+  },
+}
+
+const toneItems: ListWithIconsItemData[] = [
+  { text: 'Default', textColor: 'default' },
+  { text: 'Secondary', textColor: 'secondary' },
+  { text: 'Muted', textColor: 'muted' },
+  { text: 'Link', textColor: 'link' },
+]
+
+export const TextTones: Story = {
+  name: 'Text tones (DS "Text" tokens)',
+  args: {
+    items: toneItems,
+  },
+}
+
+const customColorItems: ListWithIconsItemData[] = [
+  { text: 'Custom palette color', textColor: secondary['700'] },
+]
+
+export const CustomColor: Story = {
+  name: 'Custom color (palette variant instead of a named tone)',
+  args: {
+    items: customColorItems,
   },
 }
