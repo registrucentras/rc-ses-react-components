@@ -33,6 +33,8 @@ const SHEET = {
   actionsPadding: '0.75rem 1.5rem 1.5rem',
   cornerRadius: '1rem',
   maxHeight: '85vh',
+  titleFontSize: '1rem',
+  titleLineHeight: '1.375rem',
 }
 
 const SHEET_MAX_WIDTH = {
@@ -186,7 +188,16 @@ function RcSesBottomSheet({
             </RcSesButton>
           )}
           {title && (
-            <Typography id={titleId} variant='h3' component='h2' sx={{ flex: 1 }}>
+            <Typography
+              id={titleId}
+              variant='h3'
+              component='h2'
+              sx={{
+                flex: 1,
+                fontSize: SHEET.titleFontSize,
+                lineHeight: SHEET.titleLineHeight,
+              }}
+            >
               {title}
             </Typography>
           )}
