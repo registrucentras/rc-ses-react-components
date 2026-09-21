@@ -28,6 +28,11 @@ const meta: Meta<typeof RcSesBottomSheet> = {
           'to show it versus rendering the same content inline.',
       },
     },
+    viewport: {
+      options: {
+        mobile375: { name: 'Mobile 375', styles: { height: '900px', width: '375px' } },
+      },
+    },
   },
   tags: ['autodocs'],
 }
@@ -263,4 +268,23 @@ export const Composition: Story = {
       },
     },
   },
+}
+
+// The stories above all start closed, so their baselines only capture the
+// trigger. This one renders the sheet open at 375 so the visual suite has a
+// reference for the sheet itself.
+export const OpenMobileViewport: Story = {
+  render: () => (
+    <RcSesBottomSheet
+      open
+      onClose={() => undefined}
+      title='Pasirinkite padalinį'
+      primaryActionLabel='Taikyti'
+      secondaryActionLabel='Atšaukti'
+    >
+      <BranchList branches={BRANCHES} onSelect={() => undefined} />
+    </RcSesBottomSheet>
+  ),
+  tags: ['viewport-375', '!autodocs'],
+  globals: { viewport: { value: 'mobile375' } },
 }
