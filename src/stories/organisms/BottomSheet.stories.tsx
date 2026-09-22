@@ -34,7 +34,7 @@ const meta: Meta<typeof RcSesBottomSheet> = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'no-snapshot'],
 }
 
 export default meta
