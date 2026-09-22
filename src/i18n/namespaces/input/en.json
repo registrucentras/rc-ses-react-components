@@ -88,6 +88,12 @@
         },
         "cancel": "Cancel"
       }
+    },
+
+    "RcSesBottomSheet": {
+      "aria": {
+        "back": "Back"
+      }
     }
   }
 }
