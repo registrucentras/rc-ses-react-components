@@ -1,3 +1,8 @@
+import {
+  AdvancedListItemShellProps,
+  AdvancedListItemShellState,
+  AdvancedListItemShellTestIds,
+} from '@/components/common/AdvancedList/components/AdvancedListItemShell/AdvancedListItemShell.types'
 import { RcSesCardProps } from '@/components/common/Card'
 import {
   CardFooterAlign,
@@ -64,6 +69,11 @@ export type {
 }
 export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
+export type {
+  AdvancedListItemShellProps,
+  AdvancedListItemShellState,
+  AdvancedListItemShellTestIds,
+}
 
 export type {
   RcSesFullPageLoaderProps,
