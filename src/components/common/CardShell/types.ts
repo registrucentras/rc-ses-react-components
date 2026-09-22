@@ -4,19 +4,29 @@ export type CardShellVariant = 'card' | 'subcard'
 
 export type CardShellTheme = 'default' | 'brand' | 'sunken'
 
-export type RcSesCardShellTestIds = {
+export interface RcSesCardShellTestIds {
   root?: string
   header?: string
   content?: string
   footer?: string
 }
 
-export type RcSesCardShellProps = {
+export interface RcSesCardShellProps {
   variant?: CardShellVariant
   theme?: CardShellTheme
   fullHeight?: boolean
   /** Renders the shell without any border. */
   borderless?: boolean
+  /**
+   * Overrides the `variant` preset's header-to-content gap (`cards[variant].gap`).
+   * Use when a composition needs a fixed spacing regardless of breakpoint.
+   */
+  contentGap?: string
+  /**
+   * Overrides the `variant` preset's content-to-footer gap
+   * (`cards[variant].footerGap`).
+   */
+  footerGap?: string
   /** Header row, normally `RcSesTitleBlock`. The shell only provides the slot. */
   header?: ReactNode
   children?: ReactNode

@@ -5,7 +5,7 @@ import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
 import CloseIcon from '@/assets/icons/CloseIcon'
 import { common, error, grey, primary, secondary, warning } from '@/theme/palette'
 
-export type RcSesBadgeProps = {
+export interface RcSesBadgeProps {
   label: string
   variant: 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'brand'
   size: 'small' | 'regular'
@@ -14,7 +14,7 @@ export type RcSesBadgeProps = {
   onClose?: () => void
 }
 
-type VariantStyle = {
+interface VariantStyle {
   border: string
   background: string
   iconColor: string
@@ -60,7 +60,7 @@ const variantStyles: Record<RcSesBadgeProps['variant'], VariantStyle> = {
   },
 }
 
-type SizeStyle = {
+interface SizeStyle {
   height: string
   padding: string
   fontSize: string

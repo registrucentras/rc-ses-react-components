@@ -15,7 +15,7 @@ import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../components/FormControlWrapper'
 
-export type RadioOption = {
+export interface RadioOption {
   label: string
   value: string
 }
@@ -35,7 +35,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
     id?: string
     className?: string
     hideNativeRadio?: boolean
-    options: Array<RadioOption>
+    options: RadioOption[]
     variant?: 'flat' | 'outlined' | 'filled'
     slotProps?: {
       controller?: Partial<Omit<TControllerProps, ImmediateControllerProps>>

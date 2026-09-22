@@ -16,6 +16,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-coverage',
     '@storybook/addon-docs',
+    'storybook-addon-tag-badges',
   ],
 
   typescript: {

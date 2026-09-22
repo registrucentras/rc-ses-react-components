@@ -25,6 +25,12 @@ const items: RcSesSideNavItem[] = [
 const renderSideNav = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
 
+// The desktop column and its scrolling row list carry no role of their own; the
+// nav landmark is the only stable handle into that part of the tree.
+const getDesktopColumn = () =>
+  screen.getByRole('navigation').firstElementChild as HTMLElement
+const getRowList = () => getDesktopColumn().lastElementChild as HTMLElement
+
 describe('RcSesSideNav', () => {
   beforeEach(async () => {
     await i18n.changeLanguage('lt')
@@ -88,6 +94,51 @@ describe('RcSesSideNav', () => {
     renderSideNav(<RcSesSideNav items={items} activeItemId='family' />)
 
     expect(screen.queryAllByRole('button')).toHaveLength(0)
+  })
+
+  it('lets the desktop list grow as tall as it needs by default', () => {
+    renderSideNav(<RcSesSideNav items={items} />)
+
+    expect(getRowList()).not.toHaveStyle({ overflowY: 'auto' })
+    expect(window.getComputedStyle(getDesktopColumn()).maxHeight).not.toContain('100vh')
+  })
+
+  it("caps the desktop list to the viewport and scrolls it inside itself with overflow='scroll'", () => {
+    renderSideNav(<RcSesSideNav items={items} overflow='scroll' offset={96} />)
+
+    expect(window.getComputedStyle(getDesktopColumn()).maxHeight).toBe(
+      'calc(100vh - 96px)',
+    )
+    expect(getRowList()).toHaveStyle({ overflowY: 'auto' })
+  })
+
+  it('scrolls an active item that sits past the bottom of the list into view', () => {
+    const { rerender } = renderSideNav(
+      <RcSesSideNav items={items} overflow='scroll' offset={96} />,
+    )
+
+    const list = getRowList()
+    const scrollTo = vi.fn()
+    list.scrollTo = scrollTo
+    // jsdom has no layout: the list ends at 300, the row runs on to 360.
+    list.getBoundingClientRect = () =>
+      ({ top: 100, bottom: 300, left: 0, right: 200 }) as DOMRect
+    const row = list.querySelector<HTMLElement>('[data-item-id="signature"]')!
+    row.getBoundingClientRect = () =>
+      ({ top: 320, bottom: 360, left: 0, right: 200 }) as DOMRect
+
+    rerender(
+      <ThemeProvider theme={theme}>
+        <RcSesSideNav
+          items={items}
+          overflow='scroll'
+          offset={96}
+          activeItemId='signature'
+        />
+      </ThemeProvider>,
+    )
+
+    expect(scrollTo).toHaveBeenCalledWith({ top: 60, behavior: 'smooth' })
   })
 
   it('renders in English when the language is changed', async () => {

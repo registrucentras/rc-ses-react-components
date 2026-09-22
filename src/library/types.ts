@@ -11,7 +11,11 @@ import {
   RcSesCardShellTestIds,
 } from '@/components/common/CardShell/types'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
-import { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
+import {
+  ListWithIconsItemData,
+  ListWithIconsItemTone,
+  PaletteColor,
+} from '@/components/common/ListWithIcons/ListWithIcons.types'
 import {
   RcSesSegmentOption,
   RcSesSegmentedControlProps,
@@ -22,8 +26,12 @@ import {
   RcSesServiceLinksProps,
   RcSesServiceLinksTestIds,
 } from '@/components/common/ServiceLinks/types'
-import { RcSesSideNavItem } from '@/components/common/SideNav'
+import { RcSesSideNavItem, RcSesSideNavOverflow } from '@/components/common/SideNav'
 import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
+import {
+  RcSesStepCardProps,
+  RcSesStepCardTestIds,
+} from '@/components/common/StepCard/types'
 import {
   RcSesTitleBlockProps,
   RcSesTitleBlockTestIds,
@@ -49,7 +57,12 @@ import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
-export type { ListWithIconsProps, ListWithIconsItemData }
+export type {
+  ListWithIconsProps,
+  ListWithIconsItemData,
+  ListWithIconsItemTone,
+  PaletteColor,
+}
 export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
 
@@ -82,6 +95,9 @@ export type {
   RcSesTooltipProps,
   RcSesSideNavItem,
   RcSesSideNavLayoutProps,
+  RcSesSideNavOverflow,
+  RcSesStepCardProps,
+  RcSesStepCardTestIds,
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }

@@ -8,7 +8,7 @@ import theme from '@/theme/light'
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
 
-type Props = {
+interface Props {
   children: React.ReactNode
   className?: string
   description?: React.ReactNode

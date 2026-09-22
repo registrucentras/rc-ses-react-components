@@ -3,7 +3,7 @@ import type { ButtonTypeMap } from '@mui/material/Button'
 import type { ExtendButtonBase } from '@mui/material/ButtonBase'
 import { useTranslation } from 'react-i18next'
 
-import RcSesLoadingSpinner, { getSpinnerColor } from '@/components/loaders/LoadingSpinner'
+import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const defaultProps: Partial<MuiButtonProps> = {
@@ -18,67 +18,31 @@ const ICON_ONLY_SIZE_MAP = {
   large: '3rem',
 } as const
 
-// MUI 6 added a native `loading` prop (`boolean | null`, alongside
-// `loadingIndicator` and `loadingPosition`), so it no longer needs declaring
-// here - re-declaring it as `boolean` conflicted with MUI's nullable type at
-// every call site that spreads ButtonProps.
-//
-// Behaviour is unchanged: `loading` is still destructured out below and drives
-// the custom RcSesLoadingSpinner, so it never reaches MuiButton and the native
-// indicator stays inactive. Switching over to MUI's implementation is a
-// breaking change, tracked as SAV-5916.
 type Props = ButtonProps
 
 function RcSesButtonComponent(props: Props) {
   const { t } = useTranslation('common')
-  const {
-    children,
-    iconOnly,
-    loading = false,
-    size = 'medium',
-    sx,
-    variant,
-    ...rest
-  } = props
+  const { children, iconOnly, size = 'medium', sx, variant, ...rest } = props
 
   const currentVariant = variant ?? defaultProps.variant
   const isIconOnly =
     !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
 
-  const showSpinnerInContent = loading && !isIconOnly && !rest.startIcon && !rest.endIcon
-  const showSpinnerAsIcon = loading && isIconOnly
-
-  const spinnerColor = getSpinnerColor(rest.color)
-  const spinner = <RcSesLoadingSpinner color={spinnerColor} size={size} />
-
-  const getIconDisplay = (icon: React.ReactNode) => {
-    if (showSpinnerAsIcon) return undefined
-    if (loading && !isIconOnly && icon) return spinner
-    return icon
-  }
-
-  const displayIcon = getIconDisplay(rest.startIcon)
-  const displayEndIcon = getIconDisplay(rest.endIcon)
-
-  let displayContent = children
-  if (showSpinnerInContent || showSpinnerAsIcon) displayContent = spinner
-
   return (
     <MuiButton
       {...defaultProps}
       {...rest}
-      // TODO: use loading prop when MUI lib upgrade is done
-      disabled={loading || rest.disabled}
       size={size}
       variant={currentVariant}
-      aria-busy={loading || undefined}
+      aria-busy={rest.loading || undefined}
       aria-label={
-        loading && rest['aria-label']
+        rest.loading && rest['aria-label']
           ? `${rest['aria-label']} – ${t('components.Button.loading')}`
           : rest['aria-label']
       }
-      startIcon={displayIcon}
-      endIcon={displayEndIcon}
+      loadingIndicator={
+        rest.loadingIndicator ?? <RcSesLoadingSpinner color='inherit' size={size} />
+      }
       sx={[
         ...(Array.isArray(sx) ? sx : [sx]),
         isIconOnly
@@ -94,7 +58,7 @@ function RcSesButtonComponent(props: Props) {
           : undefined,
       ]}
     >
-      {displayContent}
+      {children}
     </MuiButton>
   )
 }

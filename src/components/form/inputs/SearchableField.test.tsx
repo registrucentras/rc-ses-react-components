@@ -18,14 +18,14 @@ vi.mock('react-i18next', () => ({
 }))
 
 /**
- * Added ahead of the inputProps -> slotProps migration (SAV-5648 / LIB-08b).
+ * Added ahead of the inputProps -> slotProps migration.
  * This component had no tests, and its "click the field to open the modal"
  * behaviour is wired through the input slot - the same API that silently stopped
  * forwarding event handlers on Switch in MUI 6, where types keep passing and only
  * the runtime breaks. These tests pin the behaviour so the migration is verifiable.
  */
 
-type ModalProps = {
+interface ModalProps {
   open: boolean
   onSubmit: (value: string) => void
   onClose: () => void
@@ -58,7 +58,7 @@ const TestWrapper = ({ defaultValue = '' }: { defaultValue?: string }) => {
   )
 }
 
-const getField = () => screen.getByRole('textbox') as HTMLInputElement
+const getField = () => screen.getByRole<HTMLInputElement>('textbox')
 
 describe('RcSesSearchableField', () => {
   it('should render the field with the value from the form', () => {

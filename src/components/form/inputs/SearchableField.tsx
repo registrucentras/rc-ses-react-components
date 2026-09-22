@@ -15,7 +15,7 @@ import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../components/FormControlWrapper'
 
-type ModalComponentProps = {
+interface ModalComponentProps {
   open: boolean
   onSubmit: (value: string) => void
   onClose: () => void

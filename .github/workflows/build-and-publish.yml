@@ -29,6 +29,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # build:lib type-checks only what ships, so stories, tests and the demo
+      # app would otherwise never be type-checked in CI.
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Test
         run: npm run test:run
 

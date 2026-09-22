@@ -4,6 +4,7 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import theme from '@/theme/light'
+import { grey, primary, secondary } from '@/theme/palette'
 
 import ListWithIcons from '.'
 
@@ -61,5 +62,46 @@ describe('ListWithIcons', () => {
     fireEvent.mouseOver(screen.getByText('Hover me'))
 
     expect(await screen.findByRole('tooltip')).toHaveTextContent('Helpful tooltip text')
+  })
+
+  test('applies the DS Text token color for the given textColor tone name', () => {
+    renderListWithIcons(
+      <ListWithIcons
+        items={[
+          { text: 'Default text', textColor: 'default' },
+          { text: 'Secondary text', textColor: 'secondary' },
+          { text: 'Muted text', textColor: 'muted' },
+          { text: 'Link text', textColor: 'link' },
+        ]}
+      />,
+    )
+
+    expect(screen.getByText('Default text')).toHaveStyle({ color: grey[900] })
+    expect(screen.getByText('Secondary text')).toHaveStyle({ color: grey[600] })
+    expect(screen.getByText('Muted text')).toHaveStyle({ color: grey[500] })
+    expect(screen.getByText('Link text')).toHaveStyle({ color: primary['700'] })
+  })
+
+  test('falls back to the secondary tone color/icon fill when textColor is omitted', () => {
+    const StubIcon = ({ fillColor }: { fillColor?: string }) => (
+      <span data-testid='stub-icon' data-fill-color={fillColor}>
+        icon
+      </span>
+    )
+
+    renderListWithIcons(
+      <ListWithIcons items={[{ icon: StubIcon, text: 'No explicit color' }]} />,
+    )
+
+    expect(screen.getByText('No explicit color')).toHaveStyle({ color: grey[600] })
+    expect(screen.getByTestId('stub-icon')).toHaveAttribute('data-fill-color', grey[600])
+  })
+
+  test('accepts a raw palette color value for textColor, not just a named tone', () => {
+    renderListWithIcons(
+      <ListWithIcons items={[{ text: 'Custom colored', textColor: secondary['700'] }]} />,
+    )
+
+    expect(screen.getByText('Custom colored')).toHaveStyle({ color: secondary['700'] })
   })
 })

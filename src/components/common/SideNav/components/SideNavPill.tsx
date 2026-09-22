@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 
 import palette, { common } from '@/theme/palette'
 
-type Props = {
+interface Props {
   label: string
   count?: number
   ariaLabel?: string

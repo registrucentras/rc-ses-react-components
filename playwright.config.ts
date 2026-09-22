@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Visual regression harness for the Storybook (SAV-5648 / LIB-01).
+ * Visual regression harness for the Storybook.
  *
  * Chosen over Chromatic because this repository is public, so GitHub Actions
  * minutes are free and unlimited, whereas Chromatic's free tier (5 000
@@ -34,7 +34,12 @@ export default defineConfig({
     toHaveScreenshot: {
       // Anti-aliasing differs very slightly even within the same image; a small
       // pixel budget avoids false positives without hiding real changes.
+      //
+      // Playwright takes `Math.min` of the two, so the ratio binds on small
+      // baselines and the cap on large ones - 1% of the 1248x3936 SideNav shot
+      // would otherwise be ~49000 pixels.
       maxDiffPixelRatio: 0.01,
+      maxDiffPixels: 400,
       // Give fonts and MUI transitions a moment to settle before capturing.
       animations: 'disabled',
       caret: 'hide',

@@ -6,7 +6,7 @@ import theme from '../src/theme/light'
 
 /**
  * Asserts that every `Mui*` slot the theme overrides is rendered by at least one
- * story, and is therefore protected by a visual baseline (SAV-5648 / LIB-02).
+ * story, and is therefore protected by a visual baseline.
  *
  * A `styleOverrides` key nothing renders is invisible: it does not fail the
  * build, it does not fail the unit tests, and the visual suite has nothing to
@@ -15,10 +15,14 @@ import theme from '../src/theme/light'
  * and fails if a themed slot is missing from that set.
  *
  * When this fails, the fix is a story that renders the slot, not an exclusion.
- * Slots with no `RcSes*` wrapper are covered by `theme/Themed MUI components`.
+ * Slots with no `RcSes*` wrapper are covered by `Foundations/Themed MUI Components`.
  */
 
-type StoryIndexEntry = { type: string; id: string; tags?: string[] }
+interface StoryIndexEntry {
+  type: string
+  id: string
+  tags?: string[]
+}
 
 const indexPath = fileURLToPath(
   new URL('../storybook-static/index.json', import.meta.url),

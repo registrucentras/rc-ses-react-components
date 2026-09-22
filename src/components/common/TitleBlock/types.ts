@@ -6,7 +6,7 @@ export type TitleBlockTitleVariant = 'h4' | 'h5' | 'h6' | 'body1'
 
 export type TitleBlockOrientation = 'horizontal' | 'vertical'
 
-export type RcSesTitleBlockTestIds = {
+export interface RcSesTitleBlockTestIds {
   root?: string
   icon?: string
   heading?: string
@@ -15,7 +15,7 @@ export type RcSesTitleBlockTestIds = {
   actions?: string
 }
 
-export type RcSesTitleBlockBaseProps = {
+export interface RcSesTitleBlockBaseProps {
   title: ReactNode
   headingLevel?: TitleBlockHeadingLevel
   /**
@@ -36,7 +36,7 @@ export type RcSesTitleBlockBaseProps = {
    */
   titleTone?: 'default' | 'brand'
   /**
-   * Decorative leading visual, `Icon-tile` once SAV-6476 lands. Rendered
+   * Decorative leading visual, `Icon-tile` once that component lands. Rendered
    * `aria-hidden`, so it never contributes to the heading's accessible name.
    */
   icon?: ReactNode
