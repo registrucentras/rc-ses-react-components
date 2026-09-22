@@ -1,0 +1,2 @@
+import{L as o}from"./Logo-B7yLWH_O.js";import"./iframe-8F-1qP3V.js";import"./preload-helper-PPVm8Dsz.js";const s={title:"Atoms/Logo",component:o,parameters:{layout:"centered"}},e={};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:"{}",...e.parameters?.docs?.source}}};const m=["Default"];export{e as Default,m as __namedExportsOrder,s as default};
+//# sourceMappingURL=Logo.stories-DJEin90R.js.map
