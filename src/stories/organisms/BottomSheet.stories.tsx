@@ -257,6 +257,7 @@ function CompositionDemo() {
 
 export const Composition: Story = {
   render: () => <CompositionDemo />,
+  tags: ['!no-snapshot'],
   parameters: {
     docs: {
       description: {
