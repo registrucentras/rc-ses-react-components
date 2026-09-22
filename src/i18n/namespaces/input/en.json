@@ -56,6 +56,11 @@
       "searchAriaLabel": "Open search"
     },
 
+    "RcSesSelect": {
+      "searchPlaceholder": "Search",
+      "selectAllLabel": "All"
+    },
+
     "RcSesSearchInput": {
       "clearValueAriaLabel": "Clear search value",
       "searchButtonLabel": "Search"
@@ -82,6 +87,12 @@
           "primary": "I understand"
         },
         "cancel": "Cancel"
+      }
+    },
+
+    "RcSesBottomSheet": {
+      "aria": {
+        "back": "Back"
       }
     }
   }

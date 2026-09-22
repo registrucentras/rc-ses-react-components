@@ -56,6 +56,11 @@
       "searchAriaLabel": "Ieškoti"
     },
 
+    "RcSesSelect": {
+      "searchPlaceholder": "Ieškoti",
+      "selectAllLabel": "Visi"
+    },
+
     "RcSesSearchInput": {
       "clearValueAriaLabel": "Išvalyti paieškos reikšmę",
       "searchButtonLabel": "Ieškoti"
@@ -82,6 +87,12 @@
           "primary": "Suprantu"
         },
         "cancel": "Atšaukti"
+      }
+    },
+
+    "RcSesBottomSheet": {
+      "aria": {
+        "back": "Atgal"
       }
     }
   }
