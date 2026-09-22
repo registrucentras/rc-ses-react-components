@@ -285,6 +285,6 @@ export const OpenMobileViewport: Story = {
       <BranchList branches={BRANCHES} onSelect={() => undefined} />
     </RcSesBottomSheet>
   ),
-  tags: ['viewport-375', '!autodocs'],
+  tags: ['viewport-375', '!autodocs', '!no-snapshot'],
   globals: { viewport: { value: 'mobile375' } },
 }
