@@ -2,6 +2,12 @@ import { ReactNode } from 'react'
 
 export type AdvancedListItemShellState = 'rest' | 'selected' | 'disabled' | 'error'
 
+/**
+ * `card` - bordered, rounded container (the default).
+ * `row` - flush row within a list: no border/radius, just a bottom divider.
+ */
+export type AdvancedListItemShellContainer = 'card' | 'row'
+
 export interface AdvancedListItemShellTestIds {
   root?: string
   leading?: string
@@ -21,6 +27,8 @@ export interface AdvancedListItemShellProps {
   expanded?: ReactNode
   isExpanded?: boolean
   state?: AdvancedListItemShellState
+  /** Visual container style. Defaults to `card`. */
+  container?: AdvancedListItemShellContainer
   onClick?: () => void
   className?: string
   testIds?: AdvancedListItemShellTestIds

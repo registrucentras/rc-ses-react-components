@@ -6,6 +6,7 @@ import palette from '@/theme/palette'
 
 import usePrefersReducedMotion from '../AdvancedListItem/hooks/usePrefersReducedMotion'
 import {
+  AdvancedListItemShellContainer,
   AdvancedListItemShellProps,
   AdvancedListItemShellState,
   AdvancedListItemShellTestIds,
@@ -16,7 +17,7 @@ const BORDER_WIDTH = '0.0625rem'
 const FOCUS_RING_WIDTH = '0.0625rem'
 
 const STATE_BORDER_COLOR: Record<AdvancedListItemShellState, string> = {
-  rest: palette.grey[300],
+  rest: palette.grey[200],
   selected: palette.primary.main,
   disabled: palette.grey[200],
   error: palette.error.main,
@@ -39,6 +40,7 @@ const AdvancedListItemShell = ({
   expanded,
   isExpanded = false,
   state = 'rest',
+  container = 'card',
   onClick,
   className,
   testIds,
@@ -46,6 +48,7 @@ const AdvancedListItemShell = ({
   const isDisabled = state === 'disabled'
   const isClickable = !!onClick && !isDisabled
   const isExpandable = hasSlot(expanded)
+  const isRow = container === 'row'
 
   const hasLeading = hasSlot(leading)
   const hasTrailing = hasSlot(trailing)
@@ -53,8 +56,8 @@ const AdvancedListItemShell = ({
   const rootRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
-  const generatedExpandedId = useId()
-  const expandedId = testIds?.expanded ?? generatedExpandedId
+
+  const expandedId = useId()
 
   const borderColor = STATE_BORDER_COLOR[state]
   const backgroundColor = state === 'selected' ? palette.primary[50] : undefined
@@ -67,33 +70,49 @@ const AdvancedListItemShell = ({
     }
   }, [isExpanded])
 
-  const handleRootClick = () => {
-    if (isClickable) {
-      onClick()
+  useEffect(() => {
+    if (isDisabled) {
+      rootRef.current?.setAttribute('inert', '')
+    } else {
+      rootRef.current?.removeAttribute('inert')
     }
-  }
+  }, [isDisabled])
 
-  const handleRootKeyDown = (event: React.KeyboardEvent) => {
+  useEffect(() => {
+    const node = contentRef.current
+    if (!isExpandable || !node) {
+      return
+    }
+
+    if (isExpanded) {
+      node.removeAttribute('inert')
+    } else {
+      node.setAttribute('inert', '')
+    }
+  }, [isExpanded, isExpandable])
+
+  const handleRootClick = (event: React.MouseEvent) => {
     if (!isClickable) {
       return
     }
 
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      onClick()
+    const target = event.target as HTMLElement
+    if (target.closest('button, a, input, select, textarea, [role="button"]')) {
+      return
     }
+
+    onClick()
   }
 
   return (
     <Box
       ref={rootRef}
-      role={isClickable ? 'button' : undefined}
-      tabIndex={isClickable ? 0 : undefined}
+      tabIndex={-1}
       onClick={isClickable ? handleRootClick : undefined}
-      onKeyDown={isClickable ? handleRootKeyDown : undefined}
       aria-disabled={isDisabled || undefined}
-      aria-expanded={isExpandable ? isExpanded : undefined}
-      aria-controls={isExpandable ? expandedId : undefined}
+      aria-selected={state === 'selected' || undefined}
+      aria-expanded={isClickable && isExpandable ? isExpanded : undefined}
+      aria-controls={isClickable && isExpandable ? expandedId : undefined}
       className={className}
       data-testid={testIds?.root}
       sx={{
@@ -101,21 +120,20 @@ const AdvancedListItemShell = ({
         flexDirection: 'column',
         width: '100%',
         boxSizing: 'border-box',
-        border: `${BORDER_WIDTH} solid`,
-        borderColor,
+        border: isRow ? 'none' : `${BORDER_WIDTH} solid`,
+        borderColor: isRow ? undefined : borderColor,
+        borderBottom: isRow ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
-        borderRadius: BORDER_RADIUS,
+        borderRadius: isRow ? 0 : BORDER_RADIUS,
         padding: '0.5rem 0.75rem',
-        opacity: isDisabled ? 0.6 : 1,
+        opacity: isDisabled ? 0.5 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
         cursor: isClickable ? 'pointer' : 'default',
-        boxShadow: state === 'selected' ? focusRingShadow : 'none',
+        boxShadow: !isRow && state === 'selected' ? focusRingShadow : 'none',
         transition: prefersReducedMotion
           ? 'none'
           : `border-color ${transitionTiming}, box-shadow ${transitionTiming}`,
-        '&:hover': isClickable
-          ? { borderColor: state === 'rest' ? palette.grey[400] : borderColor }
-          : undefined,
+        '&:hover': isClickable ? { backgroundColor: palette.grey[100] } : undefined,
         '&:focus-visible, &:focus-within': !isDisabled
           ? { borderColor: palette.primary.main, boxShadow: focusRingShadow }
           : undefined,
@@ -130,7 +148,10 @@ const AdvancedListItemShell = ({
         }}
       >
         {hasLeading && (
-          <Box data-testid={testIds?.leading} sx={{ alignSelf: 'center', flexShrink: 0 }}>
+          <Box
+            data-testid={testIds?.leading}
+            sx={{ alignSelf: 'flex-start', flexShrink: 0 }}
+          >
             {leading}
           </Box>
         )}
@@ -171,9 +192,8 @@ const AdvancedListItemShell = ({
               marginTop: '0.5rem',
               backgroundColor: palette.grey[50],
               borderRadius: BORDER_RADIUS,
-              padding: '0.75rem 1rem',
+              padding: '0.75rem',
             }}
-            {...({ inert: isExpanded ? undefined : '' } as { inert?: string })}
           >
             {expanded}
           </Box>
@@ -185,6 +205,7 @@ const AdvancedListItemShell = ({
 
 export default AdvancedListItemShell
 export type {
+  AdvancedListItemShellContainer,
   AdvancedListItemShellProps,
   AdvancedListItemShellState,
   AdvancedListItemShellTestIds,

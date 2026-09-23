@@ -45,7 +45,7 @@ const INTERACTIVE_TRAILING_TYPES = new Set([
 ])
 
 /**
- * @deprecated Use `RcAdvancedListItemShell` instead. Will be removed in a future major release.
+ * @deprecated Use `RcSesAdvancedListItemShell` instead. Will be removed in a future major release.
  */
 
 const AdvancedListItem = ({

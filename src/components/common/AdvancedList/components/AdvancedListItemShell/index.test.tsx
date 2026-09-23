@@ -28,6 +28,61 @@ describe('AdvancedListItemShell', () => {
     expect(screen.queryByTestId('expanded')).not.toBeInTheDocument()
   })
 
+  it('renders as a bordered/rounded card by default', () => {
+    render(
+      <AdvancedListItemShell content={<span>Content</span>} testIds={{ root: 'root' }} />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).toHaveStyle({ borderRadius: '0.5rem' })
+    expect(root.style.border).not.toBe('none')
+  })
+
+  it('exposes aria-expanded/aria-controls on the root when it is the toggle (clickable + has an expanded slot)', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<span>Details</span>}
+        isExpanded
+        onClick={vi.fn()}
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).toHaveAttribute('aria-expanded', 'true')
+    expect(root).toHaveAttribute('aria-controls')
+  })
+
+  it('does not expose aria-expanded/aria-controls on the root when there is no onClick', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<span>Details</span>}
+        isExpanded
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).not.toHaveAttribute('aria-expanded')
+    expect(root).not.toHaveAttribute('aria-controls')
+  })
+
+  it('renders as a flush row with no border/radius when container="row"', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        container='row'
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).toHaveStyle({ borderRadius: '0px' })
+    expect(root).toHaveStyle({ borderBottomWidth: '0.0625rem' })
+  })
+
   it('renders leading and trailing slots when provided', () => {
     render(
       <AdvancedListItemShell
@@ -95,20 +150,68 @@ describe('AdvancedListItemShell', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('activates via keyboard (Enter/Space) when clickable', () => {
+  it('does not call onClick when a click originates from an interactive control inside a slot', () => {
     const onClick = vi.fn()
+    const onDelete = vi.fn()
     render(
       <AdvancedListItemShell
         content={<span>Content</span>}
         onClick={onClick}
+        trailing={
+          <button type='button' onClick={onDelete}>
+            Delete
+          </button>
+        }
+      />,
+    )
+
+    fireEvent.click(screen.getByText('Delete'))
+    expect(onDelete).toHaveBeenCalledTimes(1)
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('does not expose role="button" on the root, even when clickable', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        onClick={vi.fn()}
         testIds={{ root: 'root' }}
       />,
     )
 
-    const root = screen.getByTestId('root')
-    fireEvent.keyDown(root, { key: 'Enter' })
-    fireEvent.keyDown(root, { key: ' ' })
-    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(screen.getByTestId('root')).not.toHaveAttribute('role', 'button')
+  })
+
+  it('does not put the root in the tab order', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        onClick={vi.fn()}
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    expect(screen.getByTestId('root')).toHaveAttribute('tabIndex', '-1')
+  })
+
+  it('exposes aria-selected when state="selected"', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        state='selected'
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    expect(screen.getByTestId('root')).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('does not expose aria-selected for non-selected states', () => {
+    render(
+      <AdvancedListItemShell content={<span>Content</span>} testIds={{ root: 'root' }} />,
+    )
+
+    expect(screen.getByTestId('root')).not.toHaveAttribute('aria-selected')
   })
 
   it('does not call onClick when state is disabled', () => {
@@ -124,5 +227,19 @@ describe('AdvancedListItemShell', () => {
 
     fireEvent.click(screen.getByTestId('root'))
     expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('makes slot controls unreachable via Tab when disabled', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        trailing={<button type='button'>Delete</button>}
+        state='disabled'
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).toHaveAttribute('inert')
   })
 })
