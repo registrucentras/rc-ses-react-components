@@ -242,4 +242,53 @@ describe('AdvancedListItemShell', () => {
     const root = screen.getByTestId('root')
     expect(root).toHaveAttribute('inert')
   })
+
+  it('makes the collapsed expanded slot inert and removes inert when expanded', () => {
+    const { rerender } = render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<button type='button'>Details</button>}
+        isExpanded={false}
+        testIds={{ expanded: 'expanded' }}
+      />,
+    )
+
+    expect(screen.getByTestId('expanded')).toHaveAttribute('inert')
+
+    rerender(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<button type='button'>Details</button>}
+        isExpanded
+        testIds={{ expanded: 'expanded' }}
+      />,
+    )
+
+    expect(screen.getByTestId('expanded')).not.toHaveAttribute('inert')
+  })
+
+  it('returns focus to the root when the expanded slot collapses while focus is inside it', () => {
+    const { rerender } = render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<button type='button'>Details</button>}
+        isExpanded
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    screen.getByText('Details').focus()
+    expect(screen.getByText('Details')).toHaveFocus()
+
+    rerender(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<button type='button'>Details</button>}
+        isExpanded={false}
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    expect(screen.getByTestId('root')).toHaveFocus()
+  })
 })
