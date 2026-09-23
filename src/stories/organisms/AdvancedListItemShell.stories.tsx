@@ -379,6 +379,75 @@ export const ExpandedOpen: Story = {
   },
 }
 
+export const RadioSelectionWithActions: Story = {
+  render: (args) => {
+    const [selected, setSelected] = useState(false)
+
+    return (
+      <AdvancedListItemShell
+        {...args}
+        state={selected ? 'selected' : 'rest'}
+        onClick={() => setSelected((prev) => !prev)}
+        leading={
+          <Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />
+        }
+        content={
+          <Stack sx={{ gap: '0.4375rem' }}>
+            <Typography variant='body1' sx={{ fontWeight: 600 }}>
+              UAB Pavyzdys
+            </Typography>
+            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+              Kodas 300xxxxxx
+            </Typography>
+          </Stack>
+        }
+        trailing={
+          <RcSesButton
+            variant='link'
+            startIcon={<TrashIcon size={20} />}
+            onClick={() => {}}
+            sx={ACTION_BUTTON_SX}
+          >
+            Pašalinti
+          </RcSesButton>
+        }
+      />
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A "pick one from a list" pattern: `leading` is a `Radio`, `content` is a title + subtitle, and `trailing` has an action.',
+      },
+      source: {
+        code: `const [selected, setSelected] = useState(false)
+
+<AdvancedListItemShell
+  state={selected ? 'selected' : 'rest'}
+  onClick={() => setSelected((prev) => !prev)}
+  leading={<Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />}
+  content={
+    <Stack sx={{ gap: '0.4375rem' }}>
+      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+        UAB Pavyzdys
+      </Typography>
+      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+        Kodas 300xxxxxx
+      </Typography>
+    </Stack>
+  }
+  trailing={
+    <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
+      Pašalinti
+    </RcSesButton>
+  }
+/>`,
+      },
+    },
+  },
+}
+
 export const AllSlotsFilled: Story = {
   render: (args) => {
     const [isExpanded, setIsExpanded] = useState(false)
@@ -462,75 +531,6 @@ export const AllSlotsFilled: Story = {
         Antra papildomos informacijos eilutė.
       </Typography>
     </Stack>
-  }
-/>`,
-      },
-    },
-  },
-}
-
-export const RadioSelectionWithActions: Story = {
-  render: (args) => {
-    const [selected, setSelected] = useState(false)
-
-    return (
-      <AdvancedListItemShell
-        {...args}
-        state={selected ? 'selected' : 'rest'}
-        onClick={() => setSelected((prev) => !prev)}
-        leading={
-          <Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />
-        }
-        content={
-          <Stack sx={{ gap: '0.4375rem' }}>
-            <Typography variant='body1' sx={{ fontWeight: 600 }}>
-              UAB Pavyzdys
-            </Typography>
-            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-              Kodas 300xxxxxx
-            </Typography>
-          </Stack>
-        }
-        trailing={
-          <RcSesButton
-            variant='link'
-            startIcon={<TrashIcon size={20} />}
-            onClick={() => {}}
-            sx={ACTION_BUTTON_SX}
-          >
-            Pašalinti
-          </RcSesButton>
-        }
-      />
-    )
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'A "pick one from a list" pattern: `leading` is a `Radio`, `content` is a title + subtitle, and `trailing` has an action.',
-      },
-      source: {
-        code: `const [selected, setSelected] = useState(false)
-
-<AdvancedListItemShell
-  state={selected ? 'selected' : 'rest'}
-  onClick={() => setSelected((prev) => !prev)}
-  leading={<Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />}
-  content={
-    <Stack sx={{ gap: '0.4375rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        UAB Pavyzdys
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        Kodas 300xxxxxx
-      </Typography>
-    </Stack>
-  }
-  trailing={
-    <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
-      Pašalinti
-    </RcSesButton>
   }
 />`,
       },
