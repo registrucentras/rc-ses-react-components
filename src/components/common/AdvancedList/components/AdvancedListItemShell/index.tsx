@@ -186,7 +186,7 @@ const AdvancedListItemShell = ({
             id={expandedId}
             data-testid={testIds?.expanded}
             sx={{
-              margin: '0.75rem',
+              margin: '1.25rem 0.75rem',
               backgroundColor: palette.grey[50],
               borderRadius: BORDER_RADIUS,
               border: `${BORDER_WIDTH} solid ${palette.grey[200]}`,
