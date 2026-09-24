@@ -65,6 +65,7 @@ import RcSesLoader from '@/components/loaders/Loader'
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import RcSesBottomSheet from '@/components/overlays/BottomSheet'
 import RcSesDialog from '@/components/overlays/Dialog'
+import RcSesDrawer from '@/components/overlays/Drawer'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
@@ -102,6 +103,7 @@ export {
   RcSesStepCard,
   RcSesSwitch,
   RcSesBottomSheet,
+  RcSesDrawer,
 }
 export { RcSesSegmentedControl }
 export { RcSesSideNavLayout }

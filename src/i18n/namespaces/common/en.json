@@ -39,6 +39,10 @@
     "RcSesSideNav": {
       "title": "Topics",
       "itemLabel": "{{label}}, {{count}}"
+    },
+    "Drawer": {
+      "clear": "Clear",
+      "showServices": "Show services"
     }
   }
 }
