@@ -79,7 +79,7 @@ describe('AdvancedListItemShell', () => {
     )
 
     const root = screen.getByTestId('root')
-    expect(root).toHaveStyle({ borderRadius: '0.5rem' })
+    expect(root).toHaveStyle({ borderRadius: '0px' })
     expect(root).toHaveStyle({ borderBottomWidth: '0.0625rem' })
   })
 

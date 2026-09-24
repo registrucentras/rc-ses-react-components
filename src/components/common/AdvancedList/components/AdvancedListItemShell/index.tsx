@@ -114,6 +114,11 @@ const AdvancedListItemShell = ({
       return
     }
 
+    // Only handle keyboard events directly on the root, not on nested elements
+    if (event.target !== event.currentTarget) {
+      return
+    }
+
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
       onClick()
@@ -137,12 +142,16 @@ const AdvancedListItemShell = ({
         flexDirection: 'column',
         width: '100%',
         boxSizing: 'border-box',
-        border: isRow && state === 'rest' ? 'none' : `${BORDER_WIDTH} solid`,
-        borderColor: isRow && state === 'rest' ? undefined : borderColor,
+        border:
+          (isRow && state === 'rest') || state === 'disabled'
+            ? 'none'
+            : `${BORDER_WIDTH} solid`,
+        borderColor:
+          (isRow && state === 'rest') || state === 'disabled' ? undefined : borderColor,
         borderBottom:
           isRow && state === 'rest' ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
-        borderRadius: BORDER_RADIUS,
+        borderRadius: isRow ? '0px' : BORDER_RADIUS,
         padding: '0.5rem 0.75rem',
         opacity: isDisabled ? 0.5 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
@@ -155,10 +164,9 @@ const AdvancedListItemShell = ({
           isClickable && state !== 'selected'
             ? {
                 backgroundColor: palette.grey[100],
-                borderRadius: isRow ? BORDER_RADIUS : undefined,
               }
             : undefined,
-        '&:has(:focus-visible)': !isDisabled
+        '&:has(:focus-visible), &:focus-visible': !isDisabled
           ? { borderColor: palette.primary.main, boxShadow: focusRingShadow }
           : undefined,
       }}
