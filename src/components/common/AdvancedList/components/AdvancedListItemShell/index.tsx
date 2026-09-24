@@ -142,16 +142,13 @@ const AdvancedListItemShell = ({
       <Stack
         direction='row'
         sx={{
-          alignItems: 'flex-start',
+          alignItems: 'center',
           flexWrap: { xs: 'wrap', md: 'nowrap' },
           gap: '0.75rem',
         }}
       >
         {hasLeading && (
-          <Box
-            data-testid={testIds?.leading}
-            sx={{ alignSelf: 'flex-start', flexShrink: 0 }}
-          >
+          <Box data-testid={testIds?.leading} sx={{ alignSelf: 'center', flexShrink: 0 }}>
             {leading}
           </Box>
         )}
@@ -189,9 +186,10 @@ const AdvancedListItemShell = ({
             id={expandedId}
             data-testid={testIds?.expanded}
             sx={{
-              marginTop: '0.5rem',
+              margin: '0.75rem',
               backgroundColor: palette.grey[50],
               borderRadius: BORDER_RADIUS,
+              border: `${BORDER_WIDTH} solid ${palette.grey[200]}`,
               padding: '0.75rem',
             }}
           >

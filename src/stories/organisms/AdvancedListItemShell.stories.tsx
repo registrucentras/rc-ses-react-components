@@ -5,7 +5,9 @@ import { useState } from 'react'
 import NotePencilIcon from '@/assets/icons/NotePencilIcon'
 import TrashIcon from '@/assets/icons/TrashIcon'
 import AdvancedListItemShell from '@/components/common/AdvancedList/components/AdvancedListItemShell'
+import RcSesBadge from '@/components/common/Badge'
 import RcSesButton from '@/components/common/Button'
+import RcSesSwitch from '@/components/common/Switch'
 import palette from '@/theme/palette'
 
 const ACTION_BUTTON_SX = {
@@ -35,7 +37,7 @@ const meta = {
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-          a.k. 3850.........
+          a.k. 3880819****
         </Typography>
       </Stack>
     ),
@@ -56,17 +58,17 @@ export const Main: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-/>`,
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -82,18 +84,18 @@ export const Selected: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  state='selected'
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-/>`,
+    state='selected'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -109,18 +111,18 @@ export const Disabled: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  state='disabled'
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-/>`,
+    state='disabled'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -136,18 +138,18 @@ export const ErrorState: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  state='error'
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-/>`,
+    state='error'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -185,28 +187,28 @@ export const WithLeadingAndTrailing: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-  leading={<Avatar>AB</Avatar>}
-  trailing={
-    <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
-      <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={handleEdit}>
-        Keisti
-      </RcSesButton>
-      <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
-        Pašalinti
-      </RcSesButton>
-    </Stack>
-  }
-/>`,
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+    leading={<Avatar>AB</Avatar>}
+    trailing={
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Keisti
+        </RcSesButton>
+        <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -245,29 +247,29 @@ export const RowContainer: Story = {
       },
       source: {
         code: `<AdvancedListItemShell
-  container='row'
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-  leading={<Avatar>AB</Avatar>}
-  trailing={
-    <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
-      <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={handleEdit}>
-        Keisti
-      </RcSesButton>
-      <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
-        Pašalinti
-      </RcSesButton>
-    </Stack>
-  }
-/>`,
+    container='row'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+    leading={<Avatar>AB</Avatar>}
+    trailing={
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Keisti
+        </RcSesButton>
+        <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    }
+  />`,
       },
     },
   },
@@ -305,11 +307,11 @@ export const Expandable: Story = {
 <AdvancedListItemShell
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+      <Typography variant='body2' sx={{ fontWeight: 600 }}>
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
+        a.k. 3880819****
       </Typography>
     </Stack>
   }
@@ -356,11 +358,11 @@ export const ExpandedOpen: Story = {
         code: `<AdvancedListItemShell
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+      <Typography variant='body2' sx={{ fontWeight: 600 }}>
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
+        a.k. 3880819****
       </Typography>
     </Stack>
   }
@@ -389,17 +391,17 @@ export const RadioSelectionWithActions: Story = {
         state={selected ? 'selected' : 'rest'}
         onClick={() => setSelected((prev) => !prev)}
         leading={
-          <Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />
-        }
-        content={
-          <Stack sx={{ gap: '0.4375rem' }}>
-            <Typography variant='body1' sx={{ fontWeight: 600 }}>
-              UAB Pavyzdys
-            </Typography>
-            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-              Kodas 300xxxxxx
-            </Typography>
-          </Stack>
+          <Radio
+            checked={selected}
+            onChange={() => setSelected((prev) => !prev)}
+            sx={{
+              width: '1.375rem',
+              height: '1.375rem',
+              margin: 0,
+              padding: '0.0625rem',
+              '& svg': { width: '1.25rem', height: '1.25rem' },
+            }}
+          />
         }
         trailing={
           <RcSesButton
@@ -418,7 +420,7 @@ export const RadioSelectionWithActions: Story = {
     docs: {
       description: {
         story:
-          'A "pick one from a list" pattern: `leading` is a `Radio`, `content` is a title + subtitle, and `trailing` has an action.',
+          '`leading` is a `Radio`, `content` is a title + subtitle, and `trailing` has an action.',
       },
       source: {
         code: `const [selected, setSelected] = useState(false)
@@ -426,7 +428,19 @@ export const RadioSelectionWithActions: Story = {
 <AdvancedListItemShell
   state={selected ? 'selected' : 'rest'}
   onClick={() => setSelected((prev) => !prev)}
-  leading={<Radio checked={selected} onChange={() => setSelected((prev) => !prev)} />}
+  leading={
+    <Radio
+      checked={selected}
+      onChange={() => setSelected((prev) => !prev)}
+      sx={{
+        width: '1.375rem',
+        height: '1.375rem',
+        margin: 0,
+        padding: '0.0625rem',
+        '& svg': { width: '1.25rem', height: '1.25rem' },
+      }}
+    />
+  }
   content={
     <Stack sx={{ gap: '0.4375rem' }}>
       <Typography variant='body1' sx={{ fontWeight: 600 }}>
@@ -438,7 +452,7 @@ export const RadioSelectionWithActions: Story = {
     </Stack>
   }
   trailing={
-    <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
+    <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
       Pašalinti
     </RcSesButton>
   }
@@ -448,43 +462,91 @@ export const RadioSelectionWithActions: Story = {
   },
 }
 
-export const AllSlotsFilled: Story = {
+export const ExpandableWithRadioAndSwitch: Story = {
   render: (args) => {
     const [isExpanded, setIsExpanded] = useState(false)
+    const [sendCopy, setSendCopy] = useState(false)
 
     return (
       <AdvancedListItemShell
         {...args}
-        state='selected'
         isExpanded={isExpanded}
         onClick={() => setIsExpanded((prev) => !prev)}
-        leading={<Avatar>AB</Avatar>}
-        trailing={
-          <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
-            <RcSesButton
-              variant='link'
-              startIcon={<NotePencilIcon size={20} />}
-              onClick={() => {}}
-              sx={ACTION_BUTTON_SX}
+        leading={
+          <Radio
+            checked={isExpanded}
+            sx={{
+              width: '1.375rem',
+              height: '1.375rem',
+              margin: 0,
+              padding: '0.0625rem',
+              '& svg': { width: '1.25rem', height: '1.25rem' },
+            }}
+          />
+        }
+        content={
+          <Stack sx={{ gap: '0.25rem' }}>
+            <Typography
+              sx={{
+                fontSize: '1rem',
+                fontWeight: 500,
+                lineHeight: '1.375rem',
+              }}
             >
-              Keisti
-            </RcSesButton>
-            <RcSesButton
-              variant='link'
-              startIcon={<TrashIcon size={20} />}
-              onClick={() => {}}
-              sx={ACTION_BUTTON_SX}
+              Registrų centro savitarnoje
+            </Typography>
+            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+              Rezultatą matysite iš karto savitarnoje
+            </Typography>
+            <Typography
+              sx={{
+                color: palette.grey[600],
+                fontSize: '0.8125rem',
+                fontWeight: 400,
+                lineHeight: '1.125rem',
+              }}
             >
-              Pašalinti
-            </RcSesButton>
+              Nemokama
+            </Typography>
           </Stack>
         }
+        trailing={
+          <RcSesBadge
+            label='3 darbo dienos'
+            variant='neutral'
+            size='small'
+            showIcon={false}
+          />
+        }
         expanded={
-          <Stack sx={{ gap: '0.5rem' }}>
-            <Typography variant='body2'>Papildoma informacija apie šį įrašą.</Typography>
-            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-              Antra papildomos informacijos eilutė.
-            </Typography>
+          <Stack direction='row' sx={{ alignItems: 'center', gap: '0.625rem' }}>
+            <RcSesSwitch
+              ariaLabel='Gauti kopiją į el. paštą'
+              checked={sendCopy}
+              onChange={(_, checked) => setSendCopy(checked)}
+            />
+            <Stack sx={{ gap: '0.25rem' }}>
+              <Typography
+                sx={{
+                  color: palette.grey[900],
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  lineHeight: '1.25rem',
+                }}
+              >
+                Gauti kopiją į el. paštą
+              </Typography>
+              <Typography
+                sx={{
+                  color: palette.grey[600],
+                  fontSize: '0.875rem',
+                  fontWeight: 400,
+                  lineHeight: '1.25rem',
+                }}
+              >
+                Bus atsiųsta į Jūsų el. paštą vardas.pavarde@gmail.com
+              </Typography>
+            </Stack>
           </Stack>
         }
       />
@@ -494,42 +556,83 @@ export const AllSlotsFilled: Story = {
     docs: {
       description: {
         story:
-          'Combines every slot at once — `leading` (avatar), `content`, `trailing` (action buttons) and `expanded` (extra details) — with `state="selected"` and local `isExpanded` state toggled via `onClick`, to show the shell fully composed the way a real consumer would use it.',
+          '`leading` is a `Radio`, `content` is 3 text lines, `trailing` holds an `RcSesBadge` and the `expanded` slot holds an `RcSesSwitch` toggle plus explanatory text.',
       },
       source: {
         code: `const [isExpanded, setIsExpanded] = useState(false)
+const [sendCopy, setSendCopy] = useState(false)
 
 <AdvancedListItemShell
-  content={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
-        Įrašo pavadinimas
-      </Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        a.k. 3850.........
-      </Typography>
-    </Stack>
-  }
-  state='selected'
   isExpanded={isExpanded}
   onClick={() => setIsExpanded((prev) => !prev)}
-  leading={<Avatar>AB</Avatar>}
-  trailing={
-    <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
-      <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={handleEdit}>
-        Keisti
-      </RcSesButton>
-      <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={handleDelete}>
-        Pašalinti
-      </RcSesButton>
+  leading={
+    <Radio
+      checked={isExpanded}
+      sx={{
+        width: '1.375rem',
+        height: '1.375rem',
+        margin: 0,
+        padding: '0.0625rem',
+        '& svg': { width: '1.25rem', height: '1.25rem' },
+      }}
+    />
+  }
+  content={
+    <Stack sx={{ gap: '0.25rem' }}>
+      <Typography
+        sx={{
+          fontSize: '1rem',
+          fontWeight: 500,
+          lineHeight: '1.375rem',
+        }}
+      >
+        Registrų centro savitarnoje
+      </Typography>
+      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+        Rezultatą matysite iš karto savitarnoje
+      </Typography>
+      <Typography
+        sx={{
+          color: palette.grey[600],
+          fontSize: '0.8125rem',
+          fontWeight: 400,
+          lineHeight: '1.125rem',
+        }}
+      >
+        Nemokama
+      </Typography>
     </Stack>
   }
+  trailing={<RcSesBadge label='3 darbo dienos' variant='neutral' size='small' showIcon={false} />}
   expanded={
-    <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body2'>Papildoma informacija apie šį įrašą.</Typography>
-      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
-        Antra papildomos informacijos eilutė.
-      </Typography>
+    <Stack direction='row' sx={{ alignItems: 'center', gap: '0.625rem' }}>
+      <RcSesSwitch
+        ariaLabel='Gauti kopiją į el. paštą'
+        checked={sendCopy}
+        onChange={(_, checked) => setSendCopy(checked)}
+      />
+      <Stack sx={{ gap: '0.25rem' }}>
+        <Typography
+          sx={{
+            color: palette.grey[900],
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            lineHeight: '1.25rem',
+          }}
+        >
+          Gauti kopiją į el. paštą
+        </Typography>
+        <Typography
+          sx={{
+            color: palette.grey[600],
+            fontSize: '0.875rem',
+            fontWeight: 400,
+            lineHeight: '1.25rem',
+          }}
+        >
+          Bus atsiųsta į Jūsų el. paštą vardas.pavarde@gmail.com
+        </Typography>
+      </Stack>
     </Stack>
   }
 />`,
