@@ -275,6 +275,224 @@ export const RowContainer: Story = {
   },
 }
 
+export const RowContainerSelected: Story = {
+  args: {
+    container: 'row',
+    state: 'selected',
+    leading: <Avatar>AB</Avatar>,
+    trailing: (
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton
+          variant='link'
+          startIcon={<NotePencilIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Keisti
+        </RcSesButton>
+        <RcSesButton
+          variant='link'
+          startIcon={<TrashIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`container` is set to `"row"` and `state` is `"selected"`. Shows the row layout with selected state styling — full border in primary color and cyan background tint.',
+      },
+      source: {
+        code: `<AdvancedListItemShell
+    container='row'
+    state='selected'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+    leading={<Avatar>AB</Avatar>}
+    trailing={
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Keisti
+        </RcSesButton>
+        <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    }
+  />`,
+      },
+    },
+  },
+}
+
+export const RowContainerError: Story = {
+  args: {
+    container: 'row',
+    state: 'error',
+    leading: <Avatar>AB</Avatar>,
+    trailing: (
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton
+          variant='link'
+          startIcon={<NotePencilIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Keisti
+        </RcSesButton>
+        <RcSesButton
+          variant='link'
+          startIcon={<TrashIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`container` is set to `"row"` and `state` is `"error"`. Shows the row layout with error state styling — full border in error color.',
+      },
+      source: {
+        code: `<AdvancedListItemShell
+    container='row'
+    state='error'
+    content={
+      <Stack sx={{ gap: '0.5rem' }}>
+        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+          Įrašo pavadinimas
+        </Typography>
+        <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+          a.k. 3880819****
+        </Typography>
+      </Stack>
+    }
+    leading={<Avatar>AB</Avatar>}
+    trailing={
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Keisti
+        </RcSesButton>
+        <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    }
+  />`,
+      },
+    },
+  },
+}
+
+export const RowContainerExpandable: Story = {
+  render: (args) => {
+    const [isExpanded, setIsExpanded] = useState(true)
+
+    return (
+      <AdvancedListItemShell
+        {...args}
+        isExpanded={isExpanded}
+        onClick={() => setIsExpanded((prev) => !prev)}
+        expanded={
+          <Stack sx={{ gap: '0.5rem' }}>
+            <Typography variant='body2'>Papildoma informacija apie šį įrašą.</Typography>
+            <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+              Antra papildomos informacijos eilutė.
+            </Typography>
+          </Stack>
+        }
+      />
+    )
+  },
+  args: {
+    container: 'row',
+    leading: <Avatar>AB</Avatar>,
+    trailing: (
+      <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+        <RcSesButton
+          variant='link'
+          startIcon={<NotePencilIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Keisti
+        </RcSesButton>
+        <RcSesButton
+          variant='link'
+          startIcon={<TrashIcon size={20} />}
+          onClick={() => {}}
+          sx={ACTION_BUTTON_SX}
+        >
+          Pašalinti
+        </RcSesButton>
+      </Stack>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Combines `container="row"` with `isExpanded`/`onClick` to show a row-style expandable. Clicks the main row content to expand/collapse; clicking inside the expanded section does not collapse.',
+      },
+      source: {
+        code: `const [isExpanded, setIsExpanded] = useState(false)
+
+<AdvancedListItemShell
+  container='row'
+  content={
+    <Stack sx={{ gap: '0.5rem' }}>
+      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        Įrašo pavadinimas
+      </Typography>
+      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+        a.k. 3880819****
+      </Typography>
+    </Stack>
+  }
+  leading={<Avatar>AB</Avatar>}
+  trailing={
+    <Stack direction='row' sx={{ gap: '0.5rem', alignItems: 'center' }}>
+      <RcSesButton variant='link' startIcon={<NotePencilIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+        Keisti
+      </RcSesButton>
+      <RcSesButton variant='link' startIcon={<TrashIcon size={20} />} onClick={() => {}} sx={ACTION_BUTTON_SX}>
+        Pašalinti
+      </RcSesButton>
+    </Stack>
+  }
+  isExpanded={isExpanded}
+  onClick={() => setIsExpanded((prev) => !prev)}
+  expanded={
+    <Stack sx={{ gap: '0.5rem' }}>
+      <Typography variant='body2'>Papildoma informacija apie šį įrašą.</Typography>
+      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+        Antra papildomos informacijos eilutė.
+      </Typography>
+    </Stack>
+  }
+/>`,
+      },
+    },
+  },
+}
+
 export const Expandable: Story = {
   render: (args) => {
     const [isExpanded, setIsExpanded] = useState(false)
@@ -394,6 +612,7 @@ export const RadioSelectionWithActions: Story = {
           <Radio
             checked={selected}
             onChange={() => setSelected((prev) => !prev)}
+            slotProps={{ input: { 'aria-label': 'Pažymėti elementą' } }}
             sx={{
               width: '1.375rem',
               height: '1.375rem',
@@ -432,6 +651,7 @@ export const RadioSelectionWithActions: Story = {
     <Radio
       checked={selected}
       onChange={() => setSelected((prev) => !prev)}
+      slotProps={{ input: { 'aria-label': 'Pažymėti elementą' } }}
       sx={{
         width: '1.375rem',
         height: '1.375rem',
@@ -475,6 +695,8 @@ export const ExpandableWithRadioAndSwitch: Story = {
         leading={
           <Radio
             checked={isExpanded}
+            onChange={() => setIsExpanded((prev) => !prev)}
+            slotProps={{ input: { 'aria-label': 'Rodyti daugiau informacijos' } }}
             sx={{
               width: '1.375rem',
               height: '1.375rem',
@@ -568,6 +790,8 @@ const [sendCopy, setSendCopy] = useState(false)
   leading={
     <Radio
       checked={isExpanded}
+      onChange={() => setIsExpanded((prev) => !prev)}
+      slotProps={{ input: { 'aria-label': 'Rodyti daugiau informacijos' } }}
       sx={{
         width: '1.375rem',
         height: '1.375rem',

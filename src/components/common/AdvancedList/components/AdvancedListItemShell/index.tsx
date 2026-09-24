@@ -101,14 +101,31 @@ const AdvancedListItemShell = ({
       return
     }
 
+    // Skip clicks inside the expanded content area to prevent collapsing when clicking details
+    if (isExpanded && contentRef.current?.contains(target)) {
+      return
+    }
+
     onClick()
+  }
+
+  const handleRootKeyDown = (event: React.KeyboardEvent) => {
+    if (!isClickable || !isExpandable) {
+      return
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick()
+    }
   }
 
   return (
     <Box
       ref={rootRef}
-      tabIndex={-1}
+      tabIndex={isClickable && isExpandable ? 0 : -1}
       onClick={isClickable ? handleRootClick : undefined}
+      onKeyDown={isClickable && isExpandable ? handleRootKeyDown : undefined}
       aria-disabled={isDisabled || undefined}
       aria-selected={state === 'selected' || undefined}
       aria-expanded={isClickable && isExpandable ? isExpanded : undefined}
@@ -120,21 +137,28 @@ const AdvancedListItemShell = ({
         flexDirection: 'column',
         width: '100%',
         boxSizing: 'border-box',
-        border: isRow ? 'none' : `${BORDER_WIDTH} solid`,
-        borderColor: isRow ? undefined : borderColor,
-        borderBottom: isRow ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
+        border: isRow && state === 'rest' ? 'none' : `${BORDER_WIDTH} solid`,
+        borderColor: isRow && state === 'rest' ? undefined : borderColor,
+        borderBottom:
+          isRow && state === 'rest' ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
-        borderRadius: isRow ? 0 : BORDER_RADIUS,
+        borderRadius: BORDER_RADIUS,
         padding: '0.5rem 0.75rem',
         opacity: isDisabled ? 0.5 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
         cursor: isClickable ? 'pointer' : 'default',
-        boxShadow: !isRow && state === 'selected' ? focusRingShadow : 'none',
+        boxShadow: state === 'selected' ? focusRingShadow : 'none',
         transition: prefersReducedMotion
           ? 'none'
-          : `border-color ${transitionTiming}, box-shadow ${transitionTiming}`,
-        '&:hover': isClickable ? { backgroundColor: palette.grey[100] } : undefined,
-        '&:focus-visible, &:focus-within': !isDisabled
+          : `border-color ${transitionTiming}, box-shadow ${transitionTiming}, border-radius ${transitionTiming}`,
+        '&:hover':
+          isClickable && state !== 'selected'
+            ? {
+                backgroundColor: palette.grey[100],
+                borderRadius: isRow ? BORDER_RADIUS : undefined,
+              }
+            : undefined,
+        '&:has(:focus-visible)': !isDisabled
           ? { borderColor: palette.primary.main, boxShadow: focusRingShadow }
           : undefined,
       }}
