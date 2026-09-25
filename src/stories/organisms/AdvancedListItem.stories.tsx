@@ -21,7 +21,7 @@ import { secondary } from '@/theme/palette'
 const meta = {
   title: 'Organisms/AdvancedListItem',
   component: AdvancedListItem,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'deprecated'],
   args: {
     title: 'Įrašo pavadinimas',
     subtitle: 'a.k. 3850.........',
