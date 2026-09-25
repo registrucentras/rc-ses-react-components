@@ -1,6 +1,6 @@
-import { BriefcaseIcon } from '@phosphor-icons/react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
+import { BriefcaseIcon } from '@/assets/icons/phosphorIcons'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'

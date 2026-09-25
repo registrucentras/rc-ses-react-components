@@ -1,9 +1,9 @@
 import { Box, ButtonBase, Divider, Stack } from '@mui/material'
-import { InfoIcon, PhoneCallIcon } from '@phosphor-icons/react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
 import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
+import { InfoIcon, PhoneCallIcon } from '@/assets/icons/phosphorIcons'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
