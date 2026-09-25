@@ -194,24 +194,48 @@ describe('AdvancedListItemShell', () => {
     expect(screen.getByTestId('root')).toHaveAttribute('tabIndex', '-1')
   })
 
-  it('exposes aria-selected when state="selected"', () => {
+  it('exposes role="button" and aria-expanded for expandable clickable items', () => {
     render(
       <AdvancedListItemShell
         content={<span>Content</span>}
-        state='selected'
+        expanded={<span>Details</span>}
+        onClick={vi.fn()}
         testIds={{ root: 'root' }}
       />,
     )
 
-    expect(screen.getByTestId('root')).toHaveAttribute('aria-selected', 'true')
+    const root = screen.getByTestId('root')
+    expect(root).toHaveAttribute('role', 'button')
+    expect(root).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('does not expose aria-selected for non-selected states', () => {
+  it('updates aria-expanded when expanded', () => {
     render(
-      <AdvancedListItemShell content={<span>Content</span>} testIds={{ root: 'root' }} />,
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<span>Details</span>}
+        isExpanded
+        onClick={vi.fn()}
+        testIds={{ root: 'root' }}
+      />,
     )
 
-    expect(screen.getByTestId('root')).not.toHaveAttribute('aria-selected')
+    const root = screen.getByTestId('root')
+    expect(root).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('does not expose role or aria-expanded for non-expandable items', () => {
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        onClick={vi.fn()}
+        testIds={{ root: 'root' }}
+      />,
+    )
+
+    const root = screen.getByTestId('root')
+    expect(root).not.toHaveAttribute('role')
+    expect(root).not.toHaveAttribute('aria-expanded')
   })
 
   it('does not call onClick when state is disabled', () => {
