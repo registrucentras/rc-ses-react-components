@@ -103,3 +103,5 @@ export {
   WarningCircleIcon,
   XCircleFillIcon,
 }
+
+export * from '@/assets/icons/phosphorIcons'
