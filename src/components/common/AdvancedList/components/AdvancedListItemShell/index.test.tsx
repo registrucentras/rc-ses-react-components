@@ -170,6 +170,38 @@ describe('AdvancedListItemShell', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
+  it('calls onClick when the content of an expandable row is clicked', () => {
+    const onClick = vi.fn()
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        expanded={<span>Details</span>}
+        onClick={onClick}
+      />,
+    )
+
+    fireEvent.click(screen.getByText('Content'))
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call onClick when a click lands inside a nested role="button" element', () => {
+    const onClick = vi.fn()
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        onClick={onClick}
+        trailing={
+          <div role='button' tabIndex={0}>
+            <span>Chip label</span>
+          </div>
+        }
+      />,
+    )
+
+    fireEvent.click(screen.getByText('Chip label'))
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
   it('does not expose role="button" on the root, even when clickable', () => {
     render(
       <AdvancedListItemShell
