@@ -128,11 +128,11 @@ const AdvancedListItemShell = ({
   return (
     <Box
       ref={rootRef}
+      role={isClickable && isExpandable ? 'button' : undefined}
       tabIndex={isClickable && isExpandable ? 0 : -1}
       onClick={isClickable ? handleRootClick : undefined}
       onKeyDown={isClickable && isExpandable ? handleRootKeyDown : undefined}
       aria-disabled={isDisabled || undefined}
-      aria-selected={state === 'selected' || undefined}
       aria-expanded={isClickable && isExpandable ? isExpanded : undefined}
       aria-controls={isClickable && isExpandable ? expandedId : undefined}
       className={className}
