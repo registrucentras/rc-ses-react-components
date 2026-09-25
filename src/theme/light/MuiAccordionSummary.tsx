@@ -1,6 +1,6 @@
 import { Components } from '@mui/material'
 
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
+import { CaretDownIcon } from '@/assets/icons/phosphorIcons'
 
 import palette from '../palette'
 

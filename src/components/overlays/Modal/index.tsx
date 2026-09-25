@@ -2,10 +2,12 @@ import { Button, Typography } from '@mui/material'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
-import WarningFillIcon from '@/assets/icons/WarningFillIcon'
+import {
+  CheckCircleFillIcon,
+  InfoFillIcon,
+  QuestionFillIcon,
+  WarningFillIcon,
+} from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 import RcSesDialog, { RcSesDialogProps } from '../Dialog'

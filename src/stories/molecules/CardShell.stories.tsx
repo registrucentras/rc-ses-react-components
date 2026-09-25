@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import UserIcon from '@/assets/icons/UserIcon'
+import { UserIcon } from '@/assets/icons/phosphorIcons'
 import RcSesButton from '@/components/common/Button'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'

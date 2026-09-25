@@ -12,9 +12,7 @@ import {
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import NotePencilIcon from '@/assets/icons/NotePencilIcon'
-import TrashIcon from '@/assets/icons/TrashIcon'
-import UserIcon from '@/assets/icons/UserIcon'
+import { NotePencilIcon, TrashIcon, UserIcon } from '@/assets/icons/phosphorIcons'
 import AdvancedListItem from '@/components/common/AdvancedList/components/AdvancedListItem'
 import { secondary } from '@/theme/palette'
 

@@ -36,7 +36,14 @@ describe('createIcon', () => {
     expect(svg).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('names the component after the Phosphor icon', () => {
+  it('names the component after the Phosphor icon and its default weight', () => {
     expect(createIcon(Briefcase).displayName).toBe('BriefcaseIcon')
+    expect(createIcon(Briefcase, { weight: 'bold' }).displayName).toBe(
+      'BriefcaseBoldIcon',
+    )
+  })
+
+  it('uses an explicit name when given', () => {
+    expect(createIcon(Briefcase, { name: 'WorkIcon' }).displayName).toBe('WorkIcon')
   })
 })

@@ -1,7 +1,6 @@
 import { Button, ButtonProps } from '@mui/material'
 
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
+import { CaretLeftIcon, CaretRightBoldIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 type Props = ButtonProps & {

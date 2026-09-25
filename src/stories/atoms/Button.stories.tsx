@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 import { fn } from 'storybook/test'
 
-import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
+import { PlusBoldIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 import { grey } from '@/theme/palette'
