@@ -54,7 +54,6 @@ const AdvancedListItemShell = ({
   const hasTrailing = hasSlot(trailing)
 
   const rootRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
   const expandedId = useId()
@@ -65,12 +64,6 @@ const AdvancedListItemShell = ({
   const transitionTiming = `${motion.duration.standard}ms ${motion.easing.standard}`
 
   useEffect(() => {
-    if (!isExpanded && contentRef.current?.contains(document.activeElement)) {
-      rootRef.current?.focus()
-    }
-  }, [isExpanded])
-
-  useEffect(() => {
     if (isDisabled) {
       rootRef.current?.setAttribute('inert', '')
     } else {
@@ -79,17 +72,25 @@ const AdvancedListItemShell = ({
   }, [isDisabled])
 
   useEffect(() => {
-    const node = contentRef.current
-    if (!isExpandable || !node) {
+    if (!isExpandable) {
+      return
+    }
+
+    const expandedElement = rootRef.current?.querySelector(`[id="${expandedId}"]`)
+    if (!expandedElement) {
       return
     }
 
     if (isExpanded) {
-      node.removeAttribute('inert')
+      expandedElement.removeAttribute('inert')
     } else {
-      node.setAttribute('inert', '')
+      // When collapsing, if focus is inside the expanded content, move it to root
+      if (expandedElement.contains(document.activeElement)) {
+        rootRef.current?.focus()
+      }
+      expandedElement.setAttribute('inert', '')
     }
-  }, [isExpanded, isExpandable])
+  }, [isExpanded, isExpandable, expandedId])
 
   const handleRootClick = (event: React.MouseEvent) => {
     if (!isClickable) {
@@ -97,12 +98,25 @@ const AdvancedListItemShell = ({
     }
 
     const target = event.target as HTMLElement
-    if (target.closest('button, a, input, select, textarea, [role="button"]')) {
+
+    // Skip clicks on interactive elements that have their own handlers
+    const targetElement = target.closest('button, a, input, select, textarea')
+    if (targetElement && targetElement !== rootRef.current) {
+      return
+    }
+
+    // Also skip if target explicitly has role="button" and is not the root
+    if (
+      target.hasAttribute('role') &&
+      target.getAttribute('role') === 'button' &&
+      target !== rootRef.current
+    ) {
       return
     }
 
     // Skip clicks inside the expanded content area to prevent collapsing when clicking details
-    if (isExpanded && contentRef.current?.contains(target)) {
+    const expandedElement = rootRef.current?.querySelector(`[id="${expandedId}"]`)
+    if (isExpanded && expandedElement?.contains(target)) {
       return
     }
 
@@ -214,7 +228,6 @@ const AdvancedListItemShell = ({
           easing={motion.easing.standard}
         >
           <Box
-            ref={contentRef}
             id={expandedId}
             data-testid={testIds?.expanded}
             sx={{
