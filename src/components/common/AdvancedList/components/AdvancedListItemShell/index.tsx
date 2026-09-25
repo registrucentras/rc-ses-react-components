@@ -99,18 +99,10 @@ const AdvancedListItemShell = ({
 
     const target = event.target as HTMLElement
 
-    // Skip clicks on interactive elements that have their own handlers
-    const targetElement = target.closest('button, a, input, select, textarea')
-    if (targetElement && targetElement !== rootRef.current) {
-      return
-    }
-
-    // Also skip if target explicitly has role="button" and is not the root
-    if (
-      target.hasAttribute('role') &&
-      target.getAttribute('role') === 'button' &&
-      target !== rootRef.current
-    ) {
+    // Skip clicks on interactive elements that have their own handlers. The root itself
+    // is role="button" in expandable rows, so it is excluded.
+    const control = target.closest('button, a, input, select, textarea, [role="button"]')
+    if (control && control !== rootRef.current) {
       return
     }
 
