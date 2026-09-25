@@ -1,10 +1,12 @@
 import { Components, createTheme } from '@mui/material'
 
-import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
-import CloseIcon from '@/assets/icons/CloseIcon'
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
-import WarningFillIcon from '@/assets/icons/WarningFillIcon'
+import {
+  CheckCircleFillIcon,
+  CloseIcon,
+  InfoFillIcon,
+  WarningCircleIcon,
+  WarningFillIcon,
+} from '@/assets/icons/phosphorIcons'
 
 import palette from '../palette'
 

@@ -1,9 +1,11 @@
 import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
-import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
-import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
+import {
+  CaretLeftIcon,
+  MagnifyingGlassIcon,
+  PencilSimpleLineIcon,
+} from '@/assets/icons/phosphorIcons'
 import RcSesButton from '@/components/common/Button'
 import RcSesCard from '@/components/common/Card'
 import palette from '@/theme/palette'

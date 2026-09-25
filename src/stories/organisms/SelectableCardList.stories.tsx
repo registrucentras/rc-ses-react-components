@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import QuestionIcon from '@/assets/icons/QuestionIcon'
-import WarningFillIcon from '@/assets/icons/WarningFillIcon'
+import { InfoFillIcon, QuestionIcon, WarningFillIcon } from '@/assets/icons/phosphorIcons'
 import type { ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import SelectableCardList, {
   type SelectableCardListItemData,

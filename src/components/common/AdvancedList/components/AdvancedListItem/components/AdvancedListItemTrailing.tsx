@@ -1,10 +1,12 @@
 import { Box, IconButton, Radio, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
-import MinusRegularIcon from '@/assets/icons/MinusIcon'
-import PlusRegularIcon from '@/assets/icons/PlusIcon'
-import TrashIcon from '@/assets/icons/TrashIcon'
+import {
+  CaretRightBoldIcon,
+  MinusIcon as MinusRegularIcon,
+  PlusIcon as PlusRegularIcon,
+  TrashIcon,
+} from '@/assets/icons/phosphorIcons'
 import RcSesBadge, { type RcSesBadgeProps } from '@/components/common/Badge'
 import RcSesButton from '@/components/common/Button'
 import RcSesSwitch from '@/components/common/Switch'

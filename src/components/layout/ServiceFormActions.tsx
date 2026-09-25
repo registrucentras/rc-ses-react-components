@@ -1,8 +1,7 @@
 import { Card, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
+import { ArrowRightIcon, CaretLeftIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import palette from '@/theme/palette'
 

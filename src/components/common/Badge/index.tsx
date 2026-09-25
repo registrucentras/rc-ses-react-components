@@ -1,8 +1,7 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
-import CloseIcon from '@/assets/icons/CloseIcon'
+import { CircleFilledIcon, CloseIcon } from '@/assets/icons/phosphorIcons'
 import { common, error, grey, primary, secondary, warning } from '@/theme/palette'
 
 export interface RcSesBadgeProps {

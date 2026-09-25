@@ -17,7 +17,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
+import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
 import { grey } from '@/theme/palette'
