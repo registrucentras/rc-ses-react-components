@@ -39,6 +39,10 @@
     "RcSesSideNav": {
       "title": "Temos",
       "itemLabel": "{{label}}, {{count}}"
+    },
+    "Drawer": {
+      "clear": "Išvalyti",
+      "showServices": "Rodyti paslaugas"
     }
   }
 }
