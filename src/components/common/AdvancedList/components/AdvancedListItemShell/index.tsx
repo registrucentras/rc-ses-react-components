@@ -143,11 +143,11 @@ const AdvancedListItemShell = ({
         width: '100%',
         boxSizing: 'border-box',
         border:
-          (isRow && state === 'rest') || state === 'disabled'
+          isRow && (state === 'rest' || state === 'disabled')
             ? 'none'
             : `${BORDER_WIDTH} solid`,
         borderColor:
-          (isRow && state === 'rest') || state === 'disabled' ? undefined : borderColor,
+          isRow && (state === 'rest' || state === 'disabled') ? undefined : borderColor,
         borderBottom:
           isRow && state === 'rest' ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
