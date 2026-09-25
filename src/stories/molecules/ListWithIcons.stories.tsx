@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
-import WarningFillIcon from '@/assets/icons/WarningFillIcon'
+import { CheckCircleFillIcon, WarningFillIcon } from '@/assets/icons/phosphorIcons'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import { type ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
 import { secondary } from '@/theme/palette'

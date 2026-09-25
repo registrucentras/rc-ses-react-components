@@ -3,8 +3,7 @@ import { PopoverProps } from '@mui/material/Popover'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
-import QuestionIcon from '@/assets/icons/QuestionIcon'
+import { QuestionFillIcon, QuestionIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 import RcSesButton from '.'

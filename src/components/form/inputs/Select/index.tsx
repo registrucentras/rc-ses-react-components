@@ -5,8 +5,7 @@ import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
-import CheckIcon from '@/assets/icons/CheckIcon'
+import { CaretDownIcon, CheckIcon } from '@/assets/icons/phosphorIcons'
 import RcSesBadge from '@/components/common/Badge'
 import palette from '@/theme/palette'
 

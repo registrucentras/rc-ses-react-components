@@ -7,8 +7,7 @@ import {
 import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
-import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
-import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
+import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import getLoadingIcon from '@/components/utils/loading'
 import palette from '@/theme/palette'

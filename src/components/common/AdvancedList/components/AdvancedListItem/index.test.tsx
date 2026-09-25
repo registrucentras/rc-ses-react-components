@@ -3,9 +3,11 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { type ReactElement, useState } from 'react'
 import { describe, expect, test, vi } from 'vitest'
 
-import NotePencilIcon from '@/assets/icons/NotePencilIcon'
-import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
-import TrashIcon from '@/assets/icons/TrashIcon'
+import {
+  NotePencilIcon,
+  PencilSimpleLineIcon,
+  TrashIcon,
+} from '@/assets/icons/phosphorIcons'
 import theme from '@/theme/light'
 
 import AdvancedListItem from '.'
