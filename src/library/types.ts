@@ -59,6 +59,7 @@ import {
 } from '@/components/loaders/LoadingSpinner'
 import { RcSesBottomSheetProps } from '@/components/overlays/BottomSheet'
 import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
+import { RcSesDrawerProps, RcSesDrawerTestIds } from '@/components/overlays/Drawer'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
@@ -112,3 +113,4 @@ export type {
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }
 export type { RcSesBottomSheetProps }
+export type { RcSesDrawerProps, RcSesDrawerTestIds }

@@ -42,6 +42,7 @@
     },
     "Drawer": {
       "clear": "Clear",
+      "closeDrawer": "Close drawer",
       "showServices": "Show services"
     }
   }

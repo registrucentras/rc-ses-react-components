@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export interface DrawerTestIds {
+export interface RcSesDrawerTestIds {
   root?: string
   backdrop?: string
   panel?: string
@@ -10,7 +10,7 @@ export interface DrawerTestIds {
   footer?: string
 }
 
-export interface DrawerProps {
+export interface RcSesDrawerProps {
   /** Whether the drawer is open */
   isOpen: boolean
   /** Callback fired when the drawer should close */
@@ -19,10 +19,16 @@ export interface DrawerProps {
   title: ReactNode
   /** Main content of the drawer (scrollable body) */
   children: ReactNode
-  /** Whether to show the footer with default action buttons, default true */
-  showFooter?: boolean
+  /** Label for the secondary (left) action button */
+  secondaryActionLabel?: string
+  /** Callback fired when secondary action button is clicked */
+  onSecondaryAction?: () => void
+  /** Label for the primary (right) action button */
+  primaryActionLabel?: string
+  /** Callback fired when primary action button is clicked */
+  onPrimaryAction?: () => void
   /** Test IDs for testing */
-  testIds?: DrawerTestIds
+  testIds?: RcSesDrawerTestIds
   /** Optional CSS class name */
   className?: string
 }

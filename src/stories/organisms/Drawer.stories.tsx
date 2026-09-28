@@ -3,28 +3,31 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
 import RcSesButton from '@/components/common/Button'
-import Drawer from '@/components/overlays/Drawer'
+import RcSesDrawer from '@/components/overlays/Drawer'
 
 const meta = {
   title: 'Organisms/Drawer',
-  component: Drawer,
+  component: RcSesDrawer,
   tags: ['autodocs'],
   argTypes: {
     children: { control: false },
     onClose: { control: false },
+    onPrimaryAction: { control: false },
+    onSecondaryAction: { control: false },
   },
   args: {
     title: 'Filtrai',
-    showFooter: true,
+    secondaryActionLabel: 'Išvalyti',
+    primaryActionLabel: 'Rodyti paslaugas',
     children: (
       <Stack sx={{ gap: '1rem' }}>
         <Typography variant='body2'>
-          Turinys (slot) - filtrai, paieška, sąrašas, facetai
+          Turinys (slot) - filtrai, paieška, sąrašas
         </Typography>
       </Stack>
     ),
   },
-} satisfies Meta<typeof Drawer>
+} satisfies Meta<typeof RcSesDrawer>
 
 export default meta
 
@@ -41,7 +44,6 @@ export const Default: Story = {
     return (
       <div
         style={{
-          height: '100vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -51,19 +53,15 @@ export const Default: Story = {
         <RcSesButton variant='contained' onClick={() => setIsOpen(true)}>
           Open Drawer
         </RcSesButton>
-        <Drawer {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <RcSesDrawer {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </div>
     )
   },
   parameters: {
-    layout: 'fullscreen',
-    viewport: {
-      defaultViewport: 'tablet',
-    },
     docs: {
       description: {
         story:
-          'Basic drawer that slides in from the right. Use the trigger button to open; close with the close button, Escape key, or backdrop click. Footer shows by default with action buttons. Supports keyboard navigation (Tab/Shift+Tab focus trap, Esc to close).',
+          'Basic drawer that slides in from the right. Use the trigger button to open; close with the close button, Escape key, or backdrop click. Footer action buttons are optional and configurable via primaryActionLabel/onPrimaryAction and secondaryActionLabel/onSecondaryAction. Supports keyboard navigation (Tab/Shift+Tab focus trap, Esc to close).',
       },
       source: {
         code: `const [isOpen, setIsOpen] = useState(false)
@@ -76,7 +74,10 @@ export const Default: Story = {
     isOpen={isOpen}
     onClose={() => setIsOpen(false)}
     title='Filtrai'
-    showFooter={true}
+    secondaryActionLabel='Cancel'
+    onSecondaryAction={() => setIsOpen(false)}
+    primaryActionLabel='Apply'
+    onPrimaryAction={() => setIsOpen(false)}
   >
     {/* Drawer content */}
   </Drawer>

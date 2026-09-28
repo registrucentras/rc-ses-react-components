@@ -1,139 +1,97 @@
-import { Backdrop, Box, Typography } from '@mui/material'
-import { useEffect, useRef } from 'react'
+import { Box, Fade, Dialog as MuiDialog, Typography } from '@mui/material'
+import { useId } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
-import motion from '@/theme/motion'
 
-import { DrawerProps, DrawerTestIds } from './Drawer.types'
+import { RcSesDrawerProps, RcSesDrawerTestIds } from './Drawer.types'
 
 const DRAWER_WIDTH = 440
 const ANIMATION_DURATION = 250
 const BACKDROP_OPACITY = 0.5
 
 /**
- * Drawer component - a slide-over panel that slides in from the right.
- * Features focus trap, keyboard support (Esc to close), and smooth animations.
- * Composition: Backdrop + panel with header (title + close button), scrollable body and optional footer.
+ * RcSesDrawer component - a slide-over panel that slides in from the right.
+ * Built on MUI Dialog for proper focus management, scroll locking, and DOM handling.
+ * Composition: Header (title + close button), scrollable body, and optional footer.
  */
-const Drawer = ({
+const RcSesDrawer = ({
   isOpen,
   onClose,
   title,
   children,
-  showFooter = true,
+  secondaryActionLabel,
+  onSecondaryAction,
+  primaryActionLabel,
+  onPrimaryAction,
   testIds,
   className,
-}: DrawerProps) => {
-  const { t } = useTranslation('common', { keyPrefix: 'components.Drawer' })
-  const panelRef = useRef<HTMLDivElement>(null)
-  const firstFocusableRef = useRef<HTMLElement | null>(null)
-  const lastFocusableRef = useRef<HTMLElement | null>(null)
+}: RcSesDrawerProps) => {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const { t } = useTranslation('common', { keyPrefix: 'components.Drawer' })
+  const headerId = useId()
 
-  const animationDuration = prefersReducedMotion ? 0 : ANIMATION_DURATION
-
-  // Handle Esc key
-  useEffect(() => {
-    if (!isOpen) return undefined
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen, onClose])
-
-  // Focus trap and management
-  useEffect(() => {
-    if (!isOpen || !panelRef.current) return undefined
-
-    // Find focusable elements
-    const focusableElements = panelRef.current.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    )
-
-    if (focusableElements.length > 0) {
-      firstFocusableRef.current = focusableElements[0] as HTMLElement
-      lastFocusableRef.current = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement
-
-      // Focus first element
-      setTimeout(() => {
-        firstFocusableRef.current?.focus()
-      }, animationDuration)
-    }
-
-    const handleTabKey = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return
-
-      if (event.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === firstFocusableRef.current) {
-          event.preventDefault()
-          lastFocusableRef.current?.focus()
-        }
-      } else if (document.activeElement === lastFocusableRef.current) {
-        // Tab
-        event.preventDefault()
-        firstFocusableRef.current?.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleTabKey)
-    return () => {
-      document.removeEventListener('keydown', handleTabKey)
-    }
-  }, [isOpen, animationDuration])
-
-  const handleBackdropClick = () => {
+  const handleClose = () => {
     onClose()
   }
 
-  const translateX = isOpen ? 0 : DRAWER_WIDTH
-
   return (
-    <>
-      <Backdrop
-        open={isOpen}
-        onClick={handleBackdropClick}
-        data-testid={testIds?.backdrop}
-        sx={{
-          backgroundColor: `rgba(0, 0, 0, ${BACKDROP_OPACITY})`,
-          zIndex: (theme) => theme.zIndex.drawer - 1,
-          transition: prefersReducedMotion
-            ? 'none'
-            : `background-color ${animationDuration}ms ${motion.easing.standard}`,
-        }}
-      />
+    <MuiDialog
+      open={isOpen}
+      onClose={handleClose}
+      aria-labelledby={headerId}
+      maxWidth={false}
+      transitionDuration={prefersReducedMotion ? 0 : ANIMATION_DURATION}
+      sx={{
+        '& .MuiDialog-container': {
+          height: '100vh',
+          minHeight: '100vh',
+        },
+      }}
+      slots={{
+        transition: Fade,
+      }}
+      slotProps={{
+        backdrop: {
+          sx: {
+            backgroundColor: `rgba(0, 0, 0, ${BACKDROP_OPACITY})`,
+          },
+        },
+        container: {
+          sx: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'stretch',
+            width: '100%',
+            margin: 0,
+            padding: 0,
+          },
+        },
+        paper: {
+          sx: {
+            margin: 0,
+            padding: 0,
+            width: DRAWER_WIDTH,
+            maxWidth: DRAWER_WIDTH,
+            flex: '1 1 auto',
+            minHeight: '100vh',
+            borderRadius: 0,
+            boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.18)',
+            backgroundColor: (theme) => theme.palette.common.white,
+          },
+        },
+      }}
+    >
       <Box
-        ref={panelRef}
-        role='dialog'
-        aria-modal='true'
         data-testid={testIds?.root}
         className={className}
         sx={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          width: DRAWER_WIDTH,
-          height: '100vh',
-          backgroundColor: (theme) => theme.palette.common.white,
-          transform: `translateX(${translateX}px)`,
-          transition: prefersReducedMotion
-            ? 'none'
-            : `transform ${animationDuration}ms ${motion.easing.standard}`,
           display: 'flex',
           flexDirection: 'column',
-          zIndex: (theme) => theme.zIndex.drawer,
+          height: '100%',
+          width: '100%',
         }}
       >
         <Box
@@ -149,6 +107,8 @@ const Drawer = ({
           }}
         >
           <Typography
+            id={headerId}
+            component='h2'
             sx={{
               fontSize: '14px',
               fontStyle: 'normal',
@@ -160,11 +120,12 @@ const Drawer = ({
           </Typography>
           <RcSesButton
             variant='link'
-            onClick={onClose}
+            onClick={handleClose}
             data-testid={testIds?.closeButton}
-            sx={{ flexShrink: 0, minWidth: '2.5rem' }}
+            sx={{ flexShrink: 0, width: '2.75rem', height: '2.75rem' }}
+            aria-label={t('closeDrawer')}
           >
-            <CloseIcon size={20} />
+            <CloseIcon size={24} />
           </RcSesButton>
         </Box>
 
@@ -174,12 +135,13 @@ const Drawer = ({
             flex: 1,
             overflowY: 'auto',
             padding: '1rem 1.5rem',
+            backgroundColor: (theme) => theme.palette.grey[50],
           }}
         >
           {children}
         </Box>
 
-        {showFooter && (
+        {(secondaryActionLabel || primaryActionLabel) && (
           <Box
             data-testid={testIds?.footer}
             sx={{
@@ -191,14 +153,22 @@ const Drawer = ({
               justifyContent: 'space-between',
             }}
           >
-            <RcSesButton variant='link'>{t('clear')}</RcSesButton>
-            <RcSesButton variant='contained'>{t('showServices')}</RcSesButton>
+            {secondaryActionLabel && (
+              <RcSesButton variant='link' onClick={onSecondaryAction}>
+                {secondaryActionLabel}
+              </RcSesButton>
+            )}
+            {primaryActionLabel && (
+              <RcSesButton variant='contained' onClick={onPrimaryAction}>
+                {primaryActionLabel}
+              </RcSesButton>
+            )}
           </Box>
         )}
       </Box>
-    </>
+    </MuiDialog>
   )
 }
 
-export default Drawer
-export type { DrawerProps, DrawerTestIds }
+export default RcSesDrawer
+export type { RcSesDrawerProps, RcSesDrawerTestIds }
