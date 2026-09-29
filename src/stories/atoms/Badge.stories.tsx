@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 
+import { CheckIcon, ClockIcon } from '@/assets/icons/phosphorIcons'
 import RcSesBadge, { RcSesBadgeProps } from '@/components/common/Badge'
 import FieldPreview from '@/components/storybook/FieldPreview'
 import FieldView from '@/components/storybook/FieldView'
@@ -136,6 +137,45 @@ export const AllCombinations: Story = {
         )}
       </Box>
     </>
+  ),
+}
+
+// ---------------------------------------------------------------------------
+// Custom Icon
+// ---------------------------------------------------------------------------
+
+export const WithCustomIcon: Story = {
+  render: () => (
+    <Fields>
+      <FieldView>
+        <PreviewTitle>With custom icon (Clock)</PreviewTitle>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+          {variants.map((variant) => (
+            <RcSesBadge
+              key={variant}
+              label={variant}
+              variant={variant}
+              size='regular'
+              icon={<ClockIcon />}
+            />
+          ))}
+        </Box>
+      </FieldView>
+      <FieldPreview>
+        <PreviewTitle>With custom icon (Check)</PreviewTitle>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+          {variants.map((variant) => (
+            <RcSesBadge
+              key={variant}
+              label={variant}
+              variant={variant}
+              size='regular'
+              icon={<CheckIcon />}
+            />
+          ))}
+        </Box>
+      </FieldPreview>
+    </Fields>
   ),
 }
 

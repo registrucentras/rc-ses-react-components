@@ -9,6 +9,7 @@ export interface RcSesBadgeProps {
   variant: 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'brand'
   size: 'small' | 'regular'
   showIcon?: boolean
+  icon?: React.ReactNode
   showClose?: boolean
   onClose?: () => void
 }
@@ -82,7 +83,15 @@ const sizeStyles: Record<RcSesBadgeProps['size'], SizeStyle> = {
 }
 
 function RcSesBadge(props: RcSesBadgeProps) {
-  const { label, variant, size, showIcon = true, showClose = false, onClose } = props
+  const {
+    label,
+    variant,
+    size,
+    showIcon = true,
+    icon,
+    showClose = false,
+    onClose,
+  } = props
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesBadge' })
 
   const variantStyle = variantStyles[variant]
@@ -104,15 +113,29 @@ function RcSesBadge(props: RcSesBadgeProps) {
 
   return (
     <Box sx={baseStyle}>
-      {showIcon && (
-        <CircleFilledIcon
-          size={14}
-          fillColor={variantStyle.iconColor}
-          aria-hidden
-          focusable={false}
-          style={{ flexShrink: 0 }}
-        />
-      )}
+      {showIcon &&
+        (icon ? (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 14,
+              height: 14,
+              flexShrink: 0,
+            }}
+          >
+            {icon}
+          </Box>
+        ) : (
+          <CircleFilledIcon
+            size={14}
+            fillColor={variantStyle.iconColor}
+            aria-hidden
+            focusable={false}
+            style={{ flexShrink: 0 }}
+          />
+        ))}
       <Box
         component='span'
         title={label}

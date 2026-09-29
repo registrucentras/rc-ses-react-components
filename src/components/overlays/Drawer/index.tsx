@@ -1,5 +1,12 @@
-import { Box, Fade, Dialog as MuiDialog, Slide, Typography } from '@mui/material'
-import { useId } from 'react'
+import {
+  Box,
+  Fade,
+  Dialog as MuiDialog,
+  Slide,
+  SlideProps,
+  Typography,
+} from '@mui/material'
+import { forwardRef, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
@@ -11,6 +18,14 @@ import { RcSesDrawerProps, RcSesDrawerTestIds } from './Drawer.types'
 const DRAWER_WIDTH = 440
 const ANIMATION_DURATION = 250
 const BACKDROP_OPACITY = 0.5
+
+/**
+ * SlideLeftTransition - Wrapper for Slide component with direction='left'
+ * Allows type-safe usage without 'as any' cast
+ */
+const SlideLeftTransition = forwardRef<HTMLDivElement, SlideProps>((props, ref) => (
+  <Slide ref={ref} direction='left' {...props} />
+))
 
 /**
  * RcSesDrawer component - a slide-over panel that slides in from the right.
@@ -51,12 +66,12 @@ const RcSesDrawer = ({
         },
       }}
       slots={{
-        transition: prefersReducedMotion ? Fade : Slide,
+        transition: prefersReducedMotion ? Fade : SlideLeftTransition,
       }}
       slotProps={{
-        transition: (prefersReducedMotion
-          ? { appear: true }
-          : { appear: true, direction: 'left' }) as any,
+        transition: {
+          appear: true,
+        },
         backdrop: {
           sx: {
             backgroundColor: `rgba(0, 0, 0, ${BACKDROP_OPACITY})`,
