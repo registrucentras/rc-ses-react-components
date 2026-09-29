@@ -1,12 +1,14 @@
-import { Avatar, MenuItem, Radio, Stack, TextField, Typography } from '@mui/material'
+import { Avatar, Radio, Stack, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { NotePencilIcon, TrashIcon } from '@/assets/icons/phosphorIcons'
 import AdvancedListItemShell from '@/components/common/AdvancedList/components/AdvancedListItemShell'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesButton from '@/components/common/Button'
 import RcSesSwitch from '@/components/common/Switch'
+import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
 
@@ -865,10 +867,17 @@ const [sendCopy, setSendCopy] = useState(false)
   },
 }
 
+const DOCUMENT_OPTIONS = [
+  { value: 'ak', label: 'Asmens tapatybės kortelė AK12345' },
+  { value: 'pasas', label: 'Pasas LT9876543' },
+]
+
 export const ExpandableWithDropdown: Story = {
   render: (args) => {
     const [isExpanded, setIsExpanded] = useState(true)
-    const [documentType, setDocumentType] = useState('')
+    const { control } = useForm<{ documentType: string }>({
+      defaultValues: { documentType: '' },
+    })
 
     return (
       <AdvancedListItemShell
@@ -883,17 +892,13 @@ export const ExpandableWithDropdown: Story = {
           />
         }
         expanded={
-          <TextField
-            select
-            fullWidth
-            size='small'
+          <RcSesSelect
+            id='expandable-with-dropdown-document'
+            control={control}
+            name='documentType'
             label='Asmens dokumentas'
-            value={documentType}
-            onChange={(event) => setDocumentType(event.target.value)}
-          >
-            <MenuItem value='ak'>Asmens tapatybės kortelė AK12345</MenuItem>
-            <MenuItem value='pasas'>Pasas LT9876543</MenuItem>
-          </TextField>
+            options={DOCUMENT_OPTIONS}
+          />
         }
       />
     )
@@ -906,7 +911,9 @@ export const ExpandableWithDropdown: Story = {
       },
       source: {
         code: `const [isExpanded, setIsExpanded] = useState(true)
-const [documentType, setDocumentType] = useState('')
+const { control } = useForm<{ documentType: string }>({
+  defaultValues: { documentType: '' },
+})
 
 <AdvancedListItemShell
   content={
@@ -929,17 +936,16 @@ const [documentType, setDocumentType] = useState('')
     />
   }
   expanded={
-    <TextField
-      select
-      fullWidth
-      size='small'
+    <RcSesSelect
+      id='expandable-with-dropdown-document'
+      control={control}
+      name='documentType'
       label='Asmens dokumentas'
-      value={documentType}
-      onChange={(event) => setDocumentType(event.target.value)}
-    >
-      <MenuItem value='ak'>Asmens tapatybės kortelė AK12345</MenuItem>
-      <MenuItem value='pasas'>Pasas LT9876543</MenuItem>
-    </TextField>
+      options={[
+        { value: 'ak', label: 'Asmens tapatybės kortelė AK12345' },
+        { value: 'pasas', label: 'Pasas LT9876543' },
+      ]}
+    />
   }
 />`,
       },
