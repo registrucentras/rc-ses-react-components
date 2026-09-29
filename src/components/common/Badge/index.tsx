@@ -116,6 +116,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
       {showIcon &&
         (icon ? (
           <Box
+            aria-hidden
             sx={{
               display: 'flex',
               alignItems: 'center',

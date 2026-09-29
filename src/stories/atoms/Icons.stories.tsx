@@ -26,6 +26,7 @@ import {
   CheckIcon,
   CheckUncheckedBoldIcon,
   CircleFilledIcon,
+  ClockIcon,
   CloseIcon,
   CollapseChevronsIcon,
   CopyIcon,
@@ -267,6 +268,10 @@ const iconItems: IconStoryItem[] = [
   {
     name: 'XCircleFillIcon',
     render: renderIcon(XCircleFillIcon),
+  },
+  {
+    name: 'ClockIcon',
+    render: renderIcon(ClockIcon),
   },
 ]
 
