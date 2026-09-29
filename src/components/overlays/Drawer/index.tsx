@@ -153,7 +153,7 @@ const RcSesDrawer = ({
               flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: secondaryActionLabel ? 'space-between' : 'flex-end',
             }}
           >
             {secondaryActionLabel && (

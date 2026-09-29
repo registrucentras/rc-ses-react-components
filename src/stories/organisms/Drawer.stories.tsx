@@ -64,24 +64,26 @@ export const Default: Story = {
           'Basic drawer that slides in from the right. Use the trigger button to open; close with the close button, Escape key, or backdrop click. Footer action buttons are optional and configurable via primaryActionLabel/onPrimaryAction and secondaryActionLabel/onSecondaryAction. Supports keyboard navigation (Tab/Shift+Tab focus trap, Esc to close).',
       },
       source: {
-        code: `const [isOpen, setIsOpen] = useState(false)
+        code: `const [isOpen, setIsOpen] = useState(true)
 
-<>
+<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
   <RcSesButton variant='contained' onClick={() => setIsOpen(true)}>
     Open Drawer
   </RcSesButton>
-  <Drawer
+  <RcSesDrawer
     isOpen={isOpen}
     onClose={() => setIsOpen(false)}
     title='Filtrai'
-    secondaryActionLabel='Cancel'
-    onSecondaryAction={() => setIsOpen(false)}
-    primaryActionLabel='Apply'
-    onPrimaryAction={() => setIsOpen(false)}
+    secondaryActionLabel='Išvalyti'
+    primaryActionLabel='Rodyti paslaugas'
   >
-    {/* Drawer content */}
-  </Drawer>
-</>`,
+    <Stack sx={{ gap: '1rem' }}>
+      <Typography variant='body2'>
+        Turinys (slot) - filtrai, paieška, sąrašas
+      </Typography>
+    </Stack>
+  </RcSesDrawer>
+</div>`,
       },
     },
   },
