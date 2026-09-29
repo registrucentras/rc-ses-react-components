@@ -41,9 +41,7 @@
       "itemLabel": "{{label}}, {{count}}"
     },
     "Drawer": {
-      "clear": "Išvalyti",
-      "closeDrawer": "Uždaryti",
-      "showServices": "Rodyti paslaugas"
+      "closeDrawer": "Uždaryti"
     }
   }
 }

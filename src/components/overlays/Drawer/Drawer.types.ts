@@ -2,8 +2,6 @@ import { ReactNode } from 'react'
 
 export interface RcSesDrawerTestIds {
   root?: string
-  backdrop?: string
-  panel?: string
   header?: string
   closeButton?: string
   body?: string

@@ -41,9 +41,7 @@
       "itemLabel": "{{label}}, {{count}}"
     },
     "Drawer": {
-      "clear": "Clear",
-      "closeDrawer": "Close drawer",
-      "showServices": "Show services"
+      "closeDrawer": "Close drawer"
     }
   }
 }

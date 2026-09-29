@@ -16,14 +16,13 @@ describe('RcSesDrawer', () => {
   })
 
   it('does not display when isOpen is false', () => {
-    const { container } = render(
+    render(
       <RcSesDrawer isOpen={false} title='Test Drawer' onClose={vi.fn()}>
         Test content
       </RcSesDrawer>,
     )
 
-    const drawer = container.querySelector('[role="dialog"]')
-    expect(drawer).not.toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('calls onClose when close button is clicked', () => {
@@ -47,32 +46,28 @@ describe('RcSesDrawer', () => {
 
   it('calls onClose when backdrop is clicked', () => {
     const onClose = vi.fn()
-    const { container } = render(
+    render(
       <RcSesDrawer isOpen title='Test Drawer' onClose={onClose}>
         Test content
       </RcSesDrawer>,
     )
 
-    const backdrop = container.querySelector('.MuiBackdrop-root')
-    if (backdrop) {
-      fireEvent.click(backdrop)
-      expect(onClose).toHaveBeenCalledTimes(1)
-    }
+    const backdrop = document.querySelector('.MuiBackdrop-root') as Element
+    fireEvent.click(backdrop)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('calls onClose when Escape key is pressed', () => {
     const onClose = vi.fn()
-    const { container } = render(
+    render(
       <RcSesDrawer isOpen title='Test Drawer' onClose={onClose}>
         Test content
       </RcSesDrawer>,
     )
 
-    const dialog = container.querySelector('[role="dialog"]')
-    if (dialog) {
-      fireEvent.keyDown(dialog, { key: 'Escape' })
-      expect(onClose).toHaveBeenCalledTimes(1)
-    }
+    const dialog = screen.getByRole('dialog')
+    fireEvent.keyDown(dialog, { key: 'Escape' })
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('renders footer when action labels are provided', () => {

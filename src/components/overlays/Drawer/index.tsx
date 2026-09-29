@@ -1,4 +1,4 @@
-import { Box, Fade, Dialog as MuiDialog, Typography } from '@mui/material'
+import { Box, Fade, Dialog as MuiDialog, Slide, Typography } from '@mui/material'
 import { useId } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -51,9 +51,12 @@ const RcSesDrawer = ({
         },
       }}
       slots={{
-        transition: Fade,
+        transition: prefersReducedMotion ? Fade : Slide,
       }}
       slotProps={{
+        transition: (prefersReducedMotion
+          ? { appear: true }
+          : { appear: true, direction: 'left' }) as any,
         backdrop: {
           sx: {
             backgroundColor: `rgba(0, 0, 0, ${BACKDROP_OPACITY})`,
