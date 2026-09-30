@@ -42,6 +42,11 @@
     },
     "Drawer": {
       "closeDrawer": "Close drawer"
+    },
+    "RcSesFilterChip": {
+      "aria": {
+        "label": "Remove filter: {{label}}"
+      }
     }
   }
 }
