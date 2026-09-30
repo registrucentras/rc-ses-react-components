@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { NotePencilIcon, TrashIcon } from '@/assets/icons/phosphorIcons'
+import { ClockIcon, NotePencilIcon, TrashIcon } from '@/assets/icons/phosphorIcons'
 import AdvancedListItemShell from '@/components/common/AdvancedList/components/AdvancedListItemShell'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesButton from '@/components/common/Button'
@@ -739,7 +739,8 @@ export const ExpandableWithRadioAndSwitch: Story = {
             label='3 darbo dienos'
             variant='neutral'
             size='small'
-            showIcon={false}
+            showIcon
+            icon={<ClockIcon />}
           />
         }
         expanded={
@@ -829,7 +830,7 @@ const [sendCopy, setSendCopy] = useState(false)
       </Typography>
     </Stack>
   }
-  trailing={<RcSesBadge label='3 darbo dienos' variant='neutral' size='small' showIcon={false} />}
+  trailing={<RcSesBadge label='3 darbo dienos' variant='neutral' size='small' showIcon icon={<ClockIcon />} />}
   expanded={
     <Stack direction='row' sx={{ alignItems: 'center', gap: '0.625rem' }}>
       <RcSesSwitch

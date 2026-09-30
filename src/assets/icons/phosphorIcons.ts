@@ -17,6 +17,7 @@ import {
   CheckCircleIcon as CheckCircle,
   CheckSquareIcon as CheckSquare,
   CircleIcon as Circle,
+  ClockIcon as Clock,
   CopyIcon as Copy,
   EnvelopeSimpleIcon as EnvelopeSimple,
   InfoIcon as Info,
@@ -104,6 +105,7 @@ export const CircleFilledIcon = /* @__PURE__ */ createIcon(Circle, {
   weight: 'fill',
   name: 'CircleFilledIcon',
 })
+export const ClockIcon = /* @__PURE__ */ createIcon(Clock)
 export const CloseIcon = /* @__PURE__ */ createIcon(X, { name: 'CloseIcon' })
 export const CollapseChevronsIcon = /* @__PURE__ */ createIcon(ArrowsInLineVertical, {
   size: 16,
