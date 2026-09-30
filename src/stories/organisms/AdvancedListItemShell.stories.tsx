@@ -1,12 +1,15 @@
 import { Avatar, Radio, Stack, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import { NotePencilIcon, TrashIcon } from '@/assets/icons/phosphorIcons'
 import AdvancedListItemShell from '@/components/common/AdvancedList/components/AdvancedListItemShell'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesButton from '@/components/common/Button'
 import RcSesSwitch from '@/components/common/Switch'
+import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
 
 const ACTION_BUTTON_SX = {
@@ -857,6 +860,92 @@ const [sendCopy, setSendCopy] = useState(false)
         </Typography>
       </Stack>
     </Stack>
+  }
+/>`,
+      },
+    },
+  },
+}
+
+const DOCUMENT_OPTIONS = [
+  { value: 'ak', label: 'Asmens tapatybės kortelė AK12345' },
+  { value: 'pasas', label: 'Pasas LT9876543' },
+]
+
+export const ExpandableWithDropdown: Story = {
+  render: (args) => {
+    const [isExpanded, setIsExpanded] = useState(true)
+    const { control } = useForm<{ documentType: string }>({
+      defaultValues: { documentType: '' },
+    })
+
+    return (
+      <AdvancedListItemShell
+        {...args}
+        isExpanded={isExpanded}
+        onClick={() => setIsExpanded((prev) => !prev)}
+        leading={
+          <RcSesSimpleCheckbox
+            checked={isExpanded}
+            onChange={() => setIsExpanded((prev) => !prev)}
+            slotProps={{ input: { 'aria-label': 'Įtraukti įrašą' } }}
+          />
+        }
+        expanded={
+          <RcSesSelect
+            id='expandable-with-dropdown-document'
+            control={control}
+            name='documentType'
+            label='Asmens dokumentas'
+            options={DOCUMENT_OPTIONS}
+          />
+        }
+      />
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A checkbox row with a dropdown inside the `expanded` slot. Its menu is portalled to `document.body`, but React still bubbles the click. Selecting an option must leave the row expanded.',
+      },
+      source: {
+        code: `const [isExpanded, setIsExpanded] = useState(true)
+const { control } = useForm<{ documentType: string }>({
+  defaultValues: { documentType: '' },
+})
+
+<AdvancedListItemShell
+  content={
+    <Stack sx={{ gap: '0.5rem' }}>
+      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        Įrašo pavadinimas
+      </Typography>
+      <Typography variant='body2' sx={{ color: palette.grey[600] }}>
+        a.k. 3880819****
+      </Typography>
+    </Stack>
+  }
+  isExpanded={isExpanded}
+  onClick={() => setIsExpanded((prev) => !prev)}
+  leading={
+    <RcSesSimpleCheckbox
+      checked={isExpanded}
+      onChange={() => setIsExpanded((prev) => !prev)}
+      slotProps={{ input: { 'aria-label': 'Įtraukti įrašą' } }}
+    />
+  }
+  expanded={
+    <RcSesSelect
+      id='expandable-with-dropdown-document'
+      control={control}
+      name='documentType'
+      label='Asmens dokumentas'
+      options={[
+        { value: 'ak', label: 'Asmens tapatybės kortelė AK12345' },
+        { value: 'pasas', label: 'Pasas LT9876543' },
+      ]}
+    />
   }
 />`,
       },

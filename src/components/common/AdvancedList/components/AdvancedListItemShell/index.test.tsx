@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import { createPortal } from 'react-dom'
 import { describe, expect, it, vi } from 'vitest'
 
 import AdvancedListItemShell from '.'
@@ -199,6 +200,28 @@ describe('AdvancedListItemShell', () => {
     )
 
     fireEvent.click(screen.getByText('Chip label'))
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('does not call onClick when clicked on portalled content from slot (dropdown option)', () => {
+    const onClick = vi.fn()
+    render(
+      <AdvancedListItemShell
+        content={<span>Content</span>}
+        isExpanded
+        onClick={onClick}
+        expanded={createPortal(
+          <ul role='listbox'>
+            <li role='option' aria-selected={false}>
+              Pasas
+            </li>
+          </ul>,
+          document.body,
+        )}
+      />,
+    )
+
+    fireEvent.click(screen.getByRole('option', { name: 'Pasas' }))
     expect(onClick).not.toHaveBeenCalled()
   })
 
