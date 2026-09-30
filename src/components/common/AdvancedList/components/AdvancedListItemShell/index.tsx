@@ -99,6 +99,12 @@ const AdvancedListItemShell = ({
 
     const target = event.target as HTMLElement
 
+    // Skip clicks on portalled content (dropdown poppers, dialogs) rendered from a slot,
+    // React bubbles them up
+    if (!rootRef.current?.contains(target)) {
+      return
+    }
+
     // Skip clicks on interactive elements that have their own handlers. The root itself
     // is role="button" in expandable rows, so it is excluded.
     const control = target.closest('button, a, input, select, textarea, [role="button"]')

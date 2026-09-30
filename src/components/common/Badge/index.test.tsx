@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { ReactElement } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { CheckIcon } from '@/assets/icons/phosphorIcons'
 import i18n from '@/i18n/i18n'
 import theme from '@/theme/light'
 
@@ -61,6 +62,21 @@ describe('RcSesBadge', () => {
     )
 
     expect(container.querySelector('svg')).not.toBeInTheDocument()
+  })
+
+  it('renders custom icon over default icon', () => {
+    const { container } = renderBadge(
+      <RcSesBadge
+        label='Label'
+        variant='neutral'
+        size='regular'
+        showIcon
+        icon={<CheckIcon data-testid='custom-icon' />}
+      />,
+    )
+
+    expect(screen.getByTestId('custom-icon')).toBeInTheDocument()
+    expect(container.querySelectorAll('svg').length).toBe(1)
   })
 
   it('does not render a close button by default', () => {

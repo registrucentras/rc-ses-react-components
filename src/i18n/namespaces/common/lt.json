@@ -39,6 +39,9 @@
     "RcSesSideNav": {
       "title": "Temos",
       "itemLabel": "{{label}}, {{count}}"
+    },
+    "Drawer": {
+      "closeDrawer": "Uždaryti"
     }
   }
 }
