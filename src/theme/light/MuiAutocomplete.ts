@@ -48,8 +48,12 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
           textTransform: 'none',
         },
 
+        // Options stack as a column here, so alignItems is the horizontal
+        // axis: 'center' would centre the text of every consumer's
+        // Autocomplete. Components that lay options out as a row (Select,
+        // PhoneInput) set their own vertical centring.
         '.MuiAutocomplete-option': {
-          alignItems: 'center',
+          alignItems: 'flex-start',
           backgroundColor: 'transparent',
           borderRadius: 0,
           color: palette.grey['900'],
