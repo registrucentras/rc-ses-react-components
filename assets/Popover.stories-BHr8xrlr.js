@@ -1,0 +1,13 @@
+import{j as e,r as d}from"./iframe-D0jLDCyy.js";import{R as i}from"./index-B3IyJ5Wg.js";import{B as s}from"./Box-DLTNzQRD.js";import"./preload-helper-PPVm8Dsz.js";import"./Popover-C1AuCjOB.js";import"./generateUtilityClasses-DGi4yQgU.js";import"./useSlot-C-6CIQUZ.js";import"./mergeSlotProps-CHZ8RNr1.js";import"./useReducedMotion-C3SGip4Q.js";import"./mergeSlotProps-WohUH2mN.js";import"./ownerDocument-DW-IO8s5.js";import"./ownerWindow-HkKU3E4x.js";import"./debounce-Be36O1Ab.js";import"./Grow-CA6PC_-h.js";import"./Transition-DJ8-p2TX.js";import"./utils-BL043Ngk.js";import"./getReactElementRef-CyExSDcd.js";import"./memoTheme-oRxAc6ym.js";import"./Modal-DnkjWrnR.js";import"./createChainedFunction-BO_9K8Jh.js";import"./Portal-B3ANSV7T.js";import"./index-KAXcF9KS.js";import"./index-CvbQf5zp.js";import"./setRef-CQn2LYBI.js";import"./getActiveElement-BQgAPKnO.js";import"./contains-DSD8CO72.js";import"./Fade-OGxc6z_Z.js";import"./Paper-BWthU5P3.js";const C={title:"Molecules/Popover",component:i,tags:["autodocs"],argTypes:{header:{control:"text"}},parameters:{docs:{description:{component:"`RcSesButtonWithPopover` owns the popover's open state internally and starts\nclosed, so `MuiPopover` never reached a visual baseline.\nThese stories render the popover itself, already open against a fixed anchor."}}}};function a({children:r,header:p}){const[n,c]=d.useState(null);return e.jsxs(s,{sx:{pb:"12rem"},children:[e.jsx(s,{ref:c,sx:{border:"1px dashed",borderColor:"divider",borderRadius:1,display:"inline-block",px:1.5,py:1},children:"Anchor"}),e.jsx(i,{anchorEl:n,header:p,open:!!n,children:r})]})}const o={args:{header:"Information",children:"Hover or click the question icon to see this popover content"},render:r=>e.jsx(a,{header:r.header,children:r.children})},t={args:{children:"Tinkami formatai: .doc, .xdoc, .pdf, .pages"},render:r=>e.jsx(a,{children:r.children})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  args: {
+    header: 'Information',
+    children: 'Hover or click the question icon to see this popover content'
+  },
+  render: args => <OpenPopover header={args.header}>{args.children}</OpenPopover>
+}`,...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    children: 'Tinkami formatai: .doc, .xdoc, .pdf, .pages'
+  },
+  render: args => <OpenPopover>{args.children}</OpenPopover>
+}`,...t.parameters?.docs?.source}}};const z=["Default","WithoutHeader"];export{o as Default,t as WithoutHeader,z as __namedExportsOrder,C as default};
+//# sourceMappingURL=Popover.stories-BHr8xrlr.js.map
