@@ -44,6 +44,10 @@ const INTERACTIVE_TRAILING_TYPES = new Set([
   'stepper',
 ])
 
+/**
+ * @deprecated Use `RcSesAdvancedListItemShell` instead. Will be removed in a future major release.
+ */
+
 const AdvancedListItem = ({
   title,
   label,

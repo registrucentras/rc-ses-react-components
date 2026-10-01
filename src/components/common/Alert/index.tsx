@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import CloseIcon from '@/assets/icons/CloseIcon'
+import { CloseIcon } from '@/assets/icons/phosphorIcons'
 
 type Props = Omit<MuiAlertProps, 'onClose'> & {
   container?: boolean | ContainerProps

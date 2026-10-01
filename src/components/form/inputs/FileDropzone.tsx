@@ -6,8 +6,7 @@ import { UseControllerProps, useController } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
-import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
-import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
+import { UploadSimpleIcon, XCircleFillIcon } from '@/assets/icons/phosphorIcons'
 import IconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import palette from '@/theme/palette'
 

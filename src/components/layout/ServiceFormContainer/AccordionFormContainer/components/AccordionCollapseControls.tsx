@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material'
 
-import CollapseChevronsIcon from '@/assets/icons/CollapseChevronsIcon'
-import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
+import { CollapseChevronsIcon, ExpandChevronsIcon } from '@/assets/icons/phosphorIcons'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import Button from '@/components/common/Button'
 

@@ -39,6 +39,9 @@
     "RcSesSideNav": {
       "title": "Topics",
       "itemLabel": "{{label}}, {{count}}"
+    },
+    "Drawer": {
+      "closeDrawer": "Close drawer"
     }
   }
 }

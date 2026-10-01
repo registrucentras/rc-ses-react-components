@@ -1,9 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import ShoppingCartIcon from '@/assets/icons/ShoppingCartIcon'
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ShoppingCartIcon,
+} from '@/assets/icons/phosphorIcons'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import { typography } from '@/theme/light/MuiTypography'
 

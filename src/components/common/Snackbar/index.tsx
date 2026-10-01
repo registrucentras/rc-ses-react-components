@@ -9,7 +9,7 @@ import {
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import CloseIcon from '@/assets/icons/CloseIcon'
+import { CloseIcon } from '@/assets/icons/phosphorIcons'
 import { grey } from '@/theme/palette'
 
 import RcSesButton from '../Button'

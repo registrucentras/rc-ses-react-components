@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { useTranslation } from 'react-i18next'
 
-import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
+import { MagnifyingGlassIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 function AutocompleteInput(props: AutocompleteRenderInputParams) {

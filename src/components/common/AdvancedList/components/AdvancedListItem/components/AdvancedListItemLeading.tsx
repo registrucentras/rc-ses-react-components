@@ -2,9 +2,7 @@ import { Avatar, Box, IconButton, Radio, Stack, Typography } from '@mui/material
 import { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
-import CaretUpIcon from '@/assets/icons/CaretUpIcon'
-import ListIcon from '@/assets/icons/ListIcon'
+import { CaretDownIcon, CaretUpIcon, ListIcon } from '@/assets/icons/phosphorIcons'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
 

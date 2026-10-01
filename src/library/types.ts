@@ -1,3 +1,8 @@
+import {
+  AdvancedListItemShellProps,
+  AdvancedListItemShellState,
+  AdvancedListItemShellTestIds,
+} from '@/components/common/AdvancedList/components/AdvancedListItemShell/AdvancedListItemShell.types'
 import { RcSesCardProps } from '@/components/common/Card'
 import {
   CardFooterAlign,
@@ -52,7 +57,9 @@ import {
   RcSesLoadingSpinnerProps,
   RcSesSpinnerColor,
 } from '@/components/loaders/LoadingSpinner'
+import { RcSesBottomSheetProps } from '@/components/overlays/BottomSheet'
 import { DialogSize, RcSesDialogProps } from '@/components/overlays/Dialog'
+import { RcSesDrawerProps, RcSesDrawerTestIds } from '@/components/overlays/Drawer'
 import { ModalVariant, RcSesModalProps } from '@/components/overlays/Modal'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
@@ -64,6 +71,11 @@ export type {
 }
 export type { RcSesServiceLinksProps, RcSesServiceLinkItem, RcSesServiceLinksTestIds }
 export type { ButtonProps }
+export type {
+  AdvancedListItemShellProps,
+  AdvancedListItemShellState,
+  AdvancedListItemShellTestIds,
+}
 
 export type {
   RcSesFullPageLoaderProps,
@@ -100,3 +112,5 @@ export type {
 }
 export type { RcSesDialogProps, DialogSize }
 export type { RcSesModalProps, ModalVariant }
+export type { RcSesBottomSheetProps }
+export type { RcSesDrawerProps, RcSesDrawerTestIds }

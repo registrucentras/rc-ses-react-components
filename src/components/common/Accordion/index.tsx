@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import React from 'react'
 
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
+import { CaretDownIcon } from '@/assets/icons/phosphorIcons'
 
 import useAccordionController from './hooks/useAccordionController'
 

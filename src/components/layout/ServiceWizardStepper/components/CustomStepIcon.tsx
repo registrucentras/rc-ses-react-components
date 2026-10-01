@@ -1,8 +1,7 @@
 import { StepIconProps } from '@mui/material'
 
-import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
-import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
 import DotCircleFilledIcon from '@/assets/icons/DotCircleFilledIcon'
+import { CheckCircleFillIcon, CircleFilledIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 const CustomStepIcon = ({ active, completed, className, style }: StepIconProps) => {

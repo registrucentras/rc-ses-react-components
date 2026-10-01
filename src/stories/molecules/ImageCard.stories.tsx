@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
+import { MagnifyingGlassIcon } from '@/assets/icons/phosphorIcons'
 import RcSesButton from '@/components/common/Button'
 import RcSesImageCard from '@/components/common/ImageCard'
 import palette from '@/theme/palette'

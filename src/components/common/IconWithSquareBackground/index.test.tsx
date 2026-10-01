@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
+import { InfoFillIcon } from '@/assets/icons/phosphorIcons'
 import theme from '@/theme/light'
 
 import RcSesIconWithSquareBackground from '.'

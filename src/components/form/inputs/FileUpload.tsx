@@ -4,7 +4,7 @@ import { UseControllerProps, useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
-import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
+import { UploadSimpleIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 import RcSesFormControlWrapper, {

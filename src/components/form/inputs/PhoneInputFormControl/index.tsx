@@ -19,7 +19,7 @@ import React, { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import CaretDownFill from '@/assets/icons/CaretDownFill'
+import { CaretDownFill } from '@/assets/icons/phosphorIcons'
 import '@/i18n/i18n'
 import theme from '@/theme/light'
 import palette from '@/theme/palette'

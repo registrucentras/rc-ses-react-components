@@ -15,10 +15,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import NotePencilIcon from '@/assets/icons/NotePencilIcon'
-import TrashIcon from '@/assets/icons/TrashIcon'
-import UserIcon from '@/assets/icons/UserIcon'
+import {
+  InfoFillIcon,
+  NotePencilIcon,
+  TrashIcon,
+  UserIcon,
+} from '@/assets/icons/phosphorIcons'
 import AdvancedList, { type AdvancedListItemData } from '@/components/common/AdvancedList'
 import RcSesSelect from '@/components/form/inputs/Select'
 

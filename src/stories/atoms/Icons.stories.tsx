@@ -1,60 +1,26 @@
-import { Box, FormControl, MenuItem, Select, Typography } from '@mui/material'
+import { Box, FormControl, MenuItem, Select, Stack, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useMemo, useState } from 'react'
-import type { ReactElement } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 
 import type IconProps from '@/assets/IconProps'
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
-import ArrowsClockwiseIcon from '@/assets/icons/ArrowsClockwiseIcon'
-import BarcodeIcon from '@/assets/icons/BarcodeIcon'
-import CalendarBlankIcon from '@/assets/icons/CalendarBlankIcon'
-import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
-import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
-import CaretDownBoldIcon from '@/assets/icons/CaretDownBoldIcon'
-import CaretDownFill from '@/assets/icons/CaretDownFill'
-import CaretDownIcon from '@/assets/icons/CaretDownIcon'
-import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
-import CaretLeftIcon from '@/assets/icons/CaretLeftIcon'
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
-import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
-import CheckCircleFillIcon from '@/assets/icons/CheckCircleFillIcon'
-import CheckIcon from '@/assets/icons/CheckIcon'
-import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
-import CircleFilledIcon from '@/assets/icons/CircleFilledIcon'
-import CloseIcon from '@/assets/icons/CloseIcon'
-import CollapseChevronsIcon from '@/assets/icons/CollapseChevronsIcon'
-import CopyIcon from '@/assets/icons/CopyIcon'
-import DotCircleFilledIcon from '@/assets/icons/DotCircleFilledIcon'
-import ExpandChevronsIcon from '@/assets/icons/ExpandChevronsIcon'
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
-import MagnifyingGlassIcon from '@/assets/icons/MagnifyingGlassIcon'
-import MapPinAreaIcon from '@/assets/icons/MapPinAreaIcon'
-import MinusBoldIcon from '@/assets/icons/MinusBoldIcon'
-import PencilSimpleLineIcon from '@/assets/icons/PencilSimpleLineIcon'
-import PlusBoldIcon from '@/assets/icons/PlusBoldIcon'
-import QuestionFillIcon from '@/assets/icons/QuestionFillIcon'
-import QuestionIcon from '@/assets/icons/QuestionIcon'
-import ScalesIcon from '@/assets/icons/ScalesIcon'
-import ScrollIcon from '@/assets/icons/ScrollIcon'
-import SearchHelpIcon from '@/assets/icons/SearchHelpIcon'
-import SearchXIcon from '@/assets/icons/SearchXIcon'
-import SpinnerGapBoldIcon from '@/assets/icons/SpinnerGapBoldIcon'
-import UploadSimpleIcon from '@/assets/icons/UploadSimpleIcon'
-import WarningCircleIcon from '@/assets/icons/WarningCircleIcon'
-import WarningDiamondFillIcon from '@/assets/icons/WarningDiamondFillIcon'
-import WarningFillIcon from '@/assets/icons/WarningFillIcon'
-import XCircleFillIcon from '@/assets/icons/XCircleFillIcon'
+import RcSesButton from '@/components/common/Button'
+import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
+import ListWithIcons from '@/components/common/ListWithIcons'
+import * as libraryIcons from '@/library/icons'
+import {
+  EnvelopeSimpleIcon,
+  InfoIcon,
+  MapPinIcon,
+  PhoneIcon,
+  TrashIcon,
+  UserListIcon,
+} from '@/library/icons'
 import palette from '@/theme/palette'
 
 // import resolvePaletteColorPath from '@/assets/resolvePaletteColorPath'
 
 type StoryArgs = IconProps
-
-interface IconStoryItem {
-  name: string
-  render: (args: StoryArgs) => ReactElement
-}
 
 type PaletteColorOptions = Record<string, string | undefined>
 type PaletteColorLabels = Record<string, string>
@@ -95,182 +61,27 @@ const resolveTokenNameByColor = (color: string | undefined): string => {
   return resolvedTokenName ?? 'default'
 }
 
-const renderIcon =
-  (IconComponent: (props: IconProps) => ReactElement) =>
-  ({ className, fillColor, size }: StoryArgs): ReactElement => (
-    <IconComponent className={className} fillColor={fillColor} size={size} />
-  )
-
-const iconItems: IconStoryItem[] = [
-  {
-    name: 'ArrowLeftIcon',
-    render: renderIcon(ArrowLeftIcon),
-  },
-  {
-    name: 'ArrowRightIcon',
-    render: renderIcon(ArrowRightIcon),
-  },
-  {
-    name: 'ArrowsClockwiseIcon',
-    render: renderIcon(ArrowsClockwiseIcon),
-  },
-  {
-    name: 'BarcodeIcon',
-    render: renderIcon(BarcodeIcon),
-  },
-  {
-    name: 'CalendarBlankIcon',
-    render: renderIcon(CalendarBlankIcon),
-  },
-  {
-    name: 'CaretDoubleLeftBoldIcon',
-    render: renderIcon(CaretDoubleLeftBoldIcon),
-  },
-  {
-    name: 'CaretDoubleRightBoldIcon',
-    render: renderIcon(CaretDoubleRightBoldIcon),
-  },
-  {
-    name: 'CaretDownBoldIcon',
-    render: renderIcon(CaretDownBoldIcon),
-  },
-  {
-    name: 'CaretDownFill',
-    render: renderIcon(CaretDownFill),
-  },
-  {
-    name: 'CaretDownIcon',
-    render: renderIcon(CaretDownIcon),
-  },
-  {
-    name: 'CaretLeftBoldIcon',
-    render: renderIcon(CaretLeftBoldIcon),
-  },
-  {
-    name: 'CaretLeftIcon',
-    render: renderIcon(CaretLeftIcon),
-  },
-  {
-    name: 'CaretRightBoldIcon',
-    render: renderIcon(CaretRightBoldIcon),
-  },
-  {
-    name: 'CheckBoldIcon',
-    render: renderIcon(CheckBoldIcon),
-  },
-  {
-    name: 'CheckCircleFillIcon',
-    render: renderIcon(CheckCircleFillIcon),
-  },
-  {
-    name: 'CheckIcon',
-    render: renderIcon(CheckIcon),
-  },
-  {
-    name: 'CheckUncheckedBoldIcon',
-    render: renderIcon(CheckUncheckedBoldIcon),
-  },
-  {
-    name: 'CircleFilledIcon',
-    render: renderIcon(CircleFilledIcon),
-  },
-  {
-    name: 'CloseIcon',
-    render: renderIcon(CloseIcon),
-  },
-  {
-    name: 'CollapseChevronsIcon',
-    render: renderIcon(CollapseChevronsIcon),
-  },
-  {
-    name: 'CopyIcon',
-    render: renderIcon(CopyIcon),
-  },
-  {
-    name: 'DotCircleFilledIcon',
-    render: renderIcon(DotCircleFilledIcon),
-  },
-  {
-    name: 'ExpandChevronsIcon',
-    render: renderIcon(ExpandChevronsIcon),
-  },
-  {
-    name: 'InfoFillIcon',
-    render: renderIcon(InfoFillIcon),
-  },
-  {
-    name: 'MagnifyingGlassIcon',
-    render: renderIcon(MagnifyingGlassIcon),
-  },
-  {
-    name: 'MapPinAreaIcon',
-    render: renderIcon(MapPinAreaIcon),
-  },
-  {
-    name: 'MinusBoldIcon',
-    render: renderIcon(MinusBoldIcon),
-  },
-  {
-    name: 'PencilSimpleLineIcon',
-    render: renderIcon(PencilSimpleLineIcon),
-  },
-  {
-    name: 'PlusBoldIcon',
-    render: renderIcon(PlusBoldIcon),
-  },
-  {
-    name: 'QuestionFillIcon',
-    render: renderIcon(QuestionFillIcon),
-  },
-  {
-    name: 'QuestionIcon',
-    render: renderIcon(QuestionIcon),
-  },
-  {
-    name: 'ScalesIcon',
-    render: renderIcon(ScalesIcon),
-  },
-  {
-    name: 'ScrollIcon',
-    render: renderIcon(ScrollIcon),
-  },
-  {
-    name: 'SearchHelpIcon',
-    render: renderIcon(SearchHelpIcon),
-  },
-  {
-    name: 'SearchXIcon',
-    render: renderIcon(SearchXIcon),
-  },
-  {
-    name: 'SpinnerGapBoldIcon',
-    render: renderIcon(SpinnerGapBoldIcon),
-  },
-  {
-    name: 'UploadSimpleIcon',
-    render: renderIcon(UploadSimpleIcon),
-  },
-  {
-    name: 'WarningCircleIcon',
-    render: renderIcon(WarningCircleIcon),
-  },
-  {
-    name: 'WarningDiamondFillIcon',
-    render: renderIcon(WarningDiamondFillIcon),
-  },
-  {
-    name: 'WarningFillIcon',
-    render: renderIcon(WarningFillIcon),
-  },
-  {
-    name: 'XCircleFillIcon',
-    render: renderIcon(XCircleFillIcon),
-  },
-]
+// Every icon the package exports, so a newly added icon shows up here without
+// touching this story
+const iconItems = Object.entries(libraryIcons)
+  .filter(([name]) => name !== 'RcSesLogo')
+  .map(([name, Component]) => ({
+    name,
+    Component: Component as ComponentType<IconProps>,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name))
 
 const meta: Meta<StoryArgs> = {
   title: 'Atoms/Icons',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Icons are exported from the package root, e.g. `import { TrashIcon } from '@registrucentras/rc-ses-react-components'`. Every icon takes `fillColor` (defaults to the current text color), `size` (px) and `weight` (`thin`, `light`, `regular`, `bold`, `fill`, `duotone`), plus any SVG attribute such as `className` or `aria-hidden`. **Usage** shows the common patterns; **Gallery** lists every icon.",
+      },
+    },
+  },
   args: {
     className: '',
     fillColor: undefined,
@@ -325,11 +136,11 @@ const GalleryComponent = ({ className, size, fillColor }: StoryArgs) => {
               p: 1.5,
             }}
           >
-            {icon.render({
-              className,
-              fillColor: selectedFillColor,
-              size,
-            })}
+            <icon.Component
+              className={className}
+              fillColor={selectedFillColor}
+              size={size}
+            />
             <Typography
               align='center'
               sx={{
@@ -388,8 +199,106 @@ const GalleryComponent = ({ className, size, fillColor }: StoryArgs) => {
   )
 }
 
+const UsageSection = ({ title, children }: { title: string; children: ReactNode }) => (
+  <Stack sx={{ gap: 1 }}>
+    <Typography sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>{title}</Typography>
+    <Stack direction='row' sx={{ alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+      {children}
+    </Stack>
+  </Stack>
+)
+
+const usageCode = `import {
+  EnvelopeSimpleIcon,
+  InfoIcon,
+  ListWithIcons,
+  MapPinIcon,
+  PhoneIcon,
+  RcSesButton,
+  RcSesIconWithSquareBackground,
+  RcSesPalette,
+  TrashIcon,
+  UserListIcon,
+} from '@registrucentras/rc-ses-react-components'
+
+// On its own: 24px, regular weight and the current text color unless told otherwise
+<UserListIcon />
+<UserListIcon size={16} fillColor={RcSesPalette.grey[600]} />
+<TrashIcon weight='bold' aria-hidden='true' />
+<InfoIcon weight='fill' fillColor={RcSesPalette.primary[500]} />
+
+// Inside a button
+<RcSesButton variant='link' startIcon={<TrashIcon size={20} />}>
+  Pašalinti
+</RcSesButton>
+
+// ListWithIcons and the icon tiles size and color the icon themselves,
+// so pass the component (PhoneIcon), not an element (<PhoneIcon />)
+<ListWithIcons
+  layout='horizontal'
+  items={[
+    { icon: UserListIcon, text: '3890615****' },
+    { icon: PhoneIcon, text: '+370 600 00000' },
+    { icon: EnvelopeSimpleIcon, text: 'vardenis.pavardenis@example.lt' },
+    { icon: MapPinIcon, text: 'Vilnius, Gedimino pr. 1' },
+  ]}
+/>
+<RcSesIconWithSquareBackground Icon={PhoneIcon} variant='soft' />`
+
+const UsageComponent = () => (
+  <Stack sx={{ gap: 3 }}>
+    <UsageSection title='On its own'>
+      <UserListIcon />
+      <UserListIcon size={16} fillColor={palette.grey[600]} />
+      <TrashIcon weight='bold' aria-hidden='true' />
+      <InfoIcon weight='fill' fillColor={palette.primary[500]} />
+    </UsageSection>
+    <UsageSection title='Inside a button'>
+      <RcSesButton variant='link' startIcon={<TrashIcon size={20} />}>
+        Pašalinti
+      </RcSesButton>
+    </UsageSection>
+    <UsageSection title='In ListWithIcons (pass the component)'>
+      <ListWithIcons
+        layout='horizontal'
+        items={[
+          { icon: UserListIcon, text: '3890615****' },
+          { icon: PhoneIcon, text: '+370 600 00000' },
+          { icon: EnvelopeSimpleIcon, text: 'vardenis.pavardenis@example.lt' },
+          { icon: MapPinIcon, text: 'Vilnius, Gedimino pr. 1' },
+        ]}
+      />
+    </UsageSection>
+    <UsageSection title='In an icon tile (pass the component)'>
+      <RcSesIconWithSquareBackground Icon={PhoneIcon} variant='soft' />
+    </UsageSection>
+  </Stack>
+)
+
 type Story = StoryObj<StoryArgs>
+
+export const Usage: Story = {
+  render: () => <UsageComponent />,
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'How a consumer uses the icons: on their own, inside a button, and in components that take an icon component.',
+      },
+      source: { code: usageCode, language: 'tsx' },
+    },
+  },
+}
 
 export const Gallery: Story = {
   render: (args) => <GalleryComponent {...args} />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Every icon the package exports. Use the controls to try `size` and the select below to try `fillColor`.',
+      },
+    },
+  },
 }

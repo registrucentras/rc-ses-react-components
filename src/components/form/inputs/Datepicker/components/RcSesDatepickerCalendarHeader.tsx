@@ -7,10 +7,12 @@ import { usePickerAdapter, usePickerTranslations } from '@mui/x-date-pickers/hoo
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import CaretDoubleLeftBoldIcon from '@/assets/icons/CaretDoubleLeftBoldIcon'
-import CaretDoubleRightBoldIcon from '@/assets/icons/CaretDoubleRightBoldIcon'
-import CaretLeftBoldIcon from '@/assets/icons/CaretLeftBoldIcon'
-import CaretRightBoldIcon from '@/assets/icons/CaretRightBoldIcon'
+import {
+  CaretDoubleLeftBoldIcon,
+  CaretDoubleRightBoldIcon,
+  CaretLeftBoldIcon,
+  CaretRightBoldIcon,
+} from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 const CustomCalendarHeaderRoot = styled('div')({

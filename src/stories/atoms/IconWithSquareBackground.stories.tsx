@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import InfoFillIcon from '@/assets/icons/InfoFillIcon'
+import { InfoFillIcon } from '@/assets/icons/phosphorIcons'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 
 const meta: Meta<typeof RcSesIconWithSquareBackground> = {

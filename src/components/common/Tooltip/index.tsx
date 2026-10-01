@@ -4,7 +4,7 @@ import { useForkRef } from '@mui/material/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import QuestionIcon from '@/assets/icons/QuestionIcon'
+import { QuestionIcon } from '@/assets/icons/phosphorIcons'
 
 export type RcSesTooltipProps = {
   title: string

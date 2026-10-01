@@ -1,8 +1,7 @@
 import { Box, Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
+import { ArrowLeftIcon, ArrowRightIcon } from '@/assets/icons/phosphorIcons'
 
 import DataPaginationSkeleton from './components/DataPaginationSkeleton'
 import PaginationButton from './components/PaginationButton'

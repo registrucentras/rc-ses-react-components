@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite'
 
-import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
+import { CheckBoldIcon } from '@/assets/icons/phosphorIcons'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 
 const meta: Meta<typeof RcSesIconWithCircularBackground> = {

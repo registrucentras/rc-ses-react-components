@@ -1,7 +1,7 @@
 import { Box, Skeleton, Stack, Typography } from '@mui/material'
 import { ElementType } from 'react'
 
-import ArrowRightIcon from '@/assets/icons/ArrowRightIcon'
+import { ArrowRightIcon } from '@/assets/icons/phosphorIcons'
 import { subcard } from '@/theme/cards'
 import palette from '@/theme/palette'
 

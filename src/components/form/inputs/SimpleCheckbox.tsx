@@ -1,8 +1,7 @@
 import { Checkbox as MuiCheckbox, CheckboxProps as MuiCheckboxProps } from '@mui/material'
 import React from 'react'
 
-import CheckBoldIcon from '@/assets/icons/CheckBoldIcon'
-import CheckUncheckedBoldIcon from '@/assets/icons/CheckUncheckedBoldIcon'
+import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
 import getLoadingIcon from '@/components/utils/loading'
 
 export type SimpleCheckboxProps = MuiCheckboxProps & {

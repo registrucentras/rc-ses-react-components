@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 
-import CheckIcon from '@/assets/icons/CheckIcon'
+import { CheckIcon } from '@/assets/icons/phosphorIcons'
 import palette from '@/theme/palette'
 
 interface Props {

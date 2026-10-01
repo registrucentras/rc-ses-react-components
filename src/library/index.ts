@@ -7,6 +7,7 @@ import RcSesAccordion from '@/components/common/Accordion'
 import useAccordionController from '@/components/common/Accordion/hooks/useAccordionController'
 import RcSesAdvancedList from '@/components/common/AdvancedList'
 import RcSesAdvancedListItem from '@/components/common/AdvancedList/components/AdvancedListItem'
+import RcSesAdvancedListItemShell from '@/components/common/AdvancedList/components/AdvancedListItemShell'
 import RcSesAlert from '@/components/common/Alert'
 import RcSesBadge from '@/components/common/Badge'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
@@ -62,7 +63,9 @@ import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import RcSesFullPageLoader from '@/components/loaders/FullPageLoader'
 import RcSesLoader from '@/components/loaders/Loader'
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
+import RcSesBottomSheet from '@/components/overlays/BottomSheet'
 import RcSesDialog from '@/components/overlays/Dialog'
+import RcSesDrawer from '@/components/overlays/Drawer'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
@@ -77,7 +80,7 @@ declare module '@mui/x-date-pickers/models' {
 
 export { RcSesPalette, RcSesTheme }
 export { RcSesAccordion, useAccordionController }
-export { RcSesAdvancedList, RcSesAdvancedListItem }
+export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
   RcSesAlert,
   RcSesBadge,
@@ -99,6 +102,8 @@ export {
   RcSesModal,
   RcSesStepCard,
   RcSesSwitch,
+  RcSesBottomSheet,
+  RcSesDrawer,
 }
 export { RcSesSegmentedControl }
 export { RcSesSideNavLayout }
