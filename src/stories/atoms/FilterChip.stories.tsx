@@ -47,7 +47,7 @@ return (
   },
 }
 
-export const AllStates: Story = {
+export const LongLabelEdgeCase: Story = {
   render: (args) => {
     const [removedStates, setRemovedStates] = useState<Set<string>>(new Set())
 
@@ -63,57 +63,26 @@ export const AllStates: Story = {
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        <Box
-          sx={{
-            fontSize: '0.9375rem',
-            fontWeight: 400,
-            color: grey[700],
-            lineHeight: 1.5,
-          }}
-        >
-          Each state can be removed by clicking or pressing Space/Enter/Backspace. Refresh
-          the page to reset all states.
-        </Box>
-        <Box>
-          <Box sx={{ mb: 1, fontSize: '0.875rem', fontWeight: 500, color: grey[600] }}>
-            Hover & Focus State
-          </Box>
-          <Box sx={{ mb: 1, fontSize: '0.8125rem', color: grey[500] }}>
-            Hover: Background changes to grey[100], border to grey[400]
-            <br />
-            Focus: Border changes to primary[500] blue (2px), press Tab to focus
-          </Box>
-          {removedStates.has('hoverFocus') ? (
-            <Box sx={{ color: grey[500], fontSize: '0.875rem' }}>Removed</Box>
-          ) : (
-            <RcSesFilterChip
-              {...args}
-              label='Filter label'
-              onRemove={() => toggleRemoved('hoverFocus')}
-            />
-          )}
-        </Box>
-
-        <Box>
-          <Box sx={{ mb: 1, fontSize: '0.875rem', fontWeight: 500, color: grey[600] }}>
-            Disabled State
-          </Box>
-          <RcSesFilterChip {...args} label='Filter label' disabled onRemove={() => {}} />
-        </Box>
-
         <Box>
           <Box sx={{ mb: 1, fontSize: '0.875rem', fontWeight: 500, color: grey[600] }}>
             Long Label (truncated with tooltip)
           </Box>
-          {removedStates.has('long') ? (
-            <Box sx={{ color: grey[500], fontSize: '0.875rem' }}>Removed</Box>
-          ) : (
-            <RcSesFilterChip
-              {...args}
-              label='This is a very long filter label that will be truncated'
-              onRemove={() => toggleRemoved('long')}
-            />
-          )}
+          <Box sx={{ maxWidth: '250px', mb: 1, p: 1, border: `1px dashed ${grey[300]}` }}>
+            {removedStates.has('long') ? (
+              <Box sx={{ color: grey[500], fontSize: '0.875rem' }}>
+                Filter removed (reload page to reset)
+              </Box>
+            ) : (
+              <RcSesFilterChip
+                {...args}
+                label='This is a very long filter label that will be truncated'
+                onRemove={() => toggleRemoved('long')}
+              />
+            )}
+          </Box>
+          <Box sx={{ fontSize: '0.8125rem', color: grey[500] }}>
+            Container width: 250px. Hover to see full text in tooltip.
+          </Box>
         </Box>
       </Box>
     )
@@ -123,9 +92,6 @@ export const AllStates: Story = {
       source: {
         code: `// Rest State
 <RcSesFilterChip label="Filter label" onRemove={() => {}} />
-
-// Disabled State
-<RcSesFilterChip label="Filter label" disabled onRemove={() => {}} />
 
 // Long Label (truncated with tooltip)
 <RcSesFilterChip

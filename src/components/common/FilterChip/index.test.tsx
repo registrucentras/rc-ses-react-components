@@ -66,32 +66,13 @@ describe('RcSesFilterChip', () => {
     expect(mockOnRemove).toHaveBeenCalledOnce()
   })
 
-  it('does not call onRemove when disabled', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} disabled />)
-
-    const chip = screen.getByRole('button')
-    fireEvent.click(chip)
-
-    expect(mockOnRemove).not.toHaveBeenCalled()
-  })
-
-  it('does not call onRemove on keydown when disabled', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} disabled />)
-
-    const chip = screen.getByRole('button')
-    fireEvent.keyDown(chip, { key: 'Enter' })
-
-    expect(mockOnRemove).not.toHaveBeenCalled()
-  })
-
   it('has proper accessibility attributes', () => {
     render(<RcSesFilterChip label='Status' onRemove={mockOnRemove} />)
 
     const chip = screen.getByRole('button', {
       name: getRemoveAriaLabel('Status'),
     })
-    expect(chip).toHaveAttribute('aria-disabled', 'false')
-    expect(chip).toHaveAttribute('tabIndex', '0')
+    expect(chip).toHaveAttribute('aria-label', 'Remove filter: Status')
   })
 
   it('supports custom testId', () => {
@@ -111,12 +92,5 @@ describe('RcSesFilterChip', () => {
 
     const chip = screen.getByRole('button')
     expect(chip).toHaveAttribute('tabIndex', '0')
-  })
-
-  it('has negative tabIndex when disabled', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} disabled />)
-
-    const chip = screen.getByRole('button')
-    expect(chip).toHaveAttribute('tabIndex', '-1')
   })
 })

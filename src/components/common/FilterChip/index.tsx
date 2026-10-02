@@ -1,5 +1,5 @@
-import { Box, Tooltip } from '@mui/material'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Chip, Tooltip } from '@mui/material'
+import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
@@ -8,124 +8,96 @@ import { common, grey, primary } from '@/theme/palette'
 export interface RcSesFilterChipProps {
   label: string
   onRemove: () => void
-  disabled?: boolean
   testId?: string
 }
 
-const neutralStyle = {
-  border: `1px solid ${grey['300']}`,
-  background: common.white,
-  color: grey['900'],
-  iconColor: grey['900'],
-  '&:hover': {
-    border: `1px solid ${grey['400']}`,
-    background: grey['100'],
-  },
-}
+const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
+  (props, _ref) => {
+    const { label, onRemove, testId } = props
+    const { t } = useTranslation('input', { keyPrefix: 'components.RcSesFilterChip' })
 
-function RcSesFilterChip(props: RcSesFilterChipProps) {
-  const { label, onRemove, disabled = false, testId } = props
-  const { t } = useTranslation('input', { keyPrefix: 'components.RcSesFilterChip' })
+    const [isTruncated, setIsTruncated] = useState(false)
+    const chipRef = useRef<HTMLDivElement>(null)
 
-  const labelRef = useRef<HTMLSpanElement>(null)
-  const [isTruncated, setIsTruncated] = useState(false)
-
-  useEffect(() => {
-    if (labelRef.current) {
-      setIsTruncated(labelRef.current.scrollWidth > labelRef.current.clientWidth)
-    }
-  }, [label])
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (disabled) return
-
-      // Space, Backspace, Delete, or Enter to remove
-      if ([' ', 'Backspace', 'Delete', 'Enter'].includes(event.key)) {
-        event.preventDefault()
-        onRemove()
+    useLayoutEffect(() => {
+      const checkTruncation = () => {
+        const labelElement = chipRef.current?.querySelector(
+          '.MuiChip-label',
+        ) as HTMLElement
+        if (labelElement) {
+          setIsTruncated(labelElement.scrollWidth > labelElement.clientWidth)
+        }
       }
-    },
-    [disabled, onRemove],
-  )
 
-  const handleClick = useCallback(() => {
-    if (!disabled) {
-      onRemove()
-    }
-  }, [disabled, onRemove])
+      checkTruncation()
 
-  return (
-    <Tooltip title={isTruncated ? label : ''} placement='top' arrow>
-      <Box
-        component='div'
-        role='button'
-        tabIndex={disabled ? -1 : 0}
-        onKeyDown={handleKeyDown}
-        onClick={handleClick}
-        data-testid={testId}
-        aria-label={t('aria.label', { label })}
-        aria-disabled={disabled}
-        sx={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.25rem',
-          height: '2rem',
-          pl: '0.75rem',
-          pr: '0.5rem',
-          borderRadius: '9999px',
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.5 : 1,
-          transition: 'all 200ms ease-in-out',
-          ...neutralStyle,
-          '&:focus': {
-            outline: 'none',
-            border: `2px solid ${primary['500']} !important`,
-            background: common.white,
-          },
-          '&:active': {
-            transform: 'scale(0.98)',
-          },
-        }}
+      const observer = new ResizeObserver(checkTruncation)
+      if (chipRef.current) {
+        observer.observe(chipRef.current)
+      }
+
+      return () => observer.disconnect()
+    }, [label])
+
+    return (
+      <Tooltip
+        title={label}
+        placement='top'
+        arrow
+        disableHoverListener={!isTruncated}
+        slotProps={{ popper: { sx: { zIndex: 1301 } } }}
       >
-        <Box
-          component='span'
-          ref={labelRef}
+        <Chip
+          ref={chipRef}
+          label={label}
+          onClick={onRemove}
+          onDelete={onRemove}
+          deleteIcon={<CloseIcon size={16} aria-hidden focusable={false} />}
+          aria-label={t('aria.label', { label })}
+          data-testid={testId}
           sx={{
-            display: 'block',
-            fontSize: '0.875rem',
-            lineHeight: '1.375rem',
-            fontWeight: 500,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            maxWidth: '200px',
-          }}
-        >
-          {label}
-        </Box>
-        <Box
-          component='span'
-          aria-hidden
-          sx={{
-            display: 'inline-flex',
+            height: '2rem',
+            maxWidth: '100%',
             alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            width: 16,
-            height: 16,
+            borderColor: grey['300'],
+            backgroundColor: common.white,
+            color: grey['900'],
+            cursor: 'pointer',
+            '& .MuiChip-label': {
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              minWidth: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              pl: '0.75rem',
+              pr: '0.5rem',
+            },
+            '& .MuiChip-deleteIcon': {
+              color: grey['900'],
+              marginRight: '0.5rem',
+              flexShrink: 0,
+            },
+            '&:hover': {
+              borderColor: grey['400'],
+              backgroundColor: grey['100'],
+            },
+            '&:hover .MuiChip-deleteIcon': {
+              color: grey['900'],
+            },
+            '&.Mui-focusVisible': {
+              outline: `2px solid ${primary['500']}`,
+              outlineOffset: '-2px',
+              backgroundColor: common.white,
+            },
           }}
-        >
-          <CloseIcon
-            size={16}
-            fillColor={neutralStyle.iconColor}
-            aria-hidden
-            focusable={false}
-          />
-        </Box>
-      </Box>
-    </Tooltip>
-  )
-}
+          variant='outlined'
+        />
+      </Tooltip>
+    )
+  },
+)
+
+RcSesFilterChip.displayName = 'RcSesFilterChip'
 
 export default RcSesFilterChip

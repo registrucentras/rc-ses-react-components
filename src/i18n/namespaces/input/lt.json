@@ -94,6 +94,12 @@
       "aria": {
         "back": "Atgal"
       }
+    },
+
+    "RcSesFilterChip": {
+      "aria": {
+        "label": "Pašalinti filtrą: {{label}}"
+      }
     }
   }
 }

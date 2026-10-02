@@ -101,9 +101,9 @@ export {
   RcSesImageCard,
   RcSesSnackbar,
   RcSesSnackbarProvider,
-  RcSesModal,
   RcSesStepCard,
   RcSesSwitch,
+  RcSesModal,
   RcSesBottomSheet,
   RcSesDrawer,
 }

@@ -42,11 +42,6 @@
     },
     "Drawer": {
       "closeDrawer": "Uždaryti"
-    },
-    "RcSesFilterChip": {
-      "aria": {
-        "label": "Pašalinti filtrą: {{label}}"
-      }
     }
   }
 }
