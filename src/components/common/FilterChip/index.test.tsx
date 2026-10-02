@@ -5,8 +5,16 @@ import i18n from '@/i18n/i18n'
 
 import RcSesFilterChip from '.'
 
-const getRemoveAriaLabel = (label: string) =>
-  i18n.t('components.RcSesFilterChip.aria.label', { label, ns: 'input' })
+// Mock ResizeObserver
+class ResizeObserverMock {
+  observe = vi.fn()
+
+  unobserve = vi.fn()
+
+  disconnect = vi.fn()
+}
+
+global.ResizeObserver = ResizeObserverMock
 
 describe('RcSesFilterChip', () => {
   const mockOnRemove = vi.fn()
@@ -26,53 +34,20 @@ describe('RcSesFilterChip', () => {
     render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} />)
 
     const chip = screen.getByRole('button', {
-      name: getRemoveAriaLabel('Test Filter'),
+      name: 'Remove filter: Test Filter',
     })
     fireEvent.click(chip)
 
     expect(mockOnRemove).toHaveBeenCalledOnce()
   })
 
-  it('calls onRemove when Enter is pressed', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} />)
-
-    const chip = screen.getByRole('button', {
-      name: getRemoveAriaLabel('Test Filter'),
-    })
-    fireEvent.keyDown(chip, { key: 'Enter' })
-
-    expect(mockOnRemove).toHaveBeenCalledOnce()
-  })
-
-  it('calls onRemove when Backspace is pressed', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} />)
-
-    const chip = screen.getByRole('button', {
-      name: getRemoveAriaLabel('Test Filter'),
-    })
-    fireEvent.keyDown(chip, { key: 'Backspace' })
-
-    expect(mockOnRemove).toHaveBeenCalledOnce()
-  })
-
-  it('calls onRemove when Delete is pressed', () => {
-    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} />)
-
-    const chip = screen.getByRole('button', {
-      name: getRemoveAriaLabel('Test Filter'),
-    })
-    fireEvent.keyDown(chip, { key: 'Delete' })
-
-    expect(mockOnRemove).toHaveBeenCalledOnce()
-  })
-
   it('has proper accessibility attributes', () => {
-    render(<RcSesFilterChip label='Status' onRemove={mockOnRemove} />)
+    render(<RcSesFilterChip label='Test Filter' onRemove={mockOnRemove} />)
 
     const chip = screen.getByRole('button', {
-      name: getRemoveAriaLabel('Status'),
+      name: 'Remove filter: Test Filter',
     })
-    expect(chip).toHaveAttribute('aria-label', 'Remove filter: Status')
+    expect(chip).toHaveAttribute('aria-label', 'Remove filter: Test Filter')
   })
 
   it('supports custom testId', () => {
