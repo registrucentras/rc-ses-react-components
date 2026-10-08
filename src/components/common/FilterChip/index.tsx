@@ -65,13 +65,11 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
             cursor: 'pointer',
             '& .MuiChip-label': {
               fontSize: '0.875rem',
-              fontWeight: 500,
+              fontWeight: 400,
+              lineHeight: '1.25rem',
               minWidth: 0,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
               pl: '0.75rem',
-              pr: '0.5rem',
+              pr: 0,
             },
             '& .MuiChip-deleteIcon': {
               color: grey['900'],
