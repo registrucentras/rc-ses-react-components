@@ -55,13 +55,10 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
           aria-label={t('aria.label', { label })}
           data-testid={testId}
           sx={{
-            height: '2rem',
             maxWidth: '100%',
-            alignItems: 'center',
             borderColor: grey['300'],
             backgroundColor: common.white,
             color: grey['900'],
-            cursor: 'pointer',
             '& .MuiChip-label': {
               fontSize: '0.875rem',
               fontWeight: 400,
