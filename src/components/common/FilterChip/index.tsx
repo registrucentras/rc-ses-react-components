@@ -78,7 +78,7 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
               marginRight: '0.5rem',
               flexShrink: 0,
             },
-            '&:hover': {
+            '&.MuiChip-clickable:hover': {
               borderColor: grey['400'],
               backgroundColor: grey['100'],
             },
