@@ -17,6 +17,7 @@ import RcSesCard from '@/components/common/Card'
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import DataPagination from '@/components/common/DataPagination'
+import RcSesFilterChip from '@/components/common/FilterChip'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
@@ -84,6 +85,7 @@ export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
   RcSesAlert,
   RcSesBadge,
+  RcSesFilterChip,
   RcSesBreadcrumbs,
   RcSesButton,
   RcSesButtonWithPopover,
@@ -99,9 +101,9 @@ export {
   RcSesImageCard,
   RcSesSnackbar,
   RcSesSnackbarProvider,
-  RcSesModal,
   RcSesStepCard,
   RcSesSwitch,
+  RcSesModal,
   RcSesBottomSheet,
   RcSesDrawer,
 }

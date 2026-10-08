@@ -15,6 +15,7 @@ import {
   RcSesCardShellProps,
   RcSesCardShellTestIds,
 } from '@/components/common/CardShell/types'
+import { RcSesFilterChipProps } from '@/components/common/FilterChip'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import {
   ListWithIconsItemData,
@@ -84,6 +85,7 @@ export type {
   RcSesLoaderSize,
   RcSesCardFormContainerProps,
   RcSesCardProps,
+  RcSesFilterChipProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
   RcSesTitleBlockProps,
