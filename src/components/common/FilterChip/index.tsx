@@ -69,7 +69,7 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
             },
             '& .MuiChip-deleteIcon': {
               color: grey['900'],
-              marginRight: '0.5rem',
+              margin: '0 0.5rem 0 0.25rem',
               flexShrink: 0,
             },
             '&.MuiChip-clickable:hover': {
