@@ -45,7 +45,6 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>(
         placement='top'
         arrow
         disableHoverListener={!isTruncated}
-        slotProps={{ popper: { sx: { zIndex: 1301 } } }}
       >
         <Chip
           ref={chipRef}
