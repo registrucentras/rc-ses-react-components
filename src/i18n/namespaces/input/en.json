@@ -94,6 +94,12 @@
       "aria": {
         "back": "Back"
       }
+    },
+
+    "RcSesFilterChip": {
+      "aria": {
+        "label": "Remove filter: {{label}}"
+      }
     }
   }
 }

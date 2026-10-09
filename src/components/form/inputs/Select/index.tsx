@@ -596,6 +596,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   handleSelectAll()
                 }}
                 sx={{
+                  alignItems: 'center !important',
                   display: 'flex',
                   flexDirection: 'row !important',
                   gap: '.75rem',
@@ -628,7 +629,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   toggleGroupValue(groupValue)
                 }}
                 sx={{
-                  alignItems: 'center',
+                  alignItems: 'center !important',
                   backgroundColor: isGroupSelected
                     ? palette.primary['50']
                     : 'transparent',
@@ -678,6 +679,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               {...rest}
               className={[className, indentClassName].filter(Boolean).join(' ')}
               sx={{
+                alignItems: 'center !important',
                 display: 'flex',
                 gap: multiple ? '.75rem' : '.5rem',
                 flexDirection: 'row !important',

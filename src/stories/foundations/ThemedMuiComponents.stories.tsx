@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Card,
   CardContent,
@@ -11,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material'
@@ -29,6 +31,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
  * 2. **The wrapper never shows it open.** `MuiTooltip` is styled through
  *    `RcSesTooltip`, but that component owns its open state internally and no
  *    story can force it, so the popper never reaches a baseline.
+ * 3. **The wrappers restyle it.** `RcSesSelect` and `PhoneInput` lay their
+ *    `MuiAutocomplete` options out as rows, so the theme's own option layout -
+ *    what a consumer's plain Autocomplete gets - is covered by nothing else.
  *
  * Either way these render the plain MUI component under the theme, so a broken
  * or silently dead override surfaces as a pixel diff.
@@ -173,5 +178,31 @@ export const TooltipSlots: Story = {
         </Box>
       </Tooltip>
     </Stack>
+  ),
+}
+
+const autocompleteOptions = [
+  { group: 'Paslaugos', label: 'Išrašo užsakymas' },
+  {
+    group: 'Paslaugos',
+    label:
+      'Nekilnojamojo turto registro duomenų teikimo leidžiamosios kreipties būdu naudojantis saityno paslauga',
+  },
+  { group: 'Puslapiai', label: 'Kontaktai' },
+]
+
+export const AutocompleteSlots: Story = {
+  name: 'Autocomplete',
+  // Short options next to one that wraps, so a change to the theme's option
+  // alignment shows: the short ones move while the wrapping one cannot.
+  render: () => (
+    <Box sx={{ pb: '16rem', width: 480 }}>
+      <Autocomplete
+        groupBy={(option) => option.group}
+        open
+        options={autocompleteOptions}
+        renderInput={(params) => <TextField {...params} label='Paieška' />}
+      />
+    </Box>
   ),
 }
