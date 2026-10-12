@@ -247,9 +247,11 @@ export const Palette: Story = {
 
         <Divider />
 
-        <Typography color='text.primary'>Pagrindinis tekstas</Typography>
-        <Typography color='text.secondary'>Papildomas tekstas</Typography>
-        <Typography color='text.disabled'>Neaktyvus tekstas</Typography>
+        <Typography sx={{ color: 'text.primary' }}>Pagrindinis tekstas</Typography>
+
+        <Typography sx={{ color: 'text.secondary' }}>Papildomas tekstas</Typography>
+
+        <Typography sx={{ color: 'text.disabled' }}>Neaktyvus tekstas</Typography>
 
         <Box
           sx={{
