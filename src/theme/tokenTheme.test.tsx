@@ -25,6 +25,9 @@ describe('native token theme adapter', () => {
   test('preserves the existing theme, public palette and theme extension API', () => {
     expect(legacyTheme.vars).toBeUndefined()
     expect(legacyTheme.spacing(1)).toBe('8px')
+    expect(legacyTheme.palette.text.secondary).toBe('#6b747f')
+    expect(tokenTheme.palette.text.secondary).toBe('#6b747f')
+    expect(css()).toContain('var(--rc-color-tokens-text-secondary, #6b747f)')
     expect(
       createTheme(legacyTheme, { shape: { borderRadius: 6 } }).shape.borderRadius,
     ).toBe(6)
@@ -89,7 +92,7 @@ describe('native token theme adapter', () => {
       borderRadius: 'var(--rc-borders-radius-primitives-16, 1rem)',
     })
     expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toContain(
-      'rgba(31, 39, 51, .2)',
+      'rgba(31,39,51, .2)',
     )
   })
 

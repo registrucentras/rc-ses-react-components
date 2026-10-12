@@ -112,3 +112,26 @@ test('missing tokens preserve rem padding at a 20px root, including calculated l
     '15px',
   )
 })
+
+test('secondary text and sunken card use semantic tokens rather than muted surface', async ({
+  page,
+}) => {
+  await page.goto(storyUrl)
+  const card = page.getByTestId('sunken-card')
+  const text = page.getByTestId('secondary-text')
+  await expect(card).toHaveCSS('background-color', 'rgb(249, 250, 251)')
+  await expect(card).toHaveCSS('border-top-color', 'rgb(220, 224, 229)')
+  await expect(text).toHaveCSS('color', 'rgb(107, 116, 127)')
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty(
+      '--rc-color-tokens-surface-sunken',
+      'rgb(170, 30, 70)',
+    )
+    document.documentElement.style.setProperty(
+      '--rc-color-tokens-text-secondary',
+      'rgb(20, 40, 60)',
+    )
+  })
+  await expect(card).toHaveCSS('background-color', 'rgb(170, 30, 70)')
+  await expect(text).toHaveCSS('color', 'rgb(20, 40, 60)')
+})

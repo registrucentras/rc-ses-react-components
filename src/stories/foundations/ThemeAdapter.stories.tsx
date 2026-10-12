@@ -15,6 +15,7 @@ import {
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import Button from '@/components/common/Button'
+import CardShell from '@/components/common/CardShell'
 import tokenTheme, { createRcSesTokenTheme } from '@/theme/tokenTheme'
 
 const meta = {
@@ -51,6 +52,12 @@ export const Tokens: Story = {
           Spalvų, tarpų ir radiuso pavyzdys
         </Box>
 
+        <Typography sx={{ color: 'text.secondary' }} data-testid='secondary-text'>
+          Secondary text
+        </Typography>
+        <CardShell theme='sunken' testIds={{ root: 'sunken-card' }}>
+          Sunken surface
+        </CardShell>
         <Box>
           <Button>Bibliotekos mygtukas</Button>
         </Box>
