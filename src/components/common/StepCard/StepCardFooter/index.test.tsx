@@ -139,6 +139,179 @@ describe('RcSesStepCardFooter', () => {
     })
   })
 
+  describe('actions', () => {
+    it('makes the CTA the submit button of the form named by `form`', () => {
+      const onSubmit = vi.fn((event: React.FormEvent) => event.preventDefault())
+
+      render(
+        <>
+          <form id='step-form' onSubmit={onSubmit} />
+          <RcSesStepCardFooter
+            activeStep={0}
+            stepCount={STEP_COUNT}
+            actions={{ next: { form: 'step-form' } }}
+          />
+        </>,
+      )
+
+      const next = screen.getByRole('button', { name: 'Tęsti' })
+      expect(next).toHaveAttribute('type', 'submit')
+      expect(next).toHaveAttribute('form', 'step-form')
+
+      fireEvent.click(next)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('keeps the CTA a plain button without `form`', () => {
+      render(<RcSesStepCardFooter activeStep={0} stepCount={STEP_COUNT} />)
+
+      const next = screen.getByRole('button', { name: 'Tęsti' })
+      expect(next).toHaveAttribute('type', 'button')
+      expect(next).not.toHaveAttribute('form')
+    })
+
+    it('disables the CTA and shows a spinner while loading', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ next: { loading: true } }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: /Tęsti/ })).toBeDisabled()
+      expect(screen.getByRole('progressbar')).toBeInTheDocument()
+    })
+
+    it('puts the spinner in the icon slot when the button has an icon', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ next: { loading: true }, back: { loading: true } }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: /Tęsti/ })).toHaveClass(
+        'MuiButton-loadingPositionEnd',
+      )
+      expect(screen.getByRole('button', { name: /Atgal/ })).toHaveClass(
+        'MuiButton-loadingPositionStart',
+      )
+    })
+
+    it('centres the spinner when the button has no icon', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={2}
+          stepCount={STEP_COUNT}
+          actions={{ next: { label: 'Pateikti', icon: null, loading: true } }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: /Pateikti/ })).toHaveClass(
+        'MuiButton-loadingPositionCenter',
+      )
+    })
+
+    it('disables next and back independently', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ next: { disabled: true }, back: { disabled: true } }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: 'Tęsti' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: /Atgal/ })).toBeDisabled()
+    })
+
+    it('overrides the i18n labels', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ next: { label: 'Toliau' }, back: { label: 'Grįžti' } }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: 'Toliau' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /Grįžti/ })).toBeInTheDocument()
+    })
+
+    it('hides the leading button on the first step with `cancel: false`', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={0}
+          stepCount={STEP_COUNT}
+          actions={{ cancel: false }}
+        />,
+      )
+
+      expect(screen.queryByRole('button', { name: 'Atšaukti' })).not.toBeInTheDocument()
+      expect(screen.getAllByRole('button')).toHaveLength(1)
+    })
+
+    it('keeps Atgal on later steps with `cancel: false`', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ cancel: false }}
+        />,
+      )
+
+      expect(screen.getByRole('button', { name: /Atgal/ })).toBeInTheDocument()
+    })
+
+    it('renders a last step without payments: own label, no cart icon', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={2}
+          stepCount={STEP_COUNT}
+          totalPrice='4,01 €'
+          actions={{ next: { label: 'Pateikti', icon: null } }}
+        />,
+      )
+
+      const next = screen.getByRole('button', { name: 'Pateikti' })
+      expect(next.querySelector('svg')).toBeNull()
+      expect(screen.getByText('4,01 €')).toBeInTheDocument()
+    })
+
+    it('keeps the default icons when `icon` is undefined', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={2}
+          stepCount={STEP_COUNT}
+          actions={{ next: { label: 'Pateikti' }, back: {} }}
+        />,
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'Pateikti' }).querySelector('svg'),
+      ).not.toBeNull()
+      expect(
+        screen.getByRole('button', { name: /Atgal/ }).querySelector('svg'),
+      ).not.toBeNull()
+    })
+
+    it('replaces the icon with a custom node', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={1}
+          stepCount={STEP_COUNT}
+          actions={{ next: { icon: <span data-testid='custom-icon' /> } }}
+        />,
+      )
+
+      const next = screen.getByRole('button', { name: 'Tęsti' })
+      expect(next).toContainElement(screen.getByTestId('custom-icon'))
+      expect(next.querySelector('svg')).toBeNull()
+    })
+  })
+
   describe('Edge cases', () => {
     it('does not throw when handlers are omitted and buttons are clicked', () => {
       render(<RcSesStepCardFooter activeStep={0} stepCount={STEP_COUNT} />)

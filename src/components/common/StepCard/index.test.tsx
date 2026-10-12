@@ -72,6 +72,23 @@ describe('RcSesStepCard', () => {
     expect(onBack).not.toHaveBeenCalled()
   })
 
+  it('forwards `actions` to the default footer', () => {
+    render(
+      <RcSesStepCard
+        activeStep={0}
+        stepCount={STEP_COUNT}
+        title='Pirmas'
+        actions={{ next: { form: 'step-form', label: 'Toliau' }, cancel: false }}
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: 'Toliau' })).toHaveAttribute(
+      'form',
+      'step-form',
+    )
+    expect(screen.queryByRole('button', { name: 'Atšaukti' })).not.toBeInTheDocument()
+  })
+
   it('replaces the default footer when `footer` prop is provided', () => {
     render(
       <RcSesStepCard
