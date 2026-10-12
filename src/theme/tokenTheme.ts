@@ -111,9 +111,7 @@ function colorValue(value: string): string {
         const hex = `#${[r, g, b].map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`
         const reference = colorReferences.get(hex)
         if (!reference) return original
-        return alpha === undefined || Number(alpha) === 1
-          ? reference
-          : `color-mix(in srgb, ${reference} ${Number(alpha) * 100}%, transparent)`
+        return alpha === undefined || Number(alpha) === 1 ? reference : original
       },
     )
 }

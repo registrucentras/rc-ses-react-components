@@ -89,7 +89,7 @@ describe('native token theme adapter', () => {
       borderRadius: 'var(--rc-borders-radius-primitives-16, 1rem)',
     })
     expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toContain(
-      'color-mix(in srgb, var(--rc-colors-neutrals-900, #1f2733) 20%, transparent)',
+      'rgba(31, 39, 51, .2)',
     )
   })
 
