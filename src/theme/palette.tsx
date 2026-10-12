@@ -77,6 +77,15 @@ const overlays = {
   '200': '#ffffff14',
   '300': '#ffffff29',
   main: '#ffffff14',
+
+  black: {
+    '4': 'rgba(0, 0, 0, 0.04)',
+    '8': 'rgba(0, 0, 0, 0.08)',
+  },
+  white: {
+    '8': 'rgba(255, 255, 255, 0.08)',
+    '16': 'rgba(255, 255, 255, 0.16)',
+  },
 } as const
 
 const common = {
