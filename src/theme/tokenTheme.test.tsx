@@ -88,8 +88,8 @@ describe('native token theme adapter', () => {
       borderColor: 'var(--rc-colors-neutrals-300, #c5cad1)',
       borderRadius: 'var(--rc-borders-radius-primitives-16, 1rem)',
     })
-    expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toContain(
-      'rgba(31, 39, 51, .2)',
+    expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toMatch(
+      /rgba\(\s*31\s*,\s*39\s*,\s*51\s*,\s*0?\.2\s*\)/,
     )
   })
 
