@@ -80,6 +80,8 @@ declare module '@mui/x-date-pickers/models' {
 }
 
 export { RcSesPalette, RcSesTheme }
+export { default as RcSesTokenTheme, createRcSesTokenTheme } from '@/theme/tokenTheme'
+export type { RcSesTokenThemeOptions, RcSesNativeTheme } from '@/theme/tokenTheme'
 export { RcSesAccordion, useAccordionController }
 export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
