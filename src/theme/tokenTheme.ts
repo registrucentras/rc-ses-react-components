@@ -1,4 +1,5 @@
 import {
+  type CSSProperties,
   type CssVarsTheme,
   type Theme,
   type ThemeOptions,
@@ -9,12 +10,14 @@ import legacyTheme from '@/theme/light'
 import legacyPalette, { common } from '@/theme/palette'
 
 import './tokens.css'
+import { type RcSesNamedTypographyVariant, typographyTokens } from './typographyTokens'
 
 /** Keep color-scheme configuration inside the adapter until dark tokens exist. */
 export type RcSesTokenThemeOptions = Omit<ThemeOptions, 'cssVariables' | 'colorSchemes'>
 
-export type RcSesNativeTheme = Theme &
-  Pick<
+export type RcSesNativeTheme = Theme & {
+  typography: Theme['typography'] & Record<RcSesNamedTypographyVariant, CSSProperties>
+} & Pick<
     CssVarsTheme,
     | 'cssVarPrefix'
     | 'rootSelector'
@@ -189,7 +192,22 @@ export function createRcSesTokenTheme(
   else normalizedOptions.typography = customTypography
   const fallback = createTheme(legacyTheme, normalizedOptions)
   // Tokenize only library-owned styles. Consumer styles are merged afterwards.
-  const typography = { ...legacyTheme.typography }
+  const typography = {
+    ...legacyTheme.typography,
+    // New named styles inherit family and weight; their Figma attributes are unknown.
+    headingCardTitle: {
+      fontSize: typographyTokens['font-size-heading-card-title'],
+      lineHeight: typographyTokens['line-height-heading-card-title'],
+    },
+    bodyLarge: {
+      fontSize: typographyTokens['font-size-body-large'],
+      lineHeight: typographyTokens['line-height-body-large'],
+    },
+    buttonCompact: {
+      fontSize: typographyTokens['font-size-button-compact'],
+      lineHeight: typographyTokens['line-height-button-compact'],
+    },
+  }
   const components = Object.fromEntries(
     Object.entries(legacyTheme.components ?? {}).map(
       ([name, component]: [string, unknown]) => {
@@ -230,7 +248,8 @@ export function createRcSesTokenTheme(
     )
     const overrideProperty = (key: string, value: unknown) =>
       Object.hasOwn(attributes, key) ? attributes[key] : value
-    const variantKey = variant as keyof typeof typographyRoles
+    const variantKey = variant as
+      keyof typeof typographyRoles | RcSesNamedTypographyVariant
     // Root font overrides must also win over inherited responsive declarations.
     Object.assign(typography, {
       [variant]: mapTree(typography[variantKey], overrideProperty),

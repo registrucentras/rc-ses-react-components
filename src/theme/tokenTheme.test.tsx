@@ -7,6 +7,7 @@ import Button from '@/components/common/Button'
 import FullPageLoader from '@/components/loaders/FullPageLoader'
 import legacyTheme from '@/theme/light'
 import tokenTheme, { createRcSesTokenTheme } from '@/theme/tokenTheme'
+import { typographyRoleVariants } from '@/theme/typographyTokens'
 
 function css(theme = tokenTheme) {
   return JSON.stringify(theme.generateStyleSheets?.())
@@ -159,6 +160,52 @@ describe('native token theme adapter', () => {
       fontSize: '3rem',
     })
     expect(sized.typography.h2.lineHeight).toBe(tokenTheme.typography.h2.lineHeight)
+  })
+
+  test('all 14 DS roles resolve through theme styles without inventing font attributes', () => {
+    expect(Object.keys(typographyRoleVariants)).toHaveLength(14)
+    Object.entries(typographyRoleVariants).forEach(([role, variant]) => {
+      const style = tokenTheme.typography[variant]
+      expect(style.fontSize).toContain(`var(--rc-typography-font-size-${role}`)
+      expect(style.lineHeight).toContain(`var(--rc-typography-line-height-${role}`)
+    })
+    ;(['headingCardTitle', 'bodyLarge', 'buttonCompact'] as const).forEach((variant) => {
+      expect(tokenTheme.typography[variant]).not.toHaveProperty('fontFamily')
+      expect(tokenTheme.typography[variant]).not.toHaveProperty('fontWeight')
+      expect(legacyTheme.typography[variant]).toBeUndefined()
+    })
+    expect(tokenTheme.typography.fontFamily).toBe(legacyTheme.typography.fontFamily)
+    // MUI fills inherited attributes when creating a theme (legacy h1 omits family).
+    const normalizedLegacy = createTheme(legacyTheme)
+    Object.keys(normalizedLegacy.typography).forEach((variant) => {
+      const before =
+        normalizedLegacy.typography[variant as keyof typeof normalizedLegacy.typography]
+      const after = tokenTheme.typography[variant as keyof typeof tokenTheme.typography]
+      if (typeof before === 'object' && before && typeof after === 'object' && after) {
+        expect(after.fontFamily).toBe(before.fontFamily)
+        expect(after.fontWeight).toBe(before.fontWeight)
+      }
+    })
+  })
+
+  test('named styles support typed consumer overrides and keep unmodified dimensions responsive', () => {
+    const customized = createRcSesTokenTheme({
+      typography: { headingCardTitle: { fontSize: '3rem', fontWeight: 600 } },
+    })
+    expect(customized.typography.headingCardTitle.fontSize).toBe('3rem')
+    expect(customized.typography.headingCardTitle.fontWeight).toBe(600)
+    expect(customized.typography.headingCardTitle.lineHeight).toBe(
+      tokenTheme.typography.headingCardTitle.lineHeight,
+    )
+    render(
+      <ThemeProvider theme={customized}>
+        <Typography variant='headingCardTitle'>Named title</Typography>
+      </ThemeProvider>,
+    )
+    expect(screen.getByText('Named title')).toHaveStyle({
+      fontSize: '3rem',
+      fontWeight: '600',
+    })
   })
 
   test('library spacing preserves rem fallbacks and h6 has no inferred token role', () => {

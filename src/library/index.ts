@@ -151,3 +151,9 @@ export * from './icons'
 
 export { colorPrimitives, colorTokens, colorTokenSchemes } from '@/theme/colorTokens'
 export type { RcSesColorTokens } from '@/theme/colorTokens'
+
+export { typographyTokens, typographyRoleVariants } from '@/theme/typographyTokens'
+export type {
+  RcSesTypographyRole,
+  RcSesNamedTypographyVariant,
+} from '@/theme/typographyTokens'
