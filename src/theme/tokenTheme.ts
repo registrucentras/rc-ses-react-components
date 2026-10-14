@@ -38,7 +38,7 @@ const token = (name: string, fallback: string) => `var(--rc-${name}, ${fallback}
 const spacingPrimitives = new Set([
   0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 36, 40, 48, 64, 80, 96,
 ])
-const radiusPrimitives = new Set([0, 2, 4, 6, 8, 10, 12, 16, 20, 24])
+const radiusPrimitives = new Set([0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 9999])
 const colorFamilies = {
   primary: 'cyans',
   secondary: 'greens',
@@ -122,6 +122,11 @@ function colorValue(value: string): string {
 function styleValue(key: string, value: unknown): unknown {
   const spacingProperty = /^(padding|margin|gap|rowGap|columnGap)/.test(key)
   const radiusProperty = /border.*Radius$/.test(key)
+  if (typeof value === 'number' && radiusProperty && radiusPrimitives.has(value))
+    return token(
+      `borders-radius-primitives-${value === 9999 ? 'full' : value}`,
+      `${value}px`,
+    )
   if (typeof value === 'number' && spacingProperty)
     return spacingLength(value, `${value}px`)
   if (typeof value !== 'string' || value.includes('var(')) return value
@@ -133,7 +138,10 @@ function styleValue(key: string, value: unknown): unknown {
       const pixels = Number(amount) * (unit === 'rem' ? 16 : 1)
       if (spacingProperty) return spacingLength(pixels, original)
       return radiusPrimitives.has(pixels)
-        ? token(`borders-radius-primitives-${pixels}`, original)
+        ? token(
+            `borders-radius-primitives-${pixels === 9999 ? 'full' : pixels}`,
+            original,
+          )
         : original
     },
   )
@@ -212,11 +220,46 @@ export function createRcSesTokenTheme(
     Object.entries(legacyTheme.components ?? {}).map(
       ([name, component]: [string, unknown]) => {
         if (!isPlainObject(component)) return [name, component]
+        // Only roles explicitly described by the Borders export.
+        const radiusRole = (
+          {
+            MuiButton: 'button',
+            MuiCard: 'card',
+            MuiInputBase: 'input',
+            MuiOutlinedInput: 'input',
+            MuiPickersOutlinedInput: 'input',
+          } as Record<string, string>
+        )[name]
         return [
           name,
           {
             ...component,
-            styleOverrides: mapTree(component.styleOverrides, styleValue),
+            // sx numeric radii remain MUI shape multipliers.
+            defaultProps: isPlainObject(component.defaultProps)
+              ? {
+                  ...component.defaultProps,
+                  sx: mapTree(component.defaultProps.sx, (key, value) => {
+                    if (!/border.*Radius$/.test(key)) return value
+                    if (isPlainObject(value))
+                      return mapTree(value, (_, item) =>
+                        typeof item === 'string' ? styleValue(key, item) : item,
+                      )
+                    return typeof value === 'string' ? styleValue(key, value) : value
+                  }),
+                }
+              : component.defaultProps,
+            styleOverrides: mapTree(component.styleOverrides, (key, value) => {
+              const transformed = styleValue(key, value)
+              const primitive = radiusRole === 'card' ? 16 : 8
+              return radiusRole &&
+                /border.*Radius$/.test(key) &&
+                typeof transformed === 'string'
+                ? transformed.replace(
+                    `--rc-borders-radius-primitives-${primitive},`,
+                    `--rc-borders-radius-aliases-${radiusRole},`,
+                  )
+                : transformed
+            }),
             variants: Array.isArray(component.variants)
               ? component.variants.map((variant: unknown) =>
                   isPlainObject(variant)

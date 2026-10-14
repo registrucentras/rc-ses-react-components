@@ -90,7 +90,19 @@ describe('native token theme adapter', () => {
   test('shared component styles use token colors without editing component sources', () => {
     expect(tokenTheme.components?.MuiCard?.styleOverrides?.root).toMatchObject({
       borderColor: 'var(--rc-colors-neutrals-300, #c5cad1)',
-      borderRadius: 'var(--rc-borders-radius-primitives-16, 1rem)',
+      borderRadius: 'var(--rc-borders-radius-aliases-card, 1rem)',
+    })
+    expect(tokenTheme.components?.MuiPaginationItem?.styleOverrides?.root).toMatchObject({
+      borderRadius: 'var(--rc-borders-radius-primitives-8, 8px)',
+    })
+    expect(tokenTheme.components?.MuiAccordion?.defaultProps?.sx).toMatchObject({
+      borderRadius: { xs: 0, md: 'var(--rc-borders-radius-primitives-6, .375rem)' },
+    })
+    expect(tokenTheme.components?.MuiSwitch?.styleOverrides?.track).toMatchObject({
+      borderRadius: 'var(--rc-borders-radius-primitives-full, 9999px)',
+    })
+    expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.root).toMatchObject({
+      borderRadius: 'var(--rc-borders-radius-aliases-input, .5rem)',
     })
     expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toMatch(
       /rgba\(\s*31\s*,\s*39\s*,\s*51\s*,\s*0?\.2\s*\)/,
@@ -104,7 +116,14 @@ describe('native token theme adapter', () => {
       shape: { borderRadius: 6 },
       typography: { h2: { fontSize: '3rem' } },
       components: {
-        MuiCard: { styleOverrides: { root: { borderColor: 'rebeccapurple' } } },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderColor: 'rebeccapurple',
+              borderRadius: '1rem',
+            },
+          },
+        },
       },
     })
     expect(customized.spacing(2)).toBe('calc(2 * var(--rc-mui-spacing, 10px))')
@@ -113,6 +132,7 @@ describe('native token theme adapter', () => {
     expect(css(customized)).toContain('"--rc-mui-shape-borderRadius":"6px"')
     expect(customized.components?.MuiCard?.styleOverrides?.root).toMatchObject({
       borderColor: 'rebeccapurple',
+      borderRadius: '1rem',
     })
   })
 
