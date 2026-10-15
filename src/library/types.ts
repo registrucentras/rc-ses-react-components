@@ -15,6 +15,7 @@ import {
   RcSesCardShellProps,
   RcSesCardShellTestIds,
 } from '@/components/common/CardShell/types'
+import { RcSesFilterChipProps } from '@/components/common/FilterChip'
 import { ListWithIconsProps } from '@/components/common/ListWithIcons'
 import {
   ListWithIconsItemData,
@@ -34,6 +35,8 @@ import {
 import { RcSesSideNavItem, RcSesSideNavOverflow } from '@/components/common/SideNav'
 import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
 import {
+  RcSesStepCardAction,
+  RcSesStepCardActions,
   RcSesStepCardProps,
   RcSesStepCardTestIds,
 } from '@/components/common/StepCard/types'
@@ -84,6 +87,7 @@ export type {
   RcSesLoaderSize,
   RcSesCardFormContainerProps,
   RcSesCardProps,
+  RcSesFilterChipProps,
   RcSesCardShellProps,
   RcSesCardShellTestIds,
   RcSesTitleBlockProps,
@@ -107,6 +111,8 @@ export type {
   RcSesSideNavItem,
   RcSesSideNavLayoutProps,
   RcSesSideNavOverflow,
+  RcSesStepCardAction,
+  RcSesStepCardActions,
   RcSesStepCardProps,
   RcSesStepCardTestIds,
 }

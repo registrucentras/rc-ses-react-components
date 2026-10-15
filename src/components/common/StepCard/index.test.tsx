@@ -48,6 +48,20 @@ describe('RcSesStepCard', () => {
     expect(screen.getByText('4,01 €')).toBeInTheDocument()
   })
 
+  it('forwards totalPriceLabel to the default footer', () => {
+    render(
+      <RcSesStepCard
+        activeStep={2}
+        stepCount={STEP_COUNT}
+        title='Suvestinė'
+        totalPrice='4,01 €'
+        totalPriceLabel='Mokėtina suma'
+      />,
+    )
+
+    expect(screen.getByText('Mokėtina suma:')).toBeInTheDocument()
+  })
+
   it('forwards step handlers to the default footer', () => {
     const onNext = vi.fn()
     const onBack = vi.fn()
@@ -70,6 +84,23 @@ describe('RcSesStepCard', () => {
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(onNext).toHaveBeenCalledTimes(1)
     expect(onBack).not.toHaveBeenCalled()
+  })
+
+  it('forwards `actions` to the default footer', () => {
+    render(
+      <RcSesStepCard
+        activeStep={0}
+        stepCount={STEP_COUNT}
+        title='Pirmas'
+        actions={{ next: { form: 'step-form', label: 'Toliau' }, cancel: false }}
+      />,
+    )
+
+    expect(screen.getByRole('button', { name: 'Toliau' })).toHaveAttribute(
+      'form',
+      'step-form',
+    )
+    expect(screen.queryByRole('button', { name: 'Atšaukti' })).not.toBeInTheDocument()
   })
 
   it('replaces the default footer when `footer` prop is provided', () => {
