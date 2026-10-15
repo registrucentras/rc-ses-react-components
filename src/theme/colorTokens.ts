@@ -1,21 +1,12 @@
 import { common, error, grey, overlays, primary, secondary, warning } from './palette'
 
 /** Figma Colors: existing literals stay compatible with JS color utilities. */
-const cyans = Object.fromEntries(
-  Object.entries(primary).filter(([key]) => key !== 'main'),
-) as Omit<typeof primary, 'main'>
-const greens = Object.fromEntries(
-  Object.entries(secondary).filter(([key]) => key !== 'main'),
-) as Omit<typeof secondary, 'main'>
-const neutrals = Object.fromEntries(
-  Object.entries(grey).filter(([key]) => key !== 'main'),
-) as Omit<typeof grey, 'main'>
-const yellows = Object.fromEntries(
-  Object.entries(warning).filter(([key]) => key !== 'main'),
-) as Omit<typeof warning, 'main'>
-const red = Object.fromEntries(
-  Object.entries(error).filter(([key]) => key !== 'main'),
-) as Omit<typeof error, 'main'>
+const { main: primaryMain, ...cyans } = primary
+const { main: secondaryMain, ...greens } = secondary
+const { main: greyMain, ...neutrals } = grey
+const { main: warningMain, ...yellows } = warning
+const { main: errorMain, ...red } = error
+
 export const colorPrimitives = {
   cyans,
   greens,
@@ -23,7 +14,10 @@ export const colorPrimitives = {
   yellows,
   red,
   white: common.white,
-  overlays: { black: overlays.black, white: overlays.white },
+  overlays: {
+    black: overlays.black,
+    white: overlays.white,
+  },
 } as const
 
 /** Light roles reference semantic CSS aliases, with primitive fallback values. */
