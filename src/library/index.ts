@@ -80,6 +80,8 @@ declare module '@mui/x-date-pickers/models' {
 }
 
 export { RcSesPalette, RcSesTheme }
+export { default as RcSesTokenTheme, createRcSesTokenTheme } from '@/theme/tokenTheme'
+export type { RcSesTokenThemeOptions, RcSesNativeTheme } from '@/theme/tokenTheme'
 export { RcSesAccordion, useAccordionController }
 export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
@@ -146,3 +148,15 @@ export { RcSesIconWithCircularBackground }
 export { RcSesIconWithSquareBackground }
 
 export * from './icons'
+
+export { colorPrimitives, colorTokens, colorTokenSchemes } from '@/theme/colorTokens'
+export type { RcSesColorTokens } from '@/theme/colorTokens'
+
+export { typographyTokens, typographyRoleVariants } from '@/theme/typographyTokens'
+export type {
+  RcSesTypographyRole,
+  RcSesNamedTypographyVariant,
+} from '@/theme/typographyTokens'
+
+export { spacingTokens } from '@/theme/spacingTokens'
+export { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'

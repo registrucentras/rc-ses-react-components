@@ -7,6 +7,7 @@ const themePalette = createTheme({
     mode: 'light',
     text: {
       primary: grey['900'],
+      secondary: grey['600'],
     },
     primary,
     secondary,
