@@ -108,6 +108,20 @@ describe('RcSesStepCardFooter', () => {
       expect(screen.getByText('4,01 €')).toBeInTheDocument()
     })
 
+    it('replaces the price caption with totalPriceLabel', () => {
+      render(
+        <RcSesStepCardFooter
+          activeStep={2}
+          stepCount={STEP_COUNT}
+          totalPrice='4,01 €'
+          totalPriceLabel='Mokėtina suma'
+        />,
+      )
+
+      expect(screen.getByText('Mokėtina suma:')).toBeInTheDocument()
+      expect(screen.queryByText(/Suma be PVM/i)).not.toBeInTheDocument()
+    })
+
     it('omits the price summary when totalPrice is missing', () => {
       render(<RcSesStepCardFooter activeStep={2} stepCount={STEP_COUNT} />)
 
@@ -265,7 +279,7 @@ describe('RcSesStepCardFooter', () => {
       expect(screen.getByRole('button', { name: /Atgal/ })).toBeInTheDocument()
     })
 
-    it('renders a last step without payments: own label, no cart icon', () => {
+    it('renders a custom last-step CTA: own label, no cart icon', () => {
       render(
         <RcSesStepCardFooter
           activeStep={2}

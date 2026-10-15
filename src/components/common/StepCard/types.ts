@@ -61,6 +61,8 @@ export interface RcSesStepCardProps extends Pick<
    * locale + currency stay a consumer concern.
    */
   totalPrice?: string
+  /** Replaces the default caption of `totalPrice`. */
+  totalPriceLabel?: string
   /**
    * Overrides for the default footer: label, icon, form submit,
    * loading and disabled. Ignored when `footer` is set.

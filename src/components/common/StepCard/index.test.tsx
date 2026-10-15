@@ -48,6 +48,20 @@ describe('RcSesStepCard', () => {
     expect(screen.getByText('4,01 €')).toBeInTheDocument()
   })
 
+  it('forwards totalPriceLabel to the default footer', () => {
+    render(
+      <RcSesStepCard
+        activeStep={2}
+        stepCount={STEP_COUNT}
+        title='Suvestinė'
+        totalPrice='4,01 €'
+        totalPriceLabel='Mokėtina suma'
+      />,
+    )
+
+    expect(screen.getByText('Mokėtina suma:')).toBeInTheDocument()
+  })
+
   it('forwards step handlers to the default footer', () => {
     const onNext = vi.fn()
     const onBack = vi.fn()

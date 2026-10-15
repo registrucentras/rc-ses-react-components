@@ -19,6 +19,7 @@ export interface RcSesStepCardFooterProps {
   onBack?: () => void
   onCancel?: () => void
   totalPrice?: string
+  totalPriceLabel?: string
   actions?: RcSesStepCardActions
 }
 
@@ -81,6 +82,7 @@ function RcSesStepCardFooter({
   onBack,
   onCancel,
   totalPrice,
+  totalPriceLabel,
   actions,
 }: RcSesStepCardFooterProps) {
   const { t } = useTranslation('common')
@@ -131,7 +133,7 @@ function RcSesStepCardFooter({
       >
         {showPriceSummary ? (
           <PriceSummary
-            label={t('components.StepCard.totalWithoutVat')}
+            label={totalPriceLabel ?? t('components.StepCard.totalWithoutVat')}
             price={totalPrice as string}
           />
         ) : null}

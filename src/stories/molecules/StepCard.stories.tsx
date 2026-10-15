@@ -212,10 +212,11 @@ export const FormSubmit: Story = {
 }
 
 /**
- * Last step without payments → `actions.next = { label: 'Pateikti', icon: null }`
- * swaps the cart CTA for a neutral one; the price summary stays.
+ * Last step with a custom CTA → `actions.next = { label: 'Pateikti', icon: null }`
+ * swaps the cart CTA for a neutral one in flows without a basket; the price
+ * summary stays.
  */
-export const LastStepWithoutPayments: Story = {
+export const LastStepCustomCTA: Story = {
   render: (args) => (
     <Fields>
       <FieldView>
@@ -223,8 +224,9 @@ export const LastStepWithoutPayments: Story = {
           {...args}
           activeStep={STEP_COUNT - 1}
           stepCount={STEP_COUNT}
-          totalPrice='4,01 €'
-          actions={{ next: { label: 'Pateikti', icon: null } }}
+          totalPriceLabel='Suma (2 × 5,00 €)'
+          totalPrice='10,00 €'
+          actions={{ next: { label: 'Patvirtinti', icon: null } }}
         >
           <DemoContent />
         </RcSesStepCard>
