@@ -35,6 +35,8 @@ import {
 import { RcSesSideNavItem, RcSesSideNavOverflow } from '@/components/common/SideNav'
 import { RcSesSideNavLayoutProps } from '@/components/common/SideNav/SideNavLayout'
 import {
+  RcSesStepCardAction,
+  RcSesStepCardActions,
   RcSesStepCardProps,
   RcSesStepCardTestIds,
 } from '@/components/common/StepCard/types'
@@ -109,6 +111,8 @@ export type {
   RcSesSideNavItem,
   RcSesSideNavLayoutProps,
   RcSesSideNavOverflow,
+  RcSesStepCardAction,
+  RcSesStepCardActions,
   RcSesStepCardProps,
   RcSesStepCardTestIds,
 }

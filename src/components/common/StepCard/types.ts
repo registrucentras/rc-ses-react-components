@@ -9,6 +9,32 @@ export interface RcSesStepCardTestIds {
   footer?: string
 }
 
+export interface RcSesStepCardAction {
+  label?: string
+  /**
+   * `undefined` keeps the default icon (arrows, or the cart on the last step),
+   * `null` renders none, a node replaces the icon.
+   */
+  icon?: ReactNode
+  /**
+   * Id of a `<form>` rendered elsewhere. The button becomes that form's submit
+   * button (`type="submit" form={id}`). The click handler still fires.
+   */
+  form?: string
+  /** Shows a spinner in the icon's place and disables the button. */
+  loading?: boolean
+  disabled?: boolean
+}
+
+export interface RcSesStepCardActions {
+  /** The trailing CTA on every step, including the last. */
+  next?: RcSesStepCardAction
+  /** The leading "Atgal" button (middle + last step). */
+  back?: RcSesStepCardAction
+  /** The leading "Atšaukti" button (first step). `false` removes it. */
+  cancel?: RcSesStepCardAction | false
+}
+
 export interface RcSesStepCardProps extends Pick<
   RcSesTitleBlockBaseProps,
   'title' | 'description'
@@ -35,6 +61,13 @@ export interface RcSesStepCardProps extends Pick<
    * locale + currency stay a consumer concern.
    */
   totalPrice?: string
+  /** Replaces the default caption of `totalPrice`. */
+  totalPriceLabel?: string
+  /**
+   * Overrides for the default footer: label, icon, form submit,
+   * loading and disabled. Ignored when `footer` is set.
+   */
+  actions?: RcSesStepCardActions
   /**
    * Replaces the whole default footer, including the step-position variants.
    * Use when a step needs an entirely custom action row.
