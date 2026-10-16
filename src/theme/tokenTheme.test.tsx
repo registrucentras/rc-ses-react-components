@@ -6,7 +6,9 @@ import { describe, expect, test } from 'vitest'
 import Button from '@/components/common/Button'
 import FullPageLoader from '@/components/loaders/FullPageLoader'
 import legacyTheme from '@/theme/light'
-import tokenTheme, { createRcSesTokenTheme } from '@/theme/tokenTheme'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
+
+const tokenTheme = createRcSesTokenTheme()
 
 function css(theme = tokenTheme) {
   return JSON.stringify(theme.generateStyleSheets?.())
@@ -25,9 +27,6 @@ describe('native token theme adapter', () => {
   test('preserves the existing theme, public palette and theme extension API', () => {
     expect(legacyTheme.vars).toBeUndefined()
     expect(legacyTheme.spacing(1)).toBe('8px')
-    expect(legacyTheme.palette.text.secondary).toBe('#6b747f')
-    expect(tokenTheme.palette.text.secondary).toBe('#6b747f')
-    expect(css()).toContain('var(--rc-color-tokens-text-secondary, #6b747f)')
     expect(
       createTheme(legacyTheme, { shape: { borderRadius: 6 } }).shape.borderRadius,
     ).toBe(6)
@@ -45,55 +44,55 @@ describe('native token theme adapter', () => {
     expect(tokenTheme.vars?.palette.primary.main).toBe(
       'var(--rc-mui-palette-primary-main, #06a0d4)',
     )
-    expect(css()).toContain('var(--rc-color-tokens-control-selected, #06a0d4)')
-    expect(css()).toContain('var(--rc-color-tokens-text-default, #1f2733)')
-    expect(css()).toContain('var(--rc-colors-neutrals-300, #c5cad1)')
-    expect(css()).toContain('var(--rc-borders-radius-primitives-4, 4px)')
+    expect(css()).toContain('var(--rc-color-control-selected, #06a0d4)')
+    expect(css()).toContain('var(--rc-color-text-default, #1f2733)')
+    expect(css()).toContain('var(--rc-color-neutrals-300, #c5cad1)')
+    expect(css()).toContain('var(--rc-radius-4, 4px)')
     expect(tokenTheme.vars?.shape.borderRadius).toBe(
       'var(--rc-mui-shape-borderRadius, 4px)',
     )
   })
 
   test('spacing supports MUI defaults, negatives, fractions, multiple arguments and strings', () => {
-    expect(tokenTheme.spacing()).toBe('var(--rc-spacing-spacing-primitives-8, 8px)')
-    expect(tokenTheme.spacing(2)).toBe('var(--rc-spacing-spacing-primitives-16, 16px)')
+    expect(tokenTheme.spacing()).toBe('var(--rc-space-8, 8px)')
+    expect(tokenTheme.spacing(2)).toBe('var(--rc-space-16, 16px)')
     expect(tokenTheme.spacing(-1, 0.5, 'auto', 0)).toBe(
-      'calc(-1 * var(--rc-spacing-spacing-primitives-8, 8px)) var(--rc-spacing-spacing-primitives-4, 4px) auto 0px',
+      'calc(-1 * var(--rc-space-8, 8px)) var(--rc-space-4, 4px) auto 0px',
     )
-    expect(tokenTheme.spacing(1.75)).toBe(
-      'calc(var(--rc-spacing-spacing-primitives-8, 8px) * 1.75)',
-    )
-    expect(tokenTheme.spacing(20)).toBe(
-      'calc(var(--rc-spacing-spacing-primitives-8, 8px) * 20)',
-    )
+    expect(tokenTheme.spacing(1.75)).toBe('calc(var(--rc-space-8, 8px) * 1.75)')
+    expect(tokenTheme.spacing(20)).toBe('calc(var(--rc-space-8, 8px) * 20)')
   })
 
-  test('responsive typography replaces the legacy variant overrides too', () => {
+  test('typography dimensions come only from theme.typography for mapped variants', () => {
     expect(tokenTheme.typography.h1.fontSize).toBe(
-      'var(--rc-typography-font-size-heading-h1, 1.5rem)',
+      'var(--rc-typography-font-size-heading-h1, var(--rc-mui-h1-fallback-fontSize, 1.5rem))',
     )
     expect(
       tokenTheme.typography.h1[
         legacyTheme.breakpoints.up('md') as keyof typeof tokenTheme.typography.h1
       ],
     ).toEqual({
-      fontSize: 'var(--rc-typography-font-size-heading-h1, 2.25rem)',
-      lineHeight: 'var(--rc-typography-line-height-heading-h1, 3rem)',
+      '--rc-mui-h1-fallback-fontSize': '2.25rem',
+      '--rc-mui-h1-fallback-lineHeight': '3rem',
     })
-    expect(tokenTheme.components?.MuiTypography?.styleOverrides?.h2).toMatchObject({
-      fontSize: 'var(--rc-typography-font-size-heading-h2, 2rem)',
-      lineHeight: 'var(--rc-typography-line-height-heading-h2, 2.75rem)',
+    expect(tokenTheme.components?.MuiTypography?.styleOverrides?.h2).toEqual({
+      fontWeight: '500',
+    })
+    expect(legacyTheme.components?.MuiTypography?.styleOverrides?.h2).toMatchObject({
+      fontSize: '2rem',
+      lineHeight: '2.75rem',
     })
   })
 
-  test('shared component styles use token colors without editing component sources', () => {
-    expect(tokenTheme.components?.MuiCard?.styleOverrides?.root).toMatchObject({
-      borderColor: 'var(--rc-colors-neutrals-300, #c5cad1)',
-      borderRadius: 'var(--rc-borders-radius-primitives-16, 1rem)',
+  test('legacy component configuration is preserved without general tokenization', () => {
+    Object.entries(legacyTheme.components ?? {}).forEach(([name, component]) => {
+      if (name !== 'MuiTypography') {
+        expect(
+          tokenTheme.components?.[name as keyof typeof tokenTheme.components],
+          name,
+        ).toEqual(component)
+      }
     })
-    expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toMatch(
-      /rgba\(\s*31\s*,\s*39\s*,\s*51\s*,\s*0?\.2\s*\)/,
-    )
   })
 
   test('explicit consumer overrides retain precedence', () => {
@@ -101,13 +100,17 @@ describe('native token theme adapter', () => {
       palette: { primary: { main: '#123456' } },
       spacing: 10,
       shape: { borderRadius: 6 },
-      typography: { h2: { fontSize: '3rem' } },
+      typography: { h2: { fontSize: '3rem', fontWeight: 700 } },
       components: {
         MuiCard: { styleOverrides: { root: { borderColor: 'rebeccapurple' } } },
+        MuiTypography: { styleOverrides: { h2: { fontWeight: 400 } } },
       },
     })
     expect(customized.spacing(2)).toBe('calc(2 * var(--rc-mui-spacing, 10px))')
     expect(customized.typography.h2.fontSize).toBe('3rem')
+    expect(customized.components?.MuiTypography?.styleOverrides?.h2).toMatchObject({
+      fontWeight: 400,
+    })
     expect(css(customized)).toContain('"--rc-mui-palette-primary-main":"#123456"')
     expect(css(customized)).toContain('"--rc-mui-shape-borderRadius":"6px"')
     expect(customized.components?.MuiCard?.styleOverrides?.root).toMatchObject({
@@ -145,30 +148,34 @@ describe('native token theme adapter', () => {
     expect(customized.typography.h2.fontSize).toBe(tokenTheme.typography.h2.fontSize)
     expect(customized.typography.h2.lineHeight).toBe(tokenTheme.typography.h2.lineHeight)
     expect(customized.typography.h2.fontWeight).toBe(700)
-    expect(customized.components?.MuiTypography?.styleOverrides?.h2).toMatchObject({
-      fontSize: 'var(--rc-typography-font-size-heading-h2, 2rem)',
-      fontWeight: 700,
-    })
+    expect(customized.components?.MuiTypography?.styleOverrides?.h2).toEqual({})
     expect(
       customized.typography.h1[
         legacyTheme.breakpoints.up('md') as keyof typeof customized.typography.h1
       ],
-    ).toMatchObject({ fontSize: '3rem' })
-    const sized = createRcSesTokenTheme({ typography: { h2: { fontSize: '3rem' } } })
-    expect(sized.components?.MuiTypography?.styleOverrides?.h2).toMatchObject({
-      fontSize: '3rem',
+    ).toEqual({
+      '--rc-mui-h1-fallback-fontSize': '2.25rem',
+      '--rc-mui-h1-fallback-lineHeight': '3rem',
     })
-    expect(sized.typography.h2.lineHeight).toBe(tokenTheme.typography.h2.lineHeight)
+    const sized = createRcSesTokenTheme({
+      typography: { h2: { fontSize: '3rem', lineHeight: '4rem' } },
+    })
+    expect(sized.typography.h2.fontSize).toBe('3rem')
+    expect(sized.typography.h2.lineHeight).toBe('4rem')
   })
 
-  test('library spacing preserves rem fallbacks and h6 has no inferred token role', () => {
-    expect(tokenTheme.components?.MuiCardContent?.styleOverrides?.root).toMatchObject({
-      padding:
-        'var(--rc-spacing-spacing-primitives-20, 1.25rem) var(--rc-spacing-spacing-primitives-24, 1.5rem)',
+  test('function typography input is resolved against the consumer palette', () => {
+    const customized = createRcSesTokenTheme({
+      palette: { primary: { main: '#123456' } },
+      typography: (palette) => ({ h2: { color: palette.primary.main, fontWeight: 700 } }),
     })
-    expect(JSON.stringify(tokenTheme.components?.MuiInputBase?.styleOverrides)).toContain(
-      'calc(var(--rc-spacing-spacing-primitives-8, 0.5rem) * 1.625)',
-    )
+    expect(customized.typography.h2.color).toBe('#123456')
+    expect(customized.typography.h2.fontWeight).toBe(700)
+    expect(customized.typography.h2.fontSize).toBe(tokenTheme.typography.h2.fontSize)
+    expect(customized.typography.h2.lineHeight).toBe(tokenTheme.typography.h2.lineHeight)
+  })
+
+  test('h6 has no inferred token role and keeps its existing overrides', () => {
     expect(tokenTheme.typography.h6).toEqual(legacyTheme.typography.h6)
     expect(tokenTheme.components?.MuiTypography?.styleOverrides?.h6).toEqual(
       legacyTheme.components?.MuiTypography?.styleOverrides?.h6,
