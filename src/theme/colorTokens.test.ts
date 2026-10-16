@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
 
-import { colorPrimitives, colorTokenSchemes, colorTokens } from './colorTokens'
+import { colorPrimitives, colorTokens } from './colorTokens'
 
 const css = readFileSync('src/theme/tokens.css', 'utf8')
 const primitives = new Map(
@@ -39,7 +39,5 @@ describe('Figma Light color foundations', () => {
     expect(semantics.get('--rc-color-text-secondary')).toBe('--rc-color-neutrals-600')
     expect(colorPrimitives.neutrals[50]).toBe('#f9fafb')
     expect(colorPrimitives.neutrals[600]).toBe('#6b747f')
-    expect(colorTokenSchemes.light).toBe(colorTokens)
-    expect(colorTokenSchemes.dark).toBeUndefined()
   })
 })

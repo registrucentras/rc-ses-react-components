@@ -82,11 +82,5 @@ const colorTokens = {
   'text-secondary': 'var(--rc-color-text-secondary)',
 } as const
 
-export type RcSesColorTokens = { [K in keyof typeof colorTokens]: string }
-
-export const colorTokenSchemes: { light: RcSesColorTokens; dark?: RcSesColorTokens } = {
-  light: colorTokens,
-}
-
 export { colorTokens }
 export default colorTokens
