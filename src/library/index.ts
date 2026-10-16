@@ -148,3 +148,5 @@ export { RcSesIconWithCircularBackground }
 export { RcSesIconWithSquareBackground }
 
 export * from './icons'
+
+export { colorPrimitives, colorTokens } from '@/theme/colorTokens'

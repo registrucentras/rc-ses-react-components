@@ -179,3 +179,21 @@ test('legacy component padding stays in rem at a 20px root without DS tokens', a
     await expect.soft(heading).toHaveCSS('font-weight', '700')
   })
 })
+
+;[
+  ['default', 'rgb(255, 255, 255)', 'rgb(197, 202, 209)'],
+  ['brand-theme', 'rgb(243, 251, 254)', 'rgb(185, 233, 250)'],
+  ['sunken-theme', 'rgb(249, 250, 251)', 'rgb(220, 224, 229)'],
+].forEach(([story, background, border]) => {
+  test(`legacy CardShell ${story} loads semantic color variables with the legacy theme`, async ({
+    page,
+  }) => {
+    await page.goto(`/iframe.html?id=molecules-cardshell--${story}&viewMode=story`)
+    const card = page.locator('#storybook-root > .MuiBox-root').first()
+    await expect(card).toBeVisible()
+    await expect(card).toHaveCSS('--rc-color-surface-base', 'rgb(255 255 255 / 1)')
+    await expect(card).toHaveCSS('background-color', background)
+    await expect(card).toHaveCSS('border-top-color', border)
+    await expect(card).toHaveCSS('border-top-width', '1px')
+  })
+})

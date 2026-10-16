@@ -1,3 +1,21 @@
+import { common, error, grey, overlays, primary, secondary, warning } from './palette'
+
+const { main: primaryMain, ...cyans } = primary
+const { main: secondaryMain, ...greens } = secondary
+const { main: greyMain, ...neutrals } = grey
+const { main: warningMain, ...yellows } = warning
+const { main: errorMain, ...red } = error
+
+export const colorPrimitives = {
+  cyans,
+  greens,
+  neutrals,
+  yellows,
+  red,
+  white: common.white,
+  overlays: { black: overlays.black, white: overlays.white },
+} as const
+
 const colorTokens = {
   'action-destructive-bg': 'var(--rc-color-action-destructive-bg)',
   'action-destructive-bg-hover': 'var(--rc-color-action-destructive-bg-hover)',
