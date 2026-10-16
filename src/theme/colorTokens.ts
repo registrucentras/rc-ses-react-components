@@ -1,3 +1,21 @@
+import { common, error, grey, overlays, primary, secondary, warning } from './palette'
+
+const { main: primaryMain, ...cyans } = primary
+const { main: secondaryMain, ...greens } = secondary
+const { main: greyMain, ...neutrals } = grey
+const { main: warningMain, ...yellows } = warning
+const { main: errorMain, ...red } = error
+
+export const colorPrimitives = {
+  cyans,
+  greens,
+  neutrals,
+  yellows,
+  red,
+  white: common.white,
+  overlays: { black: overlays.black, white: overlays.white },
+} as const
+
 const colorTokens = {
   'action-destructive-bg': 'var(--rc-color-action-destructive-bg)',
   'action-destructive-bg-hover': 'var(--rc-color-action-destructive-bg-hover)',
@@ -63,6 +81,12 @@ const colorTokens = {
   'text-muted': 'var(--rc-color-text-muted)',
   'text-secondary': 'var(--rc-color-text-secondary)',
 } as const
+
+export type RcSesColorTokens = { [K in keyof typeof colorTokens]: string }
+
+export const colorTokenSchemes: { light: RcSesColorTokens; dark?: RcSesColorTokens } = {
+  light: colorTokens,
+}
 
 export { colorTokens }
 export default colorTokens
