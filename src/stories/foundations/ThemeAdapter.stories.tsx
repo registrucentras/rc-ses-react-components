@@ -15,7 +15,10 @@ import {
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import Button from '@/components/common/Button'
-import tokenTheme, { createRcSesTokenTheme } from '@/theme/tokenTheme'
+import legacyTheme from '@/theme/light'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
+
+const tokenTheme = createRcSesTokenTheme()
 
 const meta = {
   title: 'Foundations/Theme Adapter',
@@ -51,6 +54,10 @@ export const Tokens: Story = {
           Spalvų, tarpų ir radiuso pavyzdys
         </Box>
 
+        <Typography variant='h6' data-testid='legacy-h6'>
+          Legacy H6
+        </Typography>
+
         <Box>
           <Button>Bibliotekos mygtukas</Button>
         </Box>
@@ -62,10 +69,16 @@ export const Tokens: Story = {
 const customTheme = createRcSesTokenTheme({
   typography: {
     h1: { fontSize: '2.5rem' },
-    h2: { fontSize: '3rem' },
-    h3: { fontWeight: 700 },
+    h2: { fontSize: '3rem', lineHeight: '4rem', fontWeight: 700 },
+    body1: { fontWeight: 700 },
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        h2: { fontWeight: 400 },
+        h5: { fontSize: '3.5rem', lineHeight: '4.5rem' },
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: { borderColor: '#c5cad1' },
@@ -86,8 +99,12 @@ export const ConsumerOverrides: Story = {
           Vartotojo h2 dydis
         </Typography>
 
-        <Typography variant='h3' data-testid='custom-h3'>
+        <Typography variant='body1' data-testid='custom-weight'>
           Vartotojo šrifto svoris
+        </Typography>
+
+        <Typography variant='h5' data-testid='component-typography'>
+          Component override
         </Typography>
 
         <Card data-testid='literal-card'>
@@ -327,6 +344,46 @@ export const ComponentsPreview: Story = {
           </CardContent>
         </Card>
       </Stack>
+    </ThemeProvider>
+  ),
+}
+
+export const H1Fallback: Story = {
+  render: () => (
+    <Stack spacing={2}>
+      <ThemeProvider theme={legacyTheme}>
+        <Typography variant='h1' data-testid='fallback-legacy-h1'>
+          Legacy H1
+        </Typography>
+      </ThemeProvider>
+      <ThemeProvider theme={tokenTheme}>
+        <Box data-testid='missing-token-example'>
+          <Typography variant='h1' data-testid='fallback-token-h1'>
+            Token H1 without DS variables
+          </Typography>
+        </Box>
+      </ThemeProvider>
+    </Stack>
+  ),
+  play: ({ canvasElement }) => {
+    const example = canvasElement.querySelector<HTMLElement>(
+      '[data-testid="missing-token-example"]',
+    )!
+    Array.from(getComputedStyle(document.documentElement))
+      .filter((name) => name.startsWith('--rc-') && !name.startsWith('--rc-mui-'))
+      .forEach((name) => example.style.setProperty(name, 'initial'))
+  },
+}
+
+const headingWeightTheme = createRcSesTokenTheme({
+  typography: { h2: { fontWeight: 700 } },
+})
+export const HeadingWeight: Story = {
+  render: () => (
+    <ThemeProvider theme={headingWeightTheme}>
+      <Typography variant='h2' data-testid='weight-h2'>
+        H2 fontWeight 700
+      </Typography>
     </ThemeProvider>
   ),
 }
