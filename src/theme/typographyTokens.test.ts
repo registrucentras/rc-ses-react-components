@@ -101,11 +101,9 @@ test('all 28 typography dimensions match the Figma export in four discrete modes
   expect(Object.keys(typographyTokens)).toHaveLength(28)
   const values = new Map<string, number>()
   blocks.forEach((block, index) => {
-    for (const [, key, amount] of block.matchAll(
-      /--rc-typography-([\w-]+): ([\d.]+)rem;/g,
-    )) {
-      values.set(key, Number(amount) * 16)
-    }
+    Array.from(block.matchAll(/--rc-typography-([\w-]+): ([\d.]+)rem;/g)).forEach(
+      ([, key, amount]) => values.set(key, Number(amount) * 16),
+    )
     expect(values.size).toBe(28)
     Object.entries(expected).forEach(([role, modes]) => {
       expect(
