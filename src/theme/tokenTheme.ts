@@ -1,4 +1,5 @@
 import {
+  type CSSProperties,
   type CssVarsTheme,
   type Theme,
   type ThemeOptions,
@@ -9,12 +10,14 @@ import legacyTheme from '@/theme/light'
 import legacyPalette, { common } from '@/theme/palette'
 
 import './tokens.css'
+import { type RcSesNamedTypographyVariant, typographyTokens } from './typographyTokens'
 
 /** Keep color-scheme configuration inside the adapter until dark tokens exist. */
 export type RcSesTokenThemeOptions = Omit<ThemeOptions, 'cssVariables' | 'colorSchemes'>
 
-export type RcSesNativeTheme = Theme &
-  Pick<
+export type RcSesNativeTheme = Theme & {
+  typography: Theme['typography'] & Record<RcSesNamedTypographyVariant, CSSProperties>
+} & Pick<
     CssVarsTheme,
     | 'cssVarPrefix'
     | 'rootSelector'
@@ -148,7 +151,22 @@ export function createRcSesTokenTheme(
     typeof typographyInput === 'function'
       ? typographyInput(fallback.palette)
       : typographyInput
-  const typography = { ...legacyTheme.typography }
+  const typography = {
+    ...legacyTheme.typography,
+    // Preserve the named styles from SAV-6985 without guessing font attributes.
+    headingCardTitle: {
+      fontSize: typographyTokens['font-size-heading-card-title'],
+      lineHeight: typographyTokens['line-height-heading-card-title'],
+    },
+    bodyLarge: {
+      fontSize: typographyTokens['font-size-body-large'],
+      lineHeight: typographyTokens['line-height-body-large'],
+    },
+    buttonCompact: {
+      fontSize: typographyTokens['font-size-button-compact'],
+      lineHeight: typographyTokens['line-height-button-compact'],
+    },
+  }
   const typographySlots = { ...legacyTheme.components?.MuiTypography?.styleOverrides }
   Object.entries(typographyRoles).forEach(([variant, role]) => {
     const variantKey = variant as keyof typeof typographyRoles

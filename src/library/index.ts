@@ -150,3 +150,9 @@ export { RcSesIconWithSquareBackground }
 export * from './icons'
 
 export { colorPrimitives, colorTokens } from '@/theme/colorTokens'
+
+export { typographyTokens, typographyRoleVariants } from '@/theme/typographyTokens'
+export type {
+  RcSesTypographyRole,
+  RcSesNamedTypographyVariant,
+} from '@/theme/typographyTokens'

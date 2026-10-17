@@ -1,3 +1,5 @@
+import type { CSSProperties } from '@mui/material/styles'
+
 // CSS variable references. Values and responsive modes live in tokens.css.
 const typographyTokens = {
   'font-size-body-caption': 'var(--rc-typography-font-size-body-caption)',
@@ -32,3 +34,46 @@ const typographyTokens = {
 
 export { typographyTokens }
 export default typographyTokens
+
+/** Existing MUI variants retain their font attributes; unmatched roles are additive. */
+export const typographyRoleVariants = {
+  'heading-h1': 'h1',
+  'heading-h2': 'h2',
+  'heading-h3': 'h3',
+  'heading-card-title': 'headingCardTitle',
+  'heading-h4': 'h4',
+  'heading-h5': 'h5',
+  'body-large': 'bodyLarge',
+  'body-lead': 'subtitle1',
+  'body-regular': 'body1',
+  'body-small': 'body2',
+  'body-caption': 'caption',
+  'body-micro': 'subtitle2',
+  'button-regular': 'button',
+  'button-compact': 'buttonCompact',
+} as const
+
+export type RcSesTypographyRole = keyof typeof typographyRoleVariants
+export type RcSesNamedTypographyVariant =
+  'headingCardTitle' | 'bodyLarge' | 'buttonCompact'
+
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    headingCardTitle?: CSSProperties
+    bodyLarge?: CSSProperties
+    buttonCompact?: CSSProperties
+  }
+  interface TypographyVariantsOptions {
+    headingCardTitle?: CSSProperties
+    bodyLarge?: CSSProperties
+    buttonCompact?: CSSProperties
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    headingCardTitle: true
+    bodyLarge: true
+    buttonCompact: true
+  }
+}
