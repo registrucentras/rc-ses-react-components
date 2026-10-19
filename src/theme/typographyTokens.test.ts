@@ -99,17 +99,21 @@ test('all 28 typography dimensions match the Figma export in four discrete modes
   expect(blocks[2]).toContain('min-width: 900px')
   expect(blocks[3]).toContain('min-width: 1200px')
   expect(Object.keys(typographyTokens)).toHaveLength(28)
+  const values = new Map<string, number>()
   blocks.forEach((block, index) => {
-    const values = new Map(
-      Array.from(
-        block.matchAll(/--rc-typography-([\w-]+): ([\d.]+)rem;/g),
-        ([, key, amount]) => [key, Number(amount) * 16],
-      ),
+    Array.from(block.matchAll(/--rc-typography-([\w-]+): ([\d.]+)rem;/g)).forEach(
+      ([, key, amount]) => values.set(key, Number(amount) * 16),
     )
     expect(values.size).toBe(28)
     Object.entries(expected).forEach(([role, modes]) => {
-      expect(values.get(`font-size-${role}`)).toBe(modes[index][0])
-      expect(values.get(`line-height-${role}`)).toBe(modes[index][1])
+      expect(
+        values.get(`font-size-${role}`),
+        `${['xs', 'sm', 'md', 'lg'][index]}: font-size-${role}`,
+      ).toBe(modes[index][0])
+      expect(
+        values.get(`line-height-${role}`),
+        `${['xs', 'sm', 'md', 'lg'][index]}: line-height-${role}`,
+      ).toBe(modes[index][1])
     })
   })
   expect(css).not.toContain('clamp(')

@@ -1,6 +1,8 @@
 import { colorTokens } from '@/theme/colorTokens'
 import palette from '@/theme/palette'
 
+import './tokens.css'
+
 /**
  * Card surface tokens - Figma `Cards/card/*` and `Cards/subcard/*`.
  *

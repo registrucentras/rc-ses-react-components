@@ -20,7 +20,11 @@ export const Icons: Story = {
         <Stack key={group} spacing={1}>
           <Typography variant='h2'>Icon {group}</Typography>
           {Object.entries(sizeTokens)
-            .filter(([name]) => name.startsWith(`icon-${group}-`))
+            .filter(([name]) =>
+              group === 'primitives'
+                ? /^icon-size-\d+$/.test(name)
+                : !/^icon-size-\d+$/.test(name),
+            )
             .map(([name, value]) => (
               <Box key={name} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <CheckIcon

@@ -35,10 +35,10 @@ export type RcSesNativeTheme = Theme & {
 
 const cssVarPrefix = 'rc-mui'
 const token = (name: string, fallback: string) => `var(--rc-${name}, ${fallback})`
+const inputRadius = token('radius-input', '0.5rem')
 const spacingPrimitives = new Set([
   0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 36, 40, 48, 64, 80, 96,
 ])
-const radiusPrimitives = new Set([0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 9999])
 const colorFamilies = {
   primary: 'cyans',
   secondary: 'greens',
@@ -52,8 +52,8 @@ function spacingLength(pixels: number, fallback: string): string {
   const absoluteFallback = pixels < 0 ? fallback.replace(/^-/, '') : fallback
   const baseFallback = /rem$/.test(fallback) ? '0.5rem' : '8px'
   const value = spacingPrimitives.has(absolute)
-    ? token(`spacing-spacing-primitives-${absolute}`, absoluteFallback)
-    : `calc(${token('spacing-spacing-primitives-8', baseFallback)} * ${absolute / 8})`
+    ? token(`space-${absolute}`, absoluteFallback)
+    : `calc(${token('space-8', baseFallback)} * ${absolute / 8})`
   // Preserve the identity value; multiplication by zero can be unitless in sx.
   if (pixels === 0) return fallback
   return pixels < 0 ? `calc(-1 * ${value})` : value
@@ -82,15 +82,14 @@ function mapTree<T>(value: T, transform: (key: string, item: unknown) => unknown
   }
   if (!isPlainObject(value)) return value
   return Object.fromEntries(
-    Object.entries(value).map(([key, item]) => [
-      key,
-      transform(key, mapTree(item, transform)),
-    ]),
+    Object.entries(value)
+      .map(([key, item]) => [key, transform(key, mapTree(item, transform))])
+      .filter(([, item]) => item !== undefined),
   ) as T
 }
 
 const colorReferences = new Map<string, string>([
-  [common.white, token('colors-white', common.white)],
+  [common.white, token('color-white', common.white)],
 ])
 Object.entries(colorFamilies).forEach(([family, collection]) => {
   const shades = legacyPalette[family as keyof typeof legacyPalette]
@@ -98,54 +97,10 @@ Object.entries(colorFamilies).forEach(([family, collection]) => {
     if (shade !== 'main')
       colorReferences.set(
         value.toLowerCase(),
-        token(`colors-${collection}-${shade}`, value),
+        token(`color-${collection}-${shade}`, value),
       )
   })
 })
-
-function colorValue(value: string): string {
-  // Already-authored variable references (including their fallbacks) are authoritative.
-  if (value.includes('var(')) return value
-  return value
-    .replace(/#[\da-f]{3,8}\b/gi, (hex) => colorReferences.get(hex.toLowerCase()) ?? hex)
-    .replace(
-      /rgba?\(\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/g,
-      (original, r: string, g: string, b: string, alpha?: string) => {
-        const hex = `#${[r, g, b].map((part) => Number(part).toString(16).padStart(2, '0')).join('')}`
-        const reference = colorReferences.get(hex)
-        if (!reference) return original
-        return alpha === undefined || Number(alpha) === 1 ? reference : original
-      },
-    )
-}
-
-function styleValue(key: string, value: unknown): unknown {
-  const spacingProperty = /^(padding|margin|gap|rowGap|columnGap)/.test(key)
-  const radiusProperty = /border.*Radius$/.test(key)
-  if (typeof value === 'number' && radiusProperty && radiusPrimitives.has(value))
-    return token(
-      `borders-radius-primitives-${value === 9999 ? 'full' : value}`,
-      `${value}px`,
-    )
-  if (typeof value === 'number' && spacingProperty)
-    return spacingLength(value, `${value}px`)
-  if (typeof value !== 'string' || value.includes('var(')) return value
-  const colored = colorValue(value)
-  if (!spacingProperty && !radiusProperty) return colored
-  return colored.replace(
-    /(-?[\d.]+)(px|rem)\b/g,
-    (original, amount: string, unit: string) => {
-      const pixels = Number(amount) * (unit === 'rem' ? 16 : 1)
-      if (spacingProperty) return spacingLength(pixels, original)
-      return radiusPrimitives.has(pixels)
-        ? token(
-            `borders-radius-primitives-${pixels === 9999 ? 'full' : pixels}`,
-            original,
-          )
-        : original
-    },
-  )
-}
 
 const typographyRoles = {
   h1: 'heading-h1',
@@ -172,7 +127,9 @@ function typographyStyle<T>(style: T, role: string): T {
         typeof value === 'number' && key === 'fontSize' ? `${value}px` : String(value)
       return token(
         `typography-${key === 'fontSize' ? 'font-size' : 'line-height'}-${role}`,
-        fallback,
+        role === 'heading-h1'
+          ? `var(--rc-mui-h1-fallback-${key}, ${fallback})`
+          : fallback,
       )
     }
     return value
@@ -187,22 +144,17 @@ function typographyStyle<T>(style: T, role: string): T {
 export function createRcSesTokenTheme(
   options: RcSesTokenThemeOptions = {},
 ): RcSesNativeTheme {
+  const { typography: typographyInput, ...otherOptions } = options
+  const fallback = createTheme(legacyTheme, otherOptions)
+  // MUI evaluates typography callbacks in the first argument, but only deep-merges
+  // later arguments. Resolve that supported input before merging into the base.
   const customTypography =
-    typeof options.typography === 'function'
-      ? options.typography(
-          options.palette
-            ? createTheme(legacyTheme, { palette: options.palette }).palette
-            : legacyTheme.palette,
-        )
-      : options.typography
-  const normalizedOptions = { ...options }
-  if (customTypography === undefined) delete normalizedOptions.typography
-  else normalizedOptions.typography = customTypography
-  const fallback = createTheme(legacyTheme, normalizedOptions)
-  // Tokenize only library-owned styles. Consumer styles are merged afterwards.
+    typeof typographyInput === 'function'
+      ? typographyInput(fallback.palette)
+      : typographyInput
   const typography = {
     ...legacyTheme.typography,
-    // New named styles inherit family and weight; their Figma attributes are unknown.
+    // Preserve the named styles from SAV-6985 without guessing font attributes.
     headingCardTitle: {
       fontSize: typographyTokens['font-size-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
@@ -216,108 +168,119 @@ export function createRcSesTokenTheme(
       lineHeight: typographyTokens['line-height-button-compact'],
     },
   }
-  const components = Object.fromEntries(
-    Object.entries(legacyTheme.components ?? {}).map(
-      ([name, component]: [string, unknown]) => {
-        if (!isPlainObject(component)) return [name, component]
-        // Only roles explicitly described by the Borders export.
-        const radiusRole = (
-          {
-            MuiButton: 'button',
-            MuiCard: 'card',
-            MuiInputBase: 'input',
-            MuiOutlinedInput: 'input',
-            MuiPickersOutlinedInput: 'input',
-          } as Record<string, string>
-        )[name]
-        return [
-          name,
-          {
-            ...component,
-            // sx numeric radii remain MUI shape multipliers.
-            defaultProps: isPlainObject(component.defaultProps)
-              ? {
-                  ...component.defaultProps,
-                  sx: mapTree(component.defaultProps.sx, (key, value) => {
-                    if (!/border.*Radius$/.test(key)) return value
-                    if (isPlainObject(value))
-                      return mapTree(value, (_, item) =>
-                        typeof item === 'string' ? styleValue(key, item) : item,
-                      )
-                    return typeof value === 'string' ? styleValue(key, value) : value
-                  }),
-                }
-              : component.defaultProps,
-            styleOverrides: mapTree(component.styleOverrides, (key, value) => {
-              const transformed = styleValue(key, value)
-              const primitive = radiusRole === 'card' ? 16 : 8
-              return radiusRole &&
-                /border.*Radius$/.test(key) &&
-                typeof transformed === 'string'
-                ? transformed.replace(
-                    `--rc-borders-radius-primitives-${primitive},`,
-                    `--rc-borders-radius-aliases-${radiusRole},`,
-                  )
-                : transformed
-            }),
-            variants: Array.isArray(component.variants)
-              ? component.variants.map((variant: unknown) =>
-                  isPlainObject(variant)
-                    ? { ...variant, style: mapTree(variant.style, styleValue) }
-                    : variant,
-                )
-              : component.variants,
-          },
-        ]
-      },
-    ),
-  ) as NonNullable<ThemeOptions['components']>
-
-  const typographySlots = { ...components.MuiTypography?.styleOverrides }
+  const typographySlots = { ...legacyTheme.components?.MuiTypography?.styleOverrides }
   Object.entries(typographyRoles).forEach(([variant, role]) => {
     const variantKey = variant as keyof typeof typographyRoles
-    typography[variantKey] = typographyStyle(typography[variantKey], role)
-    const slot = typographySlots[variantKey as keyof typeof typographySlots]
-    if (slot) {
-      Object.assign(typographySlots, { [variant]: typographyStyle(slot, role) })
-    }
-  })
-  Object.entries(customTypography ?? {}).forEach(([variant, custom]) => {
-    if (!isPlainObject(custom) || !Object.hasOwn(typography, variant)) return
-    const attributes = Object.fromEntries(
-      Object.entries(custom).filter(
-        ([, value]) => value !== undefined && !isPlainObject(value),
-      ),
-    )
-    const overrideProperty = (key: string, value: unknown) =>
-      Object.hasOwn(attributes, key) ? attributes[key] : value
-    const variantKey = variant as
-      keyof typeof typographyRoles | RcSesNamedTypographyVariant
-    // Root font overrides must also win over inherited responsive declarations.
-    Object.assign(typography, {
-      [variant]: mapTree(typography[variantKey], overrideProperty),
+    // H1 media rules retain only private var() fallbacks, never competing sizes.
+    const style = mapTree(typography[variantKey], (key, value) => {
+      if (!isPlainObject(value)) return value
+      return Object.fromEntries(
+        Object.entries(value).flatMap(([property, amount]) => {
+          if (property !== 'fontSize' && property !== 'lineHeight')
+            return [[property, amount]]
+          return variant === 'h1' ? [[`--rc-mui-h1-fallback-${property}`, amount]] : []
+        }),
+      )
     })
+    typography[variantKey] = typographyStyle(style, role)
     const slot = typographySlots[variantKey as keyof typeof typographySlots]
     if (slot) {
-      const adjusted = mapTree(slot, overrideProperty)
       Object.assign(typographySlots, {
-        [variant]: isPlainObject(adjusted) ? { ...adjusted, ...attributes } : adjusted,
+        [variant]: mapTree(slot, (key, value) =>
+          key === 'fontSize' ||
+          key === 'lineHeight' ||
+          (key === 'fontWeight' &&
+            customTypography?.[variantKey]?.fontWeight !== undefined)
+            ? undefined
+            : value,
+        ),
       })
     }
   })
-  components.MuiTypography = {
-    ...components.MuiTypography,
-    styleOverrides: typographySlots,
-  }
-
-  const adapted = createTheme(
-    {
-      ...legacyTheme,
-      typography,
-      components,
-      spacing: tokenSpacing,
+  const components = {
+    ...legacyTheme.components,
+    MuiTypography: {
+      ...legacyTheme.components?.MuiTypography,
+      styleOverrides: typographySlots,
     },
-    normalizedOptions,
+  }
+  const adapted = createTheme(
+    { ...legacyTheme, typography, components },
+    {
+      components: {
+        MuiButton: {
+          styleOverrides: { root: { borderRadius: token('radius-button', '0.5rem') } },
+        },
+        MuiCard: {
+          styleOverrides: { root: { borderRadius: token('radius-card', '1rem') } },
+        },
+        MuiInputBase: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '&.Mui-focused': {
+                '.MuiOutlinedInput-notchedOutline': {
+                  borderRadius: inputRadius,
+                },
+                '&.Mui-error': {
+                  '.MuiOutlinedInput-notchedOutline': {
+                    borderRadius: inputRadius,
+                  },
+                },
+              },
+            },
+          },
+        },
+        MuiOutlinedInput: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '.MuiOutlinedInput-notchedOutline': {
+                borderRadius: inputRadius,
+              },
+            },
+          },
+        },
+        MuiAutocomplete: {
+          styleOverrides: {
+            root: {
+              '.MuiOutlinedInput-root': {
+                borderRadius: inputRadius,
+                '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                '&.Mui-focused': {
+                  borderRadius: inputRadius,
+                  '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                },
+              },
+            },
+          },
+        },
+        MuiPickersOutlinedInput: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '.MuiPickersOutlinedInput-notchedOutline': {
+                borderRadius: inputRadius,
+              },
+              '&.Mui-focused': {
+                '.MuiPickersOutlinedInput-notchedOutline': {
+                  borderRadius: inputRadius,
+                },
+                '&.Mui-error': {
+                  '.MuiPickersOutlinedInput-notchedOutline': {
+                    borderRadius: inputRadius,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      ...otherOptions,
+      ...(customTypography === undefined ? {} : { typography: customTypography }),
+    },
   )
 
   const theme = createTheme({
@@ -358,8 +321,8 @@ export function createRcSesTokenTheme(
     const shades = legacyPalette[family as keyof typeof legacyPalette]
     Object.keys(shades)
       .filter((shade) => shade !== 'main')
-      .forEach((shade) => bind(`${family}.${shade}`, `colors-${collection}-${shade}`))
-    bind(`${family}.main`, `colors-${collection}-500`)
+      .forEach((shade) => bind(`${family}.${shade}`, `color-${collection}-${shade}`))
+    bind(`${family}.main`, `color-${collection}-500`)
     ;(['light', 'dark'] as const).forEach((shade) => {
       const value =
         fallback.palette[family as 'primary' | 'secondary' | 'warning' | 'error'][shade]
@@ -376,16 +339,14 @@ export function createRcSesTokenTheme(
   })
   ;['dark', 'light', 'ghost'].forEach((family) => {
     Object.keys(legacyPalette.grey).forEach((shade) =>
-      bind(`${family}.${shade}`, `colors-neutrals-${shade === 'main' ? '500' : shade}`),
+      bind(`${family}.${shade}`, `color-neutrals-${shade === 'main' ? '500' : shade}`),
     )
   })
   ;['primary', 'secondary', 'warning', 'error', 'success', 'info'].forEach((family) => {
     const palette = fallback.palette[family as 'primary']
     bind(
       `${family}.contrastText`,
-      palette.contrastText === common.white
-        ? 'color-tokens-text-inverse'
-        : 'color-tokens-text-default',
+      palette.contrastText === common.white ? 'color-text-inverse' : 'color-text-default',
     )
   })
   const semanticBindings = {
@@ -408,15 +369,12 @@ export function createRcSesTokenTheme(
     'info.dark': 'status-info-text',
   }
   Object.entries(semanticBindings).forEach(([palettePath, name]) =>
-    bind(palettePath, `color-tokens-${name}`),
+    bind(palettePath, `color-${name}`),
   )
-  bind('action.hover', 'colors-overlays-black-4')
-  bind('action.selected', 'colors-overlays-black-8')
+  bind('action.hover', 'color-overlays-black-4')
+  bind('action.selected', 'color-overlays-black-8')
   if (options.shape?.borderRadius === undefined)
-    bindings.set(
-      `--${cssVarPrefix}-shape-borderRadius`,
-      token('borders-radius-primitives-4', '4px'),
-    )
+    bindings.set(`--${cssVarPrefix}-shape-borderRadius`, token('radius-4', '4px'))
 
   // Bind at CSS emission rather than replacing theme.palette strings. This
   // preserves alpha()/decomposeColor() callers and native MUI theme.vars.
@@ -428,6 +386,3 @@ export function createRcSesTokenTheme(
     )
   return theme
 }
-
-const tokenTheme = createRcSesTokenTheme()
-export default tokenTheme
