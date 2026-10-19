@@ -1,8 +1,10 @@
 import { Box, Stack, ThemeProvider, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import tokenTheme from '@/theme/tokenTheme'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
 import { typographyRoleVariants } from '@/theme/typographyTokens'
+
+const tokenTheme = createRcSesTokenTheme()
 
 const meta = {
   title: 'Foundations/Typography',

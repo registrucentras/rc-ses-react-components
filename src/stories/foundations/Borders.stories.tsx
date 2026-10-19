@@ -1,8 +1,21 @@
-import { Box, Button, Card, Stack, ThemeProvider, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Card,
+  Stack,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { borderTokens } from '@/theme/borderTokens'
-import tokenTheme from '@/theme/tokenTheme'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
+
+const tokenTheme = createRcSesTokenTheme()
+const customTheme = createRcSesTokenTheme({
+  components: { MuiButton: { styleOverrides: { root: { borderRadius: '3px' } } } },
+})
 
 const meta = {
   title: 'Foundations/Borders',
@@ -48,6 +61,15 @@ export const Radius: Story = {
           Card radius alias
         </Card>
         <Button data-testid='theme-button'>Button radius alias</Button>
+        <TextField data-testid='theme-input' label='Input radius alias' />
+        <TextField
+          data-testid='theme-input-error'
+          label='Error input radius alias'
+          error
+        />
+        <ThemeProvider theme={customTheme}>
+          <Button data-testid='custom-radius'>Consumer override: 3px</Button>
+        </ThemeProvider>
       </Stack>
     </ThemeProvider>
   ),
