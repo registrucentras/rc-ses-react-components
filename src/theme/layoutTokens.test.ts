@@ -23,13 +23,15 @@ test('all 9 layout dimensions match Figma in rem across four CSS modes', () => {
   expect(blocks[2]).toContain('min-width: 900px')
   expect(blocks[3]).toContain('min-width: 1200px')
   expect(Object.keys(layoutTokens).sort()).toEqual(Object.keys(expected).sort())
+  const declarations = new Map<string, string>()
   blocks.forEach((block, mode) => {
-    const declarations = new Map(
+    const changes = new Map(
       Array.from(block.matchAll(/--rc-layout-([\w-]+): ([^;]+);/g), ([, key, value]) => [
         key,
         value,
       ]),
     )
+    changes.forEach((value, key) => declarations.set(key, value))
     expect(declarations.size).toBe(9)
     Object.entries(expected).forEach(([key, values]) => {
       expect(declarations.get(key)).toBe(`${values[mode] / 16}rem`)

@@ -11,11 +11,11 @@ const fixed = {
   'gap-lg': 16,
 }
 const exceptions = {
-  'component-button-padding-y-regular': 12,
-  'component-button-padding-y-small': 8,
-  'component-button-padding-icon-only-regular': 10,
-  'component-button-padding-icon-only-small': 8,
-  'component-input-padding-y': 13,
+  'button-padding-y-regular': 12,
+  'button-padding-y-small': 8,
+  'button-padding-icon-only-regular': 10,
+  'button-padding-icon-only-small': 8,
+  'input-padding-y': 13,
 }
 
 test('12 spacing roles respond in four modes while primitives and exceptions stay stable', async ({
@@ -56,34 +56,26 @@ test('12 spacing roles respond in four modes while primitives and exceptions sta
   /* eslint-enable no-await-in-loop */
 })
 
-test('semantic aliases and theme.spacing resolve their own primitive references live', async ({
+test('semantic aliases and theme.spacing share live primitive references', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(storyUrl)
   await expect(page.getByTestId('padding-lg')).toHaveCSS('padding-top', '24px')
   await page.evaluate(() =>
-    document.documentElement.style.setProperty(
-      '--rc-spacing-role-based-primitives-space-24',
-      '30px',
-    ),
+    document.documentElement.style.setProperty('--rc-space-24', '30px'),
   )
   await expect(page.getByTestId('padding-lg')).toHaveCSS('padding-top', '30px')
   await expect(page.getByTestId('gap-xl')).toHaveCSS('gap', '30px')
-  await expect(page.getByTestId('theme-spacing')).toHaveCSS('padding-top', '24px')
+  await expect(page.getByTestId('theme-spacing')).toHaveCSS('padding-top', '30px')
   await page.evaluate(() => {
-    document.documentElement.style.setProperty(
-      '--rc-spacing-spacing-primitives-24',
-      '28px',
-    )
-    document.documentElement.style.setProperty(
-      '--rc-spacing-spacing-primitives-8',
-      '10px',
-    )
+    document.documentElement.style.setProperty('--rc-space-24', '28px')
+    document.documentElement.style.setProperty('--rc-space-8', '10px')
   })
   await expect(page.getByTestId('theme-spacing')).toHaveCSS('padding-top', '28px')
   await expect(page.getByTestId('fraction-spacing')).toHaveCSS('padding-top', '17.5px')
-  await expect(page.getByTestId('gap-xl')).toHaveCSS('gap', '30px')
+  await expect(page.getByTestId('gap-xl')).toHaveCSS('gap', '28px')
+  await expect(page.getByTestId('padding-lg')).toHaveCSS('padding-top', '28px')
 })
 
 test('rem tokens scale with the root font while missing primitive tokens keep MUI px fallbacks', async ({
@@ -95,13 +87,10 @@ test('rem tokens scale with the root font while missing primitive tokens keep MU
     document.documentElement.style.fontSize = '20px'
   })
   await expect(page.getByTestId('theme-spacing')).toHaveCSS('padding-top', '30px')
-  await expect(page.getByTestId('component-input-padding-y')).toHaveCSS(
-    'padding-top',
-    '16.25px',
-  )
+  await expect(page.getByTestId('input-padding-y')).toHaveCSS('padding-top', '16.25px')
   await page.evaluate(() => {
     Array.from(getComputedStyle(document.documentElement))
-      .filter((name) => name.startsWith('--rc-spacing-'))
+      .filter((name) => name.startsWith('--rc-space-'))
       .forEach((name) => document.documentElement.style.setProperty(name, 'initial'))
   })
   await expect(page.getByTestId('theme-spacing')).toHaveCSS('padding-top', '24px')
