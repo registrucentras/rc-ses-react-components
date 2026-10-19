@@ -35,6 +35,7 @@ export type RcSesNativeTheme = Theme & {
 
 const cssVarPrefix = 'rc-mui'
 const token = (name: string, fallback: string) => `var(--rc-${name}, ${fallback})`
+const inputRadius = token('radius-input', '0.5rem')
 const spacingPrimitives = new Set([
   0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 36, 40, 48, 64, 80, 96,
 ])
@@ -205,6 +206,77 @@ export function createRcSesTokenTheme(
   }
   const adapted = createTheme(
     { ...legacyTheme, typography, components },
+    {
+      components: {
+        MuiButton: {
+          styleOverrides: { root: { borderRadius: token('radius-button', '0.5rem') } },
+        },
+        MuiCard: {
+          styleOverrides: { root: { borderRadius: token('radius-card', '1rem') } },
+        },
+        MuiInputBase: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '&.Mui-focused': {
+                '.MuiOutlinedInput-notchedOutline': {
+                  borderRadius: inputRadius,
+                },
+                '&.Mui-error': {
+                  '.MuiOutlinedInput-notchedOutline': {
+                    borderRadius: inputRadius,
+                  },
+                },
+              },
+            },
+          },
+        },
+        MuiOutlinedInput: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '.MuiOutlinedInput-notchedOutline': {
+                borderRadius: inputRadius,
+              },
+            },
+          },
+        },
+        MuiAutocomplete: {
+          styleOverrides: {
+            root: {
+              '.MuiOutlinedInput-root': {
+                borderRadius: inputRadius,
+                '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                '&.Mui-focused': {
+                  borderRadius: inputRadius,
+                  '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                },
+              },
+            },
+          },
+        },
+        MuiPickersOutlinedInput: {
+          styleOverrides: {
+            root: {
+              borderRadius: inputRadius,
+              '.MuiPickersOutlinedInput-notchedOutline': {
+                borderRadius: inputRadius,
+              },
+              '&.Mui-focused': {
+                '.MuiPickersOutlinedInput-notchedOutline': {
+                  borderRadius: inputRadius,
+                },
+                '&.Mui-error': {
+                  '.MuiPickersOutlinedInput-notchedOutline': {
+                    borderRadius: inputRadius,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     {
       ...otherOptions,
       ...(customTypography === undefined ? {} : { typography: customTypography }),
