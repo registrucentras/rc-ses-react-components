@@ -1,16 +1,15 @@
-// CSS variable references. Values and responsive modes live in tokens.css.
 const sizeTokens = {
-  'icon-aliases-badge': 'var(--rc-sizes-icon-aliases-badge)',
-  'icon-aliases-button': 'var(--rc-sizes-icon-aliases-button)',
-  'icon-aliases-control': 'var(--rc-sizes-icon-aliases-control)',
-  'icon-aliases-feature': 'var(--rc-sizes-icon-aliases-feature)',
-  'icon-aliases-inline': 'var(--rc-sizes-icon-aliases-inline)',
-  'icon-primitives-12': 'var(--rc-sizes-icon-primitives-12)',
-  'icon-primitives-16': 'var(--rc-sizes-icon-primitives-16)',
-  'icon-primitives-20': 'var(--rc-sizes-icon-primitives-20)',
-  'icon-primitives-24': 'var(--rc-sizes-icon-primitives-24)',
-  'icon-primitives-32': 'var(--rc-sizes-icon-primitives-32)',
-  'icon-primitives-8': 'var(--rc-sizes-icon-primitives-8)',
+  'icon-size-badge': 'var(--rc-icon-size-badge)',
+  'icon-size-button': 'var(--rc-icon-size-button)',
+  'icon-size-control': 'var(--rc-icon-size-control)',
+  'icon-size-feature': 'var(--rc-icon-size-feature)',
+  'icon-size-inline': 'var(--rc-icon-size-inline)',
+  'icon-size-12': 'var(--rc-icon-size-12)',
+  'icon-size-16': 'var(--rc-icon-size-16)',
+  'icon-size-20': 'var(--rc-icon-size-20)',
+  'icon-size-24': 'var(--rc-icon-size-24)',
+  'icon-size-32': 'var(--rc-icon-size-32)',
+  'icon-size-8': 'var(--rc-icon-size-8)',
 } as const
 
 export { sizeTokens }

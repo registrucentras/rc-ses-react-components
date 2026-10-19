@@ -24,13 +24,15 @@ test('token typography responds at all four widths and palette/spacing/shape res
   }
   /* eslint-enable no-await-in-loop */
   await expect(probe).toHaveCSS('background-color', 'rgb(6, 160, 212)')
+  await expect(page.getByTestId('legacy-h6')).toHaveCSS('font-size', '18px')
+  await expect(page.getByTestId('legacy-h6')).toHaveCSS('line-height', '24px')
   await expect(probe).toHaveCSS('padding-top', '16px')
   await expect(probe).toHaveCSS('border-radius', '8px')
   await page.evaluate(() => {
     const root = document.documentElement.style
-    root.setProperty('--rc-color-tokens-control-selected', 'rgb(170, 30, 70)')
-    root.setProperty('--rc-spacing-spacing-primitives-16', '20px')
-    root.setProperty('--rc-borders-radius-primitives-4', '6px')
+    root.setProperty('--rc-color-control-selected', 'rgb(170, 30, 70)')
+    root.setProperty('--rc-space-16', '20px')
+    root.setProperty('--rc-radius-4', '6px')
   })
   await expect(probe).toHaveCSS('background-color', 'rgb(170, 30, 70)')
   await expect(probe).toHaveCSS('padding-top', '20px')
@@ -68,13 +70,17 @@ test('literal component overrides and individual typography properties win in th
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto(overridesUrl)
   await expect(page.getByTestId('custom-h2')).toHaveCSS('font-size', '48px')
-  await expect(page.getByTestId('custom-h2')).toHaveCSS('line-height', '32px')
+  await expect(page.getByTestId('custom-h2')).toHaveCSS('font-weight', '400')
+  await expect(page.getByTestId('custom-h2')).toHaveCSS('line-height', '64px')
   await expect(page.getByTestId('custom-h1')).toHaveCSS('font-size', '40px')
-  await expect(page.getByTestId('custom-h3')).toHaveCSS('font-weight', '700')
-  await expect(page.getByTestId('custom-h3')).toHaveCSS('font-size', '18px')
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('font-weight', '700')
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('font-size', '15px')
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('line-height', '22px')
+  await expect(page.getByTestId('component-typography')).toHaveCSS('font-size', '56px')
+  await expect(page.getByTestId('component-typography')).toHaveCSS('line-height', '72px')
   await page.evaluate(() =>
     document.documentElement.style.setProperty(
-      '--rc-colors-neutrals-300',
+      '--rc-color-neutrals-300',
       'rgb(170, 30, 70)',
     ),
   )
@@ -82,14 +88,27 @@ test('literal component overrides and individual typography properties win in th
     'border-top-color',
     'rgb(197, 202, 209)',
   )
+  await page.evaluate(() =>
+    document.documentElement.style.setProperty(
+      '--rc-typography-font-size-body-regular',
+      '19px',
+    ),
+  )
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('font-size', '19px')
+  await page.evaluate(() =>
+    document.documentElement.style.removeProperty(
+      '--rc-typography-font-size-body-regular',
+    ),
+  )
   await page.setViewportSize({ width: 375, height: 900 })
   await expect(page.getByTestId('custom-h1')).toHaveCSS('font-size', '40px')
   await expect(page.getByTestId('custom-h2')).toHaveCSS('font-size', '48px')
-  await expect(page.getByTestId('custom-h3')).toHaveCSS('font-size', '16px')
-  await expect(page.getByTestId('custom-h3')).toHaveCSS('font-weight', '700')
+  await expect(page.getByTestId('custom-h2')).toHaveCSS('font-weight', '400')
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('font-size', '15px')
+  await expect(page.getByTestId('custom-weight')).toHaveCSS('font-weight', '700')
 })
 
-test('missing tokens preserve rem padding at a 20px root, including calculated lengths', async ({
+test('legacy component padding stays in rem at a 20px root without DS tokens', async ({
   page,
 }) => {
   await page.goto(overridesUrl)
@@ -113,25 +132,68 @@ test('missing tokens preserve rem padding at a 20px root, including calculated l
   )
 })
 
-test('secondary text and sunken card use semantic tokens rather than muted surface', async ({
-  page,
-}) => {
-  await page.goto(storyUrl)
-  const card = page.getByTestId('sunken-card')
-  const text = page.getByTestId('secondary-text')
-  await expect(card).toHaveCSS('background-color', 'rgb(249, 250, 251)')
-  await expect(card).toHaveCSS('border-top-color', 'rgb(220, 224, 229)')
-  await expect(text).toHaveCSS('color', 'rgb(107, 116, 127)')
-  await page.evaluate(() => {
-    document.documentElement.style.setProperty(
-      '--rc-color-tokens-surface-sunken',
-      'rgb(170, 30, 70)',
+;[375, 1440].forEach((width) => {
+  test(`H1 without DS tokens matches legacy at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto(
+      '/iframe.html?id=foundations-theme-adapter--h-1-fallback&viewMode=story',
     )
-    document.documentElement.style.setProperty(
-      '--rc-color-tokens-text-secondary',
-      'rgb(20, 40, 60)',
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '16px'
+    })
+    const legacy = page.getByTestId('fallback-legacy-h1')
+    const adapted = page.getByTestId('fallback-token-h1')
+    await expect(legacy).toBeVisible()
+    await expect(page.getByTestId('missing-token-example')).toHaveAttribute(
+      'style',
+      /--rc-.*initial/,
     )
+    const expected = await legacy.evaluate((element) => {
+      const style = getComputedStyle(element)
+      return { size: style.fontSize, height: style.lineHeight }
+    })
+    await expect.soft(adapted).toHaveCSS('font-size', expected.size)
+    await expect.soft(adapted).toHaveCSS('line-height', expected.height)
   })
-  await expect(card).toHaveCSS('background-color', 'rgb(170, 30, 70)')
-  await expect(text).toHaveCSS('color', 'rgb(20, 40, 60)')
+  test(`H2 weight override retains live size tokens at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto(
+      '/iframe.html?id=foundations-theme-adapter--heading-weight&viewMode=story',
+    )
+    const heading = page.getByTestId('weight-h2')
+    await expect.soft(heading).toHaveCSS('font-weight', '700')
+    await expect(heading).toHaveCSS('font-size', width === 375 ? '20px' : '24px')
+    await expect(heading).toHaveCSS('line-height', width === 375 ? '26px' : '32px')
+    await page.evaluate(() => {
+      document.documentElement.style.setProperty(
+        '--rc-typography-font-size-heading-h2',
+        '35px',
+      )
+      document.documentElement.style.setProperty(
+        '--rc-typography-line-height-heading-h2',
+        '43px',
+      )
+    })
+    await expect(heading).toHaveCSS('font-size', '35px')
+    await expect(heading).toHaveCSS('line-height', '43px')
+    await expect.soft(heading).toHaveCSS('font-weight', '700')
+  })
+})
+
+;[
+  ['default', 'rgb(255, 255, 255)', 'rgb(197, 202, 209)'],
+  ['brand-theme', 'rgb(243, 251, 254)', 'rgb(185, 233, 250)'],
+  ['sunken-theme', 'rgb(249, 250, 251)', 'rgb(220, 224, 229)'],
+].forEach(([story, background, border]) => {
+  test(`legacy CardShell ${story} loads semantic color variables with the legacy theme`, async ({
+    page,
+  }) => {
+    await page.goto(`/iframe.html?id=molecules-cardshell--${story}&viewMode=story`)
+    const card = page.locator('#storybook-root > .MuiBox-root').first()
+    await expect(card).toBeVisible()
+    await expect(card).toHaveCSS('--rc-color-surface-base', 'rgb(255 255 255 / 1)')
+    await expect(card).toHaveCSS('background-color', background)
+    await expect(card).toHaveCSS('border-top-color', border)
+    await expect(card).toHaveCSS('border-top-width', '1px')
+  })
 })

@@ -2,7 +2,9 @@ import { Box, Stack, ThemeProvider, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
-import tokenTheme from '@/theme/tokenTheme'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
+
+const tokenTheme = createRcSesTokenTheme()
 
 const meta = {
   title: 'Foundations/Spacing',
@@ -18,7 +20,7 @@ export const Tokens: Story = {
       <Stack spacing={2}>
         <Typography variant='h2'>Spacing roles</Typography>
         {Object.entries(spacingRoleBasedTokens)
-          .filter(([name]) => !name.startsWith('primitives-'))
+          .filter(([name]) => !name.startsWith('space-'))
           .map(([name, value]) => (
             <Box
               key={name}
