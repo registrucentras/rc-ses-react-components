@@ -20,6 +20,7 @@ import {
   ClockIcon as Clock,
   CopyIcon as Copy,
   EnvelopeSimpleIcon as EnvelopeSimple,
+  FunnelIcon as Funnel,
   InfoIcon as Info,
   ListIcon as List,
   MagnifyingGlassIcon as MagnifyingGlass,
@@ -119,6 +120,7 @@ export const ExpandChevronsIcon = /* @__PURE__ */ createIcon(ArrowsOutLineVertic
   weight: 'bold',
   name: 'ExpandChevronsIcon',
 })
+export const FunnelIcon = /* @__PURE__ */ createIcon(Funnel)
 export const InfoFillIcon = /* @__PURE__ */ createIcon(Info, { weight: 'fill' })
 export const InfoIcon = /* @__PURE__ */ createIcon(Info)
 export const ListIcon = /* @__PURE__ */ createIcon(List)
