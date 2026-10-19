@@ -94,6 +94,7 @@ describe('native token theme adapter', () => {
           'MuiCard',
           'MuiInputBase',
           'MuiOutlinedInput',
+          'MuiAutocomplete',
           'MuiPickersOutlinedInput',
         ].includes(name)
       ) {
@@ -106,6 +107,24 @@ describe('native token theme adapter', () => {
   })
 
   test('explicit Borders roles preserve other component styles and consumer radius overrides', () => {
+    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.root).toMatchObject({
+      '.MuiOutlinedInput-root': {
+        borderRadius: 'var(--rc-radius-input, 0.5rem)',
+        '.MuiOutlinedInput-notchedOutline': {
+          borderRadius: 'var(--rc-radius-input, 0.5rem)',
+        },
+        '&.Mui-focused': {
+          borderRadius: 'var(--rc-radius-input, 0.5rem)',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderRadius: 'var(--rc-radius-input, 0.5rem)',
+          },
+        },
+        '.MuiAutocomplete-input': { padding: '.25rem .1875rem' },
+      },
+    })
+    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.paper).toEqual(
+      legacyTheme.components?.MuiAutocomplete?.styleOverrides?.paper,
+    )
     expect(tokenTheme.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-button, 0.5rem)',
       height: '2.75rem',
@@ -115,21 +134,29 @@ describe('native token theme adapter', () => {
       borderStyle: 'solid',
     })
     expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.root).toMatchObject({
-      borderRadius: 'var(--rc-radius-input, .5rem)',
+      borderRadius: 'var(--rc-radius-input, 0.5rem)',
       '.MuiInputBase-input': { padding: '.8125rem .75rem' },
       '&.Mui-focused': {
         '.MuiOutlinedInput-notchedOutline': {
-          borderRadius: 'var(--rc-radius-input, .5rem)',
+          borderRadius: 'var(--rc-radius-input, 0.5rem)',
         },
         '&.Mui-error': {
           '.MuiOutlinedInput-notchedOutline': {
-            borderRadius: 'var(--rc-radius-input, .5rem)',
+            borderRadius: 'var(--rc-radius-input, 0.5rem)',
           },
         },
       },
     })
     const customized = createRcSesTokenTheme({
-      components: { MuiButton: { styleOverrides: { root: { borderRadius: '3px' } } } },
+      components: {
+        MuiButton: { styleOverrides: { root: { borderRadius: '3px' } } },
+        MuiAutocomplete: {
+          styleOverrides: { root: { '.MuiOutlinedInput-root': { borderRadius: '3px' } } },
+        },
+      },
+    })
+    expect(customized.components?.MuiAutocomplete?.styleOverrides?.root).toMatchObject({
+      '.MuiOutlinedInput-root': { borderRadius: '3px' },
     })
     expect(customized.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: '3px',

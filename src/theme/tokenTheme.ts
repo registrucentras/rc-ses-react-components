@@ -35,6 +35,7 @@ export type RcSesNativeTheme = Theme & {
 
 const cssVarPrefix = 'rc-mui'
 const token = (name: string, fallback: string) => `var(--rc-${name}, ${fallback})`
+const inputRadius = token('radius-input', '0.5rem')
 const spacingPrimitives = new Set([
   0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 36, 40, 48, 64, 80, 96,
 ])
@@ -216,14 +217,14 @@ export function createRcSesTokenTheme(
         MuiInputBase: {
           styleOverrides: {
             root: {
-              borderRadius: token('radius-input', '.5rem'),
+              borderRadius: inputRadius,
               '&.Mui-focused': {
                 '.MuiOutlinedInput-notchedOutline': {
-                  borderRadius: token('radius-input', '.5rem'),
+                  borderRadius: inputRadius,
                 },
                 '&.Mui-error': {
                   '.MuiOutlinedInput-notchedOutline': {
-                    borderRadius: token('radius-input', '.5rem'),
+                    borderRadius: inputRadius,
                   },
                 },
               },
@@ -233,9 +234,23 @@ export function createRcSesTokenTheme(
         MuiOutlinedInput: {
           styleOverrides: {
             root: {
-              borderRadius: token('radius-input', '.5rem'),
+              borderRadius: inputRadius,
               '.MuiOutlinedInput-notchedOutline': {
-                borderRadius: token('radius-input', '.5rem'),
+                borderRadius: inputRadius,
+              },
+            },
+          },
+        },
+        MuiAutocomplete: {
+          styleOverrides: {
+            root: {
+              '.MuiOutlinedInput-root': {
+                borderRadius: inputRadius,
+                '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                '&.Mui-focused': {
+                  borderRadius: inputRadius,
+                  '.MuiOutlinedInput-notchedOutline': { borderRadius: inputRadius },
+                },
               },
             },
           },
@@ -243,17 +258,17 @@ export function createRcSesTokenTheme(
         MuiPickersOutlinedInput: {
           styleOverrides: {
             root: {
-              borderRadius: token('radius-input', '.5rem'),
+              borderRadius: inputRadius,
               '.MuiPickersOutlinedInput-notchedOutline': {
-                borderRadius: token('radius-input', '.5rem'),
+                borderRadius: inputRadius,
               },
               '&.Mui-focused': {
                 '.MuiPickersOutlinedInput-notchedOutline': {
-                  borderRadius: token('radius-input', '.5rem'),
+                  borderRadius: inputRadius,
                 },
                 '&.Mui-error': {
                   '.MuiPickersOutlinedInput-notchedOutline': {
-                    borderRadius: token('radius-input', '.5rem'),
+                    borderRadius: inputRadius,
                   },
                 },
               },

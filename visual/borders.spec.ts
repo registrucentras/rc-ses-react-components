@@ -9,6 +9,11 @@ test('theme radius multiplication, component aliases, live tokens and legacy fal
   const button = page.getByTestId('theme-button')
   const input = page.getByTestId('theme-input')
   const errorInput = page.getByTestId('theme-input-error')
+  const autocomplete = page.getByTestId('theme-autocomplete')
+  const autocompleteRoot = autocomplete.locator('.MuiOutlinedInput-root')
+  const autocompleteOutline = autocomplete.locator('fieldset')
+  await expect(autocompleteRoot).toHaveCSS('border-top-left-radius', '8px')
+  await expect(autocompleteOutline).toHaveCSS('border-top-left-radius', '8px')
   await expect(page.getByTestId('custom-radius')).toHaveCSS(
     'border-top-left-radius',
     '3px',
@@ -24,6 +29,12 @@ test('theme radius multiplication, component aliases, live tokens and legacy fal
     document.documentElement.style.setProperty('--rc-radius-button', '0.75rem')
     document.documentElement.style.setProperty('--rc-radius-input', '0.625rem')
   })
+  await expect(autocompleteRoot).toHaveCSS('border-top-left-radius', '10px')
+  await expect(autocompleteOutline).toHaveCSS('border-top-left-radius', '10px')
+  await autocomplete.locator('input').focus()
+  await expect(autocompleteRoot).toHaveCSS('border-top-left-radius', '10px')
+  await expect(autocompleteOutline).toHaveCSS('border-top-left-radius', '10px')
+  await input.locator('input').focus()
   await expect(shape).toHaveCSS('border-top-left-radius', '12px')
   await expect(card).toHaveCSS('border-top-left-radius', '24px')
   await expect(page.getByTestId('radius-card')).toHaveCSS(
@@ -49,4 +60,7 @@ test('theme radius multiplication, component aliases, live tokens and legacy fal
   await expect(card).toHaveCSS('border-top-left-radius', '20px')
   await expect(button).toHaveCSS('border-top-left-radius', '10px')
   await expect(errorInput.locator('fieldset')).toHaveCSS('border-top-left-radius', '10px')
+  await autocomplete.locator('input').focus()
+  await expect(autocompleteRoot).toHaveCSS('border-top-left-radius', '10px')
+  await expect(autocompleteOutline).toHaveCSS('border-top-left-radius', '10px')
 })

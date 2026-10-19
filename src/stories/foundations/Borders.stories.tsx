@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -62,6 +63,13 @@ export const Radius: Story = {
         </Card>
         <Button data-testid='theme-button'>Button radius alias</Button>
         <TextField data-testid='theme-input' label='Input radius alias' />
+        <Autocomplete
+          data-testid='theme-autocomplete'
+          options={['One', 'Two']}
+          renderInput={(params) => (
+            <TextField {...params} label='Autocomplete radius alias' />
+          )}
+        />
         <TextField
           data-testid='theme-input-error'
           label='Error input radius alias'
