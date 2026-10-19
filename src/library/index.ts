@@ -157,5 +157,4 @@ export type {
   RcSesNamedTypographyVariant,
 } from '@/theme/typographyTokens'
 
-export { spacingTokens } from '@/theme/spacingTokens'
 export { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
