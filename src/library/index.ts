@@ -158,3 +158,5 @@ export type {
 } from '@/theme/typographyTokens'
 
 export { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
+export { layoutTokens } from '@/theme/layoutTokens'
