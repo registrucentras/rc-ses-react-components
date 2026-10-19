@@ -162,3 +162,5 @@ export { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 export { layoutTokens } from '@/theme/layoutTokens'
 
 export { borderTokens } from '@/theme/borderTokens'
+
+export { sizeTokens } from '@/theme/sizeTokens'
