@@ -59,8 +59,10 @@ export interface RcSesBottomSheetProps extends Omit<
   onBack?: () => void
   primaryActionLabel?: string
   onPrimaryAction?: () => void
+  primaryActionDisabled?: boolean
   secondaryActionLabel?: string
   onSecondaryAction?: () => void
+  secondaryActionDisabled?: boolean
   disableBackdropClose?: boolean
   size?: 'sm' | 'md'
   onClose?: (
@@ -76,8 +78,10 @@ function RcSesBottomSheet({
   onBack,
   primaryActionLabel,
   onPrimaryAction,
+  primaryActionDisabled,
   secondaryActionLabel,
   onSecondaryAction,
+  secondaryActionDisabled,
   onClose,
   disableBackdropClose = false,
   size = 'sm',
@@ -224,12 +228,21 @@ function RcSesBottomSheet({
           }}
         >
           {secondaryActionLabel && (
-            <RcSesButton variant='outlined' color='grey' onClick={onSecondaryAction}>
+            <RcSesButton
+              variant='outlined'
+              color='grey'
+              onClick={onSecondaryAction}
+              disabled={secondaryActionDisabled}
+            >
               {secondaryActionLabel}
             </RcSesButton>
           )}
           {primaryActionLabel && (
-            <RcSesButton variant='contained' onClick={onPrimaryAction}>
+            <RcSesButton
+              variant='contained'
+              onClick={onPrimaryAction}
+              disabled={primaryActionDisabled}
+            >
               {primaryActionLabel}
             </RcSesButton>
           )}
