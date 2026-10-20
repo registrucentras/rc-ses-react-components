@@ -82,20 +82,59 @@ test('Figma shadows, Tab focus rings and popup resolve and react to live tokens'
   await page.getByTestId('effects-autocomplete').locator('input').click()
   await expect(page.getByRole('listbox')).toBeVisible()
   await expect(page.locator('.MuiAutocomplete-paper')).toHaveCSS('box-shadow', changedMd)
-})
-
-test('missing elevation token restores the legacy theme shadow', async ({ page }) => {
-  await page.goto(story)
-  await expect(page.getByTestId('legacy-elevation-4')).toBeVisible()
-  const legacy = await page
-    .getByTestId('legacy-elevation-4')
-    .evaluate((element) => getComputedStyle(element).boxShadow)
-  expect(legacy).not.toBe('none')
   await page.evaluate(() =>
     document.documentElement.style.setProperty('--rc-elevation-md', 'initial'),
   )
-  await expect(page.getByTestId('elevation-md')).toHaveCSS('box-shadow', legacy)
-  await page.getByTestId('effects-autocomplete').locator('input').click()
-  await expect(page.getByRole('listbox')).toBeVisible()
   await expect(page.locator('.MuiAutocomplete-paper')).toHaveCSS('box-shadow', shadows.md)
+})
+
+test('component roles cover Popover, Menu, Select, Dialog and Snackbar with live tokens and legacy fallbacks', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=foundations-effects--component-roles&viewMode=story')
+  await expect(
+    page.getByRole('button', { name: 'Open popover', exact: true }),
+  ).toBeVisible()
+  const legacy = await Promise.all(
+    [8, 24, 6].map(async (level) =>
+      page
+        .getByTestId(`legacy-shadow-${level}`)
+        .evaluate((element) => getComputedStyle(element).boxShadow),
+    ),
+  )
+  const cases = [
+    { role: 'popover', token: 'md', fallback: legacy[0] },
+    { role: 'menu', token: 'md', fallback: legacy[0] },
+    { role: 'select', token: 'md', fallback: legacy[0] },
+    { role: 'dialog', token: 'lg', fallback: legacy[1] },
+    { role: 'snackbar', token: 'lg', fallback: legacy[2] },
+  ] as const
+  /* eslint-disable no-await-in-loop -- Open and close each portalled component sequentially. */
+  for (let index = 0; index < cases.length; index += 1) {
+    const { role, token, fallback } = cases[index]
+    if (role === 'select')
+      await page.getByRole('combobox', { name: 'Role select' }).click()
+    else await page.getByRole('button', { name: `Open ${role}`, exact: true }).click()
+    const paper = page.locator(`.effects-role-${role}`)
+    await expect(paper).toBeVisible()
+    await expect(paper).toHaveCSS('box-shadow', shadows[token])
+    await page.evaluate(
+      (name) => document.documentElement.style.setProperty(name, 'none'),
+      `--rc-elevation-${token}`,
+    )
+    await expect(paper).toHaveCSS('box-shadow', 'none')
+    await page.evaluate(
+      (name) => document.documentElement.style.setProperty(name, 'initial'),
+      `--rc-elevation-${token}`,
+    )
+    await expect(paper).toHaveCSS('box-shadow', fallback)
+    await page.evaluate(
+      (name) => document.documentElement.style.removeProperty(name),
+      `--rc-elevation-${token}`,
+    )
+    await expect(paper).toHaveCSS('box-shadow', shadows[token])
+    await page.keyboard.press('Escape')
+    await expect(paper).not.toBeVisible()
+  }
+  /* eslint-enable no-await-in-loop */
 })

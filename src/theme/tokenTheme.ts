@@ -214,6 +214,21 @@ export function createRcSesTokenTheme(
         MuiCard: {
           styleOverrides: { root: { borderRadius: token('radius-card', '1rem') } },
         },
+        MuiPopover: {
+          styleOverrides: {
+            paper: { boxShadow: token('elevation-md', fallback.shadows[8]) },
+          },
+        },
+        MuiDialog: {
+          styleOverrides: {
+            paper: { boxShadow: token('elevation-lg', fallback.shadows[24]) },
+          },
+        },
+        MuiSnackbarContent: {
+          styleOverrides: {
+            root: { boxShadow: token('elevation-lg', fallback.shadows[6]) },
+          },
+        },
         MuiInputBase: {
           styleOverrides: {
             root: {
@@ -286,15 +301,6 @@ export function createRcSesTokenTheme(
     },
   )
 
-  const shadows = [...fallback.shadows] as Theme['shadows']
-  if (options.shadows === undefined) {
-    // Adapter convention, not a Figma-to-MUI numeric equivalence:
-    // elevation 1 -> sm, 4 -> md, 8 -> lg. Other levels retain legacy shadows.
-    shadows[1] = token('elevation-sm', fallback.shadows[1])
-    shadows[4] = token('elevation-md', fallback.shadows[4])
-    shadows[8] = token('elevation-lg', fallback.shadows[8])
-  }
-
   const theme = createTheme({
     ...options,
     palette: undefined,
@@ -311,7 +317,7 @@ export function createRcSesTokenTheme(
     breakpoints: fallback.breakpoints,
     direction: fallback.direction,
     mixins: fallback.mixins,
-    shadows,
+    shadows: fallback.shadows,
     transitions: fallback.transitions,
     zIndex: fallback.zIndex,
   }) as RcSesNativeTheme
