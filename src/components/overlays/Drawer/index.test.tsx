@@ -137,6 +137,38 @@ describe('RcSesDrawer', () => {
     expect(onSecondaryAction).toHaveBeenCalledTimes(1)
   })
 
+  it('disables action buttons when disabled props are set', () => {
+    const onPrimaryAction = vi.fn()
+    const onSecondaryAction = vi.fn()
+    render(
+      <RcSesDrawer
+        isOpen
+        title='Test Drawer'
+        onClose={vi.fn()}
+        secondaryActionLabel='Cancel'
+        onSecondaryAction={onSecondaryAction}
+        secondaryActionDisabled
+        primaryActionLabel='Apply'
+        onPrimaryAction={onPrimaryAction}
+        primaryActionDisabled
+      >
+        Test content
+      </RcSesDrawer>,
+    )
+
+    const secondaryButton = screen.getByRole('button', { name: 'Cancel' })
+    const primaryButton = screen.getByRole('button', { name: 'Apply' })
+
+    expect(secondaryButton).toBeDisabled()
+    expect(primaryButton).toBeDisabled()
+
+    fireEvent.click(secondaryButton)
+    fireEvent.click(primaryButton)
+
+    expect(onSecondaryAction).not.toHaveBeenCalled()
+    expect(onPrimaryAction).not.toHaveBeenCalled()
+  })
+
   it('has proper ARIA attributes', () => {
     render(
       <RcSesDrawer isOpen title='Test Drawer' onClose={vi.fn()}>
