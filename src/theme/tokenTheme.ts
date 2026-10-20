@@ -214,6 +214,21 @@ export function createRcSesTokenTheme(
         MuiCard: {
           styleOverrides: { root: { borderRadius: token('radius-card', '1rem') } },
         },
+        MuiPopover: {
+          styleOverrides: {
+            paper: { boxShadow: token('elevation-md', fallback.shadows[8]) },
+          },
+        },
+        MuiDialog: {
+          styleOverrides: {
+            paper: { boxShadow: token('elevation-lg', fallback.shadows[24]) },
+          },
+        },
+        MuiSnackbarContent: {
+          styleOverrides: {
+            root: { boxShadow: token('elevation-lg', fallback.shadows[6]) },
+          },
+        },
         MuiInputBase: {
           styleOverrides: {
             root: {
@@ -243,6 +258,9 @@ export function createRcSesTokenTheme(
         },
         MuiAutocomplete: {
           styleOverrides: {
+            paper: {
+              boxShadow: token('elevation-md', '0px 4px 16px 0px rgba(0, 0, 0, 0.08)'),
+            },
             root: {
               '.MuiOutlinedInput-root': {
                 borderRadius: inputRadius,

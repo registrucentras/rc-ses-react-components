@@ -54,6 +54,57 @@ describe('native token theme adapter', () => {
     )
   })
 
+  test('effect roles bind by component while numeric shadows and consumer overrides are preserved', () => {
+    expect(tokenTheme.shadows).toEqual(legacyTheme.shadows)
+    expect(tokenTheme.components?.MuiPopover?.styleOverrides?.paper).toMatchObject({
+      boxShadow: `var(--rc-elevation-md, ${legacyTheme.shadows[8]})`,
+    })
+    expect(tokenTheme.components?.MuiDialog?.styleOverrides?.paper).toMatchObject({
+      boxShadow: `var(--rc-elevation-lg, ${legacyTheme.shadows[24]})`,
+    })
+    expect(tokenTheme.components?.MuiSnackbarContent?.styleOverrides?.root).toMatchObject(
+      {
+        boxShadow: `var(--rc-elevation-lg, ${legacyTheme.shadows[6]})`,
+      },
+    )
+    expect(tokenTheme.components?.MuiPopover?.defaultProps).toEqual(
+      legacyTheme.components?.MuiPopover?.defaultProps,
+    )
+    expect(tokenTheme.components?.MuiDialog?.styleOverrides?.root).toEqual(
+      legacyTheme.components?.MuiDialog?.styleOverrides?.root,
+    )
+    const customShadows = [...legacyTheme.shadows] as typeof legacyTheme.shadows
+    customShadows[8] = 'none'
+    expect(
+      createRcSesTokenTheme({ shadows: customShadows }).components?.MuiPopover
+        ?.styleOverrides?.paper,
+    ).toMatchObject({
+      boxShadow: 'var(--rc-elevation-md, none)',
+    })
+    const customized = createRcSesTokenTheme({
+      shadows: customShadows,
+      components: {
+        MuiAutocomplete: { styleOverrides: { paper: { boxShadow: 'none' } } },
+        MuiPopover: { styleOverrides: { paper: { boxShadow: 'none' } } },
+        MuiDialog: { styleOverrides: { paper: { boxShadow: 'none' } } },
+        MuiSnackbarContent: { styleOverrides: { root: { boxShadow: 'none' } } },
+      },
+    })
+    expect(customized.shadows).toEqual(customShadows)
+    expect(customized.components?.MuiAutocomplete?.styleOverrides?.paper).toMatchObject({
+      boxShadow: 'none',
+    })
+    expect(customized.components?.MuiPopover?.styleOverrides?.paper).toMatchObject({
+      boxShadow: 'none',
+    })
+    expect(customized.components?.MuiDialog?.styleOverrides?.paper).toMatchObject({
+      boxShadow: 'none',
+    })
+    expect(customized.components?.MuiSnackbarContent?.styleOverrides?.root).toMatchObject(
+      { boxShadow: 'none' },
+    )
+  })
+
   test('spacing supports MUI defaults, negatives, fractions, multiple arguments and strings', () => {
     expect(tokenTheme.spacing()).toBe('var(--rc-space-8, 8px)')
     expect(tokenTheme.spacing(2)).toBe('var(--rc-space-16, 16px)')
@@ -96,6 +147,9 @@ describe('native token theme adapter', () => {
           'MuiOutlinedInput',
           'MuiAutocomplete',
           'MuiPickersOutlinedInput',
+          'MuiPopover',
+          'MuiDialog',
+          'MuiSnackbarContent',
         ].includes(name)
       ) {
         expect(
@@ -122,9 +176,10 @@ describe('native token theme adapter', () => {
         '.MuiAutocomplete-input': { padding: '.25rem .1875rem' },
       },
     })
-    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.paper).toEqual(
-      legacyTheme.components?.MuiAutocomplete?.styleOverrides?.paper,
-    )
+    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.paper).toEqual({
+      ...(legacyTheme.components?.MuiAutocomplete?.styleOverrides?.paper as object),
+      boxShadow: 'var(--rc-elevation-md, 0px 4px 16px 0px rgba(0, 0, 0, 0.08))',
+    })
     expect(tokenTheme.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-button, 0.5rem)',
       height: '2.75rem',
