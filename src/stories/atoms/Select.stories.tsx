@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
 import RcSesSelect from '@/components/form/inputs/Select'
@@ -13,6 +13,14 @@ import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormM
 const meta: Meta<typeof RcSesSelect> = {
   title: 'Atoms/Select',
   component: RcSesSelect,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'RcSesSelect naudoja DS tokenus, išlaikydamas esamą API: chips, limitTags, paiešką ir selectAll. Nauja tekstinė santrauka ir kitokia „Visi“ logika nepriklauso šiam tokenų perrišimui.',
+      },
+    },
+  },
   argTypes: {
     disabled: {
       control: {
@@ -236,6 +244,125 @@ export const Main: Story = {
     },
   },
 }
+
+function SelectTokenPreview({ customized = false }: { customized?: boolean }) {
+  const { control } = useForm<{
+    single: string | null
+    multiple: string[]
+    grouped: string[]
+    invalid: string | null
+    disabled: string | null
+    loading: string | null
+  }>({
+    defaultValues: {
+      single: null,
+      multiple: ['first', 'second'],
+      grouped: [],
+      invalid: null,
+      disabled: 'first',
+      loading: null,
+    },
+  })
+  const values = useWatch({ control })
+  const options = [
+    { value: 'first', label: 'First option', description: 'Option description' },
+    { value: 'second', label: 'Second option' },
+    { value: 'third', label: 'Third option' },
+  ]
+  return (
+    <Box sx={{ width: '26.75rem', maxWidth: '100%', p: 2 }}>
+      <RcSesSelect
+        id='tokens-single'
+        name='single'
+        label='Single'
+        control={control}
+        options={options}
+        slotProps={{
+          wrapper: { labelOnTop: true, description: 'Field description' },
+          field: customized
+            ? {
+                sx: {
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '3px',
+                    bgcolor: 'rebeccapurple',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'purple' },
+                  },
+                },
+                slotProps: {
+                  paper: {
+                    sx: { bgcolor: 'lavender', boxShadow: 'none', borderRadius: '3px' },
+                  },
+                },
+              }
+            : undefined,
+        }}
+      />
+      <RcSesSelect
+        id='tokens-multiple'
+        name='multiple'
+        label='Multiple'
+        control={control}
+        options={options}
+        multiple
+        limitTags={1}
+        slotProps={{ wrapper: { labelOnTop: true } }}
+      />
+      <RcSesSelect
+        id='tokens-grouped'
+        name='grouped'
+        label='Grouped'
+        control={control}
+        options={options}
+        multiple
+        dropdownSearch
+        selectAll
+        slotProps={{
+          wrapper: { labelOnTop: true },
+          field: {
+            groupBy: (option) => (option.value === 'third' ? 'Group B' : 'Group A'),
+          },
+        }}
+      />
+      <RcSesSelect
+        id='tokens-invalid'
+        name='invalid'
+        label='Error'
+        control={control}
+        options={options}
+        errors={{ type: 'manual', message: 'Invalid selection' }}
+        slotProps={{ wrapper: { labelOnTop: true } }}
+      />
+      <RcSesSelect
+        id='tokens-disabled'
+        name='disabled'
+        label='Disabled'
+        control={control}
+        options={options}
+        disabled
+        slotProps={{ wrapper: { labelOnTop: true } }}
+      />
+      <RcSesSelect
+        id='tokens-loading'
+        name='loading'
+        label='Loading'
+        control={control}
+        options={[]}
+        loading
+        slotProps={{ wrapper: { labelOnTop: true } }}
+      />
+      <Box
+        component='pre'
+        data-testid='select-values'
+        sx={{ whiteSpace: 'pre-wrap', fontSize: '.75rem' }}
+      >
+        {JSON.stringify(values)}
+      </Box>
+    </Box>
+  )
+}
+
+export const TokenBindings: Story = { render: () => <SelectTokenPreview /> }
+export const TokenOverrides: Story = { render: () => <SelectTokenPreview customized /> }
 
 interface VariantsFormModel {
   singleSelect: string | null
