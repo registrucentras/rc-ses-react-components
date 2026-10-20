@@ -4,6 +4,7 @@ import { expect, test } from 'vitest'
 
 import { borderTokens } from './borderTokens'
 import { colorTokens } from './colorTokens'
+import { effectTokens } from './effectTokens'
 import { layoutTokens } from './layoutTokens'
 import theme from './light'
 import { sizeTokens } from './sizeTokens'
@@ -48,6 +49,7 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
   const effective = new Map<string, string>()
   const references = [
     colorTokens,
+    effectTokens,
     spacingTokens,
     spacingRoleBasedTokens,
     borderTokens,
@@ -76,11 +78,12 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
       const alias = value.match(/^var\((--rc-[\w-]+)\)$/)
       return alias ? resolve(alias[1], visited) : value
     }
-    effective.forEach((_, name) =>
-      expect(resolve(name), `${label}: invalid value for ${name}`).toMatch(
-        /^(?:rgb\([\d. /]+\)|[\d.]+(?:rem|px))$/,
-      ),
-    )
+    effective.forEach((_, name) => {
+      const pattern = /^--rc-(?:elevation|focus-ring)-/.test(name)
+        ? /^(?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\)(?:, (?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\))*$/
+        : /^(?:rgb\([\d. /]+\)|[\d.]+(?:rem|px))$/
+      expect(resolve(name), `${label}: invalid value for ${name}`).toMatch(pattern)
+    })
     references.forEach((reference) =>
       expect(
         effective.has(reference.slice(4, -1)),

@@ -54,6 +54,29 @@ describe('native token theme adapter', () => {
     )
   })
 
+  test('effect shadows map only selected levels and preserve consumer overrides', () => {
+    const roles = { 1: 'sm', 4: 'md', 8: 'lg' } as const
+    legacyTheme.shadows.forEach((shadow, level) => {
+      const role = roles[level as keyof typeof roles]
+      expect(tokenTheme.shadows[level]).toBe(
+        role ? `var(--rc-elevation-${role}, ${shadow})` : shadow,
+      )
+    })
+    expect(css()).toContain('--rc-elevation-sm')
+    const customShadows = [...legacyTheme.shadows] as typeof legacyTheme.shadows
+    customShadows[4] = 'none'
+    const customized = createRcSesTokenTheme({
+      shadows: customShadows,
+      components: {
+        MuiAutocomplete: { styleOverrides: { paper: { boxShadow: 'none' } } },
+      },
+    })
+    expect(customized.shadows).toEqual(customShadows)
+    expect(customized.components?.MuiAutocomplete?.styleOverrides?.paper).toMatchObject({
+      boxShadow: 'none',
+    })
+  })
+
   test('spacing supports MUI defaults, negatives, fractions, multiple arguments and strings', () => {
     expect(tokenTheme.spacing()).toBe('var(--rc-space-8, 8px)')
     expect(tokenTheme.spacing(2)).toBe('var(--rc-space-16, 16px)')
@@ -122,9 +145,10 @@ describe('native token theme adapter', () => {
         '.MuiAutocomplete-input': { padding: '.25rem .1875rem' },
       },
     })
-    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.paper).toEqual(
-      legacyTheme.components?.MuiAutocomplete?.styleOverrides?.paper,
-    )
+    expect(tokenTheme.components?.MuiAutocomplete?.styleOverrides?.paper).toEqual({
+      ...(legacyTheme.components?.MuiAutocomplete?.styleOverrides?.paper as object),
+      boxShadow: 'var(--rc-elevation-md, 0px 4px 16px 0px rgba(0, 0, 0, 0.08))',
+    })
     expect(tokenTheme.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-button, 0.5rem)',
       height: '2.75rem',
