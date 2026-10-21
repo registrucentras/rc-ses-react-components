@@ -33,6 +33,10 @@ export const SelectWrapper = styled(FormControlWrapper)({
 export const selectStyle = {
   ...body,
   '& .MuiOutlinedInput-root': {
+    height: '2.75rem',
+    flexWrap: 'nowrap',
+    padding: `0 ${space['padding-sm']} !important`,
+    paddingRight: '4rem !important',
     color: color['text-default'],
     bgcolor: color['surface-base'],
     borderRadius: border['radius-input'],
@@ -71,20 +75,28 @@ export const selectStyle = {
         WebkitTextFillColor: color['text-disabled'],
       },
     },
-    '& .MuiInputBase-input': { ...body, color: color['text-default'] },
+    '& .MuiInputBase-input': {
+      ...body,
+      color: color['text-default'],
+      minWidth: '0 !important',
+    },
+    '& .rc-ses-select-single-value ~ .MuiInputBase-input': {
+      position: 'absolute',
+      inset: 0,
+      width: '100% !important',
+      height: '100%',
+      caretColor: 'transparent',
+      padding: '0 !important',
+      margin: '0 !important',
+    },
+    '& .MuiAutocomplete-endAdornment': { zIndex: 1 },
     '& .MuiInputBase-input::placeholder': { color: color['text-secondary'] },
   },
   '& .rc-ses-select-single-value': { ...body, color: color['text-default'] },
-  '& .MuiChip-root': {
-    ...small,
-    bgcolor: color['surface-brand-subtle'],
-    color: color['text-link'],
-    borderRadius: border['radius-chip'],
-    '& .MuiChip-deleteIcon': { color: color['text-secondary'] },
-  },
   '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
     color: color['text-secondary'],
   },
+  '& .MuiAutocomplete-clearIndicator': { visibility: 'visible' },
 }
 
 export const paperStyle = {
@@ -95,6 +107,7 @@ export const paperStyle = {
   // The existing popup radius has no dedicated DS role; retain its primitive.
   borderRadius: border['radius-12'],
   boxShadow: effect['elevation-md'],
+  '& .MuiAutocomplete-loading, & .MuiAutocomplete-noOptions': { display: 'none' },
   '& .MuiAutocomplete-listbox': {
     py: space['space-8'],
     '& .MuiAutocomplete-groupLabel': {
@@ -103,6 +116,7 @@ export const paperStyle = {
       padding: `${space['padding-sm']} ${space['padding-md']}`,
     },
     '& .MuiAutocomplete-option': {
+      minHeight: '3rem',
       ...body,
       color: color['text-default'],
       padding: `${space['padding-sm']} ${space['padding-md']}`,
@@ -115,7 +129,7 @@ export const paperStyle = {
         bgcolor: color['surface-brand-subtle'],
         '&:hover, &.Mui-focused': { bgcolor: color['surface-brand-subtle'] },
       },
-      '&.Mui-disabled': { color: color['text-disabled'] },
+      '&[aria-disabled="true"]': { color: color['text-disabled'] },
       '&.rc-ses-select-option--indent-single': { pl: space['space-40'] },
       '&.rc-ses-select-option--indent-multi': { pl: space['space-32'] },
       '& .rc-ses-select-option-label': { ...body },

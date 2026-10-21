@@ -93,11 +93,21 @@ interface GroupedFormModel {
 interface GroupedMultiTestWrapperProps {
   defaultValue?: string[]
   dropdownSearch?: boolean
+  availableOptions?: typeof groupedOptions
+  loading?: boolean
+  loadError?: string
+  customValue?: boolean
+  onInputChange?: React.ComponentProps<typeof RcSesSelect>['onInputChange']
 }
 
 const GroupedMultiTestWrapper = ({
   defaultValue = [],
   dropdownSearch = false,
+  availableOptions = groupedOptions,
+  loading,
+  loadError,
+  customValue,
+  onInputChange,
 }: GroupedMultiTestWrapperProps) => {
   const { control, getValues } = useForm<GroupedFormModel>({
     defaultValues: { providers: defaultValue },
@@ -114,9 +124,13 @@ const GroupedMultiTestWrapper = ({
         multiple
         dropdownSearch={dropdownSearch}
         selectAll
-        options={groupedOptions}
+        options={availableOptions}
+        loading={loading}
+        loadError={loadError}
+        onInputChange={onInputChange}
         slotProps={{
           field: {
+            ...(customValue ? { renderValue: () => <span>Custom selection</span> } : {}),
             groupBy: (option) =>
               groupedOptions.find((o) => o.value === option.value)?.group ?? '',
           },
@@ -151,9 +165,10 @@ describe('RcSesSelect', () => {
     render(<TestWrapper />)
 
     const input = screen.getByRole('combobox')
-    expect(input).not.toHaveAttribute('readonly')
+    expect(input).toHaveAttribute('readonly')
 
     fireEvent.mouseDown(input)
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
@@ -172,7 +187,7 @@ describe('RcSesSelect', () => {
     fireEvent.mouseDown(screen.getByRole('combobox'))
 
     await waitFor(() => {
-      expect(screen.getAllByRole('option')).toHaveLength(options.length)
+      expect(screen.getAllByRole('option')).toHaveLength(options.length + 1)
     })
   })
 
@@ -183,9 +198,7 @@ describe('RcSesSelect', () => {
     fireEvent.click(await screen.findByRole('option', { name: 'Trumpas pasirinkimas' }))
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Trumpas pasirinkimas', { selector: 'div' }),
-      ).toBeInTheDocument()
+      expect(screen.getByText('Trumpas pasirinkimas')).toBeInTheDocument()
     })
   })
 
@@ -260,7 +273,8 @@ describe('RcSesSelect', () => {
     fireEvent.mouseDown(input)
     await screen.findByRole('option', { name: 'Registrų centras' })
 
-    // The group marker is the first option ahead of its own members.
+    // All is first, followed by the group marker.
+    fireEvent.keyDown(input, { key: 'Home' })
     fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
@@ -268,19 +282,73 @@ describe('RcSesSelect', () => {
     expect([...providers].sort()).toEqual(['rc', 'vtpsi'])
   })
 
-  test('keyboard Enter on the "select all" row selects every option', async () => {
-    render(<GroupedMultiTestWrapper dropdownSearch />)
+  test('keyboard Enter on the All row clears concrete values', async () => {
+    render(<GroupedMultiTestWrapper dropdownSearch defaultValue={['rc']} />)
 
     const input = screen.getByRole('combobox')
     fireEvent.mouseDown(input)
     await screen.findByRole('option', { name: 'Registrų centras' })
 
-    // The search field is the first row, "Visi" the second.
-    fireEvent.keyDown(input, { key: 'ArrowDown' })
-    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    // Search is outside the listbox; All is its first option.
+    fireEvent.keyDown(input, { key: 'Home' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
     const { providers } = readGroupedFormValues()
-    expect([...providers].sort()).toEqual(['rc', 'regitra', 'vtpsi'])
+    expect(providers).toEqual([])
   })
+
+  test('an option disappearing does not turn its stored value into All', () => {
+    const { rerender } = render(<GroupedMultiTestWrapper defaultValue={['rc']} />)
+    rerender(
+      <GroupedMultiTestWrapper
+        defaultValue={['rc']}
+        availableOptions={groupedOptions.slice(1)}
+      />,
+    )
+    expect(screen.getByRole('combobox')).toHaveAccessibleDescription('rc')
+    expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
+    expect(readGroupedFormValues().providers).toEqual(['rc'])
+  })
+
+  test('an unavailable single value remains visible and clearable', () => {
+    render(<TestWrapper defaultValue='unavailable-option' />)
+    expect(screen.getByRole('combobox')).toHaveAccessibleDescription('unavailable-option')
+    expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
+  })
+
+  test('caller renderValue replaces the default summary', () => {
+    render(<GroupedMultiTestWrapper defaultValue={['rc']} customValue />)
+    expect(screen.getByText('Custom selection')).toBeInTheDocument()
+    expect(document.querySelector('.rc-ses-select-single-value')).toBeNull()
+  })
+
+  test('popup search forwards the query to the public callback', async () => {
+    const onInputChange = vi.fn()
+    render(<GroupedMultiTestWrapper dropdownSearch onInputChange={onInputChange} />)
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.change(await screen.findByRole('textbox', { name: 'Ieškoti' }), {
+      target: { value: 'Regitra' },
+    })
+    expect(onInputChange).toHaveBeenCalledWith(expect.anything(), 'Regitra', 'input')
+  })
+
+  test('All is available without popup search', async () => {
+    render(<GroupedMultiTestWrapper defaultValue={['rc']} />)
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(await screen.findByRole('option', { name: 'Visi' }))
+    expect(readGroupedFormValues().providers).toEqual([])
+  })
+
+  test.each([{ loading: true }, { loadError: 'Unavailable' }])(
+    'without search, status %j hides stale options',
+    async (status) => {
+      render(<GroupedMultiTestWrapper {...status} />)
+      fireEvent.mouseDown(screen.getByRole('combobox'))
+      await waitFor(() =>
+        expect(document.querySelector('.MuiAutocomplete-paper')).toBeInTheDocument(),
+      )
+      expect(screen.queryAllByRole('option')).toHaveLength(0)
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    },
+  )
 })

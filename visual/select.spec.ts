@@ -38,13 +38,15 @@ test('existing Select uses live tokens with the legacy Storybook theme', async (
   ).toHaveText('First option')
 })
 
-test('chips, limitTags, filtered selectAll and group member values retain existing behavior', async ({
+test('text summary, All and group member selection follow the Figma model', async ({
   page,
 }) => {
   await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
   const multi = page.locator('#tokens-multiple').locator('..')
-  await expect(multi.locator('.MuiChip-root')).toHaveCount(1)
-  await expect(multi).toContainText('+1')
+  await expect(multi.locator('.MuiChip-root')).toHaveCount(0)
+  await expect(multi).toContainText('First option ir dar 1')
+  await expect(multi).toHaveCSS('height', '44px')
+  await expect(multi.getByRole('button', { name: 'Clear' })).toBeVisible()
   await page.getByRole('combobox', { name: 'Grouped' }).click()
   const group = page.getByRole('option').filter({ hasText: 'Group A' })
   await group.click()
@@ -67,7 +69,7 @@ test('chips, limitTags, filtered selectAll and group member values retain existi
   const search = page.getByPlaceholder('Ieškoti')
   await search.fill('Third')
   await page.getByRole('option', { name: 'Visi' }).click()
-  await expect(page.getByTestId('select-values')).toContainText('"grouped":["third"]')
+  await expect(page.getByTestId('select-values')).toContainText('"grouped":[]')
   await expect(page.getByTestId('select-values')).not.toContainText('__')
 })
 
@@ -98,6 +100,8 @@ test('keyboard selection, disabled, error focus and loading remain available', a
   const input = page.getByRole('combobox', { name: 'Single' })
   await input.focus()
   await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toBeVisible()
+  await page.keyboard.press('Home')
   await page.keyboard.press('ArrowDown')
   await page.keyboard.press('Enter')
   await expect(page.getByTestId('select-values')).toContainText('"single":"first"')
@@ -130,5 +134,133 @@ test('keyboard selection, disabled, error focus and loading remain available', a
     'rgba(242, 177, 164, 0.6) 0px 0px 0px 3px',
   )
   await page.getByRole('combobox', { name: 'Loading' }).click()
-  await expect(page.locator('.MuiAutocomplete-loading')).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: 'Kraunama...' })).toHaveText(
+    'Kraunama...',
+  )
+})
+
+test('295px and 428px summaries keep the first label and adapt without wrapping', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=atoms-select--figma-design&viewMode=story')
+  await Promise.all(
+    ['figma-mobile', 'figma-desktop'].map(async (id) => {
+      const root = page.locator(`#${id}`).locator('..')
+      await expect(root).toHaveCSS('height', '44px')
+      const summary = root.locator('.rc-ses-select-single-value')
+      await expect(summary).toContainText('Metinės finansinės ataskaitos')
+      await expect(summary).toContainText('ir dar 2')
+      await expect(summary).not.toHaveText('ir dar 3')
+      await expect(root.locator('.MuiChip-root')).toHaveCount(0)
+    }),
+  )
+  const screenshotPath = test.info().outputPath('figma-summaries.png')
+  await page.screenshot({ path: screenshotPath, fullPage: true })
+  await test
+    .info()
+    .attach('Figma summaries', { path: screenshotPath, contentType: 'image/png' })
+  const desktop = page.locator('#figma-desktop').locator('..')
+  await desktop.evaluate((element) => {
+    element.closest('.MuiAutocomplete-root')!.parentElement!.style.width = '1000px'
+  })
+  await expect(desktop.locator('.rc-ses-select-single-value')).toHaveText(
+    'Metinės finansinės ataskaitos, Pelno mokesčio informacijos ataskaitos, Tarpinės finansinės ataskaitos',
+  )
+})
+
+test('All is the only state after selecting every value, and clear returns to All', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
+  await page.getByRole('combobox', { name: 'Grouped' }).click()
+  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await page.getByRole('option', { name: 'First option Option description' }).click()
+  await page.getByRole('option', { name: 'Second option', exact: true }).click()
+  await page.getByRole('option', { name: 'Third option', exact: true }).click()
+  await expect(page.getByTestId('select-values')).toContainText('"grouped":[]')
+  await expect(page.locator('#tokens-grouped').locator('..')).toContainText('Visi')
+  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await page.getByRole('option', { name: 'Second option', exact: true }).click()
+  await page.keyboard.press('Escape')
+  await page
+    .locator('#tokens-grouped')
+    .locator('..')
+    .getByRole('button', { name: 'Clear' })
+    .click()
+  await expect(page.getByTestId('select-values')).toContainText('"grouped":[]')
+})
+
+test('search supports no-results and keyboard Escape; load error has an outlined icon and no retry', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=atoms-select--figma-design&viewMode=story')
+  await page.locator('#figma-mobile').click()
+  const search = page.getByPlaceholder('Ieškoti ataskaitų tipo')
+  await search.fill('2019')
+  await expect(page.getByRole('status').filter({ hasText: '2019' })).toContainText('2019')
+  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toHaveCount(0)
+  await search.press('Escape')
+  await expect(page.locator('.MuiAutocomplete-paper')).toHaveCount(0)
+  await expect(page.locator('#figma-mobile')).toBeFocused()
+  await page.locator('#figma-mobile').click()
+  await search.fill('Tvarumo')
+  await search.press('ArrowDown')
+  await page.keyboard.press('End')
+  await page.keyboard.press('Enter')
+  await expect(page.getByTestId('figma-values')).toContainText('"mobile":[]')
+  await page.keyboard.press('Escape')
+  await page.locator('#figma-failed').click()
+  const alert = page.getByRole('alert')
+  await expect(alert).toHaveText('Nepavyko įkelti duomenų.')
+  await expect(alert).toHaveCSS('align-items', 'center')
+  await expect(alert.getByRole('button')).toHaveCount(0)
+  await expect(alert.locator('svg')).toHaveCount(1)
+  await page.screenshot({ path: test.info().outputPath('figma-load-error.png') })
+})
+
+test('single group is selectable and its count is shown in the popup', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=atoms-select--figma-design&viewMode=story')
+  await page.locator('#figma-single-group').click()
+  await page.getByRole('option', { name: /^Transportas/ }).click()
+  await expect(page.locator('#figma-single-group').locator('..')).toContainText(
+    'Transportas',
+  )
+  await expect(page.getByTestId('figma-values')).toContainText(
+    '"singleGroup":"__dropdown-group__:Transportas"',
+  )
+})
+
+test('keyboard Tab enters popup search and leaves it in form order', async ({ page }) => {
+  await page.goto('/iframe.html?id=atoms-select--figma-design&viewMode=story')
+  const trigger = page.locator('#figma-mobile')
+  const search = page.getByPlaceholder('Ieškoti ataskaitų tipo')
+  await trigger.focus()
+  await trigger.press('ArrowDown')
+  await expect(page.locator('.MuiAutocomplete-paper')).toBeVisible()
+  await trigger.press('Tab')
+  await expect(search).toBeFocused()
+  await search.press('Shift+Tab')
+  await expect(trigger).toBeFocused()
+  await expect(page.locator('.MuiAutocomplete-paper')).toBeVisible()
+  await trigger.press('Tab')
+  await search.fill('2019')
+  await expect(page.getByRole('status').filter({ hasText: '2019' })).toBeVisible()
+  await search.press('Tab')
+  await expect(page.locator('#figma-desktop')).toBeFocused()
+  await expect(page.locator('.MuiAutocomplete-paper')).toHaveCount(0)
+})
+
+test('negative limitTags does not cap labels in a wide summary', async ({ page }) => {
+  await page.goto('/iframe.html?id=atoms-select--figma-design&viewMode=story')
+  await expect(
+    page.locator('#figma-many').locator('..').locator('.rc-ses-select-single-value'),
+  ).toHaveText('2025, 2024, 2023, 2022')
 })
