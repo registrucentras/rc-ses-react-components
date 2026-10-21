@@ -1,5 +1,29 @@
 import { expect, test } from '@playwright/test'
 
+test('trailing icons match Figma frames, visible glyph and spacing', async ({ page }) => {
+  await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
+  const root = page.locator('#tokens-multiple').locator('..')
+  const clear = root.locator('.MuiAutocomplete-clearIndicator svg')
+  const caret = root.locator('.MuiAutocomplete-popupIndicator svg')
+  await expect(clear).toHaveCSS('width', '20px')
+  await expect(clear).toHaveCSS('height', '20px')
+  await expect(caret).toHaveCSS('width', '20px')
+  await expect(caret).toHaveCSS('height', '20px')
+  const clearBox = await clear.boundingBox()
+  const caretBox = await caret.boundingBox()
+  expect(caretBox!.x - clearBox!.x - clearBox!.width).toBeCloseTo(8, 1)
+  const glyph = await clear.evaluate((element) => {
+    const svg = element as SVGSVGElement
+    const box = svg.getBBox()
+    const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width
+    return { width: box.width * scale, height: box.height * scale }
+  })
+  expect(glyph.width).toBeCloseTo(16.25, 1)
+  expect(glyph.height).toBeCloseTo(16.25, 1)
+  await root.getByRole('button', { name: 'Clear' }).click()
+  await expect(root).toContainText('Visi')
+})
+
 test('existing Select uses live tokens with the legacy Storybook theme', async ({
   page,
 }) => {

@@ -89,12 +89,20 @@ export const selectStyle = {
       padding: '0 !important',
       margin: '0 !important',
     },
-    '& .MuiAutocomplete-endAdornment': { zIndex: 1 },
+    '& .MuiAutocomplete-endAdornment': {
+      zIndex: 1,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: space['space-4'],
+      right: `calc(${space['padding-sm']} - ${space['space-2']})`,
+    },
     '& .MuiInputBase-input::placeholder': { color: color['text-secondary'] },
   },
   '& .rc-ses-select-single-value': { ...body, color: color['text-default'] },
   '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
     color: color['text-secondary'],
+    padding: space['space-2'],
+    margin: 0,
   },
   '& .MuiAutocomplete-clearIndicator': { visibility: 'visible' },
 }

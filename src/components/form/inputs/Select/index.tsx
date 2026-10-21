@@ -568,8 +568,12 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         noOptionsText={null}
         clearIcon={
           <XCircleFillIcon
+            weight='regular'
             aria-hidden
-            style={{ width: size['icon-size-inline'], height: size['icon-size-inline'] }}
+            style={{
+              width: size['icon-size-control'],
+              height: size['icon-size-control'],
+            }}
           />
         }
         popupIcon={
@@ -776,12 +780,21 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   {groupValue}
                 </Box>
                 {groupCounts.has(groupValue) && (
-                  <RcSesBadge
-                    label={String(groupCounts.get(groupValue))}
-                    variant='neutral'
-                    size='small'
-                    showIcon={false}
-                  />
+                  <Box
+                    sx={{
+                      display: 'inline-flex',
+                      flexShrink: 0,
+                      // Optical alignment of the numeral within the circular badge.
+                      '& > div > span': { transform: 'translateY(1px)' },
+                    }}
+                  >
+                    <RcSesBadge
+                      label={String(groupCounts.get(groupValue))}
+                      variant='neutral'
+                      size='small'
+                      showIcon={false}
+                    />
+                  </Box>
                 )}
                 {!multiple && isGroupSelected && (
                   <CheckIcon
