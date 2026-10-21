@@ -404,6 +404,8 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         clearOnBlur={false}
         handleHomeEndKeys={false}
         loading={loading}
+        loadingText={t('loadingText')}
+        noOptionsText={t('noOptionsText')}
         popupIcon={<CaretDownIcon size={20} fillColor={palette.grey['600']} />}
         value={resolvedValue}
         inputValue={resolvedInputValue}
