@@ -117,6 +117,9 @@ const typographyRoles = {
   overline: 'body-micro',
 } as const
 
+// Figma text-style weights that differ from the legacy variant weights.
+const textStyleFontWeights = { h5: 600 } as const
+
 function typographyStyle<T>(style: T, role: string): T {
   return mapTree(style, (key, value) => {
     if (
@@ -182,7 +185,12 @@ export function createRcSesTokenTheme(
         }),
       )
     })
-    typography[variantKey] = typographyStyle(style, role)
+    const fontWeight =
+      textStyleFontWeights[variantKey as keyof typeof textStyleFontWeights]
+    typography[variantKey] = {
+      ...typographyStyle(style, role),
+      ...(fontWeight === undefined ? {} : { fontWeight }),
+    }
     const slot = typographySlots[variantKey as keyof typeof typographySlots]
     if (slot) {
       Object.assign(typographySlots, {
@@ -190,7 +198,8 @@ export function createRcSesTokenTheme(
           key === 'fontSize' ||
           key === 'lineHeight' ||
           (key === 'fontWeight' &&
-            customTypography?.[variantKey]?.fontWeight !== undefined)
+            (fontWeight !== undefined ||
+              customTypography?.[variantKey]?.fontWeight !== undefined))
             ? undefined
             : value,
         ),

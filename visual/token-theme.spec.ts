@@ -23,7 +23,7 @@ test('token typography responds at all four widths and palette/spacing/shape res
     await expect(heading).toHaveCSS('line-height', `${height}px`)
   }
   /* eslint-enable no-await-in-loop */
-  await expect(probe).toHaveCSS('background-color', 'rgb(6, 160, 212)')
+  await expect(probe).toHaveCSS('background-color', 'rgb(0, 121, 173)')
   await expect(page.getByTestId('legacy-h6')).toHaveCSS('font-size', '18px')
   await expect(page.getByTestId('legacy-h6')).toHaveCSS('line-height', '24px')
   await expect(probe).toHaveCSS('padding-top', '16px')

@@ -322,9 +322,29 @@ describe('native token theme adapter', () => {
       const after = tokenTheme.typography[variant as keyof typeof tokenTheme.typography]
       if (typeof before === 'object' && before && typeof after === 'object' && after) {
         expect(after.fontFamily).toBe(before.fontFamily)
-        expect(after.fontWeight).toBe(before.fontWeight)
+        if (variant !== 'h5') expect(after.fontWeight).toBe(before.fontWeight)
       }
     })
+  })
+
+  test('h5 uses the Figma SemiBold weight unless the consumer overrides it', () => {
+    expect(tokenTheme.typography.h5.fontWeight).toBe(600)
+    expect(tokenTheme.components?.MuiTypography?.styleOverrides?.h5).not.toHaveProperty(
+      'fontWeight',
+    )
+    expect(legacyTheme.components?.MuiTypography?.styleOverrides?.h5).toMatchObject({
+      fontWeight: '500',
+    })
+    render(
+      <ThemeProvider theme={tokenTheme}>
+        <Typography variant='h5'>Section heading</Typography>
+      </ThemeProvider>,
+    )
+    expect(screen.getByText('Section heading')).toHaveStyle({ fontWeight: '600' })
+    expect(
+      createRcSesTokenTheme({ typography: { h5: { fontWeight: 700 } } }).typography.h5
+        .fontWeight,
+    ).toBe(700)
   })
 
   test('named styles support typed consumer overrides and keep unmodified dimensions responsive', () => {
