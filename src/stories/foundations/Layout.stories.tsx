@@ -17,7 +17,7 @@ export const Fluid: Story = {
     docs: {
       description: {
         story:
-          'Assumption pending designer confirmation: 1600px limits the outer border-box, including responsive horizontal padding. The specimen uses 12 equal stretch columns with token gutters. The nominal column-width token is not used as a minimum.',
+          'Admin panel container: full width minus the responsive outer padding, with no max-width. The specimen uses 12 equal stretch columns with token gutters. The nominal column-width token is not used as a minimum.',
       },
     },
   },
@@ -26,8 +26,6 @@ export const Fluid: Story = {
       data-testid='layout-fluid'
       sx={{
         width: '100%',
-        maxWidth: layoutTokens['container-fluid-max-width'],
-        marginInline: 'auto',
         boxSizing: 'border-box',
         px: layoutTokens['outer-padding'],
       }}

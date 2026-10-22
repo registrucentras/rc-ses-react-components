@@ -37,6 +37,7 @@ const colorTokens = {
   'border-brand-subtle': 'var(--rc-color-border-brand-subtle)',
   'border-default': 'var(--rc-color-border-default)',
   'border-focus': 'var(--rc-color-border-focus)',
+  'border-focus-error': 'var(--rc-color-border-focus-error)',
   'border-inverse': 'var(--rc-color-border-inverse)',
   'border-strong': 'var(--rc-color-border-strong)',
   'border-subtle': 'var(--rc-color-border-subtle)',

@@ -1,7 +1,6 @@
 // CSS variable references. Values and responsive modes live in tokens.css.
 const layoutTokens = {
   'column-width': 'var(--rc-layout-column-width)',
-  'container-fluid-max-width': 'var(--rc-layout-container-fluid-max-width)',
   'container-medium-width': 'var(--rc-layout-container-medium-width)',
   'container-narrow-width': 'var(--rc-layout-container-narrow-width)',
   'container-wide-width': 'var(--rc-layout-container-wide-width)',

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
-// Preview assumption: the 1600px cap includes padding; designer confirmation is pending.
-test('fluid border-box, padding, centered bounds and stretching grid at five viewports', async ({
+// Admin panel container: full width minus outer padding, no max-width.
+test('fluid full width, padding and stretching grid at five viewports', async ({
   page,
 }) => {
   await page.goto('/iframe.html?id=foundations-layout--fluid&viewMode=story')
@@ -17,12 +17,12 @@ test('fluid border-box, padding, centered bounds and stretching grid at five vie
   for (let index = 0; index < cases.length; index += 1) {
     const [width, padding, gutter, maxWidths] = cases[index]
     await page.setViewportSize({ width, height: 900 })
-    const outer = Math.min(width, 1600)
+    const outer = width
     const inner = outer - 2 * padding
     const fluid = page.getByTestId('layout-fluid')
     await expect(fluid).toHaveCSS('padding-left', `${padding}px`)
     await expect(fluid).toHaveCSS('padding-right', `${padding}px`)
-    await expect(fluid).toHaveCSS('max-width', '1600px')
+    await expect(fluid).toHaveCSS('max-width', 'none')
     await expect(fluid).toHaveCSS('box-sizing', 'border-box')
     const bounds = await fluid.boundingBox()
     expect(bounds?.width).toBeCloseTo(outer, 1)
@@ -62,7 +62,7 @@ test('fluid border-box, padding, centered bounds and stretching grid at five vie
   await expect(page.getByTestId('layout-fluid')).toHaveCSS('padding-left', '40px')
   await expect(page.getByTestId('layout-grid')).toHaveCSS('gap', '20px')
   expect((await page.getByTestId('layout-grid').boundingBox())?.width).toBeCloseTo(
-    1520,
+    1840,
     1,
   )
   const resizedTracks = await page.getByTestId('layout-grid').evaluate((element) =>
@@ -72,5 +72,5 @@ test('fluid border-box, padding, centered bounds and stretching grid at five vie
       .filter((size) => size > 0),
   )
   expect(resizedTracks).toHaveLength(12)
-  resizedTracks.forEach((size) => expect(size).toBeCloseTo((1520 - 11 * 20) / 12, 1))
+  resizedTracks.forEach((size) => expect(size).toBeCloseTo((1840 - 11 * 20) / 12, 1))
 })

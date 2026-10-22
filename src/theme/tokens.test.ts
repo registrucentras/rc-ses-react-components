@@ -36,7 +36,6 @@ const responsiveDimensions = {
   '--rc-legacy-space-card-padding-top': [16, 20, 24, 24],
   '--rc-legacy-space-tooltip-max-width': [288, 400, 448, 448],
   '--rc-layout-container-narrow-width': [343, 720, 744, 744],
-  '--rc-layout-container-fluid-max-width': [1600, 1600, 1600, 1600],
   '--rc-layout-gutter': [16, 16, 24, 24],
   '--rc-layout-outer-padding': [16, 24, 24, 36],
 } as const
@@ -82,7 +81,11 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
       const pattern = /^--rc-(?:elevation|focus-ring)-/.test(name)
         ? /^(?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\)(?:, (?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\))*$/
         : /^(?:rgb\([\d. /]+\)|[\d.]+(?:rem|px))$/
-      expect(resolve(name), `${label}: invalid value for ${name}`).toMatch(pattern)
+      // Focus rings embed a color token inside the shadow value.
+      const value = resolve(name).replace(/var\((--rc-[\w-]+)\)/g, (match, reference) =>
+        resolve(reference),
+      )
+      expect(value, `${label}: invalid value for ${name}`).toMatch(pattern)
     })
     references.forEach((reference) =>
       expect(
