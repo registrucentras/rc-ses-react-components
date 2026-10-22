@@ -213,9 +213,12 @@ describe('RcSesSelect', () => {
 
     const input = screen.getByRole('combobox')
     fireEvent.mouseDown(input)
-    fireEvent.change(input, { target: { value: 'JSD' } })
+    fireEvent.change(await screen.findByRole('textbox', { name: 'Ieškoti' }), {
+      target: { value: 'JSD' },
+    })
 
-    expect(await screen.findByText('Rezultatų nerasta')).toBeInTheDocument()
+    expect(await screen.findByText('Nieko nerasta pagal „JSD“')).toBeInTheDocument()
+    expect(screen.queryByRole('option')).not.toBeInTheDocument()
     expect(screen.queryByText('No options')).not.toBeInTheDocument()
   })
 

@@ -33,7 +33,9 @@ test('existing Select uses live tokens with the legacy Storybook theme', async (
   await expect(root).toHaveCSS('border-radius', '8px')
   await expect(input).toHaveCSS('font-size', '15px')
   await input.click()
-  await expect(root).toHaveCSS('box-shadow', 'rgba(140, 215, 240, 0.6) 0px 0px 0px 3px')
+  await expect(root).toHaveCSS('box-shadow', 'none')
+  await expect(root.locator('fieldset')).toHaveCSS('border-width', '2px')
+  await expect(root.locator('fieldset')).toHaveCSS('border-color', 'rgb(0, 121, 173)')
   const paper = page.locator('.MuiAutocomplete-paper')
   const first = page.getByRole('option', { name: 'First option Option description' })
   await expect(first).toBeVisible()
@@ -153,9 +155,11 @@ test('keyboard selection, disabled, error focus and loading remain available', a
     'rgb(200, 30, 40)',
   )
   await error.focus()
-  await expect(error.locator('..')).toHaveCSS(
-    'box-shadow',
-    'rgba(242, 177, 164, 0.6) 0px 0px 0px 3px',
+  await expect(error.locator('..')).toHaveCSS('box-shadow', 'none')
+  await expect(error.locator('..').locator('fieldset')).toHaveCSS('border-width', '2px')
+  await expect(error.locator('..').locator('fieldset')).toHaveCSS(
+    'border-color',
+    'rgb(200, 30, 40)',
   )
   await page.getByRole('combobox', { name: 'Loading' }).click()
   await expect(page.getByRole('status').filter({ hasText: 'Kraunama...' })).toHaveText(

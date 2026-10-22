@@ -55,14 +55,14 @@ export const selectStyle = {
     },
     '&.Mui-focused': {
       borderRadius: border['radius-input'],
-      boxShadow: effect['focus-ring-default'],
+      boxShadow: 'none',
       '& .MuiOutlinedInput-notchedOutline': {
+        borderWidth: border['border-focus'],
         borderColor: `${color['border-focus']} !important`,
         borderRadius: 'inherit',
       },
     },
     '&.Mui-focused.Mui-error': {
-      boxShadow: effect['focus-ring-error'],
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: `${color['status-error-border']} !important`,
       },
