@@ -88,3 +88,39 @@ export const Default: Story = {
     },
   },
 }
+
+export const DisabledActions: Story = {
+  args: {
+    isOpen: true,
+    onClose: () => {},
+    secondaryActionDisabled: true,
+    primaryActionDisabled: true,
+  },
+  render: (args) => <RcSesDrawer {...args} />,
+  tags: ['!autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Each footer action can be disabled independently via primaryActionDisabled and secondaryActionDisabled - useful while no filters are selected yet, or while a request is in flight.',
+      },
+      source: {
+        code: `<RcSesDrawer
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  title='Filtrai'
+  secondaryActionLabel='Išvalyti'
+  secondaryActionDisabled
+  primaryActionLabel='Rodyti paslaugas'
+  primaryActionDisabled
+>
+  <Stack sx={{ gap: '1rem' }}>
+    <Typography variant='body2'>
+      Turinys (slot) - filtrai, paieška, sąrašas
+    </Typography>
+  </Stack>
+</RcSesDrawer>`,
+      },
+    },
+  },
+}

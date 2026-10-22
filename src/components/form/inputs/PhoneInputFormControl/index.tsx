@@ -223,6 +223,7 @@ function RcSesPhoneInputFormControl(props: Props) {
               }
               getOptionLabel={(option) => option.name}
               isOptionEqualToValue={(o, v) => o.code === v.code}
+              noOptionsText={t('noOptionsText')}
               onChange={(e, selection) => {
                 e.preventDefault()
                 setAnchorEl(null)

@@ -39,8 +39,10 @@ const RcSesDrawer = ({
   children,
   secondaryActionLabel,
   onSecondaryAction,
+  secondaryActionDisabled,
   primaryActionLabel,
   onPrimaryAction,
+  primaryActionDisabled,
   testIds,
   className,
 }: RcSesDrawerProps) => {
@@ -172,12 +174,21 @@ const RcSesDrawer = ({
             }}
           >
             {secondaryActionLabel && (
-              <RcSesButton variant='link' onClick={onSecondaryAction}>
+              <RcSesButton
+                variant='outlined'
+                color='grey'
+                onClick={onSecondaryAction}
+                disabled={secondaryActionDisabled}
+              >
                 {secondaryActionLabel}
               </RcSesButton>
             )}
             {primaryActionLabel && (
-              <RcSesButton variant='contained' onClick={onPrimaryAction}>
+              <RcSesButton
+                variant='contained'
+                onClick={onPrimaryAction}
+                disabled={primaryActionDisabled}
+              >
                 {primaryActionLabel}
               </RcSesButton>
             )}
