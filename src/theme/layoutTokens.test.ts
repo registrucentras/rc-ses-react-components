@@ -3,10 +3,9 @@ import { expect, test } from 'vitest'
 
 import { layoutTokens } from './layoutTokens'
 
-// Layout.zip: xs, sm, md, lg. All 9 exported values are dimensions, in px.
+// Layout.zip: xs, sm, md, lg. All 8 exported values are dimensions, in px.
 const expected = {
   'column-width': [72, 72, 72, 72],
-  'container-fluid-max-width': [1600, 1600, 1600, 1600],
   'container-narrow-width': [343, 720, 744, 744],
   'container-medium-width': [343, 720, 936, 936],
   'container-wide-width': [343, 720, 1128, 1128],
@@ -16,7 +15,7 @@ const expected = {
   'outer-padding': [16, 24, 24, 36],
 } as const
 
-test('all 9 layout dimensions match Figma in rem across four CSS modes', () => {
+test('all 8 layout dimensions match Figma in rem across four CSS modes', () => {
   const blocks = readFileSync('src/theme/tokens.css', 'utf8').split('@media')
   expect(blocks).toHaveLength(4)
   expect(blocks[1]).toContain('min-width: 600px')
@@ -32,7 +31,7 @@ test('all 9 layout dimensions match Figma in rem across four CSS modes', () => {
       ]),
     )
     changes.forEach((value, key) => declarations.set(key, value))
-    expect(declarations.size).toBe(9)
+    expect(declarations.size).toBe(8)
     Object.entries(expected).forEach(([key, values]) => {
       expect(declarations.get(key)).toBe(`${values[mode] / 16}rem`)
       expect(layoutTokens[key as keyof typeof layoutTokens]).toBe(

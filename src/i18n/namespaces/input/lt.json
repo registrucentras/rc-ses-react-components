@@ -48,7 +48,8 @@
         "countrySelectorLabel": "Šalies telefono numerio kodo pasirinkimas"
       },
       "search": "Ieškoti",
-      "invalid": "Klaidingas telefono numerio formatas"
+      "invalid": "Klaidingas telefono numerio formatas",
+      "noOptionsText": "Rezultatų nerasta"
     },
 
     "RcSesSearchableField": {

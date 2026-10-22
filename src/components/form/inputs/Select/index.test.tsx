@@ -208,6 +208,17 @@ describe('RcSesSelect', () => {
     expect(screen.getByRole('combobox')).toHaveAttribute('readonly')
   })
 
+  test('shows a Lithuanian empty state when the typed text matches no option', async () => {
+    render(<TestWrapper />)
+
+    const input = screen.getByRole('combobox')
+    fireEvent.mouseDown(input)
+    fireEvent.change(input, { target: { value: 'JSD' } })
+
+    expect(await screen.findByText('Rezultatų nerasta')).toBeInTheDocument()
+    expect(screen.queryByText('No options')).not.toBeInTheDocument()
+  })
+
   test('drops the value from the form by default when the field unmounts', () => {
     render(<UnregisterTestWrapper />)
 

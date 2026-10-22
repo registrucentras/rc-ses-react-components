@@ -48,7 +48,8 @@
         "countrySelectorLabel": "Select country phone code"
       },
       "search": "Search",
-      "invalid": "Invalid phone number format"
+      "invalid": "Invalid phone number format",
+      "noOptionsText": "No results found"
     },
 
     "RcSesSearchableField": {

@@ -21,10 +21,14 @@ export interface RcSesDrawerProps {
   secondaryActionLabel?: string
   /** Callback fired when secondary action button is clicked */
   onSecondaryAction?: () => void
+  /** Whether the secondary action button is disabled */
+  secondaryActionDisabled?: boolean
   /** Label for the primary (right) action button */
   primaryActionLabel?: string
   /** Callback fired when primary action button is clicked */
   onPrimaryAction?: () => void
+  /** Whether the primary action button is disabled */
+  primaryActionDisabled?: boolean
   /** Test IDs for testing */
   testIds?: RcSesDrawerTestIds
   /** Optional CSS class name */

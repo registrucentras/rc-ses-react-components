@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ComponentProps, useState } from 'react'
+import { ComponentProps, FormEvent, useState } from 'react'
 
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import RcSesStepCard from '@/components/common/StepCard'
@@ -143,6 +143,90 @@ export const CustomFooter: Story = {
               <Button variant='contained'>Pateikti peržiūrai</Button>
             </RcSesCardFooter>
           }
+        >
+          <DemoContent />
+        </RcSesStepCard>
+      </FieldView>
+    </Fields>
+  ),
+}
+
+function FormSubmitDemo(args: StepCardDemoProps) {
+  const [activeStep, setActiveStep] = useState(0)
+  const [saving, setSaving] = useState(false)
+  const isLastStep = activeStep === STEP_COUNT - 1
+  const formId = `step-${activeStep}-form`
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    setSaving(true)
+    setTimeout(() => {
+      setSaving(false)
+      setActiveStep((prev) => Math.min(prev + 1, STEP_COUNT - 1))
+    }, 1500)
+  }
+
+  return (
+    <Fields>
+      <FieldView>
+        <RcSesStepCard
+          {...args}
+          activeStep={activeStep}
+          stepCount={STEP_COUNT}
+          totalPrice='4,01 €'
+          onBack={() => setActiveStep((prev) => Math.max(prev - 1, 0))}
+          actions={{
+            next: {
+              form: formId,
+              loading: saving,
+              ...(isLastStep ? { label: 'Pateikti', icon: null } : {}),
+            },
+            back: { disabled: saving },
+            cancel: false,
+          }}
+        >
+          <Box
+            component='form'
+            id={formId}
+            key={formId}
+            onSubmit={handleSubmit}
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <TextField label='Vardas' size='small' fullWidth required />
+            <TextField label='Pavardė' size='small' fullWidth required />
+          </Box>
+        </RcSesStepCard>
+      </FieldView>
+    </Fields>
+  )
+}
+
+/**
+ * Form wizard without payments. Each step owns its `<form>`, and
+ * `actions.next.form` makes the CTA that form's submit button, so Enter in a
+ * field submits too. No `Atšaukti` on the first step (`cancel: false`); the
+ * last step is `Pateikti` with no cart icon, next to the total price.
+ */
+export const FormSubmit: Story = {
+  render: (args) => <FormSubmitDemo {...args} />,
+}
+
+/**
+ * Last step with a custom CTA → `actions.next = { label: 'Pateikti', icon: null }`
+ * swaps the cart CTA for a neutral one in flows without a basket; the price
+ * summary stays.
+ */
+export const LastStepCustomCTA: Story = {
+  render: (args) => (
+    <Fields>
+      <FieldView>
+        <RcSesStepCard
+          {...args}
+          activeStep={STEP_COUNT - 1}
+          stepCount={STEP_COUNT}
+          totalPriceLabel='Suma (2 × 5,00 €)'
+          totalPrice='10,00 €'
+          actions={{ next: { label: 'Patvirtinti', icon: null } }}
         >
           <DemoContent />
         </RcSesStepCard>

@@ -7,8 +7,8 @@ const shadows = {
   lg: 'rgba(0, 0, 0, 0.12) 0px 8px 16px 0px',
 }
 const rings = {
-  default: 'rgba(140, 215, 240, 0.6) 0px 0px 0px 3px',
-  error: 'rgba(242, 177, 164, 0.6) 0px 0px 0px 3px',
+  default: 'rgb(0, 121, 173) 0px 0px 0px 2px',
+  error: 'rgb(200, 72, 56) 0px 0px 0px 2px',
 }
 
 test('Figma shadows, Tab focus rings and popup resolve and react to live tokens', async ({
@@ -38,7 +38,7 @@ test('Figma shadows, Tab focus rings and popup resolve and react to live tokens'
   )
   await expect(page.getByTestId('focus-reference-default')).toHaveCSS(
     'border',
-    '1px solid rgb(6, 160, 212)',
+    '1px solid rgb(0, 121, 173)',
   )
   await expect(page.getByTestId('focus-reference-error')).toHaveCSS(
     'border-radius',
@@ -46,7 +46,7 @@ test('Figma shadows, Tab focus rings and popup resolve and react to live tokens'
   )
   await expect(page.getByTestId('focus-reference-error')).toHaveCSS(
     'border',
-    '1px solid rgb(169, 175, 184)',
+    '1px solid rgb(107, 116, 127)',
   )
 
   await page.keyboard.press('Tab')

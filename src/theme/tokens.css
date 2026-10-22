@@ -81,20 +81,21 @@
   --rc-color-action-secondary-border: var(--rc-color-neutrals-400);
   --rc-color-action-secondary-border-hover: var(--rc-color-neutrals-500);
   --rc-color-action-secondary-text: var(--rc-color-neutrals-800);
-  --rc-color-border-brand-subtle: var(--rc-color-cyans-100);
+  --rc-color-border-brand-subtle: var(--rc-color-cyans-200);
   --rc-color-border-default: var(--rc-color-neutrals-300);
-  --rc-color-border-focus: var(--rc-color-cyans-500);
+  --rc-color-border-focus: var(--rc-color-cyans-600);
+  --rc-color-border-focus-error: var(--rc-color-red-600);
   --rc-color-border-inverse: var(--rc-color-neutrals-950);
-  --rc-color-border-strong: var(--rc-color-neutrals-400);
+  --rc-color-border-strong: var(--rc-color-neutrals-600);
   --rc-color-border-subtle: var(--rc-color-neutrals-200);
-  --rc-color-control-border: var(--rc-color-neutrals-500);
+  --rc-color-control-border: var(--rc-color-neutrals-600);
   --rc-color-control-disabled: var(--rc-color-neutrals-200);
   --rc-color-control-disabled-selected: var(--rc-color-cyans-300);
   --rc-color-control-foreground: var(--rc-color-white);
-  --rc-color-control-selected: var(--rc-color-cyans-500);
-  --rc-color-control-selected-hover: var(--rc-color-cyans-600);
-  --rc-color-control-unselected: var(--rc-color-neutrals-400);
-  --rc-color-control-unselected-hover: var(--rc-color-neutrals-500);
+  --rc-color-control-selected: var(--rc-color-cyans-600);
+  --rc-color-control-selected-hover: var(--rc-color-cyans-700);
+  --rc-color-control-unselected: var(--rc-color-neutrals-600);
+  --rc-color-control-unselected-hover: var(--rc-color-neutrals-700);
   --rc-color-flow-destructive: var(--rc-color-status-error-border);
   --rc-color-flow-edge: var(--rc-color-status-warning-border);
   --rc-color-flow-progress: var(--rc-color-status-success-border);
@@ -104,15 +105,15 @@
   --rc-color-status-error-text: var(--rc-color-red-700);
   --rc-color-status-info-bg: var(--rc-color-cyans-100);
   --rc-color-status-info-border: var(--rc-color-cyans-400);
-  --rc-color-status-info-icon: var(--rc-color-cyans-500);
+  --rc-color-status-info-icon: var(--rc-color-cyans-800);
   --rc-color-status-info-text: var(--rc-color-cyans-800);
   --rc-color-status-success-bg: var(--rc-color-greens-100);
   --rc-color-status-success-border: var(--rc-color-greens-500);
-  --rc-color-status-success-icon: var(--rc-color-greens-600);
+  --rc-color-status-success-icon: var(--rc-color-greens-800);
   --rc-color-status-success-text: var(--rc-color-greens-800);
   --rc-color-status-warning-bg: var(--rc-color-yellows-100);
   --rc-color-status-warning-border: var(--rc-color-yellows-400);
-  --rc-color-status-warning-icon: var(--rc-color-yellows-500);
+  --rc-color-status-warning-icon: var(--rc-color-yellows-800);
   --rc-color-status-warning-text: var(--rc-color-yellows-800);
   --rc-color-surface-base: var(--rc-color-white);
   --rc-color-surface-brand-subtle: var(--rc-color-cyans-50);
@@ -125,7 +126,7 @@
   --rc-color-text-inverse: var(--rc-color-white);
   --rc-color-text-link: var(--rc-color-cyans-700);
   --rc-color-text-link-hover: var(--rc-color-cyans-800);
-  --rc-color-text-muted: var(--rc-color-neutrals-500);
+  --rc-color-text-muted: var(--rc-color-neutrals-600);
   --rc-color-text-secondary: var(--rc-color-neutrals-600);
   --rc-typography-font-size-body-caption: 0.8125rem;
   --rc-typography-font-size-body-large: 1rem;
@@ -279,7 +280,6 @@
   --rc-padding-xl: var(--rc-space-24);
   --rc-padding-xs: var(--rc-space-8);
   --rc-layout-column-width: 4.5rem;
-  --rc-layout-container-fluid-max-width: 100rem;
   --rc-layout-container-medium-width: 21.4375rem;
   --rc-layout-container-narrow-width: 21.4375rem;
   --rc-layout-container-wide-width: 21.4375rem;
@@ -329,8 +329,8 @@
   --rc-elevation-sm: 0 4px 6px 0 rgb(0 0 0 / 0.08), 0 1px 3px 0 rgb(0 0 0 / 0.06);
   --rc-elevation-md: 0 4px 16px 0 rgb(0 0 0 / 0.08);
   --rc-elevation-lg: 0 8px 16px 0 rgb(0 0 0 / 0.12);
-  --rc-focus-ring-default: 0 0 0 3px rgb(140 215 240 / 0.6);
-  --rc-focus-ring-error: 0 0 0 3px rgb(242 177 164 / 0.6);
+  --rc-focus-ring-default: 0 0 0 2px var(--rc-color-border-focus);
+  --rc-focus-ring-error: 0 0 0 2px var(--rc-color-border-focus-error);
 }
 
 @media (min-width: 600px) {

@@ -1,4 +1,5 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, ButtonProps, Typography } from '@mui/material'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -9,6 +10,8 @@ import {
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import { typography } from '@/theme/light/MuiTypography'
 
+import { RcSesStepCardAction, RcSesStepCardActions } from '../types'
+
 export interface RcSesStepCardFooterProps {
   activeStep: number
   stepCount: number
@@ -16,6 +19,8 @@ export interface RcSesStepCardFooterProps {
   onBack?: () => void
   onCancel?: () => void
   totalPrice?: string
+  totalPriceLabel?: string
+  actions?: RcSesStepCardActions
 }
 
 const responsiveWidthSx = { width: { xs: '100%', sm: 'auto' } } as const
@@ -53,6 +58,23 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
   )
 }
 
+function createActionButtonProps(
+  action: RcSesStepCardAction | undefined,
+  defaultIcon: ReactNode,
+  side: 'start' | 'end',
+): ButtonProps {
+  const icon = action?.icon === undefined ? defaultIcon : action.icon
+
+  return {
+    type: action?.form ? 'submit' : 'button',
+    form: action?.form,
+    loading: action?.loading,
+    disabled: action?.disabled,
+    loadingPosition: icon ? side : 'center',
+    [side === 'start' ? 'startIcon' : 'endIcon']: icon,
+  }
+}
+
 function RcSesStepCardFooter({
   activeStep,
   stepCount,
@@ -60,35 +82,46 @@ function RcSesStepCardFooter({
   onBack,
   onCancel,
   totalPrice,
+  totalPriceLabel,
+  actions,
 }: RcSesStepCardFooterProps) {
   const { t } = useTranslation('common')
 
   const isFirstStep = activeStep <= 0
   const isLastStep = activeStep >= stepCount - 1
 
-  const leadingLabel = t(
-    isFirstStep ? 'components.StepCard.cancel' : 'components.StepCard.back',
-  )
-  const trailingLabel = t(
-    isLastStep ? 'components.StepCard.addToCart' : 'components.StepCard.continue',
-  )
+  const leadingAction = isFirstStep ? actions?.cancel : actions?.back
+  const showLeading = leadingAction !== false
+  const leading = leadingAction || undefined
+  const leadingLabel =
+    leading?.label ??
+    t(isFirstStep ? 'components.StepCard.cancel' : 'components.StepCard.back')
+  const trailingLabel =
+    actions?.next?.label ??
+    t(isLastStep ? 'components.StepCard.addToCart' : 'components.StepCard.continue')
   const handleLeadingClick = isFirstStep ? onCancel : onBack
   const showPriceSummary = isLastStep && Boolean(totalPrice)
 
   return (
-    <RcSesCardFooter align='between'>
-      <Box sx={stepCardFooterLeadingSx}>
-        <Button
-          color='grey'
-          variant='outlined'
-          onClick={handleLeadingClick}
-          fullWidth
-          sx={responsiveWidthSx}
-          startIcon={isFirstStep ? undefined : <ArrowLeftIcon size={24} />}
-        >
-          {leadingLabel}
-        </Button>
-      </Box>
+    <RcSesCardFooter align={showLeading ? 'between' : 'end'}>
+      {showLeading ? (
+        <Box sx={stepCardFooterLeadingSx}>
+          <Button
+            color='grey'
+            variant='outlined'
+            onClick={handleLeadingClick}
+            fullWidth
+            sx={responsiveWidthSx}
+            {...createActionButtonProps(
+              leading,
+              isFirstStep ? undefined : <ArrowLeftIcon size={24} />,
+              'start',
+            )}
+          >
+            {leadingLabel}
+          </Button>
+        </Box>
+      ) : null}
       <Box
         sx={{
           alignItems: 'center',
@@ -100,7 +133,7 @@ function RcSesStepCardFooter({
       >
         {showPriceSummary ? (
           <PriceSummary
-            label={t('components.StepCard.totalWithoutVat')}
+            label={totalPriceLabel ?? t('components.StepCard.totalWithoutVat')}
             price={totalPrice as string}
           />
         ) : null}
@@ -108,9 +141,11 @@ function RcSesStepCardFooter({
           variant='contained'
           onClick={onNext}
           sx={responsiveWidthSx}
-          endIcon={
-            isLastStep ? <ShoppingCartIcon size={24} /> : <ArrowRightIcon size={24} />
-          }
+          {...createActionButtonProps(
+            actions?.next,
+            isLastStep ? <ShoppingCartIcon size={24} /> : <ArrowRightIcon size={24} />,
+            'end',
+          )}
         >
           {trailingLabel}
         </Button>

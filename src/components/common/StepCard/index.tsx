@@ -18,6 +18,8 @@ function RcSesStepCard({
   onBack,
   onCancel,
   totalPrice,
+  totalPriceLabel,
+  actions,
   title,
   description,
   footer,
@@ -42,6 +44,8 @@ function RcSesStepCard({
       onBack={onBack}
       onCancel={onCancel}
       totalPrice={totalPrice}
+      totalPriceLabel={totalPriceLabel}
+      actions={actions}
     />
   )
 
