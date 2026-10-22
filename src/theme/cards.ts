@@ -1,4 +1,7 @@
-import palette, { common } from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import palette from '@/theme/palette'
+
+import './tokens.css'
 
 /**
  * Card surface tokens - Figma `Cards/card/*` and `Cards/subcard/*`.
@@ -45,16 +48,16 @@ const footer = {
 
 const themes = {
   brand: {
-    backgroundColor: palette.primary[50],
+    backgroundColor: colorTokens['surface-brand-subtle'],
     borderColor: palette.primary[200],
   },
   default: {
-    backgroundColor: common.white,
-    borderColor: palette.grey[300],
+    backgroundColor: colorTokens['surface-base'],
+    borderColor: colorTokens['border-default'],
   },
   sunken: {
-    backgroundColor: palette.grey[100],
-    borderColor: palette.grey[200],
+    backgroundColor: colorTokens['surface-sunken'],
+    borderColor: colorTokens['border-subtle'],
   },
 }
 

@@ -1,0 +1,41 @@
+// CSS variable references; values and responsive modes live in tokens.css.
+
+const spacingRoleBasedTokens = {
+  'button-padding-icon-only-regular': 'var(--rc-button-padding-icon-only-regular)',
+  'button-padding-icon-only-small': 'var(--rc-button-padding-icon-only-small)',
+  'button-padding-y-regular': 'var(--rc-button-padding-y-regular)',
+  'button-padding-y-small': 'var(--rc-button-padding-y-small)',
+  'input-padding-y': 'var(--rc-input-padding-y)',
+  'gap-2xl': 'var(--rc-gap-2xl)',
+  'gap-3xl': 'var(--rc-gap-3xl)',
+  'gap-lg': 'var(--rc-gap-lg)',
+  'gap-md': 'var(--rc-gap-md)',
+  'gap-sm': 'var(--rc-gap-sm)',
+  'gap-xl': 'var(--rc-gap-xl)',
+  'gap-xs': 'var(--rc-gap-xs)',
+  'padding-lg': 'var(--rc-padding-lg)',
+  'padding-md': 'var(--rc-padding-md)',
+  'padding-sm': 'var(--rc-padding-sm)',
+  'padding-xl': 'var(--rc-padding-xl)',
+  'padding-xs': 'var(--rc-padding-xs)',
+  'space-0': 'var(--rc-space-0)',
+  'space-10': 'var(--rc-space-10)',
+  'space-12': 'var(--rc-space-12)',
+  'space-16': 'var(--rc-space-16)',
+  'space-2': 'var(--rc-space-2)',
+  'space-20': 'var(--rc-space-20)',
+  'space-24': 'var(--rc-space-24)',
+  'space-32': 'var(--rc-space-32)',
+  'space-36': 'var(--rc-space-36)',
+  'space-4': 'var(--rc-space-4)',
+  'space-40': 'var(--rc-space-40)',
+  'space-48': 'var(--rc-space-48)',
+  'space-6': 'var(--rc-space-6)',
+  'space-64': 'var(--rc-space-64)',
+  'space-8': 'var(--rc-space-8)',
+  'space-80': 'var(--rc-space-80)',
+  'space-96': 'var(--rc-space-96)',
+} as const
+
+export { spacingRoleBasedTokens }
+export default spacingRoleBasedTokens
