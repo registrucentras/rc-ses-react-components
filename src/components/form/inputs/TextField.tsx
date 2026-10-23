@@ -2,12 +2,12 @@ import {
   OutlinedTextFieldProps as MuiOutlinedTextFieldProps,
   TextField,
 } from '@mui/material'
+import { mergeSlotProps } from '@mui/material/utils'
 import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import RcSesFormControlWrapper, {
-  RcSesFormControlWrapperProps,
-} from '../components/FormControlWrapper'
+import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
+import TextFieldControl, { textFieldInputStyles } from './TextField.styles'
 
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>
 type ImmediateFieldProps =
@@ -31,11 +31,12 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
   const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   return (
-    <RcSesFormControlWrapper
+    <TextFieldControl
       id={id}
       errors={errors}
       label={label}
       required={props.required}
+      fieldDisabled={props.disabled}
       {...slotProps?.wrapper}
     >
       <TextField
@@ -43,10 +44,16 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
         inputRef={ref}
         fullWidth
         {...slotProps?.field}
+        slotProps={{
+          ...slotProps?.field?.slotProps,
+          input: mergeSlotProps(slotProps?.field?.slotProps?.input, {
+            sx: textFieldInputStyles,
+          }),
+        }}
         id={id}
         error={!!errors}
       />
-    </RcSesFormControlWrapper>
+    </TextFieldControl>
   )
 })
 
