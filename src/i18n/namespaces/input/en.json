@@ -60,8 +60,10 @@
     "RcSesSelect": {
       "searchPlaceholder": "Search",
       "selectAllLabel": "All",
-      "noOptionsText": "No results found",
-      "loadingText": "Loading..."
+      "more": "and {{count}} more",
+      "loading": "Loading...",
+      "noResults": "No results for \u201c{{query}}\u201d",
+      "refineSearch": "Refine your search."
     },
 
     "RcSesSearchInput": {
