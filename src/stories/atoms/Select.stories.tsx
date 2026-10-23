@@ -17,7 +17,7 @@ const meta: Meta<typeof RcSesSelect> = {
     docs: {
       description: {
         component:
-          'Pasirinkimo laukas su paieška ir grupėmis. Keli pasirinkimai rodomi tekstine santrauka; tuščias pasirinkimas reiškia „Visi“.',
+          'Pasirinkimo laukas su paieška ir grupėmis. Keli pasirinkimai rodomi tekstine santrauka. „Visi“ įjungiama tik multi select režime, aiškiai perdavus selectAll={true}; pagal nutylėjimą išjungta.',
       },
     },
   },

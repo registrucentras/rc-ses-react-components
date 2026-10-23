@@ -144,9 +144,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     rules,
     slotProps,
     dropdownLabel,
-    dropdownSearch = true,
+    dropdownSearch = false,
     dropdownSearchPlaceholder,
-    selectAll = true,
+    selectAll = false,
     selectAllLabel,
     ...fieldProps
   } = props
@@ -365,7 +365,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
 
   const resolvedOptions = useMemo(() => {
     const rows: Option[] = []
-    if ((!multiple || selectAll) && filteredOptions.length > 0 && !loading && !loadError)
+    if (multiple && selectAll && filteredOptions.length > 0 && !loading && !loadError)
       rows.push(selectAllOption)
     return loading || loadError ? rows : [...rows, ...optionsWithGroupMarkers]
   }, [
@@ -649,9 +649,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                         component='span'
                         sx={{ overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}
                       >
-                        {multiple
-                          ? visibleSummary
-                          : singleSummary || placeholder || resolvedSelectAllLabel}
+                        {multiple ? visibleSummary : singleSummary || placeholder}
                       </Box>
                       {multiple && !isAll && selectedLabels.length > visibleCount && (
                         <Box component='span' sx={{ flexShrink: 0, whiteSpace: 'pre' }}>

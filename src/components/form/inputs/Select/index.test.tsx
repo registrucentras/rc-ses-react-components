@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import theme from '@/theme/light'
 
@@ -9,6 +9,7 @@ import RcSesSelect from '.'
 
 interface TestWrapperProps {
   defaultValue?: string | null
+  dropdownSearch?: boolean
 }
 
 const options = [
@@ -60,7 +61,7 @@ const UnregisterTestWrapper = ({ shouldUnregister }: UnregisterTestWrapperProps)
   )
 }
 
-const TestWrapper = ({ defaultValue = null }: TestWrapperProps) => {
+const TestWrapper = ({ defaultValue = null, dropdownSearch }: TestWrapperProps) => {
   const { control } = useForm({
     defaultValues: {
       selection: defaultValue,
@@ -75,7 +76,26 @@ const TestWrapper = ({ defaultValue = null }: TestWrapperProps) => {
         control={control}
         label='Pasirinkti'
         options={options}
+        dropdownSearch={dropdownSearch}
       />
+    </ThemeProvider>
+  )
+}
+
+const DefaultMultiTestWrapper = () => {
+  const { control } = useForm({ defaultValues: { selection: [] as string[] } })
+  const selection = useWatch({ control, name: 'selection' })
+
+  return (
+    <ThemeProvider theme={theme}>
+      <RcSesSelect
+        name='selection'
+        control={control}
+        label='Pasirinkti'
+        options={options}
+        multiple
+      />
+      <output data-testid='default-selection'>{JSON.stringify(selection)}</output>
     </ThemeProvider>
   )
 }
@@ -151,6 +171,43 @@ const readGroupedFormValues = (): GroupedFormModel => {
 }
 
 describe('RcSesSelect', () => {
+  test('defaults to searching in the main input without a dropdown search field', async () => {
+    render(<TestWrapper />)
+
+    const input = screen.getByRole('combobox')
+    fireEvent.mouseDown(input)
+    fireEvent.change(input, { target: { value: 'Trumpas' } })
+
+    expect(
+      await screen.findByRole('option', { name: options[1].label }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('option', { name: options[0].label }),
+    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
+  test('single select has no All option or implicit All label', async () => {
+    render(<TestWrapper />)
+    expect(screen.queryByText('Visi')).not.toBeInTheDocument()
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    await screen.findByRole('option', { name: options[0].label })
+    expect(screen.queryByRole('option', { name: 'Visi' })).not.toBeInTheDocument()
+    expect(screen.getAllByRole('option')).toHaveLength(options.length)
+  })
+
+  test('multi select defaults to no All option and preserves all selected values', async () => {
+    render(<DefaultMultiTestWrapper />)
+    expect(screen.queryByText('Visi')).not.toBeInTheDocument()
+    fireEvent.mouseDown(screen.getByRole('combobox'))
+    fireEvent.click(await screen.findByRole('option', { name: options[0].label }))
+    expect(screen.queryByRole('option', { name: 'Visi' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('option', { name: options[1].label }))
+    expect(
+      JSON.parse(screen.getByTestId('default-selection').textContent ?? '[]'),
+    ).toEqual(options.map((option) => option.value))
+  })
+
   test('single select rodo pilna pasirinktos reiksmes label', () => {
     render(<TestWrapper defaultValue='long-option' />)
 
@@ -165,10 +222,9 @@ describe('RcSesSelect', () => {
     render(<TestWrapper />)
 
     const input = screen.getByRole('combobox')
-    expect(input).toHaveAttribute('readonly')
+    expect(input).not.toHaveAttribute('readonly')
 
     fireEvent.mouseDown(input)
-    fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
@@ -187,7 +243,7 @@ describe('RcSesSelect', () => {
     fireEvent.mouseDown(screen.getByRole('combobox'))
 
     await waitFor(() => {
-      expect(screen.getAllByRole('option')).toHaveLength(options.length + 1)
+      expect(screen.getAllByRole('option')).toHaveLength(options.length)
     })
   })
 
@@ -209,7 +265,7 @@ describe('RcSesSelect', () => {
   })
 
   test('shows a Lithuanian empty state when the typed text matches no option', async () => {
-    render(<TestWrapper />)
+    render(<TestWrapper dropdownSearch />)
 
     const input = screen.getByRole('combobox')
     fireEvent.mouseDown(input)
