@@ -9,11 +9,13 @@ import { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorPrimitives } from '@/theme/colorTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
-} from '../components/FormControlWrapper'
+} from '../../components/FormControlWrapper'
 
 export interface RadioOption {
   label: string
@@ -99,13 +101,17 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
 
 const RcSesRadioButtonGroup = styled(UnstyledRcSesRadioButtonGroup)((props) => ({
   '.rc-ses-form-field-wrapper': {
-    backgroundColor: props.variant === 'filled' ? palette.grey['100'] : 'transparent',
-    borderColor: props.variant === 'outlined' ? palette.grey['500'] : 'transparent',
+    backgroundColor:
+      props.variant === 'filled' ? colorPrimitives.neutrals['100'] : 'transparent',
+    borderColor:
+      props.variant === 'outlined' ? colorPrimitives.neutrals['500'] : 'transparent',
     borderStyle: 'solid',
     borderWidth: props.variant === 'outlined' ? '1px' : 0,
-    borderRadius: '.5rem',
+    borderRadius: borderTokens['radius-input'],
     margin: 0,
-    padding: props.hideNativeRadio ? undefined : '.25rem .75rem',
+    padding: props.hideNativeRadio
+      ? undefined
+      : `${spacingTokens['spacing-primitives-4']} ${spacingTokens['spacing-primitives-12']}`,
   },
 }))
 

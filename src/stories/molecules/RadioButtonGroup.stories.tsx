@@ -1,7 +1,7 @@
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
-import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup'
+import RcSesRadioButtonGroup from '@/components/form/inputs/RadioButtonGroup/RadioButtonGroup'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'

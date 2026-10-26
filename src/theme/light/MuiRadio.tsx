@@ -1,6 +1,7 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorPrimitives, colorTokens } from '../colorTokens'
 
 const MuiRadio: Components['MuiRadio'] = {
   defaultProps: {
@@ -19,8 +20,8 @@ const MuiRadio: Components['MuiRadio'] = {
           width='23'
           height='23'
           rx='11.5'
-          fill='#06A0D4'
-          stroke='#06A0D4'
+          fill={colorPrimitives.cyans['500']}
+          stroke={colorPrimitives.cyans['500']}
         />
         <circle data-name='inner' cx='12' cy='12' r='5' fill='white' />
       </svg>
@@ -41,7 +42,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          stroke='#8E959E'
+          stroke={colorPrimitives.neutrals['500']}
           strokeWidth='2'
         />
       </svg>
@@ -49,13 +50,16 @@ const MuiRadio: Components['MuiRadio'] = {
   },
   styleOverrides: {
     root: {
-      borderWidth: '2px',
+      borderWidth: borderTokens['stroke-2'],
       margin: '5px',
       padding: '4px',
 
       '&.Mui-disabled': {
         '[data-name="inner"]': {
-          fill: palette.grey['200'],
+          fill: colorTokens['control-disabled'],
+        },
+        '[data-name="outer"]': {
+          stroke: colorTokens['control-disabled'],
         },
       },
     },
