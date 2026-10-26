@@ -1,7 +1,28 @@
 import { Components } from '@mui/material'
+import type { Theme } from '@mui/material/styles'
 
-import palette, { error, grey, overlays, primary, secondary, warning } from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color, colorPrimitives } from '../colorTokens'
+import { effectTokens as effect } from '../effectTokens'
+import { sizeTokens as size } from '../sizeTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
+import { typographyTokens as typography } from '../typographyTokens'
 
+// Existing control dimensions remain usable when DS CSS variables are absent.
+const withFallback = (reference: string, value: string) =>
+  `${reference.slice(0, -1)}, ${value})`
+
+// Internal to the theme and wrapper; these do not add foundation tokens or props.
+export const buttonDimensions = {
+  small: `calc(${withFallback(typography['line-height-button-compact'], '1.25rem')} + ${withFallback(space['button-padding-y-small'], '0.5rem')} * 2)`,
+  medium: `calc(${withFallback(typography['line-height-button-regular'], '1.25rem')} + ${withFallback(space['button-padding-y-regular'], '0.75rem')} * 2)`,
+  linkMedium: `calc(${withFallback(typography['line-height-button-regular'], '1.125rem')} + ${withFallback(space['button-padding-y-regular'], '0.625rem')} * 2)`,
+  large: withFallback(space['space-48'], '3rem'),
+  iconPaddingSmall: withFallback(space['button-padding-icon-only-small'], '0'),
+  iconPaddingRegular: withFallback(space['button-padding-icon-only-regular'], '0'),
+}
+
+// Extra legacy colors have no DS action roles. Their existing primitives are retained.
 const MuiButton: Components['MuiButton'] = {
   variants: [
     {
@@ -9,7 +30,7 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'text',
       },
       style: {
-        color: palette.primary[600],
+        color: colorPrimitives.cyans[600],
       },
     },
     {
@@ -17,95 +38,84 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.primary[600],
-        fontSize: '.875rem',
+        color: color['action-link-text'],
+        fontSize: withFallback(typography['font-size-button-regular'], '0.875rem'),
+        lineHeight: withFallback(typography['line-height-button-regular'], '1.125rem'),
         fontWeight: 600,
-        height: '2.375rem',
-        // Link buttons are typographic elements — they sit flush with the
-        // surrounding text, not with contained/outlined button hit-area
-        // padding. sizeSmall/sizeLarge already opt out of the root horizontal
-        // padding; the default (medium) needs the same treatment so a
-        // any link lines up under a heading, not 20px indented.
-        padding: '.8125rem 0',
+        height: buttonDimensions.linkMedium,
+        // Link has no padding role at this size; retain its compact primitive.
+        padding: `${withFallback(space['button-padding-y-regular'], '0.8125rem')} ${withFallback(space['space-4'], '0')}`,
 
         '&.Mui-disabled': {
-          opacity: 0.4,
+          opacity: 1,
 
           '&.MuiButton-colorPrimary': {
-            color: palette.primary[600],
+            color: color['text-disabled'],
           },
         },
 
         '&:not(.Mui-disabled)': {
           'svg path': {
-            fill: palette.primary[600],
+            fill: 'currentColor',
           },
 
           '&:hover': {
             backgroundColor: 'transparent',
-            color: palette.primary[700],
+            color: color['action-link-text-hover'],
 
             'svg path': {
-              fill: palette.primary[700],
+              fill: 'currentColor',
             },
           },
 
           '&:active': {
             backgroundColor: 'transparent',
-            color: palette.primary[900],
+            color: color['action-link-text-hover'],
 
             'svg path': {
-              fill: palette.primary[900],
+              fill: 'currentColor',
             },
           },
 
-          '&:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
-            {
-              content: '""',
-              background: 'transparent',
-              border: '2px solid',
-              borderColor: grey[950],
-              borderRadius: '0.75rem',
-              height: 'calc(100% + 8px)',
-              left: '-4px',
-              position: 'absolute',
-              top: '-4px',
-              width: 'calc(100% + 8px)',
-              zIndex: 1,
-            },
+          '&:focus-visible:not(:active)': { boxShadow: effect['focus-ring-default'] },
         },
 
         '&.MuiButton-sizeSmall': {
           fontWeight: 400,
-          height: '2.25rem',
-          padding: '.625rem .5rem',
+          height: buttonDimensions.small,
+          fontSize: withFallback(typography['font-size-button-compact'], '0.875rem'),
+          lineHeight: withFallback(typography['line-height-button-compact'], '1.125rem'),
+          padding: `${withFallback(space['button-padding-y-small'], '0.625rem')} ${withFallback(space['space-4'], '0.5rem')}`,
+          '.MuiButton-startIcon': {
+            // No six-unit gap role exists for Small buttons.
+            marginRight: space['space-6'],
+          },
+          '.MuiButton-endIcon': {
+            marginLeft: space['space-6'],
+          },
         },
 
         '&.MuiButton-sizeLarge': {
-          fontSize: '.9375rem',
-          padding: '.6875rem 0',
+          fontSize: withFallback(typography['font-size-button-regular'], '0.9375rem'),
+          padding: `${withFallback(space['button-padding-y-regular'], '0.6875rem')} 0`,
         },
 
         '.MuiButton-startIcon': {
           marginLeft: 0,
-          marginRight: '.25rem',
+          marginRight: space['gap-sm'],
         },
 
         '.MuiButton-endIcon': {
-          marginLeft: '.25rem',
+          marginLeft: space['gap-sm'],
         },
 
-        // MUI absolutely positions the start/end loading indicator at
-        // `left/right: 14px` to sit inside the root's default horizontal
-        // padding. Link variant has zero horizontal padding, so 14px lands
-        // on top of the label. Reserve room on the loading side and pin the
-        // indicator to the edge so spinner and label sit side by side.
+        // Preserve the existing Link loading layout, using the spacing primitive.
         '&.MuiButton-loadingPositionStart.MuiButton-loading': {
-          paddingLeft: '1.5rem',
+          paddingLeft: space['space-24'],
           '.MuiButton-loadingIndicatorStart': { left: 0 },
         },
         '&.MuiButton-loadingPositionEnd.MuiButton-loading': {
-          paddingRight: '1.5rem',
+          paddingRight: space['space-24'],
           '.MuiButton-loadingIndicatorEnd': { right: 0 },
         },
       },
@@ -116,20 +126,20 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.grey[600],
-        fontSize: '.875rem',
-        lineHeight: '1rem',
-        padding: '.6875rem .25rem',
+        color: color['text-secondary'],
+        fontSize: withFallback(typography['font-size-button-compact'], '0.875rem'),
+        lineHeight: withFallback(typography['line-height-button-compact'], '1rem'),
+        padding: `${withFallback(space['button-padding-y-regular'], '0.6875rem')} ${withFallback(space['space-4'], '0.25rem')}`,
 
         '&:not(.Mui-disabled)': {
           '&:hover': {
             backgroundColor: 'transparent',
-            color: palette.grey[700],
+            color: colorPrimitives.neutrals[700],
           },
 
           '&:active': {
             backgroundColor: 'transparent',
-            color: palette.grey[900],
+            color: colorPrimitives.neutrals[900],
           },
         },
       },
@@ -140,7 +150,7 @@ const MuiButton: Components['MuiButton'] = {
         variant: 'link',
       },
       style: {
-        color: palette.grey[700],
+        color: colorPrimitives.neutrals[700],
         textDecoration: 'underline',
       },
     },
@@ -152,53 +162,58 @@ const MuiButton: Components['MuiButton'] = {
   },
   styleOverrides: {
     root: {
-      borderRadius: '0.5rem',
-      fontSize: '.9375rem',
-      height: '2.75rem',
+      borderRadius: border['radius-button'],
+      fontSize: withFallback(typography['font-size-button-regular'], '0.9375rem'),
+      height: buttonDimensions.medium,
       letterSpacing: 0,
-      lineHeight: '1.125rem',
-      padding: '.8125rem 1.25rem',
+      lineHeight: withFallback(typography['line-height-button-regular'], '1.125rem'),
+      // Private layout alias keeps media queries from overriding consumer padding.
+      '--_rc-button-padding-x': withFallback(space['space-16'], '1.25rem'),
+      padding: `${withFallback(space['button-padding-y-regular'], '0.8125rem')} var(--_rc-button-padding-x)`,
       position: 'relative',
       textTransform: 'none',
+      // No horizontal Button role exists in the current map; retain its primitives.
+      variants: [
+        {
+          props: { size: 'medium' },
+          style: ({ theme }) => ({
+            [(theme as Theme).breakpoints.up('sm')]: {
+              '--_rc-button-padding-x': withFallback(space['space-20'], '1.25rem'),
+            },
+          }),
+        },
+      ],
+      '.MuiButton-startIcon': {
+        marginLeft: 0,
+        marginRight: space['gap-sm'],
+      },
+      '.MuiButton-endIcon': {
+        marginRight: 0,
+        marginLeft: space['gap-sm'],
+      },
+      '.MuiButton-startIcon > svg, .MuiButton-endIcon > svg, & > svg': {
+        width: size['icon-size-button'],
+        height: size['icon-size-button'],
+        flexShrink: 0,
+      },
+      '.MuiButton-loadingIndicatorStart': {
+        left: 'var(--_rc-button-padding-x)',
+      },
+      '.MuiButton-loadingIndicatorEnd': {
+        right: 'var(--_rc-button-padding-x)',
+      },
 
-      // MUI hard-codes the centered loading indicator to
-      // `palette.action.disabled` (rgba(0,0,0,0.26)) which fails WCAG 1.4.11
-      // on every light-surface variant (~1.85:1). Override to grey[600] here —
-      // (0,3,0) specificity beats MUI's single-class rule, while the more
-      // specific colorLight / colorGhost blocks below still win on dark
-      // surfaces. The `.Mui-disabled` half is dropped: `loadingPositionCenter`
-      // is only applied while `loading` is truthy.
-      '&.MuiButton-loadingPositionCenter.MuiButton-loading': {
-        color: 'transparent !important',
+      '&.MuiButton-loadingPositionCenter.MuiButton-loading.Mui-disabled': {
+        color: 'transparent',
         '& .MuiButton-startIcon, & .MuiButton-endIcon': {
           visibility: 'hidden',
         },
         '& .MuiButton-loadingIndicator': {
-          color: grey[600],
+          color: color['text-disabled'],
         },
       },
-      '&.MuiButton-contained:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
-        {
-          background: 'transparent',
-          border: '2px solid',
-          borderColor: grey[950],
-          borderRadius: '0.75rem',
-          content: '""',
-          height: 'calc(100% + 8px)',
-          left: '-4px',
-          position: 'absolute',
-          top: '-4px',
-          width: 'calc(100% + 8px)',
-          zIndex: 1,
-        },
-
-      '&.MuiButton-outlined:focus-visible:not(:active)::before': {
-        borderRadius: '0.75rem',
-        height: 'calc(100% + 8px)',
-        left: '-4px',
-        top: '-4px',
-        width: 'calc(100% + 8px)',
-      },
+      '&.MuiButton-contained:focus-visible:not(:active), &.MuiButton-outlined:focus-visible:not(:active)':
+        { boxShadow: effect['focus-ring-default'] },
 
       '.MuiButton-startIcon, .MuiButton-endIcon, & > svg': {
         color: 'inherit',
@@ -222,288 +237,303 @@ const MuiButton: Components['MuiButton'] = {
     },
 
     sizeSmall: {
-      height: '2.25rem',
-      padding: '.5rem .75rem',
+      height: buttonDimensions.small,
+      fontSize: withFallback(typography['font-size-button-compact'], '0.9375rem'),
+      lineHeight: withFallback(typography['line-height-button-compact'], '1.125rem'),
+      '--_rc-button-padding-x': withFallback(space['space-12'], '0.75rem'),
+      padding: `${withFallback(space['button-padding-y-small'], '0.5rem')} var(--_rc-button-padding-x)`,
+      variants: [
+        {
+          props: { size: 'small' },
+          style: ({ theme }) => ({
+            [(theme as Theme).breakpoints.up('sm')]: {
+              '--_rc-button-padding-x': withFallback(space['space-16'], '0.75rem'),
+            },
+          }),
+        },
+      ],
+      '.MuiButton-startIcon': {
+        // No six-unit gap role exists for Small buttons.
+        marginRight: space['space-6'],
+      },
+      '.MuiButton-endIcon': {
+        marginLeft: space['space-6'],
+      },
+      '.MuiButton-loadingIndicatorStart': {
+        left: 'var(--_rc-button-padding-x)',
+      },
+      '.MuiButton-loadingIndicatorEnd': {
+        right: 'var(--_rc-button-padding-x)',
+      },
     },
 
     sizeLarge: {
-      padding: '.9375rem 2.25rem',
+      // No DS Large role exists; retain its horizontal primitive.
+      padding: `${withFallback(space['button-padding-y-regular'], '0.9375rem')} ${withFallback(space['space-36'], '2.25rem')}`,
     },
 
     contained: {
-      '&.Mui-disabled': {
-        backgroundColor: `${grey[100]} !important`,
-        color: `${grey[600]} !important`,
-        opacity: 1,
-      },
-
       '&.MuiButton-colorPrimary': {
-        color: primary['950'],
-        backgroundColor: primary[200],
+        color: color['action-primary-text'],
+        backgroundColor: color['action-primary-bg'],
 
         '&:hover': {
-          backgroundColor: primary[300],
+          backgroundColor: color['action-primary-bg-hover'],
         },
         '&:active': {
-          backgroundColor: primary[400],
+          backgroundColor: color['action-primary-bg-pressed'],
         },
       },
 
       '&.MuiButton-colorGrey': {
-        color: grey[900],
-        backgroundColor: grey[100],
+        color: color['text-default'],
+        backgroundColor: color['surface-muted'],
 
         '&:hover': {
-          backgroundColor: grey[200],
+          backgroundColor: colorPrimitives.neutrals[200],
         },
         '&:active': {
-          backgroundColor: grey[300],
+          backgroundColor: colorPrimitives.neutrals[300],
         },
       },
 
       '&.MuiButton-colorDark': {
-        color: 'white',
-        backgroundColor: grey[900],
+        color: color['text-inverse'],
+        backgroundColor: colorPrimitives.neutrals[900],
 
         '&:hover': {
-          backgroundColor: grey[800],
+          backgroundColor: colorPrimitives.neutrals[800],
         },
         '&:active': {
-          backgroundColor: grey[700],
+          backgroundColor: colorPrimitives.neutrals[700],
         },
       },
 
       '&.MuiButton-colorSecondary': {
-        color: secondary['950'],
-        backgroundColor: secondary[200],
+        color: colorPrimitives.greens[950],
+        backgroundColor: colorPrimitives.greens[200],
 
         '&:hover': {
-          backgroundColor: secondary[300],
+          backgroundColor: colorPrimitives.greens[300],
         },
         '&:active': {
-          backgroundColor: secondary[400],
+          backgroundColor: colorPrimitives.greens[400],
         },
       },
 
       '&.MuiButton-colorWarning': {
-        color: warning['950'],
-        backgroundColor: warning[200],
+        color: colorPrimitives.yellows[950],
+        backgroundColor: colorPrimitives.yellows[200],
 
         '&:hover': {
-          backgroundColor: warning[300],
+          backgroundColor: colorPrimitives.yellows[300],
         },
         '&:active': {
-          backgroundColor: warning[400],
+          backgroundColor: colorPrimitives.yellows[400],
         },
       },
 
       '&.MuiButton-colorError': {
-        color: error['700'],
-        backgroundColor: error[100],
+        color: color['action-destructive-text'],
+        backgroundColor: color['action-destructive-bg'],
 
         '&:hover': {
-          backgroundColor: error[200],
+          backgroundColor: color['action-destructive-bg-hover'],
         },
         '&:active': {
-          backgroundColor: error[300],
+          backgroundColor: color['action-destructive-bg-pressed'],
         },
-
-        '&:not(.Mui-disabled)': {
-          '&:focus-visible:not(:active)::before, &.MuiButton-outlined:focus-visible:not(:active)::before':
-            {
-              borderColor: error[700],
-              borderRadius: '0.75rem',
-            },
-        },
+      },
+      '&.Mui-disabled': {
+        backgroundColor: color['action-primary-bg-disabled'],
+        color: color['action-primary-text-disabled'],
+        opacity: 1,
       },
     },
 
     outlined: {
-      borderColor: grey[300],
-      borderWidth: '1px',
-
-      '&.Mui-disabled': {
-        backgroundColor: `transparent !important`,
-        borderColor: `${grey[300]} !important`,
-        color: `${grey[600]} !important`,
-        opacity: 1,
-      },
+      borderColor: color['action-secondary-border'],
+      borderWidth: border['border-default'],
 
       '&.MuiButton-colorPrimary': {
-        borderColor: primary[600],
-        color: primary[600],
+        borderColor: colorPrimitives.cyans[600],
+        color: colorPrimitives.cyans[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: primary[50],
+          backgroundColor: color['surface-brand-subtle'],
         },
         '&:active': {
-          backgroundColor: primary[100],
+          backgroundColor: colorPrimitives.cyans[100],
         },
       },
 
       '&.MuiButton-colorGrey': {
-        borderColor: grey[300],
-        color: grey[900],
-        backgroundColor: 'transparent',
+        borderColor: color['action-secondary-border'],
+        color: color['action-secondary-text'],
+        backgroundColor: color['action-secondary-bg'],
 
         '&:hover': {
-          backgroundColor: grey[50],
+          backgroundColor: color['action-secondary-bg-hover'],
+          borderColor: color['action-secondary-border-hover'],
         },
         '&:active': {
-          backgroundColor: grey[100],
+          backgroundColor: color['surface-muted'],
+        },
+        '&.Mui-disabled.MuiButton-loading': {
+          borderColor: color['action-secondary-border'],
         },
       },
 
       '&.MuiButton-colorSecondary': {
-        borderColor: secondary[600],
-        color: secondary[600],
+        borderColor: colorPrimitives.greens[600],
+        color: colorPrimitives.greens[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: secondary[50],
+          backgroundColor: colorPrimitives.greens[50],
         },
         '&:active': {
-          backgroundColor: secondary[100],
+          backgroundColor: colorPrimitives.greens[100],
         },
       },
 
       '&.MuiButton-colorWarning': {
-        borderColor: warning[600],
-        color: warning[600],
+        borderColor: colorPrimitives.yellows[600],
+        color: colorPrimitives.yellows[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: warning[50],
+          backgroundColor: colorPrimitives.yellows[50],
         },
         '&:active': {
-          backgroundColor: warning[100],
+          backgroundColor: colorPrimitives.yellows[100],
         },
       },
 
       '&.MuiButton-colorError': {
-        borderColor: error[600],
-        color: error[600],
+        borderColor: colorPrimitives.red[600],
+        color: colorPrimitives.red[600],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: error[50],
+          backgroundColor: colorPrimitives.red[50],
         },
         '&:active': {
-          backgroundColor: error[100],
+          backgroundColor: colorPrimitives.red[100],
         },
       },
 
       '&.MuiButton-colorLight': {
-        borderColor: grey[50],
-        color: grey[50],
+        borderColor: colorPrimitives.neutrals[50],
+        color: color['text-inverse'],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: overlays['200'],
+          backgroundColor: colorPrimitives.overlays.white[8],
         },
         '&:active': {
-          backgroundColor: overlays['300'],
+          backgroundColor: colorPrimitives.overlays.white[16],
         },
         '&.Mui-disabled': {
-          borderColor: `${grey[500]} !important`,
-          color: `${grey[500]} !important`,
-          // Same reasoning as ghost - MUI hard-codes the loading indicator to
-          // `palette.action.disabled` which is invisible on dark surfaces.
+          backgroundColor: 'transparent',
+          borderColor: color['text-disabled'],
+          color: color['text-disabled'],
+
           '& .MuiButton-loadingIndicator': {
-            color: grey[500],
+            color: color['text-disabled'],
           },
           '&.MuiButton-loadingPositionCenter': {
-            color: 'transparent !important',
+            color: 'transparent',
           },
         },
       },
 
       '&.MuiButton-colorGhost': {
         borderColor: 'transparent',
-        color: grey[50],
+        color: color['text-inverse'],
         backgroundColor: 'transparent',
 
         '&:hover': {
-          backgroundColor: overlays['200'],
+          backgroundColor: colorPrimitives.overlays.white[8],
         },
         '&:active': {
-          backgroundColor: overlays['300'],
+          backgroundColor: colorPrimitives.overlays.white[16],
         },
         '&.Mui-disabled': {
-          borderColor: `transparent !important`,
-          // Ghost buttons live on dark surfaces; the root outlined
-          // `.Mui-disabled` rule paints text `grey[600]`, which disappears on
-          // a near-black background. Keep the light color and, importantly,
-          // override MUI's `.MuiButton-loadingIndicator { color: action.disabled }`
-          // (dark grey ~ #0000000042) so the spinner stays visible while loading.
-          color: `${grey[300]} !important`,
+          backgroundColor: 'transparent',
+          borderColor: `transparent`,
+
+          color: colorPrimitives.neutrals[300],
           '& .MuiButton-loadingIndicator': {
-            color: grey[300],
+            color: colorPrimitives.neutrals[300],
           },
-          // The root `.MuiButton-loadingPositionCenter` transparent rule loses
-          // the specificity fight against the color override above (nested
-          // inside `.MuiButton-colorGhost`), so re-apply it here to hide the
-          // label/icon while the centered spinner shows.
+
           '&.MuiButton-loadingPositionCenter': {
-            color: 'transparent !important',
+            color: 'transparent',
           },
         },
+      },
+      '&.Mui-disabled': {
+        backgroundColor: color['action-primary-bg-disabled'],
+        borderColor: color['border-subtle'],
+        color: color['text-disabled'],
+        opacity: 1,
       },
     },
     text: {
       '&.MuiButton-colorGrey': {
-        color: grey[600],
+        color: color['text-secondary'],
 
         '&:hover': {
-          color: grey[700],
+          color: colorPrimitives.neutrals[700],
         },
         '&:active': {
-          color: grey[900],
+          color: colorPrimitives.neutrals[900],
         },
       },
 
       '&.MuiButton-colorDark': {
-        color: grey[900],
+        color: color['text-default'],
 
         '&:hover': {
-          color: grey[800],
+          color: colorPrimitives.neutrals[800],
         },
         '&:active': {
-          color: grey[700],
+          color: colorPrimitives.neutrals[700],
         },
       },
 
       '&.MuiButton-colorSecondary': {
-        color: secondary[600],
+        color: colorPrimitives.greens[600],
 
         '&:hover': {
-          color: secondary[700],
+          color: colorPrimitives.greens[700],
         },
         '&:active': {
-          color: secondary[900],
+          color: colorPrimitives.greens[900],
         },
       },
 
       '&.MuiButton-colorWarning': {
-        color: warning[600],
+        color: colorPrimitives.yellows[600],
 
         '&:hover': {
-          color: warning[700],
+          color: colorPrimitives.yellows[700],
         },
         '&:active': {
-          color: warning[900],
+          color: colorPrimitives.yellows[900],
         },
       },
 
       '&.MuiButton-colorError': {
-        color: error[600],
+        color: colorPrimitives.red[600],
 
         '&:hover': {
-          color: error[700],
+          color: colorPrimitives.red[700],
         },
         '&:active': {
-          color: error[900],
+          color: colorPrimitives.red[900],
         },
       },
     },

@@ -12,51 +12,33 @@ test('link shows a keyboard focus indicator and mouse release restores hover/bas
   await page.keyboard.press('Tab')
   await expect(button).toBeFocused()
   expect(await button.evaluate((element) => element.matches(':focus-visible'))).toBe(true)
-  const ring = await button.evaluate((element) => {
-    const style = getComputedStyle(element, '::before')
-    return {
-      content: style.content,
-      width: style.borderTopWidth,
-      style: style.borderTopStyle,
-      color: style.borderTopColor,
-    }
-  })
-  expect(ring).toEqual({
-    content: '""',
-    width: '2px',
-    style: 'solid',
-    color: 'rgb(16, 22, 31)',
-  })
+  await expect(button).toHaveCSS('box-shadow', 'rgb(0, 121, 173) 0px 0px 0px 2px')
 
   // Start a fresh pointer interaction without retained keyboard modality.
   await page.reload()
   await expect(button).toBeVisible()
   await button.hover()
-  await expect(button).toHaveCSS('color', 'rgb(14, 103, 144)')
+  await expect(button).toHaveCSS('color', 'rgb(21, 85, 117)')
   await page.mouse.down()
-  await expect(button).toHaveCSS('color', 'rgb(22, 71, 99)')
+  await expect(button).toHaveCSS('color', 'rgb(21, 85, 117)')
   await page.mouse.up()
   await expect(button).toBeFocused()
   expect(await button.evaluate((element) => element.matches(':focus-visible'))).toBe(
     false,
   )
-  await expect(button).toHaveCSS('color', 'rgb(14, 103, 144)')
-  expect(['none', 'normal']).toContain(
-    await button.evaluate((element) => getComputedStyle(element, '::before').content),
-  )
+  await expect(button).toHaveCSS('color', 'rgb(21, 85, 117)')
+  await expect(button).toHaveCSS('box-shadow', 'none')
   await page.mouse.move(0, 0)
   await expect(button).toBeFocused()
-  await expect(button).toHaveCSS('color', 'rgb(0, 121, 173)')
+  await expect(button).toHaveCSS('color', 'rgb(14, 103, 144)')
 })
 
-test('disabled link retains its existing appearance and cannot receive focus', async ({
-  page,
-}) => {
+test('disabled link uses DS disabled text and cannot receive focus', async ({ page }) => {
   await page.goto(`${story};disabled:true`)
   const button = page.getByRole('button', { name: 'Button', exact: true })
   await expect(button).toBeDisabled()
-  await expect(button).toHaveCSS('color', 'rgb(0, 121, 173)')
-  await expect(button).toHaveCSS('opacity', '0.4')
+  await expect(button).toHaveCSS('color', 'rgb(142, 149, 158)')
+  await expect(button).toHaveCSS('opacity', '1')
   await page.keyboard.press('Tab')
   await expect(button).not.toBeFocused()
 })
