@@ -21,7 +21,8 @@ test('trailing icons match Figma frames, visible glyph and spacing', async ({ pa
   expect(glyph.width).toBeCloseTo(16.25, 1)
   expect(glyph.height).toBeCloseTo(16.25, 1)
   await root.getByRole('button', { name: 'Clear' }).click()
-  await expect(root).toContainText('Visi')
+  await expect(page.getByTestId('select-values')).toContainText('"multiple":[]')
+  await expect(root).not.toContainText('Visi')
 })
 
 test('existing Select uses live tokens with the legacy Storybook theme', async ({
@@ -126,9 +127,11 @@ test('keyboard selection, disabled, error focus and loading remain available', a
   const input = page.getByRole('combobox', { name: 'Single' })
   await input.focus()
   await page.keyboard.press('ArrowDown')
-  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toBeVisible()
+  await expect(page.getByRole('option', { name: 'Visi', exact: true })).toHaveCount(0)
+  await expect(
+    page.getByRole('option', { name: 'First option Option description' }),
+  ).toBeVisible()
   await page.keyboard.press('Home')
-  await page.keyboard.press('ArrowDown')
   await page.keyboard.press('Enter')
   await expect(page.getByTestId('select-values')).toContainText('"single":"first"')
   await expect(page.getByRole('combobox', { name: 'Disabled' })).toBeDisabled()

@@ -712,6 +712,8 @@ function FigmaPreview() {
             control={control}
             multiple
             options={reports}
+            dropdownSearch
+            selectAll
             dropdownSearchPlaceholder='Ieškoti ataskaitų tipo'
             slotProps={{ wrapper: { labelOnTop: true } }}
           />
