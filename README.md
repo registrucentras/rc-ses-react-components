@@ -15,7 +15,7 @@ request'ų taisyklės ir versijų leidyba.
 
 ## Prerekvizitai
 
-1. Įsitikinkite, kad turite įdiegtą **Node.js 22.x** versiją. Tokia pati Node.js versija šiuo metu naudojama ir CI aplinkoje;
+1. Įsitikinkite, kad turite įdiegtą **Node.js 24.x** (LTS) versiją. Tokia pati Node.js versija šiuo metu naudojama ir CI aplinkoje;
 2. Jei to dar nepadarėte, lokaliai klonuokite `rc-ses-react-components` projektą:
     ```bash
     git clone git@github.com:registrucentras/rc-ses-react-components.git

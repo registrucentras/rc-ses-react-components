@@ -15,7 +15,7 @@ jobs:
     # Runs in the same image the baselines were generated in. Font rasterisation
     # differs between platforms, so this image must stay in step with the
     # Playwright version in package.json and with `npm run test:visual:update`.
-    # The image already ships Node 22, so setup-node is not needed.
+    # The image already ships Node 24, so setup-node is not needed.
     container:
       image: mcr.microsoft.com/playwright:v1.62.0-noble
     steps:
