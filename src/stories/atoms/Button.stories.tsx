@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, ThemeProvider, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 import { fn } from 'storybook/test'
@@ -6,7 +6,8 @@ import { fn } from 'storybook/test'
 import { PlusBoldIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
-import { grey, primary } from '@/theme/palette'
+import { colorTokens as colors } from '@/theme/colorTokens'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const variantOptions: ButtonProps['variant'][] = ['contained', 'outlined', 'link', 'text']
@@ -62,6 +63,128 @@ export const PrimaryContained: Story = {
     iconOnly: false,
     loading: false,
   },
+}
+
+// The names describe DS roles; the component keeps its existing MUI props.
+const designRoles = [
+  { name: 'Primary', variant: 'contained', color: 'primary' },
+  { name: 'Secondary', variant: 'outlined', color: 'grey' },
+  { name: 'Error', variant: 'contained', color: 'error' },
+  { name: 'Link', variant: 'link', color: 'primary' },
+] as const
+
+export const DesignCombinations: Story = {
+  parameters: { layout: 'padded' },
+  render: () => (
+    <Box sx={{ display: 'grid', gap: 4 }}>
+      {designRoles.flatMap((role) =>
+        (['medium', 'small'] as const).map((size) => (
+          <Box key={`${role.name}-${size}`}>
+            <Typography sx={{ mb: 2 }}>
+              {role.name} — {size === 'medium' ? 'Regular' : 'Small'}
+            </Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, max-content)',
+                gap: 2,
+                alignItems: 'center',
+              }}
+            >
+              {(['none', 'left', 'right', 'only'] as const).map((position) => (
+                <Typography key={position}>{position}</Typography>
+              ))}
+              {(['rest', 'disabled', 'loading'] as const).flatMap((state) =>
+                (['none', 'left', 'right', 'only'] as const).map((position) => (
+                  <Button
+                    key={`${state}-${position}`}
+                    data-testid={`ds-${role.name}-${size}-${state}-${position}`}
+                    variant={role.variant}
+                    color={role.color}
+                    size={size}
+                    disabled={state === 'disabled'}
+                    loading={state === 'loading'}
+                    loadingPosition={
+                      position === 'only' || position === 'none'
+                        ? 'center'
+                        : ({ left: 'start', right: 'end' } as const)[position]
+                    }
+                    iconOnly={position === 'only'}
+                    aria-label={position === 'only' ? 'Pridėti' : undefined}
+                    startIcon={position === 'left' ? <PlusBoldIcon /> : undefined}
+                    endIcon={position === 'right' ? <PlusBoldIcon /> : undefined}
+                  >
+                    {position === 'only' ? <PlusBoldIcon /> : 'Button'}
+                  </Button>
+                )),
+              )}
+            </Box>
+          </Box>
+        )),
+      )}
+    </Box>
+  ),
+}
+
+export const TokenBindings: Story = {
+  parameters: { layout: 'padded' },
+  render: () => (
+    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+      <Button startIcon={<PlusBoldIcon />}>Pridėti pasirinktas (4)</Button>
+      <Button variant='outlined' color='grey'>
+        Atšaukti
+      </Button>
+      <Button color='error'>Pašalinti</Button>
+      <Button variant='link'>Skaityti daugiau</Button>
+    </Box>
+  ),
+}
+
+export const TokenOverrides: Story = {
+  tags: ['no-snapshot'],
+  render: () => (
+    <Box sx={{ display: 'flex', gap: 2 }}>
+      <Button
+        iconOnly
+        aria-label='Custom button'
+        sx={{ width: '5rem', height: '4rem', borderRadius: '3px' }}
+      >
+        <PlusBoldIcon />
+      </Button>
+      <Button sx={{ px: 0 }}>Custom padding</Button>
+    </Box>
+  ),
+}
+
+const fallbackTheme = createRcSesTokenTheme()
+
+export const Fallbacks: Story = {
+  tags: ['no-snapshot'],
+  parameters: { layout: 'padded' },
+  render: () => (
+    <ThemeProvider theme={fallbackTheme}>
+      <Box sx={{ display: 'grid', gap: 2, justifyItems: 'start' }}>
+        {(['small', 'medium', 'large'] as const).map((size) => (
+          <Box key={size} sx={{ display: 'flex', gap: 2 }}>
+            <Button size={size} data-testid={`fallback-${size}-normal`}>
+              {size}
+            </Button>
+            <Button
+              size={size}
+              iconOnly
+              aria-label={`Add ${size}`}
+              data-testid={`fallback-${size}-icon`}
+            >
+              <PlusBoldIcon />
+            </Button>
+            <Button size={size} variant='link' data-testid={`fallback-${size}-link`}>
+              Link {size}
+            </Button>
+          </Box>
+        ))}
+      </Box>
+    </ThemeProvider>
+  ),
 }
 
 const disableColorContrast = {
@@ -162,7 +285,7 @@ const CombinationsGrid = ({
   onDark?: boolean
 }) => {
   const rowSpans = rowSpansFor(combos)
-  const labelColor = onDark ? grey[50] : 'text.secondary'
+  const labelColor = onDark ? colors['text-inverse'] : colors['text-secondary']
   return (
     <Box
       sx={{
@@ -196,7 +319,7 @@ const CombinationsGrid = ({
               <Typography
                 variant='body2'
                 sx={{
-                  color: onDark ? grey[50] : undefined,
+                  color: onDark ? colors['text-inverse'] : undefined,
                   fontWeight: 600,
                   gridRow: `span ${rowSpan}`,
                 }}
@@ -248,10 +371,10 @@ export const DarkSurfaceCombinations: Story = {
   render: () => (
     <Box
       sx={{
-        backgroundColor: grey[900],
+        backgroundColor: colors['surface-inverse'],
         borderRadius: 1,
         p: 3,
-        color: grey[50],
+        color: colors['text-inverse'],
         width: 'fit-content',
         minWidth: '100%',
       }}
@@ -284,7 +407,7 @@ export const LinkFocus: Story = {
       <Typography>Before: local simulation only, not library behavior</Typography>
       <Button
         variant='link'
-        sx={{ '&:not(.Mui-disabled):focus': { color: primary[900] } }}
+        sx={{ '&:not(.Mui-disabled):focus': { color: colors['text-default'] } }}
       >
         Before: retained focus color
       </Button>
