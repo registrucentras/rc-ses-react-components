@@ -1,5 +1,28 @@
 import { expect, test } from '@playwright/test'
 
+test('Select inherits shared Rest, Loading, Hover and Focus token roles', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
+  const input = page.getByRole('combobox', { name: 'Single' })
+  await expect(input).toBeVisible()
+  await page.evaluate(() => {
+    const css = document.documentElement.style
+    css.setProperty('--rc-color-border-strong', 'rgb(1 2 3)')
+    css.setProperty('--rc-color-control-border', 'rgb(4 5 6)')
+    css.setProperty('--rc-focus-ring-default', '0 0 0 3px rgb(7 8 9)')
+  })
+  const outline = input.locator('..').locator('fieldset')
+  await expect(outline).toHaveCSS('border-color', 'rgb(1, 2, 3)')
+  await expect(
+    page.getByRole('combobox', { name: 'Loading' }).locator('..').locator('fieldset'),
+  ).toHaveCSS('border-color', 'rgb(1, 2, 3)')
+  await input.hover()
+  await expect(outline).toHaveCSS('border-color', 'rgb(4, 5, 6)')
+  await input.focus()
+  await expect(outline).toHaveCSS('box-shadow', 'rgb(7, 8, 9) 0px 0px 0px 3px')
+})
+
 test('trailing icons match Figma frames, visible glyph and spacing', async ({ page }) => {
   await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
   const root = page.locator('#tokens-multiple').locator('..')
@@ -144,6 +167,10 @@ test('keyboard selection, disabled, error focus and loading remain available', a
       '--rc-color-status-error-border',
       'rgb(200, 30, 40)',
     )
+    document.documentElement.style.setProperty(
+      '--rc-color-border-focus-error',
+      'rgb(210, 40, 50)',
+    )
   })
   await expect(
     page
@@ -162,7 +189,11 @@ test('keyboard selection, disabled, error focus and loading remain available', a
   await expect(error.locator('..').locator('fieldset')).toHaveCSS('border-width', '2px')
   await expect(error.locator('..').locator('fieldset')).toHaveCSS(
     'border-color',
-    'rgb(200, 30, 40)',
+    'rgb(210, 40, 50)',
+  )
+  await expect(error.locator('..').locator('fieldset')).toHaveCSS(
+    'box-shadow',
+    'rgb(210, 40, 50) 0px 0px 0px 2px',
   )
   await page.getByRole('combobox', { name: 'Loading' }).click()
   await expect(page.getByRole('status').filter({ hasText: 'Kraunama...' })).toHaveText(

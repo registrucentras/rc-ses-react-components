@@ -32,62 +32,27 @@ export const SelectWrapper = styled(FormControlWrapper)({
 
 export const selectStyle = {
   ...body,
-  '& .MuiOutlinedInput-root': {
+  // Only combobox layout belongs here; shared Input states come from the theme.
+  '&& .MuiOutlinedInput-root': {
     height: '2.75rem',
     flexWrap: 'nowrap',
-    padding: `0 ${space['padding-sm']} !important`,
-    paddingRight: '4rem !important',
+    padding: `0 ${space['padding-sm']}`,
+    paddingRight: '4rem',
     color: color['text-default'],
-    bgcolor: color['surface-base'],
-    borderRadius: border['radius-input'],
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: color['control-border'],
-      borderWidth: border['border-default'],
-      borderRadius: 'inherit',
-      boxShadow: 'none !important',
-    },
-    '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error) .MuiOutlinedInput-notchedOutline':
-      {
-        borderColor: `${color['border-strong']} !important`,
-      },
-    '&.Mui-error .MuiOutlinedInput-notchedOutline': {
-      borderColor: `${color['status-error-border']} !important`,
-    },
-    '&.Mui-focused': {
-      borderRadius: border['radius-input'],
-      boxShadow: 'none',
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderWidth: border['border-focus'],
-        borderColor: `${color['border-focus']} !important`,
-        borderRadius: 'inherit',
-      },
-    },
-    '&.Mui-focused.Mui-error': {
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: `${color['status-error-border']} !important`,
-      },
-    },
     '&.Mui-disabled': {
-      bgcolor: `${color['control-disabled']} !important`,
       '& .rc-ses-select-single-value': { color: color['text-disabled'] },
-      '& .MuiInputBase-input': {
-        color: `${color['text-disabled']} !important`,
-        WebkitTextFillColor: color['text-disabled'],
-      },
     },
     '& .MuiInputBase-input': {
-      ...body,
-      color: color['text-default'],
-      minWidth: '0 !important',
+      minWidth: 0,
     },
     '& .rc-ses-select-single-value ~ .MuiInputBase-input': {
       position: 'absolute',
       inset: 0,
-      width: '100% !important',
+      width: '100%',
       height: '100%',
       caretColor: 'transparent',
-      padding: '0 !important',
-      margin: '0 !important',
+      padding: 0,
+      margin: 0,
     },
     '& .MuiAutocomplete-endAdornment': {
       zIndex: 1,
@@ -96,7 +61,6 @@ export const selectStyle = {
       gap: space['space-4'],
       right: `calc(${space['padding-sm']} - ${space['space-2']})`,
     },
-    '& .MuiInputBase-input::placeholder': { color: color['text-secondary'] },
   },
   '& .rc-ses-select-single-value': { ...body, color: color['text-default'] },
   '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {

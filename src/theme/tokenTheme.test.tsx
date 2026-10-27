@@ -190,7 +190,6 @@ describe('native token theme adapter', () => {
     })
     expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-input, 0.5rem)',
-      '.MuiInputBase-input': { padding: '.8125rem .75rem' },
       '&.Mui-focused': {
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: 'var(--rc-radius-input, 0.5rem)',
@@ -201,6 +200,9 @@ describe('native token theme adapter', () => {
           },
         },
       },
+    })
+    expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.input).toMatchObject({
+      padding: 'var(--rc-input-padding-y, 0.8125rem) var(--rc-space-12, 0.75rem)',
     })
     const customized = createRcSesTokenTheme({
       components: {
