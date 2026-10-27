@@ -6,22 +6,10 @@ import '@/i18n/i18n'
 import { colorTokens as color } from '@/theme/colorTokens'
 import theme from '@/theme/light'
 import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import '@/theme/tokens.css'
 import { typographyTokens as typography } from '@/theme/typographyTokens'
 
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
-
-const helperTextStyles = {
-  color: color['text-secondary'],
-  fontSize: typography['font-size-body-caption'],
-  lineHeight: typography['line-height-body-caption'],
-  fontStyle: 'normal',
-  fontWeight: 400,
-  marginInline: space['space-0'],
-  marginTop: space['space-4'],
-  '&.Mui-error': { color: color['status-error-border'] },
-}
 
 // Read the rendered input state so every wrapper can share disabled text styling
 // without adding a prop or changing any field's disabled behavior.
@@ -86,28 +74,12 @@ function RcSesFormControlWrapper({
           <FormLabel
             htmlFor={id}
             sx={{
-              color: color['text-default'],
-              // Keep shared token typography above legacy MuiFormLabel media rules.
-              '&&': {
-                fontSize: labelOnTop
-                  ? typography['font-size-body-caption']
-                  : typography['font-size-body-regular'],
-                lineHeight: labelOnTop
-                  ? typography['line-height-body-caption']
-                  : typography['line-height-body-regular'],
-                ...(labelOnTop && { fontWeight: 400 }),
-              },
-              '&.Mui-focused, &.Mui-error': { color: color['text-default'] },
-              '& .MuiFormLabel-asterisk': {
-                color: color['status-error-border'],
-                marginLeft: space['space-2'],
-              },
-              '& .rc-ses-label-subtitle': {
-                color: color['text-secondary'],
+              ...(labelOnTop && {
                 fontSize: typography['font-size-body-caption'],
                 lineHeight: typography['line-height-body-caption'],
-                marginTop: space['space-2'],
-              },
+                // The theme's md weight is a media rule, which outranks plain sx.
+                '&&': { fontWeight: 400 },
+              }),
               flex: {
                 xs: '0 0 0%',
                 sm: labelOnTop ? '0 0 0%' : `0 0 ${formControlDesktopLabelWidth}`,
@@ -170,17 +142,10 @@ function RcSesFormControlWrapper({
           ml: { sm: labelOnTop || hideLabel ? 0 : formControlDesktopLabelWidth },
         }}
       >
-        {!!description && (
-          <FormHelperText sx={helperTextStyles}>{description}</FormHelperText>
-        )}
+        {!!description && <FormHelperText>{description}</FormHelperText>}
 
         {!!errors && (
-          <FormHelperText
-            id={`${id}-errors`}
-            aria-errormessage={id}
-            error
-            sx={helperTextStyles}
-          >
+          <FormHelperText id={`${id}-errors`} aria-errormessage={id} error>
             {errors.type === 'required' && !errors.message && (
               <span>{t('required')}</span>
             )}
