@@ -5,8 +5,9 @@ import {
 import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
-import TextFieldControl from './TextField.styles'
+import RcSesFormControlWrapper, {
+  RcSesFormControlWrapperProps,
+} from '../components/FormControlWrapper'
 
 type TFieldProps = Omit<MuiOutlinedTextFieldProps, 'variant'>
 type ImmediateFieldProps =
@@ -30,12 +31,11 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
   const id = useMemo(() => fieldProps.id ?? uuidv4(), [fieldProps.id])
 
   return (
-    <TextFieldControl
+    <RcSesFormControlWrapper
       id={id}
       errors={errors}
       label={label}
       required={props.required}
-      fieldDisabled={props.disabled}
       {...slotProps?.wrapper}
     >
       <TextField
@@ -46,7 +46,7 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, Props>((props, ref) =>
         id={id}
         error={!!errors}
       />
-    </TextFieldControl>
+    </RcSesFormControlWrapper>
   )
 })
 
