@@ -1,4 +1,10 @@
-import { InputAdornment, Stack } from '@mui/material'
+import {
+  Autocomplete,
+  InputAdornment,
+  Stack,
+  TextField,
+  ThemeProvider,
+} from '@mui/material'
 import { Info, MagnifyingGlass } from '@phosphor-icons/react'
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 
@@ -8,6 +14,8 @@ import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
+import theme from '@/theme/light'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
 
 const meta: Meta<typeof RcSesTextField> = {
   title: 'Atoms/TextField',
@@ -18,6 +26,35 @@ const meta: Meta<typeof RcSesTextField> = {
 export default meta
 
 type Story = StoryObj<typeof RcSesTextField>
+
+const tokenTheme = createRcSesTokenTheme()
+
+// Raw MUI inputs prove the shared styles do not depend on RcSesTextField sx.
+export const SharedInputStates: Story = {
+  tags: ['no-snapshot'],
+  render: () => (
+    <Stack spacing={3}>
+      {(
+        [
+          ['legacy', theme],
+          ['tokens', tokenTheme],
+        ] as const
+      ).map(([name, activeTheme]) => (
+        <ThemeProvider key={name} theme={activeTheme}>
+          <TextField label={`${name} rest`} />
+          <TextField label={`${name} error`} error />
+          <TextField label={`${name} disabled`} disabled />
+          <Autocomplete
+            options={['Pirmas', 'Antras']}
+            renderInput={(params) => (
+              <TextField {...params} label={`${name} autocomplete`} />
+            )}
+          />
+        </ThemeProvider>
+      ))}
+    </Stack>
+  ),
+}
 
 const codeBlock = (args: any) => {
   const { slotProps, disabled, label } = args
