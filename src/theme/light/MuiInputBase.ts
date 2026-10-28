@@ -16,7 +16,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
       backgroundColor: color['surface-base'],
       borderRadius: border['radius-input'],
       gap: space['space-8'],
-      '&.Mui-disabled': { backgroundColor: color['control-disabled'] },
+      '&.Mui-disabled': { backgroundColor: color['surface-muted'] },
       '.MuiInputAdornment-root': {
         color: color['text-secondary'],
         margin: space['space-0'],

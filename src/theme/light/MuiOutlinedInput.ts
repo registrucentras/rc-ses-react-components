@@ -2,7 +2,6 @@ import type { Components } from '@mui/material'
 
 import { borderTokens as border } from '../borderTokens'
 import { colorTokens as color } from '../colorTokens'
-import { effectTokens as effect } from '../effectTokens'
 import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
 import { inputPadding } from './MuiInputBase'
 
@@ -26,14 +25,12 @@ const MuiOutlinedInput: Components['MuiOutlinedInput'] = {
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
         borderColor: color['border-focus'],
         borderWidth: border['border-focus'],
-        boxShadow: effect['focus-ring-default'],
       },
       '&.Mui-focused.Mui-error .MuiOutlinedInput-notchedOutline': {
         borderColor: color['border-focus-error'],
-        boxShadow: effect['focus-ring-error'],
       },
       '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
-        borderColor: color['control-disabled'],
+        borderColor: color['border-subtle'],
         borderWidth: border['stroke-1'],
         boxShadow: 'none',
       },
