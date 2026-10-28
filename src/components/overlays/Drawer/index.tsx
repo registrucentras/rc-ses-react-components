@@ -126,16 +126,7 @@ const RcSesDrawer = ({
             gap: '1rem',
           }}
         >
-          <Typography
-            id={headerId}
-            component='h2'
-            sx={{
-              fontSize: '14px',
-              fontStyle: 'normal',
-              fontWeight: 600,
-              lineHeight: '20px',
-            }}
-          >
+          <Typography id={headerId} variant='h6'>
             {title}
           </Typography>
           <RcSesButton
