@@ -362,7 +362,17 @@ function SelectTokenPreview({ customized = false }: { customized?: boolean }) {
 }
 
 export const TokenBindings: Story = { render: () => <SelectTokenPreview /> }
-export const TokenOverrides: Story = { render: () => <SelectTokenPreview customized /> }
+export const TokenOverrides: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Vartotojo `slotProps.field.sx` ir sąrašo `sx` perrašymai Single laukui turi pirmenybę prieš tokenų stilius. Violetinės spalvos naudojamos tik šiam patikrinimui.',
+      },
+    },
+  },
+  render: () => <SelectTokenPreview customized />,
+}
 
 interface VariantsFormModel {
   singleSelect: string | null
