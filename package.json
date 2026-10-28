@@ -1,7 +1,7 @@
 {
   "name": "@registrucentras/rc-ses-react-components",
   "author": "VĮ REGISTRŲ CENTRAS",
-  "version": "2.7.0",
+  "version": "2.7.2",
   "description": "RC SES React komponentų biblioteka",
   "type": "module",
   "private": false,
@@ -95,6 +95,7 @@
     "@testing-library/react": "^16.3.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/js-cookie": "^3.0.6",
+    "@types/node": "^24.19.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.4",

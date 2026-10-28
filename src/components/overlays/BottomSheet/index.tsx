@@ -221,7 +221,6 @@ function RcSesBottomSheet({
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
             gap: 1.5,
             padding: SHEET.actionsPadding,
             flexShrink: 0,
@@ -233,6 +232,7 @@ function RcSesBottomSheet({
               color='grey'
               onClick={onSecondaryAction}
               disabled={secondaryActionDisabled}
+              sx={{ flex: 1 }}
             >
               {secondaryActionLabel}
             </RcSesButton>
@@ -242,6 +242,7 @@ function RcSesBottomSheet({
               variant='contained'
               onClick={onPrimaryAction}
               disabled={primaryActionDisabled}
+              sx={{ flex: 1 }}
             >
               {primaryActionLabel}
             </RcSesButton>
