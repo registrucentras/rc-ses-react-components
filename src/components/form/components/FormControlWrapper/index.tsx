@@ -3,10 +3,18 @@ import { FieldError } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import '@/i18n/i18n'
+import { colorTokens as color } from '@/theme/colorTokens'
 import theme from '@/theme/light'
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens as typography } from '@/theme/typographyTokens'
 
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
+
+// Read the rendered input state so every wrapper can share disabled text styling
+// without adding a prop or changing any field's disabled behavior.
+const disabledInput =
+  '&:has(.rc-ses-form-field-wrapper .MuiInputBase-root.Mui-disabled, .rc-ses-form-field-wrapper .MuiPickersInputBase-root.Mui-disabled)'
 
 interface Props {
   children: React.ReactNode
@@ -41,7 +49,18 @@ function RcSesFormControlWrapper({
   const upMd = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
-    <FormControl className={className} error={!!errors} sx={{ my: 1, width: '100%' }}>
+    <FormControl
+      className={className}
+      error={!!errors}
+      sx={{
+        my: space['space-8'],
+        width: '100%',
+        [`${disabledInput} > .rc-ses-form-control-wrapper > .MuiFormLabel-root, ${disabledInput} > [aria-live="polite"] > .MuiFormHelperText-root`]:
+          {
+            color: color['text-disabled'],
+          },
+      }}
+    >
       <Box
         className='rc-ses-form-control-wrapper'
         sx={{
@@ -55,18 +74,21 @@ function RcSesFormControlWrapper({
           <FormLabel
             htmlFor={id}
             sx={{
+              ...(labelOnTop && {
+                fontSize: typography['font-size-body-caption'],
+                lineHeight: typography['line-height-body-caption'],
+                // The theme's md weight is a media rule, which outranks plain sx.
+                '&&': { fontWeight: 400 },
+              }),
               flex: {
                 xs: '0 0 0%',
                 sm: labelOnTop ? '0 0 0%' : `0 0 ${formControlDesktopLabelWidth}`,
               },
-              ...(labelOnTop && {
-                '&': {
-                  fontSize: '.8125rem',
-                  fontWeight: 400,
-                },
-              }),
-              marginBottom: { xs: '.25rem', sm: labelOnTop ? '.25rem' : '0' },
-              pr: 3,
+              marginBottom: {
+                xs: space['space-4'],
+                sm: labelOnTop ? space['space-4'] : space['space-0'],
+              },
+              pr: space['space-24'],
               textAlign: { xs: 'left', sm: labelOnTop ? 'left' : 'right' },
             }}
           >
@@ -120,9 +142,7 @@ function RcSesFormControlWrapper({
           ml: { sm: labelOnTop || hideLabel ? 0 : formControlDesktopLabelWidth },
         }}
       >
-        {!!description && (
-          <FormHelperText sx={{ mx: 0, mt: '0.2rem' }}>{description}</FormHelperText>
-        )}
+        {!!description && <FormHelperText>{description}</FormHelperText>}
 
         {!!errors && (
           <FormHelperText id={`${id}-errors`} aria-errormessage={id} error>

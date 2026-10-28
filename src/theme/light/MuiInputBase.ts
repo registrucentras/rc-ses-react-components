@@ -1,105 +1,65 @@
-import { Components, decomposeColor } from '@mui/material'
+import type { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { sizeTokens as size } from '../sizeTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
+import { typographyTokens as typography } from '../typographyTokens'
+
+// Internal shared value: preserve the existing rem padding when DS CSS is absent.
+export const inputPadding = `${space['input-padding-y'].slice(0, -1)}, 0.8125rem) ${space['space-12'].slice(0, -1)}, 0.75rem)`
 
 const MuiInputBase: Components['MuiInputBase'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      backgroundColor: 'white',
-      borderRadius: '.5rem',
-
-      '.MuiInputBase-input': {
-        color: palette.grey['900'],
-        fontSize: '.9375rem',
-        height: '1.125rem',
-        lineHeight: '1.125rem',
-        padding: '.8125rem .75rem',
-
-        '&::placeholder': {
-          color: palette.grey['600'],
+      backgroundColor: color['surface-base'],
+      borderRadius: border['radius-input'],
+      gap: space['space-8'],
+      '&.Mui-disabled': { backgroundColor: color['surface-muted'] },
+      '.MuiInputAdornment-root': {
+        color: color['text-secondary'],
+        margin: space['space-0'],
+        // Direct icons only: nested loading spinners keep their own dimensions.
+        '& > svg': {
+          display: 'block',
+          width: size['icon-size-control'],
+          height: size['icon-size-control'],
+        },
+        '.MuiTypography-root': {
+          color: 'inherit',
+          fontSize: typography['font-size-body-regular'],
+          lineHeight: typography['line-height-body-regular'],
         },
       },
-
-      '.MuiOutlinedInput-notchedOutline': {
-        borderColor: palette.grey['600'],
-      },
-
-      '&.Mui-error': {
-        '.MuiOutlinedInput-notchedOutline': {
-          borderColor: `${palette.error['600']} !important`,
-        },
-      },
-
-      '&.Mui-focused': {
-        '.MuiOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['900']} !important`,
-          borderRadius: '.5rem',
-          boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.grey['900']).values}, .2)`,
-        },
-
-        '&.Mui-error': {
-          '.MuiOutlinedInput-notchedOutline': {
-            borderColor: `${palette.error['600']} !important`,
-            borderWidth: '.125rem',
-            borderRadius: '.5rem',
-            boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.error['600']).values}, .2)`,
-          },
-        },
-      },
-
-      '&.Mui-readOnly': {
-        '.MuiOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['600']} !important`,
-          borderWidth: '1px !important',
-          boxShadow: 'none !important',
-        },
-      },
-
+    },
+    input: {
+      color: color['text-default'],
+      fontSize: typography['font-size-body-regular'],
+      lineHeight: typography['line-height-body-regular'],
+      height: 'auto',
+      // No horizontal Input padding role exists; retain its spacing primitive.
+      padding: inputPadding,
+      '&::placeholder': { color: color['text-secondary'], opacity: 1 },
       '&.Mui-disabled': {
-        backgroundColor: `${palette.grey['100']} !important`,
-
-        '.MuiOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['600']} !important`,
-        },
-
-        '.MuiInputBase-input': {
-          color: `${palette.grey['600']} !important`,
-        },
-      },
-
-      '&:hover:not(.Mui-disabled):not(.Mui-readOnly)': {
-        '.MuiOutlinedInput-notchedOutline': {
-          borderColor: palette.grey['900'],
-        },
+        color: color['text-disabled'],
+        WebkitTextFillColor: color['text-disabled'],
+        '&::placeholder': { color: color['text-disabled'] },
       },
     },
     multiline: {
-      padding: '0 !important',
-
-      '.MuiInputBase-inputMultiline': {
-        overflowWrap: 'anywhere',
-      },
+      padding: space['space-0'],
+      '.MuiInputBase-inputMultiline': { overflowWrap: 'anywhere' },
     },
     adornedStart: {
-      paddingLeft: '0 !important',
-
-      '.MuiInputBase-input': {
-        paddingLeft: 0,
-      },
-
-      '.MuiIconButton-edgeStart': {
-        marginLeft: 0,
-      },
+      paddingLeft: space['space-12'],
+      '.MuiInputBase-input': { paddingLeft: space['space-0'] },
+      '.MuiIconButton-edgeStart': { marginLeft: space['space-0'] },
     },
     adornedEnd: {
-      paddingRight: '0 !important',
-
-      '.MuiInputBase-input': {
-        paddingRight: 0,
-      },
+      paddingRight: space['space-12'],
+      '.MuiInputBase-input': { paddingRight: space['space-0'] },
     },
   },
 }
-
 export default MuiInputBase

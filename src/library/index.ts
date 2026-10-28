@@ -70,6 +70,7 @@ import RcSesDrawer from '@/components/overlays/Drawer'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
+import '@/theme/tokens.css'
 
 import SelectableCardList from '../components/common/SelectableCardList'
 
