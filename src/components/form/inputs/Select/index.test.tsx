@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import theme from '@/theme/light'
 
@@ -9,7 +9,6 @@ import RcSesSelect from '.'
 
 interface TestWrapperProps {
   defaultValue?: string | null
-  dropdownSearch?: boolean
 }
 
 const options = [
@@ -61,7 +60,7 @@ const UnregisterTestWrapper = ({ shouldUnregister }: UnregisterTestWrapperProps)
   )
 }
 
-const TestWrapper = ({ defaultValue = null, dropdownSearch }: TestWrapperProps) => {
+const TestWrapper = ({ defaultValue = null }: TestWrapperProps) => {
   const { control } = useForm({
     defaultValues: {
       selection: defaultValue,
@@ -76,26 +75,7 @@ const TestWrapper = ({ defaultValue = null, dropdownSearch }: TestWrapperProps) 
         control={control}
         label='Pasirinkti'
         options={options}
-        dropdownSearch={dropdownSearch}
       />
-    </ThemeProvider>
-  )
-}
-
-const DefaultMultiTestWrapper = () => {
-  const { control } = useForm({ defaultValues: { selection: [] as string[] } })
-  const selection = useWatch({ control, name: 'selection' })
-
-  return (
-    <ThemeProvider theme={theme}>
-      <RcSesSelect
-        name='selection'
-        control={control}
-        label='Pasirinkti'
-        options={options}
-        multiple
-      />
-      <output data-testid='default-selection'>{JSON.stringify(selection)}</output>
     </ThemeProvider>
   )
 }
@@ -113,21 +93,11 @@ interface GroupedFormModel {
 interface GroupedMultiTestWrapperProps {
   defaultValue?: string[]
   dropdownSearch?: boolean
-  availableOptions?: typeof groupedOptions
-  loading?: boolean
-  loadError?: string
-  customValue?: boolean
-  onInputChange?: React.ComponentProps<typeof RcSesSelect>['onInputChange']
 }
 
 const GroupedMultiTestWrapper = ({
   defaultValue = [],
   dropdownSearch = false,
-  availableOptions = groupedOptions,
-  loading,
-  loadError,
-  customValue,
-  onInputChange,
 }: GroupedMultiTestWrapperProps) => {
   const { control, getValues } = useForm<GroupedFormModel>({
     defaultValues: { providers: defaultValue },
@@ -144,13 +114,9 @@ const GroupedMultiTestWrapper = ({
         multiple
         dropdownSearch={dropdownSearch}
         selectAll
-        options={availableOptions}
-        loading={loading}
-        loadError={loadError}
-        onInputChange={onInputChange}
+        options={groupedOptions}
         slotProps={{
           field: {
-            ...(customValue ? { renderValue: () => <span>Custom selection</span> } : {}),
             groupBy: (option) =>
               groupedOptions.find((o) => o.value === option.value)?.group ?? '',
           },
@@ -171,43 +137,6 @@ const readGroupedFormValues = (): GroupedFormModel => {
 }
 
 describe('RcSesSelect', () => {
-  test('defaults to searching in the main input without a dropdown search field', async () => {
-    render(<TestWrapper />)
-
-    const input = screen.getByRole('combobox')
-    fireEvent.mouseDown(input)
-    fireEvent.change(input, { target: { value: 'Trumpas' } })
-
-    expect(
-      await screen.findByRole('option', { name: options[1].label }),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('option', { name: options[0].label }),
-    ).not.toBeInTheDocument()
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
-  })
-
-  test('single select has no All option or implicit All label', async () => {
-    render(<TestWrapper />)
-    expect(screen.queryByText('Visi')).not.toBeInTheDocument()
-    fireEvent.mouseDown(screen.getByRole('combobox'))
-    await screen.findByRole('option', { name: options[0].label })
-    expect(screen.queryByRole('option', { name: 'Visi' })).not.toBeInTheDocument()
-    expect(screen.getAllByRole('option')).toHaveLength(options.length)
-  })
-
-  test('multi select defaults to no All option and preserves all selected values', async () => {
-    render(<DefaultMultiTestWrapper />)
-    expect(screen.queryByText('Visi')).not.toBeInTheDocument()
-    fireEvent.mouseDown(screen.getByRole('combobox'))
-    fireEvent.click(await screen.findByRole('option', { name: options[0].label }))
-    expect(screen.queryByRole('option', { name: 'Visi' })).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('option', { name: options[1].label }))
-    expect(
-      JSON.parse(screen.getByTestId('default-selection').textContent ?? '[]'),
-    ).toEqual(options.map((option) => option.value))
-  })
-
   test('single select rodo pilna pasirinktos reiksmes label', () => {
     render(<TestWrapper defaultValue='long-option' />)
 
@@ -254,7 +183,9 @@ describe('RcSesSelect', () => {
     fireEvent.click(await screen.findByRole('option', { name: 'Trumpas pasirinkimas' }))
 
     await waitFor(() => {
-      expect(screen.getByText('Trumpas pasirinkimas')).toBeInTheDocument()
+      expect(
+        screen.getByText('Trumpas pasirinkimas', { selector: 'div' }),
+      ).toBeInTheDocument()
     })
   })
 
@@ -265,16 +196,13 @@ describe('RcSesSelect', () => {
   })
 
   test('shows a Lithuanian empty state when the typed text matches no option', async () => {
-    render(<TestWrapper dropdownSearch />)
+    render(<TestWrapper />)
 
     const input = screen.getByRole('combobox')
     fireEvent.mouseDown(input)
-    fireEvent.change(await screen.findByRole('textbox', { name: 'Ieškoti' }), {
-      target: { value: 'JSD' },
-    })
+    fireEvent.change(input, { target: { value: 'JSD' } })
 
-    expect(await screen.findByText('Nieko nerasta pagal „JSD“')).toBeInTheDocument()
-    expect(screen.queryByRole('option')).not.toBeInTheDocument()
+    expect(await screen.findByText('Rezultatų nerasta')).toBeInTheDocument()
     expect(screen.queryByText('No options')).not.toBeInTheDocument()
   })
 
@@ -343,8 +271,7 @@ describe('RcSesSelect', () => {
     fireEvent.mouseDown(input)
     await screen.findByRole('option', { name: 'Registrų centras' })
 
-    // All is first, followed by the group marker.
-    fireEvent.keyDown(input, { key: 'Home' })
+    // The group marker is the first option ahead of its own members.
     fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
@@ -352,73 +279,19 @@ describe('RcSesSelect', () => {
     expect([...providers].sort()).toEqual(['rc', 'vtpsi'])
   })
 
-  test('keyboard Enter on the All row clears concrete values', async () => {
-    render(<GroupedMultiTestWrapper dropdownSearch defaultValue={['rc']} />)
+  test('keyboard Enter on the "select all" row selects every option', async () => {
+    render(<GroupedMultiTestWrapper dropdownSearch />)
 
     const input = screen.getByRole('combobox')
     fireEvent.mouseDown(input)
     await screen.findByRole('option', { name: 'Registrų centras' })
 
-    // Search is outside the listbox; All is its first option.
-    fireEvent.keyDown(input, { key: 'Home' })
+    // The search field is the first row, "Visi" the second.
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
     fireEvent.keyDown(input, { key: 'Enter' })
 
     const { providers } = readGroupedFormValues()
-    expect(providers).toEqual([])
+    expect([...providers].sort()).toEqual(['rc', 'regitra', 'vtpsi'])
   })
-
-  test('an option disappearing does not turn its stored value into All', () => {
-    const { rerender } = render(<GroupedMultiTestWrapper defaultValue={['rc']} />)
-    rerender(
-      <GroupedMultiTestWrapper
-        defaultValue={['rc']}
-        availableOptions={groupedOptions.slice(1)}
-      />,
-    )
-    expect(screen.getByRole('combobox')).toHaveAccessibleDescription('rc')
-    expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
-    expect(readGroupedFormValues().providers).toEqual(['rc'])
-  })
-
-  test('an unavailable single value remains visible and clearable', () => {
-    render(<TestWrapper defaultValue='unavailable-option' />)
-    expect(screen.getByRole('combobox')).toHaveAccessibleDescription('unavailable-option')
-    expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument()
-  })
-
-  test('caller renderValue replaces the default summary', () => {
-    render(<GroupedMultiTestWrapper defaultValue={['rc']} customValue />)
-    expect(screen.getByText('Custom selection')).toBeInTheDocument()
-    expect(document.querySelector('.rc-ses-select-single-value')).toBeNull()
-  })
-
-  test('popup search forwards the query to the public callback', async () => {
-    const onInputChange = vi.fn()
-    render(<GroupedMultiTestWrapper dropdownSearch onInputChange={onInputChange} />)
-    fireEvent.mouseDown(screen.getByRole('combobox'))
-    fireEvent.change(await screen.findByRole('textbox', { name: 'Ieškoti' }), {
-      target: { value: 'Regitra' },
-    })
-    expect(onInputChange).toHaveBeenCalledWith(expect.anything(), 'Regitra', 'input')
-  })
-
-  test('All is available without popup search', async () => {
-    render(<GroupedMultiTestWrapper defaultValue={['rc']} />)
-    fireEvent.mouseDown(screen.getByRole('combobox'))
-    fireEvent.click(await screen.findByRole('option', { name: 'Visi' }))
-    expect(readGroupedFormValues().providers).toEqual([])
-  })
-
-  test.each([{ loading: true }, { loadError: 'Unavailable' }])(
-    'without search, status %j hides stale options',
-    async (status) => {
-      render(<GroupedMultiTestWrapper {...status} />)
-      fireEvent.mouseDown(screen.getByRole('combobox'))
-      await waitFor(() =>
-        expect(document.querySelector('.MuiAutocomplete-paper')).toBeInTheDocument(),
-      )
-      expect(screen.queryAllByRole('option')).toHaveLength(0)
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
-    },
-  )
 })

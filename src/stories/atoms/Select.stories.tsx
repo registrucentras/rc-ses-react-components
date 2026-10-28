@@ -17,7 +17,7 @@ const meta: Meta<typeof RcSesSelect> = {
     docs: {
       description: {
         component:
-          'Pasirinkimo laukas su paieška ir grupėmis. Keli pasirinkimai rodomi tekstine santrauka. „Visi“ įjungiama tik multi select režime, aiškiai perdavus selectAll={true}; pagal nutylėjimą išjungta.',
+          'RcSesSelect naudoja DS tokenus, išlaikydamas esamą API: chips, limitTags, paiešką ir selectAll. Nauja tekstinė santrauka ir kitokia „Visi“ logika nepriklauso šiam tokenų perrišimui.',
       },
     },
   },
@@ -536,7 +536,7 @@ export const AllVariants: Story = {
 
           <VariantCard
             title='Grouped multi select + search'
-            description='Grupės checkbox pažymi arba nuima visus jos narius. Uždarytame lauke rodoma tekstinė santrauka.'
+            description='Grupė yra pati savarankiškai pažymima reikšmė - pažymėjus grupę pažymimi visi jos nariai, nužymėjus bet kurį narį grupė automatiškai nužymima.'
           >
             <RcSesSelect
               id='grouped-multi-select'
@@ -589,8 +589,8 @@ export const AllVariants: Story = {
           </VariantCard>
 
           <VariantCard
-            title='Multi select + summary limit'
-            description='Tekstinė santrauka su limitTags={1}: pirmas pavadinimas ir likusių reikšmių skaičius.'
+            title='Multi select + limit tags'
+            description='Daugybinis pasirinkimas su limitTags={1}, kai pertekliniai pasirinkimai sutraukiami i +N.'
           >
             <RcSesSelect
               id='limited-multi-select'
@@ -644,119 +644,3 @@ export const AllVariants: Story = {
     },
   },
 }
-
-function FigmaPreview() {
-  const { control } = useForm({
-    defaultValues: {
-      all: [],
-      one: ['2025'],
-      two: ['2025', '2024'],
-      many: ['2025', '2024', '2023', '2022'],
-      mobile: ['annual', 'tax', 'interim'],
-      desktop: ['annual', 'tax', 'interim'],
-      grouped: [],
-      singleGroup: null,
-      failed: [],
-    },
-  })
-  const values = useWatch({ control })
-  const years = ['2025', '2024', '2023', '2022', '2021'].map((year) => ({
-    value: year,
-    label: year,
-  }))
-  const reports = [
-    { value: 'annual', label: 'Metinės finansinės ataskaitos' },
-    { value: 'tax', label: 'Pelno mokesčio informacijos ataskaitos' },
-    { value: 'interim', label: 'Tarpinės finansinės ataskaitos' },
-    { value: 'sustainability', label: 'Tvarumo ataskaitos' },
-  ]
-  const providers = [
-    { value: 'rc', label: 'Registrų centras' },
-    { value: 'inspection', label: 'Valst. teritorijų planavimo ir statybos inspekcija' },
-    { value: 'regitra', label: 'VĮ „Regitra“' },
-    { value: 'transport', label: 'Lietuvos transporto saugos administracija' },
-  ]
-  const groupBy = (option: { value: string }) =>
-    ['rc', 'inspection'].includes(option.value)
-      ? 'Nekilnojamasis turtas ir statyba'
-      : 'Transportas'
-  return (
-    <Box
-      sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, p: 2, alignItems: 'flex-start' }}
-    >
-      {(['all', 'one', 'two', 'many'] as const).map((name) => (
-        <Box key={name} sx={{ width: '26.75rem', maxWidth: '100%' }}>
-          <Typography>{name}</Typography>
-          <RcSesSelect
-            id={`figma-${name}`}
-            name={name}
-            label='Ataskaitinis laikotarpis'
-            control={control}
-            multiple
-            options={years}
-            limitTags={-1}
-            slotProps={{ wrapper: { labelOnTop: true } }}
-          />
-        </Box>
-      ))}
-      {(['mobile', 'desktop'] as const).map((name) => (
-        <Box
-          key={name}
-          sx={{ width: name === 'mobile' ? '18.4375rem' : '26.75rem', maxWidth: '100%' }}
-        >
-          <Typography>{name === 'mobile' ? '295 px' : '428 px'}</Typography>
-          <RcSesSelect
-            id={`figma-${name}`}
-            name={name}
-            label='Ataskaitų tipas'
-            control={control}
-            multiple
-            options={reports}
-            dropdownSearch
-            selectAll
-            dropdownSearchPlaceholder='Ieškoti ataskaitų tipo'
-            slotProps={{ wrapper: { labelOnTop: true } }}
-          />
-        </Box>
-      ))}
-      <Box sx={{ width: '26.75rem', maxWidth: '100%' }}>
-        <RcSesSelect
-          id='figma-grouped'
-          name='grouped'
-          label='Paslaugų teikėjai'
-          control={control}
-          multiple
-          options={providers}
-          slotProps={{ wrapper: { labelOnTop: true }, field: { groupBy } }}
-        />
-        <RcSesSelect
-          id='figma-single-group'
-          name='singleGroup'
-          label='Paslaugų teikėjas'
-          control={control}
-          options={providers}
-          slotProps={{ wrapper: { labelOnTop: true }, field: { groupBy } }}
-        />
-        <RcSesSelect
-          id='figma-failed'
-          name='failed'
-          label='Įkėlimo klaida'
-          control={control}
-          multiple
-          options={[]}
-          loadError='Nepavyko įkelti duomenų.'
-          slotProps={{ wrapper: { labelOnTop: true } }}
-        />
-      </Box>
-      <Box
-        component='pre'
-        data-testid='figma-values'
-        sx={{ whiteSpace: 'pre-wrap', width: '100%' }}
-      >
-        {JSON.stringify(values)}
-      </Box>
-    </Box>
-  )
-}
-
-export const FigmaDesign: Story = { render: () => <FigmaPreview /> }

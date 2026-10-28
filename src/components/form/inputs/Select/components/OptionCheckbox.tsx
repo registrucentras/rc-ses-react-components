@@ -12,7 +12,7 @@ interface Props {
 
 function OptionCheckbox({ checked }: Props) {
   return (
-    <Box aria-hidden sx={{ flexShrink: 0, py: space['space-0'] }}>
+    <Box aria-hidden sx={{ flexShrink: 0, py: space['space-8'] }}>
       <Box
         sx={{
           alignItems: 'center',

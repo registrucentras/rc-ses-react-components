@@ -1,28 +1,26 @@
-import { Box, CircularProgress, Paper, TextField } from '@mui/material'
+import { Box, Chip, Paper, TextField } from '@mui/material'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
 import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-  CaretDownIcon,
-  CheckIcon,
-  WarningCircleIcon,
-  XCircleFillIcon,
-} from '@/assets/icons/phosphorIcons'
+import { CaretDownIcon, CheckIcon } from '@/assets/icons/phosphorIcons'
 import RcSesBadge from '@/components/common/Badge'
 import { colorTokens as color } from '@/theme/colorTokens'
 import { sizeTokens as size } from '@/theme/sizeTokens'
 import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import '@/theme/tokens.css'
 import { typographyTokens as typography } from '@/theme/typographyTokens'
 
-import type { RcSesFormControlWrapperProps } from '../../components/FormControlWrapper'
-import { SelectWrapper, paperStyle, selectStyle } from './Select.styles'
+import RcSesFormControlWrapper, {
+  RcSesFormControlWrapperProps,
+} from '../../components/FormControlWrapper'
+import { paperStyle, selectStyle } from './Select.styles'
 import { Option } from './Select.types'
 import {
   dropdownGroupOptionValue,
+  dropdownSearchFieldOption,
+  dropdownSearchFieldValue,
   dropdownSelectAllValue,
   groupNameFromOptionValue,
   isGroupOptionValue,
@@ -30,6 +28,7 @@ import {
 } from './Select.utils'
 import OptionCheckbox from './components/OptionCheckbox'
 import useFilteredOptions from './hooks/useFilteredOptions'
+import useSelectAll from './hooks/useSelectAllLogic'
 
 type TControllerProps<TFieldValues extends FieldValues = FieldValues> =
   UseControllerProps<TFieldValues>
@@ -45,11 +44,9 @@ type CommonSelectProps<TFieldValues extends FieldValues = FieldValues> = Pick<
   Pick<TWrapperProps, ImmediateWrapperProps> & {
     clearable?: boolean
     loading?: boolean
-    loadError?: string
     options: Option[]
     placeholder?: string
     dropdownLabel?: string
-    selectAllLabel?: string
     dropdownSearch?: boolean
     dropdownSearchPlaceholder?: string
 
@@ -72,6 +69,7 @@ type SingleSelectProps<TFieldValues extends FieldValues = FieldValues> =
     multiple?: false
     limitTags?: never
     selectAll?: never
+    selectAllLabel?: never
   }
 
 type MultiSelectProps<TFieldValues extends FieldValues = FieldValues> =
@@ -79,6 +77,7 @@ type MultiSelectProps<TFieldValues extends FieldValues = FieldValues> =
     multiple: true
     limitTags?: number
     selectAll?: boolean
+    selectAllLabel?: string
   }
 
 type Props<TFieldValues extends FieldValues = FieldValues> =
@@ -87,16 +86,12 @@ type Props<TFieldValues extends FieldValues = FieldValues> =
 interface DropdownPaperProps extends React.ComponentProps<typeof Paper> {
   dropdownLabel?: string
   ownerState?: unknown
-  status?: React.ReactNode
-  searchField?: React.ReactNode
 }
 
 function DropdownPaper({
   children,
   dropdownLabel,
   ownerState: _ownerState,
-  status,
-  searchField,
   ...paperProps
 }: DropdownPaperProps) {
   return (
@@ -112,9 +107,7 @@ function DropdownPaper({
           {dropdownLabel}
         </Box>
       )}
-      {searchField}
       {children}
-      {status}
     </Paper>
   )
 }
@@ -125,9 +118,11 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesSelect' })
   const [dropdownSearchValue, setDropdownSearchValue] = React.useState('')
   const [open, setOpen] = React.useState(false)
+  // rem widths reserved at the end of the input for the clear and dropdown adornments
+  const reservedSingleEndAdornmentWidth = 2
+  const reservedMultipleTagsEndAdornmentWidth = 2.2
+  const reservedMultipleWithCounterEndAdornmentWidth = 3
   const wrapperRef = React.useRef<HTMLDivElement>(null)
-  const summaryRef = React.useRef<HTMLDivElement>(null)
-  const [visibleCount, setVisibleCount] = React.useState(Number.MAX_SAFE_INTEGER)
 
   const {
     multiple = false,
@@ -137,7 +132,6 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     label,
     limitTags,
     loading,
-    loadError,
     onInputChange,
     options,
     placeholder,
@@ -176,87 +170,30 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   const hasError = !!errors
   const groupBy = slotProps?.field?.groupBy
   const hasCustomGroupBy = typeof groupBy === 'function'
-  const useDefaultSummary = !slotProps?.field?.renderValue
 
-  const selectedValueSet = useMemo(() => {
-    if (!Array.isArray(value)) return new Set<string>()
-    return new Set(value)
-  }, [value])
+  const selectedValueSet = useMemo(
+    () => new Set(Array.isArray(value) ? value : []),
+    [value],
+  )
 
   const resolvedValue = useMemo(() => {
     if (multiple) {
-      const known = options.filter((o) => selectedValueSet.has(o.value))
-      const knownValues = new Set(known.map((option) => option.value))
-      return [
-        ...known,
-        ...Array.from(selectedValueSet)
-          .filter((selected) => !knownValues.has(selected))
-          .map((selected) => ({ value: selected, label: selected })),
-      ]
+      return options.filter((o) => selectedValueSet.has(o.value))
     }
 
-    if (typeof value === 'string' && isGroupOptionValue(value) && groupBy) {
-      const group = groupNameFromOptionValue(value)
-      if (options.some((option) => groupBy(option) === group))
-        return { value, label: group }
-    }
-    if (typeof value !== 'string' || !value) return null
-    return (
-      options.find((o) => o.value === value) ?? {
-        value,
-        label: isGroupOptionValue(value) ? groupNameFromOptionValue(value) : value,
-      }
-    )
-  }, [value, options, multiple, selectedValueSet, groupBy])
+    return options.find((o) => o.value === value) ?? null
+  }, [value, options, multiple, selectedValueSet])
 
   const selectedSingleLabel =
     !multiple && resolvedValue && !Array.isArray(resolvedValue) ? resolvedValue.label : ''
 
-  const selectedLabels = useMemo(
-    () =>
-      Array.isArray(resolvedValue) ? resolvedValue.map((option) => option.label) : [],
-    [resolvedValue],
-  )
-  const isAll = multiple && selectAll && selectedValueSet.size === 0
-
-  React.useLayoutEffect(() => {
-    const summary = summaryRef.current
-    if (!summary || !multiple) return undefined
-    let active = true
-    const measure = () => {
-      if (!active) return
-      const probe = document.createElement('span')
-      probe.style.cssText =
-        'position:absolute;visibility:hidden;white-space:pre;pointer-events:none'
-      summary.appendChild(probe)
-      let count = Math.min(
-        selectedLabels.length,
-        limitTags == null || limitTags < 0
-          ? selectedLabels.length
-          : Math.max(1, limitTags),
-      )
-      while (count > 1) {
-        probe.textContent =
-          selectedLabels.slice(0, count).join(', ') +
-          (count < selectedLabels.length
-            ? ` ${t('more', { count: selectedLabels.length - count })}`
-            : '')
-        if (probe.getBoundingClientRect().width <= summary.clientWidth) break
-        count -= 1
-      }
-      probe.remove()
-      setVisibleCount(count)
-    }
-    measure()
-    const observer =
-      typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure)
-    observer?.observe(summary)
-    document.fonts?.ready.then(measure)
-    return () => {
-      active = false
-      observer?.disconnect()
-    }
-  }, [multiple, selectedLabels, limitTags, t, useDefaultSummary])
+  const selectedTagCount =
+    multiple && Array.isArray(resolvedValue) ? resolvedValue.length : 0
+  const hasLimitTagCounter =
+    multiple && (limitTags ?? -1) > -1 && selectedTagCount > (limitTags ?? -1)
+  const reservedMultipleEndAdornmentWidth = hasLimitTagCounter
+    ? reservedMultipleWithCounterEndAdornmentWidth
+    : reservedMultipleTagsEndAdornmentWidth
 
   const [inputValue, setInputValue] = React.useState('')
   const resolvedInputValue = dropdownSearch ? '' : inputValue
@@ -298,48 +235,44 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
 
   const groupCounts = useMemo(() => {
     const counts = new Map<string, number>()
-    options.forEach((option) => {
-      const group = groupBy?.(option) ?? ''
-      counts.set(group, (counts.get(group) ?? 0) + 1)
+    filteredOptionsByGroup.forEach((items, group) => {
+      counts.set(group, items.length)
     })
     return counts
-  }, [options, groupBy])
+  }, [filteredOptionsByGroup])
 
-  const selectedValues = Array.from(selectedValueSet)
+  const selectedValues = Array.isArray(value) ? value : []
 
   // A group header doubles as a "select all in this group" checkbox: it's
   // checked exactly when every one of its items is selected, and toggling it
   // selects/deselects every item in the group together - so unchecking any
   // single item also un-checks the group, with no separate state to track.
   const isGroupFullySelected = (groupValue: string) => {
-    const memberValues = options.filter((option) => groupBy?.(option) === groupValue)
+    const memberValues = filteredOptionsByGroup.get(groupValue) ?? []
     return (
       memberValues.length > 0 && memberValues.every((o) => selectedValueSet.has(o.value))
     )
   }
 
   const toggleGroupValue = (groupValue: string) => {
-    const memberValues = options
-      .filter((option) => groupBy?.(option) === groupValue)
-      .map((o) => o.value)
+    const memberValues = (filteredOptionsByGroup.get(groupValue) ?? []).map(
+      (o) => o.value,
+    )
 
     const next = isGroupFullySelected(groupValue)
       ? selectedValues.filter((v) => !memberValues.includes(v))
       : Array.from(new Set([...selectedValues, ...memberValues]))
 
-    onChange(
-      selectAll &&
-        options.length > 0 &&
-        next.length === options.length &&
-        options.every((option) => next.includes(option.value))
-        ? []
-        : next,
-    )
+    onChange(next)
   }
 
-  const handleSelectAll = () => onChange([])
+  const { allSelected: allFilteredSelected, toggle: handleSelectAll } = useSelectAll(
+    filteredOptions,
+    selectedValues,
+    onChange,
+  )
 
-  // Group headers are rendered as their own selectable option
+  // Multi-select group headers are rendered as their own selectable option
   // (see the isGroupOptionValue branch in renderOption) instead of living
   // outside the listbox as a separate Tab-only element - that's what lets
   // the header fully participate in the listbox's native keyboard
@@ -348,7 +281,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
   // since MUI's Autocomplete manages highlighting via aria-activedescendant
   // on the input, not real per-item DOM focus.
   const optionsWithGroupMarkers = useMemo(() => {
-    if (!groupBy) return options
+    if (!(multiple && groupBy)) return options
 
     const seenGroups = new Set<string>()
     const result: Option[] = []
@@ -361,22 +294,15 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
       result.push(option)
     })
     return result
-  }, [groupBy, options])
+  }, [multiple, groupBy, options])
 
   const resolvedOptions = useMemo(() => {
-    const rows: Option[] = []
-    if (multiple && selectAll && filteredOptions.length > 0 && !loading && !loadError)
-      rows.push(selectAllOption)
-    return loading || loadError ? rows : [...rows, ...optionsWithGroupMarkers]
-  }, [
-    multiple,
-    selectAll,
-    optionsWithGroupMarkers,
-    selectAllOption,
-    filteredOptions.length,
-    loading,
-    loadError,
-  ])
+    if (!dropdownSearch) return optionsWithGroupMarkers
+
+    const rows: Option[] = [dropdownSearchFieldOption]
+    if (multiple && selectAll) rows.push(selectAllOption)
+    return [...rows, ...optionsWithGroupMarkers]
+  }, [dropdownSearch, multiple, selectAll, optionsWithGroupMarkers, selectAllOption])
 
   const handleChange = (_: React.SyntheticEvent, selected: Option | Option[] | null) => {
     if (Array.isArray(selected)) {
@@ -395,25 +321,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         .filter((item) => !isInternalOptionValue(item.value))
         .map((item) => item.value)
 
-      onChange(
-        selectAll &&
-          options.length > 0 &&
-          values.length === options.length &&
-          options.every((option) => values.includes(option.value))
-          ? []
-          : values,
-      )
+      onChange(values)
     } else {
-      if (selected?.value === dropdownSelectAllValue) {
-        onChange(null)
-        return
-      }
-      if (
-        selected &&
-        isInternalOptionValue(selected.value) &&
-        !isGroupOptionValue(selected.value)
-      )
-        return
+      if (selected && isInternalOptionValue(selected.value)) return
       onChange(selected?.value ?? null)
     }
   }
@@ -432,8 +342,14 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
       if (!dropdownSearchValue.trim()) return opts
 
       return opts.filter((opt) => {
-        // All is available only when results exist; group rows follow their members.
-        if (opt.value === dropdownSelectAllValue) {
+        // Search field / select-all rows always stay visible; group markers
+        // are conditionally visible (only when the group still has filtered
+        // members) via isVisibleAfterFilter below - isInternalOptionValue
+        // covers both cases, so it can't be used as a blanket always-show.
+        if (
+          opt.value === dropdownSearchFieldValue ||
+          opt.value === dropdownSelectAllValue
+        ) {
           return true
         }
         return isVisibleAfterFilter(opt)
@@ -456,11 +372,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     if (!(activeEl instanceof Element)) return false
 
     const listbox = document.getElementById(`${id}-listbox`)
-    return (
-      !!listbox?.contains(activeEl) ||
-      !!document.getElementById(`${id}-paper`)?.contains(activeEl) ||
-      !!wrapperRef.current?.contains(activeEl)
-    )
+    return !!listbox?.contains(activeEl) || !!wrapperRef.current?.contains(activeEl)
   }
 
   const deferCloseCheck = () => {
@@ -471,76 +383,8 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
     })
   }
 
-  let panelStatus: React.ReactNode
-  if (loadError) {
-    panelStatus = (
-      <Box
-        role='alert'
-        sx={{
-          m: space['padding-xs'],
-          p: space['padding-md'],
-          display: 'flex',
-          alignItems: 'center',
-          gap: space['gap-md'],
-          color: color['status-error-text'],
-          bgcolor: color['status-error-bg'],
-          border: `1px solid ${color['status-error-border']}`,
-          borderRadius: 'var(--rc-radius-8)',
-        }}
-      >
-        <WarningCircleIcon
-          weight='regular'
-          aria-hidden
-          style={{
-            flexShrink: 0,
-            width: size['icon-size-control'],
-            height: size['icon-size-control'],
-          }}
-        />
-        {loadError}
-      </Box>
-    )
-  } else if (loading) {
-    panelStatus = (
-      <Box
-        role='status'
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: space['gap-sm'],
-          p: space['padding-md'],
-          color: color['text-secondary'],
-        }}
-      >
-        <CircularProgress size={24} />
-        <span>{t('loading')}</span>
-      </Box>
-    )
-  } else if (!filteredOptions.length) {
-    panelStatus = (
-      <Box role='status' sx={{ p: space['padding-md'] }}>
-        <Box>{t('noResults', { query: searchText })}</Box>
-        <Box sx={{ color: color['text-secondary'], mt: space['gap-xs'] }}>
-          {t('refineSearch')}
-        </Box>
-      </Box>
-    )
-  }
-
-  const singleSummary =
-    typeof value === 'string' && isGroupOptionValue(value)
-      ? `${selectedSingleLabel} (${
-          groupCounts.get(groupNameFromOptionValue(value)) ?? 0
-        })`
-      : selectedSingleLabel
-  const fullSummary = isAll ? resolvedSelectAllLabel : selectedLabels.join(', ')
-  const visibleSummary = isAll
-    ? resolvedSelectAllLabel
-    : selectedLabels.slice(0, visibleCount).join(', ') || placeholder
-
   return (
-    <SelectWrapper
+    <RcSesFormControlWrapper
       id={id}
       errors={errors}
       label={label}
@@ -556,26 +400,16 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         limitTags={multiple ? (limitTags ?? -1) : undefined}
         disableCloseOnSelect={multiple}
         disabled={disabled}
-        disableClearable={clearable === false || isAll}
+        disableClearable={clearable === false}
         options={resolvedOptions}
         filterOptions={(opts) => filterOptions(opts)}
         disableListWrap
         blurOnSelect={false}
         clearOnBlur={false}
-        handleHomeEndKeys
+        handleHomeEndKeys={false}
         loading={loading}
-        loadingText={null}
-        noOptionsText={null}
-        clearIcon={
-          <XCircleFillIcon
-            weight='regular'
-            aria-hidden
-            style={{
-              width: size['icon-size-control'],
-              height: size['icon-size-control'],
-            }}
-          />
-        }
+        loadingText={t('loadingText')}
+        noOptionsText={t('noOptionsText')}
         popupIcon={
           <CaretDownIcon
             fillColor={color['text-secondary']}
@@ -602,18 +436,43 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         }}
         isOptionEqualToValue={(option, val) => option.value === val.value}
         getOptionLabel={(option) => option.label}
-        renderGroup={(params) => (
-          <React.Fragment key={params.key}>{params.children}</React.Fragment>
-        )}
+        renderGroup={(params) => {
+          const groupValue = params.group
+
+          return (
+            <React.Fragment key={params.key}>
+              {/* For multi-select this plain header is skipped: the group's
+                  own selectable row (rendered by renderOption's
+                  isGroupOptionValue branch, injected as the first item of
+                  each group) supplies the header visual instead, so it can
+                  fully participate in the listbox's native keyboard nav. */}
+              {!multiple && !!groupValue && (
+                <Box
+                  className='MuiAutocomplete-groupLabel'
+                  sx={{ alignItems: 'center', display: 'flex', gap: space['gap-sm'] }}
+                >
+                  {groupValue}
+                  {groupCounts.has(groupValue) && (
+                    <RcSesBadge
+                      label={String(groupCounts.get(groupValue))}
+                      variant='neutral'
+                      size='small'
+                      showIcon={false}
+                    />
+                  )}
+                </Box>
+              )}
+
+              {params.children}
+            </React.Fragment>
+          )
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
-            focused={open || undefined}
             disabled={disabled}
             error={hasError}
-            placeholder={
-              multiple || dropdownSearch || selectedSingleLabel ? undefined : placeholder
-            }
+            placeholder={!multiple && selectedSingleLabel ? undefined : placeholder}
             sx={{
               ...(dropdownSearch || (!multiple && selectedSingleLabel)
                 ? {
@@ -622,42 +481,35 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                     },
                   }
                 : {}),
-              '& .rc-ses-select-single-value': {
-                boxSizing: 'border-box',
-                display: 'flex',
-                flex: 1,
-                minWidth: 0,
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                pointerEvents: 'none',
-              },
+              ...(multiple
+                ? {
+                    '& .MuiAutocomplete-inputRoot': {
+                      alignItems: 'center',
+                      pr: `calc(${reservedMultipleEndAdornmentWidth}rem) !important`,
+                    },
+                  }
+                : {
+                    '& .rc-ses-select-single-value': {
+                      boxSizing: 'border-box',
+                      display: 'block',
+                      overflowWrap: 'anywhere',
+                      paddingLeft: space['padding-sm'],
+                      pointerEvents: 'none',
+                      width: '100%',
+                    },
+                    '& .MuiAutocomplete-input': {
+                      marginRight: `calc(${reservedSingleEndAdornmentWidth}rem) !important`,
+                    },
+                  }),
             }}
             slotProps={{
               ...params.slotProps,
               input: {
                 ...params.slotProps.input,
                 startAdornment:
-                  useDefaultSummary &&
-                  (multiple || selectedSingleLabel || dropdownSearch) ? (
-                    <Box
-                      ref={summaryRef}
-                      id={selectedValueId}
-                      className='rc-ses-select-single-value'
-                      title={multiple ? fullSummary : singleSummary}
-                    >
-                      <Box
-                        component='span'
-                        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}
-                      >
-                        {multiple ? visibleSummary : singleSummary || placeholder}
-                      </Box>
-                      {multiple && !isAll && selectedLabels.length > visibleCount && (
-                        <Box component='span' sx={{ flexShrink: 0, whiteSpace: 'pre' }}>
-                          {` ${t('more', {
-                            count: selectedLabels.length - visibleCount,
-                          })}`}
-                        </Box>
-                      )}
+                  !multiple && selectedSingleLabel ? (
+                    <Box id={selectedValueId} className='rc-ses-select-single-value'>
+                      {selectedSingleLabel}
                     </Box>
                   ) : (
                     params.slotProps.input.startAdornment
@@ -665,16 +517,13 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               },
               htmlInput: {
                 ...params.slotProps.htmlInput,
-                title: multiple ? fullSummary : singleSummary,
                 'aria-describedby':
-                  useDefaultSummary && (multiple || selectedSingleLabel || dropdownSearch)
-                    ? selectedValueId
-                    : undefined,
+                  !multiple && selectedSingleLabel ? selectedValueId : undefined,
                 value:
-                  useDefaultSummary && (multiple || selectedSingleLabel || dropdownSearch)
+                  !multiple && selectedSingleLabel
                     ? ''
                     : params.slotProps.htmlInput?.value,
-                readOnly: multiple || dropdownSearch || !!selectedSingleLabel,
+                readOnly: dropdownSearch || (!multiple && !!selectedSingleLabel),
               },
             }}
           />
@@ -682,24 +531,83 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         renderOption={(optionProps, option, { selected }) => {
           const { key, className, ...rest } = optionProps
 
-          if (option.value === dropdownSelectAllValue) {
+          if (option.value === dropdownSearchFieldValue) {
             return (
               <Box
                 key={key}
                 component='li'
                 {...rest}
-                aria-selected={multiple ? isAll : !value}
                 className={className}
                 onMouseDown={(event: React.MouseEvent) => {
                   event.preventDefault()
                 }}
                 onClick={(event: React.MouseEvent) => {
                   event.stopPropagation()
-                  if (multiple) handleSelectAll()
-                  else {
-                    onChange(null)
-                    closeDropdown({ clearInput: true })
-                  }
+                }}
+                sx={{
+                  '&:hover': { backgroundColor: 'transparent !important' },
+                  display: 'flex',
+                  flexDirection: 'row !important',
+                  px: space['padding-md'],
+                  py: space['space-8'],
+                }}
+              >
+                <TextField
+                  fullWidth
+                  value={dropdownSearchValue}
+                  onChange={(event) => setDropdownSearchValue(event.target.value)}
+                  placeholder={resolvedDropdownSearchPlaceholder}
+                  size='small'
+                  onMouseDown={(e) => {
+                    e.stopPropagation()
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                  }}
+                  onFocus={(e) => {
+                    e.stopPropagation()
+                  }}
+                  onBlur={deferCloseCheck}
+                  onKeyDown={(event) => {
+                    event.stopPropagation()
+                  }}
+                  sx={[
+                    selectStyle,
+                    {
+                      '& .MuiInputBase-input': {
+                        padding: `${space['space-10']} ${space['padding-sm']}`,
+                      },
+                      '& .MuiInputBase-input::placeholder': {
+                        color: color['text-muted'],
+                        opacity: 1,
+                      },
+                    },
+                  ]}
+                  slotProps={{
+                    htmlInput: {
+                      onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) =>
+                        event.stopPropagation(),
+                    },
+                  }}
+                />
+              </Box>
+            )
+          }
+
+          if (option.value === dropdownSelectAllValue) {
+            return (
+              <Box
+                key={key}
+                component='li'
+                {...rest}
+                aria-selected={allFilteredSelected}
+                className={className}
+                onMouseDown={(event: React.MouseEvent) => {
+                  event.preventDefault()
+                }}
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation()
+                  handleSelectAll()
                 }}
                 sx={{
                   alignItems: 'center !important',
@@ -708,31 +616,17 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   gap: space['gap-md'],
                 }}
               >
-                {multiple && <OptionCheckbox checked={isAll} />}
+                <OptionCheckbox checked={allFilteredSelected} />
                 <span className='rc-ses-select-option-label'>
                   {resolvedSelectAllLabel}
                 </span>
-                {!multiple && !value && (
-                  <CheckIcon
-                    aria-hidden
-                    weight='bold'
-                    fillColor={color['control-selected']}
-                    style={{
-                      width: size['icon-size-control'],
-                      height: size['icon-size-control'],
-                      marginLeft: 'auto',
-                    }}
-                  />
-                )}
               </Box>
             )
           }
 
           if (isGroupOptionValue(option.value)) {
             const groupValue = groupNameFromOptionValue(option.value)
-            const isGroupSelected = multiple
-              ? isGroupFullySelected(groupValue)
-              : value === option.value
+            const isGroupSelected = isGroupFullySelected(groupValue)
 
             return (
               <Box
@@ -746,11 +640,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 }}
                 onClick={(event: React.MouseEvent) => {
                   event.stopPropagation()
-                  if (multiple) toggleGroupValue(groupValue)
-                  else {
-                    onChange(option.value)
-                    closeDropdown({ clearInput: true })
-                  }
+                  toggleGroupValue(groupValue)
                 }}
                 sx={{
                   alignItems: 'center !important',
@@ -762,7 +652,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   gap: space['gap-sm'],
                 }}
               >
-                {multiple && <OptionCheckbox checked={isGroupSelected} />}
+                <OptionCheckbox checked={isGroupSelected} />
                 <Box
                   component='span'
                   sx={{
@@ -778,32 +668,11 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   {groupValue}
                 </Box>
                 {groupCounts.has(groupValue) && (
-                  <Box
-                    sx={{
-                      display: 'inline-flex',
-                      flexShrink: 0,
-                      // Optical alignment of the numeral within the circular badge.
-                      '& > div > span': { transform: 'translateY(1px)' },
-                    }}
-                  >
-                    <RcSesBadge
-                      label={String(groupCounts.get(groupValue))}
-                      variant='neutral'
-                      size='small'
-                      showIcon={false}
-                    />
-                  </Box>
-                )}
-                {!multiple && isGroupSelected && (
-                  <CheckIcon
-                    aria-hidden
-                    weight='bold'
-                    fillColor={color['control-selected']}
-                    style={{
-                      width: size['icon-size-control'],
-                      height: size['icon-size-control'],
-                      flexShrink: 0,
-                    }}
+                  <RcSesBadge
+                    label={String(groupCounts.get(groupValue))}
+                    variant='neutral'
+                    size='small'
+                    showIcon={false}
                   />
                 )}
               </Box>
@@ -877,21 +746,56 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             </Box>
           )
         }}
-        renderValue={() => null}
-        {...slotProps?.field}
-        onKeyDown={(event) => {
-          slotProps?.field?.onKeyDown?.(event)
-          if (
-            !event.defaultPrevented &&
-            open &&
-            dropdownSearch &&
-            event.key === 'Tab' &&
-            !event.shiftKey
-          ) {
-            event.preventDefault()
-            document.getElementById(`${id}-search`)?.focus()
+        renderValue={(tagValues, getItemProps, ownerState) => {
+          // MUI 9 merged renderTags into renderValue, so this now runs for
+          // single-select too where v7's renderTags did not. Single-select must
+          // keep showing the plain label - rendering a deletable Chip there both
+          // looks wrong and makes the field taller.
+          const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
+          if (!multiple) {
+            return selected[0]?.label ?? ''
           }
+
+          const visibleTagLimit = ownerState.limitTags ?? -1
+          const shouldLimitTags =
+            visibleTagLimit > -1 && selected.length > visibleTagLimit
+          const visibleTags = shouldLimitTags
+            ? selected.slice(0, visibleTagLimit)
+            : selected
+          const hiddenTagCount = selected.length - visibleTags.length
+
+          return (
+            <>
+              {visibleTags.map((option, index) => (
+                // getItemProps no longer returns a key, so it comes from the option.
+                <Chip
+                  key={option.value ?? index}
+                  label={option.label}
+                  size='small'
+                  sx={{
+                    height: 'auto',
+                    maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem)`,
+                    '& .MuiChip-label': {
+                      display: 'block',
+                      overflowWrap: 'anywhere',
+                      py: space['space-4'],
+                      textOverflow: 'clip',
+                      whiteSpace: 'normal',
+                    },
+                  }}
+                  {...getItemProps({ index })}
+                />
+              ))}
+
+              {hiddenTagCount > 0 && (
+                <Box component='span' className='MuiAutocomplete-tag'>
+                  {ownerState.getLimitTagsText?.(hiddenTagCount) ?? `+${hiddenTagCount}`}
+                </Box>
+              )}
+            </>
+          )
         }}
+        {...slotProps?.field}
         sx={[
           selectStyle,
           ...(Array.isArray(slotProps?.field?.sx)
@@ -924,72 +828,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 paperStyle,
                 ...(Array.isArray(resolved?.sx) ? resolved.sx : [resolved?.sx ?? {}]),
               ],
-              id: `${id}-paper`,
               dropdownLabel,
-              searchField: dropdownSearch ? (
-                <Box sx={{ p: space['padding-xs'] }}>
-                  <TextField
-                    id={`${id}-search`}
-                    fullWidth
-                    label={undefined}
-                    value={dropdownSearchValue}
-                    onChange={(event) => {
-                      setDropdownSearchValue(event.target.value)
-                      const callback = slotProps?.field?.onInputChange ?? onInputChange
-                      callback?.(event, event.target.value, 'input')
-                    }}
-                    placeholder={resolvedDropdownSearchPlaceholder}
-                    size='small'
-                    onMouseDown={(e) => {
-                      e.stopPropagation()
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                    }}
-                    onFocus={(e) => {
-                      e.stopPropagation()
-                    }}
-                    onBlur={deferCloseCheck}
-                    onKeyDown={(event) => {
-                      event.stopPropagation()
-                      if (event.key === 'Escape') {
-                        event.preventDefault()
-                        closeDropdown()
-                        document.getElementById(id)?.focus()
-                      } else if (event.key === 'Tab') {
-                        if (event.shiftKey) event.preventDefault()
-                        else closeDropdown()
-                        document.getElementById(id)?.focus()
-                      } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-                        event.preventDefault()
-                        const trigger = document.getElementById(id)
-                        trigger?.focus()
-                        trigger?.dispatchEvent(
-                          new KeyboardEvent('keydown', { key: event.key, bubbles: true }),
-                        )
-                      }
-                    }}
-                    sx={[
-                      selectStyle,
-                      {
-                        '& .MuiInputBase-input': {
-                          padding: `${space['space-10']} ${space['padding-sm']}`,
-                        },
-                        '& .MuiInputBase-input::placeholder': {
-                          color: color['text-muted'],
-                          opacity: 1,
-                        },
-                      },
-                    ]}
-                    slotProps={{
-                      htmlInput: {
-                        'aria-label': resolvedDropdownSearchPlaceholder,
-                      },
-                    }}
-                  />
-                </Box>
-              ) : undefined,
-              status: panelStatus,
             }
           },
           listbox: (ownerState) => {
@@ -1009,7 +848,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           },
         }}
       />
-    </SelectWrapper>
+    </RcSesFormControlWrapper>
   )
 }
 

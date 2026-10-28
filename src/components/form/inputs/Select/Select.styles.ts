@@ -1,12 +1,8 @@
-import { styled } from '@mui/material/styles'
-
 import { borderTokens as border } from '@/theme/borderTokens'
 import { colorTokens as color } from '@/theme/colorTokens'
 import { effectTokens as effect } from '@/theme/effectTokens'
 import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
 import { typographyTokens as typography } from '@/theme/typographyTokens'
-
-import FormControlWrapper from '../../components/FormControlWrapper'
 
 const body = {
   fontSize: typography['font-size-body-regular'],
@@ -17,58 +13,23 @@ const small = {
   lineHeight: typography['line-height-body-small'],
 }
 
-// Style the existing wrapper without adding a DOM element or changing its API.
-export const SelectWrapper = styled(FormControlWrapper)({
-  marginBlock: space['space-8'],
-  '& .MuiFormLabel-root': { ...small, color: color['text-default'] },
-  '& .MuiFormLabel-root.Mui-focused': { color: color['text-default'] },
-  '& .MuiFormHelperText-root': {
-    fontSize: typography['font-size-body-micro'],
-    lineHeight: typography['line-height-body-micro'],
-    color: color['text-secondary'],
-  },
-  '& .MuiFormHelperText-root.Mui-error': { color: color['status-error-text'] },
-})
-
+// Shared Input states come from the theme; only Select parts are styled here.
 export const selectStyle = {
   ...body,
-  // Only combobox layout belongs here; shared Input states come from the theme.
-  '&& .MuiOutlinedInput-root': {
-    height: '2.75rem',
-    flexWrap: 'nowrap',
-    padding: `0 ${space['padding-sm']}`,
-    paddingRight: '4rem',
-    color: color['text-default'],
-    '&.Mui-disabled': {
-      '& .rc-ses-select-single-value': { color: color['text-disabled'] },
-    },
-    '& .MuiInputBase-input': {
-      minWidth: 0,
-    },
-    '& .rc-ses-select-single-value ~ .MuiInputBase-input': {
-      position: 'absolute',
-      inset: 0,
-      width: '100%',
-      height: '100%',
-      caretColor: 'transparent',
-      padding: 0,
-      margin: 0,
-    },
-    '& .MuiAutocomplete-endAdornment': {
-      zIndex: 1,
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: space['space-4'],
-      right: `calc(${space['padding-sm']} - ${space['space-2']})`,
-    },
-  },
   '& .rc-ses-select-single-value': { ...body, color: color['text-default'] },
+  '& .MuiOutlinedInput-root.Mui-disabled .rc-ses-select-single-value': {
+    color: color['text-disabled'],
+  },
+  '& .MuiChip-root': {
+    ...small,
+    bgcolor: color['surface-brand-subtle'],
+    color: color['text-link'],
+    borderRadius: border['radius-chip'],
+    '& .MuiChip-deleteIcon': { color: color['text-secondary'] },
+  },
   '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
     color: color['text-secondary'],
-    padding: space['space-2'],
-    margin: 0,
   },
-  '& .MuiAutocomplete-clearIndicator': { visibility: 'visible' },
 }
 
 export const paperStyle = {
@@ -79,7 +40,6 @@ export const paperStyle = {
   // The existing popup radius has no dedicated DS role; retain its primitive.
   borderRadius: border['radius-12'],
   boxShadow: effect['elevation-md'],
-  '& .MuiAutocomplete-loading, & .MuiAutocomplete-noOptions': { display: 'none' },
   '& .MuiAutocomplete-listbox': {
     py: space['space-8'],
     '& .MuiAutocomplete-groupLabel': {
@@ -88,7 +48,6 @@ export const paperStyle = {
       padding: `${space['padding-sm']} ${space['padding-md']}`,
     },
     '& .MuiAutocomplete-option': {
-      minHeight: '3rem',
       ...body,
       color: color['text-default'],
       padding: `${space['padding-sm']} ${space['padding-md']}`,

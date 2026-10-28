@@ -60,10 +60,8 @@
     "RcSesSelect": {
       "searchPlaceholder": "Ieškoti",
       "selectAllLabel": "Visi",
-      "more": "ir dar {{count}}",
-      "loading": "Kraunama...",
-      "noResults": "Nieko nerasta pagal \u201e{{query}}\u201c",
-      "refineSearch": "Patikslinkite paie\u0161k\u0105."
+      "noOptionsText": "Rezultatų nerasta",
+      "loadingText": "Kraunama..."
     },
 
     "RcSesSearchInput": {
