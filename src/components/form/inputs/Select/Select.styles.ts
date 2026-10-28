@@ -1,75 +1,75 @@
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { effectTokens as effect } from '@/theme/effectTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const body = {
-  fontSize: typography['font-size-body-regular'],
-  lineHeight: typography['line-height-body-regular'],
+  fontSize: typographyTokens['font-size-body-regular'],
+  lineHeight: typographyTokens['line-height-body-regular'],
 }
 const small = {
-  fontSize: typography['font-size-body-small'],
-  lineHeight: typography['line-height-body-small'],
+  fontSize: typographyTokens['font-size-body-small'],
+  lineHeight: typographyTokens['line-height-body-small'],
 }
 
 // Shared Input states come from the theme; only Select parts are styled here.
 export const selectStyle = {
   ...body,
-  '& .rc-ses-select-single-value': { ...body, color: color['text-default'] },
+  '& .rc-ses-select-single-value': { ...body, color: colorTokens['text-default'] },
   '& .MuiOutlinedInput-root.Mui-disabled .rc-ses-select-single-value': {
-    color: color['text-disabled'],
+    color: colorTokens['text-disabled'],
   },
   '& .MuiChip-root': {
     ...small,
-    bgcolor: color['surface-brand-subtle'],
-    color: color['text-link'],
-    borderRadius: border['radius-chip'],
-    '& .MuiChip-deleteIcon': { color: color['text-secondary'] },
+    bgcolor: colorTokens['surface-brand-subtle'],
+    color: colorTokens['text-link'],
+    borderRadius: borderTokens['radius-chip'],
+    '& .MuiChip-deleteIcon': { color: colorTokens['text-secondary'] },
   },
   '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
-    color: color['text-secondary'],
+    color: colorTokens['text-secondary'],
   },
 }
 
 export const paperStyle = {
   ...body,
-  bgcolor: color['surface-base'],
-  color: color['text-default'],
-  border: `${border['border-default']} solid ${color['border-subtle']}`,
+  bgcolor: colorTokens['surface-base'],
+  color: colorTokens['text-default'],
+  border: `${borderTokens['border-default']} solid ${colorTokens['border-subtle']}`,
   // The existing popup radius has no dedicated DS role; retain its primitive.
-  borderRadius: border['radius-12'],
-  boxShadow: effect['elevation-md'],
+  borderRadius: borderTokens['radius-12'],
+  boxShadow: effectTokens['elevation-md'],
   '& .MuiAutocomplete-listbox': {
-    py: space['space-8'],
+    py: spacingRoleBasedTokens['space-8'],
     '& .MuiAutocomplete-groupLabel': {
       ...small,
-      color: color['text-default'],
-      padding: `${space['padding-sm']} ${space['padding-md']}`,
+      color: colorTokens['text-default'],
+      padding: `${spacingRoleBasedTokens['padding-sm']} ${spacingRoleBasedTokens['padding-md']}`,
     },
     '& .MuiAutocomplete-option': {
       ...body,
-      color: color['text-default'],
-      padding: `${space['padding-sm']} ${space['padding-md']}`,
-      '&:hover': { bgcolor: color['surface-muted'] },
+      color: colorTokens['text-default'],
+      padding: `${spacingRoleBasedTokens['padding-sm']} ${spacingRoleBasedTokens['padding-md']}`,
+      '&:hover': { bgcolor: colorTokens['surface-muted'] },
       '&.Mui-focused:not(:hover)': {
         bgcolor: 'transparent',
-        boxShadow: `inset 0 0 0 ${border['border-focus']} ${color['border-focus']}`,
+        boxShadow: `inset 0 0 0 ${borderTokens['border-focus']} ${colorTokens['border-focus']}`,
       },
       '&.Mui-selected, &[aria-selected="true"]': {
-        bgcolor: color['surface-brand-subtle'],
-        '&:hover, &.Mui-focused': { bgcolor: color['surface-brand-subtle'] },
+        bgcolor: colorTokens['surface-brand-subtle'],
+        '&:hover, &.Mui-focused': { bgcolor: colorTokens['surface-brand-subtle'] },
       },
-      '&[aria-disabled="true"]': { color: color['text-disabled'] },
-      '&.rc-ses-select-option--indent-single': { pl: space['space-40'] },
-      '&.rc-ses-select-option--indent-multi': { pl: space['space-32'] },
+      '&[aria-disabled="true"]': { color: colorTokens['text-disabled'] },
+      '&.rc-ses-select-option--indent-single': { pl: spacingRoleBasedTokens['space-40'] },
+      '&.rc-ses-select-option--indent-multi': { pl: spacingRoleBasedTokens['space-32'] },
       '& .rc-ses-select-option-label': { ...body },
-      '&.Mui-selected .rc-ses-select-option-label': { color: color['text-link'] },
+      '&.Mui-selected .rc-ses-select-option-label': { color: colorTokens['text-link'] },
       '& .rc-ses-select-option-description': {
-        fontSize: typography['font-size-body-micro'],
-        lineHeight: typography['line-height-body-micro'],
-        color: color['text-secondary'],
-        mt: space['gap-xs'],
+        fontSize: typographyTokens['font-size-body-micro'],
+        lineHeight: typographyTokens['line-height-body-micro'],
+        color: colorTokens['text-secondary'],
+        mt: spacingRoleBasedTokens['gap-xs'],
       },
     },
   },

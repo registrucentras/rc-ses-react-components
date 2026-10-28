@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
 
 import { CheckIcon } from '@/assets/icons/phosphorIcons'
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { sizeTokens as size } from '@/theme/sizeTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 interface Props {
   checked: boolean
@@ -12,35 +12,41 @@ interface Props {
 
 function OptionCheckbox({ checked }: Props) {
   return (
-    <Box aria-hidden sx={{ flexShrink: 0, py: space['space-8'] }}>
+    <Box aria-hidden sx={{ flexShrink: 0, py: spacingRoleBasedTokens['space-8'] }}>
       <Box
         sx={{
           alignItems: 'center',
           boxSizing: 'border-box',
           display: 'flex',
-          height: size['icon-size-24'],
+          height: sizeTokens['icon-size-24'],
           justifyContent: 'center',
-          padding: space['space-2'],
-          width: size['icon-size-24'],
+          padding: spacingRoleBasedTokens['space-2'],
+          width: sizeTokens['icon-size-24'],
         }}
       >
         <Box
           sx={{
             alignItems: 'center',
-            backgroundColor: checked ? color['control-selected'] : color['surface-base'],
+            backgroundColor: checked
+              ? colorTokens['control-selected']
+              : colorTokens['surface-base'],
             border: checked
-              ? `${border['stroke-1']} solid ${color['control-selected']}`
-              : `${border['stroke-2']} solid ${color['control-border']}`,
-            borderRadius: border['radius-4'],
+              ? `${borderTokens['stroke-1']} solid ${colorTokens['control-selected']}`
+              : `${borderTokens['stroke-2']} solid ${colorTokens['control-border']}`,
+            borderRadius: borderTokens['radius-4'],
             boxSizing: 'border-box',
             display: 'flex',
-            height: size['icon-size-control'],
+            height: sizeTokens['icon-size-control'],
             justifyContent: 'center',
-            width: size['icon-size-control'],
+            width: sizeTokens['icon-size-control'],
           }}
         >
           {checked && (
-            <CheckIcon size={14} weight='bold' fillColor={color['control-foreground']} />
+            <CheckIcon
+              size={14}
+              weight='bold'
+              fillColor={colorTokens['control-foreground']}
+            />
           )}
         </Box>
       </Box>

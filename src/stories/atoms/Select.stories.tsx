@@ -17,7 +17,7 @@ const meta: Meta<typeof RcSesSelect> = {
     docs: {
       description: {
         component:
-          'RcSesSelect naudoja DS tokenus, išlaikydamas esamą API: chips, limitTags, paiešką ir selectAll. Nauja tekstinė santrauka ir kitokia „Visi“ logika nepriklauso šiam tokenų perrišimui.',
+          'RcSesSelect uses DS tokens and keeps its existing API: chips, limitTags, search and selectAll.',
       },
     },
   },
@@ -367,7 +367,7 @@ export const TokenOverrides: Story = {
     docs: {
       description: {
         story:
-          'Vartotojo `slotProps.field.sx` ir sąrašo `sx` perrašymai Single laukui turi pirmenybę prieš tokenų stilius. Violetinės spalvos naudojamos tik šiam patikrinimui.',
+          'Consumer `slotProps.field.sx` and paper `sx` overrides on the Single field take priority over token styles. The purple colors exist only for this check.',
       },
     },
   },
