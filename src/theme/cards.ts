@@ -1,5 +1,6 @@
+import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
-import palette from '@/theme/palette'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import './tokens.css'
 
@@ -10,20 +11,29 @@ import './tokens.css'
  * anything needing a boxed row reads the same values instead of copying them.
  * `MuiCard` keeps its own radius until `RcSesCard` is deprecated.
  */
-const borderWidth = '1px'
+const borderWidth = borderTokens['stroke-1']
 
 const card = {
-  borderRadius: '0.75rem',
-  gap: { xs: '1rem', md: '1.5rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1.25rem 1.5rem', md: '1.5rem 2rem' },
+  borderRadius: borderTokens['radius-6'],
+  gap: {
+    xs: spacingTokens['spacing-primitives-16'],
+    md: spacingTokens['spacing-primitives-24'],
+  },
+  footerGap: spacingTokens['spacing-primitives-8'],
+  padding: `${spacingTokens['spacing-primitives-24']} ${spacingTokens['spacing-primitives-24']}`,
 }
 
 const subcard = {
-  borderRadius: '0.5rem',
-  gap: { xs: '0.75rem', md: '1rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1rem', md: '1.25rem 1.5rem' },
+  borderRadius: borderTokens['radius-4'],
+  gap: {
+    xs: spacingTokens['spacing-primitives-12'],
+    md: spacingTokens['spacing-primitives-16'],
+  },
+  footerGap: spacingTokens['spacing-primitives-8'],
+  padding: {
+    xs: spacingTokens['spacing-primitives-16'],
+    md: `${spacingTokens['spacing-primitives-20']} ${spacingTokens['spacing-primitives-24']}`,
+  },
 }
 
 /**
@@ -34,22 +44,22 @@ const subcard = {
  * measured token. All six are pending confirmation against the DS.
  */
 const header = {
-  actionsGap: '0.75rem',
-  badgeGap: '0.5rem',
-  descriptionLineHeight: '1.25rem',
-  gap: '0.25rem',
-  rowGap: '1rem',
+  actionsGap: spacingTokens['spacing-primitives-12'],
+  badgeGap: spacingTokens['spacing-primitives-8'],
+  descriptionLineHeight: spacingTokens['spacing-primitives-20'],
+  gap: spacingTokens['spacing-primitives-4'],
+  rowGap: spacingTokens['spacing-primitives-16'],
   titleFontWeight: 600,
 }
 
 const footer = {
-  gap: '0.75rem',
+  gap: spacingTokens['spacing-primitives-12'],
 }
 
 const themes = {
   brand: {
     backgroundColor: colorTokens['surface-brand-subtle'],
-    borderColor: palette.primary[200],
+    borderColor: colorTokens['border-brand-subtle'],
   },
   default: {
     backgroundColor: colorTokens['surface-base'],

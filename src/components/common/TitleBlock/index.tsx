@@ -2,7 +2,8 @@ import { Box, Stack, Typography } from '@mui/material'
 
 import RcSesBadge from '@/components/common/Badge'
 import cards from '@/theme/cards'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesTitleBlockProps, TitleBlockHeadingLevel } from './types'
 
@@ -53,14 +54,27 @@ function RcSesTitleBlock({
           component='span'
           variant={titleVariant}
           sx={{
-            color: titleTone === 'brand' ? palette.primary[700] : palette.grey[900],
+            color:
+              titleTone === 'brand'
+                ? colorTokens['action-primary-bg']
+                : colorTokens['text-default'],
             // inline only when the badge has to sit on the heading's last line
             display: hasCount ? 'inline' : 'block',
             // Vertical orientation compresses the title on xs; desktop keeps
             // whatever size `titleVariant` defines. Keep lineHeight paired with
             // fontSize so wrapping titles do not clip descenders.
-            fontSize: isVertical ? { xs: '0.875rem', sm: '1.5rem' } : undefined,
-            lineHeight: isVertical ? { xs: 1.25, sm: 1.33 } : undefined,
+            fontSize: isVertical
+              ? {
+                  xs: typographyTokens['font-size-body-small'],
+                  sm: typographyTokens['font-size-heading-h2'],
+                }
+              : undefined,
+            lineHeight: isVertical
+              ? {
+                  xs: typographyTokens['line-height-body-small'],
+                  sm: typographyTokens['line-height-heading-h3'],
+                }
+              : undefined,
             fontWeight: isHeadingScale ? cards.header.titleFontWeight : undefined,
             overflowWrap: 'anywhere',
           }}
@@ -93,7 +107,7 @@ function RcSesTitleBlock({
           data-testid={testIds?.description}
           variant='body2'
           sx={{
-            color: palette.grey[700],
+            color: colorTokens['text-secondary'],
             lineHeight: cards.header.descriptionLineHeight,
           }}
         >
