@@ -1,21 +1,23 @@
-import { Components, decomposeColor } from '@mui/material'
+import type { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { effectTokens as effect } from '../effectTokens'
 
 const MuiCheckbox: Components['MuiCheckbox'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
       svg: {
-        borderRadius: '.25rem',
+        borderRadius: border['radius-4'],
       },
 
       '&:hover': {
         svg: {
-          boxShadow: `0px 0px 0px 4px rgba(${decomposeColor(palette.primary['500']).values}, .2)`,
+          boxShadow: effect['focus-ring-default'],
 
           '.checkbox-stroke': {
-            stroke: palette.primary['500'],
+            stroke: color['control-unselected-hover'],
           },
         },
       },
