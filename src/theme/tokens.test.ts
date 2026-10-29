@@ -79,8 +79,8 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
     }
     effective.forEach((_, name) => {
       const pattern = /^--rc-(?:elevation|focus-ring)-/.test(name)
-        ? /^(?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\)(?:, (?:-?[\d.]+(?:px)? ){3,4}rgb\([\d. /]+\))*$/
-        : /^(?:rgb\([\d. /]+\)|[\d.]+(?:rem|px))$/
+        ? /^(?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?(?:, (?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?)*$/i
+        : /^(?:#[\da-f]{6}(?:[\da-f]{2})?|[\d.]+(?:rem|px))$/i
       // Focus rings embed a color token inside the shadow value.
       const value = resolve(name).replace(/var\((--rc-[\w-]+)\)/g, (match, reference) =>
         resolve(reference),
@@ -124,10 +124,10 @@ test('one shared scale and explicit radius/alpha corrections retain their token 
     '--rc-radius-full': '9999px',
     '--rc-borders-button-border-radius': 'var(--rc-radius-8)',
     '--rc-borders-container-border-radius': 'var(--rc-radius-16)',
-    '--rc-color-overlays-black-4': 'rgb(0 0 0 / 0.04)',
-    '--rc-color-overlays-black-8': 'rgb(0 0 0 / 0.08)',
-    '--rc-color-overlays-white-8': 'rgb(255 255 255 / 0.08)',
-    '--rc-color-overlays-white-16': 'rgb(255 255 255 / 0.16)',
+    '--rc-color-overlays-black-4': '#0000000a',
+    '--rc-color-overlays-black-8': '#00000014',
+    '--rc-color-overlays-white-8': '#ffffff14',
+    '--rc-color-overlays-white-16': '#ffffff29',
   }).forEach(([name, value]) => expect(root.get(name), `xs: ${name}`).toBe(value))
   expect(css).not.toMatch(
     /--rc-(colors-|color-tokens-|spacing-role-based-|spacing-spacing-primitives-|borders-radius-|borders-stroke-|sizes-)/,
