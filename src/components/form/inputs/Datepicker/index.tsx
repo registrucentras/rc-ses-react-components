@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { CalendarBlankIcon, XCircleFillIcon } from '@/assets/icons/phosphorIcons'
 import theme from '@/theme/light'
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -96,7 +97,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
           },
           inputAdornment: {
             position: 'start',
-            sx: { mr: '0 !important' },
+            sx: { mr: space['space-0'] },
             ...(slotProps?.datepicker?.slotProps?.inputAdornment ?? {}),
           },
           textField: {
@@ -113,7 +114,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
                         <InputAdornment
                           aria-label={t('aria.openCalendar')}
                           position='start'
-                          sx={{ mr: 0 }}
+                          sx={{ mr: space['space-0'] }}
                         >
                           <IconButton>
                             <CalendarBlankIcon />
@@ -140,8 +141,8 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, Props>((props, ref) =
         value={modelValue}
         sx={{
           '.MuiInputBase-input': {
-            paddingLeft: 0,
-            paddingRight: 0,
+            paddingLeft: space['space-0'],
+            paddingRight: space['space-0'],
           },
           ...(slotProps?.datepicker?.sx ?? {}),
         }}

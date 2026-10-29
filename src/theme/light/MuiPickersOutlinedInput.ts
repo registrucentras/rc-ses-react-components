@@ -1,7 +1,9 @@
-import { decomposeColor } from '@mui/material'
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import palette, { common } from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
+import { typographyTokens as typography } from '../typographyTokens'
 
 /**
  * x-date-pickers 9 gives the picker its own field components, which none of the
@@ -11,76 +13,75 @@ import palette, { common } from '../palette'
 const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
   styleOverrides: {
     root: {
-      backgroundColor: common.white,
-      borderRadius: '.5rem',
+      backgroundColor: color['surface-base'],
+      borderRadius: border['radius-input'],
       // The value renders as sections, not an <input>, so the horizontal
       // padding sits here and the vertical padding on the sections.
-      padding: '0 .75rem',
-
-      '.MuiPickersInputBase-sectionsContainer': {
-        color: palette.grey['900'],
-        fontSize: '.9375rem',
-        // The 18px content box MuiInputBase gives a plain input, so the row
-        // stays 44px.
-        boxSizing: 'content-box',
-        height: '1.125rem',
-        lineHeight: '1.125rem',
-        padding: '.8125rem 0',
-      },
-
-      '.MuiPickersOutlinedInput-notchedOutline': {
-        borderColor: palette.grey['600'],
-        borderRadius: '.5rem',
-      },
+      padding: `${space['space-0']} ${space['space-12']}`,
 
       '&.Mui-error': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: `${palette.error['600']} !important`,
+          borderColor: color['status-error-border'],
         },
       },
 
       '&.Mui-focused': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['900']} !important`,
-          borderRadius: '.5rem',
-          boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.grey['900']).values}, .2)`,
+          borderColor: color['border-focus'],
+          borderWidth: border['border-focus'],
         },
 
         '&.Mui-error': {
           '.MuiPickersOutlinedInput-notchedOutline': {
-            borderColor: `${palette.error['600']} !important`,
-            borderWidth: '.125rem',
-            borderRadius: '.5rem',
-            boxShadow: `0px 0px 0px 3px rgba(${decomposeColor(palette.error['600']).values}, .2)`,
+            borderColor: color['border-focus-error'],
           },
         },
       },
 
+      '&.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline': {
+        borderColor: color['border-focus'],
+      },
+
       '&.Mui-readOnly': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['600']} !important`,
-          borderWidth: '1px !important',
-          boxShadow: 'none !important',
+          borderColor: color['border-strong'],
+          borderWidth: border['stroke-1'],
         },
       },
 
       '&.Mui-disabled': {
-        backgroundColor: `${palette.grey['100']} !important`,
+        backgroundColor: color['surface-muted'],
 
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: `${palette.grey['600']} !important`,
+          borderColor: color['border-subtle'],
+          borderWidth: border['stroke-1'],
         },
 
         '.MuiPickersInputBase-sectionsContainer': {
-          color: `${palette.grey['600']} !important`,
+          color: color['text-disabled'],
+          WebkitTextFillColor: color['text-disabled'],
         },
       },
 
-      '&:hover:not(.Mui-disabled):not(.Mui-readOnly)': {
+      '&:hover:not(.Mui-disabled):not(.Mui-readOnly):not(.Mui-focused):not(.Mui-error)': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: palette.grey['900'],
+          borderColor: color['control-border'],
         },
       },
+    },
+    sectionsContainer: {
+      color: color['text-default'],
+      fontSize: typography['font-size-body-regular'],
+      boxSizing: 'content-box',
+      height: typography['line-height-body-regular'],
+      lineHeight: typography['line-height-body-regular'],
+      padding: `${space['input-padding-y']} ${space['space-0']}`,
+    },
+    notchedOutline: {
+      borderColor: color['border-strong'],
+      borderWidth: border['stroke-1'],
+      borderRadius: border['radius-input'],
+      boxShadow: 'none',
     },
   },
 }
