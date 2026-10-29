@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const story = '/iframe.html?id=foundations-effects--overview&viewMode=story'
+const story = '/iframe.html?id=fixtures-foundations-effects--overview&viewMode=story'
 const shadows = {
   sm: 'rgba(0, 0, 0, 0.08) 0px 4px 6px 0px, rgba(0, 0, 0, 0.06) 0px 1px 3px 0px',
   md: 'rgba(0, 0, 0, 0.08) 0px 4px 16px 0px',
@@ -91,7 +91,9 @@ test('Figma shadows, Tab focus rings and popup resolve and react to live tokens'
 test('component roles cover Popover, Menu, Select, Dialog and Snackbar with live tokens and legacy fallbacks', async ({
   page,
 }) => {
-  await page.goto('/iframe.html?id=foundations-effects--component-roles&viewMode=story')
+  await page.goto(
+    '/iframe.html?id=fixtures-foundations-effects--component-roles&viewMode=story',
+  )
   await expect(
     page.getByRole('button', { name: 'Open popover', exact: true }),
   ).toBeVisible()

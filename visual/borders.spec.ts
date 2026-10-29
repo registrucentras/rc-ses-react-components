@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('theme radius multiplication, component aliases, live tokens and legacy fallbacks', async ({
   page,
 }) => {
-  await page.goto('/iframe.html?id=foundations-borders--radius&viewMode=story')
+  await page.goto('/iframe.html?id=fixtures-foundations-borders--radius&viewMode=story')
   const shape = page.getByTestId('theme-radius')
   const card = page.getByTestId('theme-card')
   const button = page.getByTestId('theme-button')

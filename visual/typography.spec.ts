@@ -42,7 +42,9 @@ const responsive = {
 test('all 14 role dimensions resolve at xs, sm, md and lg without reloading', async ({
   page,
 }) => {
-  await page.goto('/iframe.html?id=foundations-typography--dimensions&viewMode=story')
+  await page.goto(
+    '/iframe.html?id=fixtures-foundations-typography--dimensions&viewMode=story',
+  )
   await expect(page.getByTestId('heading-h1')).toBeVisible()
   const widths = [375, 768, 1024, 1440]
   /* eslint-disable no-await-in-loop -- Resize one page sequentially; assertions within each mode are independent. */
@@ -69,7 +71,9 @@ test('named theme styles inherit font attributes without guessing Figma weights'
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/iframe.html?id=foundations-typography--inheritance&viewMode=story')
+  await page.goto(
+    '/iframe.html?id=fixtures-foundations-typography--inheritance&viewMode=story',
+  )
   await Promise.all(
     ['headingCardTitle', 'bodyLarge', 'buttonCompact'].map(async (variant) => {
       const text = page.getByTestId(variant)
