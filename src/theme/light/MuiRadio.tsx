@@ -1,6 +1,8 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingTokens } from '../spacingTokens'
 
 const MuiRadio: Components['MuiRadio'] = {
   defaultProps: {
@@ -19,10 +21,16 @@ const MuiRadio: Components['MuiRadio'] = {
           width='23'
           height='23'
           rx='11.5'
-          fill='#06A0D4'
-          stroke='#06A0D4'
+          fill={colorTokens['control-selected']}
+          stroke={colorTokens['control-selected']}
         />
-        <circle data-name='inner' cx='12' cy='12' r='5' fill='white' />
+        <circle
+          data-name='inner'
+          cx='12'
+          cy='12'
+          r='5'
+          fill={colorTokens['surface-base']}
+        />
       </svg>
     ),
     icon: (
@@ -33,7 +41,15 @@ const MuiRadio: Components['MuiRadio'] = {
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
       >
-        <rect data-name='inner' x='1' y='1' width='22' height='22' rx='11' fill='white' />
+        <rect
+          data-name='inner'
+          x='1'
+          y='1'
+          width='22'
+          height='22'
+          rx='11'
+          fill={colorTokens['surface-base']}
+        />
         <rect
           data-name='outer'
           x='1'
@@ -41,21 +57,21 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          stroke='#8E959E'
-          strokeWidth='2'
+          stroke={colorTokens['border-default']}
+          strokeWidth={borderTokens['stroke-2']}
         />
       </svg>
     ),
   },
   styleOverrides: {
     root: {
-      borderWidth: '2px',
-      margin: '5px',
-      padding: '4px',
+      borderWidth: borderTokens['stroke-2'],
+      margin: spacingTokens['spacing-primitives-4'],
+      padding: spacingTokens['spacing-primitives-4'],
 
       '&.Mui-disabled': {
         '[data-name="inner"]': {
-          fill: palette.grey['200'],
+          fill: colorTokens['control-disabled'],
         },
       },
     },
