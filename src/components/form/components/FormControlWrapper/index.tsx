@@ -3,10 +3,10 @@ import { FieldError } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import '@/i18n/i18n'
-import { colorTokens as color } from '@/theme/colorTokens'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
@@ -53,11 +53,11 @@ function RcSesFormControlWrapper({
       className={className}
       error={!!errors}
       sx={{
-        my: space['space-8'],
+        my: spacingRoleBasedTokens['space-8'],
         width: '100%',
         [`${disabledInput} > .rc-ses-form-control-wrapper > .MuiFormLabel-root, ${disabledInput} > [aria-live="polite"] > .MuiFormHelperText-root`]:
           {
-            color: color['text-disabled'],
+            color: colorTokens['text-disabled'],
           },
       }}
     >
@@ -75,8 +75,8 @@ function RcSesFormControlWrapper({
             htmlFor={id}
             sx={{
               ...(labelOnTop && {
-                fontSize: typography['font-size-body-caption'],
-                lineHeight: typography['line-height-body-caption'],
+                fontSize: typographyTokens['font-size-body-caption'],
+                lineHeight: typographyTokens['line-height-body-caption'],
                 // The theme's md weight is a media rule, which outranks plain sx.
                 '&&': { fontWeight: 400 },
               }),
@@ -85,10 +85,12 @@ function RcSesFormControlWrapper({
                 sm: labelOnTop ? '0 0 0%' : `0 0 ${formControlDesktopLabelWidth}`,
               },
               marginBottom: {
-                xs: space['space-4'],
-                sm: labelOnTop ? space['space-4'] : space['space-0'],
+                xs: spacingRoleBasedTokens['space-4'],
+                sm: labelOnTop
+                  ? spacingRoleBasedTokens['space-4']
+                  : spacingRoleBasedTokens['space-0'],
               },
-              pr: space['space-24'],
+              pr: spacingRoleBasedTokens['space-24'],
               textAlign: { xs: 'left', sm: labelOnTop ? 'left' : 'right' },
             }}
           >
