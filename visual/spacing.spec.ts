@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const storyUrl = '/iframe.html?id=foundations-spacing--tokens&viewMode=story'
+const storyUrl = '/iframe.html?id=fixtures-foundations-spacing--tokens&viewMode=story'
 const fixed = {
   'padding-xs': 8,
   'padding-sm': 12,
