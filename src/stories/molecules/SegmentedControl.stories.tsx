@@ -1,5 +1,5 @@
 import type { Meta } from '@storybook/react-vite'
-import { useState } from 'react'
+import { CSSProperties, useState } from 'react'
 
 import RcSesSegmentedControl from '@/components/common/SegmentedControl'
 
@@ -90,6 +90,34 @@ export const Default = {
     />
   ),
 } as const
+
+export const TokenBindings = {
+  ...Default,
+  args: {
+    ...Default.args,
+    options: [
+      { id: '1', label: 'Selected' },
+      { id: '2', label: 'Available' },
+      { id: '3', label: 'Disabled', disabled: true },
+    ],
+  },
+}
+
+export const TokenOverrides = {
+  ...TokenBindings,
+  render: (args: any) => (
+    <div
+      style={
+        {
+          '--rc-color-text-link': '#008561',
+          '--rc-color-surface-brand-subtle': '#dcf4fc',
+        } as CSSProperties
+      }
+    >
+      <DefaultComponent {...args} />
+    </div>
+  ),
+}
 
 export const RegularTwoOptions = {
   args: {
