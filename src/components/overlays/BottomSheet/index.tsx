@@ -20,21 +20,26 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
-import { grey } from '@/theme/palette'
+import { borderTokens as border } from '@/theme/borderTokens'
+import { colorTokens as color } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens as typography } from '@/theme/typographyTokens'
 
 import useSwipeToDismiss from './useSwipeToDismiss'
 
 const SHEET = {
-  handleWidth: '2.25rem',
-  handleHeight: '0.25rem',
-  handleHitAreaPadding: '0.75rem 0',
-  headerPadding: '0 1.5rem 1rem',
-  contentPadding: '0 1.5rem 1.5rem',
-  actionsPadding: '0.75rem 1.5rem 1.5rem',
-  cornerRadius: '1rem',
+  // No BottomSheet spacing/handle roles exist; preserve the existing primitives.
+  handleWidth: space['space-36'],
+  handleHeight: space['space-4'],
+  handleHitAreaPadding: `${space['space-12']} ${space['space-0']}`,
+  headerPadding: `${space['space-0']} ${space['space-24']} ${space['space-16']}`,
+  contentPadding: `${space['space-0']} ${space['space-24']} ${space['space-24']}`,
+  actionsPadding: `${space['space-12']} ${space['space-24']} ${space['space-24']}`,
+  cornerRadius: border['radius-modal'],
   maxHeight: '85vh',
-  titleFontSize: '1rem',
-  titleLineHeight: '1.375rem',
+  // Preserve the existing 16/22 pair and h3 font attributes, without assigning a new role.
+  titleFontSize: typography['font-size-body-large'],
+  titleLineHeight: typography['line-height-body-regular'],
 }
 
 const SHEET_MAX_WIDTH = {
@@ -137,11 +142,11 @@ function RcSesBottomSheet({
         paper: {
           ref: paperRef,
           sx: {
-            margin: 0,
+            margin: space['space-0'],
             width: '100%',
             maxWidth: SHEET_MAX_WIDTH[size],
             maxHeight: SHEET.maxHeight,
-            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} 0 0`,
+            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} ${border['radius-0']} ${border['radius-0']}`,
           },
         },
       }}
@@ -164,8 +169,8 @@ function RcSesBottomSheet({
           sx={{
             width: SHEET.handleWidth,
             height: SHEET.handleHeight,
-            borderRadius: 999,
-            backgroundColor: grey['300'],
+            borderRadius: border['radius-pill'],
+            backgroundColor: color['border-default'],
           }}
         />
       </Box>
@@ -175,7 +180,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 1.5,
+            gap: space['space-12'],
             padding: SHEET.headerPadding,
             flexShrink: 0,
           }}
@@ -222,7 +227,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: 1.5,
+            gap: space['space-12'],
             padding: SHEET.actionsPadding,
             flexShrink: 0,
           }}

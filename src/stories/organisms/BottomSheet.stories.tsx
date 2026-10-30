@@ -6,7 +6,7 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+import { CSSProperties, useState } from 'react'
 
 import RcSesButton from '@/components/common/Button'
 import RcSesBottomSheet, {
@@ -94,6 +94,53 @@ function BottomSheetDemo(
 
 export const Default: Story = {
   render: (args) => <BottomSheetDemo {...args} />,
+}
+
+export const TokenBindings: Story = {
+  render: () => (
+    <RcSesBottomSheet
+      open
+      onClose={() => undefined}
+      title='Token bindings'
+      primaryActionLabel='Apply'
+      secondaryActionLabel='Cancel'
+    >
+      <Typography>Bottom sheet content</Typography>
+    </RcSesBottomSheet>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Existing handle, spacing, modal radius and title dimensions use DS token maps. Action layout, dismissal and accessibility behavior are unchanged.',
+      },
+    },
+  },
+}
+
+export const TokenOverrides: Story = {
+  render: () => (
+    <div
+      style={
+        {
+          '--rc-color-border-default': '#0079ad',
+          '--rc-radius-modal': '1.5rem',
+          '--rc-space-24': '2rem',
+        } as CSSProperties
+      }
+    >
+      <RcSesBottomSheet
+        open
+        onClose={() => undefined}
+        title='Token overrides'
+        disablePortal
+      >
+        <Typography>
+          Scoped CSS tokens also reach the sheet with disablePortal.
+        </Typography>
+      </RcSesBottomSheet>
+    </div>
+  ),
 }
 
 export const WithActions: Story = {
