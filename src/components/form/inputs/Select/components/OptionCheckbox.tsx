@@ -1,7 +1,10 @@
 import { Box } from '@mui/material'
 
 import { CheckIcon } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 interface Props {
   checked: boolean
@@ -9,34 +12,42 @@ interface Props {
 
 function OptionCheckbox({ checked }: Props) {
   return (
-    <Box aria-hidden sx={{ flexShrink: 0, py: '.5rem' }}>
+    <Box aria-hidden sx={{ flexShrink: 0, py: spacingRoleBasedTokens['space-8'] }}>
       <Box
         sx={{
           alignItems: 'center',
           boxSizing: 'border-box',
           display: 'flex',
-          height: '1.5rem',
+          height: sizeTokens['icon-size-24'],
           justifyContent: 'center',
-          padding: '.125rem',
-          width: '1.5rem',
+          padding: spacingRoleBasedTokens['space-2'],
+          width: sizeTokens['icon-size-24'],
         }}
       >
         <Box
           sx={{
             alignItems: 'center',
-            backgroundColor: checked ? palette.primary.main : 'white',
+            backgroundColor: checked
+              ? colorTokens['control-selected']
+              : colorTokens['surface-base'],
             border: checked
-              ? `1px solid ${palette.primary.main}`
-              : `2px solid ${palette.grey['500']}`,
-            borderRadius: '.25rem',
+              ? `${borderTokens['stroke-1']} solid ${colorTokens['control-selected']}`
+              : `${borderTokens['stroke-2']} solid ${colorTokens['control-border']}`,
+            borderRadius: borderTokens['radius-4'],
             boxSizing: 'border-box',
             display: 'flex',
-            height: '1.25rem',
+            height: sizeTokens['icon-size-control'],
             justifyContent: 'center',
-            width: '1.25rem',
+            width: sizeTokens['icon-size-control'],
           }}
         >
-          {checked && <CheckIcon size={14} weight='bold' fillColor='white' />}
+          {checked && (
+            <CheckIcon
+              size={14}
+              weight='bold'
+              fillColor={colorTokens['control-foreground']}
+            />
+          )}
         </Box>
       </Box>
     </Box>

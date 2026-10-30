@@ -7,11 +7,15 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { CaretDownIcon, CheckIcon } from '@/assets/icons/phosphorIcons'
 import RcSesBadge from '@/components/common/Badge'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../../components/FormControlWrapper'
+import { paperStyle, selectStyle } from './Select.styles'
 import { Option } from './Select.types'
 import {
   dropdownGroupOptionValue,
@@ -95,9 +99,11 @@ function DropdownPaper({
       {!!dropdownLabel && (
         <Box
           sx={{
-            padding: '1.1875rem 1.125rem .8125rem 1.125rem',
-            fontSize: '.9375rem',
-            color: palette.grey[600],
+            pt: spacingRoleBasedTokens['space-20'],
+            px: spacingRoleBasedTokens['space-16'],
+            pb: spacingRoleBasedTokens['space-12'],
+            fontSize: typographyTokens['font-size-body-regular'],
+            color: colorTokens['text-secondary'],
           }}
         >
           {dropdownLabel}
@@ -406,7 +412,15 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
         loading={loading}
         loadingText={t('loadingText')}
         noOptionsText={t('noOptionsText')}
-        popupIcon={<CaretDownIcon size={20} fillColor={palette.grey['600']} />}
+        popupIcon={
+          <CaretDownIcon
+            fillColor={colorTokens['text-secondary']}
+            style={{
+              width: sizeTokens['icon-size-control'],
+              height: sizeTokens['icon-size-control'],
+            }}
+          />
+        }
         value={resolvedValue}
         inputValue={resolvedInputValue}
         onChange={handleChange}
@@ -437,7 +451,11 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               {!multiple && !!groupValue && (
                 <Box
                   className='MuiAutocomplete-groupLabel'
-                  sx={{ alignItems: 'center', display: 'flex', gap: '.5rem' }}
+                  sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    gap: spacingRoleBasedTokens['gap-sm'],
+                  }}
                 >
                   {groupValue}
                   {groupCounts.has(groupValue) && (
@@ -481,7 +499,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                       boxSizing: 'border-box',
                       display: 'block',
                       overflowWrap: 'anywhere',
-                      paddingLeft: '.75rem',
+                      paddingLeft: spacingRoleBasedTokens['padding-sm'],
                       pointerEvents: 'none',
                       width: '100%',
                     },
@@ -536,8 +554,8 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   '&:hover': { backgroundColor: 'transparent !important' },
                   display: 'flex',
                   flexDirection: 'row !important',
-                  px: '1rem',
-                  py: '.5rem',
+                  px: spacingRoleBasedTokens['padding-md'],
+                  py: spacingRoleBasedTokens['space-8'],
                 }}
               >
                 <TextField
@@ -559,18 +577,18 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   onKeyDown={(event) => {
                     event.stopPropagation()
                   }}
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: palette.grey['200'],
+                  sx={[
+                    selectStyle,
+                    {
+                      '& .MuiInputBase-input': {
+                        padding: `${spacingRoleBasedTokens['space-10']} ${spacingRoleBasedTokens['padding-sm']}`,
+                      },
+                      '& .MuiInputBase-input::placeholder': {
+                        color: colorTokens['text-muted'],
+                        opacity: 1,
+                      },
                     },
-                    '& .MuiInputBase-input': {
-                      padding: '.625rem .75rem',
-                    },
-                    '& .MuiInputBase-input::placeholder': {
-                      color: palette.grey.main,
-                      opacity: 1,
-                    },
-                  }}
+                  ]}
                   slotProps={{
                     htmlInput: {
                       onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) =>
@@ -601,7 +619,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                   alignItems: 'center !important',
                   display: 'flex',
                   flexDirection: 'row !important',
-                  gap: '.75rem',
+                  gap: spacingRoleBasedTokens['gap-md'],
                 }}
               >
                 <OptionCheckbox checked={allFilteredSelected} />
@@ -633,23 +651,25 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 sx={{
                   alignItems: 'center !important',
                   backgroundColor: isGroupSelected
-                    ? palette.primary['50']
+                    ? colorTokens['surface-brand-subtle']
                     : 'transparent',
                   display: 'flex',
                   flexDirection: 'row !important',
-                  gap: '.5rem',
+                  gap: spacingRoleBasedTokens['gap-sm'],
                 }}
               >
                 <OptionCheckbox checked={isGroupSelected} />
                 <Box
                   component='span'
                   sx={{
-                    color: isGroupSelected ? palette.primary['700'] : palette.grey['900'],
+                    color: isGroupSelected
+                      ? colorTokens['text-link']
+                      : colorTokens['text-default'],
                     flex: 1,
                     fontFamily: '"Public Sans", sans-serif',
-                    fontSize: '.875rem',
+                    fontSize: typographyTokens['font-size-body-small'],
                     fontWeight: 600,
-                    lineHeight: '1.25rem',
+                    lineHeight: typographyTokens['line-height-body-small'],
                     overflowWrap: 'anywhere',
                   }}
                 >
@@ -683,7 +703,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               sx={{
                 alignItems: 'center !important',
                 display: 'flex',
-                gap: multiple ? '.75rem' : '.5rem',
+                gap: multiple
+                  ? spacingRoleBasedTokens['gap-md']
+                  : spacingRoleBasedTokens['gap-sm'],
                 flexDirection: 'row !important',
                 justifyContent: 'space-between',
                 minWidth: 0,
@@ -706,7 +728,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               >
                 <span
                   className='rc-ses-select-option-label'
-                  style={selected ? { color: palette.primary['700'] } : undefined}
+                  style={selected ? { color: colorTokens['text-link'] } : undefined}
                 >
                   {option.label}
                 </span>
@@ -719,11 +741,16 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
               </Box>
               {!multiple && selected && (
                 <CheckIcon
-                  size={20}
-                  fillColor={palette.primary.main}
+                  style={{
+                    width: sizeTokens['icon-size-control'],
+                    height: sizeTokens['icon-size-control'],
+                    flexShrink: 0,
+                    marginLeft: 'auto',
+                    alignSelf: 'center',
+                  }}
+                  fillColor={colorTokens['control-selected']}
                   aria-hidden
                   weight='bold'
-                  style={{ flexShrink: 0, marginLeft: 'auto', alignSelf: 'center' }}
                 />
               )}
             </Box>
@@ -761,7 +788,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                     '& .MuiChip-label': {
                       display: 'block',
                       overflowWrap: 'anywhere',
-                      py: '.25rem',
+                      py: spacingRoleBasedTokens['space-4'],
                       textOverflow: 'clip',
                       whiteSpace: 'normal',
                     },
@@ -779,6 +806,12 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           )
         }}
         {...slotProps?.field}
+        sx={[
+          selectStyle,
+          ...(Array.isArray(slotProps?.field?.sx)
+            ? slotProps.field.sx
+            : [slotProps?.field?.sx ?? {}]),
+        ]}
         groupBy={(option) => {
           if (isGroupOptionValue(option.value)) {
             return groupNameFromOptionValue(option.value)
@@ -801,6 +834,10 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
 
             return {
               ...resolved,
+              sx: [
+                paperStyle,
+                ...(Array.isArray(resolved?.sx) ? resolved.sx : [resolved?.sx ?? {}]),
+              ],
               dropdownLabel,
             }
           },

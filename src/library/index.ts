@@ -70,6 +70,7 @@ import RcSesDrawer from '@/components/overlays/Drawer'
 import RcSesModal from '@/components/overlays/Modal'
 import RcSesTheme from '@/theme/light'
 import RcSesPalette from '@/theme/palette'
+import '@/theme/tokens.css'
 
 import SelectableCardList from '../components/common/SelectableCardList'
 
@@ -80,6 +81,8 @@ declare module '@mui/x-date-pickers/models' {
 }
 
 export { RcSesPalette, RcSesTheme }
+export { createRcSesTokenTheme } from '@/theme/tokenTheme'
+export type { RcSesTokenThemeOptions, RcSesNativeTheme } from '@/theme/tokenTheme'
 export { RcSesAccordion, useAccordionController }
 export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
@@ -146,3 +149,21 @@ export { RcSesIconWithCircularBackground }
 export { RcSesIconWithSquareBackground }
 
 export * from './icons'
+
+export { colorPrimitives, colorTokens } from '@/theme/colorTokens'
+
+export { typographyTokens, typographyRoleVariants } from '@/theme/typographyTokens'
+export type {
+  RcSesTypographyRole,
+  RcSesNamedTypographyVariant,
+} from '@/theme/typographyTokens'
+
+export { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
+export { layoutTokens } from '@/theme/layoutTokens'
+
+export { borderTokens } from '@/theme/borderTokens'
+
+export { sizeTokens } from '@/theme/sizeTokens'
+
+export { effectTokens } from '@/theme/effectTokens'
