@@ -48,7 +48,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          fill={colorTokens['control-foreground']}
+          fill={colorTokens['surface-base']}
         />
         <rect
           data-name='outer'
