@@ -1,8 +1,10 @@
 import { Box, Collapse, Stack } from '@mui/material'
 import { ReactNode, useEffect, useId, useRef } from 'react'
 
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
 import motion from '@/theme/motion'
-import palette from '@/theme/palette'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import usePrefersReducedMotion from '../AdvancedListItem/hooks/usePrefersReducedMotion'
 import {
@@ -12,15 +14,15 @@ import {
   AdvancedListItemShellTestIds,
 } from './AdvancedListItemShell.types'
 
-const BORDER_RADIUS = '0.5rem'
-const BORDER_WIDTH = '0.0625rem'
-const FOCUS_RING_WIDTH = '0.0625rem'
+const BORDER_RADIUS = borderTokens['radius-8']
+const BORDER_WIDTH = borderTokens['stroke-1']
+const FOCUS_RING_WIDTH = borderTokens['stroke-1']
 
 const STATE_BORDER_COLOR: Record<AdvancedListItemShellState, string> = {
-  rest: palette.grey[200],
-  selected: palette.primary.main,
-  disabled: palette.grey[200],
-  error: palette.error.main,
+  rest: colorTokens['border-default'],
+  selected: colorTokens['border-focus'],
+  disabled: colorTokens['border-default'],
+  error: colorTokens['border-focus-error'],
 }
 
 // A conditional slot renders as false rather than as nothing, so false is absent
@@ -59,8 +61,9 @@ const AdvancedListItemShell = ({
   const expandedId = useId()
 
   const borderColor = STATE_BORDER_COLOR[state]
-  const backgroundColor = state === 'selected' ? palette.primary[50] : undefined
-  const focusRingShadow = `0 0 0 ${FOCUS_RING_WIDTH} ${palette.primary.main}`
+  const backgroundColor =
+    state === 'selected' ? colorTokens['surface-brand-subtle'] : undefined
+  const focusRingShadow = `0 0 0 ${FOCUS_RING_WIDTH} ${colorTokens['border-focus']}`
   const transitionTiming = `${motion.duration.standard}ms ${motion.easing.standard}`
 
   useEffect(() => {
@@ -163,8 +166,8 @@ const AdvancedListItemShell = ({
         borderBottom:
           isRow && state === 'rest' ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
-        borderRadius: isRow ? '0px' : BORDER_RADIUS,
-        padding: '0.5rem 0.75rem',
+        borderRadius: isRow ? borderTokens['radius-0'] : BORDER_RADIUS,
+        padding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-12']}`,
         opacity: isDisabled ? 0.5 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
         cursor: isClickable ? 'pointer' : 'default',
@@ -175,11 +178,11 @@ const AdvancedListItemShell = ({
         '&:hover':
           isClickable && state !== 'selected'
             ? {
-                backgroundColor: palette.grey[100],
+                backgroundColor: colorTokens['surface-muted'],
               }
             : undefined,
         '&:has(:focus-visible), &:focus-visible': !isDisabled
-          ? { borderColor: palette.primary.main, boxShadow: focusRingShadow }
+          ? { borderColor: colorTokens['border-focus'], boxShadow: focusRingShadow }
           : undefined,
       }}
     >
@@ -188,7 +191,7 @@ const AdvancedListItemShell = ({
         sx={{
           alignItems: 'center',
           flexWrap: { xs: 'wrap', md: 'nowrap' },
-          gap: '0.75rem',
+          gap: spacingRoleBasedTokens['space-12'],
         }}
       >
         {hasLeading && (
@@ -229,11 +232,11 @@ const AdvancedListItemShell = ({
             id={expandedId}
             data-testid={testIds?.expanded}
             sx={{
-              margin: '1.25rem 0.75rem',
-              backgroundColor: palette.grey[50],
+              margin: `${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-12']}`,
+              backgroundColor: colorTokens['surface-muted'],
               borderRadius: BORDER_RADIUS,
-              border: `${BORDER_WIDTH} solid ${palette.grey[200]}`,
-              padding: '0.75rem',
+              border: `${BORDER_WIDTH} solid ${colorTokens['border-default']}`,
+              padding: spacingRoleBasedTokens['space-12'],
             }}
           >
             {expanded}

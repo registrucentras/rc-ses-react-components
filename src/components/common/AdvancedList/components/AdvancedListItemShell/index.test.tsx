@@ -35,7 +35,7 @@ describe('AdvancedListItemShell', () => {
     )
 
     const root = screen.getByTestId('root')
-    expect(root).toHaveStyle({ borderRadius: '0.5rem' })
+    expect(getComputedStyle(root).borderRadius).toBe('var(--rc-radius-8)')
     expect(root.style.border).not.toBe('none')
   })
 
@@ -80,8 +80,9 @@ describe('AdvancedListItemShell', () => {
     )
 
     const root = screen.getByTestId('root')
-    expect(root).toHaveStyle({ borderRadius: '0px' })
-    expect(root).toHaveStyle({ borderBottomWidth: '0.0625rem' })
+    const computed = getComputedStyle(root)
+    expect(computed.borderRadius).toBe('var(--rc-radius-0)')
+    expect(computed.borderBottomWidth).toBe('medium')
   })
 
   it('renders leading and trailing slots when provided', () => {
