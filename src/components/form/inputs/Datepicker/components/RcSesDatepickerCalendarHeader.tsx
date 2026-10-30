@@ -13,38 +13,38 @@ import {
   CaretLeftBoldIcon,
   CaretRightBoldIcon,
 } from '@/assets/icons/phosphorIcons'
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { effectTokens as effect } from '@/theme/effectTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const CustomCalendarHeaderRoot = styled('div')({
   alignItems: 'center',
-  borderBottomColor: color['border-subtle'],
+  borderBottomColor: colorTokens['border-subtle'],
   borderBottomStyle: 'solid',
-  borderBottomWidth: border['stroke-1'],
+  borderBottomWidth: borderTokens['stroke-1'],
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: space['space-8'],
-  padding: `${space['space-4']} ${space['space-8']}`,
+  marginBottom: spacingRoleBasedTokens['space-8'],
+  padding: `${spacingRoleBasedTokens['space-4']} ${spacingRoleBasedTokens['space-8']}`,
 })
 
 const StepperButton = styled(IconButton)({
-  height: space['space-48'],
-  padding: `${space['space-0']} ${space['space-4']}`,
+  height: spacingRoleBasedTokens['space-48'],
+  padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-4']}`,
 
   path: {
-    fill: color['text-secondary'],
+    fill: colorTokens['text-secondary'],
   },
 
   '&:hover, &:focus, &:active': {
     backgroundColor: 'transparent',
     path: {
-      fill: color['text-default'],
+      fill: colorTokens['text-default'],
     },
   },
-  '&.Mui-focusVisible': { boxShadow: effect['focus-ring-default'] },
+  '&.Mui-focusVisible': { boxShadow: effectTokens['focus-ring-default'] },
 })
 
 // PickersCalendarHeaderProps is no longer generic in x-date-pickers 9.
@@ -84,9 +84,9 @@ function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps) {
         variant='body2'
         sx={{
           flexGrow: 1,
-          fontSize: typography['font-size-body-regular'],
-          lineHeight: typography['line-height-body-regular'],
-          color: color['text-default'],
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
+          color: colorTokens['text-default'],
           fontWeight: 500,
           textAlign: 'center',
         }}

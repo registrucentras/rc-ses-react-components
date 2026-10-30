@@ -22,10 +22,9 @@ describe('Figma Light color foundations', () => {
     expect(primitives.size).toBe(60)
     expect(semantics.size).toBe(64)
     const references = Object.values(colorTokens).map((value) => value.slice(4, -1))
-    expect(references.filter((reference) => semantics.has(reference))).toHaveLength(64)
-    expect(colorTokens['cyans-500']).toBe('var(--rc-color-cyans-500)')
+    expect(references).toHaveLength(64)
     references.forEach((reference) => {
-      expect(semantics.has(reference) || primitives.has(reference)).toBe(true)
+      expect(semantics.has(reference)).toBe(true)
     })
     semantics.forEach((target, key) => {
       const visited = new Set([key])

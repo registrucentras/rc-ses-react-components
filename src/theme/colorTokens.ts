@@ -17,10 +17,6 @@ export const colorPrimitives = {
 } as const
 
 const colorTokens = {
-  // Existing weekend colors have no semantic role; reference existing CSS primitives.
-  'red-200': 'var(--rc-color-red-200)',
-  'red-600': 'var(--rc-color-red-600)',
-  'cyans-500': 'var(--rc-color-cyans-500)',
   'action-destructive-bg': 'var(--rc-color-action-destructive-bg)',
   'action-destructive-bg-hover': 'var(--rc-color-action-destructive-bg-hover)',
   'action-destructive-bg-pressed': 'var(--rc-color-action-destructive-bg-pressed)',

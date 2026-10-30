@@ -1,30 +1,34 @@
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import { borderTokens as border } from '../borderTokens'
-import { colorTokens as color } from '../colorTokens'
-import { effectTokens as effect } from '../effectTokens'
-import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
-import { typographyTokens as typography } from '../typographyTokens'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { effectTokens } from '../effectTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
+
+const weekendColor = 'var(--rc-color-red-600)'
+const outsideWeekendColor = 'var(--rc-color-red-200)'
+const outsideMonthColor = 'var(--rc-color-neutrals-400)'
 
 const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
       // No calendar panel radius role exists; preserve the existing radius primitive.
-      borderRadius: border['radius-6'],
+      borderRadius: borderTokens['radius-6'],
 
       '.MuiPickersLayout-actionBar': {
-        backgroundColor: color['surface-raised'],
-        borderBottomLeftRadius: border['radius-6'],
-        borderBottomRightRadius: border['radius-6'],
+        backgroundColor: colorTokens['surface-sunken'],
+        borderBottomLeftRadius: borderTokens['radius-6'],
+        borderBottomRightRadius: borderTokens['radius-6'],
         // Calendar action-bar spacing has no semantic role yet.
-        padding: `${space['space-8']} ${space['space-10']}`,
+        padding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-10']}`,
 
         '.MuiButtonBase-root': {
           backgroundColor: 'transparent',
-          height: space['space-36'],
+          height: spacingRoleBasedTokens['space-36'],
           minWidth: 'unset',
-          padding: `${space['space-0']} ${space['space-10']}`,
+          padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-10']}`,
         },
       },
     },
@@ -34,50 +38,50 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
       },
 
       '.MuiDayCalendar-weekDayLabel': {
-        color: color['text-muted'],
-        height: space['space-36'],
-        lineHeight: typography['line-height-body-small'],
+        color: colorTokens['text-muted'],
+        height: spacingRoleBasedTokens['space-36'],
+        lineHeight: typographyTokens['line-height-body-small'],
       },
 
       '.MuiPickerDay-root': {
-        color: color['text-default'],
-        fontSize: typography['font-size-body-regular'],
-        lineHeight: typography['line-height-body-regular'],
+        color: colorTokens['text-default'],
+        fontSize: typographyTokens['font-size-body-small'],
+        lineHeight: typographyTokens['line-height-body-small'],
         // No calendar radius role exists; preserve the existing circular day shape.
-        borderRadius: border['radius-full'],
+        borderRadius: borderTokens['radius-full'],
         '&.MuiPickerDay-today': {
-          outline: `${border['stroke-1']} solid ${color['text-secondary']}`,
-          outlineOffset: `calc(-1 * ${border['stroke-1']})`,
+          outline: `${borderTokens['stroke-1']} solid ${colorTokens['text-secondary']}`,
+          outlineOffset: `calc(-1 * ${borderTokens['stroke-1']})`,
         },
         '&.Mui-focusVisible': {
-          boxShadow: effect['focus-ring-default'],
-          backgroundColor: color['surface-base'],
+          boxShadow: effectTokens['focus-ring-default'],
+          backgroundColor: colorTokens['surface-base'],
         },
 
         '&:hover': {
-          backgroundColor: color['surface-muted'],
+          backgroundColor: colorTokens['surface-muted'],
         },
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
-          backgroundColor: color['cyans-500'],
+          backgroundColor: colorTokens['control-selected'],
           // v9 sets the contrast colour in a variant, which loses to the
           // day colour above, so it has to be restated.
-          color: color['text-inverse'],
+          color: colorTokens['text-inverse'],
           fontWeight: 400,
         },
 
         '&.MuiPickerDay-dayOutsideMonth:not(.Mui-selected)': {
-          color: color['text-muted'],
+          color: outsideMonthColor,
         },
         '&.Mui-disabled, &.Mui-disabled.MuiPickerDay-dayOutsideMonth': {
-          color: color['text-disabled'],
+          color: colorTokens['text-disabled'],
         },
       },
       '.MuiDayCalendar-weekContainer': {
         // No weekend color roles exist; keep the legacy red distinction using DS primitives.
         '.MuiPickerDay-root:nth-of-type(6), .MuiPickerDay-root:nth-of-type(7)': {
-          color: color['red-600'],
-          '&.MuiPickerDay-dayOutsideMonth': { color: color['red-200'] },
+          color: weekendColor,
+          '&.MuiPickerDay-dayOutsideMonth': { color: outsideWeekendColor },
         },
       },
     },

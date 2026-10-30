@@ -1,9 +1,9 @@
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import { borderTokens as border } from '../borderTokens'
-import { colorTokens as color } from '../colorTokens'
-import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
-import { typographyTokens as typography } from '../typographyTokens'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 /**
  * x-date-pickers 9 gives the picker its own field components, which none of the
@@ -13,74 +13,70 @@ import { typographyTokens as typography } from '../typographyTokens'
 const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
   styleOverrides: {
     root: {
-      backgroundColor: color['surface-base'],
-      borderRadius: border['radius-input'],
+      backgroundColor: colorTokens['surface-base'],
+      borderRadius: borderTokens['radius-input'],
       // The value renders as sections, not an <input>, so the horizontal
       // padding sits here and the vertical padding on the sections.
-      padding: `${space['space-0']} ${space['space-12']}`,
+      padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-12']}`,
 
       '&.Mui-error': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: color['status-error-border'],
+          borderColor: colorTokens['status-error-border'],
         },
       },
 
-      '&.Mui-focused': {
+      '&&.Mui-focused': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: color['border-focus'],
-          borderWidth: border['border-focus'],
+          borderColor: colorTokens['border-focus'],
+          borderWidth: borderTokens['border-focus'],
         },
 
         '&.Mui-error': {
           '.MuiPickersOutlinedInput-notchedOutline': {
-            borderColor: color['border-focus-error'],
+            borderColor: colorTokens['border-focus-error'],
           },
         },
       },
 
-      '&.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline': {
-        borderColor: color['border-focus'],
-      },
-
       '&.Mui-readOnly': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: color['border-strong'],
-          borderWidth: border['stroke-1'],
+          borderColor: colorTokens['border-strong'],
+          borderWidth: borderTokens['stroke-1'],
         },
       },
 
       '&.Mui-disabled': {
-        backgroundColor: color['surface-muted'],
+        backgroundColor: colorTokens['surface-muted'],
 
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: color['border-subtle'],
-          borderWidth: border['stroke-1'],
+          borderColor: colorTokens['border-subtle'],
+          borderWidth: borderTokens['stroke-1'],
         },
 
         '.MuiPickersInputBase-sectionsContainer': {
-          color: color['text-disabled'],
-          WebkitTextFillColor: color['text-disabled'],
+          color: colorTokens['text-disabled'],
+          WebkitTextFillColor: colorTokens['text-disabled'],
         },
       },
 
       '&:hover:not(.Mui-disabled):not(.Mui-readOnly):not(.Mui-focused):not(.Mui-error)': {
         '.MuiPickersOutlinedInput-notchedOutline': {
-          borderColor: color['control-border'],
+          borderColor: colorTokens['control-border'],
         },
       },
     },
     sectionsContainer: {
-      color: color['text-default'],
-      fontSize: typography['font-size-body-regular'],
+      color: colorTokens['text-default'],
+      fontSize: typographyTokens['font-size-body-regular'],
       boxSizing: 'content-box',
-      height: typography['line-height-body-regular'],
-      lineHeight: typography['line-height-body-regular'],
-      padding: `${space['input-padding-y']} ${space['space-0']}`,
+      height: typographyTokens['line-height-body-regular'],
+      lineHeight: typographyTokens['line-height-body-regular'],
+      padding: `${spacingRoleBasedTokens['input-padding-y']} ${spacingRoleBasedTokens['space-0']}`,
     },
     notchedOutline: {
-      borderColor: color['border-strong'],
-      borderWidth: border['stroke-1'],
-      borderRadius: border['radius-input'],
+      borderColor: colorTokens['border-strong'],
+      borderWidth: borderTokens['stroke-1'],
+      borderRadius: borderTokens['radius-input'],
       boxShadow: 'none',
     },
   },
