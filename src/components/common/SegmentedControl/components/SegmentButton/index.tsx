@@ -1,24 +1,27 @@
 import { Button as MuiButton } from '@mui/material'
 import React, { useCallback, useMemo } from 'react'
 
-import { grey, primary } from '@/theme/palette'
+import { borderTokens as border } from '@/theme/borderTokens'
+import { colorTokens as color } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens as typography } from '@/theme/typographyTokens'
 
 const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
   small: {
     width: 'auto',
-    maxWidth: '160px',
-    minHeight: '36px',
-    padding: '8px 12px',
-    fontSize: '14px',
-    lineHeight: '20px',
+    maxWidth: '100%',
+    minHeight: space['space-36'],
+    padding: `${space['space-8']} ${space['space-12']}`,
+    fontSize: typography['font-size-button-compact'],
+    lineHeight: typography['line-height-button-compact'],
   },
   regular: {
     width: 'auto',
-    maxWidth: '180px',
+    maxWidth: '100%',
     minHeight: '44px',
-    padding: '10px 16px',
-    fontSize: '15px',
-    lineHeight: '20px',
+    padding: `${space['space-10']} ${space['space-16']}`,
+    fontSize: typography['font-size-button-regular'],
+    lineHeight: typography['line-height-button-regular'],
   },
 }
 
@@ -49,28 +52,26 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
     const sizeStyles = SIZE_STYLES[size]
 
     const textColor = useMemo(() => {
-      if (isDisabled) return `${grey['500']} !important`
-      if (isSelected) return `${grey['900']} !important`
-      return `${primary['700']} !important`
+      if (isDisabled) return color['text-disabled']
+      if (isSelected) return color['text-default']
+      return color['text-link']
     }, [isDisabled, isSelected])
 
     const buttonStyles = useMemo(
       () => ({
-        flex: '0 1 auto',
+        flex: '1 1 auto',
         minWidth: '0',
         height: 'auto',
         wordBreak: 'break-word',
-        fontFamily: '"Public Sans", sans-serif !important',
-        border: `2px solid ${isFocused && !isDisabled ? primary['500'] : 'transparent'}`,
+        fontFamily: '"Public Sans", sans-serif',
+        border: `${border['border-focus']} solid ${isFocused && !isDisabled ? color['border-focus'] : 'transparent'}`,
 
-        backgroundColor: isSelected
-          ? `${primary['50']} !important`
-          : 'transparent !important',
+        backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
 
         color: textColor,
         cursor: isDisabled ? 'not-allowed' : 'pointer',
         fontWeight: 500,
-        borderRadius: '8px',
+        borderRadius: border['radius-button'],
         transition: 'all 150ms ease-in-out',
         whiteSpace: 'normal',
         ...sizeStyles,
@@ -96,9 +97,16 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         aria-controls={option.panelId}
         tabIndex={isFocused && !isDisabled ? 0 : -1}
         sx={{
-          ...buttonStyles,
-          '&.Mui-disabled': {
-            backgroundColor: 'transparent !important',
+          '&&': {
+            ...buttonStyles,
+            '&:hover, &:active': {
+              color: textColor,
+              backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
+            },
+            '&.Mui-disabled': {
+              color: textColor,
+              backgroundColor: 'transparent',
+            },
           },
         }}
       >
