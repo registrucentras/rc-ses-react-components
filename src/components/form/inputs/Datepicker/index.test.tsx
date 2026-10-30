@@ -7,8 +7,10 @@ import { lt } from 'date-fns/locale/lt'
 import { useForm } from 'react-hook-form'
 import { describe, expect, test } from 'vitest'
 
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import palette, { common } from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesDatepicker from '.'
 
@@ -47,28 +49,30 @@ function Harness({ value = null, maxDate }: HarnessProps) {
   )
 }
 
-const rgb = (hex: string) => {
-  const n = parseInt(hex.slice(1), 16)
-  // eslint-disable-next-line no-bitwise
-  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`
-}
-
+// JSDOM preserves var() references; resolved colours and live updates are tested in Playwright.
 const dayColour = (label: string) =>
   window.getComputedStyle(screen.getByRole('gridcell', { name: label })).color
 
 describe('RcSesDatepicker calendar day colours', () => {
+  test('day numbers retain the small typography size', () => {
+    render(<Harness />)
+    const style = window.getComputedStyle(screen.getByRole('gridcell', { name: '19' }))
+    expect(style.fontSize).toBe(typographyTokens['font-size-body-small'])
+    expect(style.lineHeight).toBe(typographyTokens['line-height-body-small'])
+  })
+
   // Pinned here rather than left to the visual suite: a colour-only change on a
   // few glyphs stays under its diff budget.
   test('a selectable weekday uses the default day colour', () => {
     render(<Harness maxDate={MAX} />)
 
-    expect(dayColour('19')).toBe(rgb(palette.grey['900']))
+    expect(dayColour('19')).toBe(colorTokens['text-default'])
   })
 
   test('a disabled weekday is greyed out', () => {
     render(<Harness maxDate={MAX} />)
 
-    expect(dayColour('21')).toBe(rgb(palette.grey['400']))
+    expect(dayColour('21')).toBe(colorTokens['text-disabled'])
   })
 
   // 1.x paints it white; v9 lost that to the theme's day colour.
@@ -78,14 +82,14 @@ describe('RcSesDatepicker calendar day colours', () => {
     const selected = document.querySelector('.Mui-selected') as HTMLElement
     const cs = window.getComputedStyle(selected)
 
-    expect(cs.backgroundColor).toBe(rgb(palette.primary['500']))
-    expect(cs.color).toBe(rgb(common.white))
+    expect(cs.backgroundColor).toBe(colorTokens['control-selected'])
+    expect(cs.color).toBe(colorTokens['text-inverse'])
   })
 
-  test('a disabled weekend day stays red, as in 1.x', () => {
+  test('a disabled weekend preserves the existing red distinction through a token', () => {
     render(<Harness maxDate={MAX} />)
 
-    expect(dayColour('24')).toBe(rgb(palette.error['600']))
+    expect(dayColour('24')).toBe('var(--rc-color-red-600)')
   })
 })
 
@@ -98,8 +102,8 @@ describe('RcSesDatepicker field styling', () => {
     const field = document.querySelector('.MuiPickersInputBase-root') as HTMLElement
     const cs = window.getComputedStyle(field)
 
-    expect(cs.borderRadius).toBe('0.5rem')
-    expect(cs.backgroundColor).toBe(rgb(common.white))
+    expect(cs.borderRadius).toBe(borderTokens['radius-input'])
+    expect(cs.backgroundColor).toBe(colorTokens['surface-base'])
   })
 
   test('the value text matches a plain input', () => {
@@ -110,8 +114,9 @@ describe('RcSesDatepicker field styling', () => {
     ) as HTMLElement
     const cs = window.getComputedStyle(sections)
 
-    expect(cs.fontSize).toBe('0.9375rem')
-    expect(cs.height).toBe('1.125rem')
-    expect(cs.color).toBe(rgb(palette.grey['900']))
+    expect(cs.fontSize).toBe(typographyTokens['font-size-body-regular'])
+    expect(cs.lineHeight).toBe(typographyTokens['line-height-body-regular'])
+    expect(cs.height).toBe(typographyTokens['line-height-body-regular'])
+    expect(cs.color).toBe(colorTokens['text-default'])
   })
 })

@@ -21,7 +21,11 @@ describe('Figma Light color foundations', () => {
   test('all 60 primitives and 64 semantic aliases exist and aliases resolve without cycles', () => {
     expect(primitives.size).toBe(60)
     expect(semantics.size).toBe(64)
-    expect(Object.values(colorTokens)).toHaveLength(64)
+    const references = Object.values(colorTokens).map((value) => value.slice(4, -1))
+    expect(references).toHaveLength(64)
+    references.forEach((reference) => {
+      expect(semantics.has(reference)).toBe(true)
+    })
     semantics.forEach((target, key) => {
       const visited = new Set([key])
       let current = target
