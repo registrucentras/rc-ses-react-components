@@ -8,7 +8,9 @@ import {
   ShoppingCartIcon,
 } from '@/assets/icons/phosphorIcons'
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
-import { typography } from '@/theme/light/MuiTypography'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesStepCardAction, RcSesStepCardActions } from '../types'
 
@@ -26,7 +28,7 @@ export interface RcSesStepCardFooterProps {
 const responsiveWidthSx = { width: { xs: '100%', sm: 'auto' } } as const
 
 export const stepCardFooterLeadingSx = {
-  mt: { xs: 0.5, sm: 0 },
+  mt: { xs: spacingRoleBasedTokens['space-8'], sm: 0 },
   order: { xs: 1, sm: 0 },
   ...responsiveWidthSx,
 } as const
@@ -43,15 +45,25 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
         alignItems: { xs: 'baseline', sm: 'flex-end' },
         display: 'flex',
         flexDirection: { xs: 'row', sm: 'column' },
-        gap: { xs: 1, sm: 0.25 },
+        gap: {
+          xs: spacingRoleBasedTokens['space-8'],
+          sm: spacingRoleBasedTokens['space-2'],
+        },
         justifyContent: 'center',
         textAlign: { xs: 'center', sm: 'right' },
       }}
     >
-      <Typography variant='caption' sx={{ color: 'grey.500' }}>
+      <Typography variant='caption' sx={{ color: colorTokens['text-secondary'] }}>
         {label}:
       </Typography>
-      <Typography variant='h5' sx={typography.priceEmphasis}>
+      <Typography
+        component='span'
+        sx={{
+          fontSize: typographyTokens['font-size-heading-h3'],
+          lineHeight: typographyTokens['line-height-heading-h3'],
+          fontWeight: 500,
+        }}
+      >
         {price}
       </Typography>
     </Box>
@@ -127,7 +139,7 @@ function RcSesStepCardFooter({
           alignItems: 'center',
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
-          gap: 2,
+          gap: spacingRoleBasedTokens['space-8'],
           ...stepCardFooterTrailingSx,
         }}
       >

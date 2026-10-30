@@ -2,8 +2,9 @@ import { Box, Typography } from '@mui/material'
 
 import RcSesCardShell from '@/components/common/CardShell'
 import RcSesTitleBlock from '@/components/common/TitleBlock'
-import { typography } from '@/theme/light/MuiTypography'
-import { spacing } from '@/theme/spacing'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesStepCardFooter, {
   stepCardFooterLeadingSx,
@@ -51,7 +52,14 @@ function RcSesStepCard({
 
   const resolvedDescription =
     description !== undefined && description !== null ? (
-      <Typography component='span' sx={typography.bodyRegularMuted}>
+      <Typography
+        component='span'
+        sx={{
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
+          color: colorTokens['text-muted'],
+        }}
+      >
         {description}
       </Typography>
     ) : undefined
@@ -59,8 +67,8 @@ function RcSesStepCard({
   return (
     <RcSesCardShell
       testIds={testIds}
-      contentGap={spacing.sectionGap}
-      footerGap={spacing.sectionGap}
+      contentGap={spacingTokens['spacing-aliases-cards-step-card-section-gap']}
+      footerGap={spacingTokens['spacing-aliases-cards-step-card-section-gap']}
       header={
         <RcSesTitleBlock
           title={title}
