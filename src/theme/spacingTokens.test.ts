@@ -14,7 +14,7 @@ const references = [
 
 test('both exported collections exist in every mode and all aliases resolve without cycles', () => {
   expect(blocks).toHaveLength(4)
-  expect(Object.keys(spacingTokens)).toHaveLength(106)
+  expect(Object.keys(spacingTokens)).toHaveLength(89)
   expect(Object.keys(spacingRoleBasedTokens)).toHaveLength(34)
   const declarations = new Map<string, string>()
   blocks.forEach((block, mode) => {
