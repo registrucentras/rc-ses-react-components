@@ -119,6 +119,23 @@ export const TokenOverrides = {
   ),
 }
 
+export const LongLabelsNarrow = {
+  ...Default,
+  args: {
+    ...Default.args,
+    options: [
+      { id: '1', label: 'Fizinis asmuo, veikiantis savo vardu' },
+      { id: '2', label: 'Juridinio asmens įgaliotas atstovas' },
+      { id: '3', label: 'Kitas pareiškėjas' },
+    ],
+  },
+  render: (args: any) => (
+    <div style={{ width: 295, maxWidth: '100%' }}>
+      <DefaultComponent {...args} />
+    </div>
+  ),
+}
+
 export const RegularTwoOptions = {
   args: {
     options: [

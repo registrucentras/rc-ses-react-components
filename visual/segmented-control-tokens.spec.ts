@@ -2,6 +2,26 @@ import { expect, test } from '@playwright/test'
 
 const widths = [375, 768, 1024, 1440]
 
+test('Wrapped long segments fill the background without horizontal overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 900 })
+  await page.goto(
+    '/iframe.html?id=molecules-segmentedcontrol--long-labels-narrow&viewMode=story',
+  )
+  const group = page.getByRole('radiogroup')
+  await expect(group).toBeVisible()
+  const bounds = await group.boundingBox()
+  expect(bounds).not.toBeNull()
+  expect(bounds!.width).toBeLessThanOrEqual(295)
+  await Promise.all(
+    (await group.getByRole('radio').all()).map(async (button) => {
+      const box = await button.boundingBox()
+      expect(box!.width).toBeCloseTo(bounds!.width - 8, 0)
+    }),
+  )
+})
+
 widths.forEach((width) => {
   test(`Segmented control retains sizing and token states at ${width}px`, async ({
     page,

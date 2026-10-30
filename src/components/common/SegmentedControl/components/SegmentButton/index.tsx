@@ -9,7 +9,7 @@ import { typographyTokens as typography } from '@/theme/typographyTokens'
 const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
   small: {
     width: 'auto',
-    maxWidth: '160px',
+    maxWidth: '100%',
     minHeight: space['space-36'],
     padding: `${space['space-8']} ${space['space-12']}`,
     fontSize: typography['font-size-button-compact'],
@@ -17,7 +17,7 @@ const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
   },
   regular: {
     width: 'auto',
-    maxWidth: '180px',
+    maxWidth: '100%',
     minHeight: '44px',
     padding: `${space['space-10']} ${space['space-16']}`,
     fontSize: typography['font-size-button-regular'],
@@ -59,7 +59,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
 
     const buttonStyles = useMemo(
       () => ({
-        flex: '0 1 auto',
+        flex: '1 1 auto',
         minWidth: '0',
         height: 'auto',
         wordBreak: 'break-word',
