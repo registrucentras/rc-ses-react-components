@@ -2,6 +2,42 @@ import { expect, test } from '@playwright/test'
 
 const viewports = [375, 768, 1024, 1440]
 
+test('Selected Datepicker day has a surface gap before its focus ring', async ({
+  page,
+}) => {
+  await page.goto(
+    '/iframe.html?id=molecules-datepicker--calendar-with-value&viewMode=story',
+  )
+  const selected = page.locator('.MuiPickerDay-root.Mui-selected')
+  await page.keyboard.press('Tab')
+  await selected.focus()
+  await expect(selected).toHaveClass(/Mui-focusVisible/)
+  await expect(selected).toHaveCSS(
+    'box-shadow',
+    'rgb(255, 255, 255) 0px 0px 0px 2px, rgb(0, 121, 173) 0px 0px 0px 4px',
+  )
+  await expect(selected).toHaveCSS('background-color', 'rgb(0, 121, 173)')
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty(
+      '--rc-color-surface-base',
+      'rgb(240, 241, 242)',
+    )
+    document.documentElement.style.setProperty(
+      '--rc-color-border-focus',
+      'rgb(10, 20, 30)',
+    )
+  })
+  await expect(selected).toHaveCSS(
+    'box-shadow',
+    'rgb(240, 241, 242) 0px 0px 0px 2px, rgb(10, 20, 30) 0px 0px 0px 4px',
+  )
+  const other = page
+    .locator('.MuiPickerDay-root:not(.Mui-selected):not(.Mui-disabled)')
+    .first()
+  await other.focus()
+  await expect(selected).toHaveCSS('box-shadow', 'none')
+})
+
 test('Datepicker preserves consumer typography overrides', async ({ page }) => {
   await page.goto(
     '/iframe.html?id=molecules-datepicker--consumer-overrides&viewMode=story',

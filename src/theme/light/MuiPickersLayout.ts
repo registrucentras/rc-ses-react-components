@@ -70,6 +70,10 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
           fontWeight: 400,
         },
 
+        '&.Mui-selected.Mui-focusVisible': {
+          boxShadow: `0 0 0 ${borderTokens['stroke-2']} ${colorTokens['surface-base']}, 0 0 0 ${borderTokens['stroke-4']} ${colorTokens['border-focus']}`,
+        },
+
         '&.MuiPickerDay-dayOutsideMonth:not(.Mui-selected)': {
           color: outsideMonthColor,
         },
