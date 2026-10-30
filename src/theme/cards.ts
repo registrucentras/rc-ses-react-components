@@ -1,5 +1,6 @@
+import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
-import palette from '@/theme/palette'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import './tokens.css'
 
@@ -10,20 +11,20 @@ import './tokens.css'
  * anything needing a boxed row reads the same values instead of copying them.
  * `MuiCard` keeps its own radius until `RcSesCard` is deprecated.
  */
-const borderWidth = '1px'
+const borderWidth = borderTokens['stroke-1']
 
 const card = {
-  borderRadius: '0.75rem',
-  gap: { xs: '1rem', md: '1.5rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1.25rem 1.5rem', md: '1.5rem 2rem' },
+  borderRadius: borderTokens['radius-card'],
+  gap: spacingRoleBasedTokens['gap-lg'],
+  footerGap: spacingRoleBasedTokens['gap-sm'],
+  padding: spacingRoleBasedTokens['padding-lg'],
 }
 
 const subcard = {
-  borderRadius: '0.5rem',
-  gap: { xs: '0.75rem', md: '1rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1rem', md: '1.25rem 1.5rem' },
+  borderRadius: borderTokens['radius-subcard'],
+  gap: spacingRoleBasedTokens['gap-md'],
+  footerGap: spacingRoleBasedTokens['gap-sm'],
+  padding: spacingRoleBasedTokens['padding-md'],
 }
 
 /**
@@ -34,22 +35,22 @@ const subcard = {
  * measured token. All six are pending confirmation against the DS.
  */
 const header = {
-  actionsGap: '0.75rem',
-  badgeGap: '0.5rem',
+  actionsGap: spacingRoleBasedTokens['gap-md'],
+  badgeGap: spacingRoleBasedTokens['gap-sm'],
   descriptionLineHeight: '1.25rem',
-  gap: '0.25rem',
-  rowGap: '1rem',
+  gap: spacingRoleBasedTokens['space-4'],
+  rowGap: spacingRoleBasedTokens['gap-lg'],
   titleFontWeight: 600,
 }
 
 const footer = {
-  gap: '0.75rem',
+  gap: spacingRoleBasedTokens['gap-md'],
 }
 
 const themes = {
   brand: {
     backgroundColor: colorTokens['surface-brand-subtle'],
-    borderColor: palette.primary[200],
+    borderColor: colorTokens['action-primary-bg'],
   },
   default: {
     backgroundColor: colorTokens['surface-base'],
