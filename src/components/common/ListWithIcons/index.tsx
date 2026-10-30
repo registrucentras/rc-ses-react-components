@@ -1,5 +1,7 @@
 import { Box } from '@mui/material'
 
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+
 import { ListWithIconsItemData } from './ListWithIcons.types'
 import ListWithIconsItem from './components/ListWithIconsItem'
 
@@ -19,8 +21,8 @@ const ListWithIcons = ({
   <Box
     component='ul'
     sx={{
-      p: 0,
-      m: 0,
+      p: space['space-0'],
+      m: space['space-0'],
       width: '100%',
       minWidth: { md: '7.5rem' },
       display: 'flex',
@@ -30,8 +32,11 @@ const ListWithIcons = ({
       },
       flexWrap: layout === 'horizontal' ? 'wrap' : 'nowrap',
       gap: {
-        xs: '0.25rem',
-        md: layout === 'horizontal' ? '0.25rem 1rem' : '0.5rem',
+        xs: space['space-4'],
+        md:
+          layout === 'horizontal'
+            ? `${space['space-4']} ${space['space-16']}`
+            : space['space-8'],
       },
     }}
   >
