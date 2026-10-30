@@ -2,7 +2,7 @@ import { Components } from '@mui/material'
 
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
-import { spacingTokens } from '../spacingTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
 const MuiRadio: Components['MuiRadio'] = {
   defaultProps: {
@@ -29,7 +29,7 @@ const MuiRadio: Components['MuiRadio'] = {
           cx='12'
           cy='12'
           r='5'
-          fill={colorTokens['surface-base']}
+          fill={colorTokens['control-foreground']}
         />
       </svg>
     ),
@@ -48,7 +48,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          fill={colorTokens['surface-base']}
+          fill={colorTokens['control-foreground']}
         />
         <rect
           data-name='outer'
@@ -57,7 +57,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          stroke={colorTokens['border-default']}
+          stroke={colorTokens['control-unselected']}
           strokeWidth={borderTokens['stroke-2']}
         />
       </svg>
@@ -66,8 +66,8 @@ const MuiRadio: Components['MuiRadio'] = {
   styleOverrides: {
     root: {
       borderWidth: borderTokens['stroke-2'],
-      margin: spacingTokens['spacing-primitives-4'],
-      padding: spacingTokens['spacing-primitives-4'],
+      margin: spacingRoleBasedTokens['space-4'],
+      padding: spacingRoleBasedTokens['space-4'],
 
       '&.Mui-disabled': {
         '[data-name="inner"]': {

@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
-import { spacingTokens } from '@/theme/spacingTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -104,14 +104,14 @@ const RcSesRadioButtonGroup = styled(UnstyledRcSesRadioButtonGroup)((props) => (
     backgroundColor:
       props.variant === 'filled' ? colorTokens['surface-muted'] : 'transparent',
     borderColor:
-      props.variant === 'outlined' ? colorTokens['border-default'] : 'transparent',
+      props.variant === 'outlined' ? colorTokens['control-border'] : 'transparent',
     borderStyle: 'solid',
     borderWidth: props.variant === 'outlined' ? borderTokens['stroke-1'] : 0,
-    borderRadius: borderTokens['radius-8'],
+    borderRadius: borderTokens['radius-input'],
     margin: 0,
     padding: props.hideNativeRadio
       ? undefined
-      : `${spacingTokens['spacing-primitives-4']} ${spacingTokens['spacing-primitives-12']}`,
+      : `${spacingRoleBasedTokens['space-4']} ${spacingRoleBasedTokens['space-12']}`,
   },
 }))
 
