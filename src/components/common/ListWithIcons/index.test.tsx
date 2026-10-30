@@ -3,8 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import { colorTokens as color } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import { grey, primary, secondary } from '@/theme/palette'
 
 import ListWithIcons from '.'
 
@@ -76,10 +76,12 @@ describe('ListWithIcons', () => {
       />,
     )
 
-    expect(screen.getByText('Default text')).toHaveStyle({ color: grey[900] })
-    expect(screen.getByText('Secondary text')).toHaveStyle({ color: grey[600] })
-    expect(screen.getByText('Muted text')).toHaveStyle({ color: grey[500] })
-    expect(screen.getByText('Link text')).toHaveStyle({ color: primary['700'] })
+    expect(screen.getByText('Default text')).toHaveStyle({ color: color['text-default'] })
+    expect(screen.getByText('Secondary text')).toHaveStyle({
+      color: color['text-secondary'],
+    })
+    expect(screen.getByText('Muted text')).toHaveStyle({ color: color['text-muted'] })
+    expect(screen.getByText('Link text')).toHaveStyle({ color: color['text-link'] })
   })
 
   test('falls back to the secondary tone color/icon fill when textColor is omitted', () => {
@@ -93,15 +95,20 @@ describe('ListWithIcons', () => {
       <ListWithIcons items={[{ icon: StubIcon, text: 'No explicit color' }]} />,
     )
 
-    expect(screen.getByText('No explicit color')).toHaveStyle({ color: grey[600] })
-    expect(screen.getByTestId('stub-icon')).toHaveAttribute('data-fill-color', grey[600])
+    expect(screen.getByText('No explicit color')).toHaveStyle({
+      color: color['text-secondary'],
+    })
+    expect(screen.getByTestId('stub-icon')).toHaveAttribute(
+      'data-fill-color',
+      color['text-secondary'],
+    )
   })
 
   test('accepts a raw palette color value for textColor, not just a named tone', () => {
     renderListWithIcons(
-      <ListWithIcons items={[{ text: 'Custom colored', textColor: secondary['700'] }]} />,
+      <ListWithIcons items={[{ text: 'Custom colored', textColor: '#008561' }]} />,
     )
 
-    expect(screen.getByText('Custom colored')).toHaveStyle({ color: secondary['700'] })
+    expect(screen.getByText('Custom colored')).toHaveStyle({ color: '#008561' })
   })
 })
