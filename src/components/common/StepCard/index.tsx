@@ -56,6 +56,7 @@ function RcSesStepCard({
         component='span'
         sx={{
           fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
           color: colorTokens['text-muted'],
         }}
       >

@@ -10,7 +10,7 @@ import {
 import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
-import { typographyRoleVariants } from '@/theme/typographyTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesStepCardAction, RcSesStepCardActions } from '../types'
 
@@ -56,7 +56,14 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
       <Typography variant='caption' sx={{ color: colorTokens['text-secondary'] }}>
         {label}:
       </Typography>
-      <Typography variant={typographyRoleVariants['heading-h3']} component='span'>
+      <Typography
+        component='span'
+        sx={{
+          fontSize: typographyTokens['font-size-heading-h3'],
+          lineHeight: typographyTokens['line-height-heading-h3'],
+          fontWeight: 500,
+        }}
+      >
         {price}
       </Typography>
     </Box>
