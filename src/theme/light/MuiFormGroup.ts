@@ -1,6 +1,9 @@
-import { Components, decomposeColor } from '@mui/material'
+import type { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
+import { typographyTokens as typography } from '../typographyTokens'
 
 const MuiFormGroup: Components['MuiFormGroup'] = {
   defaultProps: {},
@@ -10,30 +13,30 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
         flexDirection: 'row',
 
         '&.rc-ses-hide-native-radio': {
-          margin: '-.25rem',
+          margin: `calc(-1 * ${space['space-4']})`,
 
           '.MuiButtonBase-root': {
-            margin: 0,
+            margin: space['space-0'],
             opacity: 0,
-            padding: 0,
+            padding: space['space-0'],
             postion: 'absolute',
           },
 
           '.MuiFormControlLabel-root': {
-            borderColor: palette.grey['600'],
+            borderColor: color['control-unselected'],
             borderRadius: '.1875rem',
             borderStyle: 'solid',
-            borderWidth: '1px',
+            borderWidth: border['stroke-1'],
             flex: '0 0 0%',
-            lineHeight: '1.125rem',
-            margin: '.25rem',
-            padding: '.75rem 1rem',
+            lineHeight: typography['line-height-body-caption'],
+            margin: space['space-4'],
+            padding: `${space['space-12']} ${space['space-16']}`,
             whiteSpace: 'nowrap',
 
             '&.Mui-disabled': {
-              backgroundColor: palette.grey['100'],
-              borderColor: palette.grey['600'],
-              color: palette.grey['600'],
+              backgroundColor: color['surface-muted'],
+              borderColor: color['border-strong'],
+              color: color['text-disabled'],
             },
 
             '&:not(.Mui-disabled)': {
@@ -42,27 +45,27 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
                   {
                     content: '""',
                     background: 'transparent',
-                    border: '2px solid',
-                    borderColor: palette.grey[950],
-                    borderRadius: '.375rem',
-                    height: 'calc(100% + 6px)',
-                    left: '-3px',
+                    border: `${border['border-focus']} solid`,
+                    borderColor: color['border-focus'],
+                    borderRadius: border['radius-6'],
+                    height: `calc(100% + ${space['space-6']})`,
+                    left: '-.1875rem',
                     position: 'absolute',
-                    top: '-3px',
-                    width: 'calc(100% + 6px)',
+                    top: '-.1875rem',
+                    width: `calc(100% + ${space['space-6']})`,
                     zIndex: 1,
                   },
               },
 
               '&:hover': {
-                backgroundColor: `rgba(${decomposeColor(palette.primary['400']).values}, .2)`,
-                borderColor: palette.primary['500'],
+                backgroundColor: color['surface-brand-subtle'],
+                borderColor: color['control-unselected-hover'],
               },
 
               '&.Mui-checked': {
-                backgroundColor: palette.primary['500'],
-                borderColor: palette.primary['500'],
-                color: 'white',
+                backgroundColor: color['control-selected'],
+                borderColor: color['control-selected'],
+                color: color['control-foreground'],
               },
             },
           },
@@ -72,7 +75,7 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
           },
 
           '.MuiTypography-root': {
-            lineHeight: '1.125rem',
+            lineHeight: typography['line-height-body-caption'],
           },
         },
       },

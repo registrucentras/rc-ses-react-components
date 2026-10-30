@@ -1,6 +1,7 @@
-import { Components, decomposeColor } from '@mui/material'
+import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { colorTokens as color } from '../colorTokens'
+import { effectTokens as effect } from '../effectTokens'
 
 const MuiFormControl: Components['MuiFormControl'] = {
   defaultProps: {},
@@ -10,12 +11,12 @@ const MuiFormControl: Components['MuiFormControl'] = {
         '&.Mui-error': {
           '.MuiCheckbox-root': {
             '.checkbox-stroke': {
-              stroke: palette.error['600'],
+              stroke: color['status-error-border'],
             },
 
             '&:hover': {
               svg: {
-                boxShadow: `0px 0px 0px 4px rgba(${decomposeColor(palette.error['500']).values}, .2)`,
+                boxShadow: effect['focus-ring-error'],
               },
             },
           },

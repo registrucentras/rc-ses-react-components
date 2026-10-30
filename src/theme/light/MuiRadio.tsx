@@ -1,6 +1,8 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
 
 const MuiRadio: Components['MuiRadio'] = {
   defaultProps: {
@@ -19,10 +21,10 @@ const MuiRadio: Components['MuiRadio'] = {
           width='23'
           height='23'
           rx='11.5'
-          fill='#06A0D4'
-          stroke='#06A0D4'
+          fill={color['control-selected']}
+          stroke={color['control-selected']}
         />
-        <circle data-name='inner' cx='12' cy='12' r='5' fill='white' />
+        <circle data-name='inner' cx='12' cy='12' r='5' fill={color['surface-base']} />
       </svg>
     ),
     icon: (
@@ -33,7 +35,15 @@ const MuiRadio: Components['MuiRadio'] = {
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
       >
-        <rect data-name='inner' x='1' y='1' width='22' height='22' rx='11' fill='white' />
+        <rect
+          data-name='inner'
+          x='1'
+          y='1'
+          width='22'
+          height='22'
+          rx='11'
+          fill={color['surface-base']}
+        />
         <rect
           data-name='outer'
           x='1'
@@ -41,7 +51,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          stroke='#8E959E'
+          stroke={color['control-unselected']}
           strokeWidth='2'
         />
       </svg>
@@ -49,13 +59,13 @@ const MuiRadio: Components['MuiRadio'] = {
   },
   styleOverrides: {
     root: {
-      borderWidth: '2px',
-      margin: '5px',
-      padding: '4px',
+      borderWidth: border['stroke-2'],
+      margin: '.3125rem',
+      padding: space['space-4'],
 
       '&.Mui-disabled': {
         '[data-name="inner"]': {
-          fill: palette.grey['200'],
+          fill: color['control-disabled'],
         },
       },
     },

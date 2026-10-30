@@ -10,7 +10,10 @@ import { UseControllerProps, useController } from 'react-hook-form'
 import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import getLoadingIcon from '@/components/utils/loading'
-import palette from '@/theme/palette'
+import { borderTokens as border } from '@/theme/borderTokens'
+import { colorTokens as color } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens as typography } from '@/theme/typographyTokens'
 
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
 
@@ -102,7 +105,7 @@ function RcSesCheckboxFormControl(props: Props) {
         />
       }
       label={
-        <FormLabel htmlFor={id} sx={{ fontWeight: 'inherit !important' }}>
+        <FormLabel htmlFor={id} sx={{ '&&': { fontWeight: 'inherit' } }}>
           {children}
           {slotProps?.wrapper?.hideLabel && rules?.required === true && (
             <span aria-hidden className='MuiFormControlLabel-asterisk'>
@@ -119,7 +122,7 @@ function RcSesCheckboxFormControl(props: Props) {
           // accepted alongside component props, so they move into sx.
           sx: {
             fontWeight: 400,
-            lineHeight: '1.25rem',
+            lineHeight: typography['line-height-body-small'],
             marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           },
           variant: variant === 'flat' ? 'body1' : 'body2',
@@ -129,13 +132,13 @@ function RcSesCheckboxFormControl(props: Props) {
       sx={{
         ...(!variant || variant === 'outlined'
           ? {
-              backgroundColor: palette.grey['50'],
-              borderColor: palette.grey['500'],
+              backgroundColor: color['surface-sunken'],
+              borderColor: color['border-strong'],
               borderStyle: 'solid',
-              borderWidth: '1px',
-              borderRadius: '.5rem',
-              margin: 0,
-              padding: '1rem 1.25rem 1rem .875rem',
+              borderWidth: border['stroke-1'],
+              borderRadius: border['radius-8'],
+              margin: space['space-0'],
+              padding: `${space['space-16']} ${space['space-20']} ${space['space-16']} .875rem`,
             }
           : {}),
         ...slotProps?.label?.sx,

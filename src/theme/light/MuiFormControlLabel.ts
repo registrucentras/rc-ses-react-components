@@ -1,6 +1,8 @@
-import { Components, decomposeColor } from '@mui/material'
+import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens as border } from '../borderTokens'
+import { colorTokens as color } from '../colorTokens'
+import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
 
 const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
   defaultProps: {},
@@ -10,10 +12,10 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
 
       '&:hover': {
         '.MuiRadio-root': {
-          backgroundColor: `rgba(${decomposeColor(palette.primary[400]).values}, .2)`,
+          backgroundColor: color['surface-brand-subtle'],
 
           '[data-name="outer"]': {
-            stroke: palette.primary[500],
+            stroke: color['control-unselected-hover'],
           },
         },
       },
@@ -21,22 +23,22 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
       '&:active': {
         '.MuiRadio-root': {
           '[data-name="inner"]': {
-            fill: palette.primary[100],
+            fill: color['cyans-100'],
           },
         },
       },
 
       '.MuiFormControlLabel-asterisk': {
-        color: palette.error[600],
+        color: color['status-error-text'],
         fontWeight: 600,
-        marginLeft: '.125rem',
+        marginLeft: space['space-2'],
       },
 
       '.PrivateSwitchBase-input': {
         '&:focus, &:focus-visible': {
           '& + svg': {
-            outline: `.125rem solid ${palette.grey[950]}`,
-            outlineOffset: '.125rem',
+            outline: `${border['border-focus']} solid ${color['border-focus']}`,
+            outlineOffset: space['space-2'],
             outlineStyle: 'auto',
           },
         },
