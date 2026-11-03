@@ -18,6 +18,7 @@ const stepperHoverBackground = 'var(--rc-color-neutrals-200)'
 
 const NumberInput = styled(OutlinedInput)({
   paddingRight: `${spacingRoleBasedTokens['space-0']} !important`,
+  gap: spacingRoleBasedTokens['space-0'],
 
   'input[type=number]': {
     MozAppearance: 'textfield',
@@ -32,6 +33,8 @@ const NumberInput = styled(OutlinedInput)({
   },
 
   '.MuiButtonBase-root': {
+    alignSelf: 'stretch',
+    height: 'auto',
     backgroundColor: colorTokens['surface-muted'],
     borderRightStyle: 'none !important',
 
@@ -45,13 +48,18 @@ const NumberInput = styled(OutlinedInput)({
     },
 
     '&.Mui-disabled': {
+      borderWidth: `${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-1']}`,
       backgroundColor: `${colorTokens['surface-muted']} !important`,
-      borderLeftColor: `${colorTokens['border-strong']} !important`,
+      borderLeftColor: `${colorTokens['border-default']} !important`,
 
       'svg path': {
         fill: colorTokens['text-disabled'],
       },
     },
+  },
+
+  '&.Mui-disabled .MuiButtonBase-root.Mui-disabled': {
+    borderLeftColor: `${colorTokens['border-subtle']} !important`,
   },
 })
 
@@ -74,6 +82,7 @@ function ArrowButton({ ariaLabel, onClick, disabled, direction }: ArrowButtonPro
         color: colorTokens['text-default'],
         borderRadius: borderTokens['radius-0'],
         borderWidth: `${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-1']}`,
+        '&&': { borderLeftColor: colorTokens['border-default'] },
         // No stepper width/padding roles exist; retain the existing 44px/13px values.
         minWidth: '2.75rem',
         padding: '.8125rem !important',
