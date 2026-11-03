@@ -57,7 +57,7 @@ const MuiRadio: Components['MuiRadio'] = {
           width='22'
           height='22'
           rx='11'
-          stroke={colorTokens['control-unselected']}
+          stroke={colorTokens['control-border']}
           strokeWidth={borderTokens['stroke-2']}
         />
       </svg>
@@ -69,9 +69,15 @@ const MuiRadio: Components['MuiRadio'] = {
       margin: spacingRoleBasedTokens['space-4'],
       padding: spacingRoleBasedTokens['space-4'],
 
-      '&.Mui-disabled': {
+      '&.Mui-disabled:not(.Mui-checked)': {
         '[data-name="inner"]': {
           fill: colorTokens['control-disabled'],
+        },
+      },
+      '&.Mui-disabled.Mui-checked': {
+        '[data-name="outer"]': {
+          fill: colorTokens['control-disabled-selected'],
+          stroke: colorTokens['control-disabled-selected'],
         },
       },
     },
