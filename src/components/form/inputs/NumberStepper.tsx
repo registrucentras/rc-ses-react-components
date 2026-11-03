@@ -5,46 +5,51 @@ import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import { MinusBoldIcon, PlusBoldIcon } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../components/FormControlWrapper'
 
+const stepperHoverBackground = 'var(--rc-color-neutrals-200)'
+
 const NumberInput = styled(OutlinedInput)({
-  paddingRight: '0 !important',
+  paddingRight: `${spacingRoleBasedTokens['space-0']} !important`,
 
   'input[type=number]': {
     MozAppearance: 'textfield',
   },
   'input[type=number]::-webkit-outer-spin-button': {
     WebkitAppearance: 'none',
-    margin: 0,
+    margin: spacingRoleBasedTokens['space-0'],
   },
   'input[type=number]::-webkit-inner-spin-button': {
     WebkitAppearance: 'none',
-    margin: 0,
+    margin: spacingRoleBasedTokens['space-0'],
   },
 
   '.MuiButtonBase-root': {
-    backgroundColor: palette.grey['100'],
+    backgroundColor: colorTokens['surface-muted'],
     borderRightStyle: 'none !important',
 
     '&:last-of-type': {
-      borderTopRightRadius: '.5rem',
-      borderBottomRightRadius: '.5rem',
+      borderTopRightRadius: borderTokens['radius-input'],
+      borderBottomRightRadius: borderTokens['radius-input'],
     },
 
     '&:hover:not(:disabled)': {
-      backgroundColor: palette.grey['200'],
+      backgroundColor: stepperHoverBackground,
     },
 
     '&.Mui-disabled': {
-      backgroundColor: `${palette.grey['100']} !important`,
-      borderLeftColor: `${palette.grey['600']} !important`,
+      backgroundColor: `${colorTokens['surface-muted']} !important`,
+      borderLeftColor: `${colorTokens['border-strong']} !important`,
 
       'svg path': {
-        fill: palette.grey['600'],
+        fill: colorTokens['text-disabled'],
       },
     },
   },
@@ -66,11 +71,17 @@ function ArrowButton({ ariaLabel, onClick, disabled, direction }: ArrowButtonPro
       disabled={disabled}
       variant='outlined'
       sx={{
-        color: 'grey.900',
-        borderRadius: 0,
-        borderWidth: '0 0 0 1px',
+        color: colorTokens['text-default'],
+        borderRadius: borderTokens['radius-0'],
+        borderWidth: `${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-1']}`,
+        // No stepper width/padding roles exist; retain the existing 44px/13px values.
         minWidth: '2.75rem',
         padding: '.8125rem !important',
+        // No stepper icon role exists; retain the existing 16px icon size.
+        '& > svg': {
+          width: sizeTokens['icon-size-16'],
+          height: sizeTokens['icon-size-16'],
+        },
 
         '&::before': {
           content: 'unset',
