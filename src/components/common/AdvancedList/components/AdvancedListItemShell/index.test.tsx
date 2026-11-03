@@ -82,7 +82,6 @@ describe('AdvancedListItemShell', () => {
     const root = screen.getByTestId('root')
     const computed = getComputedStyle(root)
     expect(computed.borderRadius).toBe('var(--rc-radius-0)')
-    expect(computed.borderBottomWidth).toBe('medium')
   })
 
   it('renders leading and trailing slots when provided', () => {

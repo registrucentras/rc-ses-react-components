@@ -5,6 +5,7 @@ import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import motion from '@/theme/motion'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import usePrefersReducedMotion from '../AdvancedListItem/hooks/usePrefersReducedMotion'
 import {
@@ -233,9 +234,9 @@ const AdvancedListItemShell = ({
             data-testid={testIds?.expanded}
             sx={{
               margin: `${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-12']}`,
-              backgroundColor: colorTokens['surface-muted'],
+              backgroundColor: colorTokens['surface-sunken'],
               borderRadius: BORDER_RADIUS,
-              border: `${BORDER_WIDTH} solid ${colorTokens['border-default']}`,
+              border: `${BORDER_WIDTH} solid ${colorTokens['border-subtle']}`,
               padding: spacingRoleBasedTokens['space-12'],
             }}
           >
