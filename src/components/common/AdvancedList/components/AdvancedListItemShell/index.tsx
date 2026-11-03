@@ -167,7 +167,7 @@ const AdvancedListItemShell = ({
           isRow && state === 'rest' ? `${BORDER_WIDTH} solid ${borderColor}` : undefined,
         backgroundColor,
         borderRadius: isRow ? borderTokens['radius-0'] : BORDER_RADIUS,
-        padding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-12']}`,
+        padding: `${spacingTokens['spacing-aliases-selectable-area-padding-y']} ${spacingTokens['spacing-aliases-selectable-area-padding-x']}`,
         opacity: isDisabled ? 0.5 : 1,
         pointerEvents: isDisabled ? 'none' : 'auto',
         cursor: isClickable ? 'pointer' : 'default',
