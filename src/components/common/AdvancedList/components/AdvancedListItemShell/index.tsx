@@ -19,10 +19,10 @@ const BORDER_WIDTH = borderTokens['stroke-1']
 const FOCUS_RING_WIDTH = borderTokens['stroke-1']
 
 const STATE_BORDER_COLOR: Record<AdvancedListItemShellState, string> = {
-  rest: colorTokens['border-default'],
+  rest: colorTokens['border-subtle'],
   selected: colorTokens['border-focus'],
-  disabled: colorTokens['border-default'],
-  error: colorTokens['border-focus-error'],
+  disabled: colorTokens['border-subtle'],
+  error: colorTokens['status-error-border'],
 }
 
 // A conditional slot renders as false rather than as nothing, so false is absent
