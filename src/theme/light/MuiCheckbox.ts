@@ -1,23 +1,23 @@
 import type { Components } from '@mui/material'
 
-import { borderTokens as border } from '../borderTokens'
-import { colorTokens as color } from '../colorTokens'
-import { effectTokens as effect } from '../effectTokens'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
 
 const MuiCheckbox: Components['MuiCheckbox'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
       svg: {
-        borderRadius: border['radius-4'],
+        borderRadius: borderTokens['radius-4'],
       },
 
+      // Figma's hover halo has no variable; it is a 20% tint of the selected role.
       '&:hover': {
         svg: {
-          boxShadow: effect['focus-ring-default'],
+          boxShadow: `0 0 0 4px color-mix(in srgb, ${colorTokens['control-selected']} 20%, transparent)`,
 
           '.checkbox-stroke': {
-            stroke: color['control-unselected-hover'],
+            stroke: colorTokens['control-selected'],
           },
         },
       },

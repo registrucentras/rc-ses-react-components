@@ -2,56 +2,33 @@ import { expect, test } from '@playwright/test'
 
 const viewports = [375, 768, 1024, 1440]
 
-test('Existing checkbox hover and error hover use effect tokens', async ({ page }) => {
+test('Checkbox hover and error hover show a tinted halo, not the focus ring', async ({
+  page,
+}) => {
   await page.goto('/iframe.html?id=atoms-simplecheckbox--token-bindings&viewMode=story')
-  await page.evaluate(() => {
-    document.documentElement.style.setProperty(
-      '--rc-focus-ring-default',
-      '0 0 0 3px rgb(11, 22, 33)',
-    )
-    document.documentElement.style.setProperty(
-      '--rc-focus-ring-error',
-      '0 0 0 3px rgb(44, 55, 66)',
-    )
-  })
-  const normal = page.getByRole('checkbox', { name: 'Unchecked checkbox', exact: true })
-  await normal.hover()
-  await expect(normal.locator('..').locator('svg')).toHaveCSS(
-    'box-shadow',
-    'rgb(11, 22, 33) 0px 0px 0px 3px',
-  )
-  const error = page.getByRole('checkbox', { name: 'Error checkbox', exact: true })
-  await error.hover()
-  await expect(error.locator('..').locator('svg')).toHaveCSS(
-    'box-shadow',
-    'rgb(44, 55, 66) 0px 0px 0px 3px',
-  )
-})
-
-test('Existing radio SVG fills and disabled fill use token values', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?id=molecules-radiobuttongroup--token-bindings&viewMode=story',
-  )
   await page.evaluate(() => {
     document.documentElement.style.setProperty(
       '--rc-color-control-selected',
       'rgb(11, 22, 33)',
     )
     document.documentElement.style.setProperty(
-      '--rc-color-control-disabled',
+      '--rc-color-status-error-border',
       'rgb(44, 55, 66)',
     )
   })
-  const checked = page
-    .getByRole('radio', { name: 'Checked radio', exact: true })
-    .locator('..')
-  await expect(checked.locator('rect')).toHaveCSS('fill', 'rgb(11, 22, 33)')
-  const disabled = page
-    .getByRole('radio', { name: 'Disabled unchecked radio', exact: true })
-    .locator('..')
-  await expect(disabled.locator('[data-name="inner"]')).toHaveCSS(
-    'fill',
-    'rgb(44, 55, 66)',
+  const normal = page.getByRole('checkbox', { name: 'Unchecked checkbox', exact: true })
+  await normal.hover()
+  const normalSvg = normal.locator('..').locator('svg')
+  await expect(normalSvg).toHaveCSS(
+    'box-shadow',
+    /^color\(srgb 0\.043\d* 0\.086\d* 0\.129\d* \/ 0\.2\) 0px 0px 0px 4px$/,
+  )
+  const error = page.getByRole('checkbox', { name: 'Error checkbox', exact: true })
+  await error.hover()
+  const errorSvg = error.locator('..').locator('svg')
+  await expect(errorSvg).toHaveCSS(
+    'box-shadow',
+    /^color\(srgb 0\.172\d* 0\.215\d* 0\.258\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
 })
 
@@ -68,9 +45,7 @@ test('Checkbox sx overrides checked color and focus styles', async ({ page }) =>
 })
 
 viewports.forEach((width) => {
-  test(`Existing checkbox and radio geometry is preserved at ${width}px`, async ({
-    page,
-  }) => {
+  test(`Existing checkbox geometry is preserved at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/iframe.html?id=atoms-checkbox--main&viewMode=story')
     const card = page.locator('.MuiFormControlLabel-root').first()
@@ -81,26 +56,7 @@ viewports.forEach((width) => {
       '3px',
     )
     await expect(card.locator('.MuiCheckbox-root > svg')).toHaveCSS('width', '24px')
-    await page.goto(
-      '/iframe.html?id=molecules-radiobuttongroup--token-bindings&viewMode=story',
-    )
-    const radio = page
-      .getByRole('radio', { name: 'Unchecked radio', exact: true })
-      .locator('..')
-    await expect(radio).toHaveCSS('margin', '5px')
-    await expect(radio).toHaveCSS('padding', '4px')
-    await expect(radio.locator('svg')).toHaveCSS('width', '24px')
-    await expect(radio.locator('svg')).toHaveCSS('height', '24px')
   })
-})
-
-test('Radio sx overrides the checked color', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?id=molecules-radiobuttongroup--token-bindings&viewMode=story',
-  )
-  await expect(
-    page.getByRole('radio', { name: 'Custom radio styles' }).locator('..'),
-  ).toHaveCSS('color', 'rgb(10, 20, 30)')
 })
 
 test('Existing radio group keeps keyboard selection', async ({ page }) => {

@@ -10,10 +10,10 @@ import { UseControllerProps, useController } from 'react-hook-form'
 import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import getLoadingIcon from '@/components/utils/loading'
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
 
@@ -122,7 +122,7 @@ function RcSesCheckboxFormControl(props: Props) {
           // accepted alongside component props, so they move into sx.
           sx: {
             fontWeight: 400,
-            lineHeight: typography['line-height-body-small'],
+            lineHeight: typographyTokens['line-height-body-small'],
             marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           },
           variant: variant === 'flat' ? 'body1' : 'body2',
@@ -132,13 +132,13 @@ function RcSesCheckboxFormControl(props: Props) {
       sx={{
         ...(!variant || variant === 'outlined'
           ? {
-              backgroundColor: color['surface-sunken'],
-              borderColor: color['border-strong'],
+              backgroundColor: colorTokens['surface-sunken'],
+              borderColor: colorTokens['border-strong'],
               borderStyle: 'solid',
-              borderWidth: border['stroke-1'],
-              borderRadius: border['radius-8'],
-              margin: space['space-0'],
-              padding: `${space['space-16']} ${space['space-20']} ${space['space-16']} .875rem`,
+              borderWidth: borderTokens['stroke-1'],
+              borderRadius: borderTokens['radius-8'],
+              margin: spacingRoleBasedTokens['space-0'],
+              padding: `${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-16']} .875rem`,
             }
           : {}),
         ...slotProps?.label?.sx,

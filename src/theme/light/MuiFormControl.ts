@@ -1,7 +1,6 @@
 import { Components } from '@mui/material'
 
-import { colorTokens as color } from '../colorTokens'
-import { effectTokens as effect } from '../effectTokens'
+import { colorTokens } from '../colorTokens'
 
 const MuiFormControl: Components['MuiFormControl'] = {
   defaultProps: {},
@@ -11,12 +10,12 @@ const MuiFormControl: Components['MuiFormControl'] = {
         '&.Mui-error': {
           '.MuiCheckbox-root': {
             '.checkbox-stroke': {
-              stroke: color['status-error-border'],
+              stroke: colorTokens['status-error-border'],
             },
 
             '&:hover': {
               svg: {
-                boxShadow: effect['focus-ring-error'],
+                boxShadow: `0 0 0 4px color-mix(in srgb, ${colorTokens['status-error-border']} 20%, transparent)`,
               },
             },
           },

@@ -17,7 +17,6 @@ export const colorPrimitives = {
 } as const
 
 const colorTokens = {
-  'cyans-100': 'var(--rc-color-cyans-100)',
   'action-destructive-bg': 'var(--rc-color-action-destructive-bg)',
   'action-destructive-bg-hover': 'var(--rc-color-action-destructive-bg-hover)',
   'action-destructive-bg-pressed': 'var(--rc-color-action-destructive-bg-pressed)',

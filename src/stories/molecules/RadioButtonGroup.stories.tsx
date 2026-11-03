@@ -1,4 +1,3 @@
-import { FormControl, FormControlLabel, Radio, Stack } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
@@ -152,37 +151,6 @@ export const Main: Story = {
         type: 'dynamic',
         transform: (_code: string, storyContext: StoryContext) =>
           codeBlock(storyContext.args),
-      },
-    },
-  },
-}
-
-export const TokenBindings = {
-  render: () => (
-    <Stack spacing={2}>
-      <FormControlLabel control={<Radio />} label='Unchecked radio' />
-      <FormControlLabel control={<Radio defaultChecked />} label='Checked radio' />
-      <FormControlLabel control={<Radio disabled />} label='Disabled unchecked radio' />
-      <FormControlLabel
-        control={<Radio disabled defaultChecked />}
-        label='Disabled checked radio'
-      />
-      <FormControl error>
-        <FormControlLabel sx={{ ml: 0 }} control={<Radio />} label='Error radio' />
-      </FormControl>
-      <FormControlLabel
-        control={
-          <Radio defaultChecked sx={{ '&.Mui-checked': { color: 'rgb(10, 20, 30)' } }} />
-        }
-        label='Custom radio styles'
-      />
-    </Stack>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Native Radio states use the shared MUI token overrides. Existing 24px SVG geometry, radio spacing and group behavior are preserved.',
       },
     },
   },

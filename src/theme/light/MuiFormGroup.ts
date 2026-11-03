@@ -1,9 +1,9 @@
 import type { Components } from '@mui/material'
 
-import { borderTokens as border } from '../borderTokens'
-import { colorTokens as color } from '../colorTokens'
-import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
-import { typographyTokens as typography } from '../typographyTokens'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiFormGroup: Components['MuiFormGroup'] = {
   defaultProps: {},
@@ -13,30 +13,30 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
         flexDirection: 'row',
 
         '&.rc-ses-hide-native-radio': {
-          margin: `calc(-1 * ${space['space-4']})`,
+          margin: `calc(-1 * ${spacingRoleBasedTokens['space-4']})`,
 
           '.MuiButtonBase-root': {
-            margin: space['space-0'],
+            margin: spacingRoleBasedTokens['space-0'],
             opacity: 0,
-            padding: space['space-0'],
+            padding: spacingRoleBasedTokens['space-0'],
             postion: 'absolute',
           },
 
           '.MuiFormControlLabel-root': {
-            borderColor: color['control-unselected'],
+            borderColor: colorTokens['control-unselected'],
             borderRadius: '.1875rem',
             borderStyle: 'solid',
-            borderWidth: border['stroke-1'],
+            borderWidth: borderTokens['stroke-1'],
             flex: '0 0 0%',
-            lineHeight: typography['line-height-body-caption'],
-            margin: space['space-4'],
-            padding: `${space['space-12']} ${space['space-16']}`,
+            lineHeight: typographyTokens['line-height-body-caption'],
+            margin: spacingRoleBasedTokens['space-4'],
+            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-16']}`,
             whiteSpace: 'nowrap',
 
             '&.Mui-disabled': {
-              backgroundColor: color['surface-muted'],
-              borderColor: color['border-strong'],
-              color: color['text-disabled'],
+              backgroundColor: colorTokens['surface-muted'],
+              borderColor: colorTokens['border-strong'],
+              color: colorTokens['text-disabled'],
             },
 
             '&:not(.Mui-disabled)': {
@@ -45,27 +45,27 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
                   {
                     content: '""',
                     background: 'transparent',
-                    border: `${border['border-focus']} solid`,
-                    borderColor: color['border-focus'],
-                    borderRadius: border['radius-6'],
-                    height: `calc(100% + ${space['space-6']})`,
+                    border: `${borderTokens['border-focus']} solid`,
+                    borderColor: colorTokens['border-focus'],
+                    borderRadius: borderTokens['radius-6'],
+                    height: `calc(100% + ${spacingRoleBasedTokens['space-6']})`,
                     left: '-.1875rem',
                     position: 'absolute',
                     top: '-.1875rem',
-                    width: `calc(100% + ${space['space-6']})`,
+                    width: `calc(100% + ${spacingRoleBasedTokens['space-6']})`,
                     zIndex: 1,
                   },
               },
 
               '&:hover': {
-                backgroundColor: color['surface-brand-subtle'],
-                borderColor: color['control-unselected-hover'],
+                backgroundColor: colorTokens['surface-brand-subtle'],
+                borderColor: colorTokens['control-selected'],
               },
 
               '&.Mui-checked': {
-                backgroundColor: color['control-selected'],
-                borderColor: color['control-selected'],
-                color: color['control-foreground'],
+                backgroundColor: colorTokens['control-selected'],
+                borderColor: colorTokens['control-selected'],
+                color: colorTokens['control-foreground'],
               },
             },
           },
@@ -75,7 +75,7 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
           },
 
           '.MuiTypography-root': {
-            lineHeight: typography['line-height-body-caption'],
+            lineHeight: typographyTokens['line-height-body-caption'],
           },
         },
       },
