@@ -326,9 +326,9 @@
   --rc-icon-size-24: 1.5rem;
   --rc-icon-size-32: 2rem;
   --rc-icon-size-8: 0.5rem;
-  --rc-elevation-sm: 0 4px 6px 0 rgb(0 0 0 / 0.08), 0 1px 3px 0 rgb(0 0 0 / 0.06);
-  --rc-elevation-md: 0 4px 16px 0 rgb(0 0 0 / 0.08);
-  --rc-elevation-lg: 0 8px 16px 0 rgb(0 0 0 / 0.12);
+  --rc-elevation-sm: 0 4px 6px 0 #00000014, 0 1px 3px 0 #0000000f;
+  --rc-elevation-md: 0 4px 16px 0 #00000014;
+  --rc-elevation-lg: 0 8px 16px 0 #0000001f;
   --rc-focus-ring-default: 0 0 0 2px var(--rc-color-border-focus);
   --rc-focus-ring-error: 0 0 0 2px var(--rc-color-border-focus-error);
 }
