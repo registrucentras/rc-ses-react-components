@@ -53,7 +53,7 @@ const themes = {
   },
   default: {
     backgroundColor: colorTokens['surface-base'],
-    borderColor: colorTokens['border-default'],
+    borderColor: colorTokens['border-subtle'],
   },
   sunken: {
     backgroundColor: colorTokens['surface-sunken'],

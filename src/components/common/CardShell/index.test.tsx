@@ -117,9 +117,9 @@ describe('RcSesCardShell', () => {
   })
 
   test.each([
-    ['default', colorTokens['surface-base'], colorTokens['border-default']],
+    ['default', colorTokens['surface-base'], colorTokens['border-subtle']],
     ['brand', colorTokens['surface-brand-subtle'], colorTokens['border-brand-subtle']],
-    ['sunken', colorTokens['surface-sunken'], colorTokens['border-subtle']],
+    ['sunken', colorTokens['surface-sunken'], colorTokens['surface-sunken']],
   ] as const)(
     'theme=%s paints its own background and border',
     (name, background, border) => {
