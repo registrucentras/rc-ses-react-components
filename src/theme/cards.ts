@@ -51,7 +51,7 @@ const footer = {
 const themes = {
   brand: {
     backgroundColor: colorTokens['surface-brand-subtle'],
-    borderColor: colorTokens['action-primary-bg'],
+    borderColor: colorTokens['border-brand-subtle'],
   },
   default: {
     backgroundColor: colorTokens['surface-base'],
