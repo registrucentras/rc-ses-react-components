@@ -1,6 +1,7 @@
 import { Components } from '@mui/material'
 
-import Colors from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
   defaultProps: {},
@@ -10,29 +11,29 @@ const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
     },
     li: {
       lineHeight: '.875rem',
-      paddingBottom: '.375rem',
-      paddingTop: '.375rem',
+      paddingBottom: spacingRoleBasedTokens['space-6'],
+      paddingTop: spacingRoleBasedTokens['space-6'],
 
       a: {
-        color: Colors.grey['600'],
+        color: colorTokens['text-secondary'],
         textDecoration: 'none',
       },
 
       '&:last-child': {
         a: {
-          color: Colors.grey['900'],
+          color: colorTokens['text-default'],
         },
       },
 
       '&:hover': {
         a: {
-          color: Colors.primary['600'],
+          color: colorTokens['text-link'],
         },
       },
 
       '&:active, &:focus': {
         a: {
-          color: Colors.primary['700'],
+          color: colorTokens['text-link-hover'],
         },
       },
     },
