@@ -191,7 +191,7 @@ const AdvancedListItemShell = ({
         sx={{
           alignItems: 'center',
           flexWrap: { xs: 'wrap', md: 'nowrap' },
-          gap: spacingRoleBasedTokens['space-12'],
+          gap: spacingTokens['spacing-aliases-list-item-gap'],
         }}
       >
         {hasLeading && (
