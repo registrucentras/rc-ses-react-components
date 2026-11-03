@@ -69,6 +69,10 @@ function RcSesStepCard({
       testIds={testIds}
       contentGap={spacingTokens['spacing-aliases-cards-step-card-section-gap']}
       footerGap={spacingTokens['spacing-aliases-cards-step-card-section-gap']}
+      sx={{
+        p: spacingTokens['spacing-aliases-cards-step-card-padding'],
+        borderColor: colorTokens['border-subtle'],
+      }}
       header={
         <RcSesTitleBlock
           title={title}
