@@ -45,7 +45,7 @@ const header = {
 }
 
 const footer = {
-  gap: spacingRoleBasedTokens['gap-md'],
+  gap: spacingTokens['spacing-aliases-button-group-gap'],
 }
 
 const themes = {
