@@ -138,6 +138,8 @@ function RcSesCheckboxFormControl(props: Props) {
               borderWidth: borderTokens['stroke-1'],
               borderRadius: borderTokens['radius-8'],
               margin: spacingRoleBasedTokens['space-0'],
+              // Legacy geometry: the 14px start pairs with MUI's 9px checkbox padding.
+              // Figma's selectable area (12px sides, 2px icon frame) differs.
               padding: `${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-16']} .875rem`,
             }
           : {}),
