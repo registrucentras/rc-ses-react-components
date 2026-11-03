@@ -16,8 +16,8 @@ const borderWidth = borderTokens['stroke-1']
 
 const card = {
   borderRadius: borderTokens['radius-card'],
-  gap: spacingTokens['spacing-aliases-card-section-gap'],
-  footerGap: spacingTokens['spacing-aliases-card-section-gap'],
+  gap: spacingTokens['spacing-aliases-cards-card-section-gap'],
+  footerGap: spacingTokens['spacing-aliases-cards-card-section-gap'],
   padding: spacingTokens['spacing-aliases-cards-card-padding'],
 }
 
