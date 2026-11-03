@@ -53,7 +53,14 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
         textAlign: { xs: 'center', sm: 'right' },
       }}
     >
-      <Typography variant='caption' sx={{ color: colorTokens['text-secondary'] }}>
+      <Typography
+        component='span'
+        sx={{
+          fontSize: typographyTokens['font-size-body-micro'],
+          lineHeight: typographyTokens['line-height-body-micro'],
+          color: colorTokens['text-secondary'],
+        }}
+      >
         {label}:
       </Typography>
       <Typography
