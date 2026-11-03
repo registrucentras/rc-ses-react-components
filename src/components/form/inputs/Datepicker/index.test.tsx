@@ -54,11 +54,11 @@ const dayColour = (label: string) =>
   window.getComputedStyle(screen.getByRole('gridcell', { name: label })).color
 
 describe('RcSesDatepicker calendar day colours', () => {
-  test('day numbers retain the small typography size', () => {
+  test('day numbers use the Body/Regular typography role', () => {
     render(<Harness />)
     const style = window.getComputedStyle(screen.getByRole('gridcell', { name: '19' }))
-    expect(style.fontSize).toBe(typographyTokens['font-size-body-small'])
-    expect(style.lineHeight).toBe(typographyTokens['line-height-body-small'])
+    expect(style.fontSize).toBe(typographyTokens['font-size-body-regular'])
+    expect(style.lineHeight).toBe(typographyTokens['line-height-body-regular'])
   })
 
   // Pinned here rather than left to the visual suite: a colour-only change on a
@@ -72,7 +72,7 @@ describe('RcSesDatepicker calendar day colours', () => {
   test('a disabled weekday is greyed out', () => {
     render(<Harness maxDate={MAX} />)
 
-    expect(dayColour('21')).toBe(colorTokens['text-disabled'])
+    expect(dayColour('21')).toBe(colorTokens['text-muted'])
   })
 
   // 1.x paints it white; v9 lost that to the theme's day colour.

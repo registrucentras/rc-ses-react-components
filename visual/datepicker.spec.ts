@@ -121,8 +121,8 @@ viewports.forEach((width) => {
     // The installed MUI picker defaults to 36px; this ticket does not resize it.
     await expect(selected).toHaveCSS('width', '36px')
     await expect(selected).toHaveCSS('height', '36px')
-    await expect(selected).toHaveCSS('font-size', '14px')
-    await expect(selected).toHaveCSS('line-height', '20px')
+    await expect(selected).toHaveCSS('font-size', '15px')
+    await expect(selected).toHaveCSS('line-height', '22px')
     await expect(selected).toHaveCSS('border-radius', '9999px')
     await expect(selected).toHaveCSS('background-color', 'rgb(0, 121, 173)')
     await expect(selected).toHaveCSS('color', 'rgb(255, 255, 255)')
@@ -132,11 +132,11 @@ viewports.forEach((width) => {
         'rgb(1, 2, 3)',
       )
       document.documentElement.style.setProperty(
-        '--rc-typography-font-size-body-small',
+        '--rc-typography-font-size-body-regular',
         '17px',
       )
       document.documentElement.style.setProperty(
-        '--rc-typography-line-height-body-small',
+        '--rc-typography-line-height-body-regular',
         '23px',
       )
     })
@@ -157,16 +157,13 @@ test('Datepicker today outline and outside-day hover use tokens without a redesi
   await today.evaluate((element) => (element as HTMLElement).blur())
   await expect(today).not.toHaveClass(/Mui-focusVisible/)
   await expect(today).toHaveCSS('outline-width', '1px')
-  await expect(today).toHaveCSS('outline-color', 'rgb(107, 116, 127)')
+  await expect(today).toHaveCSS('outline-color', 'rgb(6, 160, 212)')
   await page.evaluate(() => {
     document.documentElement.style.setProperty(
       '--rc-color-surface-muted',
       'rgb(10, 20, 30)',
     )
-    document.documentElement.style.setProperty(
-      '--rc-color-neutrals-400',
-      'rgb(40, 50, 60)',
-    )
+    document.documentElement.style.setProperty('--rc-color-text-muted', 'rgb(40, 50, 60)')
   })
   await today.hover()
   await expect(today).toHaveCSS('background-color', 'rgb(10, 20, 30)')

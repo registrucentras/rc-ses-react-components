@@ -8,7 +8,8 @@ import { typographyTokens } from '../typographyTokens'
 
 const weekendColor = 'var(--rc-color-red-600)'
 const outsideWeekendColor = 'var(--rc-color-red-200)'
-const outsideMonthColor = 'var(--rc-color-neutrals-400)'
+// Figma binds the Cyans/500 primitive for the today ring; no semantic role maps to it.
+const todayRingColor = 'var(--rc-color-cyans-500)'
 
 const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
@@ -40,17 +41,18 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
       '.MuiDayCalendar-weekDayLabel': {
         color: colorTokens['text-muted'],
         height: spacingRoleBasedTokens['space-36'],
-        lineHeight: typographyTokens['line-height-body-small'],
+        fontSize: typographyTokens['font-size-body-caption'],
+        lineHeight: typographyTokens['line-height-body-caption'],
       },
 
       '.MuiPickerDay-root': {
         color: colorTokens['text-default'],
-        fontSize: typographyTokens['font-size-body-small'],
-        lineHeight: typographyTokens['line-height-body-small'],
+        fontSize: typographyTokens['font-size-body-regular'],
+        lineHeight: typographyTokens['line-height-body-regular'],
         // No calendar radius role exists; preserve the existing circular day shape.
         borderRadius: borderTokens['radius-full'],
         '&.MuiPickerDay-today': {
-          outline: `${borderTokens['stroke-1']} solid ${colorTokens['text-secondary']}`,
+          outline: `${borderTokens['stroke-1']} solid ${todayRingColor}`,
           outlineOffset: `calc(-1 * ${borderTokens['stroke-1']})`,
         },
         '&.Mui-focusVisible': {
@@ -74,11 +76,8 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
           boxShadow: `0 0 0 ${borderTokens['stroke-2']} ${colorTokens['surface-base']}, 0 0 0 ${borderTokens['stroke-4']} ${colorTokens['border-focus']}`,
         },
 
-        '&.MuiPickerDay-dayOutsideMonth:not(.Mui-selected)': {
-          color: outsideMonthColor,
-        },
-        '&.Mui-disabled, &.Mui-disabled.MuiPickerDay-dayOutsideMonth': {
-          color: colorTokens['text-disabled'],
+        '&.MuiPickerDay-dayOutsideMonth:not(.Mui-selected), &.Mui-disabled': {
+          color: colorTokens['text-muted'],
         },
       },
       '.MuiDayCalendar-weekContainer': {
