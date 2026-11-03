@@ -5,9 +5,9 @@ import { effectTokens } from './effectTokens'
 
 test('five effects match the supplied Figma Dev Mode CSS, including shadow layer order', () => {
   const expected = {
-    'elevation-sm': '0 4px 6px 0 rgb(0 0 0 / 0.08), 0 1px 3px 0 rgb(0 0 0 / 0.06)',
-    'elevation-md': '0 4px 16px 0 rgb(0 0 0 / 0.08)',
-    'elevation-lg': '0 8px 16px 0 rgb(0 0 0 / 0.12)',
+    'elevation-sm': '0 4px 6px 0 #00000014, 0 1px 3px 0 #0000000f',
+    'elevation-md': '0 4px 16px 0 #00000014',
+    'elevation-lg': '0 8px 16px 0 #0000001f',
     'focus-ring-default': '0 0 0 2px var(--rc-color-border-focus)',
     'focus-ring-error': '0 0 0 2px var(--rc-color-border-focus-error)',
   }

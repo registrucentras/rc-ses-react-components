@@ -27,6 +27,7 @@ import MuiIconButton from '@/theme/light/MuiIconButton'
 import MuiInputBase from '@/theme/light/MuiInputBase'
 import MuiLinearProgress from '@/theme/light/MuiLinearProgress'
 import MuiOutlinedInput from '@/theme/light/MuiOutlinedInput'
+import MuiPickerPopper from '@/theme/light/MuiPickerPopper'
 import MuiPickersLayout from '@/theme/light/MuiPickersLayout'
 import MuiPickersOutlinedInput from '@/theme/light/MuiPickersOutlinedInput'
 import MuiPopover from '@/theme/light/MuiPopover'
@@ -120,6 +121,7 @@ const theme = createTheme(themePalette, ltLT, enUS, {
     MuiLinearProgress,
     MuiOutlinedInput,
     MuiPickersLayout,
+    MuiPickerPopper,
     MuiPickersOutlinedInput,
     MuiPagination,
     MuiPaginationItem,

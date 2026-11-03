@@ -191,7 +191,7 @@ test('legacy component padding stays in rem at a 20px root without DS tokens', a
     await page.goto(`/iframe.html?id=molecules-cardshell--${story}&viewMode=story`)
     const card = page.locator('#storybook-root > .MuiBox-root').first()
     await expect(card).toBeVisible()
-    await expect(card).toHaveCSS('--rc-color-surface-base', 'rgb(255 255 255 / 1)')
+    await expect(card).toHaveCSS('--rc-color-surface-base', '#ffffff')
     await expect(card).toHaveCSS('background-color', background)
     await expect(card).toHaveCSS('border-top-color', border)
     await expect(card).toHaveCSS('border-top-width', '1px')
