@@ -23,9 +23,9 @@ const card = {
 
 const subcard = {
   borderRadius: borderTokens['radius-subcard'],
-  gap: spacingTokens['spacing-aliases-subcard-section-gap'],
-  footerGap: spacingTokens['spacing-aliases-subcard-section-gap'],
-  padding: spacingTokens['spacing-aliases-subcard-padding'],
+  gap: spacingTokens['spacing-aliases-cards-subcard-section-gap'],
+  footerGap: spacingTokens['spacing-aliases-cards-subcard-section-gap'],
+  padding: spacingTokens['spacing-aliases-cards-subcard-padding'],
 }
 
 /**
