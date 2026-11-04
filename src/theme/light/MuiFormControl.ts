@@ -8,9 +8,9 @@ const MuiFormControl: Components['MuiFormControl'] = {
     root: {
       '.MuiFormControlLabel-root': {
         '&.Mui-error': {
-          '.MuiCheckbox-root': {
-            '.checkbox-stroke': {
-              stroke: colorTokens['status-error-border'],
+          '.MuiCheckbox-root:not(.Mui-disabled)': {
+            '& > svg': {
+              color: colorTokens['status-error-border'],
             },
 
             '&:hover': {

@@ -92,7 +92,7 @@ export const TokenBindings: Story = {
     docs: {
       description: {
         story:
-          'Existing checkbox hover and error-hover effects use effect tokens. SVG geometry, selection and loading behavior are unchanged.',
+          'Checkbox hover and error hover use a 20% tint of semantic color tokens. Icon colors inherit currentColor. Legacy SVG geometry, selection and loading behavior are unchanged.',
       },
     },
   },

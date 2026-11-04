@@ -12,13 +12,10 @@ const MuiCheckbox: Components['MuiCheckbox'] = {
       },
 
       // Figma's hover halo has no variable; it is a 20% tint of the selected role.
-      '&:hover': {
+      '&:hover:not(.Mui-disabled)': {
         svg: {
           boxShadow: `0 0 0 4px color-mix(in srgb, ${colorTokens['control-selected']} 20%, transparent)`,
-
-          '.checkbox-stroke': {
-            stroke: colorTokens['control-selected'],
-          },
+          color: colorTokens['control-selected'],
         },
       },
     },

@@ -19,17 +19,39 @@ test('Checkbox hover and error hover show a tinted halo, not the focus ring', as
   const normal = page.getByRole('checkbox', { name: 'Unchecked checkbox', exact: true })
   await normal.hover()
   const normalSvg = normal.locator('..').locator('svg')
+  await expect(normalSvg).toHaveCSS('color', 'rgb(11, 22, 33)')
   await expect(normalSvg).toHaveCSS(
     'box-shadow',
     /^color\(srgb 0\.043\d* 0\.086\d* 0\.129\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
   const error = page.getByRole('checkbox', { name: 'Error checkbox', exact: true })
+  await expect(error.locator('..').locator('svg')).toHaveCSS('color', 'rgb(44, 55, 66)')
   await error.hover()
   const errorSvg = error.locator('..').locator('svg')
+  await expect(errorSvg).toHaveCSS('color', 'rgb(44, 55, 66)')
   await expect(errorSvg).toHaveCSS(
     'box-shadow',
     /^color\(srgb 0\.172\d* 0\.215\d* 0\.258\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
+})
+
+const disabledCheckboxes = [
+  'Disabled unchecked checkbox',
+  'Disabled checked checkbox',
+  'Disabled indeterminate checkbox',
+]
+
+disabledCheckboxes.forEach((name) => {
+  test(`${name} keeps its color without a hover halo`, async ({ page }) => {
+    await page.goto('/iframe.html?id=atoms-simplecheckbox--token-bindings&viewMode=story')
+    const checkbox = page.getByRole('checkbox', { name, exact: true })
+    const svg = checkbox.locator('..').locator('svg')
+    const color = await svg.evaluate((node) => getComputedStyle(node).color)
+    // Disabled MUI controls have pointer-events: none; move the pointer anyway.
+    await checkbox.locator('..').hover({ force: true })
+    await expect(svg).toHaveCSS('color', color)
+    await expect(svg).toHaveCSS('box-shadow', 'none')
+  })
 })
 
 test('Checkbox sx overrides checked color and focus styles', async ({ page }) => {
