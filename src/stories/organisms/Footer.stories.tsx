@@ -27,7 +27,7 @@ export const TokenOverrides: Story = {
     <div
       style={
         {
-          '--rc-color-surface-inverse': '#082d44',
+          '--rc-color-neutrals-950': '#082d44',
           '--rc-color-neutrals-200': '#ffffff',
           '--rc-space-24': '32px',
         } as CSSProperties

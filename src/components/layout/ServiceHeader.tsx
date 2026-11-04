@@ -3,7 +3,6 @@ import React, { type CSSProperties } from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import { colorTokens } from '@/theme/colorTokens'
-import theme from '@/theme/light'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
@@ -22,16 +21,23 @@ function ServiceHeader({
   return (
     <Box sx={{ backgroundColor }}>
       <Container
+        disableGutters
         sx={{
           pb: {
-            xs: spacingRoleBasedTokens['space-32'],
-            md: spacingRoleBasedTokens['space-36'],
+            xs: spacingRoleBasedTokens['space-24'],
+            sm: spacingRoleBasedTokens['space-32'],
+            md: spacingRoleBasedTokens['space-48'],
           },
           pt: {
-            xs: spacingRoleBasedTokens['space-6'],
-            md: spacingRoleBasedTokens['space-24'],
+            xs: spacingRoleBasedTokens['space-16'],
+            sm: spacingRoleBasedTokens['space-24'],
+            md: spacingRoleBasedTokens['space-32'],
           },
-          px: spacingRoleBasedTokens['space-16'],
+          px: {
+            xs: spacingRoleBasedTokens['space-16'],
+            sm: spacingRoleBasedTokens['space-24'],
+            md: spacingRoleBasedTokens['space-32'],
+          },
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
@@ -52,8 +58,10 @@ function ServiceHeader({
         <Typography
           variant='h1'
           sx={{
-            // The h1 token changes at other breakpoints; retain the existing 32/40px pair.
-            lineHeight: { xs: '2rem', md: '2.5rem' },
+            '&&': {
+              fontSize: typographyTokens['font-size-heading-h1'],
+              lineHeight: typographyTokens['line-height-heading-h1'],
+            },
           }}
         >
           {title}
@@ -64,20 +72,12 @@ function ServiceHeader({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              mt: {
-                xs: spacingRoleBasedTokens['space-4'],
-                md: spacingRoleBasedTokens['space-8'],
-              },
+              mt: spacingRoleBasedTokens['space-8'],
               rowGap: spacingRoleBasedTokens['space-10'],
 
               '.MuiTypography-body1': {
                 fontSize: typographyTokens['font-size-body-large'],
                 lineHeight: typographyTokens['line-height-body-large'],
-
-                [theme.breakpoints.down('md')]: {
-                  fontSize: typographyTokens['font-size-body-caption'],
-                  lineHeight: typographyTokens['line-height-body-caption'],
-                },
               },
             }}
           >
