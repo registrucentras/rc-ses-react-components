@@ -509,7 +509,6 @@ export const BodyScaleTitleInCard: Story = {
                 headingLevel={3}
                 title={service.title}
                 titleVariant='body1'
-                titleTone='brand'
               />
             }
             footer={
