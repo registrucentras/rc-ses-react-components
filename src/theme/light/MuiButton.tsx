@@ -41,7 +41,8 @@ const MuiButton: Components['MuiButton'] = {
         color: color['action-link-text'],
         fontSize: withFallback(typography['font-size-button-regular'], '0.875rem'),
         lineHeight: withFallback(typography['line-height-button-regular'], '1.125rem'),
-        fontWeight: 600,
+        fontWeight: 500,
+        minWidth: 0,
         height: buttonDimensions.linkMedium,
         // Link has no padding role at this size; retain its compact primitive.
         padding: `${withFallback(space['button-padding-y-regular'], '0.8125rem')} ${withFallback(space['space-4'], '0')}`,
@@ -81,7 +82,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '&.MuiButton-sizeSmall': {
-          fontWeight: 400,
+          fontWeight: 500,
           height: buttonDimensions.small,
           fontSize: withFallback(typography['font-size-button-compact'], '0.875rem'),
           lineHeight: withFallback(typography['line-height-button-compact'], '1.125rem'),

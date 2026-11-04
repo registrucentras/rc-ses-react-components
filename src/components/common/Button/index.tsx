@@ -22,7 +22,10 @@ function RcSesButtonComponent(props: Props) {
 
   const currentVariant = variant ?? defaultProps.variant
   const isIconOnly =
-    !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
+    !!iconOnly &&
+    (currentVariant === 'contained' ||
+      currentVariant === 'outlined' ||
+      currentVariant === 'link')
 
   return (
     <MuiButton

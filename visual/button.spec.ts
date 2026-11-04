@@ -4,6 +4,37 @@ import { expect, test } from '@playwright/test'
 
 const story = '/iframe.html?id=atoms-button--design-combinations&viewMode=story'
 
+test('Link uses medium weight and compact text and icon-only widths', async ({
+  page,
+}) => {
+  await page.goto(story)
+  for (const width of [375, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    for (const size of ['medium', 'small']) {
+      const regular = size === 'medium'
+      const text = page.getByTestId(`ds-Link-${size}-rest-none`)
+      await expect(text).toHaveCSS('font-weight', '500')
+      await expect(text).toHaveCSS('min-width', '0px')
+      // Width follows the label and 4px sides instead of MUI's 64px minimum.
+      const textWidth = await text.evaluate((element) => {
+        const range = document.createRange()
+        range.selectNodeContents(element)
+        return range.getBoundingClientRect().width
+      })
+      expect((await text.boundingBox())!.width).toBeCloseTo(textWidth + 8, 0)
+      for (const state of ['rest', 'disabled', 'loading']) {
+        const icon = page.getByTestId(`ds-Link-${size}-${state}-only`)
+        await expect(icon).toHaveCSS('width', regular ? '44px' : '36px')
+        await expect(icon).toHaveCSS('height', regular ? '44px' : '36px')
+        await expect(icon).toHaveAccessibleName(/Prid/)
+        if (state === 'loading') {
+          await expect(icon.getByRole('progressbar')).toBeVisible()
+        }
+      }
+    }
+  }
+})
+
 test('token theme keeps legacy Button dimensions when DS variables are unavailable', async ({
   page,
 }) => {
