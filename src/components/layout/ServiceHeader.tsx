@@ -2,8 +2,9 @@ import { Box, Container, Typography } from '@mui/material'
 import React, { type CSSProperties } from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
-import theme from '@/theme/light'
-import { common } from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface Props {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
@@ -15,15 +16,28 @@ function ServiceHeader({
   breadcrumbsProps,
   children,
   title,
-  backgroundColor = common.white,
+  backgroundColor = colorTokens['surface-base'],
 }: Props) {
   return (
     <Box sx={{ backgroundColor }}>
       <Container
+        disableGutters
         sx={{
-          pb: { xs: '2rem', md: '2.25rem' },
-          pt: { xs: '.375rem', md: '1.5rem' },
-          px: '1rem',
+          pb: {
+            xs: spacingRoleBasedTokens['space-24'],
+            sm: spacingRoleBasedTokens['space-32'],
+            md: spacingRoleBasedTokens['space-48'],
+          },
+          pt: {
+            xs: spacingRoleBasedTokens['space-16'],
+            sm: spacingRoleBasedTokens['space-24'],
+            md: spacingRoleBasedTokens['space-32'],
+          },
+          px: {
+            xs: spacingRoleBasedTokens['space-16'],
+            sm: spacingRoleBasedTokens['space-24'],
+            md: spacingRoleBasedTokens['space-32'],
+          },
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
@@ -32,16 +46,22 @@ function ServiceHeader({
         <RcSesBreadcrumbs
           {...breadcrumbsProps}
           sx={{
-            pb: { xs: '.25rem', md: '.5rem' },
-            fontSize: '0.75rem',
-            lineHeight: '1.25rem',
+            pb: {
+              xs: spacingRoleBasedTokens['space-4'],
+              md: spacingRoleBasedTokens['space-8'],
+            },
+            fontSize: typographyTokens['font-size-body-micro'],
+            lineHeight: typographyTokens['line-height-body-micro'],
           }}
         />
 
         <Typography
           variant='h1'
           sx={{
-            lineHeight: { xs: '2rem', md: '2.5rem' },
+            '&&': {
+              fontSize: typographyTokens['font-size-heading-h1'],
+              lineHeight: typographyTokens['line-height-heading-h1'],
+            },
           }}
         >
           {title}
@@ -52,17 +72,12 @@ function ServiceHeader({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              mt: { xs: '.25rem', md: '.5rem' },
-              rowGap: '10px',
+              mt: spacingRoleBasedTokens['space-8'],
+              rowGap: spacingRoleBasedTokens['space-10'],
 
               '.MuiTypography-body1': {
-                fontSize: '1rem',
-                lineHeight: '1.5rem',
-
-                [theme.breakpoints.down('md')]: {
-                  fontSize: '.8125rem',
-                  lineHeight: '1.125rem',
-                },
+                fontSize: typographyTokens['font-size-body-large'],
+                lineHeight: typographyTokens['line-height-body-large'],
               },
             }}
           >
