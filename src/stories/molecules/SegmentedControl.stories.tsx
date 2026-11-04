@@ -119,6 +119,22 @@ export const TokenOverrides = {
   ),
 }
 
+export const SelectedDisabled = {
+  ...Default,
+  args: {
+    ...Default.args,
+    options: [
+      { id: '1', label: 'Locked selection', disabled: true },
+      { id: '2', label: 'Unavailable', disabled: true },
+    ],
+  },
+}
+
+export const SelectedDisabledSmall = {
+  ...SelectedDisabled,
+  args: { ...SelectedDisabled.args, size: 'small' as const },
+}
+
 export const LongLabelsNarrow = {
   ...Default,
   args: {

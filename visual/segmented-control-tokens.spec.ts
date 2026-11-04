@@ -2,6 +2,29 @@ import { expect, test } from '@playwright/test'
 
 const widths = [375, 768, 1024, 1440]
 
+const lockedStories = ['selected-disabled', 'selected-disabled-small']
+
+lockedStories.forEach((story) => {
+  test(`${story} keeps the selected tint and disabled selected border`, async ({
+    page,
+  }) => {
+    await page.goto(`/iframe.html?id=molecules-segmentedcontrol--${story}&viewMode=story`)
+    const selected = page.getByRole('radio', { name: 'Locked selection' })
+    await expect(selected).toBeDisabled()
+    await expect(selected).toHaveAttribute('aria-checked', 'true')
+    await page.evaluate(() => {
+      const css = document.documentElement.style
+      css.setProperty('--rc-color-control-disabled-selected', 'rgb(11, 22, 33)')
+      css.setProperty('--rc-color-surface-brand-subtle', 'rgb(210, 220, 230)')
+      css.setProperty('--rc-color-text-secondary', 'rgb(44, 55, 66)')
+    })
+    await expect(selected).toHaveCSS('border-top-color', 'rgb(11, 22, 33)')
+    await expect(selected).toHaveCSS('background-color', 'rgb(210, 220, 230)')
+    await expect(selected).toHaveCSS('color', 'rgb(44, 55, 66)')
+    await expect(selected).toHaveCSS('height', story.endsWith('small') ? '36px' : '44px')
+  })
+})
+
 test('Wrapped long segments fill the background without horizontal overflow', async ({
   page,
 }) => {
@@ -55,8 +78,11 @@ widths.forEach((width) => {
     })
     await expect(available).toHaveCSS('color', 'rgb(10, 20, 30)')
     await available.hover()
-    await expect(available).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(available).toHaveCSS('background-color', 'rgb(255, 255, 255)')
     await expect(selected).toHaveCSS('background-color', 'rgb(210, 220, 230)')
+    await expect(selected).toHaveCSS('border-top-color', 'rgb(40, 50, 60)')
+    await available.focus()
+    await expect(selected).toHaveAttribute('aria-checked', 'true')
     await expect(selected).toHaveCSS('border-top-color', 'rgb(40, 50, 60)')
     await selected.focus()
     await page.keyboard.press('ArrowRight')
@@ -73,7 +99,8 @@ test('Small segments and disableBg retain existing styling', async ({ page }) =>
   await page.goto(
     '/iframe.html?id=molecules-segmentedcontrol--small-two-options&viewMode=story',
   )
-  await expect(page.getByRole('radio').first()).toHaveCSS('padding', '8px 12px')
+  await expect(page.getByRole('radio').first()).toHaveCSS('padding', '6px 12px')
+  await expect(page.getByRole('radio').first()).toHaveCSS('height', '36px')
   await expect(page.getByRole('radio').first()).toHaveCSS('font-size', '14px')
   await page.goto(
     '/iframe.html?id=molecules-segmentedcontrol--regular-no-background&viewMode=story',

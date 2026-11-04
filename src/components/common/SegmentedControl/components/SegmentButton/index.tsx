@@ -11,7 +11,7 @@ const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
     width: 'auto',
     maxWidth: '100%',
     minHeight: space['space-36'],
-    padding: `${space['space-8']} ${space['space-12']}`,
+    padding: `calc(${space['space-8']} - ${border['border-focus']}) ${space['space-12']}`,
     fontSize: typography['font-size-button-compact'],
     lineHeight: typography['line-height-button-compact'],
   },
@@ -52,7 +52,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
     const sizeStyles = SIZE_STYLES[size]
 
     const textColor = useMemo(() => {
-      if (isDisabled) return color['text-disabled']
+      if (isDisabled) return isSelected ? color['text-secondary'] : color['text-disabled']
       if (isSelected) return color['text-default']
       return color['text-link']
     }, [isDisabled, isSelected])
@@ -64,7 +64,11 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         height: 'auto',
         wordBreak: 'break-word',
         fontFamily: '"Public Sans", sans-serif',
-        border: `${border['border-focus']} solid ${isFocused && !isDisabled ? color['border-focus'] : 'transparent'}`,
+        border: `${border['border-focus']} solid ${
+          isSelected
+            ? color[isDisabled ? 'control-disabled-selected' : 'border-focus']
+            : 'transparent'
+        }`,
 
         backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
 
@@ -76,7 +80,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         whiteSpace: 'normal',
         ...sizeStyles,
       }),
-      [sizeStyles, isDisabled, isSelected, isFocused, textColor],
+      [sizeStyles, isDisabled, isSelected, textColor],
     )
 
     const handleClick = useCallback(() => {
@@ -86,6 +90,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
     return (
       <MuiButton
         ref={ref}
+        variant='text'
         type='button'
         onClick={handleClick}
         onKeyDown={onKeyDown}
@@ -101,11 +106,17 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
             ...buttonStyles,
             '&:hover, &:active': {
               color: textColor,
-              backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
+              backgroundColor: isSelected
+                ? color['surface-brand-subtle']
+                : color['surface-base'],
+            },
+            '&:focus-visible': {
+              borderColor: color['border-focus'],
+              color: isSelected ? color['text-default'] : color['text-secondary'],
             },
             '&.Mui-disabled': {
               color: textColor,
-              backgroundColor: 'transparent',
+              backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
             },
           },
         }}
