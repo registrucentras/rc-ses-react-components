@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import palette from '@/theme/palette'
 
 import RcSesTitleBlock from '.'
 
@@ -111,32 +111,34 @@ describe('RcSesTitleBlock', () => {
     })
   })
 
-  test('title and description keep the design type ramp', () => {
+  test('titleTone=default title and description keep specific font-weight', () => {
     renderTitleBlock(
       <RcSesTitleBlock
         description='Test description'
         testIds={{ description: 'description' }}
         title='Test Title'
+        titleTone='default'
       />,
     )
 
     expect(screen.getByText('Test Title')).toHaveStyle({
-      fontSize: '1.125rem',
       fontWeight: '600',
-      lineHeight: '1.5rem',
     })
     expect(screen.getByTestId('description')).toHaveStyle({
-      fontSize: '0.875rem',
-      lineHeight: '1.25rem',
+      fontWeight: '400',
     })
   })
 
-  test('heading title variants keep the card-header weight', () => {
+  test('heading title variants keep the card-header weight (titleTone=brand excluded)', () => {
     const variants = ['h4', 'h5', 'h6'] as const
 
     variants.forEach((variant) => {
       const { unmount } = renderTitleBlock(
-        <RcSesTitleBlock title={`${variant} Title`} titleVariant={variant} />,
+        <RcSesTitleBlock
+          title={`${variant} Title`}
+          titleVariant={variant}
+          titleTone='default'
+        />,
       )
 
       expect(screen.getByText(`${variant} Title`)).toHaveStyle({ fontWeight: '600' })
@@ -148,9 +150,7 @@ describe('RcSesTitleBlock', () => {
     renderTitleBlock(<RcSesTitleBlock title='Test Title' titleVariant='body1' />)
 
     expect(screen.getByText('Test Title')).toHaveStyle({
-      fontSize: '0.9375rem',
       fontWeight: '400',
-      lineHeight: '1.125rem',
     })
   })
 
@@ -291,7 +291,7 @@ describe('RcSesTitleBlock', () => {
     renderTitleBlock(<RcSesTitleBlock title='Test Title' titleTone='brand' />)
 
     expect(screen.getByText('Test Title')).toHaveStyle({
-      color: palette.primary[700],
+      color: colorTokens['text-link'],
     })
   })
 

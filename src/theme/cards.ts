@@ -36,7 +36,6 @@ const subcard = {
 const header = {
   actionsGap: '0.75rem',
   badgeGap: '0.5rem',
-  descriptionLineHeight: '1.25rem',
   gap: '0.25rem',
   rowGap: '1rem',
   titleFontWeight: 600,
