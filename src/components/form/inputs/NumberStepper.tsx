@@ -35,7 +35,7 @@ const NumberInput = styled(OutlinedInput)({
   '.MuiButtonBase-root': {
     alignSelf: 'stretch',
     height: 'auto',
-    backgroundColor: colorTokens['surface-muted'],
+    backgroundColor: colorTokens['surface-sunken'],
     borderRightStyle: 'none !important',
 
     '&:last-of-type': {
@@ -49,11 +49,11 @@ const NumberInput = styled(OutlinedInput)({
 
     '&.Mui-disabled': {
       borderWidth: `${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-1']}`,
-      backgroundColor: `${colorTokens['surface-muted']} !important`,
-      borderLeftColor: `${colorTokens['border-default']} !important`,
+      backgroundColor: `${colorTokens['surface-sunken']} !important`,
+      borderLeftColor: `${colorTokens['border-subtle']} !important`,
 
       'svg path': {
-        fill: colorTokens['text-disabled'],
+        fill: colorTokens['text-muted'],
       },
     },
   },
@@ -82,7 +82,7 @@ function ArrowButton({ ariaLabel, onClick, disabled, direction }: ArrowButtonPro
         color: colorTokens['text-default'],
         borderRadius: borderTokens['radius-0'],
         borderWidth: `${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-0']} ${borderTokens['stroke-1']}`,
-        '&&': { borderLeftColor: colorTokens['border-default'] },
+        '&&': { borderLeftColor: colorTokens['border-subtle'] },
         // No stepper width/padding roles exist; retain the existing 44px/13px values.
         minWidth: '2.75rem',
         padding: '.8125rem !important',

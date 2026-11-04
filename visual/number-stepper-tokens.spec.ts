@@ -37,11 +37,11 @@ widths.forEach((width) => {
     await expect(input).toHaveValue('0')
     await page.evaluate(() => {
       document.documentElement.style.setProperty(
-        '--rc-color-surface-muted',
+        '--rc-color-surface-sunken',
         'rgb(11, 22, 33)',
       )
       document.documentElement.style.setProperty(
-        '--rc-color-text-disabled',
+        '--rc-color-text-muted',
         'rgb(44, 55, 66)',
       )
       document.documentElement.style.setProperty(
@@ -63,20 +63,29 @@ widths.forEach((width) => {
     })
     await expect(minus).toHaveCSS('background-color', 'rgb(11, 22, 33)')
     await expect(minus.locator('svg path')).toHaveCSS('fill', 'rgb(44, 55, 66)')
-    await expect(minus).toHaveCSS('border-left-color', 'rgb(160, 170, 180)')
-    await expect(plus).toHaveCSS('border-left-color', 'rgb(160, 170, 180)')
+    await expect(minus).toHaveCSS('border-left-color', 'rgb(130, 140, 150)')
+    await expect(plus).toHaveCSS('border-left-color', 'rgb(130, 140, 150)')
     await plus.click()
     await expect(minus).toBeEnabled()
-    await expect(minus).toHaveCSS('border-left-color', 'rgb(160, 170, 180)')
+    await input.fill('100')
+    await expect(plus).toBeDisabled()
+    await expect(plus.locator('svg path')).toHaveCSS('fill', 'rgb(44, 55, 66)')
+    await expect(plus).toHaveCSS('background-color', 'rgb(11, 22, 33)')
+    await input.fill('1')
+    await expect(minus).toHaveCSS('border-left-color', 'rgb(130, 140, 150)')
     await minus.click()
     await expect(minus).toBeDisabled()
-    await expect(minus).toHaveCSS('border-left-color', 'rgb(160, 170, 180)')
+    await expect(minus).toHaveCSS('border-left-color', 'rgb(130, 140, 150)')
     await plus.hover()
     await expect(plus).toHaveCSS('background-color', 'rgb(100, 110, 120)')
     const disabledInput = page.getByRole('spinbutton').nth(1)
     await expect(disabledInput).toBeDisabled()
     await expect(disabledInput.locator('..').getByRole('button').first()).toBeDisabled()
     const disabledRoot = disabledInput.locator('..')
+    await expect(disabledRoot.getByRole('button').first()).toHaveCSS(
+      'background-color',
+      'rgb(11, 22, 33)',
+    )
     await expect(disabledRoot.getByRole('button').first()).toHaveCSS(
       'border-left-color',
       'rgb(130, 140, 150)',

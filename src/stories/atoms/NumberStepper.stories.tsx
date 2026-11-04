@@ -153,9 +153,9 @@ export const TokenOverrides: Story = {
     <div
       style={
         {
-          '--rc-color-surface-muted': '#dcf4fc',
+          '--rc-color-surface-sunken': '#dcf4fc',
           '--rc-color-neutrals-200': '#b9e9fa',
-          '--rc-color-text-disabled': '#6b747f',
+          '--rc-color-text-muted': '#6b747f',
         } as CSSProperties
       }
     >
