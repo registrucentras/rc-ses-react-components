@@ -2,7 +2,6 @@ import { Components } from '@mui/material'
 
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
-import { effectTokens } from '../effectTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
 const MuiSwitch: Components['MuiSwitch'] = {
@@ -14,6 +13,7 @@ const MuiSwitch: Components['MuiSwitch'] = {
       width: spacingRoleBasedTokens['space-36'],
       height: spacingRoleBasedTokens['space-20'],
       padding: spacingRoleBasedTokens['space-0'],
+      overflow: 'visible',
     },
     switchBase: {
       padding: spacingRoleBasedTokens['space-0'],
@@ -65,7 +65,8 @@ const MuiSwitch: Components['MuiSwitch'] = {
       height: spacingRoleBasedTokens['space-16'],
       borderRadius: borderTokens['radius-full'],
       backgroundColor: colorTokens['control-foreground'],
-      boxShadow: effectTokens['elevation-sm'],
+      // Figma's thumb shadow has no matching foundation effect token.
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.18)',
     },
     track: {
       borderRadius: borderTokens['radius-full'],

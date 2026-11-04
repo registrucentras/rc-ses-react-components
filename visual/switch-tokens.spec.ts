@@ -15,6 +15,7 @@ widths.forEach((width) => {
         'control-disabled': 'rgb(50, 60, 70)',
         'control-disabled-selected': 'rgb(60, 70, 80)',
         'text-disabled': 'rgb(70, 80, 90)',
+        'text-default': 'rgb(80, 90, 100)',
       }).forEach(([name, value]) =>
         document.documentElement.style.setProperty(`--rc-color-${name}`, value),
       )
@@ -26,6 +27,14 @@ widths.forEach((width) => {
     await expect(root).toHaveCSS('width', '36px')
     await expect(root).toHaveCSS('height', '20px')
     await expect(root.locator('.MuiSwitch-thumb')).toHaveCSS('width', '16px')
+    await expect(root.locator('.MuiSwitch-thumb')).toHaveCSS(
+      'box-shadow',
+      'rgba(0, 0, 0, 0.18) 0px 1px 2px 0px',
+    )
+    const label = page.getByText('Unchecked switch', { exact: true })
+    await expect(label).toHaveCSS('color', 'rgb(80, 90, 100)')
+    await expect(label).toHaveCSS('font-size', '15px')
+    await expect(label).toHaveCSS('line-height', '22px')
     await expect(track).toHaveCSS('background-color', 'rgb(10, 20, 30)')
     await off.hover()
     await expect(track).toHaveCSS('background-color', 'rgb(20, 30, 40)')
@@ -76,6 +85,7 @@ test('Checked Switch focus keeps the existing gap before the ring', async ({ pag
   await page.keyboard.press('Tab')
   await toggle.focus()
   const root = toggle.locator('../..')
+  await expect(root).toHaveCSS('overflow', 'visible')
   await expect(root.locator('.MuiSwitch-track')).toHaveCSS(
     'box-shadow',
     'rgb(255, 255, 255) 0px 0px 0px 2px, rgb(0, 121, 173) 0px 0px 0px 4px',
@@ -102,4 +112,21 @@ test('Switch consumer sx overrides remain effective', async ({ page }) => {
     'background-color',
     'rgb(0, 133, 97)',
   )
+})
+
+test('Switch label responds to typography token overrides', async ({ page }) => {
+  await page.goto('/iframe.html?id=atoms-switch--off&viewMode=story')
+  await page.evaluate(() => {
+    document.documentElement.style.setProperty(
+      '--rc-typography-font-size-body-regular',
+      '19px',
+    )
+    document.documentElement.style.setProperty(
+      '--rc-typography-line-height-body-regular',
+      '28px',
+    )
+  })
+  const label = page.getByText('Notifications', { exact: true })
+  await expect(label).toHaveCSS('font-size', '19px')
+  await expect(label).toHaveCSS('line-height', '28px')
 })

@@ -2,6 +2,7 @@ import { FormControlLabel, Switch, type SwitchProps } from '@mui/material'
 
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export type RcSesSwitchProps = SwitchProps &
   ({ label: string; ariaLabel?: string } | { label?: undefined; ariaLabel: string })
@@ -11,6 +12,10 @@ const formControlLabelStyles = {
   alignItems: 'center',
   '& .MuiFormControlLabel-label': {
     paddingLeft: spacingRoleBasedTokens['space-10'],
+    color: colorTokens['text-default'],
+    fontSize: typographyTokens['font-size-body-regular'],
+    lineHeight: typographyTokens['line-height-body-regular'],
+    fontWeight: 400,
   },
   '&.Mui-disabled .MuiFormControlLabel-label': {
     color: colorTokens['text-disabled'],
