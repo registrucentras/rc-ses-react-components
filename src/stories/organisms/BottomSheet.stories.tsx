@@ -112,7 +112,7 @@ export const TokenBindings: Story = {
     docs: {
       description: {
         story:
-          'Existing handle, spacing, modal radius and title dimensions use DS token maps. Action layout, dismissal and accessibility behavior are unchanged.',
+          'Sheet spacing, handle geometry, surface and heading-h3 typography follow the Figma shell using DS tokens. The upward shadow has no matching effect token. Action layout, dismissal and accessibility behavior are unchanged.',
       },
     },
   },
@@ -125,7 +125,7 @@ export const TokenOverrides: Story = {
         {
           '--rc-color-border-default': '#0079ad',
           '--rc-radius-modal': '1.5rem',
-          '--rc-space-24': '2rem',
+          '--rc-space-16': '2rem',
         } as CSSProperties
       }
     >

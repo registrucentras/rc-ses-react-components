@@ -28,18 +28,21 @@ import { typographyTokens as typography } from '@/theme/typographyTokens'
 import useSwipeToDismiss from './useSwipeToDismiss'
 
 const SHEET = {
-  // No BottomSheet spacing/handle roles exist; preserve the existing primitives.
-  handleWidth: space['space-36'],
+  // Bottom-sheet aliases are not exposed by the foundation map; use their primitives.
+  padding: `${space['space-8']} ${space['space-16']} ${space['space-16']}`,
+  sectionGap: space['space-16'],
+  handleWidth: space['space-40'],
   handleHeight: space['space-4'],
-  handleHitAreaPadding: `${space['space-12']} ${space['space-0']}`,
-  headerPadding: `${space['space-0']} ${space['space-24']} ${space['space-16']}`,
-  contentPadding: `${space['space-0']} ${space['space-24']} ${space['space-24']}`,
-  actionsPadding: `${space['space-12']} ${space['space-24']} ${space['space-24']}`,
+  handleHitAreaPadding: `${space['space-0']} ${space['space-0']} ${space['space-4']}`,
+  headerPadding: space['space-0'],
+  contentPadding: `${space['space-8']} ${space['space-0']}`,
+  actionsPadding: `${space['space-8']} ${space['space-0']} ${space['space-0']}`,
   cornerRadius: border['radius-modal'],
   maxHeight: '85vh',
-  // Preserve the existing 16/22 pair and h3 font attributes, without assigning a new role.
-  titleFontSize: typography['font-size-body-large'],
-  titleLineHeight: typography['line-height-body-regular'],
+  titleFontSize: typography['font-size-heading-h3'],
+  titleLineHeight: typography['line-height-heading-h3'],
+  // The upward sheet shadow has no matching foundation effect token.
+  shadow: '0 -4px 24px 0 rgba(0, 0, 0, 0.18)',
 }
 
 const SHEET_MAX_WIDTH = {
@@ -146,6 +149,10 @@ function RcSesBottomSheet({
             width: '100%',
             maxWidth: SHEET_MAX_WIDTH[size],
             maxHeight: SHEET.maxHeight,
+            padding: SHEET.padding,
+            gap: SHEET.sectionGap,
+            backgroundColor: color['surface-base'],
+            boxShadow: SHEET.shadow,
             borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} ${border['radius-0']} ${border['radius-0']}`,
           },
         },
@@ -180,7 +187,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: space['space-12'],
+            gap: space['space-8'],
             padding: SHEET.headerPadding,
             flexShrink: 0,
           }}
@@ -205,6 +212,7 @@ function RcSesBottomSheet({
                 flex: 1,
                 fontSize: SHEET.titleFontSize,
                 lineHeight: SHEET.titleLineHeight,
+                color: color['text-default'],
               }}
             >
               {title}
