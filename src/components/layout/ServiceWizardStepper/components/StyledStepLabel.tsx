@@ -1,6 +1,11 @@
 import { StepLabel, styled } from '@mui/material'
 
-import palette, { grey } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
+
+import stepperColors from '../stepperTokens'
 
 export type StepState = 'completed' | 'active' | 'pending'
 
@@ -14,14 +19,19 @@ const StyledStepLabel = styled(StepLabel, {
   shouldForwardProp: (prop) =>
     prop !== 'stepState' && prop !== 'orientation' && prop !== 'isLast',
 })<StyledStepLabelProps>(({ stepState, orientation, isLast }) => ({
-  '& .MuiStepLabel-label': {
-    fontWeight: stepState === 'active' ? 700 : 400,
-    color: stepState === 'pending' ? grey[500] : grey[800],
+  '&& .MuiStepLabel-label': {
+    fontWeight: 500,
+    fontSize: typographyTokens['font-size-heading-h4'],
+    lineHeight: typographyTokens['line-height-heading-h4'],
+    color: stepperColors.label,
   },
 
   ...(orientation === 'vertical' && {
-    '& .MuiStepLabel-label.Mui-active': {
-      fontSize: '14px',
+    '&& .MuiStepLabel-label.Mui-active': {
+      fontSize: typographyTokens['font-size-heading-h4'],
+      lineHeight: typographyTokens['line-height-heading-h4'],
+      fontWeight: 500,
+      color: stepperColors.label,
     },
   }),
 
@@ -40,18 +50,20 @@ const StyledStepLabel = styled(StepLabel, {
         position: 'absolute',
         top: '100%',
         left: '9px',
-        width: '2px',
+        width: borderTokens['stroke-2'],
         height: '14px',
-        borderRadius: '2px',
+        borderRadius: borderTokens['radius-2'],
         backgroundColor:
-          stepState === 'completed' ? palette.primary[400] : palette.grey[300],
-        marginTop: '4px',
+          stepState === 'completed'
+            ? stepperColors.progress
+            : colorTokens['border-default'],
+        marginTop: spacingRoleBasedTokens['space-4'],
       },
     }),
 
   ...(orientation === 'horizontal' && {
     '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
-      marginTop: 4,
+      marginTop: spacingRoleBasedTokens['space-4'],
     },
   }),
 }))
