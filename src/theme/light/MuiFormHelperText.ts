@@ -1,15 +1,26 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiFormHelperText: Components['MuiFormHelperText'] = {
   styleOverrides: {
     root: {
-      marginLeft: 0,
-      marginRight: 0,
+      color: colorTokens['text-secondary'],
+      fontSize: typographyTokens['font-size-body-caption'],
+      fontStyle: 'normal',
+      fontWeight: 400,
+      lineHeight: typographyTokens['line-height-body-caption'],
+      marginInline: spacingRoleBasedTokens['space-0'],
+      marginTop: spacingRoleBasedTokens['space-4'],
 
       '&.Mui-error': {
-        color: palette.error['600'],
+        color: colorTokens['status-error-border'],
+      },
+
+      '&.Mui-disabled': {
+        color: colorTokens['text-disabled'],
       },
     },
   },

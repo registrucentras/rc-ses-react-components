@@ -50,7 +50,7 @@ const MuiButton: Components['MuiButton'] = {
             },
           },
 
-          '&:active, &:focus': {
+          '&:active': {
             backgroundColor: 'transparent',
             color: palette.primary[900],
 

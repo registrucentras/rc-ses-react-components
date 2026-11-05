@@ -1,23 +1,28 @@
-import { Components, decomposeColor } from '@mui/material'
+import type { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+
+// Figma's hover halo has no variable; it is a 20% tint of cyans-400.
+const hoverHalo =
+  '0 0 0 4px color-mix(in srgb, var(--rc-color-cyans-400) 20%, transparent)'
 
 const MuiCheckbox: Components['MuiCheckbox'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
       svg: {
-        borderRadius: '.25rem',
+        borderRadius: borderTokens['radius-4'],
       },
 
-      '&:hover': {
-        svg: {
-          boxShadow: `0px 0px 0px 4px rgba(${decomposeColor(palette.primary['500']).values}, .2)`,
+      '&:hover:not(.Mui-disabled) svg': {
+        boxShadow: hoverHalo,
+      },
 
-          '.checkbox-stroke': {
-            stroke: palette.primary['500'],
-          },
-        },
+      // Only the unchecked outline changes color on hover, so custom checked colors stay.
+      // One :not() list keeps specificity below the error color in MuiFormControl.
+      '&:hover:not(.Mui-disabled, .Mui-checked, .MuiCheckbox-indeterminate) svg': {
+        color: colorTokens['control-selected'],
       },
     },
   },

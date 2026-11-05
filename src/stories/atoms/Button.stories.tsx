@@ -6,7 +6,7 @@ import { fn } from 'storybook/test'
 import { PlusBoldIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
-import { grey } from '@/theme/palette'
+import { grey, primary } from '@/theme/palette'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const variantOptions: ButtonProps['variant'][] = ['contained', 'outlined', 'link', 'text']
@@ -262,6 +262,32 @@ export const DarkSurfaceCombinations: Story = {
         disabled - light/ghost render on top of this dark backdrop.
       </PreviewTitle>
       <CombinationsGrid combos={darkSurfaceCombos} onDark />
+    </Box>
+  ),
+}
+
+export const LinkFocus: Story = {
+  tags: ['no-snapshot'],
+  parameters: { layout: 'padded' },
+  render: () => (
+    <Box sx={{ display: 'grid', gap: 2, justifyItems: 'start' }}>
+      <Typography>
+        Click with the mouse, release, then move the pointer away. The current link must
+        return to its base color, even while focused. Then use Tab to reach it: a visible
+        keyboard focus indicator must appear.
+      </Typography>
+      <Typography>Current library behavior</Typography>
+      <Button variant='link'>Current link</Button>
+      <Button variant='link' disabled>
+        Disabled link
+      </Button>
+      <Typography>Before: local simulation only, not library behavior</Typography>
+      <Button
+        variant='link'
+        sx={{ '&:not(.Mui-disabled):focus': { color: primary[900] } }}
+      >
+        Before: retained focus color
+      </Button>
     </Box>
   ),
 }
