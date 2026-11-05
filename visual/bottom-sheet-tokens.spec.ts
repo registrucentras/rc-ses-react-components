@@ -29,9 +29,9 @@ viewports.forEach((width) => {
     await page.evaluate(() => {
       const css = document.documentElement.style
       css.setProperty('--rc-radius-modal', '20px')
-      css.setProperty('--rc-color-border-default', 'rgb(10, 20, 30)')
-      css.setProperty('--rc-color-surface-base', 'rgb(30, 40, 50)')
-      css.setProperty('--rc-color-text-default', 'rgb(60, 70, 80)')
+      css.setProperty('--rc-color-border-default', '#0a141e')
+      css.setProperty('--rc-color-surface-base', '#1e2832')
+      css.setProperty('--rc-color-text-default', '#3c4650')
       css.setProperty('--rc-space-16', '28px')
       css.setProperty('--rc-typography-font-size-heading-h3', '23px')
       css.setProperty('--rc-typography-line-height-heading-h3', '30px')

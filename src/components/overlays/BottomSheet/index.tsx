@@ -20,29 +20,29 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import useSwipeToDismiss from './useSwipeToDismiss'
 
 const SHEET = {
-  // Bottom-sheet aliases are not exposed by the foundation map; use their primitives.
-  padding: `${space['space-8']} ${space['space-16']} ${space['space-16']}`,
-  sectionGap: space['space-16'],
-  handleWidth: space['space-40'],
-  handleHeight: space['space-4'],
-  handleHitAreaPadding: `${space['space-0']} ${space['space-0']} ${space['space-4']}`,
-  headerPadding: space['space-0'],
-  contentPadding: `${space['space-8']} ${space['space-0']}`,
-  actionsPadding: `${space['space-8']} ${space['space-0']} ${space['space-0']}`,
-  cornerRadius: border['radius-modal'],
+  padding: `${spacingTokens['spacing-aliases-bottom-sheet-padding-top']} ${spacingTokens['spacing-aliases-bottom-sheet-padding-x']} ${spacingTokens['spacing-aliases-bottom-sheet-padding-bottom']}`,
+  sectionGap: spacingTokens['spacing-aliases-bottom-sheet-section-gap'],
+  handleWidth: spacingRoleBasedTokens['space-40'],
+  handleHeight: spacingRoleBasedTokens['space-4'],
+  handleHitAreaPadding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-0']} ${spacingTokens['spacing-aliases-bottom-sheet-handle-gap']}`,
+  headerPadding: spacingRoleBasedTokens['space-0'],
+  contentPadding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-0']}`,
+  actionsPadding: `${spacingTokens['spacing-aliases-bottom-sheet-padding-top']} ${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-0']}`,
+  cornerRadius: borderTokens['radius-modal'],
   maxHeight: '85vh',
-  titleFontSize: typography['font-size-heading-h3'],
-  titleLineHeight: typography['line-height-heading-h3'],
-  // The upward sheet shadow has no matching foundation effect token.
-  shadow: '0 -4px 24px 0 rgba(0, 0, 0, 0.18)',
+  titleFontSize: typographyTokens['font-size-heading-h3'],
+  titleLineHeight: typographyTokens['line-height-heading-h3'],
+  // Figma's upward sheet shadow has no effect variable.
+  shadow: '0 -4px 24px 0 #0000002e',
 }
 
 const SHEET_MAX_WIDTH = {
@@ -145,15 +145,15 @@ function RcSesBottomSheet({
         paper: {
           ref: paperRef,
           sx: {
-            margin: space['space-0'],
+            margin: spacingRoleBasedTokens['space-0'],
             width: '100%',
             maxWidth: SHEET_MAX_WIDTH[size],
             maxHeight: SHEET.maxHeight,
             padding: SHEET.padding,
             gap: SHEET.sectionGap,
-            backgroundColor: color['surface-base'],
+            backgroundColor: colorTokens['surface-base'],
             boxShadow: SHEET.shadow,
-            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} ${border['radius-0']} ${border['radius-0']}`,
+            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} ${borderTokens['radius-0']} ${borderTokens['radius-0']}`,
           },
         },
       }}
@@ -176,8 +176,8 @@ function RcSesBottomSheet({
           sx={{
             width: SHEET.handleWidth,
             height: SHEET.handleHeight,
-            borderRadius: border['radius-pill'],
-            backgroundColor: color['border-default'],
+            borderRadius: borderTokens['radius-pill'],
+            backgroundColor: colorTokens['border-default'],
           }}
         />
       </Box>
@@ -187,7 +187,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: space['space-8'],
+            gap: spacingTokens['spacing-aliases-bottom-sheet-content-gap'],
             padding: SHEET.headerPadding,
             flexShrink: 0,
           }}
@@ -212,7 +212,7 @@ function RcSesBottomSheet({
                 flex: 1,
                 fontSize: SHEET.titleFontSize,
                 lineHeight: SHEET.titleLineHeight,
-                color: color['text-default'],
+                color: colorTokens['text-default'],
               }}
             >
               {title}
@@ -235,7 +235,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: space['space-12'],
+            gap: spacingTokens['spacing-aliases-bottom-sheet-footer-gap'],
             padding: SHEET.actionsPadding,
             flexShrink: 0,
           }}
