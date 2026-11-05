@@ -7,14 +7,11 @@ test('Checkbox hover and error hover show a tinted halo, not the focus ring', as
 }) => {
   await page.goto('/iframe.html?id=atoms-simplecheckbox--token-bindings&viewMode=story')
   await page.evaluate(() => {
-    document.documentElement.style.setProperty(
-      '--rc-color-control-selected',
-      'rgb(11, 22, 33)',
-    )
-    document.documentElement.style.setProperty(
-      '--rc-color-status-error-border',
-      'rgb(44, 55, 66)',
-    )
+    const { style } = document.documentElement
+    style.setProperty('--rc-color-control-selected', '#0b1621')
+    style.setProperty('--rc-color-cyans-400', '#1e2d3c')
+    style.setProperty('--rc-color-status-error-border', '#2c3742')
+    style.setProperty('--rc-color-red-600', '#424d58')
   })
   const normal = page.getByRole('checkbox', { name: 'Unchecked checkbox', exact: true })
   await normal.hover()
@@ -22,7 +19,7 @@ test('Checkbox hover and error hover show a tinted halo, not the focus ring', as
   await expect(normalSvg).toHaveCSS('color', 'rgb(11, 22, 33)')
   await expect(normalSvg).toHaveCSS(
     'box-shadow',
-    /^color\(srgb 0\.043\d* 0\.086\d* 0\.129\d* \/ 0\.2\) 0px 0px 0px 4px$/,
+    /^color\(srgb 0\.117\d* 0\.176\d* 0\.235\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
   const error = page.getByRole('checkbox', { name: 'Error checkbox', exact: true })
   await expect(error.locator('..').locator('svg')).toHaveCSS('color', 'rgb(44, 55, 66)')
@@ -31,7 +28,7 @@ test('Checkbox hover and error hover show a tinted halo, not the focus ring', as
   await expect(errorSvg).toHaveCSS('color', 'rgb(44, 55, 66)')
   await expect(errorSvg).toHaveCSS(
     'box-shadow',
-    /^color\(srgb 0\.172\d* 0\.215\d* 0\.258\d* \/ 0\.2\) 0px 0px 0px 4px$/,
+    /^color\(srgb 0\.258\d* 0\.301\d* 0\.345\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
 })
 
@@ -61,9 +58,15 @@ test('Checkbox sx overrides checked color and focus styles', async ({ page }) =>
   await page.keyboard.press('Tab')
   await checkbox.focus()
   await expect(checkbox.locator('..').locator('svg')).toHaveCSS('box-shadow', 'none')
-  await expect(
-    page.getByRole('checkbox', { name: 'Custom palette checkbox' }).locator('..'),
-  ).toHaveCSS('color', 'rgb(77, 88, 99)')
+  const palette = page.getByRole('checkbox', { name: 'Custom palette checkbox' })
+  await expect(palette.locator('..')).toHaveCSS('color', 'rgb(77, 88, 99)')
+  await checkbox.hover()
+  await expect(checkbox.locator('..').locator('svg')).toHaveCSS(
+    'color',
+    'rgb(10, 20, 30)',
+  )
+  await palette.hover()
+  await expect(palette.locator('..').locator('svg')).toHaveCSS('color', 'rgb(77, 88, 99)')
 })
 
 viewports.forEach((width) => {

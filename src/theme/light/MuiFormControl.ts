@@ -2,6 +2,10 @@ import { Components } from '@mui/material'
 
 import { colorTokens } from '../colorTokens'
 
+// Figma's error hover halo has no variable; it is a 20% tint of red-600.
+const errorHoverHalo =
+  '0 0 0 4px color-mix(in srgb, var(--rc-color-red-600) 20%, transparent)'
+
 const MuiFormControl: Components['MuiFormControl'] = {
   defaultProps: {},
   styleOverrides: {
@@ -15,7 +19,7 @@ const MuiFormControl: Components['MuiFormControl'] = {
 
             '&:hover': {
               svg: {
-                boxShadow: `0 0 0 4px color-mix(in srgb, ${colorTokens['status-error-border']} 20%, transparent)`,
+                boxShadow: errorHoverHalo,
               },
             },
           },

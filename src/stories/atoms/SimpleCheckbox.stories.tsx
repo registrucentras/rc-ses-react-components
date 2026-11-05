@@ -92,7 +92,7 @@ export const TokenBindings: Story = {
     docs: {
       description: {
         story:
-          'Checkbox hover and error hover use a 20% tint of semantic color tokens. Icon colors inherit currentColor. Legacy SVG geometry, selection and loading behavior are unchanged.',
+          'Checkbox hover and error hover use a 20% tint of cyans-400 and red-600, matching the unbound Figma halo. Icon colors inherit currentColor. Legacy SVG geometry, selection and loading behavior are unchanged.',
       },
     },
   },
@@ -107,7 +107,7 @@ export const TokenOverrides: Story = {
           <SimpleCheckbox
             defaultChecked
             sx={{
-              '&.Mui-checked': { color: 'rgb(10, 20, 30)' },
+              '&.Mui-checked': { color: '#0a141e' },
               '&.Mui-focusVisible > svg': { boxShadow: 'none' },
             }}
           />
