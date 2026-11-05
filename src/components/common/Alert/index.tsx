@@ -9,6 +9,8 @@ import {
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 type Props = Omit<MuiAlertProps, 'onClose'> & {
   container?: boolean | ContainerProps
@@ -29,8 +31,8 @@ const closeButtonStyles = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '1.5rem',
-  minWidth: '1.5rem',
+  minHeight: sizeTokens['icon-size-20'],
+  minWidth: sizeTokens['icon-size-20'],
   padding: 0,
   border: 'none',
   background: 'none',
@@ -43,7 +45,7 @@ const closeButtonStyles = {
 const actionContainerStyles = {
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '.75rem',
+  gap: spacingRoleBasedTokens['space-12'],
 }
 
 // Only the alert body and its CTA form a row; the message slot itself stays a plain
@@ -53,7 +55,7 @@ const messageRowStyles = (theme: Theme) => ({
   flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: '.75rem',
+  gap: spacingRoleBasedTokens['space-12'],
 
   [theme.breakpoints.up('md')]: {
     flexWrap: 'nowrap',
@@ -106,7 +108,7 @@ function RcSesAlert({
       aria-label={t('close')}
       sx={closeButtonStyles}
     >
-      <CloseIcon size={22} fillColor='currentColor' focusable={false} aria-hidden />
+      <CloseIcon size={20} fillColor='currentColor' focusable={false} aria-hidden />
     </Box>
   ) : null
 
@@ -189,10 +191,11 @@ function RcSesAlert({
           <Box sx={{ minWidth: 0 }}>{children}</Box>
           <Button
             variant='link'
+            size='small'
             onClick={onActionClick}
             sx={(theme) => ({
               flexBasis: '100%',
-              padding: '0.5rem 0.25rem',
+              padding: `${spacingRoleBasedTokens['button-padding-y-small']} ${spacingRoleBasedTokens['space-4']}`,
               [theme.breakpoints.up('md')]: {
                 flexBasis: 'auto',
               },

@@ -235,3 +235,21 @@ export const WithContainer: Story = {
     </>
   ),
 }
+
+/** Semantic status tokens can be scoped by the consuming application. */
+export const TokenOverrides: Story = {
+  render: () => (
+    <div
+      style={
+        {
+          '--rc-color-status-info-bg': '#fff3d6',
+          '--rc-color-status-info-border': '#805500',
+          '--rc-color-status-info-icon': '#805500',
+          '--rc-color-status-info-text': '#463000',
+        } as React.CSSProperties
+      }
+    >
+      <RcSesAlert severity='info'>Scoped information alert</RcSesAlert>
+    </div>
+  ),
+}
