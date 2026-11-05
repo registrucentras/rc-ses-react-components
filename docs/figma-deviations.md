@@ -1,0 +1,33 @@
+# Figma deviations
+
+Places where the code intentionally differs from the RC Dizaino sistema Figma file
+([GPujqQEuxSUKDUPbYmx7TG](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema)),
+plus open questions for the designer. Figma variable bindings are the source of truth for
+token choice; anything the code does differently goes here.
+
+When a PR deviates from Figma, add a row in the same PR. When the designer resolves an item
+(Figma updated, or code realigned), remove the row.
+
+## Components
+
+| Component | Figma | Code | Reason | PR |
+| --- | --- | --- | --- | --- |
+| Datepicker | Selected day `Cyans/500` | `control-selected` (`Cyans/600`) | White on `Cyans/500` is 3.0:1, below the 4.5:1 Figma's accessibility section asks for | #212 |
+| Datepicker | Today ring `Cyans/500`, no semantic variable | Local `cyans-500` constant | No semantic role maps to it | #212 |
+| Datepicker | No weekend colouring | Weekend days keep `red-600` / `red-200` | Existing behaviour kept | #212 |
+| Datepicker | 44px rounded-square day cells | 36px circles | Existing geometry kept | #212 |
+| Datepicker | No action bar | Cancel action bar kept | Existing behaviour kept | #212 |
+| Datepicker | Month/year link with caret opening Months and Years views | Static month label with double chevrons | Existing behaviour kept; Figma page still marked in progress | #212 |
+| Checkbox | `Checkbox-selectable-area`: `Selectable-area/padding-y` / `padding-x` (8/12px), 2px icon frame, 20px icon, `Stack/tight` (8px) gap | Outlined card 16/20/16/14px padding, MUI's 9px checkbox padding, 24px icon, 3px label margin | Legacy geometry kept; realigning moves icon and label, planned as a separate change | #216 |
+| Checkbox | Selectable area has no visible border or fill at rest | Outlined card shows `surface-sunken` fill and `border-strong` border at rest | Legacy appearance kept | #216 |
+| Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
+| Radio | Pressed fill `Cyans/100` | Local `cyans-100` constant | No semantic role maps to it | #216 |
+| StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
+
+## Open questions
+
+| Topic | Question | Raised in |
+| --- | --- | --- |
+| Spacing aliases | Overlapping groups: `Card/*` vs `Cards/card/*`, `Subcard/*` vs `Cards/subcard/*`. Code prefers the responsive `Cards/*` group when a variant binds both. Which group is current? | #215 |
+| Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
+| Icon sizes | `tokens.css` sets the button and control icon roles to 20px, while buttons in code use 24px icons (e.g. StepCard arrows). Which is intended? | #210 |
