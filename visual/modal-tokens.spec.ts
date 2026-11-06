@@ -21,6 +21,16 @@ variants.forEach(({ story, token, buttons }) => {
       'fill',
       'rgb(18, 52, 86)',
     )
+    await page.locator('.MuiDialog-root').evaluate((element, destructive) => {
+      const root = element as HTMLElement
+      const action = destructive ? 'destructive' : 'primary'
+      root.style.setProperty(`--rc-color-action-${action}-bg`, '#234567')
+      root.style.setProperty(`--rc-color-action-${action}-bg-hover`, '#345678')
+    }, token === 'error')
+    const primaryAction = dialog.getByRole('button').last()
+    await expect(primaryAction).toHaveCSS('background-color', 'rgb(35, 69, 103)')
+    await primaryAction.hover()
+    await expect(primaryAction).toHaveCSS('background-color', 'rgb(52, 86, 120)')
   })
 })
 
@@ -45,6 +55,8 @@ test('Modal binds surface, border, typography, icon and built-in action tokens',
     root.style.setProperty('--rc-radius-modal', '20px')
     root.style.setProperty('--rc-color-status-info-icon', '#334455')
     root.style.setProperty('--rc-color-action-primary-bg', '#445566')
+    root.style.setProperty('--rc-color-action-secondary-bg', '#556677')
+    root.style.setProperty('--rc-color-action-secondary-border', '#667788')
     root.style.setProperty('--rc-typography-font-size-heading-h2', '30px')
   })
   await expect(dialog).toHaveCSS('background-color', 'rgb(17, 34, 51)')
@@ -59,6 +71,9 @@ test('Modal binds surface, border, typography, icon and built-in action tokens',
     'background-color',
     'rgb(68, 85, 102)',
   )
+  const secondaryAction = dialog.getByRole('button', { name: 'Atšaukti' })
+  await expect(secondaryAction).toHaveCSS('background-color', 'rgb(85, 102, 119)')
+  await expect(secondaryAction).toHaveCSS('border-top-color', 'rgb(102, 119, 136)')
 })
 
 test('Dialog binds the same surface and border tokens', async ({ page }) => {

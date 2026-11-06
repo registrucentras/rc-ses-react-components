@@ -17,35 +17,39 @@ const modalActionStyles = {
 } as const
 
 export const secondaryActionStyles = {
-  ...modalActionStyles,
-  color: colorTokens['action-secondary-text'],
-  backgroundColor: colorTokens['action-secondary-bg'],
-  border: `${borderTokens['stroke-1']} solid ${colorTokens['action-secondary-border']}`,
-  '&:hover': {
-    ...modalActionStyles['&:hover'],
+  '&&': {
+    ...modalActionStyles,
     color: colorTokens['action-secondary-text'],
-    backgroundColor: colorTokens['action-secondary-bg-hover'],
-    borderColor: colorTokens['action-secondary-border-hover'],
+    backgroundColor: colorTokens['action-secondary-bg'],
+    border: `${borderTokens['stroke-1']} solid ${colorTokens['action-secondary-border']}`,
+    '&:hover': {
+      ...modalActionStyles['&:hover'],
+      color: colorTokens['action-secondary-text'],
+      backgroundColor: colorTokens['action-secondary-bg-hover'],
+      borderColor: colorTokens['action-secondary-border-hover'],
+    },
   },
 }
 
 export const primaryActionStyles = (destructive: boolean) => ({
-  ...modalActionStyles,
-  color: colorTokens[destructive ? 'action-destructive-text' : 'action-primary-text'],
-  backgroundColor:
-    colorTokens[destructive ? 'action-destructive-bg' : 'action-primary-bg'],
-  '&:hover': {
-    ...modalActionStyles['&:hover'],
+  '&&': {
+    ...modalActionStyles,
     color: colorTokens[destructive ? 'action-destructive-text' : 'action-primary-text'],
     backgroundColor:
-      colorTokens[
-        destructive ? 'action-destructive-bg-hover' : 'action-primary-bg-hover'
-      ],
-  },
-  '&:active': {
-    backgroundColor:
-      colorTokens[
-        destructive ? 'action-destructive-bg-pressed' : 'action-primary-bg-pressed'
-      ],
+      colorTokens[destructive ? 'action-destructive-bg' : 'action-primary-bg'],
+    '&:hover': {
+      ...modalActionStyles['&:hover'],
+      color: colorTokens[destructive ? 'action-destructive-text' : 'action-primary-text'],
+      backgroundColor:
+        colorTokens[
+          destructive ? 'action-destructive-bg-hover' : 'action-primary-bg-hover'
+        ],
+    },
+    '&:active': {
+      backgroundColor:
+        colorTokens[
+          destructive ? 'action-destructive-bg-pressed' : 'action-primary-bg-pressed'
+        ],
+    },
   },
 })
