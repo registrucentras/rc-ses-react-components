@@ -137,7 +137,7 @@ export const CalendarOpen = {
 
 /**
  * Days past the 20th are out of range: they must read as greyed out, not merely
- * be unclickable. Disabled weekends stay red.
+ * be unclickable. The existing red distinction for weekends is preserved.
  */
 export const CalendarWithDisabledDates = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -225,5 +225,35 @@ export const WithError = {
     error: 'Privaloma pasirinkti datą',
     label: 'Terminas',
     rules: { required: true },
+  },
+}
+
+export const TokenBindings = {
+  ...CalendarWithValue,
+  parameters: {
+    ...CalendarWithValue.parameters,
+    docs: {
+      ...CalendarWithValue.parameters.docs,
+      description: {
+        story:
+          'Existing single-date calendar styles rebound to typography, color, spacing, radius and elevation tokens. Cell dimensions, circular shape, weekend coloring, props and navigation are preserved.',
+      },
+    },
+  },
+}
+
+export const ConsumerOverrides = {
+  ...Main,
+  tags: ['no-snapshot'],
+  args: {
+    ...Main.args,
+    datepickerProps: {
+      sx: {
+        '& .MuiPickersInputBase-sectionsContainer': {
+          fontSize: '23px',
+          lineHeight: '29px',
+        },
+      },
+    },
   },
 }

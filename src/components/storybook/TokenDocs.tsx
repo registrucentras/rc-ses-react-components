@@ -74,13 +74,12 @@ export function toPx(value: string) {
   return value
 }
 
-export function parseRgb(value: string) {
-  const match = /rgb\((\d+)\s+(\d+)\s+(\d+)\s*\/\s*([\d.]+)\)/.exec(value)
+export function parseHex(value: string) {
+  const match = /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})?$/i.exec(value)
   if (!match) return undefined
-  const [r, g, b] = match.slice(1, 4).map(Number)
-  const alpha = Number(match[4])
-  const hex =
-    `#${[r, g, b].map((n) => n.toString(16).padStart(2, '0')).join('')}`.toUpperCase()
+  const [r, g, b] = match.slice(1, 4).map((n) => parseInt(n, 16))
+  const alpha = match[4] ? parseInt(match[4], 16) / 255 : 1
+  const hex = `#${match.slice(1, 4).join('')}`.toUpperCase()
   const luminance = [r, g, b]
     .map((n) => n / 255)
     .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))

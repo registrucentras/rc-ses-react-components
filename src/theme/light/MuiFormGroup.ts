@@ -1,6 +1,9 @@
-import { Components, decomposeColor } from '@mui/material'
+import type { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiFormGroup: Components['MuiFormGroup'] = {
   defaultProps: {},
@@ -10,30 +13,30 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
         flexDirection: 'row',
 
         '&.rc-ses-hide-native-radio': {
-          margin: '-.25rem',
+          margin: `calc(-1 * ${spacingRoleBasedTokens['space-4']})`,
 
           '.MuiButtonBase-root': {
-            margin: 0,
+            margin: spacingRoleBasedTokens['space-0'],
             opacity: 0,
-            padding: 0,
+            padding: spacingRoleBasedTokens['space-0'],
             postion: 'absolute',
           },
 
           '.MuiFormControlLabel-root': {
-            borderColor: palette.grey['600'],
+            borderColor: colorTokens['control-unselected'],
             borderRadius: '.1875rem',
             borderStyle: 'solid',
-            borderWidth: '1px',
+            borderWidth: borderTokens['stroke-1'],
             flex: '0 0 0%',
-            lineHeight: '1.125rem',
-            margin: '.25rem',
-            padding: '.75rem 1rem',
+            lineHeight: typographyTokens['line-height-body-caption'],
+            margin: spacingRoleBasedTokens['space-4'],
+            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-16']}`,
             whiteSpace: 'nowrap',
 
             '&.Mui-disabled': {
-              backgroundColor: palette.grey['100'],
-              borderColor: palette.grey['600'],
-              color: palette.grey['600'],
+              backgroundColor: colorTokens['surface-muted'],
+              borderColor: colorTokens['border-strong'],
+              color: colorTokens['text-disabled'],
             },
 
             '&:not(.Mui-disabled)': {
@@ -42,27 +45,27 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
                   {
                     content: '""',
                     background: 'transparent',
-                    border: '2px solid',
-                    borderColor: palette.grey[950],
-                    borderRadius: '.375rem',
-                    height: 'calc(100% + 6px)',
-                    left: '-3px',
+                    border: `${borderTokens['border-focus']} solid`,
+                    borderColor: colorTokens['border-focus'],
+                    borderRadius: borderTokens['radius-6'],
+                    height: `calc(100% + ${spacingRoleBasedTokens['space-6']})`,
+                    left: '-.1875rem',
                     position: 'absolute',
-                    top: '-3px',
-                    width: 'calc(100% + 6px)',
+                    top: '-.1875rem',
+                    width: `calc(100% + ${spacingRoleBasedTokens['space-6']})`,
                     zIndex: 1,
                   },
               },
 
               '&:hover': {
-                backgroundColor: `rgba(${decomposeColor(palette.primary['400']).values}, .2)`,
-                borderColor: palette.primary['500'],
+                backgroundColor: colorTokens['surface-brand-subtle'],
+                borderColor: colorTokens['control-selected'],
               },
 
               '&.Mui-checked': {
-                backgroundColor: palette.primary['500'],
-                borderColor: palette.primary['500'],
-                color: 'white',
+                backgroundColor: colorTokens['control-selected'],
+                borderColor: colorTokens['control-selected'],
+                color: colorTokens['control-foreground'],
               },
             },
           },
@@ -72,7 +75,7 @@ const MuiFormGroup: Components['MuiFormGroup'] = {
           },
 
           '.MuiTypography-root': {
-            lineHeight: '1.125rem',
+            lineHeight: typographyTokens['line-height-body-caption'],
           },
         },
       },

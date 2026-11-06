@@ -15,7 +15,7 @@ import {
   hairline,
   literalOf,
   numericSuffix,
-  parseRgb,
+  parseHex,
 } from '@/components/storybook/TokenDocs'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
@@ -54,14 +54,14 @@ function Ramp({ family }: { family: (typeof families)[number] }) {
       >
         {steps.map((step) => {
           const name = `color-${family}-${step}`
-          const rgb = parseRgb(literalOf(name))
+          const color = parseHex(literalOf(name))
           return (
             <Box
               key={step}
               title={`--rc-${name}`}
               sx={{
                 backgroundColor: `var(--rc-${name})`,
-                color: rgb?.dark
+                color: color?.dark
                   ? colorTokens['text-inverse']
                   : colorTokens['text-default'],
                 display: 'flex',
@@ -73,7 +73,7 @@ function Ramp({ family }: { family: (typeof families)[number] }) {
             >
               <Box sx={{ fontSize: '0.75rem', fontWeight: 600 }}>{step}</Box>
               <Box sx={{ fontFamily: 'monospace', fontSize: '0.625rem' }}>
-                {rgb?.hex.slice(1)}
+                {color?.hex.slice(1)}
               </Box>
             </Box>
           )
@@ -124,7 +124,7 @@ function Swatch({ token }: { token: ColorToken }) {
 
 function SemanticRow({ token }: { token: ColorToken }) {
   const name = `color-${token}`
-  const rgb = parseRgb(literalOf(name))
+  const color = parseHex(literalOf(name))
   return (
     <Box sx={{ alignItems: 'center', display: 'flex', gap: 1.5, minWidth: 0, py: 1 }}>
       <Swatch token={token} />
@@ -133,8 +133,8 @@ function SemanticRow({ token }: { token: ColorToken }) {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
           <Chain name={name} />
           <Code muted>
-            {rgb
-              ? `${rgb.hex}${rgb.alpha < 1 ? ` · ${Math.round(rgb.alpha * 100)}%` : ''}`
+            {color
+              ? `${color.hex}${color.alpha < 1 ? ` · ${Math.round(color.alpha * 100)}%` : ''}`
               : ''}
           </Code>
         </Box>
