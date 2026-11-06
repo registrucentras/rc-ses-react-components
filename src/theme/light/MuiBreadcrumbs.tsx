@@ -2,15 +2,16 @@ import { Components } from '@mui/material'
 
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      fontSize: '.6875rem',
+      fontSize: typographyTokens['font-size-body-micro'],
     },
     li: {
-      lineHeight: '.875rem',
+      lineHeight: typographyTokens['line-height-body-micro'],
       paddingBottom: spacingRoleBasedTokens['space-6'],
       paddingTop: spacingRoleBasedTokens['space-6'],
 
@@ -36,6 +37,12 @@ const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
           color: colorTokens['text-link-hover'],
         },
       },
+    },
+
+    separator: {
+      color: colorTokens['text-secondary'],
+      marginLeft: spacingRoleBasedTokens['space-6'],
+      marginRight: spacingRoleBasedTokens['space-6'],
     },
   },
 }

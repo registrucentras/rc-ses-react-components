@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 const widths = [375, 768, 1024, 1440]
 
 widths.forEach((width) => {
-  test(`Breadcrumbs preserve dimensions and bind token states at ${width}px`, async ({
+  test(`Breadcrumbs follow Figma dimensions and bind token states at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -13,22 +13,26 @@ widths.forEach((width) => {
     const breadcrumbs = page.locator('.MuiBreadcrumbs-root')
     const first = page.getByRole('link', { name: 'Home', exact: true })
     const current = page.getByRole('link', { name: 'Current page', exact: true })
-    await expect(breadcrumbs).toHaveCSS('font-size', '11px')
-    await expect(first.locator('..')).toHaveCSS('line-height', '14px')
+    await expect(breadcrumbs).toHaveCSS('font-size', '12px')
+    await expect(first.locator('..')).toHaveCSS('line-height', '20px')
     await expect(first.locator('..')).toHaveCSS('padding-top', '6px')
+    const separator = page.locator('.MuiBreadcrumbs-separator').first()
+    await expect(separator).toHaveCSS('margin-left', '6px')
+    await expect(separator).toHaveCSS('margin-right', '6px')
     await expect(first).toHaveAttribute('href', '#home')
     await expect(current).toHaveAttribute('href', '#current')
     await page.evaluate(() => {
       Object.entries({
-        'text-secondary': 'rgb(11, 22, 33)',
-        'text-default': 'rgb(44, 55, 66)',
-        'text-link': 'rgb(77, 88, 99)',
-        'text-link-hover': 'rgb(100, 110, 120)',
+        'text-secondary': '#0b1621',
+        'text-default': '#2c3742',
+        'text-link': '#4d5863',
+        'text-link-hover': '#646e78',
       }).forEach(([name, value]) =>
         document.documentElement.style.setProperty(`--rc-color-${name}`, value),
       )
     })
     await expect(first).toHaveCSS('color', 'rgb(11, 22, 33)')
+    await expect(separator).toHaveCSS('color', 'rgb(11, 22, 33)')
     await expect(current).toHaveCSS('color', 'rgb(44, 55, 66)')
     await first.hover()
     await expect(first).toHaveCSS('color', 'rgb(77, 88, 99)')

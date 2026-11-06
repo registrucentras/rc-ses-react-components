@@ -42,7 +42,7 @@ export const TokenBindings: Story = {
     docs: {
       description: {
         story:
-          'Existing Breadcrumbs colors and vertical padding use DS tokens. Link behavior, typography dimensions and layout are preserved.',
+          'Breadcrumbs use the Figma Body/Micro role, 6px separator spacing and DS color tokens. Link behavior is preserved.',
       },
     },
   },
