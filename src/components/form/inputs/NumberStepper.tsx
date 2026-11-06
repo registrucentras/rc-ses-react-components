@@ -14,6 +14,8 @@ import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../components/FormControlWrapper'
 
+// Figma has no segment hover state and no role matches the existing tint,
+// so the primitive stays local.
 const stepperHoverBackground = 'var(--rc-color-neutrals-200)'
 
 const NumberInput = styled(OutlinedInput)({

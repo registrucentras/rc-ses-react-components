@@ -36,30 +36,12 @@ widths.forEach((width) => {
     await minus.click()
     await expect(input).toHaveValue('0')
     await page.evaluate(() => {
-      document.documentElement.style.setProperty(
-        '--rc-color-surface-sunken',
-        'rgb(11, 22, 33)',
-      )
-      document.documentElement.style.setProperty(
-        '--rc-color-text-muted',
-        'rgb(44, 55, 66)',
-      )
-      document.documentElement.style.setProperty(
-        '--rc-color-border-strong',
-        'rgb(77, 88, 99)',
-      )
-      document.documentElement.style.setProperty(
-        '--rc-color-neutrals-200',
-        'rgb(100, 110, 120)',
-      )
-      document.documentElement.style.setProperty(
-        '--rc-color-border-subtle',
-        'rgb(130, 140, 150)',
-      )
-      document.documentElement.style.setProperty(
-        '--rc-color-border-default',
-        'rgb(160, 170, 180)',
-      )
+      document.documentElement.style.setProperty('--rc-color-surface-sunken', '#0b1621')
+      document.documentElement.style.setProperty('--rc-color-text-muted', '#2c3742')
+      document.documentElement.style.setProperty('--rc-color-border-strong', '#4d5863')
+      document.documentElement.style.setProperty('--rc-color-neutrals-200', '#646e78')
+      document.documentElement.style.setProperty('--rc-color-border-subtle', '#828c96')
+      document.documentElement.style.setProperty('--rc-color-border-default', '#a0aab4')
     })
     await expect(minus).toHaveCSS('background-color', 'rgb(11, 22, 33)')
     await expect(minus.locator('svg path')).toHaveCSS('fill', 'rgb(44, 55, 66)')
