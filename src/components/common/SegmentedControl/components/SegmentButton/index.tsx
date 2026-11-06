@@ -1,27 +1,27 @@
 import { Button as MuiButton } from '@mui/material'
 import React, { useCallback, useMemo } from 'react'
 
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
-import { typographyTokens as typography } from '@/theme/typographyTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const SIZE_STYLES: Record<'small' | 'regular', React.CSSProperties> = {
   small: {
     width: 'auto',
     maxWidth: '100%',
-    minHeight: space['space-36'],
-    padding: `calc(${space['space-8']} - ${border['border-focus']}) ${space['space-12']}`,
-    fontSize: typography['font-size-button-compact'],
-    lineHeight: typography['line-height-button-compact'],
+    minHeight: spacingRoleBasedTokens['space-36'],
+    padding: `calc(${spacingRoleBasedTokens['space-8']} - ${borderTokens['border-focus']}) calc(${spacingRoleBasedTokens['space-16']} - ${borderTokens['border-focus']})`,
+    fontSize: typographyTokens['font-size-button-compact'],
+    lineHeight: typographyTokens['line-height-button-compact'],
   },
   regular: {
     width: 'auto',
     maxWidth: '100%',
     minHeight: '44px',
-    padding: `${space['space-10']} ${space['space-16']}`,
-    fontSize: typography['font-size-button-regular'],
-    lineHeight: typography['line-height-button-regular'],
+    padding: `calc(${spacingRoleBasedTokens['space-12']} - ${borderTokens['border-focus']}) calc(${spacingRoleBasedTokens['space-20']} - ${borderTokens['border-focus']})`,
+    fontSize: typographyTokens['font-size-button-regular'],
+    lineHeight: typographyTokens['line-height-button-regular'],
   },
 }
 
@@ -52,9 +52,10 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
     const sizeStyles = SIZE_STYLES[size]
 
     const textColor = useMemo(() => {
-      if (isDisabled) return isSelected ? color['text-secondary'] : color['text-disabled']
-      if (isSelected) return color['text-default']
-      return color['text-link']
+      if (isDisabled)
+        return isSelected ? colorTokens['text-secondary'] : colorTokens['text-disabled']
+      if (isSelected) return colorTokens['text-default']
+      return colorTokens['text-link']
     }, [isDisabled, isSelected])
 
     const buttonStyles = useMemo(
@@ -64,18 +65,18 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
         height: 'auto',
         wordBreak: 'break-word',
         fontFamily: '"Public Sans", sans-serif',
-        border: `${border['border-focus']} solid ${
+        border: `${borderTokens['border-focus']} solid ${
           isSelected
-            ? color[isDisabled ? 'control-disabled-selected' : 'border-focus']
+            ? colorTokens[isDisabled ? 'control-disabled-selected' : 'border-focus']
             : 'transparent'
         }`,
 
-        backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
+        backgroundColor: isSelected ? colorTokens['surface-brand-subtle'] : 'transparent',
 
         color: textColor,
         cursor: isDisabled ? 'not-allowed' : 'pointer',
         fontWeight: 500,
-        borderRadius: border['radius-button'],
+        borderRadius: borderTokens['radius-button'],
         transition: 'all 150ms ease-in-out',
         whiteSpace: 'normal',
         ...sizeStyles,
@@ -107,16 +108,20 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
             '&:hover, &:active': {
               color: textColor,
               backgroundColor: isSelected
-                ? color['surface-brand-subtle']
-                : color['surface-base'],
+                ? colorTokens['surface-brand-subtle']
+                : colorTokens['surface-base'],
             },
             '&:focus-visible': {
-              borderColor: color['border-focus'],
-              color: isSelected ? color['text-default'] : color['text-secondary'],
+              borderColor: colorTokens['border-focus'],
+              color: isSelected
+                ? colorTokens['text-default']
+                : colorTokens['text-secondary'],
             },
             '&.Mui-disabled': {
               color: textColor,
-              backgroundColor: isSelected ? color['surface-brand-subtle'] : 'transparent',
+              backgroundColor: isSelected
+                ? colorTokens['surface-brand-subtle']
+                : 'transparent',
             },
           },
         }}

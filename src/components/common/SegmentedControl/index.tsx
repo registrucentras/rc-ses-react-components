@@ -1,9 +1,10 @@
 import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { borderTokens as border } from '@/theme/borderTokens'
-import { colorTokens as color } from '@/theme/colorTokens'
-import { spacingRoleBasedTokens as space } from '@/theme/spacingRoleBasedTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import RcSesSegmentButton, { type RcSesSegmentOption } from './components/SegmentButton'
 
@@ -150,12 +151,12 @@ const RcSesSegmentedControl = React.forwardRef<
       () => ({
         display: 'flex',
         flexWrap: 'wrap',
-        gap: `${space['space-2']} ${space['space-8']}`,
-        padding: space['space-4'],
-        backgroundColor: disableBg ? 'transparent' : color['surface-sunken'],
+        gap: `${spacingRoleBasedTokens['space-8']} ${spacingTokens['spacing-aliases-segmented-segment-gap']}`,
+        padding: spacingTokens['spacing-aliases-segmented-track-padding'],
+        backgroundColor: disableBg ? 'transparent' : colorTokens['surface-sunken'],
         width: 'max-content',
         maxWidth: '100%',
-        borderRadius: border['radius-8'],
+        borderRadius: borderTokens['radius-12'],
       }),
       [disableBg],
     )
