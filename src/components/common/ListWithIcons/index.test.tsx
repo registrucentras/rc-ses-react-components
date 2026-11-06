@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
-import { colorTokens as color } from '@/theme/colorTokens'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
 
 import ListWithIcons from '.'
@@ -76,12 +76,16 @@ describe('ListWithIcons', () => {
       />,
     )
 
-    expect(screen.getByText('Default text')).toHaveStyle({ color: color['text-default'] })
-    expect(screen.getByText('Secondary text')).toHaveStyle({
-      color: color['text-secondary'],
+    expect(screen.getByText('Default text')).toHaveStyle({
+      color: colorTokens['text-default'],
     })
-    expect(screen.getByText('Muted text')).toHaveStyle({ color: color['text-muted'] })
-    expect(screen.getByText('Link text')).toHaveStyle({ color: color['text-link'] })
+    expect(screen.getByText('Secondary text')).toHaveStyle({
+      color: colorTokens['text-secondary'],
+    })
+    expect(screen.getByText('Muted text')).toHaveStyle({
+      color: colorTokens['text-muted'],
+    })
+    expect(screen.getByText('Link text')).toHaveStyle({ color: colorTokens['text-link'] })
   })
 
   test('falls back to the secondary tone color/icon fill when textColor is omitted', () => {
@@ -96,11 +100,11 @@ describe('ListWithIcons', () => {
     )
 
     expect(screen.getByText('No explicit color')).toHaveStyle({
-      color: color['text-secondary'],
+      color: colorTokens['text-secondary'],
     })
     expect(screen.getByTestId('stub-icon')).toHaveAttribute(
       'data-fill-color',
-      color['text-secondary'],
+      colorTokens['text-secondary'],
     )
   })
 
