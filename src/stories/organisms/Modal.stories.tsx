@@ -96,3 +96,50 @@ export const WithoutIcon: Story = {
     primaryActionLabel: 'Pašalinti',
   },
 }
+
+/** Open previews ensure the modal itself is included in visual regression tests. */
+export const TokenBindings: Story = {
+  render: (args) => <RcSesModal {...args} />,
+  args: {
+    open: true,
+    title: 'Ar tikrai norite tęsti?',
+    message: 'Aprašymo tekstas. Pakeisk šį turinį per slot override.',
+    variant: 'confirm',
+    showIcon: true,
+    secondaryActionLabel: 'Atšaukti',
+    primaryActionLabel: 'Tęsti',
+  },
+}
+
+export const DestructiveTokenBindings: Story = {
+  ...TokenBindings,
+  args: { ...TokenBindings.args, variant: 'destructive' },
+}
+
+export const SuccessTokenBindings: Story = {
+  ...TokenBindings,
+  args: { ...TokenBindings.args, variant: 'success', primaryActionLabel: 'Uždaryti' },
+}
+
+export const InfoTokenBindings: Story = {
+  ...TokenBindings,
+  args: { ...TokenBindings.args, variant: 'info', primaryActionLabel: 'Suprantu' },
+}
+
+export const MobileTokenBindings: Story = {
+  ...TokenBindings,
+  tags: ['viewport-390'],
+}
+
+export const TokenOverrides: Story = {
+  ...TokenBindings,
+  args: {
+    ...TokenBindings.args,
+    sx: {
+      '--rc-color-surface-base': '#fff8ed',
+      '--rc-color-border-default': '#986b22',
+      '--rc-radius-modal': '24px',
+      '--rc-color-status-info-icon': '#986b22',
+    },
+  },
+}

@@ -6,6 +6,7 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import RcSesButton from '@/components/common/Button'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
 
 import RcSesCardShell from '.'
@@ -116,9 +117,9 @@ describe('RcSesCardShell', () => {
   })
 
   test.each([
-    ['default', '#ffffff', '#c5cad1'],
-    ['brand', '#f3fbfe', '#b9e9fa'],
-    ['sunken', '#f0f2f5', '#dce0e5'],
+    ['default', colorTokens['surface-base'], colorTokens['border-default']],
+    ['brand', colorTokens['surface-brand-subtle'], '#b9e9fa'],
+    ['sunken', colorTokens['surface-sunken'], colorTokens['border-subtle']],
   ] as const)(
     'theme=%s paints its own background and border',
     (name, background, border) => {
@@ -128,9 +129,18 @@ describe('RcSesCardShell', () => {
         </RcSesCardShell>,
       )
 
+      const emitted = Array.from(document.querySelectorAll('style[data-emotion]'))
+        .flatMap((style) =>
+          Array.from(
+            (style as HTMLStyleElement).sheet?.cssRules ?? [],
+            (rule) => rule.cssText,
+          ),
+        )
+        .join('\n')
+      if (border.startsWith('var(')) expect(emitted).toContain(border)
+      else expect(screen.getByTestId('card-root')).toHaveStyle({ borderColor: border })
       expect(screen.getByTestId('card-root')).toHaveStyle({
         backgroundColor: background,
-        borderColor: border,
       })
     },
   )

@@ -13,6 +13,7 @@ import type { Preview } from '@storybook/react-vite'
 
 import '../src/i18n/i18n'
 import lightTheme from '../src/theme/light'
+import '../src/theme/tokens.css'
 
 // There is no dark theme yet - the addon's dark entry deliberately points at the
 // light theme so the theme switcher stays wired up. Replace when one exists.

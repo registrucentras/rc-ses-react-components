@@ -8,30 +8,51 @@ import {
   QuestionFillIcon,
   WarningFillIcon,
 } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesDialog, { RcSesDialogProps } from '../Dialog'
+import { primaryActionStyles, secondaryActionStyles } from './modalActionStyles'
 
 export type ModalVariant = 'destructive' | 'confirm' | 'success' | 'info'
 
 const VARIANT_CONFIG: Record<ModalVariant, { icon: ReactNode }> = {
   destructive: {
-    icon: <WarningFillIcon size={36} weight='regular' fillColor={palette.error['600']} />,
+    icon: (
+      <WarningFillIcon
+        size={36}
+        weight='regular'
+        fillColor={colorTokens['status-error-icon']}
+      />
+    ),
   },
   confirm: {
-    icon: <QuestionFillIcon size={36} weight='regular' fillColor={palette.grey['700']} />,
+    icon: (
+      <QuestionFillIcon
+        size={36}
+        weight='regular'
+        fillColor={colorTokens['status-info-icon']}
+      />
+    ),
   },
   success: {
     icon: (
       <CheckCircleFillIcon
         size={36}
         weight='regular'
-        fillColor={palette.secondary['600']}
+        fillColor={colorTokens['status-success-icon']}
       />
     ),
   },
   info: {
-    icon: <InfoFillIcon size={36} weight='regular' fillColor={palette.primary['500']} />,
+    icon: (
+      <InfoFillIcon
+        size={36}
+        weight='regular'
+        fillColor={colorTokens['status-info-icon']}
+      />
+    ),
   },
 }
 
@@ -81,10 +102,19 @@ function RcSesModal({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: 8,
+        gap: spacingRoleBasedTokens['space-12'],
       }}
     >
-      <div aria-hidden='true'>{config.icon}</div>
+      <div
+        aria-hidden='true'
+        style={{
+          display: 'flex',
+          width: spacingRoleBasedTokens['space-36'],
+          height: spacingRoleBasedTokens['space-36'],
+        }}
+      >
+        {config.icon}
+      </div>
       {title}
     </div>
   ) : (
@@ -94,7 +124,12 @@ function RcSesModal({
   const defaultActions = (
     <>
       {(variant === 'destructive' || variant === 'confirm') && (
-        <Button onClick={onSecondaryAction} variant='outlined' color='grey'>
+        <Button
+          onClick={onSecondaryAction}
+          variant='outlined'
+          color='grey'
+          sx={secondaryActionStyles}
+        >
           {getSecondaryLabel()}
         </Button>
       )}
@@ -102,6 +137,7 @@ function RcSesModal({
         onClick={onPrimaryAction}
         variant='contained'
         color={variant === 'destructive' ? 'error' : 'primary'}
+        sx={primaryActionStyles(variant === 'destructive')}
       >
         {getPrimaryLabel()}
       </Button>
@@ -112,7 +148,16 @@ function RcSesModal({
 
   return (
     <RcSesDialog dialogTitle={titleContent} actions={actions} {...props}>
-      <Typography variant='body1'>{message}</Typography>
+      <Typography
+        variant='body1'
+        sx={{
+          color: colorTokens['text-default'],
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
+        }}
+      >
+        {message}
+      </Typography>
     </RcSesDialog>
   )
 }
