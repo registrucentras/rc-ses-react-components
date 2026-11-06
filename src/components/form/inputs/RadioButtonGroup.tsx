@@ -9,7 +9,9 @@ import { useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -99,13 +101,17 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
 
 const RcSesRadioButtonGroup = styled(UnstyledRcSesRadioButtonGroup)((props) => ({
   '.rc-ses-form-field-wrapper': {
-    backgroundColor: props.variant === 'filled' ? palette.grey['100'] : 'transparent',
-    borderColor: props.variant === 'outlined' ? palette.grey['500'] : 'transparent',
+    backgroundColor:
+      props.variant === 'filled' ? colorTokens['surface-muted'] : 'transparent',
+    borderColor:
+      props.variant === 'outlined' ? colorTokens['control-border'] : 'transparent',
     borderStyle: 'solid',
-    borderWidth: props.variant === 'outlined' ? '1px' : 0,
-    borderRadius: '.5rem',
+    borderWidth: props.variant === 'outlined' ? borderTokens['stroke-1'] : 0,
+    borderRadius: borderTokens['radius-input'],
     margin: 0,
-    padding: props.hideNativeRadio ? undefined : '.25rem .75rem',
+    padding: props.hideNativeRadio
+      ? undefined
+      : `${spacingRoleBasedTokens['space-4']} ${spacingRoleBasedTokens['space-12']}`,
   },
 }))
 
