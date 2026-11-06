@@ -15,10 +15,7 @@ variants.forEach(({ story, token, buttons }) => {
     await expect(dialog.getByRole('button')).toHaveCount(buttons)
     await page.locator('.MuiDialog-root').evaluate((element, status) => {
       const root = element as HTMLElement
-      root.style.setProperty(
-        `--rc-color-status-${status}-icon`,
-        '#123456',
-      )
+      root.style.setProperty(`--rc-color-status-${status}-icon`, '#123456')
     }, token)
     await expect(dialog.locator('[aria-hidden="true"] svg')).toHaveCSS(
       'color',
