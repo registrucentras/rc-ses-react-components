@@ -18,7 +18,7 @@ variants.forEach(({ story, token, buttons }) => {
       root.style.setProperty(`--rc-color-status-${status}-icon`, '#123456')
     }, token)
     await expect(dialog.locator('[aria-hidden="true"] svg')).toHaveCSS(
-      'color',
+      'fill',
       'rgb(18, 52, 86)',
     )
   })
@@ -52,7 +52,7 @@ test('Modal binds surface, border, typography, icon and built-in action tokens',
   await expect(dialog).toHaveCSS('border-radius', '20px')
   await expect(dialog.locator('.MuiDialogTitle-root')).toHaveCSS('font-size', '30px')
   await expect(dialog.locator('[aria-hidden="true"] svg')).toHaveCSS(
-    'color',
+    'fill',
     'rgb(51, 68, 85)',
   )
   await expect(dialog.getByRole('button', { name: 'Tęsti' })).toHaveCSS(
