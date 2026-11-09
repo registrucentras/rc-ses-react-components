@@ -7,7 +7,7 @@ import {
 import React, { useEffect, useMemo } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
 
-import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
+import RcSesCheckboxMark from '@/components/common/CheckboxMark'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import getLoadingIcon from '@/components/utils/loading'
 import { borderTokens } from '@/theme/borderTokens'
@@ -95,9 +95,16 @@ function RcSesCheckboxFormControl(props: Props) {
           id={id}
           checked={value === true}
           indeterminate={computedIndeterminate}
-          checkedIcon={getLoadingIcon(<CheckBoldIcon />, loading)}
+          checkedIcon={getLoadingIcon(
+            <RcSesCheckboxMark type='checked' disabled={disabled} />,
+            loading,
+          )}
+          indeterminateIcon={getLoadingIcon(
+            <RcSesCheckboxMark type='indeterminate' disabled={disabled} />,
+            loading,
+          )}
           disabled={disabled}
-          icon={getLoadingIcon(<CheckUncheckedBoldIcon />, loading)}
+          icon={getLoadingIcon(<RcSesCheckboxMark disabled={disabled} />, loading)}
           onChange={handleParentChange}
           {...controllerProps}
           {...slotProps?.field}

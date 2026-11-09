@@ -1,6 +1,5 @@
 import { Components } from '@mui/material'
 
-import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
@@ -14,20 +13,15 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
       position: 'relative',
 
       '&:hover': {
-        '.MuiRadio-root': {
-          backgroundColor: colorTokens['surface-brand-subtle'],
-
-          '[data-name="outer"]': {
-            stroke: colorTokens['control-selected'],
-          },
+        '.MuiRadio-root:not(.Mui-disabled, .Mui-focusVisible)': {
+          '--rc-mark-border': colorTokens['control-selected'],
+          '[data-rc-mark-shape]': { boxShadow: 'var(--rc-radio-hover-halo)' },
         },
       },
 
       '&:active': {
-        '.MuiRadio-root': {
-          '[data-name="inner"]': {
-            fill: radioPressedFill,
-          },
+        '.MuiRadio-root:not(.Mui-disabled, .Mui-checked)': {
+          '--rc-mark-surface': radioPressedFill,
         },
       },
 
@@ -35,16 +29,6 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
         color: colorTokens['status-error-text'],
         fontWeight: 600,
         marginLeft: spacingRoleBasedTokens['space-2'],
-      },
-
-      '.PrivateSwitchBase-input': {
-        '&:focus, &:focus-visible': {
-          '& + svg': {
-            outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
-            outlineOffset: spacingRoleBasedTokens['space-2'],
-            outlineStyle: 'auto',
-          },
-        },
       },
     },
   },

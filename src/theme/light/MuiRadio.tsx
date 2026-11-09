@@ -1,64 +1,47 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import RcSesRadioMark from '@/components/common/RadioMark'
+
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+
+// Figma's unbound hover effect is shared by selected and unselected radio marks.
+const hoverHalo =
+  '0 0 0 4px color-mix(in srgb, var(--rc-color-cyans-400) 20%, transparent)'
 
 const MuiRadio: Components['MuiRadio'] = {
   defaultProps: {
-    checkedIcon: (
-      <svg
-        width='24'
-        height='24'
-        viewBox='0 0 24 24'
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <rect
-          data-name='outer'
-          x='0.5'
-          y='0.5'
-          width='23'
-          height='23'
-          rx='11.5'
-          fill='#06A0D4'
-          stroke='#06A0D4'
-        />
-        <circle data-name='inner' cx='12' cy='12' r='5' fill='white' />
-      </svg>
-    ),
-    icon: (
-      <svg
-        width='24'
-        height='24'
-        viewBox='0 0 24 24'
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <rect data-name='inner' x='1' y='1' width='22' height='22' rx='11' fill='white' />
-        <rect
-          data-name='outer'
-          x='1'
-          y='1'
-          width='22'
-          height='22'
-          rx='11'
-          stroke='#8E959E'
-          strokeWidth='2'
-        />
-      </svg>
-    ),
+    disableRipple: true,
+    checkedIcon: <RcSesRadioMark type='selected' />,
+    icon: <RcSesRadioMark />,
   },
   styleOverrides: {
-    root: {
-      borderWidth: '2px',
+    root: ({ ownerState }) => ({
       margin: '5px',
       padding: '4px',
-
+      color: colorTokens['control-border'],
+      '--rc-mark-border': 'currentColor',
+      '--rc-mark-selected': 'currentColor',
+      '--rc-radio-hover-halo': hoverHalo,
+      ...(ownerState.color === 'primary' && {
+        '&.Mui-checked': { color: colorTokens['control-selected'] },
+      }),
       '&.Mui-disabled': {
-        '[data-name="inner"]': {
-          fill: palette.grey['200'],
-        },
+        '--rc-mark-border': colorTokens['control-border'],
+        '--rc-mark-selected': colorTokens['control-disabled-selected'],
+        '--rc-mark-surface': colorTokens['control-disabled'],
       },
-    },
+      '&.Mui-focusVisible [data-rc-mark-shape]': {
+        outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+        outlineOffset: spacingRoleBasedTokens['space-2'],
+        boxShadow: 'none',
+      },
+      '&:hover:not(.Mui-disabled, .Mui-focusVisible)': {
+        '--rc-mark-border': colorTokens['control-selected'],
+        '[data-rc-mark-shape]': { boxShadow: 'var(--rc-radio-hover-halo)' },
+      },
+    }),
   },
 }
 
