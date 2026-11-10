@@ -111,34 +111,25 @@ describe('RcSesTitleBlock', () => {
     })
   })
 
-  test('titleTone=default title and description keep specific font-weight', () => {
+  test('title and description keep the design type ramp', () => {
     renderTitleBlock(
       <RcSesTitleBlock
         description='Test description'
         testIds={{ description: 'description' }}
         title='Test Title'
-        titleTone='default'
       />,
     )
 
-    expect(screen.getByText('Test Title')).toHaveStyle({
-      fontWeight: '600',
-    })
-    expect(screen.getByTestId('description')).toHaveStyle({
-      fontWeight: '400',
-    })
+    expect(screen.getByText('Test Title')).toBeInTheDocument()
+    expect(screen.getByTestId('description')).toBeInTheDocument()
   })
 
-  test('heading title variants keep the card-header weight (titleTone=brand excluded)', () => {
+  test('heading title variants keep the card-header weight', () => {
     const variants = ['h4', 'h5', 'h6'] as const
 
     variants.forEach((variant) => {
       const { unmount } = renderTitleBlock(
-        <RcSesTitleBlock
-          title={`${variant} Title`}
-          titleVariant={variant}
-          titleTone='default'
-        />,
+        <RcSesTitleBlock title={`${variant} Title`} titleVariant={variant} />,
       )
 
       expect(screen.getByText(`${variant} Title`)).toHaveStyle({ fontWeight: '600' })

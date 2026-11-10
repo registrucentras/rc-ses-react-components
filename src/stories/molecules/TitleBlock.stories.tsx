@@ -389,6 +389,7 @@ export const ClickableHorizontalTitleBlockWithCardShellBase: Story = {
           <Box sx={{ alignSelf: 'center', flex: 1, minWidth: 0 }}>
             <RcSesTitleBlock
               title='Paslaugos sutartiniams klientams'
+              titleVariant='h5'
               description='Peržiūrėkite pagrindinius duomenis be užsakymo - dažniausias pirmas žingsnis.'
               icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
             />

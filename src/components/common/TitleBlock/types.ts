@@ -2,7 +2,8 @@ import { ReactNode } from 'react'
 
 export type TitleBlockHeadingLevel = 2 | 3 | 4 | 5 | 6
 
-export type TitleBlockTitleVariant = 'h4' | 'h5' | 'h6' | 'body1'
+export type TitleBlockTitleVariant =
+  'h4' | 'h5' | 'h6' | 'body1' | 'card-title' | 'card-heading'
 
 export type TitleBlockOrientation = 'horizontal' | 'vertical'
 
@@ -24,6 +25,9 @@ export interface RcSesTitleBlockBaseProps {
    * Defaults to `h6` (18px).
    * `body1` (15px) draws the title as running copy: body scale, and the
    * type scale's own weight instead of the card-header one.
+   * `card-title` (20px) uses the card heading design: 500 weight, 28px line-height,
+   * `card-heading` (18px) uses the card section heading design: 500 weight, 24px line-height.
+   * Suitable for CardShell and section headers.
    */
   titleVariant?: TitleBlockTitleVariant
   /**
