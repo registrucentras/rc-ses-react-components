@@ -1,22 +1,5 @@
 import { Components } from '@mui/material'
 
-import palette from '@/theme/palette'
-
-export const typography = {
-  bodyRegularMuted: {
-    color: palette.grey[500],
-    fontSize: '0.9375rem', // 15px
-    fontWeight: 400,
-    lineHeight: '1.375rem', // 22px
-  },
-  priceEmphasis: {
-    color: palette.grey[900],
-    fontSize: '1.125rem', // 18px
-    fontWeight: 500,
-    lineHeight: '1.5rem', // 24px
-  },
-}
-
 const MuiTypography: Components['MuiTypography'] = {
   styleOverrides: {
     root: {},
