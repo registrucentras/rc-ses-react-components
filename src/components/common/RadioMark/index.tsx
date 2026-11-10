@@ -46,6 +46,8 @@ export default function RcSesRadioMark({
   ...props
 }: RadioMarkProps) {
   const selected = type === 'selected'
+  // --rc-mark-* are component hooks set by the MuiCheckbox/MuiRadio/MuiFormControl
+  // themes for hover, error and disabled states; they are not DS tokens.
   const selectedColor = disabled
     ? colorTokens['control-disabled-selected']
     : `var(--rc-mark-selected, ${colorTokens['control-selected']})`

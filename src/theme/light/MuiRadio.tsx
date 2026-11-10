@@ -18,8 +18,8 @@ const MuiRadio: Components['MuiRadio'] = {
   },
   styleOverrides: {
     root: ({ ownerState }) => ({
-      margin: '5px',
-      padding: '4px',
+      margin: spacingRoleBasedTokens['space-4'],
+      padding: spacingRoleBasedTokens['space-4'],
       color: colorTokens['control-border'],
       '--rc-mark-border': 'currentColor',
       '--rc-mark-selected': 'currentColor',
