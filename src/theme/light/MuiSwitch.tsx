@@ -66,7 +66,7 @@ const MuiSwitch: Components['MuiSwitch'] = {
       borderRadius: borderTokens['radius-full'],
       backgroundColor: colorTokens['control-foreground'],
       // Figma's thumb shadow has no matching foundation effect token.
-      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.18)',
+      boxShadow: '0 1px 2px 0 #0000002e',
     },
     track: {
       borderRadius: borderTokens['radius-full'],

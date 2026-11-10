@@ -8,14 +8,14 @@ widths.forEach((width) => {
     await page.goto('/iframe.html?id=atoms-switch--token-bindings&viewMode=story')
     await page.evaluate(() => {
       Object.entries({
-        'control-unselected': 'rgb(10, 20, 30)',
-        'control-unselected-hover': 'rgb(20, 30, 40)',
-        'control-selected': 'rgb(30, 40, 50)',
-        'control-selected-hover': 'rgb(40, 50, 60)',
-        'control-disabled': 'rgb(50, 60, 70)',
-        'control-disabled-selected': 'rgb(60, 70, 80)',
-        'text-disabled': 'rgb(70, 80, 90)',
-        'text-default': 'rgb(80, 90, 100)',
+        'control-unselected': '#0a141e',
+        'control-unselected-hover': '#141e28',
+        'control-selected': '#1e2832',
+        'control-selected-hover': '#28323c',
+        'control-disabled': '#323c46',
+        'control-disabled-selected': '#3c4650',
+        'text-disabled': '#46505a',
+        'text-default': '#505a64',
       }).forEach(([name, value]) =>
         document.documentElement.style.setProperty(`--rc-color-${name}`, value),
       )
@@ -85,14 +85,19 @@ test('Checked Switch focus keeps the existing gap before the ring', async ({ pag
   await page.keyboard.press('Tab')
   await toggle.focus()
   const root = toggle.locator('../..')
+  await page.evaluate(() => {
+    const css = document.documentElement.style
+    css.setProperty('--rc-color-border-focus', '#0a141e')
+    css.setProperty('--rc-color-control-selected', '#1e2832')
+  })
   await expect(root).toHaveCSS('overflow', 'visible')
   await expect(root.locator('.MuiSwitch-track')).toHaveCSS(
     'box-shadow',
-    'rgb(255, 255, 255) 0px 0px 0px 2px, rgb(0, 121, 173) 0px 0px 0px 4px',
+    'rgb(255, 255, 255) 0px 0px 0px 2px, rgb(10, 20, 30) 0px 0px 0px 4px',
   )
   await expect(root.locator('.MuiSwitch-track')).toHaveCSS(
     'background-color',
-    'rgb(0, 121, 173)',
+    'rgb(30, 40, 50)',
   )
 })
 
