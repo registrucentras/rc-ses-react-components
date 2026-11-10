@@ -132,23 +132,6 @@ const spacingTokens = {
   'spacing-aliases-tooltip-max-width': 'var(--rc-legacy-space-tooltip-max-width)',
   'spacing-aliases-tooltip-padding': 'var(--rc-legacy-space-tooltip-padding)',
   'spacing-aliases-topbar-padding-x': 'var(--rc-legacy-space-topbar-padding-x)',
-  'spacing-primitives-0': 'var(--rc-space-0)',
-  'spacing-primitives-10': 'var(--rc-space-10)',
-  'spacing-primitives-12': 'var(--rc-space-12)',
-  'spacing-primitives-16': 'var(--rc-space-16)',
-  'spacing-primitives-2': 'var(--rc-space-2)',
-  'spacing-primitives-20': 'var(--rc-space-20)',
-  'spacing-primitives-24': 'var(--rc-space-24)',
-  'spacing-primitives-32': 'var(--rc-space-32)',
-  'spacing-primitives-36': 'var(--rc-space-36)',
-  'spacing-primitives-4': 'var(--rc-space-4)',
-  'spacing-primitives-40': 'var(--rc-space-40)',
-  'spacing-primitives-48': 'var(--rc-space-48)',
-  'spacing-primitives-6': 'var(--rc-space-6)',
-  'spacing-primitives-64': 'var(--rc-space-64)',
-  'spacing-primitives-8': 'var(--rc-space-8)',
-  'spacing-primitives-80': 'var(--rc-space-80)',
-  'spacing-primitives-96': 'var(--rc-space-96)',
 } as const
 
 export { spacingTokens }

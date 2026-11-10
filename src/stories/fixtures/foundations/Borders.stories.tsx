@@ -1,0 +1,84 @@
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  Stack,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from '@mui/material'
+import type { Meta, StoryObj } from '@storybook/react-vite'
+
+import { borderTokens } from '@/theme/borderTokens'
+import { createRcSesTokenTheme } from '@/theme/tokenTheme'
+
+const tokenTheme = createRcSesTokenTheme()
+const customTheme = createRcSesTokenTheme({
+  components: { MuiButton: { styleOverrides: { root: { borderRadius: '3px' } } } },
+})
+
+const meta = {
+  title: 'Fixtures/Foundations/Borders',
+  tags: ['no-snapshot', '!dev'],
+  parameters: { layout: 'padded' },
+} satisfies Meta
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Radius: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Input description specifies 6 px, but the Figma export alias points to 8 px. The exported reference is used; designer confirmation is still required.',
+      },
+    },
+  },
+  render: () => (
+    <ThemeProvider theme={tokenTheme}>
+      <Stack spacing={2}>
+        <Typography variant='h2'>Radius primitives and aliases</Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+          {Object.entries(borderTokens)
+            .filter(([name]) => name.startsWith('radius-'))
+            .map(([name, value]) => (
+              <Box
+                key={name}
+                data-testid={name}
+                sx={{ borderRadius: value, border: '1px solid', p: 2 }}
+              >
+                {name}
+              </Box>
+            ))}
+        </Box>
+        <Box
+          data-testid='theme-radius'
+          sx={{ borderRadius: 2, border: '1px solid', p: 2 }}
+        >
+          theme.shape.borderRadius * 2
+        </Box>
+        <Card data-testid='theme-card' sx={{ p: 2 }}>
+          Card radius alias
+        </Card>
+        <Button data-testid='theme-button'>Button radius alias</Button>
+        <TextField data-testid='theme-input' label='Input radius alias' />
+        <Autocomplete
+          data-testid='theme-autocomplete'
+          options={['One', 'Two']}
+          renderInput={(params) => (
+            <TextField {...params} label='Autocomplete radius alias' />
+          )}
+        />
+        <TextField
+          data-testid='theme-input-error'
+          label='Error input radius alias'
+          error
+        />
+        <ThemeProvider theme={customTheme}>
+          <Button data-testid='custom-radius'>Consumer override: 3px</Button>
+        </ThemeProvider>
+      </Stack>
+    </ThemeProvider>
+  ),
+}

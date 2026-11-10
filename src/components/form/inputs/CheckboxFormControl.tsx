@@ -10,7 +10,10 @@ import { UseControllerProps, useController } from 'react-hook-form'
 import { CheckBoldIcon, CheckUncheckedBoldIcon } from '@/assets/icons/phosphorIcons'
 import RcSesFormControlLabel from '@/components/form/inputs/FormControlLabel'
 import getLoadingIcon from '@/components/utils/loading'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
 
@@ -102,7 +105,7 @@ function RcSesCheckboxFormControl(props: Props) {
         />
       }
       label={
-        <FormLabel htmlFor={id} sx={{ fontWeight: 'inherit !important' }}>
+        <FormLabel htmlFor={id} sx={{ '&&': { fontWeight: 'inherit' } }}>
           {children}
           {slotProps?.wrapper?.hideLabel && rules?.required === true && (
             <span aria-hidden className='MuiFormControlLabel-asterisk'>
@@ -119,7 +122,7 @@ function RcSesCheckboxFormControl(props: Props) {
           // accepted alongside component props, so they move into sx.
           sx: {
             fontWeight: 400,
-            lineHeight: '1.25rem',
+            lineHeight: typographyTokens['line-height-body-small'],
             marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           },
           variant: variant === 'flat' ? 'body1' : 'body2',
@@ -129,13 +132,15 @@ function RcSesCheckboxFormControl(props: Props) {
       sx={{
         ...(!variant || variant === 'outlined'
           ? {
-              backgroundColor: palette.grey['50'],
-              borderColor: palette.grey['500'],
+              backgroundColor: colorTokens['surface-sunken'],
+              borderColor: colorTokens['border-strong'],
               borderStyle: 'solid',
-              borderWidth: '1px',
-              borderRadius: '.5rem',
-              margin: 0,
-              padding: '1rem 1.25rem 1rem .875rem',
+              borderWidth: borderTokens['stroke-1'],
+              borderRadius: borderTokens['radius-8'],
+              margin: spacingRoleBasedTokens['space-0'],
+              // Legacy geometry: the 14px start pairs with MUI's 9px checkbox padding.
+              // Figma's selectable area (12px sides, 2px icon frame) differs.
+              padding: `${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-16']} .875rem`,
             }
           : {}),
         ...slotProps?.label?.sx,

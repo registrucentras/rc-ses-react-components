@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 test('fluid full width, padding and stretching grid at five viewports', async ({
   page,
 }) => {
-  await page.goto('/iframe.html?id=foundations-layout--fluid&viewMode=story')
+  await page.goto('/iframe.html?id=fixtures-foundations-layout--fluid&viewMode=story')
   await expect(page.getByTestId('layout-fluid')).toBeVisible()
   const cases = [
     [375, 16, 16, [343, 343, 343]],

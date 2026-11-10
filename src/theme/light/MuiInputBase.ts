@@ -1,64 +1,64 @@
 import type { Components } from '@mui/material'
 
-import { borderTokens as border } from '../borderTokens'
-import { colorTokens as color } from '../colorTokens'
-import { sizeTokens as size } from '../sizeTokens'
-import { spacingRoleBasedTokens as space } from '../spacingRoleBasedTokens'
-import { typographyTokens as typography } from '../typographyTokens'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { sizeTokens } from '../sizeTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 // Internal shared value: preserve the existing rem padding when DS CSS is absent.
-export const inputPadding = `${space['input-padding-y'].slice(0, -1)}, 0.8125rem) ${space['space-12'].slice(0, -1)}, 0.75rem)`
+export const inputPadding = `${spacingRoleBasedTokens['input-padding-y'].slice(0, -1)}, 0.8125rem) ${spacingRoleBasedTokens['space-12'].slice(0, -1)}, 0.75rem)`
 
 const MuiInputBase: Components['MuiInputBase'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      backgroundColor: color['surface-base'],
-      borderRadius: border['radius-input'],
-      gap: space['space-8'],
-      '&.Mui-disabled': { backgroundColor: color['surface-muted'] },
+      backgroundColor: colorTokens['surface-base'],
+      borderRadius: borderTokens['radius-input'],
+      gap: spacingRoleBasedTokens['space-8'],
+      '&.Mui-disabled': { backgroundColor: colorTokens['surface-muted'] },
       '.MuiInputAdornment-root': {
-        color: color['text-secondary'],
-        margin: space['space-0'],
+        color: colorTokens['text-secondary'],
+        margin: spacingRoleBasedTokens['space-0'],
         // Direct icons only: nested loading spinners keep their own dimensions.
         '& > svg': {
           display: 'block',
-          width: size['icon-size-control'],
-          height: size['icon-size-control'],
+          width: sizeTokens['icon-size-control'],
+          height: sizeTokens['icon-size-control'],
         },
         '.MuiTypography-root': {
           color: 'inherit',
-          fontSize: typography['font-size-body-regular'],
-          lineHeight: typography['line-height-body-regular'],
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
         },
       },
     },
     input: {
-      color: color['text-default'],
-      fontSize: typography['font-size-body-regular'],
-      lineHeight: typography['line-height-body-regular'],
+      color: colorTokens['text-default'],
+      fontSize: typographyTokens['font-size-body-regular'],
+      lineHeight: typographyTokens['line-height-body-regular'],
       height: 'auto',
       // No horizontal Input padding role exists; retain its spacing primitive.
       padding: inputPadding,
-      '&::placeholder': { color: color['text-secondary'], opacity: 1 },
+      '&::placeholder': { color: colorTokens['text-secondary'], opacity: 1 },
       '&.Mui-disabled': {
-        color: color['text-disabled'],
-        WebkitTextFillColor: color['text-disabled'],
-        '&::placeholder': { color: color['text-disabled'] },
+        color: colorTokens['text-disabled'],
+        WebkitTextFillColor: colorTokens['text-disabled'],
+        '&::placeholder': { color: colorTokens['text-disabled'] },
       },
     },
     multiline: {
-      padding: space['space-0'],
+      padding: spacingRoleBasedTokens['space-0'],
       '.MuiInputBase-inputMultiline': { overflowWrap: 'anywhere' },
     },
     adornedStart: {
-      paddingLeft: space['space-12'],
-      '.MuiInputBase-input': { paddingLeft: space['space-0'] },
-      '.MuiIconButton-edgeStart': { marginLeft: space['space-0'] },
+      paddingLeft: spacingRoleBasedTokens['space-12'],
+      '.MuiInputBase-input': { paddingLeft: spacingRoleBasedTokens['space-0'] },
+      '.MuiIconButton-edgeStart': { marginLeft: spacingRoleBasedTokens['space-0'] },
     },
     adornedEnd: {
-      paddingRight: space['space-12'],
-      '.MuiInputBase-input': { paddingRight: space['space-0'] },
+      paddingRight: spacingRoleBasedTokens['space-12'],
+      '.MuiInputBase-input': { paddingRight: spacingRoleBasedTokens['space-0'] },
     },
   },
 }
