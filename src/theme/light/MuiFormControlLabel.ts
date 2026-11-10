@@ -1,6 +1,11 @@
-import { Components, decomposeColor } from '@mui/material'
+import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+
+// No semantic role covers the pressed radio fill, so the primitive stays local.
+const radioPressedFill = 'var(--rc-color-cyans-100)'
 
 const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
   defaultProps: {},
@@ -10,10 +15,10 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
 
       '&:hover': {
         '.MuiRadio-root': {
-          backgroundColor: `rgba(${decomposeColor(palette.primary[400]).values}, .2)`,
+          backgroundColor: colorTokens['surface-brand-subtle'],
 
           '[data-name="outer"]': {
-            stroke: palette.primary[500],
+            stroke: colorTokens['control-selected'],
           },
         },
       },
@@ -21,22 +26,22 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
       '&:active': {
         '.MuiRadio-root': {
           '[data-name="inner"]': {
-            fill: palette.primary[100],
+            fill: radioPressedFill,
           },
         },
       },
 
       '.MuiFormControlLabel-asterisk': {
-        color: palette.error[600],
+        color: colorTokens['status-error-text'],
         fontWeight: 600,
-        marginLeft: '.125rem',
+        marginLeft: spacingRoleBasedTokens['space-2'],
       },
 
       '.PrivateSwitchBase-input': {
         '&:focus, &:focus-visible': {
           '& + svg': {
-            outline: `.125rem solid ${palette.grey[950]}`,
-            outlineOffset: '.125rem',
+            outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+            outlineOffset: spacingRoleBasedTokens['space-2'],
             outlineStyle: 'auto',
           },
         },
