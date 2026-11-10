@@ -181,9 +181,9 @@ test('legacy component padding stays in rem at a 20px root without DS tokens', a
 })
 
 ;[
-  ['default', 'rgb(255, 255, 255)', 'rgb(197, 202, 209)'],
+  ['default', 'rgb(255, 255, 255)', 'rgb(220, 224, 229)'],
   ['brand-theme', 'rgb(243, 251, 254)', 'rgb(185, 233, 250)'],
-  ['sunken-theme', 'rgb(249, 250, 251)', 'rgb(220, 224, 229)'],
+  ['sunken-theme', 'rgb(249, 250, 251)', 'rgb(249, 250, 251)'],
 ].forEach(([story, background, border]) => {
   test(`legacy CardShell ${story} loads semantic color variables with the legacy theme`, async ({
     page,

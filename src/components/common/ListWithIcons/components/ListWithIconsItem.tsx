@@ -1,6 +1,12 @@
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { ListWithIconsItemData, ListWithIconsItemTone } from '../ListWithIcons.types'
 
@@ -9,10 +15,10 @@ interface Props extends ListWithIconsItemData {
 }
 
 const TEXT_TONE_COLORS: Record<ListWithIconsItemTone, string> = {
-  default: palette.grey[900],
-  secondary: palette.grey[600],
-  muted: palette.grey[500],
-  link: palette.primary['700'],
+  default: colorTokens['text-default'],
+  secondary: colorTokens['text-secondary'],
+  muted: colorTokens['text-muted'],
+  link: colorTokens['text-link'],
 }
 
 const ListWithIconsItem = ({
@@ -32,21 +38,31 @@ const ListWithIconsItem = ({
       sx={{
         display: 'flex',
         alignItems: 'flex-start',
-        gap: 0.5,
+        gap: spacingTokens['spacing-aliases-meta-icon-text-gap'],
         maxWidth: '100%',
       }}
     >
       {Icon && (
-        <Box sx={{ display: 'flex', alignItems: 'center', height: 20 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: typographyTokens['line-height-body-caption'],
+            '& > svg': {
+              width: sizeTokens['icon-size-inline'],
+              height: sizeTokens['icon-size-inline'],
+            },
+          }}
+        >
           <Icon fillColor={resolvedColor} size={16} />
         </Box>
       )}
       <Typography
         variant='body2'
         sx={{
-          fontSize: '14px',
-          lineHeight: '20px',
-          fontWeight: 300,
+          fontSize: typographyTokens['font-size-body-caption'],
+          lineHeight: typographyTokens['line-height-body-caption'],
+          fontWeight: 400,
           whiteSpace: 'normal',
           wordBreak: 'break-word',
           color: resolvedColor,
@@ -65,17 +81,17 @@ const ListWithIconsItem = ({
       slotProps={{
         tooltip: {
           sx: {
-            bgcolor: palette.grey[50],
-            color: 'text.primary',
-            fontSize: '14px',
-            fontWeight: 300,
-            px: 2,
-            py: 1,
-            borderRadius: '12px',
-            boxShadow: '0px 8px 10px rgba(0,0,0,0.15)',
+            bgcolor: colorTokens['surface-base'],
+            color: colorTokens['text-default'],
+            fontSize: typographyTokens['font-size-body-small'],
+            lineHeight: typographyTokens['line-height-body-small'],
+            fontWeight: 400,
+            p: spacingTokens['spacing-aliases-tooltip-padding'],
+            borderRadius: borderTokens['radius-8'],
+            boxShadow: effectTokens['elevation-md'],
           },
         },
-        arrow: { sx: { color: palette.grey[50] } },
+        arrow: { sx: { color: colorTokens['surface-base'] } },
       }}
     >
       {content}
@@ -92,8 +108,8 @@ const ListWithIconsItem = ({
         alignItems: 'center',
         width: { xs: '100%', md: isLoading ? '120px' : 'auto' },
         maxWidth: '100%',
-        gap: 0.5,
-        minHeight: 20,
+        gap: spacingRoleBasedTokens['space-4'],
+        minHeight: spacingRoleBasedTokens['space-20'],
         opacity: disabled ? 0.5 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}
@@ -103,8 +119,8 @@ const ListWithIconsItem = ({
           variant='rectangular'
           sx={{
             flex: 1,
-            height: 16,
-            borderRadius: 1,
+            height: spacingRoleBasedTokens['space-16'],
+            borderRadius: borderTokens['radius-4'],
             width: { xs: '100%', md: 120 },
           }}
         />
