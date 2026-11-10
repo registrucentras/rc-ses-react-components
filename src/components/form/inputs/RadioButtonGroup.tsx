@@ -20,6 +20,7 @@ import RcSesFormControlWrapper, {
 export interface RadioOption {
   label: string
   value: string
+  disabled?: boolean
 }
 
 type TControllerProps = UseControllerProps<any, any>
@@ -87,6 +88,7 @@ function UnstyledRcSesRadioButtonGroup(props: Props) {
         {options.map((option) => (
           <FormControlLabel
             control={<Radio />}
+            disabled={option.disabled}
             id={id}
             key={option.label}
             label={option.label}
