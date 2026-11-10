@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { CSSProperties } from 'react'
 
 import { CheckCircleFillIcon, WarningFillIcon } from '@/assets/icons/phosphorIcons'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import { type ListWithIconsItemData } from '@/components/common/ListWithIcons/ListWithIcons.types'
-import { secondary } from '@/theme/palette'
 
 const baseItems: ListWithIconsItemData[] = [
   {
@@ -84,7 +84,7 @@ export const TextTones: Story = {
 }
 
 const customColorItems: ListWithIconsItemData[] = [
-  { text: 'Custom palette color', textColor: secondary['700'] },
+  { text: 'Custom palette color', textColor: '#008561' },
 ]
 
 export const CustomColor: Story = {
@@ -92,4 +92,29 @@ export const CustomColor: Story = {
   args: {
     items: customColorItems,
   },
+}
+
+export const TokenBindings: Story = {
+  args: {
+    items: toneItems.map((item) => ({
+      ...item,
+      icon: CheckCircleFillIcon,
+      tooltip: 'Meta-info tooltip',
+    })),
+  },
+}
+
+export const TokenOverrides: Story = {
+  render: (args) => (
+    <div
+      style={
+        {
+          '--rc-color-text-secondary': '#0079ad',
+          '--rc-icon-size-inline': '20px',
+        } as CSSProperties
+      }
+    >
+      <ListWithIcons {...args} />
+    </div>
+  ),
 }
