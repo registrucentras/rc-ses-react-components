@@ -23,6 +23,7 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
 | Radio | Pressed fill `Cyans/100` | Local `cyans-100` constant | No semantic role maps to it | #216 |
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
+| Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 
 ## Open questions
 
@@ -32,4 +33,6 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
 | Icon sizes | `tokens.css` sets the button and control icon roles to 20px, while buttons in code use 24px icons (e.g. StepCard arrows). Which is intended? | #210 |
 | Bottom sheet values | Figma leaves the sheet shadow (`0 -4px 24px #0000002e`), the sheet fill (`#ffffff`) and the title colour (`#101619`) unbound. Code uses a local shadow constant, `surface-base` and `text-default` (`#1f2733`). Should these be bound to variables (e.g. an upward elevation effect), and is the title meant to be `Text/default`? | #217 |
+| Stepper active label weight | The `.Stepper-item-horizontal` Active variant sets the label at weight 500, while the assembled Horizontal-stepper overrides the active label to 700 (the previous code's weight). Code follows the variant (500). Which is intended? | #227 |
+| Toggle thumb shadow | Figma leaves the thumb shadow (`0 1px 2px #0000002e`) unbound; code uses a local literal. Should it be an effect variable? | #226 |
 | Radio error states | Figma's Radio set has Error and Error hover variants (`Status/Error/border` outline, red fill when selected, red-600 halo), but radios have no error state in practice and the code has none. Can those variants be removed from Figma? | #214 |

@@ -1,28 +1,31 @@
 import styled from '@emotion/styled'
 import { StepConnector as MuiStepConnector, stepConnectorClasses } from '@mui/material'
 
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import palette from '@/theme/palette'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
+import stepperColors from './stepperTokens'
 
 const StepConnector = styled(MuiStepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 12,
+    top: spacingRoleBasedTokens['space-12'],
     [theme.breakpoints.up('md')]: {
       top: 9,
     },
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: palette.primary[400],
+      borderColor: stepperColors.progress,
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: palette.primary[400],
+      borderColor: stepperColors.progress,
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-    borderColor: palette.grey[300],
+    borderColor: colorTokens['border-default'],
   },
 }))
 
