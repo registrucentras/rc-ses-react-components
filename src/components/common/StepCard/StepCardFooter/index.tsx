@@ -47,7 +47,7 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
         flexDirection: { xs: 'row', sm: 'column' },
         gap: {
           xs: spacingRoleBasedTokens['space-8'],
-          sm: spacingRoleBasedTokens['space-2'],
+          sm: spacingRoleBasedTokens['space-0'],
         },
         justifyContent: 'center',
         textAlign: { xs: 'center', sm: 'right' },
