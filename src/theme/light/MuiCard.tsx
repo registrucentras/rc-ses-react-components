@@ -1,6 +1,7 @@
 import { Components } from '@mui/material'
 
-import Colors from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
 
 const MuiCard: Components['MuiCard'] = {
   defaultProps: {
@@ -9,16 +10,16 @@ const MuiCard: Components['MuiCard'] = {
   },
   styleOverrides: {
     root: {
-      borderRadius: '1rem',
+      borderRadius: borderTokens['radius-card'],
       // Paint the default outlined border on the root instead of a
       // `variants[{ variant: 'outlined' }]` entry. `styleOverrides` deep-
       // merges when a consumer calls `createTheme(RcSesTheme, {...})`, but
       // arrays like `variants` are replaced wholesale - so a consumer theme
       // that declares its own MuiCard variants would otherwise strip our
       // outlined-border rule and leave every card borderless.
-      borderWidth: 1,
+      borderWidth: borderTokens['stroke-1'],
       borderStyle: 'solid',
-      borderColor: Colors.grey['300'],
+      borderColor: colorTokens['border-default'],
     },
   },
   variants: [
