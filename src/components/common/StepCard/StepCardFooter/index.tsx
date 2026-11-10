@@ -28,7 +28,7 @@ export interface RcSesStepCardFooterProps {
 const responsiveWidthSx = { width: { xs: '100%', sm: 'auto' } } as const
 
 export const stepCardFooterLeadingSx = {
-  mt: { xs: spacingRoleBasedTokens['space-8'], sm: 0 },
+  mt: { xs: spacingRoleBasedTokens['space-4'], sm: 0 },
   order: { xs: 1, sm: 0 },
   ...responsiveWidthSx,
 } as const
