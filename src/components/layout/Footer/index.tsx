@@ -3,6 +3,8 @@ import { Box, Container, Typography } from '@mui/material'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
+// Figma's Inner-page-footer binds the Neutrals/200 and Neutrals/950 primitives
+// directly; no role matches.
 const footerTextColor = 'var(--rc-color-neutrals-200)'
 const footerBackground = 'var(--rc-color-neutrals-950)'
 

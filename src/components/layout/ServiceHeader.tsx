@@ -4,6 +4,7 @@ import React, { type CSSProperties } from 'react'
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
 interface Props {
@@ -23,21 +24,9 @@ function ServiceHeader({
       <Container
         disableGutters
         sx={{
-          pb: {
-            xs: spacingRoleBasedTokens['space-24'],
-            sm: spacingRoleBasedTokens['space-32'],
-            md: spacingRoleBasedTokens['space-48'],
-          },
-          pt: {
-            xs: spacingRoleBasedTokens['space-16'],
-            sm: spacingRoleBasedTokens['space-24'],
-            md: spacingRoleBasedTokens['space-32'],
-          },
-          px: {
-            xs: spacingRoleBasedTokens['space-16'],
-            sm: spacingRoleBasedTokens['space-24'],
-            md: spacingRoleBasedTokens['space-32'],
-          },
+          pb: spacingTokens['spacing-aliases-header-padding-bottom'],
+          pt: spacingTokens['spacing-aliases-header-padding-top'],
+          px: spacingTokens['spacing-aliases-header-padding-x'],
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
@@ -46,12 +35,7 @@ function ServiceHeader({
         <RcSesBreadcrumbs
           {...breadcrumbsProps}
           sx={{
-            pb: {
-              xs: spacingRoleBasedTokens['space-4'],
-              md: spacingRoleBasedTokens['space-8'],
-            },
-            fontSize: typographyTokens['font-size-body-micro'],
-            lineHeight: typographyTokens['line-height-body-micro'],
+            pb: spacingRoleBasedTokens['space-6'],
           }}
         />
 
