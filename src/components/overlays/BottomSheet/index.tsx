@@ -20,21 +20,29 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
-import { grey } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import useSwipeToDismiss from './useSwipeToDismiss'
 
 const SHEET = {
-  handleWidth: '2.25rem',
-  handleHeight: '0.25rem',
-  handleHitAreaPadding: '0.75rem 0',
-  headerPadding: '0 1.5rem 1rem',
-  contentPadding: '0 1.5rem 1.5rem',
-  actionsPadding: '0.75rem 1.5rem 1.5rem',
-  cornerRadius: '1rem',
+  padding: `${spacingTokens['spacing-aliases-bottom-sheet-padding-top']} ${spacingTokens['spacing-aliases-bottom-sheet-padding-x']} ${spacingTokens['spacing-aliases-bottom-sheet-padding-bottom']}`,
+  sectionGap: spacingTokens['spacing-aliases-bottom-sheet-section-gap'],
+  handleWidth: spacingRoleBasedTokens['space-40'],
+  handleHeight: spacingRoleBasedTokens['space-4'],
+  handleHitAreaPadding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-0']} ${spacingTokens['spacing-aliases-bottom-sheet-handle-gap']}`,
+  headerPadding: spacingRoleBasedTokens['space-0'],
+  contentPadding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-0']}`,
+  actionsPadding: `${spacingTokens['spacing-aliases-bottom-sheet-padding-top']} ${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-0']}`,
+  cornerRadius: borderTokens['radius-modal'],
   maxHeight: '85vh',
-  titleFontSize: '1rem',
-  titleLineHeight: '1.375rem',
+  titleFontSize: typographyTokens['font-size-heading-h3'],
+  titleLineHeight: typographyTokens['line-height-heading-h3'],
+  // Figma's upward sheet shadow has no effect variable.
+  shadow: '0 -4px 24px 0 #0000002e',
 }
 
 const SHEET_MAX_WIDTH = {
@@ -137,11 +145,15 @@ function RcSesBottomSheet({
         paper: {
           ref: paperRef,
           sx: {
-            margin: 0,
+            margin: spacingRoleBasedTokens['space-0'],
             width: '100%',
             maxWidth: SHEET_MAX_WIDTH[size],
             maxHeight: SHEET.maxHeight,
-            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} 0 0`,
+            padding: SHEET.padding,
+            gap: SHEET.sectionGap,
+            backgroundColor: colorTokens['surface-base'],
+            boxShadow: SHEET.shadow,
+            borderRadius: `${SHEET.cornerRadius} ${SHEET.cornerRadius} ${borderTokens['radius-0']} ${borderTokens['radius-0']}`,
           },
         },
       }}
@@ -164,8 +176,8 @@ function RcSesBottomSheet({
           sx={{
             width: SHEET.handleWidth,
             height: SHEET.handleHeight,
-            borderRadius: 999,
-            backgroundColor: grey['300'],
+            borderRadius: borderTokens['radius-pill'],
+            backgroundColor: colorTokens['border-default'],
           }}
         />
       </Box>
@@ -175,7 +187,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 1.5,
+            gap: spacingTokens['spacing-aliases-bottom-sheet-content-gap'],
             padding: SHEET.headerPadding,
             flexShrink: 0,
           }}
@@ -200,6 +212,7 @@ function RcSesBottomSheet({
                 flex: 1,
                 fontSize: SHEET.titleFontSize,
                 lineHeight: SHEET.titleLineHeight,
+                color: colorTokens['text-default'],
               }}
             >
               {title}
@@ -222,7 +235,7 @@ function RcSesBottomSheet({
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: 1.5,
+            gap: spacingTokens['spacing-aliases-bottom-sheet-footer-gap'],
             padding: SHEET.actionsPadding,
             flexShrink: 0,
           }}
