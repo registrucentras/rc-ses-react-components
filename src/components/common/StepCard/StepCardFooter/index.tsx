@@ -146,7 +146,10 @@ function RcSesStepCardFooter({
           alignItems: 'center',
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
-          gap: spacingRoleBasedTokens['space-8'],
+          gap: {
+            xs: spacingRoleBasedTokens['space-16'],
+            sm: spacingRoleBasedTokens['space-8'],
+          },
           ...stepCardFooterTrailingSx,
         }}
       >
