@@ -1,40 +1,48 @@
 import { Components } from '@mui/material'
 
-import Colors from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const MuiBreadcrumbs: Components['MuiBreadcrumbs'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      fontSize: '.6875rem',
+      fontSize: typographyTokens['font-size-body-micro'],
     },
     li: {
-      lineHeight: '.875rem',
-      paddingBottom: '.375rem',
-      paddingTop: '.375rem',
+      lineHeight: typographyTokens['line-height-body-micro'],
+      paddingBottom: spacingRoleBasedTokens['space-6'],
+      paddingTop: spacingRoleBasedTokens['space-6'],
 
       a: {
-        color: Colors.grey['600'],
+        color: colorTokens['text-secondary'],
         textDecoration: 'none',
       },
 
       '&:last-child': {
         a: {
-          color: Colors.grey['900'],
+          color: colorTokens['text-default'],
         },
       },
 
       '&:hover': {
         a: {
-          color: Colors.primary['600'],
+          color: colorTokens['text-link'],
         },
       },
 
       '&:active, &:focus': {
         a: {
-          color: Colors.primary['700'],
+          color: colorTokens['text-link-hover'],
         },
       },
+    },
+
+    separator: {
+      color: colorTokens['text-secondary'],
+      marginLeft: spacingRoleBasedTokens['space-6'],
+      marginRight: spacingRoleBasedTokens['space-6'],
     },
   },
 }

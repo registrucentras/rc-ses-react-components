@@ -155,3 +155,25 @@ export const Main: Story = {
     },
   },
 }
+
+function KeyboardPreview() {
+  const { control } = useForm({ defaultValues: { choice: 'first' } })
+  return (
+    <RcSesRadioButtonGroup
+      id='keyboard-choice'
+      name='choice'
+      label='Keyboard selection'
+      control={control}
+      options={[
+        { label: 'First option', value: 'first' },
+        { label: 'Second option', value: 'second' },
+      ]}
+      variant='flat'
+    />
+  )
+}
+
+export const KeyboardSelection = {
+  tags: ['no-snapshot'],
+  render: () => <KeyboardPreview />,
+}
