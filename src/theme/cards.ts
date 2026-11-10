@@ -2,9 +2,9 @@ import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import './tokens.css'
-import { typographyTokens } from './typographyTokens'
 
 /**
  * Card surface tokens - Figma `Cards/card/*` and `Cards/subcard/*`.
