@@ -80,17 +80,6 @@ const MuiRadio: Components['MuiRadio'] = {
           stroke: colorTokens['control-disabled-selected'],
         },
       },
-
-      '&:hover': {
-        '.MuiRadio-root:not(.Mui-disabled)': {
-          backgroundColor:
-            'color-mix(in srgb, var(--rc-color-cyans-400) 20%, transparent)',
-
-          '[data-name="outer"]': {
-            stroke: colorTokens['control-selected'],
-          },
-        },
-      },
     },
   },
 }
