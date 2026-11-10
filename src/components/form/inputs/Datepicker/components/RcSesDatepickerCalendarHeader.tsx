@@ -13,33 +13,38 @@ import {
   CaretLeftBoldIcon,
   CaretRightBoldIcon,
 } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const CustomCalendarHeaderRoot = styled('div')({
   alignItems: 'center',
-  borderBottomColor: palette.grey['200'],
+  borderBottomColor: colorTokens['border-subtle'],
   borderBottomStyle: 'solid',
-  borderBottomWidth: '1px',
+  borderBottomWidth: borderTokens['stroke-1'],
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: '.5rem',
-  padding: '.25rem .5rem',
+  marginBottom: spacingRoleBasedTokens['space-8'],
+  padding: `${spacingRoleBasedTokens['space-4']} ${spacingRoleBasedTokens['space-8']}`,
 })
 
 const StepperButton = styled(IconButton)({
-  height: '3rem',
-  padding: '0 .25rem',
+  height: spacingRoleBasedTokens['space-48'],
+  padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-4']}`,
 
   path: {
-    fill: palette.grey['500'],
+    fill: colorTokens['text-secondary'],
   },
 
   '&:hover, &:focus, &:active': {
     backgroundColor: 'transparent',
     path: {
-      fill: palette.grey['900'],
+      fill: colorTokens['text-default'],
     },
   },
+  '&.Mui-focusVisible': { boxShadow: effectTokens['focus-ring-default'] },
 })
 
 // PickersCalendarHeaderProps is no longer generic in x-date-pickers 9.
@@ -77,7 +82,14 @@ function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps) {
 
       <Typography
         variant='body2'
-        sx={{ flexGrow: 1, fontSize: '.9375rem', fontWeight: 500, textAlign: 'center' }}
+        sx={{
+          flexGrow: 1,
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
+          color: colorTokens['text-default'],
+          fontWeight: 500,
+          textAlign: 'center',
+        }}
       >
         {monthLabel.charAt(0).toLocaleUpperCase() + monthLabel.substring(1)}{' '}
         {utils.format(currentMonth, 'year')}

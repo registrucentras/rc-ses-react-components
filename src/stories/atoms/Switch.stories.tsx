@@ -1,5 +1,6 @@
+import { Stack } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+import { CSSProperties, useState } from 'react'
 
 import RcSesSwitch from '@/components/common/Switch'
 
@@ -66,5 +67,49 @@ export const LongLabel: Story = {
     <div style={{ maxWidth: '16rem' }}>
       <ControlledDemo label='Send me an email whenever there is a new comment on any of my open service requests' />
     </div>
+  ),
+}
+
+export const TokenBindings: Story = {
+  args: { label: 'Notifications' },
+  render: () => (
+    <Stack spacing={2}>
+      <ControlledDemo label='Unchecked switch' />
+      <ControlledDemo label='Checked switch' initialChecked />
+      <ControlledDemo label='Disabled unchecked switch' disabled />
+      <ControlledDemo label='Disabled checked switch' initialChecked disabled />
+    </Stack>
+  ),
+}
+
+export const TokenOverrides: Story = {
+  ...TokenBindings,
+  render: () => (
+    <div
+      style={
+        {
+          '--rc-color-control-selected': '#008561',
+          '--rc-color-control-selected-hover': '#00664e',
+        } as CSSProperties
+      }
+    >
+      <ControlledDemo initialChecked />
+    </div>
+  ),
+}
+
+export const ConsumerOverrides: Story = {
+  args: { label: 'Custom switch' },
+  render: () => (
+    <RcSesSwitch
+      label='Custom switch'
+      defaultChecked
+      sx={{
+        '& .MuiSwitch-track': { backgroundColor: '#008561' },
+        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+          backgroundColor: '#008561',
+        },
+      }}
+    />
   ),
 }

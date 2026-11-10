@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('all icon dimensions resolve from Sizes tokens and react to primitive changes', async ({
   page,
 }) => {
-  await page.goto('/iframe.html?id=foundations-sizes--icons&viewMode=story')
+  await page.goto('/iframe.html?id=fixtures-foundations-sizes--icons&viewMode=story')
   const expected = {
     'icon-size-8': 8,
     'icon-size-12': 12,

@@ -1,5 +1,6 @@
 import { Components } from '@mui/material'
 
+import { borderTokens } from '../borderTokens'
 import palette from '../palette'
 
 const MuiAutocomplete: Components['MuiAutocomplete'] = {
@@ -7,17 +8,17 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
   styleOverrides: {
     root: {
       '.MuiOutlinedInput-root': {
-        borderRadius: '.5rem',
+        borderRadius: borderTokens['radius-input'],
 
         '.MuiOutlinedInput-notchedOutline': {
-          borderRadius: '.5rem',
+          borderRadius: borderTokens['radius-input'],
         },
 
         '&.Mui-focused': {
-          borderRadius: '.5rem',
+          borderRadius: borderTokens['radius-input'],
 
           '.MuiOutlinedInput-notchedOutline': {
-            borderRadius: '.5rem',
+            borderRadius: borderTokens['radius-input'],
           },
         },
 
