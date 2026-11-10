@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
 import { sizeTokens } from '@/theme/sizeTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 type Props = Omit<MuiAlertProps, 'onClose'> & {
   container?: boolean | ContainerProps
@@ -195,7 +196,7 @@ function RcSesAlert({
             onClick={onActionClick}
             sx={(theme) => ({
               flexBasis: '100%',
-              padding: `${spacingRoleBasedTokens['button-padding-y-small']} ${spacingRoleBasedTokens['space-4']}`,
+              padding: `${spacingTokens['spacing-aliases-button-padding-y-small']} ${spacingTokens['spacing-aliases-button-padding-x-link']}`,
               [theme.breakpoints.up('md')]: {
                 flexBasis: 'auto',
               },
