@@ -3,6 +3,7 @@ import { Components } from '@mui/material'
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { spacingTokens } from '../spacingTokens'
 import { typographyTokens } from '../typographyTokens'
 
 const MuiStepper: Components['MuiStepper'] = {
@@ -18,7 +19,7 @@ const MuiStepper: Components['MuiStepper'] = {
       },
 
       '.MuiStepLabel-iconContainer': {
-        paddingRight: spacingRoleBasedTokens['space-10'],
+        paddingRight: spacingTokens['spacing-aliases-stepper-item-gap'],
       },
 
       '.MuiStepLabel-labelContainer': {

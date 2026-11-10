@@ -3,6 +3,7 @@ import { StepLabel, styled } from '@mui/material'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
 import stepperColors from '../stepperTokens'
@@ -23,7 +24,10 @@ const StyledStepLabel = styled(StepLabel, {
     fontWeight: 500,
     fontSize: typographyTokens['font-size-heading-h4'],
     lineHeight: typographyTokens['line-height-heading-h4'],
-    color: stepperColors.label,
+    color:
+      orientation === 'vertical' && stepState === 'pending'
+        ? colorTokens['text-muted']
+        : stepperColors.label,
   },
 
   ...(orientation === 'vertical' && {
@@ -63,7 +67,7 @@ const StyledStepLabel = styled(StepLabel, {
 
   ...(orientation === 'horizontal' && {
     '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
-      marginTop: spacingRoleBasedTokens['space-4'],
+      marginTop: spacingTokens['spacing-aliases-stepper-item-gap'],
     },
   }),
 }))
