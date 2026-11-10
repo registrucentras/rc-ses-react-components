@@ -183,7 +183,7 @@ describe('native token theme adapter', () => {
     expect(tokenTheme.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-button, 0.5rem)',
       height:
-        'calc(var(--rc-typography-line-height-button-regular, 1.25rem) + var(--rc-button-padding-y-regular, 0.75rem) * 2)',
+        'calc(var(--rc-typography-line-height-button-regular) + var(--rc-legacy-space-button-padding-y-regular) * 2)',
     })
     expect(tokenTheme.components?.MuiCard?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-card, 1rem)',

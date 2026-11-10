@@ -1,4 +1,4 @@
-import { Box, ThemeProvider, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Fragment } from 'react'
 import { fn } from 'storybook/test'
@@ -7,7 +7,6 @@ import { PlusBoldIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 import { colorTokens as colors } from '@/theme/colorTokens'
-import { createRcSesTokenTheme } from '@/theme/tokenTheme'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const variantOptions: ButtonProps['variant'][] = ['contained', 'outlined', 'link', 'text']
@@ -153,37 +152,6 @@ export const TokenOverrides: Story = {
       </Button>
       <Button sx={{ px: 0 }}>Custom padding</Button>
     </Box>
-  ),
-}
-
-const fallbackTheme = createRcSesTokenTheme()
-
-export const Fallbacks: Story = {
-  tags: ['no-snapshot'],
-  parameters: { layout: 'padded' },
-  render: () => (
-    <ThemeProvider theme={fallbackTheme}>
-      <Box sx={{ display: 'grid', gap: 2, justifyItems: 'start' }}>
-        {(['small', 'medium', 'large'] as const).map((size) => (
-          <Box key={size} sx={{ display: 'flex', gap: 2 }}>
-            <Button size={size} data-testid={`fallback-${size}-normal`}>
-              {size}
-            </Button>
-            <Button
-              size={size}
-              iconOnly
-              aria-label={`Add ${size}`}
-              data-testid={`fallback-${size}-icon`}
-            >
-              <PlusBoldIcon />
-            </Button>
-            <Button size={size} variant='link' data-testid={`fallback-${size}-link`}>
-              Link {size}
-            </Button>
-          </Box>
-        ))}
-      </Box>
-    </ThemeProvider>
   ),
 }
 

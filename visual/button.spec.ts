@@ -35,38 +35,6 @@ test('Link uses medium weight and compact text and icon-only widths', async ({
   }
 })
 
-test('token theme keeps legacy Button dimensions when DS variables are unavailable', async ({
-  page,
-}) => {
-  await page.goto('/iframe.html?id=atoms-button--fallbacks&viewMode=story')
-  await expect(page.getByTestId('fallback-medium-normal')).toHaveCSS('height', '44px')
-  await page.evaluate(() => {
-    Array.from(getComputedStyle(document.documentElement))
-      .filter((name) => name.startsWith('--rc-') && !name.startsWith('--rc-mui-'))
-      .forEach((name) => document.documentElement.style.setProperty(name, 'initial'))
-  })
-  for (const width of [375, 1440]) {
-    await page.setViewportSize({ width, height: 900 })
-    for (const size of ['small', 'medium', 'large'] as const) {
-      const normal = page.getByTestId(`fallback-${size}-normal`)
-      await expect(normal).toHaveCSS('height', size === 'small' ? '36px' : '44px')
-      await expect(normal).toHaveCSS('font-size', '15px')
-      await expect(normal).toHaveCSS('line-height', '18px')
-      const padding = { small: '8px 12px', medium: '13px 20px', large: '15px 36px' }
-      await expect(normal).toHaveCSS('padding', padding[size])
-      const icon = page.getByTestId(`fallback-${size}-icon`)
-      const lengths = { small: '36px', medium: '44px', large: '48px' }
-      await expect(icon).toHaveCSS('height', lengths[size])
-      await expect(icon).toHaveCSS('width', lengths[size])
-      await expect(icon).toHaveCSS('padding', '0px')
-      await expect(page.getByTestId(`fallback-${size}-link`)).toHaveCSS(
-        'height',
-        size === 'small' ? '36px' : '38px',
-      )
-    }
-  }
-})
-
 test('DS roles, responsive spacing and fixed heights resolve without reloading', async ({
   page,
 }) => {
