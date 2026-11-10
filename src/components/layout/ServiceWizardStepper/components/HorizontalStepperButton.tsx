@@ -1,7 +1,11 @@
 import { Button, ButtonProps } from '@mui/material'
 
 import { CaretLeftIcon, CaretRightBoldIcon } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
+import stepperColors from '../stepperTokens'
 
 type Props = ButtonProps & {
   direction: 'back' | 'forward'
@@ -16,18 +20,18 @@ const HorizontalStepperButton = ({ direction, sx, ...rest }: Props) => {
       color='inherit'
       {...rest}
       sx={{
-        minWidth: 36,
-        width: 36,
-        height: 36,
-        padding: 0,
-        borderRadius: 2,
-        borderColor: palette.grey[600],
-        color: palette.grey[800],
+        minWidth: spacingRoleBasedTokens['space-36'],
+        width: spacingRoleBasedTokens['space-36'],
+        height: spacingRoleBasedTokens['space-36'],
+        padding: spacingRoleBasedTokens['space-0'],
+        borderRadius: borderTokens['radius-8'],
+        borderColor: colorTokens['control-unselected'],
+        color: stepperColors.label,
 
         '&:hover': {
-          borderColor: palette.grey[800],
-          backgroundColor: palette.grey[800],
-          color: '#fff',
+          borderColor: stepperColors.label,
+          backgroundColor: stepperColors.label,
+          color: colorTokens['text-inverse'],
         },
 
         '&.Mui-disabled': {
