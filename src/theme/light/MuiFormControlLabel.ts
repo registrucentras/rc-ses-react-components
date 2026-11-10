@@ -14,8 +14,9 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
       position: 'relative',
 
       '&:hover': {
-        '.MuiRadio-root': {
-          backgroundColor: colorTokens['surface-brand-subtle'],
+        '.MuiRadio-root:not(.Mui-disabled)': {
+          backgroundColor:
+            'color-mix(in srgb, var(--rc-color-cyans-400) 20%, transparent)',
 
           '[data-name="outer"]': {
             stroke: colorTokens['control-selected'],
