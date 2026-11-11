@@ -92,7 +92,7 @@ export const TokenBindings: Story = {
     docs: {
       description: {
         story:
-          'Checkbox hover and error hover use a 20% tint of cyans-400 and red-600, matching the unbound Figma halo. Icon colors inherit currentColor. Legacy SVG geometry, selection and loading behavior are unchanged.',
+          'Shared Checkbox-mark uses a 24px frame and 20px shape. Hover and error halos belong to the consuming control, while selection and loading behavior are preserved.',
       },
     },
   },
@@ -108,7 +108,7 @@ export const TokenOverrides: Story = {
             defaultChecked
             sx={{
               '&.Mui-checked': { color: '#0a141e' },
-              '&.Mui-focusVisible > svg': { boxShadow: 'none' },
+              '&.Mui-focusVisible [data-rc-mark-shape]': { boxShadow: 'none' },
             }}
           />
         }
