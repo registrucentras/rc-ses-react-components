@@ -2,7 +2,10 @@ import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { CircleFilledIcon, CloseIcon } from '@/assets/icons/phosphorIcons'
-import { common, error, grey, primary, secondary, warning } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export interface RcSesBadgeProps {
   label: string
@@ -23,40 +26,40 @@ interface VariantStyle {
 
 const variantStyles: Record<RcSesBadgeProps['variant'], VariantStyle> = {
   neutral: {
-    border: grey['300'],
-    background: common.white,
-    iconColor: grey['900'],
-    color: grey['900'],
+    border: colorTokens['border-default'],
+    background: colorTokens['surface-base'],
+    iconColor: colorTokens['text-default'],
+    color: colorTokens['text-default'],
   },
   success: {
-    border: secondary['500'],
-    background: secondary['100'],
-    iconColor: secondary['600'],
-    color: secondary['800'],
+    border: colorTokens['status-success-border'],
+    background: colorTokens['status-success-bg'],
+    iconColor: colorTokens['status-success-icon'],
+    color: colorTokens['status-success-text'],
   },
   warning: {
-    border: warning['400'],
-    background: warning['100'],
-    iconColor: warning['500'],
-    color: warning['800'],
+    border: colorTokens['status-warning-border'],
+    background: colorTokens['status-warning-bg'],
+    iconColor: colorTokens['status-warning-icon'],
+    color: colorTokens['status-warning-text'],
   },
   error: {
-    border: error['500'],
-    background: error['100'],
-    iconColor: error['600'],
-    color: error['700'],
+    border: colorTokens['status-error-border'],
+    background: colorTokens['status-error-bg'],
+    iconColor: colorTokens['status-error-icon'],
+    color: colorTokens['status-error-text'],
   },
   info: {
-    border: primary['400'],
-    background: primary['100'],
-    iconColor: primary['500'],
-    color: primary['800'],
+    border: colorTokens['status-info-border'],
+    background: colorTokens['status-info-bg'],
+    iconColor: colorTokens['status-info-icon'],
+    color: colorTokens['status-info-text'],
   },
   brand: {
-    border: primary['500'],
-    background: primary['200'],
-    iconColor: primary['950'],
-    color: primary['950'],
+    border: colorTokens['action-primary-bg-pressed'],
+    background: colorTokens['action-primary-bg'],
+    iconColor: colorTokens['action-primary-text'],
+    color: colorTokens['action-primary-text'],
   },
 }
 
@@ -70,15 +73,15 @@ interface SizeStyle {
 const sizeStyles: Record<RcSesBadgeProps['size'], SizeStyle> = {
   small: {
     height: '1.625rem',
-    padding: '0.25rem 0.5rem',
-    fontSize: '0.8125rem',
-    lineHeight: '1.125rem',
+    padding: `${spacingTokens['spacing-aliases-badge-padding-y-small']} ${spacingTokens['spacing-aliases-badge-padding-x-small']}`,
+    fontSize: typographyTokens['font-size-body-caption'],
+    lineHeight: typographyTokens['line-height-body-caption'],
   },
   regular: {
     height: '2.125rem',
-    padding: '0.375rem 0.75rem',
-    fontSize: '0.9375rem',
-    lineHeight: '1.375rem',
+    padding: `${spacingTokens['spacing-aliases-badge-padding-y-regular']} ${spacingTokens['spacing-aliases-badge-padding-x-regular']}`,
+    fontSize: typographyTokens['font-size-body-caption'],
+    lineHeight: typographyTokens['line-height-body-caption'],
   },
 }
 
@@ -102,10 +105,10 @@ function RcSesBadge(props: RcSesBadgeProps) {
     alignItems: 'center',
     justifyContent: 'center',
     verticalAlign: 'baseline',
-    gap: '0.25rem',
+    gap: spacingTokens['spacing-aliases-badge-icon-text-gap'],
     maxWidth: '100%',
-    borderRadius: '9999px',
-    border: `1px solid ${variantStyle.border}`,
+    borderRadius: borderTokens['radius-pill'],
+    border: `${borderTokens['stroke-1']} solid ${variantStyle.border}`,
     background: variantStyle.background,
     color: variantStyle.color,
     ...sizeStyle,
@@ -130,7 +133,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
           </Box>
         ) : (
           <CircleFilledIcon
-            size={14}
+            size={12}
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
@@ -171,7 +174,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
           }}
         >
           <CloseIcon
-            size={14}
+            size={12}
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
