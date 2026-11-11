@@ -31,6 +31,7 @@ function RcSesDialog({
   actions,
   onClose,
   size = 'md',
+  className,
   ...props
 }: RcSesDialogProps) {
   const dialogWidth = SIZE_MAP[size]
@@ -41,11 +42,12 @@ function RcSesDialog({
     <MuiDialog
       onClose={onClose}
       {...props}
+      className={['RcSesDialog-root', className].filter(Boolean).join(' ')}
       maxWidth={false}
       aria-labelledby={titleId}
       aria-describedby={children ? contentId : undefined}
       slotProps={{
-        paper: { sx: { width: dialogWidth, borderRadius: '16px' } },
+        paper: { sx: { width: dialogWidth } },
       }}
     >
       <DialogTitle
@@ -54,32 +56,12 @@ function RcSesDialog({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          fontSize: '24px',
-          lineHeight: '32px',
-          padding: '2rem 2rem 1rem !important',
         }}
       >
         {dialogTitle}
       </DialogTitle>
-      {children && (
-        <DialogContent
-          id={contentId}
-          sx={{
-            padding: '0 2rem !important',
-          }}
-        >
-          {children}
-        </DialogContent>
-      )}
-      {actions && (
-        <DialogActions
-          sx={{
-            padding: '1.25rem 2rem 2rem !important',
-          }}
-        >
-          {actions}
-        </DialogActions>
-      )}
+      {children && <DialogContent id={contentId}>{children}</DialogContent>}
+      {actions && <DialogActions>{actions}</DialogActions>}
     </MuiDialog>
   )
 }
