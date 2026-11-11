@@ -2,8 +2,6 @@ import { Box, Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@/assets/icons/phosphorIcons'
-import { borderTokens } from '@/theme/borderTokens'
-import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { spacingTokens } from '@/theme/spacingTokens'
 
