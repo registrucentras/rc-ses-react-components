@@ -13,7 +13,6 @@ import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesDialog, { RcSesDialogProps } from '../Dialog'
-import { primaryActionStyles, secondaryActionStyles } from './modalActionStyles'
 
 export type ModalVariant = 'destructive' | 'confirm' | 'success' | 'info'
 
@@ -124,12 +123,7 @@ function RcSesModal({
   const defaultActions = (
     <>
       {(variant === 'destructive' || variant === 'confirm') && (
-        <Button
-          onClick={onSecondaryAction}
-          variant='outlined'
-          color='grey'
-          sx={secondaryActionStyles}
-        >
+        <Button onClick={onSecondaryAction} variant='outlined' color='grey'>
           {getSecondaryLabel()}
         </Button>
       )}
@@ -137,7 +131,6 @@ function RcSesModal({
         onClick={onPrimaryAction}
         variant='contained'
         color={variant === 'destructive' ? 'error' : 'primary'}
-        sx={primaryActionStyles(variant === 'destructive')}
       >
         {getPrimaryLabel()}
       </Button>

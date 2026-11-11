@@ -3,11 +3,12 @@ import { Components } from '@mui/material'
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { spacingTokens } from '../spacingTokens'
 import { typographyTokens } from '../typographyTokens'
 
 // Figma defines these effects locally, without matching foundation effect roles.
 const modalShadow =
-  '0 8px 12px color-mix(in srgb, var(--rc-color-neutrals-950) 12%, transparent)'
+  '0 8px 24px color-mix(in srgb, var(--rc-color-neutrals-950) 12%, transparent)'
 const modalBackdrop = 'color-mix(in srgb, var(--rc-color-neutrals-950) 50%, transparent)'
 
 const MuiDialog: Components['MuiDialog'] = {
@@ -42,7 +43,7 @@ const MuiDialog: Components['MuiDialog'] = {
         },
 
         '.MuiDialogActions-root': {
-          padding: `${spacingRoleBasedTokens['space-24']} 0 0`,
+          padding: `${spacingTokens['spacing-aliases-card-section-gap']} 0 0`,
           gap: spacingRoleBasedTokens['space-12'],
           '& > :not(style) ~ :not(style)': { marginLeft: 0 },
         },
