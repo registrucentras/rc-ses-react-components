@@ -102,7 +102,7 @@ describe('RcSesCardShell', () => {
     )
 
     const card = screen.getByTestId('card-root')
-    expect(card).toHaveStyle({ borderRadius: '0.75rem' })
+    expect(getComputedStyle(card).borderRadius).toBe('var(--rc-radius-card)')
   })
 
   test('variant="subcard" applies smaller border-radius', () => {
@@ -113,13 +113,13 @@ describe('RcSesCardShell', () => {
     )
 
     const card = screen.getByTestId('card-root')
-    expect(card).toHaveStyle({ borderRadius: '0.5rem' })
+    expect(getComputedStyle(card).borderRadius).toBe('var(--rc-radius-subcard)')
   })
 
   test.each([
-    ['default', colorTokens['surface-base'], colorTokens['border-default']],
-    ['brand', colorTokens['surface-brand-subtle'], '#b9e9fa'],
-    ['sunken', colorTokens['surface-sunken'], colorTokens['border-subtle']],
+    ['default', colorTokens['surface-base'], colorTokens['border-subtle']],
+    ['brand', colorTokens['surface-brand-subtle'], colorTokens['border-brand-subtle']],
+    ['sunken', colorTokens['surface-sunken'], colorTokens['surface-sunken']],
   ] as const)(
     'theme=%s paints its own background and border',
     (name, background, border) => {

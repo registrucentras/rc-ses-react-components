@@ -711,7 +711,14 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                 minWidth: 0,
               }}
             >
-              {multiple && <OptionCheckbox checked={selected} />}
+              {multiple && (
+                <OptionCheckbox
+                  checked={selected}
+                  disabled={
+                    rest['aria-disabled'] === true || rest['aria-disabled'] === 'true'
+                  }
+                />
+              )}
               <Box
                 sx={{
                   flex: 1,

@@ -4,6 +4,8 @@ import type { ExtendButtonBase } from '@mui/material/ButtonBase'
 import { useTranslation } from 'react-i18next'
 
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
+import { buttonDimensions } from '@/theme/light/MuiButton'
+import '@/theme/tokens.css'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const defaultProps: Partial<MuiButtonProps> = {
@@ -11,12 +13,6 @@ const defaultProps: Partial<MuiButtonProps> = {
   disabled: false,
   variant: 'contained',
 }
-
-const ICON_ONLY_SIZE_MAP = {
-  small: '2.25rem',
-  medium: '2.75rem',
-  large: '3rem',
-} as const
 
 type Props = ButtonProps
 
@@ -26,7 +22,10 @@ function RcSesButtonComponent(props: Props) {
 
   const currentVariant = variant ?? defaultProps.variant
   const isIconOnly =
-    !!iconOnly && (currentVariant === 'contained' || currentVariant === 'outlined')
+    !!iconOnly &&
+    (currentVariant === 'contained' ||
+      currentVariant === 'outlined' ||
+      currentVariant === 'link')
 
   return (
     <MuiButton
@@ -48,9 +47,12 @@ function RcSesButtonComponent(props: Props) {
         isIconOnly
           ? {
               minWidth: 0,
-              padding: 0,
-              width: ICON_ONLY_SIZE_MAP[size],
-              height: ICON_ONLY_SIZE_MAP[size],
+              padding:
+                size === 'small'
+                  ? buttonDimensions.iconPaddingSmall
+                  : buttonDimensions.iconPaddingRegular,
+              width: buttonDimensions[size],
+              height: buttonDimensions[size],
               '.MuiButton-startIcon, .MuiButton-endIcon': {
                 margin: 0,
               },

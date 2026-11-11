@@ -113,6 +113,10 @@ export {
 export { RcSesSegmentedControl }
 export { RcSesSideNavLayout }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
+export { default as RcSesCheckboxMark } from '@/components/common/CheckboxMark'
+export type { CheckboxMarkProps } from '@/components/common/CheckboxMark'
+export { default as RcSesRadioMark } from '@/components/common/RadioMark'
+export type { RadioMarkProps } from '@/components/common/RadioMark'
 export { useSnackbar }
 export { RcSesDatepicker }
 export { RcSesFileUpload }

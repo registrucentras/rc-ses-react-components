@@ -193,7 +193,6 @@ const AdvancedListItemLeading = ({
       />
     )
   }
-  // change to RcSesRadio when it is implemented
   if (leading.type === 'radio') {
     return (
       <Radio
