@@ -2,6 +2,43 @@ import { expect, test } from '@playwright/test'
 
 const viewports = [375, 768, 1024, 1440]
 
+const focusCheckboxes = [
+  'Unchecked checkbox',
+  'Checked checkbox',
+  'Indeterminate checkbox',
+  'Error checkbox',
+]
+
+focusCheckboxes.forEach((name) => {
+  test(`${name} keeps the Figma focus gap even while hovered`, async ({ page }) => {
+    await page.goto('/iframe.html?id=atoms-simplecheckbox--token-bindings&viewMode=story')
+    const checkbox = page.getByRole('checkbox', { name, exact: true })
+    await page.keyboard.press('Tab')
+    await checkbox.focus()
+    await checkbox.hover()
+    const shape = checkbox.locator('..').locator('[data-rc-mark-shape]')
+    await expect(shape).toHaveCSS('outline-style', 'solid')
+    await expect(shape).toHaveCSS('outline-width', '2px')
+    await expect(shape).toHaveCSS('outline-offset', '2px')
+    await expect(shape).toHaveCSS('outline-color', 'rgb(0, 121, 173)')
+    await expect(shape).toHaveCSS('box-shadow', 'none')
+    if (name === 'Unchecked checkbox') {
+      await expect(shape).toHaveCSS('border-top-color', 'rgb(107, 116, 127)')
+    }
+    if (name === 'Checked checkbox') {
+      const screenshotPath = test.info().outputPath('checked-focus-hover.png')
+      await checkbox.locator('..').locator('..').screenshot({ path: screenshotPath })
+      await test.info().attach('checked-focus-hover', {
+        path: screenshotPath,
+        contentType: 'image/png',
+      })
+    }
+    await page.keyboard.press('Space')
+    await expect(shape).toHaveCSS('outline-offset', '2px')
+    await expect(shape).toHaveCSS('box-shadow', 'none')
+  })
+})
+
 test('Checkbox hover and error hover show a tinted halo, not the focus ring', async ({
   page,
 }) => {
@@ -15,21 +52,28 @@ test('Checkbox hover and error hover show a tinted halo, not the focus ring', as
   })
   const normal = page.getByRole('checkbox', { name: 'Unchecked checkbox', exact: true })
   await normal.hover()
-  const normalSvg = normal.locator('..').locator('svg')
-  await expect(normalSvg).toHaveCSS('color', 'rgb(11, 22, 33)')
+  const normalSvg = normal.locator('..').locator('[data-rc-mark-shape]')
+  await expect(normalSvg).toHaveCSS('border-top-color', 'rgb(11, 22, 33)')
   await expect(normalSvg).toHaveCSS(
     'box-shadow',
     /^color\(srgb 0\.117\d* 0\.176\d* 0\.235\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
   const error = page.getByRole('checkbox', { name: 'Error checkbox', exact: true })
-  await expect(error.locator('..').locator('svg')).toHaveCSS('color', 'rgb(44, 55, 66)')
+  await expect(error.locator('..').locator('[data-rc-mark-shape]')).toHaveCSS(
+    'border-top-color',
+    'rgb(44, 55, 66)',
+  )
   await error.hover()
-  const errorSvg = error.locator('..').locator('svg')
-  await expect(errorSvg).toHaveCSS('color', 'rgb(44, 55, 66)')
+  const errorSvg = error.locator('..').locator('[data-rc-mark-shape]')
+  await expect(errorSvg).toHaveCSS('border-top-color', 'rgb(44, 55, 66)')
   await expect(errorSvg).toHaveCSS(
     'box-shadow',
     /^color\(srgb 0\.258\d* 0\.301\d* 0\.345\d* \/ 0\.2\) 0px 0px 0px 4px$/,
   )
+  await error.click()
+  await expect(error).toBeChecked()
+  await expect(errorSvg).toHaveCSS('border-top-width', '2px')
+  await expect(errorSvg).toHaveCSS('background-color', 'rgb(44, 55, 66)')
 })
 
 const disabledCheckboxes = [
@@ -42,11 +86,11 @@ disabledCheckboxes.forEach((name) => {
   test(`${name} keeps its color without a hover halo`, async ({ page }) => {
     await page.goto('/iframe.html?id=atoms-simplecheckbox--token-bindings&viewMode=story')
     const checkbox = page.getByRole('checkbox', { name, exact: true })
-    const svg = checkbox.locator('..').locator('svg')
-    const color = await svg.evaluate((node) => getComputedStyle(node).color)
+    const svg = checkbox.locator('..').locator('[data-rc-mark-shape]')
+    const color = await svg.evaluate((node) => getComputedStyle(node).backgroundColor)
     // Disabled MUI controls have pointer-events: none; move the pointer anyway.
     await checkbox.locator('..').hover({ force: true })
-    await expect(svg).toHaveCSS('color', color)
+    await expect(svg).toHaveCSS('background-color', color)
     await expect(svg).toHaveCSS('box-shadow', 'none')
   })
 })
@@ -57,16 +101,22 @@ test('Checkbox sx overrides checked color and focus styles', async ({ page }) =>
   await expect(checkbox.locator('..')).toHaveCSS('color', 'rgb(10, 20, 30)')
   await page.keyboard.press('Tab')
   await checkbox.focus()
-  await expect(checkbox.locator('..').locator('svg')).toHaveCSS('box-shadow', 'none')
+  await expect(checkbox.locator('..').locator('[data-rc-mark-shape]')).toHaveCSS(
+    'box-shadow',
+    'none',
+  )
   const palette = page.getByRole('checkbox', { name: 'Custom palette checkbox' })
   await expect(palette.locator('..')).toHaveCSS('color', 'rgb(77, 88, 99)')
   await checkbox.hover()
-  await expect(checkbox.locator('..').locator('svg')).toHaveCSS(
-    'color',
+  await expect(checkbox.locator('..').locator('[data-rc-mark-shape]')).toHaveCSS(
+    'background-color',
     'rgb(10, 20, 30)',
   )
   await palette.hover()
-  await expect(palette.locator('..').locator('svg')).toHaveCSS('color', 'rgb(77, 88, 99)')
+  await expect(palette.locator('..').locator('[data-rc-mark-shape]')).toHaveCSS(
+    'background-color',
+    'rgb(77, 88, 99)',
+  )
 })
 
 viewports.forEach((width) => {
@@ -80,7 +130,7 @@ viewports.forEach((width) => {
       'margin-left',
       '3px',
     )
-    await expect(card.locator('.MuiCheckbox-root > svg')).toHaveCSS('width', '24px')
+    await expect(card.locator('[data-rc-checkbox-mark]')).toHaveCSS('width', '24px')
   })
 })
 
