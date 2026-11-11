@@ -61,7 +61,7 @@ test('chips, limitTags, filtered selectAll and group member values retain existi
       'rgb(120, 20, 130)',
     )
   })
-  await expect(group.locator('[aria-hidden] > div > div')).toHaveCSS(
+  await expect(group.locator('[data-rc-checkbox-mark] [data-rc-mark-shape]')).toHaveCSS(
     'background-color',
     'rgb(120, 20, 130)',
   )
