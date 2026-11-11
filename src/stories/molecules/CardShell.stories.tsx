@@ -94,7 +94,7 @@ const SampleHeader = () => (
   <RcSesTitleBlock
     title='Kortelės antraštė'
     description='Paaiškinimas apie šios kortelės turinį'
-    titleVariant='card-heading'
+    titleVariant='card-title'
   />
 )
 

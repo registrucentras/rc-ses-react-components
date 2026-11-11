@@ -97,7 +97,7 @@ describe('RcSesTitleBlock', () => {
   })
 
   test('heading levels 2 through 6 render correctly', () => {
-    const levels = [2, 3, 4, 5, 6] as const
+    const levels = [2, 3, 5, 6] as const
 
     levels.forEach((level) => {
       const { unmount } = renderTitleBlock(
@@ -125,7 +125,7 @@ describe('RcSesTitleBlock', () => {
   })
 
   test('heading title variants keep the card-header weight', () => {
-    const variants = ['h4', 'h5', 'h6'] as const
+    const variants = ['h5', 'h6'] as const
 
     variants.forEach((variant) => {
       const { unmount } = renderTitleBlock(

@@ -29,8 +29,6 @@ function RcSesTitleBlock({
   const hasCount = count !== undefined && count !== null
   const hasDescription = description !== undefined && description !== null
   const isVertical = orientation === 'vertical'
-  // The card-header weight belongs to the heading variants only.
-  const isHeadingScale = titleVariant !== 'body1'
 
   const iconNode = icon ? (
     <Box
@@ -45,52 +43,38 @@ function RcSesTitleBlock({
     </Box>
   ) : null
 
-  // Determine typography tokens for heading-scale titles
+  // Check if variant is a heading-scale (h5, h6)
+  const isHeadingVariant = ['h5', 'h6'].includes(titleVariant)
+
   const getHeadingFontSize = () => {
-    // Only apply design tokens for h5 and h6 variants, preserve h4 default sizing
-    if (!isHeadingScale || !['h5', 'h6'].includes(titleVariant)) return undefined
-    if (isVertical) {
-      return {
-        xs: typographyTokens['font-size-body-small'],
-        sm: typographyTokens['font-size-heading-h5'],
-      }
-    }
-    return typographyTokens['font-size-heading-h5']
+    if (!isHeadingVariant) return undefined
+    return isVertical
+      ? {
+          xs: typographyTokens['font-size-body-small'],
+          sm: typographyTokens['font-size-heading-h5'],
+        }
+      : typographyTokens['font-size-heading-h5']
   }
 
   const getHeadingLineHeight = () => {
-    // Only apply design tokens for h5 and h6 variants, preserve h4 default sizing
-    if (!isHeadingScale || !['h5', 'h6'].includes(titleVariant)) return undefined
-    if (isVertical) {
-      return {
-        xs: typographyTokens['line-height-body-small'],
-        sm: typographyTokens['line-height-heading-h5'],
-      }
-    }
-    return typographyTokens['line-height-heading-h5']
+    if (!isHeadingVariant) return undefined
+    return isVertical
+      ? {
+          xs: typographyTokens['line-height-body-small'],
+          sm: typographyTokens['line-height-heading-h5'],
+        }
+      : typographyTokens['line-height-heading-h5']
   }
 
   const getTitleTypography = () => {
-    // Card-title variant
     if (titleVariant === 'card-title') {
       return {
         fontSize: typographyTokens['font-size-heading-card-title'],
         lineHeight: typographyTokens['line-height-heading-card-title'],
         fontWeight: 500,
-        letterSpacing: '-0.2px',
       }
     }
 
-    // Card-heading variant (h3 scale)
-    if (titleVariant === 'card-heading') {
-      return {
-        fontSize: typographyTokens['font-size-heading-h3'],
-        lineHeight: typographyTokens['line-height-heading-h3'],
-        fontWeight: 500,
-      }
-    }
-
-    // Brand tone
     if (titleTone === 'brand') {
       return {
         fontSize: typographyTokens['font-size-body-regular'],
@@ -99,8 +83,7 @@ function RcSesTitleBlock({
       }
     }
 
-    // Title-only (no description) for non-heading variants
-    if (!hasDescription && !['h4', 'h5', 'h6'].includes(titleVariant)) {
+    if (!hasDescription && !isHeadingVariant) {
       return {
         fontSize: typographyTokens['font-size-body-regular'],
         lineHeight: typographyTokens['line-height-body-regular'],
@@ -108,8 +91,15 @@ function RcSesTitleBlock({
       }
     }
 
-    // Heading-scale (h4, h5, h6)
-    if (['h4', 'h5', 'h6'].includes(titleVariant)) {
+    if (titleVariant === 'h2') {
+      return {
+        fontSize: typographyTokens['font-size-heading-h2'],
+        lineHeight: typographyTokens['line-height-heading-h2'],
+        fontWeight: 500,
+      }
+    }
+
+    if (isHeadingVariant) {
       return {
         fontSize: getHeadingFontSize(),
         lineHeight: getHeadingLineHeight(),
@@ -117,34 +107,32 @@ function RcSesTitleBlock({
       }
     }
 
-    // Default: no overrides
     return {}
   }
 
-  const getDescriptionFontSize = () => {
+  const getDescriptionTypography = () => {
     if (titleTone === 'brand') {
-      return typographyTokens['font-size-body-caption']
+      return {
+        fontSize: typographyTokens['font-size-body-caption'],
+        lineHeight: typographyTokens['line-height-body-caption'],
+      }
     }
-    if (titleVariant === 'h5') {
-      return typographyTokens['font-size-body-small']
-    }
-    if (isVertical) {
-      return typographyTokens['font-size-body-small']
-    }
-    return undefined
-  }
 
-  const getDescriptionLineHeight = () => {
-    if (titleTone === 'brand') {
-      return typographyTokens['line-height-body-caption']
+    if (titleVariant === 'h2' || titleVariant === 'card-title') {
+      return {
+        fontSize: typographyTokens['font-size-body-regular'],
+        lineHeight: typographyTokens['line-height-body-regular'],
+      }
     }
-    if (titleVariant === 'h5') {
-      return typographyTokens['line-height-body-small']
+
+    if (titleVariant === 'h5' || isVertical) {
+      return {
+        fontSize: typographyTokens['font-size-body-small'],
+        lineHeight: typographyTokens['line-height-body-small'],
+      }
     }
-    if (isVertical) {
-      return typographyTokens['line-height-body-small']
-    }
-    return undefined
+
+    return {}
   }
 
   const textColumn = (
@@ -159,11 +147,7 @@ function RcSesTitleBlock({
       <HeadingTag id={headingId} data-testid={testIds?.heading} style={{ margin: 0 }}>
         <Typography
           component='span'
-          variant={
-            titleVariant === 'card-title' || titleVariant === 'card-heading'
-              ? 'body1'
-              : titleVariant
-          }
+          variant={titleVariant === 'card-title' ? 'body1' : titleVariant}
           sx={{
             color:
               titleTone === 'brand'
@@ -204,9 +188,8 @@ function RcSesTitleBlock({
           variant='body2'
           sx={{
             color: colorTokens['text-secondary'],
-            fontSize: getDescriptionFontSize(),
-            lineHeight: getDescriptionLineHeight(),
             fontWeight: 400,
+            ...getDescriptionTypography(),
           }}
         >
           {description}
