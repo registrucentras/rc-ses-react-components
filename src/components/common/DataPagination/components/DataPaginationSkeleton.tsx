@@ -1,15 +1,18 @@
 import { Box, Skeleton } from '@mui/material'
 
+import { borderTokens } from '@/theme/borderTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
 interface DataPaginationSkeletonProps {
   isMobile: boolean
 }
 
 const SIZES = {
-  item: '2.5rem',
-  buttonDesktop: '4.8125rem',
-  gap: '0.375rem',
-  paddingX: '0.1875rem',
-  radius: '0.5rem',
+  item: spacingRoleBasedTokens['space-40'],
+  buttonDesktop: spacingRoleBasedTokens['space-80'],
+  gap: spacingRoleBasedTokens['gap-xs'],
+  paddingX: spacingRoleBasedTokens['space-2'],
+  radius: borderTokens['radius-button'],
 }
 
 const ITEMS_COUNT = 5

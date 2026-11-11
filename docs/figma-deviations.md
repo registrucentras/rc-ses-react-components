@@ -25,6 +25,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 | Button | Button v2 has four variants: Primary, Secondary, Link, Error | Other MUI colour/variant combinations (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant) keep legacy primitives | Existing API kept; no Figma variant or action role to bind | #205 |
+| DataPaginationSkeleton | Desktop button width 77px (4.8125rem) | `space-80` token (80px / 5rem) | Closest token match; 3px rounding up from design spec | SAV-6559 |
+| PaginationButton | No `font-weight` tokens in design system | Font weight hardcoded to `400` | No semantic font-weight tokens exist in theme; typography tokens only include font-size and line-height | SAV-6559 |
 
 ## Open questions
 

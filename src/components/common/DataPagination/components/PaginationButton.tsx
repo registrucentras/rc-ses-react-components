@@ -1,6 +1,9 @@
 import { Box, Button, ButtonProps } from '@mui/material'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface PaginationButtonProps extends ButtonProps {
   label: string
@@ -12,34 +15,35 @@ const baseButtonSx = {
   '&&': {
     minWidth: 40,
     height: 40,
-    px: 1.5,
-    borderRadius: 2,
-    fontSize: 14,
-    fontWeight: 300,
+    px: spacingRoleBasedTokens['space-12'],
+    borderRadius: borderTokens['radius-button'],
+    fontSize: typographyTokens['font-size-body-small'],
+    fontWeight: 400,
     textTransform: 'none',
     backgroundColor: 'transparent',
-    color: palette.grey[800],
+    color: colorTokens['text-default'],
 
     display: 'flex',
     alignItems: 'center',
-    gap: 0.5,
+    gap: spacingRoleBasedTokens['space-4'],
 
     '&:hover': {
-      backgroundColor: palette.grey[200],
+      backgroundColor: 'var(--rc-color-neutrals-200)',
     },
 
-    '&:active': {
-      backgroundColor: palette.grey[300],
+    '&:active, &.Mui-selected': {
+      backgroundColor: 'var(--rc-color-neutrals-300)',
     },
 
     '&.Mui-focusVisible': {
-      border: `2px solid ${palette.grey[950]}`,
-      backgroundColor: palette.grey[50],
+      backgroundColor: 'var(--rc-color-neutrals-50)',
+      border: `${borderTokens['border-focus']} solid var(--rc-color-neutrals-950)`,
+      boxShadow: 'none',
     },
 
     '&.Mui-disabled': {
-      backgroundColor: palette.grey[100],
-      color: palette.grey[500],
+      backgroundColor: 'var(--rc-color-neutrals-100)',
+      color: 'var(--rc-color-neutrals-500)',
     },
   },
 }

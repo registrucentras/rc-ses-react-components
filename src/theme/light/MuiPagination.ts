@@ -1,6 +1,8 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiPagination: Components['MuiPagination'] = {
   defaultProps: {
@@ -12,37 +14,37 @@ const MuiPagination: Components['MuiPagination'] = {
 const MuiPaginationItem: Components['MuiPaginationItem'] = {
   styleOverrides: {
     root: {
-      borderRadius: 8,
+      borderRadius: borderTokens['radius-button'],
       height: 40,
       width: 40,
-      fontSize: 14,
-      fontWeight: 300,
-      color: palette.grey[800],
+      fontSize: typographyTokens['font-size-body-small'],
+      fontWeight: 400,
+      color: colorTokens['text-default'],
 
       '&:hover': {
-        backgroundColor: palette.grey[200],
+        backgroundColor: 'var(--rc-color-neutrals-200)',
       },
 
       '&:active': {
-        backgroundColor: palette.grey[300],
+        backgroundColor: 'var(--rc-color-neutrals-300)',
       },
 
       '&.Mui-focusVisible': {
-        border: `2px solid ${palette.grey[950]}`,
-        backgroundColor: palette.grey[50],
+        border: `var(--rc-border-focus) solid var(--rc-color-neutrals-950)`,
+        backgroundColor: 'var(--rc-color-neutrals-50)',
       },
 
       '&.Mui-disabled': {
-        backgroundColor: palette.grey[100],
-        color: palette.grey[500],
+        backgroundColor: 'var(--rc-color-neutrals-100)',
+        color: 'var(--rc-color-neutrals-500)',
       },
 
       '&.Mui-selected': {
-        backgroundColor: palette.grey[800],
-        color: '#fff',
+        backgroundColor: 'var(--rc-color-neutrals-800)',
+        color: 'var(--rc-color-white)',
 
         '&:hover': {
-          backgroundColor: palette.grey[800],
+          backgroundColor: 'var(--rc-color-neutrals-800)',
         },
       },
       '&.MuiPaginationItem-ellipsis': {
@@ -50,7 +52,7 @@ const MuiPaginationItem: Components['MuiPaginationItem'] = {
         alignItems: 'center',
         justifyContent: 'center',
         pointerEvents: 'none',
-        fontSize: 14,
+        fontSize: typographyTokens['font-size-body-small'],
       },
     },
   },
