@@ -26,8 +26,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 | Button | Button v2 has four variants: Primary, Secondary, Link, Error | Other MUI colour/variant combinations (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant) keep legacy primitives | Existing API kept; no Figma variant or action role to bind | #205 |
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
-| Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #PR |
-| Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #PR |
+| Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
+| Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
 
 ## Open questions
 
