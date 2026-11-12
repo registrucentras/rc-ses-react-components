@@ -15,35 +15,34 @@ const baseButtonSx = {
   '&&': {
     minWidth: 40,
     height: 40,
-    px: spacingRoleBasedTokens['space-12'],
+    px: spacingRoleBasedTokens['space-10'],
     borderRadius: borderTokens['radius-button'],
     fontSize: typographyTokens['font-size-body-small'],
+    lineHeight: typographyTokens['line-height-body-small'],
     fontWeight: 400,
     textTransform: 'none',
     backgroundColor: 'transparent',
-    color: colorTokens['text-default'],
-
+    color: 'var(--rc-color-neutrals-800)',
     display: 'flex',
     alignItems: 'center',
-    gap: spacingRoleBasedTokens['space-4'],
-
+    gap: spacingRoleBasedTokens['space-2'],
     '&:hover': {
       backgroundColor: 'var(--rc-color-neutrals-200)',
+      color: colorTokens['text-default'],
     },
-
     '&:active, &.Mui-selected': {
       backgroundColor: 'var(--rc-color-neutrals-300)',
+      color: colorTokens['text-default'],
     },
-
     '&.Mui-focusVisible': {
       backgroundColor: 'var(--rc-color-neutrals-50)',
       border: `${borderTokens['border-focus']} solid var(--rc-color-neutrals-950)`,
       boxShadow: 'none',
+      color: colorTokens['text-default'],
     },
-
     '&.Mui-disabled': {
       backgroundColor: 'var(--rc-color-neutrals-100)',
-      color: 'var(--rc-color-neutrals-500)',
+      color: colorTokens['text-disabled'],
     },
   },
 }

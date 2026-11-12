@@ -2,6 +2,7 @@ import { Box, Skeleton } from '@mui/material'
 
 import { borderTokens } from '@/theme/borderTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 interface DataPaginationSkeletonProps {
   isMobile: boolean
@@ -10,8 +11,7 @@ interface DataPaginationSkeletonProps {
 const SIZES = {
   item: spacingRoleBasedTokens['space-40'],
   buttonDesktop: spacingRoleBasedTokens['space-80'],
-  gap: spacingRoleBasedTokens['gap-xs'],
-  paddingX: spacingRoleBasedTokens['space-2'],
+  gap: spacingTokens['spacing-aliases-pagination-button-gap'],
   radius: borderTokens['radius-button'],
 }
 
@@ -28,7 +28,6 @@ const DataPaginationSkeleton = ({ isMobile }: DataPaginationSkeletonProps) => {
         sx={{
           display: 'flex',
           gap: SIZES.gap,
-          px: SIZES.paddingX,
           borderRadius: SIZES.radius,
         }}
       >
