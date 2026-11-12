@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import { CSSProperties, useRef, useState } from 'react'
 
 import normalizeSx from '@/components/utils/normalizeSx'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesSideNav from '.'
 import { RcSesSideNavLayoutProps } from './SideNav.types'
@@ -46,7 +47,11 @@ function RcSesSideNavLayout({
   return (
     <Box
       sx={[
-        { display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '2rem' },
+        {
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: spacingRoleBasedTokens['space-32'],
+        },
         ...normalizeSx(sx),
       ]}
     >

@@ -25,6 +25,9 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 | Button | Button v2 has four variants: Primary, Secondary, Link, Error | Other MUI colour/variant combinations (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant) keep legacy primitives | Existing API kept; no Figma variant or action role to bind | #205 |
+| Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
+| Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
+| Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
 
 ## Open questions
 
@@ -37,3 +40,7 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Stepper active label weight | The `.Stepper-item-horizontal` Active variant sets the label at weight 500, while the assembled Horizontal-stepper overrides the active label to 700 (the previous code's weight). Code follows the variant (500). Which is intended? | #227 |
 | Toggle thumb shadow | Figma leaves the thumb shadow (`0 1px 2px #0000002e`) unbound; code uses a local literal. Should it be an effect variable? | #226 |
 | Radio error states | Figma's Radio set has Error and Error hover variants (`Status/Error/border` outline, red fill when selected, red-600 halo), but radios have no error state in practice and the code has none. Can those variants be removed from Figma? | #214 |
+| Font weights | Figma has `font-weight/*` variables (Pagination binds `font-weight/body-small`), but the exported tokens contain only font size and line height. Should the next export include weights? | #232 |
+| Primitive-bound states | Several component states bind primitives with no semantic role: Datepicker today ring (`Cyans/500`), Radio pressed (`Cyans/100`), Checkbox hover halos, Quantity input segment hover, and all Pagination states (`Neutrals/50` to `Neutrals/800`). Should these get semantic roles, or are primitives intended for component-specific states? | #212, #216, #223, #232 |
+| Card header title | The DS Card-header binds `Heading/Card title` (18/24, 20/28 from 900px), while the Paslaugos product screens use other values. Which should card headers default to, and should the product values become a named variant? | #225 |
+| Button legacy variants | Several MUI colour/variant combinations have no Button v2 variant (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant). Are they deprecated, or should they get Figma variants? | #205 |

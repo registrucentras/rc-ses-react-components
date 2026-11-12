@@ -1,6 +1,9 @@
 import { Box, Typography } from '@mui/material'
 
-import palette, { common } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface Props {
   label: string
@@ -21,28 +24,32 @@ function SideNavPill({ label, count, ariaLabel, active, onClick }: Props) {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.5rem',
+        gap: spacingRoleBasedTokens['space-8'],
         flexShrink: 0,
         whiteSpace: 'nowrap',
         margin: 0,
-        borderRadius: '9999px',
-        border: `0.0625rem solid ${active ? palette.primary.main : palette.grey[200]}`,
-        backgroundColor: active ? palette.primary[50] : common.white,
-        padding: '0.5rem 1rem',
+        borderRadius: borderTokens['radius-pill'],
+        border: `${borderTokens['border-default']} solid ${active ? colorTokens['border-focus'] : colorTokens['border-subtle']}`,
+        backgroundColor: active
+          ? colorTokens['surface-brand-subtle']
+          : colorTokens['surface-base'],
+        paddingX: spacingRoleBasedTokens['space-16'],
+        paddingY: spacingRoleBasedTokens['space-8'],
         cursor: onClick ? 'pointer' : 'default',
         WebkitTapHighlightColor: 'transparent',
         '&:focus-visible': {
-          outline: `0.125rem solid ${palette.primary.main}`,
-          outlineOffset: '0.125rem',
+          outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+          outlineOffset: borderTokens['border-focus'],
         },
       }}
     >
       <Typography
         component='span'
         sx={{
-          fontSize: '0.875rem',
-          lineHeight: '1.25rem',
-          color: active ? palette.grey[900] : palette.grey[600],
+          fontSize: typographyTokens['font-size-body-small'],
+          lineHeight: typographyTokens['line-height-body-small'],
+          fontWeight: 400,
+          color: active ? colorTokens['text-default'] : colorTokens['text-secondary'],
         }}
       >
         {label}
@@ -50,7 +57,12 @@ function SideNavPill({ label, count, ariaLabel, active, onClick }: Props) {
       {count !== undefined && (
         <Typography
           component='span'
-          sx={{ fontSize: '0.8125rem', lineHeight: '1.125rem', color: palette.grey[500] }}
+          sx={{
+            fontSize: typographyTokens['font-size-body-caption'],
+            lineHeight: typographyTokens['line-height-body-caption'],
+            fontWeight: 400,
+            color: colorTokens['text-muted'],
+          }}
         >
           {count}
         </Typography>
