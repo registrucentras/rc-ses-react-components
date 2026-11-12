@@ -2,18 +2,22 @@ import { Box, Skeleton, Stack, Typography } from '@mui/material'
 import { ElementType } from 'react'
 
 import { ArrowRightIcon } from '@/assets/icons/phosphorIcons'
+import { borderTokens } from '@/theme/borderTokens'
 import { subcard } from '@/theme/cards'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesServiceLinkItem, RcSesServiceLinksTestIds } from '../types'
 
 const linkRow = {
   borderRadius: subcard.borderRadius,
-  gap: '1rem',
+  gap: spacingTokens['spacing-aliases-service-list-item-gap'],
   iconSize: 20,
-  labelFontWeight: 500,
-  lineHeight: '1.5rem',
-  paddingBlock: '0.75rem',
+  labelFontWeight: 400,
+  lineHeight: typographyTokens['line-height-body-regular'],
+  paddingBlock: spacingTokens['spacing-aliases-service-list-item-padding-y'],
 }
 
 type Props = RcSesServiceLinkItem & {
@@ -51,7 +55,11 @@ function ServiceLinkItem({
         }}
       >
         <Skeleton
-          sx={{ borderRadius: 1, height: '1rem', width: '60%' }}
+          sx={{
+            borderRadius: 1,
+            height: spacingRoleBasedTokens['space-16'],
+            width: '60%',
+          }}
           variant='rounded'
         />
         <Skeleton
@@ -117,13 +125,13 @@ function ServiceLinkItem({
         width: '100%',
 
         '&:focus-visible': {
-          outline: `2px solid ${palette.primary[500]}`,
-          outlineOffset: '2px',
+          outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+          outlineOffset: borderTokens['border-focus'],
         },
 
         ...(isInteractive && {
           '&:hover .RcSesServiceLink-label, &:hover .RcSesServiceLink-icon': {
-            color: palette.primary[600],
+            color: colorTokens['text-link-hover'],
           },
           '&:hover .RcSesServiceLink-icon': {
             transform: 'translateX(2px)',
@@ -146,7 +154,8 @@ function ServiceLinkItem({
         data-testid={testIds?.itemLabel}
         variant='body1'
         sx={{
-          color: palette.primary[700],
+          color: colorTokens['text-link'],
+          fontSize: typographyTokens['font-size-body-regular'],
           fontWeight: linkRow.labelFontWeight,
           lineHeight: linkRow.lineHeight,
           minWidth: 0,
@@ -162,7 +171,7 @@ function ServiceLinkItem({
         className='RcSesServiceLink-icon'
         data-testid={testIds?.itemIcon}
         sx={{
-          color: palette.primary[600],
+          color: colorTokens['text-link'],
           display: 'flex',
           flexShrink: 0,
           transition: 'color 150ms ease, transform 150ms ease',

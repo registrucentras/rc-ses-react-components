@@ -25,6 +25,9 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 | Button | Button v2 has four variants: Primary, Secondary, Link, Error | Other MUI colour/variant combinations (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant) keep legacy primitives | Existing API kept; no Figma variant or action role to bind | #205 |
+| ServiceLinks | Service-list-item (Trailing=Arrow) has `Service-list-item/padding-x` (12/16px), a bottom `Border/subtle` stroke on each row and a 16px arrow | No horizontal padding, dividers between rows only, 20px bold arrow | Existing geometry kept; rows sit flush with the card content they are used in | #PR |
+| ServiceLinks | Hover fills the row with `Surface/sunken`; Selected uses `Surface/brand-subtle`; Focus is a 2px inside `Border/focus` stroke | Hover tints the label and arrow `text-link-hover` and nudges the arrow; no Selected state; focus is a 2px outline outside the row | Existing behaviour kept; a hover fill without horizontal padding would touch the text | #PR |
+| ServiceLinks | Description line, Leading icon tile, Actions trailing and the mobile stacked layout | Not supported; label and arrow only | Out of scope for the token rebind | #PR |
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
 
 ## Open questions
