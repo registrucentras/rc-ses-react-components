@@ -50,7 +50,7 @@ const DataPagination = ({
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: spacingRoleBasedTokens['space-8'],
+          gap: spacingRoleBasedTokens['space-2'],
         }}
       >
         <DataPaginationSkeleton isMobile={isMobile} />
