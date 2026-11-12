@@ -11,7 +11,7 @@ import { RcSesTitleBlockProps, TitleBlockHeadingLevel } from './types'
 function RcSesTitleBlock({
   title,
   headingLevel = 3,
-  titleVariant = 'h6',
+  titleVariant = 'card-title',
   titleTone = 'default',
   orientation = 'horizontal',
   icon,

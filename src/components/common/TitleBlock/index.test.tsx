@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest'
 
 import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesTitleBlock from '.'
 
@@ -140,8 +141,11 @@ describe('RcSesTitleBlock', () => {
   test('titleVariant="body1" drops the header weight for the body type scale', () => {
     renderTitleBlock(<RcSesTitleBlock title='Test Title' titleVariant='body1' />)
 
-    expect(screen.getByText('Test Title')).toHaveStyle({
+    const title = screen.getByText('Test Title')
+    expect(title).toHaveStyle({
       fontWeight: '400',
+      fontSize: typographyTokens['font-size-body-regular'],
+      lineHeight: typographyTokens['line-height-body-regular'],
     })
   })
 
