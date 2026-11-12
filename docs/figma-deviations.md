@@ -12,7 +12,6 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 
 | Component | Figma | Code | Reason | PR |
 | --- | --- | --- | --- | --- |
-| Badge | Icon size 14px (default) | `icon-size-badge` CSS variable (12px via `icon-size-12`) | Token binding follows `tokens.css` definition | #233 |
 | Badge | Custom icon container size | Hardcoded 14px (width/height) | No token defined; using hardcoded value | #233 |
 | Badge | Heights (small: 26px, regular: 34px) | Custom hardcoded values (small: 1.625rem, regular: 2.125rem) | No height tokens defined in design system; using custom hardcoded values to match Figma dimensions | #233 |
 | Datepicker | Selected day `Cyans/500` | `control-selected` (`Cyans/600`) | White on `Cyans/500` is 3.0:1, below the 4.5:1 Figma's accessibility section asks for | #212 |

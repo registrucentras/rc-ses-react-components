@@ -133,7 +133,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
           </Box>
         ) : (
           <CircleFilledIcon
-            size={12}
+            size={14}
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
@@ -174,7 +174,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
           }}
         >
           <CloseIcon
-            size={12}
+            size={14}
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
