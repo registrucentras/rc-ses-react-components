@@ -83,19 +83,19 @@ function RcSesTitleBlock({
       }
     }
 
-    if (!hasDescription && !isHeadingVariant) {
-      return {
-        fontSize: typographyTokens['font-size-body-regular'],
-        lineHeight: typographyTokens['line-height-body-regular'],
-        fontWeight: 400,
-      }
-    }
-
     if (titleVariant === 'h2') {
       return {
         fontSize: typographyTokens['font-size-heading-h2'],
         lineHeight: typographyTokens['line-height-heading-h2'],
         fontWeight: 500,
+      }
+    }
+
+    if (!hasDescription && !isHeadingVariant) {
+      return {
+        fontSize: typographyTokens['font-size-body-regular'],
+        lineHeight: typographyTokens['line-height-body-regular'],
+        fontWeight: 400,
       }
     }
 
