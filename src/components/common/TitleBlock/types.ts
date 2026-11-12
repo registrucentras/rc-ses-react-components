@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export type TitleBlockHeadingLevel = 2 | 3 | 5 | 6
+export type TitleBlockHeadingLevel = 2 | 3 | 4 | 5 | 6
 
 export type TitleBlockTitleVariant = 'h2' | 'h5' | 'h6' | 'body1' | 'card-title'
 
