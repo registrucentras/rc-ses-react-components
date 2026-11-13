@@ -128,7 +128,7 @@ const RcSesDrawer = ({
             borderBottom: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
             backgroundColor: colorTokens['surface-base'],
             flexShrink: 0,
-            gap: spacingRoleBasedTokens['space-16'],
+            gap: spacingRoleBasedTokens['space-8'],
           }}
         >
           <Typography
@@ -160,7 +160,7 @@ const RcSesDrawer = ({
           sx={{
             flex: 1,
             overflowY: 'auto',
-            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-24']}`,
+            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-24']} ${spacingRoleBasedTokens['space-16']}`,
             backgroundColor: colorTokens['surface-sunken'],
           }}
         >
