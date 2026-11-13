@@ -98,7 +98,7 @@ describe('RcSesTitleBlock', () => {
   })
 
   test('heading levels 2 through 6 render correctly', () => {
-    const levels = [2, 3, 5, 6] as const
+    const levels = [2, 3, 4, 5, 6] as const
 
     levels.forEach((level) => {
       const { unmount } = renderTitleBlock(
