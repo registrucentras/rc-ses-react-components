@@ -56,7 +56,7 @@ const variantStyles: Record<RcSesBadgeProps['variant'], VariantStyle> = {
     color: colorTokens['status-info-text'],
   },
   brand: {
-    border: colorTokens['action-primary-bg-pressed'],
+    border: 'var(--rc-color-cyans-500)',
     background: colorTokens['action-primary-bg'],
     iconColor: colorTokens['action-primary-text'],
     color: colorTokens['action-primary-text'],
