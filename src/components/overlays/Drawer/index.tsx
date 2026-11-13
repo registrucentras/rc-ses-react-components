@@ -182,8 +182,7 @@ const RcSesDrawer = ({
           >
             {secondaryActionLabel && (
               <RcSesButton
-                variant='outlined'
-                color='grey'
+                variant='link'
                 onClick={onSecondaryAction}
                 disabled={secondaryActionDisabled}
               >
