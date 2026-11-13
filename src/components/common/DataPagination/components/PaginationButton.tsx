@@ -25,7 +25,7 @@ const baseButtonSx = {
     color: 'var(--rc-color-neutrals-800)',
     display: 'flex',
     alignItems: 'center',
-    gap: spacingRoleBasedTokens['space-2'],
+    gap: spacingRoleBasedTokens['space-8'],
     '&:hover': {
       backgroundColor: 'var(--rc-color-neutrals-200)',
       color: colorTokens['text-default'],
