@@ -128,7 +128,7 @@ const RcSesDrawer = ({
             borderBottom: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
             backgroundColor: colorTokens['surface-base'],
             flexShrink: 0,
-            gap: spacingRoleBasedTokens['space-16'],
+            gap: spacingRoleBasedTokens['space-8'],
           }}
         >
           <Typography
