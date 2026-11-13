@@ -1,4 +1,4 @@
-import { ThemeProvider, alpha } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -12,6 +12,17 @@ const getDefaultLoaderLabel = () => i18n.t('components.Loader.loading', { ns: 'c
 
 const renderWithTheme = (ui: ReactElement) =>
   render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
+
+// jsdom's computed style drops color-mix(), so read the rules applied to the element.
+const getAppliedCss = (element: Element) =>
+  Array.from(document.styleSheets)
+    .flatMap((sheet) => Array.from(sheet.cssRules))
+    .filter(
+      (rule): rule is CSSStyleRule =>
+        rule instanceof CSSStyleRule && element.matches(rule.selectorText),
+    )
+    .map((rule) => rule.style.cssText)
+    .join(' ')
 
 describe('RcSesFullPageLoader', () => {
   beforeEach(async () => {
@@ -30,9 +41,9 @@ describe('RcSesFullPageLoader', () => {
 
     const backdrop = document.querySelector('.MuiBackdrop-root') as HTMLElement
 
-    expect(backdrop).toHaveStyle({
-      backgroundColor: alpha(theme.palette.common.white, 0.72),
-    })
+    expect(getAppliedCss(backdrop)).toContain(
+      'color-mix(in srgb, var(--rc-color-surface-base) 70%, transparent)',
+    )
   })
 
   it('should render dark backdrop variant', () => {
@@ -40,9 +51,9 @@ describe('RcSesFullPageLoader', () => {
 
     const backdrop = document.querySelector('.MuiBackdrop-root') as HTMLElement
 
-    expect(backdrop).toHaveStyle({
-      backgroundColor: alpha(theme.palette.grey[900], 0.45),
-    })
+    expect(getAppliedCss(backdrop)).toContain(
+      'color-mix(in srgb, var(--rc-color-surface-inverse) 55%, transparent)',
+    )
   })
 
   it('should prevent and restore background focus', () => {

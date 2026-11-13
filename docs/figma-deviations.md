@@ -18,6 +18,9 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Datepicker | 44px rounded-square day cells | 36px circles | Existing geometry kept | #212 |
 | Datepicker | No action bar | Cancel action bar kept | Existing behaviour kept | #212 |
 | Datepicker | Month/year link with caret opening Months and Years views | Static month label with double chevrons | Existing behaviour kept; Figma page still marked in progress | #212 |
+| Spinner | Spinner component has 12px padding around the spinner and label | `Loader` has no padding; the consumer places it | Existing layout kept | #242 |
+| Spinner | Spinner is always the arc on a `Border/subtle` track | The bare `LoadingSpinner` (also the Button loading indicator) keeps its MUI `color` prop and has no track; only `Loader` / `FullPageLoader` follow Figma | Existing API kept | #242 |
+| Spinner | Full-page loader card shadow `0 8px 24px` at 15% black, unbound | `elevation-lg` (`0 8px 16px` at 12%) | Closest effect token | #242 |
 | Checkbox | `Checkbox-selectable-area`: `Selectable-area/padding-y` / `padding-x` (8/12px), 2px icon frame, 20px icon, `Stack/tight` (8px) gap | Outlined card 16/20/16/14px padding, MUI's 9px checkbox padding, 24px icon, 3px label margin | Legacy geometry kept; realigning moves icon and label, planned as a separate change | #216 |
 | Checkbox | Selectable area has no visible border or fill at rest | Outlined card shows `surface-sunken` fill and `border-strong` border at rest | Legacy appearance kept | #216 |
 | Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
