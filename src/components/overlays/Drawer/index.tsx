@@ -12,6 +12,10 @@ import { useTranslation } from 'react-i18next'
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesDrawerProps, RcSesDrawerTestIds } from './Drawer.types'
 
@@ -99,7 +103,7 @@ const RcSesDrawer = ({
             minHeight: '100vh',
             borderRadius: 0,
             boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.18)',
-            backgroundColor: (theme) => theme.palette.common.white,
+            backgroundColor: colorTokens['surface-base'],
           },
         },
       }}
@@ -120,20 +124,22 @@ const RcSesDrawer = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '1.25rem 1rem 1rem 1.5rem',
-            borderBottom: (theme) => `1px solid ${theme.palette.grey[200]}`,
+            padding: `${spacingRoleBasedTokens['space-20']} ${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-24']}`,
+            borderBottom: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
+            backgroundColor: colorTokens['surface-base'],
             flexShrink: 0,
-            gap: '1rem',
+            gap: spacingRoleBasedTokens['space-8'],
           }}
         >
           <Typography
             id={headerId}
             component='h2'
             sx={{
-              fontSize: '14px',
+              fontSize: typographyTokens['font-size-heading-h5'],
               fontStyle: 'normal',
               fontWeight: 600,
-              lineHeight: '20px',
+              lineHeight: typographyTokens['line-height-heading-h5'],
+              color: colorTokens['text-default'],
             }}
           >
             {title}
@@ -142,7 +148,7 @@ const RcSesDrawer = ({
             variant='link'
             onClick={handleClose}
             data-testid={testIds?.closeButton}
-            sx={{ flexShrink: 0, width: '2.75rem', height: '2.75rem' }}
+            sx={{ flexShrink: 0, width: '44px', height: '44px' }}
             aria-label={t('closeDrawer')}
           >
             <CloseIcon size={24} />
@@ -154,8 +160,8 @@ const RcSesDrawer = ({
           sx={{
             flex: 1,
             overflowY: 'auto',
-            padding: '1rem 1.5rem',
-            backgroundColor: (theme) => theme.palette.grey[50],
+            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-24']} ${spacingRoleBasedTokens['space-16']}`,
+            backgroundColor: colorTokens['surface-sunken'],
           }}
         >
           {children}
@@ -165,8 +171,9 @@ const RcSesDrawer = ({
           <Box
             data-testid={testIds?.footer}
             sx={{
-              padding: '1rem 1.5rem',
-              borderTop: (theme) => `1px solid ${theme.palette.grey[200]}`,
+              padding: `${spacingRoleBasedTokens['space-16']} ${spacingRoleBasedTokens['space-24']}`,
+              borderTop: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
+              backgroundColor: colorTokens['surface-base'],
               flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
@@ -175,8 +182,7 @@ const RcSesDrawer = ({
           >
             {secondaryActionLabel && (
               <RcSesButton
-                variant='outlined'
-                color='grey'
+                variant='link'
                 onClick={onSecondaryAction}
                 disabled={secondaryActionDisabled}
               >
