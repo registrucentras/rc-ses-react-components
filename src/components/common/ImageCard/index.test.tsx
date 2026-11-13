@@ -50,6 +50,18 @@ describe('RcSesImageCard', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
+  test('lets consumer slot styles override the default title style', () => {
+    renderCard(
+      <RcSesImageCard
+        image={<img src='test.png' alt='icon' />}
+        title='Styled title'
+        slotProps={{ title: { sx: { color: 'rgb(1, 2, 3)' } } }}
+      />,
+    )
+
+    expect(screen.getByText('Styled title')).toHaveStyle({ color: 'rgb(1, 2, 3)' })
+  })
+
   test('forwards testIds to internal sections', () => {
     renderCard(
       <RcSesImageCard
