@@ -64,6 +64,7 @@ const variantStyles: Record<RcSesBadgeProps['variant'], VariantStyle> = {
 }
 
 interface SizeStyle {
+  height: string
   padding: string
   fontSize: string
   lineHeight: string
@@ -71,14 +72,16 @@ interface SizeStyle {
 
 const sizeStyles: Record<RcSesBadgeProps['size'], SizeStyle> = {
   small: {
+    height: '1.625rem',
     padding: `${spacingTokens['spacing-aliases-badge-padding-y-small']} ${spacingTokens['spacing-aliases-badge-padding-x-small']}`,
     fontSize: typographyTokens['font-size-body-caption'],
     lineHeight: typographyTokens['line-height-body-caption'],
   },
   regular: {
+    height: '2.125rem',
     padding: `${spacingTokens['spacing-aliases-badge-padding-y-regular']} ${spacingTokens['spacing-aliases-badge-padding-x-regular']}`,
-    fontSize: typographyTokens['font-size-body-caption'],
-    lineHeight: typographyTokens['line-height-body-caption'],
+    fontSize: typographyTokens['font-size-body-regular'],
+    lineHeight: typographyTokens['line-height-body-regular'],
   },
 }
 

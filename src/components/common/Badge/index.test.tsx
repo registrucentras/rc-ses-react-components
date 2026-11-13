@@ -37,6 +37,17 @@ describe('RcSesBadge', () => {
     )
   })
 
+  it.each([
+    ['small', '1.625rem'],
+    ['regular', '2.125rem'],
+  ] as const)('renders the %s size', (size, expectedHeight) => {
+    const { container } = renderBadge(
+      <RcSesBadge label='Label' variant='neutral' size={size} />,
+    )
+
+    expect(container.firstChild).toHaveStyle({ height: expectedHeight })
+  })
+
   it('shows the status icon by default', () => {
     const { container } = renderBadge(
       <RcSesBadge label='Label' variant='neutral' size='regular' />,
