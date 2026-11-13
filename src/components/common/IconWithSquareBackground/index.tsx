@@ -2,9 +2,9 @@ import { Box } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 
 import IconProps from '@/assets/IconProps'
-import { ThemeColors } from '@/assets/ThemeColors'
-import resolvePaletteColorPath from '@/assets/resolvePaletteColorPath'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
 
 type SquareTileSize = 40 | 44
 type SquareTileVariant = 'solid' | 'soft' | 'muted'
@@ -15,9 +15,14 @@ interface Props {
   variant?: SquareTileVariant
 }
 
+// Figma Icon-tile Color=Solid binds Cyans/500; no semantic role matches it.
+const SOLID_TILE_BG = 'var(--rc-color-cyans-500)'
+
+// Tile size / icon size / radius. Figma leaves the tile sizes and the 40px
+// tile's 22px icon unbound.
 const SIZE_TOKENS: Record<SquareTileSize, [string, string, string]> = {
-  40: ['2.5rem', '1.375rem', '0.5rem'], // 40 / 22 / 8
-  44: ['2.75rem', '1.5rem', '0.625rem'], // 44 / 24 / 10
+  40: ['2.5rem', '1.375rem', borderTokens['radius-8']],
+  44: ['2.75rem', sizeTokens['icon-size-24'], borderTokens['radius-10']],
 }
 
 function IconWithSquareBackground(props: Props) {
@@ -28,26 +33,26 @@ function IconWithSquareBackground(props: Props) {
 
   const [boxSize, iconSize, radius] = SIZE_TOKENS[size]
 
-  const { backgroundColor, iconColorPath } = useMemo<{
+  const { backgroundColor, iconColor } = useMemo<{
     backgroundColor: string
-    iconColorPath: ThemeColors | 'white'
+    iconColor: string
   }>(() => {
     switch (variant) {
       case 'soft':
         return {
-          backgroundColor: palette.primary[50],
-          iconColorPath: 'grey.900',
+          backgroundColor: colorTokens['surface-brand-subtle'],
+          iconColor: colorTokens['text-default'],
         }
       case 'muted':
         return {
-          backgroundColor: palette.grey[100],
-          iconColorPath: 'grey.900',
+          backgroundColor: colorTokens['surface-sunken'],
+          iconColor: colorTokens['text-default'],
         }
       case 'solid':
       default:
         return {
-          backgroundColor: palette.primary[500],
-          iconColorPath: 'white',
+          backgroundColor: SOLID_TILE_BG,
+          iconColor: colorTokens['text-inverse'],
         }
     }
   }, [variant])
@@ -70,7 +75,7 @@ function IconWithSquareBackground(props: Props) {
           width: iconSize,
         },
         'svg path': {
-          fill: resolvePaletteColorPath(iconColorPath),
+          fill: iconColor,
         },
       }}
     >
