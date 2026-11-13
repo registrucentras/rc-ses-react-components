@@ -91,6 +91,14 @@ function RcSesTitleBlock({
       }
     }
 
+    if (titleVariant === 'h4') {
+      return {
+        fontSize: typographyTokens['font-size-heading-h4'],
+        lineHeight: typographyTokens['line-height-heading-h4'],
+        fontWeight: 500,
+      }
+    }
+
     if (!hasDescription && !isHeadingVariant) {
       return {
         fontSize: typographyTokens['font-size-body-regular'],
