@@ -160,7 +160,7 @@ const RcSesDrawer = ({
           sx={{
             flex: 1,
             overflowY: 'auto',
-            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-24']}`,
+            padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-24']} ${spacingRoleBasedTokens['space-16']}`,
             backgroundColor: colorTokens['surface-sunken'],
           }}
         >
