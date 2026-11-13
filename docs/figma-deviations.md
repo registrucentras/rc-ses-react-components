@@ -28,11 +28,20 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
 | Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
 | Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
+| [Phone-input](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema?node-id=52699-212) | Input vertical padding 10px | Inherits `--rc-input-padding-y` (13px) | Shared foundation value retained; changing it affects other inputs | Pending PR |
+| Phone-input | Label/helper layout includes an explainer; disabled field uses 60% opacity | Existing FormControlWrapper layout and disabled text treatment retained | Shared wrapper kept during token rebind | Pending PR |
+| Phone-input | Mobile country selector opens in a Bottom-sheet; trigger target is 44px | Existing popup and trigger target retained | Additional mobile behaviour deferred to SAV-4873 | Pending PR |
+| Phone-input | Disabled and Error field states | Existing disabled/errors props are not wired to the field or country button | Existing behaviour retained; wiring these states requires a separate fix | Pending PR |
+| Phone-input | Flags in options are 20px; country trigger uses a 4px gap | Existing option flags remain 24px, trigger spacing and 44px virtual rows are retained | Geometry changes excluded from token rebind | Pending PR |
+| Phone-input | Loading state | No loading API | Additional functionality deferred to SAV-4873 | Pending PR |
+| Phone-input | Country options combine the localized name and dial code, with a selected checkmark | Existing English country names and separate dial-code column, without a checkmark | Option content and layout changes deferred to SAV-4873 | Pending PR |
 
 ## Open questions
 
 | Topic | Question | Raised in |
 | --- | --- | --- |
+| Phone-input padding | Figma uses Input padding-y 10px, while the exported shared Input role resolves to 13px. Should the foundation export be updated for all inputs? | Pending PR |
+| Phone-input accessibility | The existing popup uses menu semantics around an Autocomplete listbox and a shared popup ID across instances; keyboard handling also needs review. Can these be addressed with the functional Phone-input work under SAV-4873? | Pending PR |
 | Spacing aliases | Overlapping groups: `Card/*` vs `Cards/card/*`, `Subcard/*` vs `Cards/subcard/*`. Code prefers the responsive `Cards/*` group when a variant binds both. Which group is current? | #215 |
 | Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
 | Icon sizes | `tokens.css` sets the button and control icon roles to 20px, while buttons in code use 24px icons (e.g. StepCard arrows). Which is intended? | #210 |
