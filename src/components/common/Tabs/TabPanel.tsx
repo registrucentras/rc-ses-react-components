@@ -1,6 +1,9 @@
 import { Box } from '@mui/material'
 import React from 'react'
 
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+
 interface Props {
   activeTab: number
   children?: React.ReactNode
@@ -14,9 +17,9 @@ function RcSesTabPanel({ activeTab, children, index, ...rest }: Props) {
       id={`rc-ses-tab-panel-${index}`}
       aria-labelledby={`rc-ses-tab--${index}`}
       sx={{
-        backgroundColor: 'white',
-        borderBottomLeftRadius: '.375rem',
-        borderBottomRightRadius: '.375rem',
+        backgroundColor: colorTokens['surface-base'],
+        borderBottomLeftRadius: borderTokens['radius-6'],
+        borderBottomRightRadius: borderTokens['radius-6'],
       }}
       {...rest}
     >

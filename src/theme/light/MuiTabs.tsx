@@ -1,6 +1,8 @@
 import { Components, createTheme } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
 const { breakpoints } = createTheme()
 
@@ -8,22 +10,22 @@ const MuiTabs: Components['MuiTabs'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      color: palette.grey['900'],
+      color: colorTokens['text-default'],
       minHeight: '2.25rem',
       textTransform: 'none',
     },
     // v9 renamed the flexContainer slot to list.
     list: {
       borderBottomStyle: 'solid',
-      borderBottomColor: palette.grey['300'],
-      borderBottomWidth: 1,
-      columnGap: '.375rem',
-      paddingLeft: '.75rem',
-      paddingRight: '.75rem',
+      borderBottomColor: colorTokens['border-subtle'],
+      borderBottomWidth: borderTokens['stroke-1'],
+      columnGap: spacingRoleBasedTokens['space-6'],
+      paddingLeft: spacingRoleBasedTokens['space-12'],
+      paddingRight: spacingRoleBasedTokens['space-12'],
 
       [breakpoints.up('md')]: {
-        paddingLeft: '1.25rem',
-        paddingRight: '1.25rem',
+        paddingLeft: spacingRoleBasedTokens['space-20'],
+        paddingRight: spacingRoleBasedTokens['space-20'],
       },
     },
     indicator: {

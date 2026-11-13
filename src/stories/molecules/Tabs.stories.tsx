@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import RcSesTab from '@/components/common/Tabs/Tab'
 import RcSesTabs from '@/components/common/Tabs/Tabs'
+import TabsTokenPreview from '@/components/storybook/TabsTokenPreview'
 
 const meta: Meta<typeof RcSesTabs> = {
   title: 'Molecules/Tabs',
@@ -60,3 +61,6 @@ export const Default: Story = {
 export const WithIcons: Story = {
   render: () => <WithIconsTabsWrapper />,
 }
+
+export const TokenBindings = { render: () => <TabsTokenPreview /> }
+export const TokenOverrides = { render: () => <TabsTokenPreview overrides /> }

@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 interface Props {
   children?: React.ReactNode
@@ -11,17 +13,23 @@ function RcSesTabsWrapper({ children, heading }: Props) {
   return (
     <Box
       sx={{
-        backgroundColor: palette.grey['50'],
-        borderColor: palette.grey['400'],
-        borderRadius: '.375rem',
+        backgroundColor: colorTokens['surface-sunken'],
+        borderColor: colorTokens['border-default'],
+        borderRadius: borderTokens['radius-6'],
         borderStyle: 'solid',
-        borderWidth: 1,
-        pt: 2,
+        borderWidth: borderTokens['stroke-1'],
+        pt: spacingRoleBasedTokens['space-16'],
         width: '100%',
       }}
     >
       {!!heading && (
-        <Typography variant='h4' sx={{ px: 3, pb: 2 }}>
+        <Typography
+          variant='h4'
+          sx={{
+            px: spacingRoleBasedTokens['space-24'],
+            pb: spacingRoleBasedTokens['space-16'],
+          }}
+        >
           {heading}
         </Typography>
       )}
