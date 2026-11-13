@@ -5,6 +5,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { QuestionIcon } from '@/assets/icons/phosphorIcons'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export type RcSesTooltipProps = {
   title: string
@@ -129,8 +134,8 @@ function RcSesTooltip({
           p: 0.25,
           ml: 0.5,
           verticalAlign: 'text-bottom',
-          color: 'grey.600',
-          '&:hover, &.Mui-focusVisible': { color: 'primary.main' },
+          color: colorTokens['text-secondary'],
+          '&:hover, &.Mui-focusVisible': { color: colorTokens['text-link'] },
         },
         ...(Array.isArray(triggerSx) ? triggerSx : [triggerSx]),
       ]}
@@ -149,7 +154,32 @@ function RcSesTooltip({
       leaveDelay={100}
       disableTouchListener
       slots={{ transition: Fade }}
-      slotProps={{ popper: popperProps }}
+      slotProps={{
+        popper: popperProps,
+        tooltip: {
+          sx: {
+            display: 'flex',
+            alignItems: 'flex-start',
+            backgroundColor: colorTokens['surface-base'],
+            color: colorTokens['text-default'],
+            boxShadow: effectTokens['elevation-md'],
+            borderRadius: borderTokens['radius-8'],
+            padding: spacingTokens['spacing-aliases-tooltip-padding'],
+            maxWidth: spacingTokens['spacing-aliases-tooltip-max-width'],
+            fontSize: typographyTokens['font-size-body-small'],
+            fontWeight: 400,
+            lineHeight: typographyTokens['line-height-body-small'],
+          },
+        },
+        arrow: {
+          sx: {
+            '&::before': {
+              backgroundColor: colorTokens['surface-base'],
+              boxShadow: effectTokens['elevation-md'],
+            },
+          },
+        },
+      }}
       onOpen={show}
       onClose={hide}
     >
