@@ -5,6 +5,7 @@ import RcSesFileUpload from '@/components/form/inputs/FileUpload'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
+import FileUploadTokenPreview from '@/components/storybook/FileUploadTokenPreview'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 
 interface FormModel {
@@ -141,3 +142,6 @@ export const Main = {
     },
   },
 }
+
+export const TokenBindings = { render: () => <FileUploadTokenPreview /> }
+export const TokenOverrides = { render: () => <FileUploadTokenPreview overrides /> }
