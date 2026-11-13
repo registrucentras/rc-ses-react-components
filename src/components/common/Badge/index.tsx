@@ -105,7 +105,7 @@ function RcSesBadge(props: RcSesBadgeProps) {
     gap: spacingTokens['spacing-aliases-badge-icon-text-gap'],
     maxWidth: '100%',
     borderRadius: borderTokens['radius-pill'],
-    border: `${borderTokens['stroke-1']} solid ${variantStyle.border}`,
+    border: `${borderTokens['border-default']} solid ${variantStyle.border}`,
     background: variantStyle.background,
     color: variantStyle.color,
     ...sizeStyle,
