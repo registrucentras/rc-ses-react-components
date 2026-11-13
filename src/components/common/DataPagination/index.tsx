@@ -2,6 +2,8 @@ import { Box, Pagination, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 
 import { ArrowLeftIcon, ArrowRightIcon } from '@/assets/icons/phosphorIcons'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import DataPaginationSkeleton from './components/DataPaginationSkeleton'
 import PaginationButton from './components/PaginationButton'
@@ -48,7 +50,7 @@ const DataPagination = ({
         sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 1,
+          gap: spacingRoleBasedTokens['space-2'],
         }}
       >
         <DataPaginationSkeleton isMobile={isMobile} />
@@ -67,7 +69,7 @@ const DataPagination = ({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 1,
+        gap: spacingRoleBasedTokens['space-2'],
       }}
     >
       <>
@@ -83,6 +85,11 @@ const DataPagination = ({
           siblingCount={isMobile ? 0 : 1}
           boundaryCount={1}
           onChange={(_, p) => handlePageChange(p)}
+          sx={{
+            '& .MuiPagination-ul': {
+              gap: spacingTokens['spacing-aliases-pagination-button-gap'],
+            },
+          }}
         />
         <PaginationButton
           onClick={() => handlePageChange(currentPage + 1)}
