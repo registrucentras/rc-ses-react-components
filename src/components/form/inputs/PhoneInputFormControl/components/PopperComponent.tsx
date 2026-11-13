@@ -1,6 +1,9 @@
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 
+import { colorTokens } from '@/theme/colorTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
+
 interface Props {
   anchorEl?: any
   disablePortal?: boolean
@@ -17,12 +20,12 @@ function PopperComponent(props: Props) {
         [`& .${autocompleteClasses.paper}`]: {
           boxShadow: 'none',
           color: 'inherit',
-          fontSize: 13,
+          fontSize: typographyTokens['font-size-body-caption'],
           margin: 0,
           width: 'auto',
         },
         [`& .${autocompleteClasses.listbox}`]: {
-          backgroundColor: '#fff',
+          backgroundColor: colorTokens['surface-base'],
           padding: 0,
           scrollbarWidth: 'thin',
         },

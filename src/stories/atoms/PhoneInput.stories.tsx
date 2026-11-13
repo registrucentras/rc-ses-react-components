@@ -1,4 +1,6 @@
+import { Box, Stack } from '@mui/material'
 import { Meta } from '@storybook/react-vite'
+import type { CSSProperties } from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesPhoneInput from '@/components/form/inputs/PhoneInput'
@@ -109,3 +111,43 @@ export const Main = {
     label: 'Phone number',
   },
 }
+
+function TokenExamples({ overrides = false }: { overrides?: boolean }) {
+  const { control } = useForm({
+    defaultValues: {
+      empty: '',
+      filled: '+37061234567',
+    },
+  })
+  return (
+    <Box
+      style={
+        overrides
+          ? ({
+              '--rc-color-text-default': '#542d16',
+              '--rc-color-border-default': '#a56835',
+              '--rc-color-border-focus': '#8b4513',
+              '--rc-color-surface-base': '#fffaf0',
+              '--rc-radius-input': '12px',
+            } as CSSProperties)
+          : undefined
+      }
+    >
+      <Stack sx={{ width: '100%', maxWidth: '360px' }} spacing={2}>
+        {(['empty', 'filled'] as const).map((name) => (
+          <RcSesPhoneInput
+            key={name}
+            id={`phone-token-${name}`}
+            name={name}
+            control={control}
+            label={`Phone / ${name}`}
+            slotProps={{ wrapper: { labelOnTop: true } }}
+          />
+        ))}
+      </Stack>
+    </Box>
+  )
+}
+
+export const TokenBindings = { render: () => <TokenExamples /> }
+export const TokenOverrides = { render: () => <TokenExamples overrides /> }
