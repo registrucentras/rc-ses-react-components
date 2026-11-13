@@ -21,6 +21,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Checkbox | `Checkbox-selectable-area`: `Selectable-area/padding-y` / `padding-x` (8/12px), 2px icon frame, 20px icon, `Stack/tight` (8px) gap | Outlined card 16/20/16/14px padding, MUI's 9px checkbox padding, 24px icon, 3px label margin | Legacy geometry kept; realigning moves icon and label, planned as a separate change | #216 |
 | Checkbox | Selectable area has no visible border or fill at rest | Outlined card shows `surface-sunken` fill and `border-strong` border at rest | Legacy appearance kept | #216 |
 | Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
+| Accordion | 1px `Border/default` border and 16px `Radius aliases/Card` at every width, header `Surface/sunken` | Below md the section stays flat: no border or radius, `surface-base` header | AccordionFormContainer lays sections edge to edge on a muted background on mobile | #PR |
+| Accordion | Header can show a description (`Body/Small`, `Text/secondary`) under the title | Title only | Out of scope for the token rebind (new content) | #PR |
 | Radio | Pressed fill `Cyans/100` | Local `cyans-100` constant | No semantic role maps to it | #216 |
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |

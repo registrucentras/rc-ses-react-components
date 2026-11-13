@@ -1,12 +1,13 @@
 import { Components } from '@mui/material'
 
+import { spacingTokens } from '../spacingTokens'
+
 const MuiAccordionDetails: Components['MuiAccordionDetails'] = {
   defaultProps: {
     sx: {
-      padding: {
-        xs: '1.25rem 1rem 2.5rem',
-        md: '2.5rem 2rem 4rem',
-      },
+      paddingBottom: spacingTokens['spacing-aliases-card-padding-bottom'],
+      paddingInline: spacingTokens['spacing-aliases-card-padding-x'],
+      paddingTop: spacingTokens['spacing-aliases-card-padding-top'],
     },
   },
   styleOverrides: {
