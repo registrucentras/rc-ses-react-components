@@ -38,6 +38,7 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | --- | --- | --- |
 | Spacing aliases | Overlapping groups: `Card/*` vs `Cards/card/*`, `Subcard/*` vs `Cards/subcard/*`. Code prefers the responsive `Cards/*` group when a variant binds both. Which group is current? | #215 |
 | Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
+| Icon sizes | `tokens.css` sets `icon-size-badge` to 12px, but Badge components use 14px (matching the Figma icon instance). Which size is intended? | #233 |
 | Icon sizes | `tokens.css` sets the button and control icon roles to 20px, while buttons in code use 24px icons (e.g. StepCard arrows). Which is intended? | #210 |
 | Bottom sheet values | Figma leaves the sheet shadow (`0 -4px 24px #0000002e`), the sheet fill (`#ffffff`) and the title colour (`#101619`) unbound. Code uses a local shadow constant, `surface-base` and `text-default` (`#1f2733`). Should these be bound to variables (e.g. an upward elevation effect), and is the title meant to be `Text/default`? | #217 |
 | Stepper active label weight | The `.Stepper-item-horizontal` Active variant sets the label at weight 500, while the assembled Horizontal-stepper overrides the active label to 700 (the previous code's weight). Code follows the variant (500). Which is intended? | #227 |
