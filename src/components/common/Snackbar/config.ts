@@ -7,13 +7,32 @@ import {
   WarningFillIcon,
   XCircleFillIcon,
 } from '@/library/icons'
-import { error, primary, secondary, warning } from '@/theme/palette'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import { type SnackbarSize, type SnackbarState } from './types'
 
 export const SNACKBAR_DURATION = 10000 // 10s
 
 export const SNACKBAR_ICON_SIZE = { width: 18, height: 20 }
+
+// Figma binds the state icons to the 400 primitives, which read on the dark
+// surface; the status-*-icon roles are meant for light backgrounds.
+const STATE_ICON_COLORS = {
+  success: 'var(--rc-color-greens-400)',
+  error: 'var(--rc-color-red-400)',
+  warning: 'var(--rc-color-yellows-400)',
+  info: 'var(--rc-color-cyans-400)',
+}
+
+// Figma uses the same padding for both sizes: the Snackbar aliases on the
+// top, bottom and left, 12px on the right next to the close button.
+const SNACKBAR_PADDING = [
+  spacingTokens['spacing-aliases-snackbar-padding-y'],
+  spacingRoleBasedTokens['space-12'],
+  spacingTokens['spacing-aliases-snackbar-padding-y'],
+  spacingTokens['spacing-aliases-snackbar-padding-x'],
+].join(' ')
 
 export const SNACKBAR_CHAR_LIMITS: Record<SnackbarSize, number> = {
   standard: 120,
@@ -31,31 +50,31 @@ export const stateConfig: Record<
 > = {
   success: {
     icon: CheckCircleFillIcon,
-    color: secondary['400'],
+    color: STATE_ICON_COLORS.success,
     severity: 'success',
     ariaLive: 'polite',
   },
   error: {
     icon: XCircleFillIcon,
-    color: error['400'],
+    color: STATE_ICON_COLORS.error,
     severity: 'error',
     ariaLive: 'assertive',
   },
   warning: {
     icon: WarningFillIcon,
-    color: warning['400'],
+    color: STATE_ICON_COLORS.warning,
     severity: 'warning',
     ariaLive: 'polite',
   },
   info: {
     icon: InfoFillIcon,
-    color: primary['400'],
+    color: STATE_ICON_COLORS.info,
     severity: 'info',
     ariaLive: 'polite',
   },
   'action-needed': {
     icon: ScrollIcon,
-    color: primary['400'],
+    color: STATE_ICON_COLORS.info,
     severity: 'info',
     ariaLive: 'assertive',
   },
@@ -72,11 +91,11 @@ export const sizeConfig: Record<
   standard: {
     maxHeight: 120,
     width: 400,
-    padding: '12px 16px',
+    padding: SNACKBAR_PADDING,
   },
   compact: {
     maxHeight: 96,
     width: 320,
-    padding: '8px 12px',
+    padding: SNACKBAR_PADDING,
   },
 }
