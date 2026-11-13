@@ -21,7 +21,7 @@ export interface RcSesTitleBlockBaseProps {
   /**
    * Visual size of the title, independent of `headingLevel`. The semantic tag
    * (`headingLevel`) sets document structure; this sets the type scale.
-   * Defaults to `h6`.
+   * Defaults to `card-title`.
    * `body1` (15px) draws the title as running copy: body scale, and the
    * type scale's own weight instead of the card-header one.
    * `card-title` uses the Figma Heading/Card title role (18/24, 20/28 from md, weight 500).
