@@ -1,50 +1,55 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiTab: Components['MuiTab'] = {
   defaultProps: {
     sx: {
-      columnGap: '.375rem',
-      px: 2,
+      columnGap: spacingRoleBasedTokens['space-6'],
+      px: spacingRoleBasedTokens['space-16'],
+      // Legacy 11px padding has no matching spacing token.
       py: 1.375,
     },
   },
   styleOverrides: {
     root: {
-      backgroundColor: palette.grey['100'],
-      borderColor: palette.grey['200'],
+      backgroundColor: colorTokens['surface-sunken'],
+      borderColor: colorTokens['border-subtle'],
       borderStyle: 'solid solid none solid',
-      borderWidth: 1,
+      borderWidth: borderTokens['stroke-1'],
+      // Legacy folder corner radius has no 3px DS primitive.
       borderTopLeftRadius: '.1875rem',
       borderTopRightRadius: '.1875rem',
-      color: palette.grey['900'],
-      fontSize: '.9375rem',
+      color: colorTokens['text-default'],
+      fontSize: typographyTokens['font-size-body-regular'],
       fontWeight: 400,
-      lineHeight: '1.125rem',
+      lineHeight: typographyTokens['line-height-body-regular'],
       minHeight: '2.625rem',
       textTransform: 'none',
 
       '&.Mui-selected': {
-        backgroundColor: 'white !important',
-        borderColor: palette.grey['300'],
+        backgroundColor: `${colorTokens['surface-base']} !important`,
+        borderColor: colorTokens['border-subtle'],
         borderBottomWidth: 0,
-        color: palette.grey['900'],
+        color: colorTokens['text-default'],
         marginBottom: '-1px',
       },
 
       '&:hover': {
-        backgroundColor: palette.grey['200'],
+        backgroundColor: colorTokens['surface-muted'],
       },
 
       '&:active, &.Mui-focusVisible': {
-        backgroundColor: palette.grey['300'],
+        backgroundColor: colorTokens['surface-muted'],
       },
 
       '&.Mui-disabled': {
-        backgroundColor: palette.grey['100'],
-        borderColor: palette.grey['300'],
-        color: palette.grey['500'],
+        backgroundColor: colorTokens['surface-sunken'],
+        borderColor: colorTokens['border-subtle'],
+        color: colorTokens['text-disabled'],
       },
     },
   },

@@ -36,6 +36,10 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
 | Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
 | Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
+| [Tabs](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema?node-id=52739-212) | Underline tabs with a visible 2px selected indicator; transparent surfaces | Existing folder-style borders/backgrounds and hidden indicator retained, with token bindings | Visual redesign excluded from token-only migration | Pending PR |
+| Tabs | Regular Body/Large 16/24, Compact size, 2px horizontal padding and 32/24px list gaps | Existing Body/Regular role, 16px horizontal padding and 6px list gap retained; 11px vertical padding and 3px folder corners remain local values | Existing geometry retained; no matching DS tokens for legacy 11px/3px values; Compact requires separate work | Pending PR |
+| Tabs | Focus outline uses Border/focus; Tab moves into the panel | Existing pressed/focus background styling and panel focus behaviour retained | Adding focus treatment and panel keyboard behaviour deferred to SAV-4873 | Pending PR |
+| Tabs | Card + Card-header replaces TabsWrapper; Panel is a native slot | Existing TabsWrapper and panel surface/radii retained with DS tokens | Component replacement/deprecation and API changes deferred to SAV-4873 | Pending PR |
 
 ## Open questions
 
