@@ -21,8 +21,12 @@ import { useTranslation } from 'react-i18next'
 
 import { CaretDownFill } from '@/assets/icons/phosphorIcons'
 import '@/i18n/i18n'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
 import theme from '@/theme/light'
-import palette from '@/theme/palette'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import { RcSesFormControlWrapperProps } from '../../components/FormControlWrapper'
 import AutocompleteInput from './components/AutocompleteInput'
@@ -147,22 +151,25 @@ function RcSesPhoneInputFormControl(props: Props) {
                     color='inherit'
                     onClick={handleClick}
                     sx={{
-                      backgroundColor: 'white',
+                      backgroundColor: colorTokens['surface-base'],
                       minWidth: 'unset',
-                      px: 1.5,
+                      px: spacingRoleBasedTokens['space-12'],
                     }}
                   >
                     <Box
                       className={`flag-sprite-map flag-${country?.iso}`}
                       sx={{
                         backgroundSize: '2rem auto',
-                        borderRadius: '50%',
-                        height: '1.25rem',
-                        width: '1.25rem',
+                        borderRadius: borderTokens['radius-full'],
+                        height: sizeTokens['icon-size-20'],
+                        width: sizeTokens['icon-size-20'],
                       }}
                       title={country?.name}
                     />
-                    <Box component='span' sx={{ display: 'flex', ml: 1 }}>
+                    <Box
+                      component='span'
+                      sx={{ display: 'flex', ml: spacingRoleBasedTokens['space-8'] }}
+                    >
                       <CaretDownFill aria-hidden size={12} />
                     </Box>
                   </Button>
@@ -172,14 +179,17 @@ function RcSesPhoneInputFormControl(props: Props) {
                   <Divider
                     orientation='vertical'
                     sx={{
-                      borderColor: palette.grey[500],
-                      height: '1.25rem',
+                      borderColor: colorTokens['border-default'],
+                      height: sizeTokens['icon-size-20'],
                     }}
                   />
                 </InputAdornment>
 
                 <InputAdornment position='start'>
-                  <Typography sx={{ color: palette.grey[900] }} component='span'>
+                  <Typography
+                    sx={{ color: colorTokens['text-default'] }}
+                    component='span'
+                  >
                     {country.code}
                   </Typography>
                 </InputAdornment>
@@ -203,12 +213,12 @@ function RcSesPhoneInputFormControl(props: Props) {
         placement='bottom-start'
         role='menu'
         sx={{
-          backgroundColor: 'white',
-          border: '.0625rem solid #e1e4e8',
-          borderRadius: 1,
-          boxShadow: `0 .25rem 1rem 0 rgba(9, 30, 66, .24), 0 .5rem 1rem 0 rgba(9, 30, 66, .1)`,
+          backgroundColor: colorTokens['surface-base'],
+          border: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
+          borderRadius: borderTokens['radius-4'],
+          boxShadow: effectTokens['elevation-md'],
 
-          color: '#24292e',
+          color: colorTokens['text-default'],
           width: '18.75rem',
           zIndex: theme.zIndex.modal,
         }}
