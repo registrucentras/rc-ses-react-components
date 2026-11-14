@@ -36,11 +36,16 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
 | Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
 | Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
+| [File-upload](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema?node-id=52705-721) | Dropzone padding 32/24px and 44px rounded Icon-tile | Existing 44/40px padding and 40px circular IconWithCircularBackground retained | Layout and shared icon component changes excluded from token rebind | Pending PR |
+| File-upload | Body/Regular instruction, Body/Caption constraints, separate Advanced list item file rows | Existing semibold instruction, small/micro text and inline selected files retained | Existing text roles and structure retained; line heights now follow tokens | Pending PR |
+| File-upload | Secondary Small upload button, also used on mobile | FileUpload retains its full-width field with a filename and faux button; FileDropzone remains a dropzone on mobile | API consolidation, deprecation and responsive layout changes deferred to SAV-4873 | Pending PR |
+| File-upload | Drag-over instruction, upload progress, preview/download/retry/signing actions, focus return and announcements | Existing selection/removal behaviour and text retained; FileDropzone disabled prop styles the field but is not forwarded to useDropzone | Additional functionality and accessibility changes deferred to SAV-4873 | Pending PR |
 
 ## Open questions
 
 | Topic | Question | Raised in |
 | --- | --- | --- |
+| File-upload shared icon | The shared circular icon still uses legacy palette shades; Figma uses Icon-tile. Should replacing it be part of the functional File-upload update? The existing close-icon `path fill` selector also matches no SVG elements. | Pending PR |
 | Spacing aliases | Overlapping groups: `Card/*` vs `Cards/card/*`, `Subcard/*` vs `Cards/subcard/*`. Code prefers the responsive `Cards/*` group when a variant binds both. Which group is current? | #215 |
 | Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
 | Icon sizes | `tokens.css` sets the button and control icon roles to 20px, while buttons in code use 24px icons (e.g. StepCard arrows). Which is intended? | #210 |
