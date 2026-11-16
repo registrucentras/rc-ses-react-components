@@ -21,6 +21,12 @@ const darkTheme = lightTheme
 
 const preview: Preview = {
   parameters: {
+    docs: {
+      page: null,
+    },
+    storySort: {
+      order: ['Welcome', 'Foundations', '*'],
+    },
     tagBadges: [
       {
         tags: 'deprecated',
