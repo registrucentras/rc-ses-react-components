@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import { colorTokens } from '@/theme/colorTokens'
+
 import RcSesImageCard from '.'
 import theme from '../../../theme/light'
 
@@ -55,11 +57,13 @@ describe('RcSesImageCard', () => {
       <RcSesImageCard
         image={<img src='test.png' alt='icon' />}
         title='Styled title'
-        slotProps={{ title: { sx: { color: 'rgb(1, 2, 3)' } } }}
+        slotProps={{ title: { sx: { color: colorTokens['text-link'] } } }}
       />,
     )
 
-    expect(screen.getByText('Styled title')).toHaveStyle({ color: 'rgb(1, 2, 3)' })
+    expect(screen.getByText('Styled title')).toHaveStyle({
+      color: colorTokens['text-link'],
+    })
   })
 
   test('forwards testIds to internal sections', () => {
