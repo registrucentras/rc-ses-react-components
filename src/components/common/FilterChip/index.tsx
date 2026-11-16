@@ -69,16 +69,18 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>((props,
             color: colorTokens['text-default'],
             margin: 0,
             flexShrink: 0,
+            '&:hover': {
+              color: colorTokens['text-default'],
+            },
           },
           '&.MuiChip-clickable:hover': {
             borderColor: colorTokens['border-strong'],
             backgroundColor: colorTokens['surface-muted'],
           },
           '&.Mui-focusVisible': {
-            borderColor: colorTokens['border-focus'],
-            borderWidth: borderTokens['stroke-2'],
+            outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+            outlineOffset: `calc(-1 * ${borderTokens['border-focus']})`,
             backgroundColor: colorTokens['surface-base'],
-            outlineOffset: 0,
           },
         }}
         variant='outlined'
