@@ -215,7 +215,7 @@ function RcSesPhoneInputFormControl(props: Props) {
         sx={{
           backgroundColor: colorTokens['surface-base'],
           border: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
-          borderRadius: borderTokens['radius-4'],
+          borderRadius: borderTokens['radius-8'],
           boxShadow: effectTokens['elevation-md'],
 
           color: colorTokens['text-default'],

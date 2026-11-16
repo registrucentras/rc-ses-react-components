@@ -31,7 +31,7 @@ function AutocompleteInput(props: AutocompleteRenderInputParams) {
               position='start'
               sx={{ pl: spacingRoleBasedTokens['space-8'] }}
             >
-              <MagnifyingGlassIcon fillColor={colorTokens['text-default']} />
+              <MagnifyingGlassIcon fillColor={colorTokens['text-muted']} />
             </InputAdornment>
           ),
         },
