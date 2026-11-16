@@ -12,6 +12,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 
 | Component | Figma | Code | Reason | PR |
 | --- | --- | --- | --- | --- |
+| Icon-tile | Color=Green tile (`Greens/50` fill, `Text/default` icon) | `IconWithSquareBackground` has solid, soft and muted only | Out of scope for the token rebind | #236 |
+| Icon-tile | Square tiles only | `IconWithCircularBackground` keeps its circular shape, sizes and palette-name props, mapped onto the primitive colour variables | Existing API kept (used by FileDropzone) | #236 |
 | Datepicker | Selected day `Cyans/500` | `control-selected` (`Cyans/600`) | White on `Cyans/500` is 3.0:1, below the 4.5:1 Figma's accessibility section asks for | #212 |
 | Datepicker | Today ring `Cyans/500`, no semantic variable | Local `cyans-500` constant | No semantic role maps to it | #212 |
 | Datepicker | No weekend colouring | Weekend days keep `red-600` / `red-200` | Existing behaviour kept | #212 |
