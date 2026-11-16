@@ -1,0 +1,2 @@
+import{aF as i}from"./iframe-C5f9Zc7Z.js";const a={theme:void 0};function c(o){let m,t;return function(n){let e=m;return(e===void 0||n.theme!==t)&&(a.theme=n.theme,e=i(o(a)),m=e,t=n.theme),e}}function d(o,m,t=void 0){const l={};for(const n in o){const e=o[n];let r="",s=!0;for(let f=0;f<e.length;f+=1){const u=e[f];u&&(r+=(s===!0?"":" ")+m(u),s=!1,t&&t[u]&&(r+=" "+t[u]))}l[n]=r}return l}const T=c;export{d as c,T as m};
+//# sourceMappingURL=memoTheme-aFWhReI0.js.map
