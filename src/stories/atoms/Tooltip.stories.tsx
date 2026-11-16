@@ -1,5 +1,6 @@
 import { Button, Typography } from '@mui/material'
 import type { Meta } from '@storybook/react-vite'
+import { fireEvent, within } from 'storybook/test'
 
 import RcSesTooltip from '@/components/common/Tooltip'
 
@@ -38,12 +39,16 @@ export const Default = {
     title:
       'Deklaruojant išvykimą iš Lietuvos nurodoma užsienio valstybė, į kurią išvykstama.',
   },
+  tags: ['snapshot-fullpage'],
   render: (args: any) => (
     <Typography>
       Išvykimo valstybė
       <RcSesTooltip {...args} />
     </Typography>
   ),
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    fireEvent.click(within(canvasElement).getByRole('button'))
+  },
 } as const
 
 export const CustomTrigger = {
