@@ -4,13 +4,17 @@ import {
   Slide,
   Typography,
   useMediaQuery,
-  useTheme,
 } from '@mui/material'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
-import { grey } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesButton from '../Button'
 import {
@@ -21,6 +25,10 @@ import {
   stateConfig,
 } from './config'
 import { type SnackbarSize, type SnackbarState } from './types'
+
+// Figma sets the message in Neutrals/50 on the inverse surface;
+// text-inverse is white, so no semantic role matches.
+const SNACKBAR_TEXT = 'var(--rc-color-neutrals-50)'
 
 export interface RcSesSnackbarProps {
   state: SnackbarState
@@ -49,7 +57,6 @@ function RcSesSnackbar({
   persist: controlledPersist,
   showClose = true,
 }: RcSesSnackbarProps) {
-  const theme = useTheme()
   const { t } = useTranslation('input')
   const [internalOpen, setInternalOpen] = useState(controlledOpen ?? true)
   const [isPaused, setIsPaused] = useState(false)
@@ -119,12 +126,13 @@ function RcSesSnackbar({
         sx={{
           display: 'flex',
           alignItems: isMultiline ? 'flex-start' : 'center',
-          gap: theme.spacing(1),
+          gap: spacingRoleBasedTokens['space-8'],
           width: `${sizeConfig[size].width}px`,
           maxHeight: `${sizeConfig[size].maxHeight}px`,
-          backgroundColor: grey['900'],
-          color: grey['50'],
-          borderRadius: '8px',
+          backgroundColor: colorTokens['surface-inverse'],
+          color: SNACKBAR_TEXT,
+          borderRadius: borderTokens['radius-8'],
+          boxShadow: effectTokens['elevation-md'],
           padding: sizeConfig[size].padding,
           opacity: internalOpen ? 1 : 0,
           transition: 'opacity 200ms ease-out',
@@ -136,14 +144,15 @@ function RcSesSnackbar({
             display: 'flex',
             alignItems: isMultiline ? 'flex-start' : 'center',
             justifyContent: 'center',
-            pt: isMultiline ? '2px' : 0,
+            pt: isMultiline ? spacingRoleBasedTokens['space-2'] : 0,
+            color: config.color,
             '& svg': {
               width: `${SNACKBAR_ICON_SIZE.width}px !important`,
               height: `${SNACKBAR_ICON_SIZE.height}px !important`,
             },
           }}
         >
-          <StateIcon fillColor={config.color} aria-hidden />
+          <StateIcon fillColor='currentColor' aria-hidden />
         </Box>
         <Typography
           ref={textRef}
@@ -151,11 +160,23 @@ function RcSesSnackbar({
           sx={{
             flex: 1,
             minWidth: 0,
+            fontSize: typographyTokens['font-size-body-small'],
+            lineHeight: typographyTokens['line-height-body-small'],
+            fontWeight: 400,
           }}
         >
           {truncatedMessage}
         </Typography>
-        <Box sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: spacingRoleBasedTokens['space-12'],
+            alignItems: 'center',
+            // Figma spaces the actions 16px from the message, 8px more than the
+            // icon-to-message gap above.
+            ml: spacingRoleBasedTokens['space-8'],
+          }}
+        >
           {onAction && isStandard && (
             <RcSesButton
               size='small'
@@ -164,7 +185,8 @@ function RcSesSnackbar({
               onClick={handleAction}
               sx={{
                 textTransform: 'none',
-                fontSize: '0.875rem',
+                fontSize: typographyTokens['font-size-button-compact'],
+                lineHeight: typographyTokens['line-height-button-compact'],
                 flexShrink: 0,
               }}
             >
@@ -178,16 +200,17 @@ function RcSesSnackbar({
               onClick={handleClose}
               sx={{
                 minWidth: 'auto',
-                padding: theme.spacing(0.625),
+                // Figma's close control is a 24px frame around a 20px icon.
+                padding: spacingRoleBasedTokens['space-2'],
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '34px',
-                height: '34px',
+                width: '1.5rem',
+                height: '1.5rem',
                 flexShrink: 0,
                 '& svg': {
-                  width: '20px',
-                  height: '20px',
+                  width: sizeTokens['icon-size-20'],
+                  height: sizeTokens['icon-size-20'],
                 },
               }}
               aria-label={t('components.RcSesSnackbar.aria.close')}

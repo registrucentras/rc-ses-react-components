@@ -12,20 +12,33 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 
 | Component | Figma | Code | Reason | PR |
 | --- | --- | --- | --- | --- |
+| Icon-tile | Color=Green tile (`Greens/50` fill, `Text/default` icon) | `IconWithSquareBackground` has solid, soft and muted only | Out of scope for the token rebind | #236 |
+| Icon-tile | Square tiles only | `IconWithCircularBackground` keeps its circular shape, sizes and palette-name props, mapped onto the primitive colour variables | Existing API kept (used by FileDropzone) | #236 |
 | Datepicker | Selected day `Cyans/500` | `control-selected` (`Cyans/600`) | White on `Cyans/500` is 3.0:1, below the 4.5:1 Figma's accessibility section asks for | #212 |
 | Datepicker | Today ring `Cyans/500`, no semantic variable | Local `cyans-500` constant | No semantic role maps to it | #212 |
 | Datepicker | No weekend colouring | Weekend days keep `red-600` / `red-200` | Existing behaviour kept | #212 |
 | Datepicker | 44px rounded-square day cells | 36px circles | Existing geometry kept | #212 |
 | Datepicker | No action bar | Cancel action bar kept | Existing behaviour kept | #212 |
 | Datepicker | Month/year link with caret opening Months and Years views | Static month label with double chevrons | Existing behaviour kept; Figma page still marked in progress | #212 |
+| Spinner | Spinner component has 12px padding around the spinner and label | `Loader` has no padding; the consumer places it | Existing layout kept | #242 |
+| Spinner | Spinner is always the arc on a `Border/subtle` track | The bare `LoadingSpinner` (also the Button loading indicator) keeps its MUI `color` prop and has no track; only `Loader` / `FullPageLoader` follow Figma | Existing API kept | #242 |
+| Spinner | Full-page loader card shadow `0 8px 24px` at 15% black, unbound | `elevation-lg` (`0 8px 16px` at 12%) | Closest effect token | #242 |
 | Checkbox | `Checkbox-selectable-area`: `Selectable-area/padding-y` / `padding-x` (8/12px), 2px icon frame, 20px icon, `Stack/tight` (8px) gap | Outlined card 16/20/16/14px padding, MUI's 9px checkbox padding, 24px icon, 3px label margin | Legacy geometry kept; realigning moves icon and label, planned as a separate change | #216 |
 | Checkbox | Selectable area has no visible border or fill at rest | Outlined card shows `surface-sunken` fill and `border-strong` border at rest | Legacy appearance kept | #216 |
 | Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
 | Radio | Pressed fill `Cyans/100` | Local `cyans-100` constant | No semantic role maps to it | #216 |
+| Snackbar | Shadow `0 4px 16px` at 16% black, unbound | `elevation-md` (`0 4px 16px` at 8%) | Closest effect token | #240 |
+| Snackbar | Action is Button v2 Secondary Small | Action keeps the outlined `light` Button | Legacy Button variant kept (see the Button row) | #240 |
 | StepCard | Final footer price label `Neutrals/500` | `text-secondary` (`Neutrals/600`) | `Neutrals/500` is 3.0:1 on white, below 4.5:1 | #210 |
+| Image & text | Image-heading-text is a bare block: no container, fill, padding or shadow | `ImageCard` keeps the legacy `RcSesCard` elevation card with its padding | Existing appearance kept; only the inner layout and text are rebound | #243 |
 | Quantity input | No segment hover state | Segment hover keeps the existing `neutrals-200` tint via a local constant | Existing behaviour kept; no semantic role matches | #223 |
 | Button | Button v2 has four variants: Primary, Secondary, Link, Error | Other MUI colour/variant combinations (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant) keep legacy primitives | Existing API kept; no Figma variant or action role to bind | #205 |
+| ServiceLinks | Service-list-item (Trailing=Arrow) has `Service-list-item/padding-x` (12/16px), a bottom `Border/subtle` stroke on each row and a 16px arrow | No horizontal padding, dividers between rows only, 20px bold arrow | Existing geometry kept; rows sit flush with the card content they are used in | #235 |
+| ServiceLinks | Hover fills the row with `Surface/sunken`; Selected uses `Surface/brand-subtle`; Focus is a 2px inside `Border/focus` stroke | Hover tints the label and arrow `text-link-hover` and nudges the arrow; no Selected state; focus is a 2px outline outside the row | Existing behaviour kept; a hover fill without horizontal padding would touch the text | #235 |
+| ServiceLinks | Description line, Leading icon tile, Actions trailing and the mobile stacked layout | Not supported; label and arrow only | Out of scope for the token rebind | #235 |
 | Modal | Mobile Modal-window stacks the actions full-width, primary on top, with `Card/footer-buttons-gap` (16px) | Actions stay in a row on mobile | Mobile action stacking left out of the token rebind | #229 |
+| Side-nav | `.Side-nav-row` has no hover state | Clickable rest rows keep the existing `neutrals-50` hover tint via a local constant | Existing behaviour kept; no semantic role matches | #234 |
+| Side-nav | Mobile pill bar has no scroll indicator | An overflowing pill bar keeps its scroll track (`neutrals-200`) and thumb (`neutrals-400`) via local constants | Existing behaviour kept; no semantic role matches | #234 |
 
 ## Open questions
 
@@ -39,3 +52,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Stepper active label weight | The `.Stepper-item-horizontal` Active variant sets the label at weight 500, while the assembled Horizontal-stepper overrides the active label to 700 (the previous code's weight). Code follows the variant (500). Which is intended? | #227 |
 | Toggle thumb shadow | Figma leaves the thumb shadow (`0 1px 2px #0000002e`) unbound; code uses a local literal. Should it be an effect variable? | #226 |
 | Radio error states | Figma's Radio set has Error and Error hover variants (`Status/Error/border` outline, red fill when selected, red-600 halo), but radios have no error state in practice and the code has none. Can those variants be removed from Figma? | #214 |
+| Font weights | Figma has `font-weight/*` variables (Pagination binds `font-weight/body-small`), but the exported tokens contain only font size and line height. Should the next export include weights? | #232 |
+| Primitive-bound states | Several component states bind primitives with no semantic role: Datepicker today ring (`Cyans/500`), Radio pressed (`Cyans/100`), Checkbox hover halos, Quantity input segment hover, and all Pagination states (`Neutrals/50` to `Neutrals/800`). Should these get semantic roles, or are primitives intended for component-specific states? | #212, #216, #223, #232 |
+| Card header title | The DS Card-header binds `Heading/Card title` (18/24, 20/28 from 900px), while the Paslaugos product screens use other values. Which should card headers default to, and should the product values become a named variant? | #225 |
+| Button legacy variants | Several MUI colour/variant combinations have no Button v2 variant (contained grey, dark, secondary, warning; outlined primary, secondary, warning, error, light, ghost; the `text` variant). Are they deprecated, or should they get Figma variants? | #205 |
+| Backdrops | Figma has no backdrop (scrim) variables; the Spinner page documents the full-page loader backdrops as `Surface/inverse` at 55% and `Surface/base` at 70%. In code, FullPageLoader mixes those inline, Drawer uses its own 0.5 opacity, and Modal / BottomSheet keep MUI's default black at 50%. Should there be dark and light backdrop variables, and should Drawer, Modal and BottomSheet use them too? | #242 |

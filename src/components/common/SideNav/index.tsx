@@ -3,15 +3,15 @@ import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import normalizeSx from '@/components/utils/normalizeSx'
-import palette, { common } from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { RcSesSideNavItem, RcSesSideNavProps } from './SideNav.types'
 import SideNavPillList from './components/SideNavPillList'
 import SideNavRow from './components/SideNavRow'
 import useElementHeight from './hooks/useElementHeight'
 import useKeepActiveItemInView from './hooks/useKeepActiveItemInView'
-
-const ROW_GAP = '0.25rem'
 
 function RcSesSideNav({
   items,
@@ -57,7 +57,7 @@ function RcSesSideNav({
         {
           width: '100%',
           // Only the mobile bar overlays scrolling content.
-          backgroundColor: { xs: common.white, md: 'transparent' },
+          backgroundColor: { xs: colorTokens['surface-base'], md: 'transparent' },
           // Above content setting zIndex: 1 - the nav precedes it in DOM order.
           zIndex: 2,
         },
@@ -68,7 +68,7 @@ function RcSesSideNav({
         sx={{
           display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
-          gap: ROW_GAP,
+          gap: spacingRoleBasedTokens['space-4'],
           // Capped to what is left of the viewport below the sticky header, so
           // the list can never run past the bottom of the screen. The title stays
           // put and only the rows scroll, hence minHeight: 0 on this flex column.
@@ -78,9 +78,10 @@ function RcSesSideNav({
         <Typography
           sx={{
             width: '100%',
-            fontSize: '0.875rem',
-            lineHeight: '1.25rem',
-            color: palette.grey[600],
+            fontSize: typographyTokens['font-size-body-small'],
+            lineHeight: typographyTokens['line-height-body-small'],
+            fontWeight: 400,
+            color: colorTokens['text-secondary'],
           }}
         >
           {navTitle}
@@ -90,7 +91,7 @@ function RcSesSideNav({
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: ROW_GAP,
+            gap: spacingRoleBasedTokens['space-4'],
             ...(isScrollable && { overflowY: 'auto', minHeight: 0 }),
           }}
         >

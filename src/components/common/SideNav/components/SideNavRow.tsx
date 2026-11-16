@@ -1,8 +1,12 @@
 import { Box, Typography } from '@mui/material'
 
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
-const BORDER_WIDTH = '0.125rem'
+// Figma's .Side-nav-row has no hover state; no semantic role matches the tint.
+const ROW_HOVER_BG = 'var(--rc-color-neutrals-50)'
 
 interface Props {
   itemId: string
@@ -25,22 +29,23 @@ function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props)
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.5rem',
+        gap: spacingTokens['spacing-aliases-side-nav-gap'],
         width: '100%',
         boxSizing: 'border-box',
         margin: 0,
         border: 'none',
-        borderLeft: `${BORDER_WIDTH} solid ${active ? palette.primary.main : 'transparent'}`,
-        backgroundColor: active ? palette.primary[50] : 'transparent',
-        padding: '0.75rem 1rem',
+        borderLeft: `${borderTokens['border-focus']} solid ${active ? colorTokens['border-focus'] : 'transparent'}`,
+        backgroundColor: active ? colorTokens['surface-brand-subtle'] : 'transparent',
+        paddingX: spacingTokens['spacing-aliases-side-nav-row-padding-x'],
+        paddingY: spacingTokens['spacing-aliases-side-nav-row-padding-y'],
         textAlign: 'left',
         // A scrolling list (overflow='scroll') must not shrink its rows to fit.
         flexShrink: 0,
         cursor: onClick ? 'pointer' : 'default',
-        '&:hover': onClick && !active ? { backgroundColor: palette.grey[50] } : undefined,
+        '&:hover': onClick && !active ? { backgroundColor: ROW_HOVER_BG } : undefined,
         '&:focus-visible': {
-          outline: `${BORDER_WIDTH} solid ${palette.primary.main}`,
-          outlineOffset: '-2px',
+          outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+          outlineOffset: `calc(-1 * ${borderTokens['border-focus']})`,
         },
       }}
     >
@@ -49,9 +54,10 @@ function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props)
         sx={{
           flex: '1 1 0%',
           minWidth: 0,
-          fontSize: '0.9375rem',
-          lineHeight: '1.375rem',
-          color: active ? palette.grey[900] : palette.primary[700],
+          fontSize: typographyTokens['font-size-body-regular'],
+          lineHeight: typographyTokens['line-height-body-regular'],
+          fontWeight: 400,
+          color: active ? colorTokens['text-default'] : colorTokens['text-link'],
         }}
       >
         {label}
@@ -61,9 +67,10 @@ function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props)
           component='span'
           sx={{
             flexShrink: 0,
-            fontSize: '0.8125rem',
-            lineHeight: '1.125rem',
-            color: palette.grey[500],
+            fontSize: typographyTokens['font-size-body-caption'],
+            lineHeight: typographyTokens['line-height-body-caption'],
+            fontWeight: 400,
+            color: colorTokens['text-muted'],
           }}
         >
           {count}

@@ -1,24 +1,33 @@
-import { Stack, StackProps, Typography } from '@mui/material'
+import { Box, Stack, StackProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
-import RcSesPalette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
+// CircularProgress draws its stroke in a 44-unit viewBox.
+const SPINNER_VIEWBOX = 44
+
+// Spinner and stroke sizes in px, per the Figma Spinner sizes.
 const LOADER_SIZE_MAP = {
   small: {
-    gap: 1,
-    spinnerSize: '24px',
-    textVariant: 'body2',
+    spinnerSize: 24,
+    strokeWidth: 2.5,
+    fontSize: typographyTokens['font-size-body-small'],
+    lineHeight: typographyTokens['line-height-body-small'],
   },
   medium: {
-    gap: 1.5,
-    spinnerSize: '40px',
-    textVariant: 'body1',
+    spinnerSize: 40,
+    strokeWidth: 3,
+    fontSize: typographyTokens['font-size-body-regular'],
+    lineHeight: typographyTokens['line-height-body-regular'],
   },
   large: {
-    gap: 2,
-    spinnerSize: '64px',
-    textVariant: 'body1',
+    spinnerSize: 64,
+    strokeWidth: 4,
+    fontSize: typographyTokens['font-size-body-regular'],
+    lineHeight: typographyTokens['line-height-body-regular'],
   },
 } as const
 
@@ -39,7 +48,7 @@ function RcSesLoader({
   ...props
 }: RcSesLoaderProps) {
   const { t } = useTranslation('common', { keyPrefix: 'components.Loader' })
-  const { gap, spinnerSize, textVariant } = LOADER_SIZE_MAP[size]
+  const { spinnerSize, strokeWidth, fontSize, lineHeight } = LOADER_SIZE_MAP[size]
   const resolvedLabel = label ?? t('loading')
 
   return (
@@ -51,18 +60,40 @@ function RcSesLoader({
       sx={[
         {
           alignItems: 'center',
-          gap,
+          gap: spacingTokens['spacing-aliases-stack-tight'],
         },
-        { color: RcSesPalette.primary[700] },
+        { color: colorTokens['text-link'] },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
-      <RcSesLoadingSpinner color='inherit' size={spinnerSize} />
+      <Box
+        sx={{
+          position: 'relative',
+          display: 'flex',
+          '& .MuiCircularProgress-circle': {
+            strokeWidth: (strokeWidth * SPINNER_VIEWBOX) / spinnerSize,
+          },
+        }}
+      >
+        {/* Track: a full ring under the arc, the same width as its stroke. */}
+        <Box
+          aria-hidden
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            border: `${strokeWidth}px solid ${colorTokens['border-subtle']}`,
+          }}
+        />
+        <RcSesLoadingSpinner color='inherit' size={`${spinnerSize}px`} />
+      </Box>
       {showLabel && (
         <Typography
-          variant={textVariant}
           sx={{
-            color: 'text.secondary',
+            color: colorTokens['text-secondary'],
+            fontSize,
+            lineHeight,
+            fontWeight: 400,
           }}
         >
           {resolvedLabel}
