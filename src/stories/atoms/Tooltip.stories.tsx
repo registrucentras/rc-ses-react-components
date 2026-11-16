@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material'
 import type { Meta } from '@storybook/react-vite'
-import React from 'react'
+import { fireEvent, within } from 'storybook/test'
 
 import RcSesTooltip from '@/components/common/Tooltip'
 
