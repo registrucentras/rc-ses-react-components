@@ -175,7 +175,6 @@ function RcSesTooltip({
           sx: {
             '&::before': {
               backgroundColor: colorTokens['surface-base'],
-              boxShadow: effectTokens['elevation-md'],
             },
           },
         },
