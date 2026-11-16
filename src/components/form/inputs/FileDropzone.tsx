@@ -93,7 +93,7 @@ function RcSesFileDropzone(props: Props) {
         {...getRootProps()}
         sx={{
           backgroundColor: () => {
-            if (fieldProps.disabled) return colorTokens['surface-base']
+            if (fieldProps.disabled) return colorTokens['surface-sunken']
             return isDragActive
               ? colorTokens['surface-brand-subtle']
               : colorTokens['surface-base']
