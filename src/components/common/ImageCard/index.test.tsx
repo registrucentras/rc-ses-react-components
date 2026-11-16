@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import { colorTokens } from '@/theme/colorTokens'
+
 import RcSesImageCard from '.'
 import theme from '../../../theme/light'
 
@@ -48,6 +50,20 @@ describe('RcSesImageCard', () => {
     )
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
+  })
+
+  test('lets consumer slot styles override the default title style', () => {
+    renderCard(
+      <RcSesImageCard
+        image={<img src='test.png' alt='icon' />}
+        title='Styled title'
+        slotProps={{ title: { sx: { color: colorTokens['text-link'] } } }}
+      />,
+    )
+
+    expect(screen.getByText('Styled title')).toHaveStyle({
+      color: colorTokens['text-link'],
+    })
   })
 
   test('forwards testIds to internal sections', () => {

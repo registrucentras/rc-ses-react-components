@@ -2,7 +2,6 @@ import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { spacingTokens } from '@/theme/spacingTokens'
-import { typographyTokens } from '@/theme/typographyTokens'
 
 import './tokens.css'
 
@@ -30,16 +29,14 @@ const subcard = {
 }
 
 /**
- * Card header values. The title font weight (500) is not yet tokenized.
+ * Card header values.
  * All spacing and typography line-height values use design tokens.
  */
 const header = {
   actionsGap: spacingRoleBasedTokens['space-12'],
   badgeGap: spacingRoleBasedTokens['space-8'],
-  descriptionLineHeight: typographyTokens['line-height-body-small'],
   gap: spacingTokens['spacing-aliases-cards-card-heading-gap'],
   rowGap: spacingRoleBasedTokens['space-16'],
-  titleFontWeight: 500,
 }
 
 const footer = {

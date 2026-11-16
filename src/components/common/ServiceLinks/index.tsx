@@ -1,7 +1,7 @@
 import { Box, Divider } from '@mui/material'
 import { Fragment } from 'react'
 
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
 
 import ServiceLinkItem from './ServiceLinkItem'
 import { RcSesServiceLinksProps } from './types'
@@ -35,7 +35,7 @@ function RcSesServiceLinks({
             // eslint-disable-next-line react/no-array-index-key
             <Fragment key={`skeleton-${index}`}>
               {dividers && index > 0 ? (
-                <Divider sx={{ borderColor: palette.grey[200] }} />
+                <Divider sx={{ borderColor: colorTokens['border-subtle'] }} />
               ) : null}
               <ServiceLinkItem label='' isLoading testIds={testIds} />
             </Fragment>
@@ -49,7 +49,7 @@ function RcSesServiceLinks({
         return (
           <Fragment key={key}>
             {dividers && index > 0 ? (
-              <Divider sx={{ borderColor: palette.grey[200] }} />
+              <Divider sx={{ borderColor: colorTokens['border-subtle'] }} />
             ) : null}
             <ServiceLinkItem
               {...itemProps}
