@@ -40,31 +40,14 @@ export const Default = {
       'Deklaruojant išvykimą iš Lietuvos nurodoma užsienio valstybė, į kurią išvykstama.',
   },
   tags: ['snapshot-fullpage'],
-  render: (args: any) => {
-    const triggerRef = React.useRef<HTMLSpanElement>(null)
-
-    React.useEffect(() => {
-      // Wait for tooltip to be fully rendered and positioned
-      const timer = setTimeout(() => {
-        const button = triggerRef.current?.querySelector('button')
-        if (button) {
-          button.click()
-          // Force a small paint delay to ensure the tooltip pops in
-          // and MUI calculates its position before screenshot
-        }
-      }, 500)
-
-      return () => clearTimeout(timer)
-    }, [])
-
-    return (
-      <Typography>
-        Išvykimo valstybė
-        <span ref={triggerRef}>
-          <RcSesTooltip {...args} />
-        </span>
-      </Typography>
-    )
+  render: (args: any) => (
+    <Typography>
+      Išvykimo valstybė
+      <RcSesTooltip {...args} />
+    </Typography>
+  ),
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    fireEvent.click(within(canvasElement).getByRole('button'))
   },
 } as const
 
