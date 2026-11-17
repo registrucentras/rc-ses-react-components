@@ -100,6 +100,8 @@ export const WithoutIcon: Story = {
 /** Open previews ensure the modal itself is included in visual regression tests. */
 export const TokenBindings: Story = {
   render: (args) => <RcSesModal {...args} />,
+  // The modal portals out of an otherwise empty root, which the snapshot spec can check before it mounts.
+  tags: ['snapshot-fullpage'],
   args: {
     open: true,
     title: 'Ar tikrai norite tęsti?',
@@ -113,26 +115,30 @@ export const TokenBindings: Story = {
 
 export const DestructiveTokenBindings: Story = {
   ...TokenBindings,
+  tags: ['snapshot-fullpage'],
   args: { ...TokenBindings.args, variant: 'destructive' },
 }
 
 export const SuccessTokenBindings: Story = {
   ...TokenBindings,
+  tags: ['snapshot-fullpage'],
   args: { ...TokenBindings.args, variant: 'success', primaryActionLabel: 'Uždaryti' },
 }
 
 export const InfoTokenBindings: Story = {
   ...TokenBindings,
+  tags: ['snapshot-fullpage'],
   args: { ...TokenBindings.args, variant: 'info', primaryActionLabel: 'Suprantu' },
 }
 
 export const MobileTokenBindings: Story = {
   ...TokenBindings,
-  tags: ['viewport-390'],
+  tags: ['snapshot-fullpage', 'viewport-390'],
 }
 
 export const TokenOverrides: Story = {
   ...TokenBindings,
+  tags: ['snapshot-fullpage'],
   args: {
     ...TokenBindings.args,
     sx: {
