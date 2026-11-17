@@ -26,6 +26,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Checkbox | `Checkbox-selectable-area`: `Selectable-area/padding-y` / `padding-x` (8/12px), 2px icon frame, 20px icon, `Stack/tight` (8px) gap | Outlined card 16/20/16/14px padding, MUI's 9px checkbox padding, 24px icon, 3px label margin | Legacy geometry kept; realigning moves icon and label, planned as a separate change | #216 |
 | Checkbox | Selectable area has no visible border or fill at rest | Outlined card shows `surface-sunken` fill and `border-strong` border at rest | Legacy appearance kept | #216 |
 | Checkbox | Hover halo `#50c9f3` / error hover halo `#c84838` at 20%, no variables | Local `color-mix` constants of `cyans-400` / `red-600` at 20% | No semantic role maps to them | #216 |
+| Accordion | 1px `Border/default` border and 16px `Radius aliases/Card` at every width, header `Surface/sunken` | Below md the section stays flat: no border or radius, `surface-base` header | AccordionFormContainer lays sections edge to edge on a muted background on mobile | #245 |
+| Accordion | Header can show a description (`Body/Small`, `Text/secondary`) under the title | Title only | Out of scope for the token rebind (new content) | #245 |
 | Radio | Pressed fill `Cyans/100` | Local `cyans-100` constant | No semantic role maps to it | #216 |
 | Snackbar | Shadow `0 4px 16px` at 16% black, unbound | `elevation-md` (`0 4px 16px` at 8%) | Closest effect token | #240 |
 | Snackbar | Action is Button v2 Secondary Small | Action keeps the outlined `light` Button | Legacy Button variant kept (see the Button row) | #240 |
