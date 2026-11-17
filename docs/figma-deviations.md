@@ -54,6 +54,11 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Phone-input | Flags in options are 20px; country trigger uses a 4px gap | Existing option flags remain 24px, trigger spacing and 44px virtual rows are retained | Geometry changes excluded from token rebind | #241 |
 | Phone-input | Loading state | No loading API | Additional functionality deferred to SAV-4873 | #241 |
 | Phone-input | Country options combine the localized name and dial code, with a selected checkmark | Existing English country names and separate dial-code column, without a checkmark | Option content and layout changes deferred to SAV-4873 | #241 |
+| [Tabs](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema?node-id=52739-212) | Underline tabs with a visible 2px selected indicator; transparent surfaces | Existing folder-style borders/backgrounds and hidden indicator retained, with token bindings | Visual redesign excluded from token-only migration | #247 |
+| Tabs | Regular Body/Large 16/24, Compact size, 2px horizontal padding and 32/24px list gaps | Existing Body/Regular role, 16px horizontal padding and 6px list gap retained; 11px vertical padding and 3px folder corners remain local values | Existing geometry retained; no matching DS tokens for legacy 11px/3px values; Compact requires separate work | #247 |
+| Tabs | Focus outline uses Border/focus; Tab moves into the panel | Existing pressed/focus background styling and panel focus behaviour retained | Adding focus treatment and panel keyboard behaviour deferred to SAV-4873 | #247 |
+| Tabs | Card + Card-header replaces TabsWrapper; Panel is a native slot | Existing TabsWrapper and panel surface/radii retained with DS tokens | Component replacement/deprecation and API changes deferred to SAV-4873 | #247 |
+| Tabs | Underline tabs have no folder hover or pressed fill to bind | Folder tabs keep the existing `neutrals-200` hover and `neutrals-300` pressed fills via local constants | Existing behaviour kept; no semantic role matches | #247 |
 
 ## Open questions
 
