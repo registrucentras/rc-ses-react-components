@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 export type TitleBlockHeadingLevel = 2 | 3 | 4 | 5 | 6
 
-export type TitleBlockTitleVariant = 'h4' | 'h5' | 'h6' | 'body1'
+export type TitleBlockTitleVariant = 'h2' | 'h4' | 'h5' | 'h6' | 'body1' | 'card-title'
 
 export type TitleBlockOrientation = 'horizontal' | 'vertical'
 
@@ -21,9 +21,11 @@ export interface RcSesTitleBlockBaseProps {
   /**
    * Visual size of the title, independent of `headingLevel`. The semantic tag
    * (`headingLevel`) sets document structure; this sets the type scale.
-   * Defaults to `h6` (18px).
+   * Defaults to `card-title`.
    * `body1` (15px) draws the title as running copy: body scale, and the
    * type scale's own weight instead of the card-header one.
+   * `card-title` uses the Figma Heading/Card title role (18/24, 20/28 from md, weight 500).
+   * Suitable for CardShell and section headers.
    */
   titleVariant?: TitleBlockTitleVariant
   /**

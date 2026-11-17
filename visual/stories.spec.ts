@@ -153,6 +153,14 @@ test.describe('Storybook visual regression', () => {
         story.tags?.includes('snapshot-fullpage') || (await hasPortalledLayer(page))
 
       if (isPortalled) {
+        // Wait for any portalled elements to be visible and stable
+        await page
+          .waitForSelector(PORTAL_LAYER_SELECTOR, { state: 'visible', timeout: 5000 })
+          .catch(() => {
+            // It's ok if no portal is found, some fullpage stories don't have portals
+          })
+        // Give a bit more time for the portal to stabilize its position
+        await page.waitForTimeout(100)
         await expect(page).toHaveScreenshot(`${story.id}.png`, { fullPage: true })
         return
       }

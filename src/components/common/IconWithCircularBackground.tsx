@@ -2,10 +2,24 @@ import { Box } from '@mui/material'
 import React, { memo, useMemo } from 'react'
 
 import IconProps from '@/assets/IconProps'
-import resolvePaletteColorPath from '@/assets/resolvePaletteColorPath'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import type palette from '@/theme/palette'
 
 type Shade = keyof (typeof palette)[keyof typeof palette]
+type PaletteColor = keyof typeof palette
+
+// Figma has no circular tile; the palette-name props map onto the DS primitive
+// variables, where each palette's `main` is its 500 shade.
+const PRIMITIVE_FAMILY: Record<PaletteColor, string> = {
+  primary: 'cyans',
+  secondary: 'greens',
+  grey: 'neutrals',
+  warning: 'yellows',
+  error: 'red',
+}
+
+const primitiveColor = (color: PaletteColor, shade: Shade) =>
+  `var(--rc-color-${PRIMITIVE_FAMILY[color]}-${shade === 'main' ? '500' : shade})`
 
 interface Props {
   bgShade?: Shade | 'white'
@@ -45,7 +59,10 @@ function IconWithCircularBackground(props: Props) {
       className='IconWithCircularBackground-root'
       sx={{
         alignItems: 'center',
-        backgroundColor: bgShade === 'white' ? 'white' : palette[color][bgShade],
+        backgroundColor:
+          bgShade === 'white'
+            ? colorTokens['surface-base']
+            : primitiveColor(color, bgShade),
         borderRadius: '50%',
         display: 'flex',
         justifyContent: 'center',
@@ -58,9 +75,10 @@ function IconWithCircularBackground(props: Props) {
           width: sizes[1],
         },
         'svg path': {
-          fill: resolvePaletteColorPath(
-            iconShade === 'white' ? 'white' : `${color}.${iconShade}`,
-          ),
+          fill:
+            iconShade === 'white'
+              ? colorTokens['text-inverse']
+              : primitiveColor(color, iconShade),
         },
       }}
     >

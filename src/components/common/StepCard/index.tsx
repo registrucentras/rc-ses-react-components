@@ -77,7 +77,7 @@ function RcSesStepCard({
         <RcSesTitleBlock
           title={title}
           description={resolvedDescription}
-          titleVariant='h4'
+          titleVariant='h2'
         />
       }
       footer={resolvedFooter}
