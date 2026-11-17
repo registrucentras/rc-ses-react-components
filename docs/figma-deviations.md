@@ -45,12 +45,21 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | File-upload | Body/Regular instruction, Body/Caption constraints, separate Advanced list item file rows | Existing semibold instruction, small/micro text and inline selected files retained | Existing text roles and structure retained; line heights now follow tokens | #244 |
 | File-upload | Secondary Small upload button, also used on mobile | FileUpload retains its full-width field with a filename and faux button; FileDropzone remains a dropzone on mobile | API consolidation, deprecation and responsive layout changes deferred to SAV-4873 | #244 |
 | File-upload | Drag-over instruction, upload progress, preview/download/retry/signing actions, focus return and announcements | Existing selection/removal behaviour and text retained; FileDropzone disabled prop styles the field but is not forwarded to useDropzone | Additional functionality and accessibility changes deferred to SAV-4873 | #244 |
+| [Phone-input](https://www.figma.com/design/GPujqQEuxSUKDUPbYmx7TG/RC-Dizaino-sistema?node-id=52699-212) | Input vertical padding 10px | Inherits `--rc-input-padding-y` (13px) | Shared foundation value retained; changing it affects other inputs | #241 |
+| Phone-input | Label/helper layout includes an explainer; disabled field uses 60% opacity | Existing FormControlWrapper layout and disabled text treatment retained | Shared wrapper kept during token rebind | #241 |
+| Phone-input | Mobile country selector opens in a Bottom-sheet; trigger target is 44px | Existing popup and trigger target retained | Additional mobile behaviour deferred to SAV-4873 | #241 |
+| Phone-input | Disabled and Error field states | Existing disabled/errors props are not wired to the field or country button | Existing behaviour retained; wiring these states requires a separate fix | #241 |
+| Phone-input | Flags in options are 20px; country trigger uses a 4px gap | Existing option flags remain 24px, trigger spacing and 44px virtual rows are retained | Geometry changes excluded from token rebind | #241 |
+| Phone-input | Loading state | No loading API | Additional functionality deferred to SAV-4873 | #241 |
+| Phone-input | Country options combine the localized name and dial code, with a selected checkmark | Existing English country names and separate dial-code column, without a checkmark | Option content and layout changes deferred to SAV-4873 | #241 |
 
 ## Open questions
 
 | Topic | Question | Raised in |
 | --- | --- | --- |
 | File-upload shared icon | The shared circular icon still uses legacy palette shades; Figma uses Icon-tile. Should replacing it be part of the functional File-upload update? The existing close-icon `path fill` selector also matches no SVG elements. | #244 |
+| Phone-input padding | Figma uses Input padding-y 10px, while the exported shared Input role resolves to 13px. Should the foundation export be updated for all inputs? | #241 |
+| Phone-input accessibility | The existing popup uses menu semantics around an Autocomplete listbox and a shared popup ID across instances; keyboard handling also needs review. Can these be addressed with the functional Phone-input work under SAV-4873? | #241 |
 | Spacing aliases | Overlapping groups: `Card/*` vs `Cards/card/*`, `Subcard/*` vs `Cards/subcard/*`. Code prefers the responsive `Cards/*` group when a variant binds both. Which group is current? | #215 |
 | Spacing roles | `padding-*` / `gap-*` roles exist in tokens but no component checked so far binds them, and the Figma Spacing page documents only primitives and aliases. Are they meant for use? | #215 |
 | Icon sizes | `tokens.css` sets `icon-size-badge` to 12px, but Badge components use 14px (matching the Figma icon instance). Which size is intended? | #233 |

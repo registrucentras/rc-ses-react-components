@@ -3,6 +3,10 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import type { RowComponentProps } from 'react-window'
 
+import { borderTokens } from '@/theme/borderTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
 // react-window 2 passes `index` and `style` plus whatever is given in `rowProps`,
 // replacing v1's single `data` array.
 type Props = RowComponentProps<{ items: any[] }>
@@ -18,9 +22,9 @@ function RowComponent(props: Props) {
       sx={{
         alignItems: 'center !important',
         backgroundSize: 'auto',
-        borderRadius: '.375rem',
+        borderRadius: borderTokens['radius-6'],
         flexDirection: 'row !important',
-        gap: 1.5,
+        gap: spacingRoleBasedTokens['space-12'],
         right: 0,
         m: '0 !important',
       }}
@@ -32,11 +36,11 @@ function RowComponent(props: Props) {
         component='span'
         sx={{
           backgroundSize: '2.25rem auto',
-          borderRadius: '50%',
+          borderRadius: borderTokens['radius-full'],
           flexShrink: 0,
-          height: '1.5rem',
+          height: sizeTokens['icon-size-24'],
           objectFit: 'cover',
-          width: '1.5rem',
+          width: sizeTokens['icon-size-24'],
         }}
         title={option?.name}
       />
