@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { v4 as uuidv4 } from 'uuid'
 
 import { UploadSimpleIcon } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import RcSesFormControlWrapper, {
   RcSesFormControlWrapperProps,
@@ -76,23 +78,23 @@ function RcSesFileUpload(props: Props) {
         fullWidth
         role={undefined}
         sx={{
-          backgroundColor: 'white !important',
-          borderRadius: '0.5rem',
+          backgroundColor: `${colorTokens['surface-base']} !important`,
+          borderRadius: borderTokens['radius-input'],
           display: 'flex',
           justifyContent: 'space-between',
           minHeight: '2.75rem',
           overflow: 'hidden',
           p: 0,
-          pl: 1.25,
+          pl: spacingRoleBasedTokens['space-10'],
           pr: 0,
           position: 'relative',
 
           'input:focus-visible ~ .faux-button::after': {
             content: '""',
             background: 'transparent',
-            border: '2px solid',
-            borderColor: palette.grey[950],
-            borderRadius: '.5rem',
+            border: `${borderTokens['border-focus']} solid`,
+            borderColor: colorTokens['border-focus'],
+            borderRadius: borderTokens['radius-input'],
             height: 'calc(100% + 6px)',
             left: '-3px',
             position: 'absolute',
@@ -121,24 +123,27 @@ function RcSesFileUpload(props: Props) {
           sx={{
             alignItems: 'center',
             alignSelf: 'stretch',
-            backgroundColor: palette.grey['100'],
-            borderColor: palette.grey['500'],
-            borderBottomRightRadius: 'calc(0.5rem - 1px)',
+            backgroundColor: colorTokens['surface-sunken'],
+            borderColor: colorTokens['border-default'],
+            borderBottomRightRadius: `calc(${borderTokens['radius-input']} - ${borderTokens['stroke-1']})`,
             borderLeftStyle: 'solid',
-            borderLeftWidth: '1px',
-            borderTopRightRadius: 'calc(0.5rem - 1px)',
-            color: palette.grey['900'],
+            borderLeftWidth: borderTokens['stroke-1'],
+            borderTopRightRadius: `calc(${borderTokens['radius-input']} - ${borderTokens['stroke-1']})`,
+            color: colorTokens['text-default'],
             display: 'flex',
             flexShrink: 0,
             position: 'relative',
-            px: 2,
+            px: spacingRoleBasedTokens['space-16'],
             ':hover': {
-              backgroundColor: palette.grey['200'],
+              backgroundColor: colorTokens['surface-muted'],
             },
           }}
         >
           <UploadSimpleIcon />
-          <Typography variant='body1' sx={{ fontWeight: 600, ml: 1 }}>
+          <Typography
+            variant='body1'
+            sx={{ fontWeight: 600, ml: spacingRoleBasedTokens['space-8'] }}
+          >
             {t('label')}
           </Typography>
         </Box>
