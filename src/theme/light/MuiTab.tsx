@@ -5,6 +5,10 @@ import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 import { typographyTokens } from '../typographyTokens'
 
+// The folder tab states step through neutrals with no matching semantic role.
+const tabHoverBackground = 'var(--rc-color-neutrals-200)'
+const tabPressedBackground = 'var(--rc-color-neutrals-300)'
+
 const MuiTab: Components['MuiTab'] = {
   defaultProps: {
     sx: {
@@ -16,7 +20,7 @@ const MuiTab: Components['MuiTab'] = {
   },
   styleOverrides: {
     root: {
-      backgroundColor: colorTokens['surface-sunken'],
+      backgroundColor: colorTokens['surface-muted'],
       borderColor: colorTokens['border-subtle'],
       borderStyle: 'solid solid none solid',
       borderWidth: borderTokens['stroke-1'],
@@ -32,23 +36,23 @@ const MuiTab: Components['MuiTab'] = {
 
       '&.Mui-selected': {
         backgroundColor: `${colorTokens['surface-base']} !important`,
-        borderColor: colorTokens['border-subtle'],
+        borderColor: colorTokens['border-default'],
         borderBottomWidth: 0,
         color: colorTokens['text-default'],
         marginBottom: '-1px',
       },
 
       '&:hover': {
-        backgroundColor: colorTokens['surface-muted'],
+        backgroundColor: tabHoverBackground,
       },
 
       '&:active, &.Mui-focusVisible': {
-        backgroundColor: colorTokens['surface-muted'],
+        backgroundColor: tabPressedBackground,
       },
 
       '&.Mui-disabled': {
-        backgroundColor: colorTokens['surface-sunken'],
-        borderColor: colorTokens['border-subtle'],
+        backgroundColor: colorTokens['surface-muted'],
+        borderColor: colorTokens['border-default'],
         color: colorTokens['text-disabled'],
       },
     },

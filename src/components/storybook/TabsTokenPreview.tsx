@@ -16,7 +16,8 @@ export default function TabsTokenPreview({ overrides = false }: { overrides?: bo
         overrides
           ? ({
               '--rc-color-surface-base': '#fffaf0',
-              '--rc-color-surface-sunken': '#f2e9de',
+              '--rc-color-surface-muted': '#f2e9de',
+              '--rc-color-surface-sunken': '#f8f2ea',
               '--rc-color-border-default': '#a56835',
               '--rc-color-border-subtle': '#c9ab8a',
               '--rc-color-text-default': '#542d16',

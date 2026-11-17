@@ -17,7 +17,7 @@ const MuiTabs: Components['MuiTabs'] = {
     // v9 renamed the flexContainer slot to list.
     list: {
       borderBottomStyle: 'solid',
-      borderBottomColor: colorTokens['border-subtle'],
+      borderBottomColor: colorTokens['border-default'],
       borderBottomWidth: borderTokens['stroke-1'],
       columnGap: spacingRoleBasedTokens['space-6'],
       paddingLeft: spacingRoleBasedTokens['space-12'],
