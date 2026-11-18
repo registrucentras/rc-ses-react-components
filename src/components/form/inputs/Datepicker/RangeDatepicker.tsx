@@ -9,6 +9,7 @@ import {
 import type { DateCalendarProps } from '@mui/x-date-pickers/DateCalendar'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { PickerDay, PickerDayProps } from '@mui/x-date-pickers/PickerDay'
+import { usePickerAdapter } from '@mui/x-date-pickers/hooks'
 import { CaretRightIcon } from '@phosphor-icons/react'
 import { format, parseISO } from 'date-fns'
 import React, { createContext, useContext, useId, useMemo, useRef, useState } from 'react'
@@ -117,6 +118,10 @@ function RangeDay(props: PickerDayProps) {
           color: colorTokens['text-default'],
           backgroundColor: inside ? colorTokens['surface-brand-subtle'] : 'transparent',
           '&.MuiPickerDay-dayOutsideMonth': { color: colorTokens['text-muted'] },
+          '&.MuiPickerDay-today': {
+            outline: `${borderTokens['stroke-1']} solid var(--rc-color-cyans-500)`,
+            outlineOffset: `calc(-1 * ${borderTokens['stroke-1']})`,
+          },
           '&:hover': { backgroundColor: colorTokens['surface-muted'] },
           '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
             backgroundColor: colorTokens['control-selected'],
@@ -126,6 +131,9 @@ function RangeDay(props: PickerDayProps) {
           '&.Mui-focusVisible': {
             boxShadow: effectTokens['focus-ring-default'],
             zIndex: 1,
+          },
+          '&.Mui-selected.Mui-focusVisible': {
+            boxShadow: `0 0 0 2px ${colorTokens['surface-base']}, 0 0 0 4px ${colorTokens['border-focus']}`,
           },
         },
       }}
@@ -148,6 +156,7 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
     const generatedId = useId()
     const id = idProp ?? generatedId
     const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker' })
+    const adapter = usePickerAdapter()
     const anchor = useRef<HTMLDivElement>(null)
     const input = useRef<HTMLInputElement | null>(null)
     const [open, setOpen] = useState(false)
@@ -206,13 +215,18 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
             if (!field.disabled) setOpen(true)
           }}
           onKeyDown={(event) => {
-            if (['Enter', ' ', 'ArrowDown'].includes(event.key) && !field.disabled) {
+            if (
+              event.target === input.current &&
+              ['Enter', ' ', 'ArrowDown'].includes(event.key) &&
+              !field.disabled
+            ) {
               event.preventDefault()
               setOpen(true)
             }
           }}
           slotProps={{
             htmlInput: {
+              role: 'combobox',
               readOnly: true,
               'aria-haspopup': 'dialog',
               'aria-expanded': open,
@@ -224,6 +238,9 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
                 <InputAdornment position='start'>
                   <IconButton
                     aria-label={t('aria.openCalendar')}
+                    aria-haspopup='dialog'
+                    aria-expanded={open}
+                    aria-controls={open ? `${id}-calendar` : undefined}
                     disabled={field.disabled}
                     onClick={() => setOpen(true)}
                   >
@@ -279,7 +296,7 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
               'aria-modal': true,
               'aria-label': t('range.calendar'),
               sx: {
-                width: '342px',
+                width: '340px',
                 maxWidth: 'calc(100vw - 32px)',
                 borderRadius: borderTokens['radius-12'],
                 border: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
@@ -307,6 +324,9 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
             <DateCalendar
               {...slotProps?.calendar}
               autoFocus
+              dayOfWeekFormatter={(date) =>
+                adapter.format(date, 'weekdayShort').substring(0, 2)
+              }
               reduceAnimations
               showDaysOutsideCurrentMonth
               value={calendarValue}
@@ -318,18 +338,32 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
                 switchViewIcon: SwitchViewIcon,
               }}
               sx={{
-                width: '340px',
+                width: '100%',
+                overflow: 'visible',
                 maxHeight: 'none',
                 height: 'auto',
-                padding: spacingRoleBasedTokens['space-16'],
+                padding: `calc(${spacingRoleBasedTokens['space-16']} - ${borderTokens['stroke-1']})`,
                 '.MuiDayCalendar-weekContainer': { margin: 0 },
-                '.MuiDayCalendar-weekDayLabel': { width: '44px', margin: 0 },
-                '.MuiDayCalendar-slideTransition': { minHeight: '264px' },
+                '.MuiDayCalendar-weekDayLabel': {
+                  width: '44px',
+                  height: '24px',
+                  margin: 0,
+                  fontSize: typographyTokens['font-size-body-caption'],
+                  lineHeight: typographyTokens['line-height-body-caption'],
+                  color: colorTokens['text-secondary'],
+                },
+                '.MuiDayCalendar-header': {
+                  marginBottom: spacingRoleBasedTokens['space-12'],
+                },
+                '.MuiDayCalendar-monthContainer': { overflow: 'visible' },
+                '.MuiDateCalendar-viewTransitionContainer': { overflow: 'visible' },
+                '.MuiDayCalendar-slideTransition': { minHeight: 0, overflow: 'visible' },
                 '.MuiPickersCalendarHeader-root': {
                   padding: 0,
                   margin: 0,
                   minHeight: '44px',
                   justifyContent: 'space-between',
+                  marginBottom: spacingRoleBasedTokens['space-12'],
                 },
                 '.MuiPickersCalendarHeader-labelContainer': {
                   color: colorTokens['action-link-text'],

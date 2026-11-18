@@ -9,7 +9,7 @@ widths.forEach((width) => {
   }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
-    const input = page.getByRole('textbox')
+    const input = page.getByRole('combobox')
     await input.click()
     const dialog = page.getByRole('dialog')
     await expect(dialog).toHaveCSS('transform', 'none')
@@ -41,7 +41,7 @@ test('Range keyboard selection, Escape and form reset preserve semantics', async
   page,
 }) => {
   await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
-  const input = page.getByRole('textbox')
+  const input = page.getByRole('combobox')
   await input.focus()
   await input.press('Enter')
   const dialog = page.getByRole('dialog')
@@ -65,7 +65,7 @@ test('Range keyboard selection, Escape and form reset preserve semantics', async
 
 test('Range can span months and select the same day twice', async ({ page }) => {
   await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
-  const input = page.getByRole('textbox')
+  const input = page.getByRole('combobox')
   await input.click()
   const dialog = page.getByRole('dialog')
   await expect(dialog).toHaveCSS('transform', 'none')
@@ -83,7 +83,7 @@ test('Range accessible names, contrast, navigation targets and automated a11y', 
   page,
 }) => {
   await page.goto('/iframe.html?id=molecules-datepicker--range-selected&viewMode=story')
-  await page.getByRole('textbox').click()
+  await page.getByRole('combobox').click()
   const dialog = page.getByRole('dialog')
   await expect(dialog).toHaveCSS('transform', 'none')
   await expect(
@@ -120,7 +120,7 @@ test('A partial range survives Escape and waits for its end when reopened', asyn
   page,
 }) => {
   await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
-  const input = page.getByRole('textbox')
+  const input = page.getByRole('combobox')
   await input.click()
   const dialog = page.getByRole('dialog')
   await dialog.getByRole('gridcell', { name: /^2026-06-10/ }).click()
@@ -134,6 +134,55 @@ test('A partial range survives Escape and waits for its end when reopened', asyn
 
 test('Disabled Range cannot open its calendar', async ({ page }) => {
   await page.goto('/iframe.html?id=molecules-datepicker--range-disabled&viewMode=story')
-  await expect(page.getByRole('textbox')).toBeDisabled()
+  await expect(page.getByRole('combobox')).toBeDisabled()
   await expect(page.locator('[role="dialog"]')).toHaveCount(0)
+})
+
+test('Range clear button works with keyboard without opening the calendar', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=molecules-datepicker--range-selected&viewMode=story')
+  const clear = page.getByRole('button', { name: /Clear current|Išvalyti/i })
+  await clear.focus()
+  await clear.press('Enter')
+  await expect(page.getByRole('combobox')).toHaveValue('')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByRole('combobox')).toBeFocused()
+  await injectAxe(page)
+  await checkA11y(page, '#storybook-root', { includedImpacts: ['critical', 'serious'] })
+})
+
+test('Range dialog traps focus and shows a focus ring on keyboard days', async ({
+  page,
+}) => {
+  await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
+  const input = page.getByRole('combobox')
+  await input.focus()
+  await input.press('Enter')
+  const dialog = page.getByRole('dialog')
+  const day = dialog.getByRole('gridcell', { name: /^2026-06-10/ })
+  await day.focus()
+  await day.press('ArrowRight')
+  const next = dialog.getByRole('gridcell', { name: /^2026-06-11/ })
+  await expect(next).toBeFocused()
+  await expect(next).not.toHaveCSS('box-shadow', 'none')
+  await page.keyboard.press('Tab')
+  await expect
+    .poll(() => dialog.evaluate((el) => el.contains(document.activeElement)))
+    .toBe(true)
+  await page.keyboard.press('Shift+Tab')
+  await expect
+    .poll(() => dialog.evaluate((el) => el.contains(document.activeElement)))
+    .toBe(true)
+  await page.keyboard.press('Escape')
+  await expect(input).toBeFocused()
+})
+
+test('Range Today ring uses the same Figma primitive as Single', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-06-15T12:00:00Z'))
+  await page.goto('/iframe.html?id=molecules-datepicker--range&viewMode=story')
+  await page.getByRole('combobox').click()
+  const today = page.getByRole('dialog').getByRole('gridcell', { name: /^2026-06-15/ })
+  await expect(today).toHaveAttribute('aria-current', 'date')
+  await expect(today).toHaveCSS('outline-color', 'rgb(6, 160, 212)')
 })

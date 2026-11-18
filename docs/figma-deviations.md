@@ -65,6 +65,7 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 
 | Topic | Question | Raised in |
 | --- | --- | --- |
+| DatePicker Range month label | Figma shows the Lithuanian header as `2026 m. birželis`; the MUI locale adapter uses `birželis 2026`. Is locale-native month/year ordering acceptable, or should this format be prescribed per locale? | Pending PR |
 | File-upload shared icon | The shared circular icon still uses legacy palette shades; Figma uses Icon-tile. Should replacing it be part of the functional File-upload update? The existing close-icon `path fill` selector also matches no SVG elements. | #244 |
 | Phone-input padding | Figma uses Input padding-y 10px, while the exported shared Input role resolves to 13px. Should the foundation export be updated for all inputs? | #241 |
 | Phone-input accessibility | The existing popup uses menu semantics around an Autocomplete listbox and a shared popup ID across instances; keyboard handling also needs review. Can these be addressed with the functional Phone-input work under SAV-4873? | #241 |
