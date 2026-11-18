@@ -1,10 +1,11 @@
+import { Box, Button } from '@mui/material'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { Meta, StoryContext } from '@storybook/react-vite'
 import { lt } from 'date-fns/locale/lt'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
-import RcSesDatepicker from '@/components/form/inputs/Datepicker'
+import RcSesDatepicker, { DateRangeValue } from '@/components/form/inputs/Datepicker'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
@@ -257,3 +258,53 @@ export const ConsumerOverrides = {
     },
   },
 }
+
+function RangeDemo({
+  selected = false,
+  disabled = false,
+}: {
+  selected?: boolean
+  disabled?: boolean
+}) {
+  const { control, reset } = useForm<{ period: DateRangeValue }>({
+    defaultValues: { period: selected ? ['2026-06-10', '2026-06-17'] : [null, null] },
+  })
+  const period = useWatch({ control, name: 'period' })
+  return (
+    <Box sx={{ width: '100%', maxWidth: '520px' }}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+        <RcSesDatepicker
+          selection='range'
+          id='period'
+          name='period'
+          control={control}
+          label='Date range'
+          clearable
+          disabled={disabled}
+          slotProps={{
+            wrapper: { labelOnTop: true },
+            calendar: { referenceDate: new Date(2026, 5, 10) },
+          }}
+        />
+      </LocalizationProvider>
+      <Box component='output' aria-label='Stored range' sx={{ display: 'block', mt: 2 }}>
+        {JSON.stringify(period)}
+      </Box>
+      <Button onClick={() => reset({ period: [null, null] })}>Reset form</Button>
+    </Box>
+  )
+}
+
+export const Range = {
+  render: () => <RangeDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `selection='range'` one field picks a period. The form value is a pair of plain local dates, `['2026-06-10', '2026-06-17']`: `[start, null]` while the end is still being picked and `[null, null]` when empty. Both dates are inclusive calendar days without a time or timezone, so read them as dates on the backend (e.g. `LocalDate`) and build any time window there. Unlike Single, which stores a UTC timestamp, values in any other format, such as ISO timestamps, are read as empty.",
+      },
+    },
+  },
+}
+export const RangeSelected = { render: () => <RangeDemo selected /> }
+export const RangeDisabled = { render: () => <RangeDemo selected disabled /> }

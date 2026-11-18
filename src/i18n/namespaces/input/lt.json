@@ -22,7 +22,17 @@
         "openCalendar": "Atverti datos pasirinkimo kalendorių"
       },
       "prevYear": "Ankstesni metai",
-      "nextYear": "Ateinantys metai"
+      "nextYear": "Ateinantys metai",
+      "range": {
+        "calendar": "Pasirinkite datos intervalą",
+        "start": "Intervalo pradžia",
+        "end": "Intervalo pabaiga",
+        "inRange": "Pasirinkto intervalo dalis",
+        "preview": "Intervalo peržiūra",
+        "chooseStart": "Pasirinkite pradžios datą",
+        "chooseEnd": "Nuo {{start}}. Pasirinkite pabaigos datą.",
+        "selected": "Nuo {{start}} iki {{end}}"
+      }
     },
 
     "RcSesFileDropzone": {

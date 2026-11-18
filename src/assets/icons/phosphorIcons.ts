@@ -82,6 +82,7 @@ export const CaretLeftBoldIcon = /* @__PURE__ */ createIcon(CaretLeft, {
   weight: 'bold',
 })
 export const CaretLeftIcon = /* @__PURE__ */ createIcon(CaretLeft, { size: 16 })
+export const CaretRightIcon = /* @__PURE__ */ createIcon(CaretRight, { size: 16 })
 export const CaretRightBoldIcon = /* @__PURE__ */ createIcon(CaretRight, {
   size: 16,
   weight: 'bold',

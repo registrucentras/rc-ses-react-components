@@ -59,11 +59,14 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Tabs | Focus outline uses Border/focus; Tab moves into the panel | Existing pressed/focus background styling and panel focus behaviour retained | Adding focus treatment and panel keyboard behaviour deferred to SAV-4873 | #247 |
 | Tabs | Card + Card-header replaces TabsWrapper; Panel is a native slot | Existing TabsWrapper and panel surface/radii retained with DS tokens | Component replacement/deprecation and API changes deferred to SAV-4873 | #247 |
 | Tabs | Underline tabs have no folder hover or pressed fill to bind | Folder tabs keep the existing `neutrals-200` hover and `neutrals-300` pressed fills via local constants | Existing behaviour kept; no semantic role matches | #247 |
+| DatePicker Range | Range endpoints use `Cyans/500` (#06a0d4) with white text | `control-selected` (#0079ad) with white text | Figma endpoint color does not meet the ticket's 4.5:1 text contrast requirement; same accessible mapping as Single | #250 |
+| DatePicker Range | The month label with a caret opens the Months view, the year opens Years; both are 3×4 Day-cell grids, Years paging by 12 | Range shows the day view only; the header has no view switch | Months/Years views are separate functionality; consumers can still pass `views` through `slotProps.calendar` | #250 |
 
 ## Open questions
 
 | Topic | Question | Raised in |
 | --- | --- | --- |
+| DatePicker Range month label | Figma shows the Lithuanian header as `2026 m. birželis`; the MUI locale adapter uses `birželis 2026`. Is locale-native month/year ordering acceptable, or should this format be prescribed per locale? | #250 |
 | File-upload shared icon | The shared circular icon still uses legacy palette shades; Figma uses Icon-tile. Should replacing it be part of the functional File-upload update? The existing close-icon `path fill` selector also matches no SVG elements. | #244 |
 | Phone-input padding | Figma uses Input padding-y 10px, while the exported shared Input role resolves to 13px. Should the foundation export be updated for all inputs? | #241 |
 | Phone-input accessibility | The existing popup uses menu semantics around an Autocomplete listbox and a shared popup ID across instances; keyboard handling also needs review. Can these be addressed with the functional Phone-input work under SAV-4873? | #241 |

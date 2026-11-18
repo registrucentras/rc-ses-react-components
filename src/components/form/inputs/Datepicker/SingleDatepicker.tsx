@@ -1,0 +1,156 @@
+import { IconButton, InputAdornment, useMediaQuery } from '@mui/material'
+import type { DatePickerProps } from '@mui/x-date-pickers/DatePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { usePickerAdapter } from '@mui/x-date-pickers/hooks'
+import { parseISO } from 'date-fns'
+import { fromZonedTime } from 'date-fns-tz'
+import React, { useEffect, useMemo } from 'react'
+import { UseControllerProps, useController } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import { v4 as uuidv4 } from 'uuid'
+
+import { CalendarBlankIcon, XCircleFillIcon } from '@/assets/icons/phosphorIcons'
+import theme from '@/theme/light'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
+import RcSesFormControlWrapper, {
+  RcSesFormControlWrapperProps,
+} from '../../components/FormControlWrapper'
+import RcSesDatepickerActionBar from './components/RcSesDatepickerActionBar'
+import RcSesDatepickerCalendarHeader from './components/RcSesDatepickerCalendarHeader'
+
+type TFieldProps = UseControllerProps<any, any>
+type TWrapperProps = RcSesFormControlWrapperProps
+type ImmediateWrapperProps = 'label' | 'errors'
+
+export type SingleDatepickerProps = TFieldProps &
+  Pick<TWrapperProps, ImmediateWrapperProps> & {
+    id?: string
+    clearable?: boolean
+    slotProps?: {
+      datepicker?: DatePickerProps
+      wrapper?: Partial<Omit<TWrapperProps, ImmediateWrapperProps>>
+    }
+  }
+
+const RcSesDatepicker = React.forwardRef<HTMLInputElement, SingleDatepickerProps>(
+  (props, ref) => {
+    const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker' })
+    const upMd = useMediaQuery(theme.breakpoints.up('md'))
+
+    const { id: idProp, clearable, errors, label, slotProps, ...controllerProps } = props
+
+    // v9 no longer exports MuiPickersAdapterContext from LocalizationProvider;
+    // usePickerAdapter is the public replacement for the `utils` adapter.
+    const dateAdapter = usePickerAdapter()
+
+    const {
+      field: { onChange, value, disabled },
+    } = useController(controllerProps)
+
+    const id = useMemo(() => idProp ?? uuidv4(), [idProp])
+
+    const [modelValue, setModelValue] = React.useState<Date | null>(
+      value ? parseISO(value) : null,
+    )
+
+    const handleOnChange = (newValue: Date | null) => {
+      try {
+        onChange((newValue && fromZonedTime(newValue, 'UTC').toISOString()) ?? '')
+      } catch {
+        onChange(null)
+      }
+    }
+
+    useEffect(() => {
+      if (value !== modelValue) setModelValue(value ? parseISO(value) : null)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value])
+
+    return (
+      <RcSesFormControlWrapper
+        id={id}
+        errors={errors}
+        label={label}
+        required={!!props?.rules?.required}
+        {...slotProps?.wrapper}
+      >
+        <DatePicker
+          inputRef={ref}
+          closeOnSelect
+          dayOfWeekFormatter={(date: Date) =>
+            dateAdapter.format(date, 'weekdayShort').substring(0, 2)
+          }
+          disabled={disabled}
+          onChange={handleOnChange}
+          openTo='day'
+          showDaysOutsideCurrentMonth
+          slots={{
+            actionBar: RcSesDatepickerActionBar,
+            calendarHeader: RcSesDatepickerCalendarHeader,
+            openPickerIcon: CalendarBlankIcon,
+          }}
+          {...(slotProps?.datepicker ?? {})}
+          slotProps={{
+            actionBar: {
+              actions: ['cancel'],
+              ...(slotProps?.datepicker?.slotProps?.actionBar ?? {}),
+            },
+            inputAdornment: {
+              position: 'start',
+              sx: { mr: spacingRoleBasedTokens['space-0'] },
+              ...(slotProps?.datepicker?.slotProps?.inputAdornment ?? {}),
+            },
+            textField: {
+              id,
+              error: !!errors,
+              fullWidth: true,
+              ...(slotProps?.datepicker?.slotProps?.textField ?? {}),
+
+              slotProps: {
+                input: {
+                  ...(!upMd
+                    ? {
+                        startAdornment: (
+                          <InputAdornment
+                            aria-label={t('aria.openCalendar')}
+                            position='start'
+                            sx={{ mr: spacingRoleBasedTokens['space-0'] }}
+                          >
+                            <IconButton>
+                              <CalendarBlankIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }
+                    : {}),
+                  endAdornment: !!value && clearable && (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        aria-label={t('aria.clearValue')}
+                        onClick={() => handleOnChange(null)}
+                      >
+                        <XCircleFillIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              },
+            },
+            toolbar: { hidden: true },
+          }}
+          value={modelValue}
+          sx={{
+            '.MuiInputBase-input': {
+              paddingLeft: spacingRoleBasedTokens['space-0'],
+              paddingRight: spacingRoleBasedTokens['space-0'],
+            },
+            ...(slotProps?.datepicker?.sx ?? {}),
+          }}
+        />
+      </RcSesFormControlWrapper>
+    )
+  },
+)
+
+export default RcSesDatepicker
