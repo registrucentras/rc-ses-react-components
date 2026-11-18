@@ -1,5 +1,14 @@
-import { expect, test } from '@playwright/test'
+import { Page, expect, test } from '@playwright/test'
 import { checkA11y, injectAxe } from 'axe-playwright'
+
+// Storybook's a11y addon runs axe after each render, and axe refuses to start
+// while another run is in progress, so retry until the page is free.
+const expectNoSeriousA11yIssues = async (page: Page, context: string) => {
+  await injectAxe(page)
+  await expect(async () => {
+    await checkA11y(page, context, { includedImpacts: ['critical', 'serious'] })
+  }).toPass({ timeout: 10_000 })
+}
 
 const widths = [375, 768, 1440]
 
@@ -111,8 +120,7 @@ test('Range accessible names, contrast, navigation targets and automated a11y', 
   const buttonBox = await buttons.first().boundingBox()
   expect(buttonBox!.width).toBeGreaterThanOrEqual(44)
   expect(buttonBox!.height).toBeGreaterThanOrEqual(44)
-  await injectAxe(page)
-  await checkA11y(page, '[role="dialog"]', { includedImpacts: ['critical', 'serious'] })
+  await expectNoSeriousA11yIssues(page, '[role="dialog"]')
   await dialog.screenshot({ path: test.info().outputPath('range-calendar.png') })
 })
 
@@ -148,8 +156,7 @@ test('Range clear button works with keyboard without opening the calendar', asyn
   await expect(page.getByRole('combobox')).toHaveValue('')
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(page.getByRole('combobox')).toBeFocused()
-  await injectAxe(page)
-  await checkA11y(page, '#storybook-root', { includedImpacts: ['critical', 'serious'] })
+  await expectNoSeriousA11yIssues(page, '#storybook-root')
 })
 
 test('Range dialog traps focus and shows a focus ring on keyboard days', async ({

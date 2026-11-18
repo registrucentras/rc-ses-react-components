@@ -10,7 +10,6 @@ import type { DateCalendarProps } from '@mui/x-date-pickers/DateCalendar'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { PickerDay, PickerDayProps } from '@mui/x-date-pickers/PickerDay'
 import { usePickerAdapter } from '@mui/x-date-pickers/hooks'
-import { CaretRightIcon } from '@phosphor-icons/react'
 import { format, parseISO } from 'date-fns'
 import React, { createContext, useContext, useId, useMemo, useRef, useState } from 'react'
 import { UseControllerProps, useController } from 'react-hook-form'
@@ -20,6 +19,7 @@ import {
   CalendarBlankIcon,
   CaretDownIcon,
   CaretLeftIcon,
+  CaretRightIcon,
   XCircleFillIcon,
 } from '@/assets/icons/phosphorIcons'
 import { borderTokens } from '@/theme/borderTokens'
@@ -76,7 +76,7 @@ function RangeDay(props: PickerDayProps) {
     setPreview,
   } = useContext(RangeContext)
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesDatepicker.range' })
-  const { day: date, selected, disabled, onMouseEnter, onFocus, ...dayProps } = props
+  const { day: date, disabled, onMouseEnter, onFocus, ...dayProps } = props
   const day = format(date, 'yyyy-MM-dd')
   const endpoint = day === start || day === end
   const low = start && preview && !end ? [start, preview].sort()[0] : start
@@ -96,7 +96,7 @@ function RangeDay(props: PickerDayProps) {
       day={date}
       disabled={disabled}
       selected={endpoint}
-      aria-selected={selected}
+      aria-selected={endpoint}
       aria-label={`${day}${status ? `, ${status}` : ''}`}
       data-range-state={rangeState}
       onMouseEnter={(event, hoveredDate) => {
@@ -322,6 +322,8 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
           </Box>
           <RangeContext.Provider value={rangeContext}>
             <DateCalendar
+              // Months and Years views are not styled to the Calendar-popover design yet.
+              views={['day']}
               {...slotProps?.calendar}
               autoFocus
               dayOfWeekFormatter={(date) =>
