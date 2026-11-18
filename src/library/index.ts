@@ -119,6 +119,11 @@ export { default as RcSesRadioMark } from '@/components/common/RadioMark'
 export type { RadioMarkProps } from '@/components/common/RadioMark'
 export { useSnackbar }
 export { RcSesDatepicker }
+export type {
+  DatepickerProps,
+  DateRangeValue,
+  RangeDatepickerProps,
+} from '@/components/form/inputs/Datepicker'
 export { RcSesFileUpload }
 export { RcSesFileDropzone }
 export { RcSesNumberStepper }

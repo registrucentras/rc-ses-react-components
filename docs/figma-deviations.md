@@ -59,6 +59,7 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Tabs | Focus outline uses Border/focus; Tab moves into the panel | Existing pressed/focus background styling and panel focus behaviour retained | Adding focus treatment and panel keyboard behaviour deferred to SAV-4873 | #247 |
 | Tabs | Card + Card-header replaces TabsWrapper; Panel is a native slot | Existing TabsWrapper and panel surface/radii retained with DS tokens | Component replacement/deprecation and API changes deferred to SAV-4873 | #247 |
 | Tabs | Underline tabs have no folder hover or pressed fill to bind | Folder tabs keep the existing `neutrals-200` hover and `neutrals-300` pressed fills via local constants | Existing behaviour kept; no semantic role matches | #247 |
+| DatePicker Range | Range endpoints use `Cyans/500` (#06a0d4) with white text | `control-selected` (#0079ad) with white text | Figma endpoint color does not meet the ticket's 4.5:1 text contrast requirement; same accessible mapping as Single | Pending PR |
 
 ## Open questions
 
