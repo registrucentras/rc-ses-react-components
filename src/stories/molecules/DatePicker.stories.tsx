@@ -295,6 +295,16 @@ function RangeDemo({
   )
 }
 
-export const Range = { render: () => <RangeDemo /> }
+export const Range = {
+  render: () => <RangeDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `selection='range'` one field picks a period. The form value is a pair of plain local dates, `['2026-06-10', '2026-06-17']`: `[start, null]` while the end is still being picked and `[null, null]` when empty. Both dates are inclusive calendar days without a time or timezone, so read them as dates on the backend (e.g. `LocalDate`) and build any time window there. Unlike Single, which stores a UTC timestamp, values in any other format, such as ISO timestamps, are read as empty.",
+      },
+    },
+  },
+}
 export const RangeSelected = { render: () => <RangeDemo selected /> }
 export const RangeDisabled = { render: () => <RangeDemo selected disabled /> }
