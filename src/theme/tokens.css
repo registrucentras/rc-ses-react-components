@@ -128,7 +128,7 @@
   --rc-color-text-link-hover: var(--rc-color-cyans-800);
   --rc-color-text-muted: var(--rc-color-neutrals-600);
   --rc-color-text-secondary: var(--rc-color-neutrals-600);
-  --rc-typography-font-family: 'Public Sans', sans-serif;
+  --rc-typography-font-family-base: 'Public Sans', sans-serif;
   --rc-typography-font-size-body-caption: 0.8125rem;
   --rc-typography-font-size-body-large: 1rem;
   --rc-typography-font-size-body-lead: 1rem;
