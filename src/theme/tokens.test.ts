@@ -163,11 +163,11 @@ test('typography font-weight and letter-spacing tokens have correct format', () 
     expect(Number(weight)).toBeLessThanOrEqual(900)
   })
 
-  // Letter-spacing tokens: should be in px with optional negative sign
+  // Letter-spacing tokens: should be in px with optional negative sign (includes zero values)
   const letterSpacings = Array.from(
     cssContent.matchAll(/--rc-typography-letter-spacing-[\w-]+: (-?[\d.]+px);/g),
   )
-  expect(letterSpacings.length).toBe(3)
+  expect(letterSpacings.length).toBe(14)
   letterSpacings.forEach(([, spacing]) => {
     expect(spacing).toMatch(/^-?[\d.]+px$/)
   })

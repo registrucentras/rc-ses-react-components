@@ -3,7 +3,7 @@ import type { CSSProperties } from '@mui/material/styles'
 // CSS variable references. Values and responsive modes live in tokens.css.
 const typographyTokens = {
   // Font family
-  'font-family': 'var(--rc-typography-font-family)',
+  'font-family': 'var(--rc-typography-font-family-base)',
   // Font weights (primitives)
   'font-weight-light': 'var(--rc-typography-font-weight-light)',
   'font-weight-regular': 'var(--rc-typography-font-weight-regular)',
