@@ -109,21 +109,18 @@ test('Datepicker disabled field uses Surface/muted and Border/subtle', async ({
 })
 
 viewports.forEach((width) => {
-  test(`Datepicker token binding preserves existing cell dimensions at ${width}px`, async ({
-    page,
-  }) => {
+  test(`Datepicker uses DS day-cell dimensions at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.clock.setFixedTime(new Date(2026, 0, 15, 12))
     await page.goto(
       '/iframe.html?id=molecules-datepicker--calendar-with-value&viewMode=story',
     )
     const selected = page.locator('.MuiPickerDay-root.Mui-selected')
-    // The installed MUI picker defaults to 36px; this ticket does not resize it.
-    await expect(selected).toHaveCSS('width', '36px')
-    await expect(selected).toHaveCSS('height', '36px')
+    await expect(selected).toHaveCSS('width', '44px')
+    await expect(selected).toHaveCSS('height', '44px')
     await expect(selected).toHaveCSS('font-size', '15px')
     await expect(selected).toHaveCSS('line-height', '22px')
-    await expect(selected).toHaveCSS('border-radius', '9999px')
+    await expect(selected).toHaveCSS('border-radius', '8px')
     await expect(selected).toHaveCSS('background-color', 'rgb(0, 121, 173)')
     await expect(selected).toHaveCSS('color', 'rgb(255, 255, 255)')
     await page.evaluate(() => {
@@ -184,9 +181,13 @@ test.describe('touch Datepicker', () => {
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
     const selected = dialog.locator('.MuiPickerDay-root.Mui-selected')
-    await expect(selected).toHaveCSS('width', '36px')
-    await expect(selected).toHaveCSS('height', '36px')
+    await expect(selected).toHaveCSS('width', '44px')
+    await expect(selected).toHaveCSS('height', '44px')
     await expect(selected).toHaveCSS('background-color', 'rgb(0, 121, 173)')
+    const panel = await dialog.boundingBox()
+    const calendar = await dialog.locator('.MuiDateCalendar-root').boundingBox()
+    expect(calendar!.x).toBeGreaterThanOrEqual(panel!.x)
+    expect(calendar!.x + calendar!.width).toBeLessThanOrEqual(panel!.x + panel!.width)
   })
 })
 
