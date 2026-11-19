@@ -21,7 +21,8 @@ const StyledStepLabel = styled(StepLabel, {
     prop !== 'stepState' && prop !== 'orientation' && prop !== 'isLast',
 })<StyledStepLabelProps>(({ stepState, orientation, isLast }) => ({
   '&& .MuiStepLabel-label': {
-    fontWeight: 500,
+    // Figma's Active item variants bind Heading/H4 (500); the designer confirmed bold is intended.
+    fontWeight: stepState === 'active' ? 700 : 500,
     fontSize: typographyTokens['font-size-heading-h4'],
     lineHeight: typographyTokens['line-height-heading-h4'],
     color:
@@ -34,7 +35,7 @@ const StyledStepLabel = styled(StepLabel, {
     '&& .MuiStepLabel-label.Mui-active': {
       fontSize: typographyTokens['font-size-heading-h4'],
       lineHeight: typographyTokens['line-height-heading-h4'],
-      fontWeight: 500,
+      fontWeight: 700,
       color: stepperColors.label,
     },
   }),

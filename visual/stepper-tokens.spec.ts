@@ -29,7 +29,11 @@ widths.forEach((width) => {
       const label = page.getByText('Step 2', { exact: true })
       await expect(label).toHaveCSS('font-size', '19px')
       await expect(label).toHaveCSS('color', 'rgb(77, 88, 99)')
-      await expect(label).toHaveCSS('font-weight', '500')
+      await expect(label).toHaveCSS('font-weight', '700')
+      await expect(page.getByText('Step 1', { exact: true })).toHaveCSS(
+        'font-weight',
+        '500',
+      )
       await expect(page.getByRole('tab', { name: 'Step 3' })).toBeDisabled()
     }
   })
@@ -42,7 +46,8 @@ test('Vertical labels and connectors use DS tokens', async ({ page }) => {
   const label = page.getByText('Step 2', { exact: true })
   await expect(label).toHaveCSS('font-size', '16px')
   await expect(label).toHaveCSS('line-height', '22px')
-  await expect(label).toHaveCSS('font-weight', '500')
+  await expect(label).toHaveCSS('font-weight', '700')
+  await expect(page.getByText('Step 1', { exact: true })).toHaveCSS('font-weight', '500')
   await expect(page.locator('.MuiStepLabel-iconContainer').first()).toHaveCSS(
     'padding-right',
     '4px',
