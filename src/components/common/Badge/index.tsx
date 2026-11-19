@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { CircleFilledIcon, CloseIcon } from '@/assets/icons/phosphorIcons'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
 import { spacingTokens } from '@/theme/spacingTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
@@ -124,8 +125,8 @@ function RcSesBadge(props: RcSesBadgeProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 14,
-              height: 14,
+              width: sizeTokens['icon-size-badge'],
+              height: sizeTokens['icon-size-badge'],
               flexShrink: 0,
             }}
           >

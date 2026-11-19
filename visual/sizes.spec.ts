@@ -7,6 +7,7 @@ test('all icon dimensions resolve from Sizes tokens and react to primitive chang
   const expected = {
     'icon-size-8': 8,
     'icon-size-12': 12,
+    'icon-size-14': 14,
     'icon-size-16': 16,
     'icon-size-20': 20,
     'icon-size-24': 24,
@@ -14,7 +15,7 @@ test('all icon dimensions resolve from Sizes tokens and react to primitive chang
     'icon-size-inline': 16,
     'icon-size-button': 20,
     'icon-size-control': 20,
-    'icon-size-badge': 12,
+    'icon-size-badge': 14,
     'icon-size-feature': 24,
   }
   await Promise.all(

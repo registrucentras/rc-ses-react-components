@@ -315,12 +315,13 @@
   --rc-stroke-1: 1px;
   --rc-stroke-2: 2px;
   --rc-stroke-4: 4px;
-  --rc-icon-size-badge: var(--rc-icon-size-12);
+  --rc-icon-size-badge: var(--rc-icon-size-14);
   --rc-icon-size-button: var(--rc-icon-size-20);
   --rc-icon-size-control: var(--rc-icon-size-20);
   --rc-icon-size-feature: var(--rc-icon-size-24);
   --rc-icon-size-inline: var(--rc-icon-size-16);
   --rc-icon-size-12: 0.75rem;
+  --rc-icon-size-14: 0.875rem;
   --rc-icon-size-16: 1rem;
   --rc-icon-size-20: 1.25rem;
   --rc-icon-size-24: 1.5rem;
