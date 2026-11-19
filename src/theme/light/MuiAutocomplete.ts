@@ -2,6 +2,7 @@ import { Components } from '@mui/material'
 
 import { borderTokens } from '../borderTokens'
 import palette from '../palette'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
 const MuiAutocomplete: Components['MuiAutocomplete'] = {
   defaultProps: {},
@@ -9,6 +10,10 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
     root: {
       '.MuiOutlinedInput-root': {
         borderRadius: borderTokens['radius-input'],
+        // The 44px Input minimum sets the height; this only keeps chips and the
+        // inner input off the border when values wrap onto more lines.
+        paddingTop: spacingRoleBasedTokens['space-4'],
+        paddingBottom: spacingRoleBasedTokens['space-4'],
 
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: borderTokens['radius-input'],

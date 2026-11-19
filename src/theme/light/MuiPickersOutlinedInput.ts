@@ -3,7 +3,9 @@ import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { spacingTokens } from '../spacingTokens'
 import { typographyTokens } from '../typographyTokens'
+import { inputMinHeight } from './MuiInputBase'
 
 /**
  * x-date-pickers 9 gives the picker its own field components, which none of the
@@ -15,6 +17,7 @@ const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
     root: {
       backgroundColor: colorTokens['surface-base'],
       borderRadius: borderTokens['radius-input'],
+      minHeight: inputMinHeight,
       // The value renders as sections, not an <input>, so the horizontal
       // padding sits here and the vertical padding on the sections.
       padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-12']}`,
@@ -71,7 +74,7 @@ const MuiPickersOutlinedInput: PickerComponents['MuiPickersOutlinedInput'] = {
       boxSizing: 'content-box',
       height: typographyTokens['line-height-body-regular'],
       lineHeight: typographyTokens['line-height-body-regular'],
-      padding: `${spacingRoleBasedTokens['input-padding-y']} ${spacingRoleBasedTokens['space-0']}`,
+      padding: `${spacingTokens['spacing-aliases-input-padding-y']} ${spacingRoleBasedTokens['space-0']}`,
     },
     notchedOutline: {
       borderColor: colorTokens['border-strong'],
