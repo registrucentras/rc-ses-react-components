@@ -17,9 +17,8 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Datepicker | Selected day `Cyans/500` | `control-selected` (`Cyans/600`) | White on `Cyans/500` is 3.0:1, below the 4.5:1 Figma's accessibility section asks for | #212 |
 | Datepicker | Today ring `Cyans/500`, no semantic variable | Local `cyans-500` constant | No semantic role maps to it | #212 |
 | Datepicker | No weekend colouring | Weekend days keep `red-600` / `red-200` | Existing behaviour kept | #212 |
-| Datepicker | 44px rounded-square day cells | 36px circles | Existing geometry kept | #212 |
-| Datepicker | No action bar | Cancel action bar kept | Existing behaviour kept | #212 |
-| Datepicker | Month/year link with caret opening Months and Years views | Static month label with double chevrons | Existing behaviour kept; Figma page still marked in progress | #212 |
+| Datepicker views | Figma panel is 344px high | Shared calendar area is fixed at 388px for Calendar, Months and Years | Six weeks of 44px Range days plus header/weekday spacing need more height; keeping all views equal avoids layout jumps | Pending PR |
+| Datepicker Months | Figma shows enabled navigation arrows | Arrows are disabled in Months; all 12 months remain visible and the year button opens Years | Interpretation of the ticket's non-paginated Months requirement; confirm whether the arrows should instead switch years | Pending PR |
 | Spinner | Spinner component has 12px padding around the spinner and label | `Loader` has no padding; the consumer places it | Existing layout kept | #242 |
 | Spinner | Spinner is always the arc on a `Border/subtle` track | The bare `LoadingSpinner` (also the Button loading indicator) keeps its MUI `color` prop and has no track; only `Loader` / `FullPageLoader` follow Figma | Existing API kept | #242 |
 | Spinner | Full-page loader card shadow `0 8px 24px` at 15% black, unbound | `elevation-lg` (`0 8px 16px` at 12%) | Closest effect token | #242 |
@@ -60,7 +59,6 @@ When a PR deviates from Figma, add a row in the same PR. When the designer resol
 | Tabs | Card + Card-header replaces TabsWrapper; Panel is a native slot | Existing TabsWrapper and panel surface/radii retained with DS tokens | Component replacement/deprecation and API changes deferred to SAV-4873 | #247 |
 | Tabs | Underline tabs have no folder hover or pressed fill to bind | Folder tabs keep the existing `neutrals-200` hover and `neutrals-300` pressed fills via local constants | Existing behaviour kept; no semantic role matches | #247 |
 | DatePicker Range | Range endpoints use `Cyans/500` (#06a0d4) with white text | `control-selected` (#0079ad) with white text | Figma endpoint color does not meet the ticket's 4.5:1 text contrast requirement; same accessible mapping as Single | #250 |
-| DatePicker Range | The month label with a caret opens the Months view, the year opens Years; both are 3×4 Day-cell grids, Years paging by 12 | Range shows the day view only; the header has no view switch | Months/Years views are separate functionality; consumers can still pass `views` through `slotProps.calendar` | #250 |
 
 ## Open questions
 
