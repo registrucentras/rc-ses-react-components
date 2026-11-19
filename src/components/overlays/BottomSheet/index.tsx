@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
+import { backdropTokens } from '@/theme/backdropTokens'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
@@ -141,6 +142,7 @@ function RcSesBottomSheet({
       scroll={scroll}
       slots={{ transition: prefersReducedMotion ? Fade : SlideUpTransition }}
       slotProps={{
+        backdrop: { sx: { backgroundColor: backdropTokens['backdrop-dark'] } },
         container: { sx: { alignItems: 'flex-end' } },
         paper: {
           ref: paperRef,

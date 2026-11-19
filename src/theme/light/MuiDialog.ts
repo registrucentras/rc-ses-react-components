@@ -1,5 +1,6 @@
 import { Components } from '@mui/material'
 
+import { backdropTokens } from '../backdropTokens'
 import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
@@ -9,7 +10,6 @@ import { typographyTokens } from '../typographyTokens'
 // Figma defines these effects locally, without matching foundation effect roles.
 const modalShadow =
   '0 8px 24px color-mix(in srgb, var(--rc-color-neutrals-950) 12%, transparent)'
-const modalBackdrop = 'color-mix(in srgb, var(--rc-color-neutrals-950) 50%, transparent)'
 
 const MuiDialog: Components['MuiDialog'] = {
   defaultProps: {},
@@ -25,7 +25,7 @@ const MuiDialog: Components['MuiDialog'] = {
       '.MuiDialogActions-root': { padding: '.5rem 2.25rem 2rem' },
       // Drawer and BottomSheet also use MuiDialog; migrate only this wrapper.
       '&:where(.RcSesDialog-root)': {
-        '.MuiBackdrop-root': { backgroundColor: modalBackdrop },
+        '.MuiBackdrop-root': { backgroundColor: backdropTokens['backdrop-dark'] },
         '.MuiDialogTitle-root': {
           color: colorTokens['text-default'],
           fontSize: typographyTokens['font-size-heading-h2'],

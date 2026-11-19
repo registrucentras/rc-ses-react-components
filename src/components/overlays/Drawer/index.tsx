@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
+import { backdropTokens } from '@/theme/backdropTokens'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
@@ -21,7 +22,6 @@ import { RcSesDrawerProps, RcSesDrawerTestIds } from './Drawer.types'
 
 const DRAWER_WIDTH = 440
 const ANIMATION_DURATION = 250
-const BACKDROP_OPACITY = 0.5
 
 /**
  * SlideLeftTransition - Wrapper for Slide component with direction='left'
@@ -80,7 +80,7 @@ const RcSesDrawer = ({
         },
         backdrop: {
           sx: {
-            backgroundColor: `rgba(0, 0, 0, ${BACKDROP_OPACITY})`,
+            backgroundColor: backdropTokens['backdrop-dark'],
           },
         },
         container: {
