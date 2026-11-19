@@ -98,7 +98,7 @@ test('all 28 typography dimensions match the Figma export in four discrete modes
   expect(blocks[1]).toContain('min-width: 600px')
   expect(blocks[2]).toContain('min-width: 900px')
   expect(blocks[3]).toContain('min-width: 1200px')
-  expect(Object.keys(typographyTokens)).toHaveLength(28)
+  expect(Object.keys(typographyTokens)).toHaveLength(50)
   const values = new Map<string, number>()
   blocks.forEach((block, index) => {
     Array.from(block.matchAll(/--rc-typography-([\w-]+): ([\d.]+)rem;/g)).forEach(

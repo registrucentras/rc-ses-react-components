@@ -78,6 +78,8 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
       return alias ? resolve(alias[1], visited) : value
     }
     effective.forEach((_, name) => {
+      // Skip non-dimension typography tokens (font-family, font-weight, letter-spacing)
+      if (/--rc-typography-(?:font-family|font-weight|letter-spacing)/.test(name)) return
       const pattern = /^--rc-(?:elevation|focus-ring)-/.test(name)
         ? /^(?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?(?:, (?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?)*$/i
         : /^(?:#[\da-f]{6}(?:[\da-f]{2})?|[\d.]+(?:rem|px))$/i
@@ -146,4 +148,27 @@ test('legacy theme keeps its original spacing API, numeric shape and JS colors',
   expect(typeof theme.shape.borderRadius).toBe('number')
   expect(alpha(theme.palette.primary.main, 0.2)).toBe('rgba(6, 160, 212, 0.2)')
   expect(decomposeColor(theme.palette.primary.main).values).toEqual([6, 160, 212])
+})
+
+test('typography font-weight and letter-spacing tokens have correct format', () => {
+  const cssContent = readFileSync('src/theme/tokens.css', 'utf8')
+
+  // Font-weight primitives: should be numeric values (300, 400, 500, 600)
+  const fontWeights = Array.from(
+    cssContent.matchAll(/--rc-typography-font-weight-[\w-]+: (\d+);/g),
+  )
+  expect(fontWeights.length).toBe(4)
+  fontWeights.forEach(([, weight]) => {
+    expect(Number(weight)).toBeGreaterThanOrEqual(300)
+    expect(Number(weight)).toBeLessThanOrEqual(900)
+  })
+
+  // Letter-spacing tokens: should be in px with optional negative sign
+  const letterSpacings = Array.from(
+    cssContent.matchAll(/--rc-typography-letter-spacing-[\w-]+: (-?[\d.]+px);/g),
+  )
+  expect(letterSpacings.length).toBe(3)
+  letterSpacings.forEach(([, spacing]) => {
+    expect(spacing).toMatch(/^-?[\d.]+px$/)
+  })
 })
