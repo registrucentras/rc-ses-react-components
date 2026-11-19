@@ -138,7 +138,11 @@ function RcSesBadge(props: RcSesBadgeProps) {
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
-            style={{ flexShrink: 0 }}
+            style={{
+              flexShrink: 0,
+              width: sizeTokens['icon-size-badge'],
+              height: sizeTokens['icon-size-badge'],
+            }}
           />
         ))}
       <Box
@@ -179,6 +183,11 @@ function RcSesBadge(props: RcSesBadgeProps) {
             fillColor={variantStyle.iconColor}
             aria-hidden
             focusable={false}
+            style={{
+              flexShrink: 0,
+              width: sizeTokens['icon-size-badge'],
+              height: sizeTokens['icon-size-badge'],
+            }}
           />
         </Box>
       )}
