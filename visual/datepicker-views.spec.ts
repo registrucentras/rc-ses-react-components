@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
-import { checkA11y, injectAxe } from 'axe-playwright'
+
+import expectNoSeriousA11yIssues from './a11y'
 
 const selections = ['single', 'range']
 const widths = [375, 768, 1440]
@@ -271,9 +272,7 @@ selections.forEach((selection) => {
       /rugsėjis/i,
     )
     await page.getByRole('button', { name: monthButton }).click()
-    await injectAxe(page)
-    await checkA11y(page, '.MuiDateCalendar-root', {
-      includedImpacts: ['critical', 'serious'],
+    await expectNoSeriousA11yIssues(page, '.MuiDateCalendar-root', {
       detailedReport: true,
       detailedReportOptions: { html: true },
     })
@@ -281,8 +280,7 @@ selections.forEach((selection) => {
       `datepicker-${selection}-months.png`,
     )
     await page.getByRole('button', { name: yearButton }).click()
-    await checkA11y(page, '.MuiDateCalendar-root', {
-      includedImpacts: ['critical', 'serious'],
+    await expectNoSeriousA11yIssues(page, '.MuiDateCalendar-root', {
       detailedReport: true,
       detailedReportOptions: { html: true },
     })
