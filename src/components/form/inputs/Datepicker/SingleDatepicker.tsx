@@ -114,7 +114,7 @@ const RcSesDatepicker = React.forwardRef<HTMLInputElement, SingleDatepickerProps
                   '&&': {
                     minWidth: '340px',
                     maxWidth: 'calc(100vw - 32px)',
-                    margin: '16px',
+                    margin: spacingRoleBasedTokens['space-16'],
                     borderRadius: borderTokens['radius-12'],
                   },
                 },

@@ -15,6 +15,8 @@ import Button from '@/components/common/Button'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { effectTokens } from '@/theme/effectTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
 // A six-week calendar with 44px days determines the shared height for all views.
@@ -28,7 +30,7 @@ export const calendarViewsStyles = {
   boxSizing: 'border-box',
   // Contain outgoing month slides; the inner padding leaves room for focus rings.
   overflow: 'hidden',
-  padding: '16px',
+  padding: spacingRoleBasedTokens['space-16'],
   '&:has([data-calendar-view="months"]) [role="grid"]:not([data-calendar-options]), &:has([data-calendar-view="years"]) [role="grid"]:not([data-calendar-options])':
     { display: 'none' },
 } as const
@@ -173,7 +175,7 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
           alignItems: 'center',
           justifyContent: 'space-between',
           height: '44px',
-          mb: '12px',
+          mb: spacingRoleBasedTokens['space-12'],
         }}
       >
         <IconButton
@@ -192,8 +194,8 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
           disabled={disabled}
           sx={{
             minHeight: '44px',
-            p: '4px',
-            gap: '8px',
+            p: spacingTokens['spacing-aliases-button-padding-x-link'],
+            gap: spacingTokens['spacing-aliases-button-icon-text-gap-regular'],
             color: colorTokens['action-link-text'],
             fontSize: typographyTokens['font-size-button-regular'],
             lineHeight: typographyTokens['line-height-button-regular'],
@@ -234,14 +236,15 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
           aria-label={viewName}
           sx={{
             position: 'absolute',
-            top: '72px',
-            bottom: '16px',
-            left: '16px',
-            right: '16px',
+            // Below the panel padding, the 44px header and its bottom margin.
+            top: `calc(${spacingRoleBasedTokens['space-16']} + 44px + ${spacingRoleBasedTokens['space-12']})`,
+            bottom: spacingRoleBasedTokens['space-16'],
+            left: spacingRoleBasedTokens['space-16'],
+            right: spacingRoleBasedTokens['space-16'],
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            py: '12px',
+            py: spacingRoleBasedTokens['space-12'],
           }}
         >
           {Array.from({ length: 4 }, (_, row) => (
@@ -251,7 +254,7 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
               sx={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                gap: '10px',
+                gap: spacingRoleBasedTokens['space-10'],
               }}
             >
               {Array.from({ length: 3 }, (unused, column) => {
