@@ -1,6 +1,7 @@
 import { Box, BoxProps, Modal, Paper } from '@mui/material'
 
 import RcSesLoader, { RcSesLoaderProps } from '@/components/loaders/Loader'
+import { backdropTokens } from '@/theme/backdropTokens'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { effectTokens } from '@/theme/effectTokens'
@@ -11,10 +12,9 @@ export type RcSesLoaderBackdrop = 'dark' | 'light'
 const FULL_PAGE_LOADER_CONTAINER_WIDTH = 187
 const FULL_PAGE_LOADER_CONTAINER_HEIGHT = 198
 
-// Figma backdrops: Surface/inverse at 55% (dark), Surface/base at 70% (light).
 const BACKDROP_COLOR = {
-  dark: `color-mix(in srgb, ${colorTokens['surface-inverse']} 55%, transparent)`,
-  light: `color-mix(in srgb, ${colorTokens['surface-base']} 70%, transparent)`,
+  dark: backdropTokens['backdrop-dark'],
+  light: backdropTokens['backdrop-light'],
 }
 
 type FullPageLoaderContentProps = Pick<RcSesLoaderProps, 'label' | 'showLabel'>
