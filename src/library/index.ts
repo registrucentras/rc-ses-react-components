@@ -176,3 +176,5 @@ export { borderTokens } from '@/theme/borderTokens'
 export { sizeTokens } from '@/theme/sizeTokens'
 
 export { effectTokens } from '@/theme/effectTokens'
+
+export { backdropTokens } from '@/theme/backdropTokens'

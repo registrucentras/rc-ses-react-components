@@ -15,13 +15,7 @@ import React, { createContext, useContext, useId, useMemo, useRef, useState } fr
 import { UseControllerProps, useController } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import {
-  CalendarBlankIcon,
-  CaretDownIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
-  XCircleFillIcon,
-} from '@/assets/icons/phosphorIcons'
+import { CalendarBlankIcon, XCircleFillIcon } from '@/assets/icons/phosphorIcons'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { effectTokens } from '@/theme/effectTokens'
@@ -31,6 +25,9 @@ import { typographyTokens } from '@/theme/typographyTokens'
 import FormControlWrapper, {
   RcSesFormControlWrapperProps,
 } from '../../components/FormControlWrapper'
+import CalendarViewsHeader, {
+  calendarViewsStyles,
+} from './components/CalendarViewsHeader'
 import { DateRangeValue, readRange, selectRange } from './rangeModel'
 
 export type RangeDatepickerProps = UseControllerProps<any, any> &
@@ -58,16 +55,6 @@ const RangeContext = createContext<{
   preview: string | null
   setPreview: (day: string) => void
 }>({ range: [null, null], preview: null, setPreview: () => {} })
-
-function PreviousIcon() {
-  return <CaretLeftIcon size={24} />
-}
-function NextIcon() {
-  return <CaretRightIcon size={24} />
-}
-function SwitchViewIcon() {
-  return <CaretDownIcon size={24} />
-}
 
 function RangeDay(props: PickerDayProps) {
   const {
@@ -275,8 +262,8 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
           aria-atomic='true'
           sx={{
             position: 'absolute',
-            width: 1,
-            height: 1,
+            width: '1px',
+            height: '1px',
             overflow: 'hidden',
             clipPath: 'inset(50%)',
           }}
@@ -297,6 +284,8 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
               'aria-label': t('range.calendar'),
               sx: {
                 width: '340px',
+                p: 0,
+                boxSizing: 'border-box',
                 maxWidth: 'calc(100vw - 32px)',
                 borderRadius: borderTokens['radius-12'],
                 border: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
@@ -312,8 +301,8 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
             aria-atomic='true'
             sx={{
               position: 'absolute',
-              width: 1,
-              height: 1,
+              width: '1px',
+              height: '1px',
               overflow: 'hidden',
               clipPath: 'inset(50%)',
             }}
@@ -322,7 +311,6 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
           </Box>
           <RangeContext.Provider value={rangeContext}>
             <DateCalendar
-              // Months and Years views are not styled to the Calendar-popover design yet.
               views={['day']}
               {...slotProps?.calendar}
               autoFocus
@@ -335,16 +323,9 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
               onChange={chooseDay}
               slots={{
                 day: RangeDay,
-                leftArrowIcon: PreviousIcon,
-                rightArrowIcon: NextIcon,
-                switchViewIcon: SwitchViewIcon,
+                calendarHeader: CalendarViewsHeader,
               }}
               sx={{
-                width: '100%',
-                overflow: 'visible',
-                maxHeight: 'none',
-                height: 'auto',
-                padding: `calc(${spacingRoleBasedTokens['space-16']} - ${borderTokens['stroke-1']})`,
                 '.MuiDayCalendar-weekContainer': { margin: 0 },
                 '.MuiDayCalendar-weekDayLabel': {
                   width: '44px',
@@ -360,36 +341,9 @@ const RangeDatepicker = React.forwardRef<HTMLInputElement, RangeDatepickerProps>
                 '.MuiDayCalendar-monthContainer': { overflow: 'visible' },
                 '.MuiDateCalendar-viewTransitionContainer': { overflow: 'visible' },
                 '.MuiDayCalendar-slideTransition': { minHeight: 0, overflow: 'visible' },
-                '.MuiPickersCalendarHeader-root': {
-                  padding: 0,
-                  margin: 0,
-                  minHeight: '44px',
-                  justifyContent: 'space-between',
-                  marginBottom: spacingRoleBasedTokens['space-12'],
-                },
-                '.MuiPickersCalendarHeader-labelContainer': {
-                  color: colorTokens['action-link-text'],
-                  margin: '0 auto',
-                  order: 0,
-                },
-                '.MuiPickersCalendarHeader-label': {
-                  margin: 0,
-                  fontSize: typographyTokens['font-size-body-regular'],
-                  lineHeight: typographyTokens['line-height-body-regular'],
-                },
-                '.MuiPickersArrowSwitcher-root': { display: 'contents' },
-                '.MuiPickersArrowSwitcher-spacer': { display: 'none' },
-                '.MuiPickersArrowSwitcher-button:first-of-type': { order: -1 },
-                '.MuiPickersArrowSwitcher-button:last-of-type': { order: 1 },
-                '.MuiPickersArrowSwitcher-button, .MuiPickersCalendarHeader-switchViewButton':
-                  {
-                    color: colorTokens['action-link-text'],
-                    width: '44px',
-                    minWidth: '44px',
-                    height: '44px',
-                    flexShrink: 0,
-                    margin: 0,
-                  },
+                ...calendarViewsStyles,
+                width: '100%',
+                padding: `calc(${spacingRoleBasedTokens['space-16']} - ${borderTokens['stroke-1']})`,
               }}
             />
           </RangeContext.Provider>

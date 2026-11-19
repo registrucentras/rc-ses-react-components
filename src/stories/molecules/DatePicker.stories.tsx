@@ -308,3 +308,52 @@ export const Range = {
 }
 export const RangeSelected = { render: () => <RangeDemo selected /> }
 export const RangeDisabled = { render: () => <RangeDemo selected disabled /> }
+
+function ViewsDemo({
+  range = false,
+  bounded = false,
+}: {
+  range?: boolean
+  bounded?: boolean
+}) {
+  const { control } = useForm<{ single: string | null; period: DateRangeValue }>({
+    defaultValues: { single: '2026-06-10T00:00:00.000Z', period: ['2026-06-10', null] },
+  })
+  const bounds = bounded
+    ? { minDate: new Date(2026, 3, 1), maxDate: new Date(2026, 8, 30) }
+    : {}
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+      <Box sx={{ width: '100%', maxWidth: '450px' }}>
+        {range ? (
+          <RcSesDatepicker
+            selection='range'
+            id='views-range'
+            name='period'
+            control={control}
+            label='Range views'
+            slotProps={{
+              wrapper: { labelOnTop: true },
+              calendar: { referenceDate: REFERENCE_DATE, ...bounds },
+            }}
+          />
+        ) : (
+          <RcSesDatepicker
+            id='views-single'
+            name='single'
+            control={control}
+            label='Single views'
+            slotProps={{
+              wrapper: { labelOnTop: true },
+              datepicker: { referenceDate: REFERENCE_DATE, ...bounds },
+            }}
+          />
+        )}
+      </Box>
+    </LocalizationProvider>
+  )
+}
+
+export const SingleViews = { render: () => <ViewsDemo /> }
+export const RangeViews = { render: () => <ViewsDemo range /> }
+export const BoundedViews = { render: () => <ViewsDemo range bounded /> }
