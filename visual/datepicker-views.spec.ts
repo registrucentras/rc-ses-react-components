@@ -302,6 +302,7 @@ selections.forEach((selection) => {
     await expect(page.getByRole('button', { name: monthButton })).toBeVisible()
     await expect(page.getByRole('dialog')).toBeVisible()
     await page.keyboard.press('Escape')
+    await page.getByRole('dialog').waitFor({ state: 'hidden' })
     await expect(page.getByRole('dialog')).not.toBeVisible()
   })
 })
