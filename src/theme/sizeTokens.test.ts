@@ -16,11 +16,13 @@ test('all 12 Sizes tokens match Figma in rem and aliases resolve without cycles'
   ;[8, 12, 14, 16, 20, 24, 32].forEach((value) =>
     expected.set(`icon-size-${value}`, `${value / 16}rem`),
   )
-  Object.entries({ inline: 16, button: 20, control: 20, badge: 14, feature: 24 }).forEach(
+  Object.entries({ inline: 16, control: 20, badge: 14, feature: 24 }).forEach(
     ([role, primitive]) => {
       expected.set(`icon-size-${role}`, `var(--rc-icon-size-${primitive})`)
     },
   )
+  expected.set('icon-size-button-regular', 'var(--rc-icon-size-24)')
+  expected.set('icon-size-button-small', 'var(--rc-icon-size-20)')
   expect(declarations).toEqual(expected)
   expect(Object.keys(sizeTokens).sort()).toEqual([...expected.keys()].sort())
   expected.forEach((value, key) => {

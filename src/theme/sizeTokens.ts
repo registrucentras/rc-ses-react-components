@@ -1,6 +1,7 @@
 const sizeTokens = {
   'icon-size-badge': 'var(--rc-icon-size-badge)',
-  'icon-size-button': 'var(--rc-icon-size-button)',
+  'icon-size-button-regular': 'var(--rc-icon-size-button-regular)',
+  'icon-size-button-small': 'var(--rc-icon-size-button-small)',
   'icon-size-control': 'var(--rc-icon-size-control)',
   'icon-size-feature': 'var(--rc-icon-size-feature)',
   'icon-size-inline': 'var(--rc-icon-size-inline)',

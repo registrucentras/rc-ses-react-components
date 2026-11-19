@@ -177,8 +177,8 @@ const MuiButton: Components['MuiButton'] = {
         marginLeft: spacingTokens['spacing-aliases-button-icon-text-gap-regular'],
       },
       '.MuiButton-startIcon > svg, .MuiButton-endIcon > svg, & > svg': {
-        width: sizeTokens['icon-size-button'],
-        height: sizeTokens['icon-size-button'],
+        width: sizeTokens['icon-size-button-regular'],
+        height: sizeTokens['icon-size-button-regular'],
         flexShrink: 0,
       },
       '.MuiButton-loadingIndicatorStart': {
@@ -227,6 +227,11 @@ const MuiButton: Components['MuiButton'] = {
       lineHeight: typographyTokens['line-height-button-compact'],
       '--_rc-button-padding-x': spacingTokens['spacing-aliases-button-padding-x-small'],
       padding: `${spacingTokens['spacing-aliases-button-padding-y-small']} var(--_rc-button-padding-x)`,
+      '.MuiButton-startIcon > svg, .MuiButton-endIcon > svg, & > svg': {
+        width: sizeTokens['icon-size-button-small'],
+        height: sizeTokens['icon-size-button-small'],
+        flexShrink: 0,
+      },
       '.MuiButton-startIcon': {
         marginRight: spacingTokens['spacing-aliases-button-icon-text-gap-small'],
       },

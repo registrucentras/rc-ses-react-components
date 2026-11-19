@@ -316,7 +316,8 @@
   --rc-stroke-2: 2px;
   --rc-stroke-4: 4px;
   --rc-icon-size-badge: var(--rc-icon-size-14);
-  --rc-icon-size-button: var(--rc-icon-size-20);
+  --rc-icon-size-button-regular: var(--rc-icon-size-24);
+  --rc-icon-size-button-small: var(--rc-icon-size-20);
   --rc-icon-size-control: var(--rc-icon-size-20);
   --rc-icon-size-feature: var(--rc-icon-size-24);
   --rc-icon-size-inline: var(--rc-icon-size-16);
