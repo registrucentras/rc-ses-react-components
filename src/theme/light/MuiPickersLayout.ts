@@ -15,8 +15,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      // No calendar panel radius role exists; preserve the existing radius primitive.
-      borderRadius: borderTokens['radius-6'],
+      borderRadius: borderTokens['radius-12'],
 
       '.MuiPickersLayout-actionBar': {
         backgroundColor: colorTokens['surface-sunken'],
@@ -40,21 +39,34 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
 
       '.MuiDayCalendar-weekDayLabel': {
         color: colorTokens['text-muted'],
-        height: spacingRoleBasedTokens['space-36'],
+        width: '44px',
+        height: '24px',
+        margin: 0,
         fontSize: typographyTokens['font-size-body-caption'],
         lineHeight: typographyTokens['line-height-body-caption'],
       },
 
-      '.MuiPickerDay-root': {
+      '.MuiDayCalendar-header': {
+        marginBottom: spacingRoleBasedTokens['space-12'],
+      },
+      '.MuiDayCalendar-weekContainer': { margin: 0 },
+      '.MuiDayCalendar-slideTransition': { minHeight: 0, overflow: 'visible' },
+      '.MuiDayCalendar-monthContainer': { overflow: 'visible' },
+      '.MuiDayCalendar-root .MuiPickerDay-root': {
+        width: '44px',
+        height: '44px',
+        margin: 0,
         color: colorTokens['text-default'],
         fontSize: typographyTokens['font-size-body-regular'],
         lineHeight: typographyTokens['line-height-body-regular'],
-        // No calendar radius role exists; preserve the existing circular day shape.
-        borderRadius: borderTokens['radius-full'],
+        borderRadius: borderTokens['radius-8'],
         '&.MuiPickerDay-today': {
           outline: `${borderTokens['stroke-1']} solid ${todayRingColor}`,
           outlineOffset: `calc(-1 * ${borderTokens['stroke-1']})`,
         },
+        // MUI paints a primary tint on :focus, including pointer-open autofocus.
+        // In DS only selected days have a brand fill; focus is conveyed by a ring.
+        '&:focus': { backgroundColor: 'transparent' },
         '&.Mui-focusVisible': {
           boxShadow: effectTokens['focus-ring-default'],
           backgroundColor: colorTokens['surface-base'],
@@ -80,9 +92,9 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
           color: colorTokens['text-muted'],
         },
       },
-      '.MuiDayCalendar-weekContainer': {
+      '.MuiDayCalendar-weekContainer .MuiPickerDay-root': {
         // No weekend color roles exist; keep the legacy red distinction using DS primitives.
-        '.MuiPickerDay-root:nth-of-type(6), .MuiPickerDay-root:nth-of-type(7)': {
+        '&:nth-of-type(6):not(.Mui-selected), &:nth-of-type(7):not(.Mui-selected)': {
           color: weekendColor,
           '&.MuiPickerDay-dayOutsideMonth': { color: outsideWeekendColor },
         },

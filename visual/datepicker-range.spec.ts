@@ -24,7 +24,9 @@ widths.forEach((width) => {
     await expect(dialog).toHaveCSS('transform', 'none')
     const start = dialog.getByRole('gridcell', { name: /^2026-06-17/ })
     await start.click()
-    await expect(dialog.getByRole('status')).toContainText('2026-06-17')
+    await expect(
+      dialog.getByRole('status').filter({ hasText: '2026-06-17' }),
+    ).toContainText('2026-06-17')
     await dialog.getByRole('gridcell', { name: /^2026-06-10/ }).hover()
     await expect(dialog.locator('[data-range-state="preview"]')).not.toHaveCount(0)
     await dialog.getByRole('gridcell', { name: /^2026-06-10/ }).click()
