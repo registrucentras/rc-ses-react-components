@@ -32,12 +32,12 @@ test('TextField adornments preserve spinner and SVG dimensions', async ({ page }
   )
 })
 
-test('TextField keeps error focus red in the shared Input theme', async ({ page }) => {
+test('TextField uses the DS cyan error focus', async ({ page }) => {
   await page.goto('/iframe.html?id=atoms-textfield--token-states&viewMode=story')
-  const input = page.getByRole('textbox', { name: 'Klaida ir error hover', exact: true })
+  const input = page.getByRole('textbox', { name: /^Klaida ir error hover/ })
   await input.focus()
   const outline = input.locator('..').locator('fieldset')
-  await expect(outline).toHaveCSS('border-color', 'rgb(200, 72, 56)')
+  await expect(outline).toHaveCSS('border-color', 'rgb(0, 121, 173)')
   await expect(outline).toHaveCSS('border-width', '2px')
   await expect(outline).toHaveCSS('box-shadow', 'none')
 })
@@ -46,7 +46,9 @@ test('disabled Input uses Surface/muted fill and Border/subtle stroke', async ({
   page,
 }) => {
   await page.goto('/iframe.html?id=atoms-textfield--token-states&viewMode=story')
-  const input = page.getByRole('textbox', { name: 'Išjungtas laukas', exact: true })
+  const input = page.getByRole('textbox', {
+    name: /^Išjungtas laukas(?: \((?:neprivaloma|optional)\))?$/,
+  })
   await expect(input).toBeDisabled()
   await page.evaluate(() => {
     const css = document.documentElement.style
@@ -94,7 +96,7 @@ test('raw MUI inputs share token states in legacy and token themes', async ({ pa
   }
 })
 
-test('common wrapper owns TextField and Select labels and helper text', async ({
+test('TextField uses DS label tokens while Select retains wrapper roles', async ({
   page,
 }) => {
   await page.goto(
@@ -114,7 +116,7 @@ test('common wrapper owns TextField and Select labels and helper text', async ({
         const wrapper = page.locator(`.shared-${component}-${mode}`)
         await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
           'font-size',
-          mode === 'top' ? '17px' : '19px',
+          component === 'select' && mode === 'top' ? '17px' : '19px',
         )
         await expect(wrapper.locator('.MuiFormHelperText-root').first()).toHaveCSS(
           'font-size',
@@ -133,13 +135,18 @@ test('common wrapper owns TextField and Select labels and helper text', async ({
   for (const component of ['text', 'select']) {
     const wrapper = page.locator(`.shared-${component}-top`)
     await expect(wrapper.locator('input')).toBeDisabled()
-    await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
-      'color',
-      'rgb(90, 80, 70)',
-    )
-    await expect(wrapper.locator('.MuiFormHelperText-root').last()).toHaveCSS(
-      'color',
-      'rgb(90, 80, 70)',
-    )
+    if (component === 'text') {
+      await expect(wrapper).toHaveCSS('opacity', '0.6')
+      await expect(wrapper).toHaveAttribute('aria-disabled', 'true')
+    } else {
+      await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
+        'color',
+        'rgb(90, 80, 70)',
+      )
+      await expect(wrapper.locator('.MuiFormHelperText-root').last()).toHaveCSS(
+        'color',
+        'rgb(90, 80, 70)',
+      )
+    }
   }
 })
