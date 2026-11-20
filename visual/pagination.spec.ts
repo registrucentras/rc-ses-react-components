@@ -29,6 +29,12 @@ const previousName = /Ankstesnis puslapis|Previous page/
     )
     await expect(nav.getByRole('button', { name: pageName(last) })).toBeVisible()
     const buttons = await nav.getByRole('button').all()
+    await Promise.all(
+      (await nav.locator('button > svg').all()).map(async (icon) => {
+        await expect(icon).toHaveCSS('width', '16px')
+        await expect(icon).toHaveCSS('height', '16px')
+      }),
+    )
     const bounds = await Promise.all(buttons.map((button) => button.boundingBox()))
     bounds.forEach((box) => {
       expect(box!.x).toBeGreaterThanOrEqual(0)
