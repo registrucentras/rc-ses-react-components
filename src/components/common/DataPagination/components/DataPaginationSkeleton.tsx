@@ -27,7 +27,7 @@ const DataPaginationSkeleton = ({ isMobile }: DataPaginationSkeletonProps) => {
       <Box
         sx={{
           display: 'flex',
-          gap: SIZES.gap,
+          gap: isMobile ? 0 : SIZES.gap,
           borderRadius: SIZES.radius,
         }}
       >
