@@ -76,7 +76,7 @@ Praktinės taisyklės:
 
 ## Lokalus paruošimas
 
-CI aplinkoje šiuo metu naudojama Node.js 22 versija. Rekomenduojama ir lokaliai naudoti Node.js 22, kad validacija sutaptų su CI.
+CI aplinkoje šiuo metu naudojama Node.js 24 (LTS) versija. Rekomenduojama ir lokaliai naudoti Node.js 24 (versija nurodyta `.nvmrc` faile), kad validacija sutaptų su CI.
 
 Dirbdami fork'e, klonuokite savo kopiją ir pagrindinę repozitoriją pridėkite kaip `upstream`, kad
 galėtumėte atsinaujinti `develop` šaką:
@@ -340,7 +340,7 @@ parsiunčia stabilią `latest` versiją.
 
 ## CI/CD lūkesčiai
 
-Kiekvienam pull request'ui `Build and Publish` darbo eiga su Node.js 22 paleidžia `npm run lint`,
+Kiekvienam pull request'ui `Build and Publish` darbo eiga su Node.js 24 paleidžia `npm run lint`,
 `npm run typecheck`, `npm run test:run` ir `npm run build:lib`, o testų rezultatus prideda kaip
 pull request'o patikrinimą.
 

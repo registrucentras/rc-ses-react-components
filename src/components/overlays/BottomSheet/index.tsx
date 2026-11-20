@@ -59,8 +59,10 @@ export interface RcSesBottomSheetProps extends Omit<
   onBack?: () => void
   primaryActionLabel?: string
   onPrimaryAction?: () => void
+  primaryActionDisabled?: boolean
   secondaryActionLabel?: string
   onSecondaryAction?: () => void
+  secondaryActionDisabled?: boolean
   disableBackdropClose?: boolean
   size?: 'sm' | 'md'
   onClose?: (
@@ -76,8 +78,10 @@ function RcSesBottomSheet({
   onBack,
   primaryActionLabel,
   onPrimaryAction,
+  primaryActionDisabled,
   secondaryActionLabel,
   onSecondaryAction,
+  secondaryActionDisabled,
   onClose,
   disableBackdropClose = false,
   size = 'sm',
@@ -217,19 +221,29 @@ function RcSesBottomSheet({
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
             gap: 1.5,
             padding: SHEET.actionsPadding,
             flexShrink: 0,
           }}
         >
           {secondaryActionLabel && (
-            <RcSesButton variant='outlined' color='grey' onClick={onSecondaryAction}>
+            <RcSesButton
+              variant='outlined'
+              color='grey'
+              onClick={onSecondaryAction}
+              disabled={secondaryActionDisabled}
+              sx={{ flex: 1 }}
+            >
               {secondaryActionLabel}
             </RcSesButton>
           )}
           {primaryActionLabel && (
-            <RcSesButton variant='contained' onClick={onPrimaryAction}>
+            <RcSesButton
+              variant='contained'
+              onClick={onPrimaryAction}
+              disabled={primaryActionDisabled}
+              sx={{ flex: 1 }}
+            >
               {primaryActionLabel}
             </RcSesButton>
           )}

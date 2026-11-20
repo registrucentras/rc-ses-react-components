@@ -289,3 +289,21 @@ export const OpenMobileViewport: Story = {
   tags: ['viewport-375', '!autodocs', '!no-snapshot'],
   globals: { viewport: { value: 'mobile375' } },
 }
+
+export const DisabledActionsMobileViewport: Story = {
+  render: () => (
+    <RcSesBottomSheet
+      open
+      onClose={() => undefined}
+      title='Pasirinkite padalinį'
+      primaryActionLabel='Taikyti'
+      primaryActionDisabled
+      secondaryActionLabel='Atšaukti'
+      secondaryActionDisabled
+    >
+      <BranchList branches={BRANCHES} onSelect={() => undefined} />
+    </RcSesBottomSheet>
+  ),
+  tags: ['viewport-375', '!autodocs', '!no-snapshot'],
+  globals: { viewport: { value: 'mobile375' } },
+}

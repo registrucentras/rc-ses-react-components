@@ -48,7 +48,8 @@
         "countrySelectorLabel": "Šalies telefono numerio kodo pasirinkimas"
       },
       "search": "Ieškoti",
-      "invalid": "Klaidingas telefono numerio formatas"
+      "invalid": "Klaidingas telefono numerio formatas",
+      "noOptionsText": "Rezultatų nerasta"
     },
 
     "RcSesSearchableField": {
@@ -58,7 +59,9 @@
 
     "RcSesSelect": {
       "searchPlaceholder": "Ieškoti",
-      "selectAllLabel": "Visi"
+      "selectAllLabel": "Visi",
+      "noOptionsText": "Rezultatų nerasta",
+      "loadingText": "Kraunama..."
     },
 
     "RcSesSearchInput": {

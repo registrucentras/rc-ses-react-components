@@ -57,6 +57,37 @@ describe('RcSesBottomSheet', () => {
     expect(onSecondaryAction).toHaveBeenCalledTimes(1)
   })
 
+  it('disables only the primary button when primaryActionDisabled is set', () => {
+    const onPrimaryAction = vi.fn()
+    const onSecondaryAction = vi.fn()
+    render(
+      <RcSesBottomSheet
+        open
+        onClose={vi.fn()}
+        title='Filtrai'
+        primaryActionLabel='Taikyti'
+        onPrimaryAction={onPrimaryAction}
+        primaryActionDisabled
+        secondaryActionLabel='Atšaukti'
+        onSecondaryAction={onSecondaryAction}
+      >
+        Content
+      </RcSesBottomSheet>,
+    )
+
+    const primaryButton = screen.getByRole('button', { name: 'Taikyti' })
+    const secondaryButton = screen.getByRole('button', { name: 'Atšaukti' })
+
+    expect(primaryButton).toBeDisabled()
+    expect(secondaryButton).toBeEnabled()
+
+    fireEvent.click(primaryButton)
+    fireEvent.click(secondaryButton)
+
+    expect(onPrimaryAction).not.toHaveBeenCalled()
+    expect(onSecondaryAction).toHaveBeenCalledTimes(1)
+  })
+
   it('renders no footer when no action label is given', () => {
     render(
       <RcSesBottomSheet open onClose={vi.fn()} title='Filtrai'>

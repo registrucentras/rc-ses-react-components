@@ -89,6 +89,17 @@ describe('RcSesPhoneInputFormControl', () => {
       expect(screen.queryByText('Lithuania')).not.toBeInTheDocument()
     })
 
+    test('shows the translated empty state when the search matches nothing', () => {
+      render(<TestComponent />)
+      openDropdown()
+
+      fireEvent.change(screen.getByPlaceholderText('search'), {
+        target: { value: 'XYZXYZ' },
+      })
+
+      expect(screen.getByText('noOptionsText')).toBeInTheDocument()
+    })
+
     test('selecting a country updates the dial code and mask', () => {
       render(<TestComponent />)
       openDropdown()
