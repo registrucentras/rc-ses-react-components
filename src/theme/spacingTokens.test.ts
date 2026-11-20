@@ -21,7 +21,7 @@ test('both exported collections exist in every mode and all aliases resolve with
     const label = ['xs', 'sm', 'md', 'lg'][mode]
     Array.from(
       block.matchAll(
-        /(--rc-(?:space-|legacy-space-|padding-|gap-|button-padding-|input-padding-y)[\w-]*): ([^;]+);/g,
+        /(--rc-(?:space-|padding-|gap-|button-padding-|input-padding-y)[\w-]*): ([^;]+);/g,
       ),
     ).forEach(([, name, value]) => declarations.set(name, value))
     references.forEach((reference) => {
