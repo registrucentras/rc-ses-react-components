@@ -1,5 +1,14 @@
 {
   "components": {
+    "RcSesTextField": {
+      "required": "Laukas yra privalomas",
+      "optional": "(neprivaloma)",
+      "clear": "Išvalyti reikšmę",
+      "togglePassword": "Rodyti slaptažodį",
+      "explain": "Paaiškinimas: {{label}}",
+      "field": "laukas",
+      "loading": "Kraunama"
+    },
     "RcSesAlert": {
       "close": "Uždaryti"
     },

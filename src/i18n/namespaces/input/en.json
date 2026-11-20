@@ -1,5 +1,14 @@
 {
   "components": {
+    "RcSesTextField": {
+      "required": "This field is required",
+      "optional": "(optional)",
+      "clear": "Clear value",
+      "togglePassword": "Show password",
+      "explain": "Help: {{label}}",
+      "field": "field",
+      "loading": "Loading"
+    },
     "RcSesAlert": {
       "close": "Close"
     },
