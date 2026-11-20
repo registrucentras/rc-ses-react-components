@@ -296,7 +296,26 @@ selections.forEach((selection) => {
     await page.getByRole('button', { name: yearButton }).click()
     await page.keyboard.press('Escape')
     await expect(months).toBeVisible()
+    // Observe focus at the view change, before the next animation frame. A
+    // removed month cell must not leave Escape targeted at the document body.
+    const calendar = page.locator('.MuiDateCalendar-root')
+    await calendar.evaluate((element) => {
+      const header = element.querySelector('[data-calendar-view]')!
+      const observer = new MutationObserver(() => {
+        if (header.getAttribute('data-calendar-view') !== 'calendar') return
+        element.setAttribute(
+          'data-focus-returned',
+          String(element.contains(document.activeElement)),
+        )
+        observer.disconnect()
+      })
+      observer.observe(header, {
+        attributes: true,
+        attributeFilter: ['data-calendar-view'],
+      })
+    })
     await page.keyboard.press('Escape')
+    await expect(calendar).toHaveAttribute('data-focus-returned', 'true')
     await expect(page.getByRole('button', { name: monthButton })).toBeVisible()
     await expect(page.getByRole('dialog')).toBeVisible()
     await page.keyboard.press('Escape')
