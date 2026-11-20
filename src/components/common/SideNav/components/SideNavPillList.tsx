@@ -1,13 +1,18 @@
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import palette, { common } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
 import { RcSesSideNavItem } from '../SideNav.types'
 import useKeepActiveItemInView from '../hooks/useKeepActiveItemInView'
 import SideNavPill from './SideNavPill'
 
-const FADE_WIDTH = '2rem'
+const FADE_WIDTH = spacingRoleBasedTokens['space-32']
+// The mobile scroll indicator is not in Figma; no semantic role matches these.
+const SCROLL_TRACK_BG = 'var(--rc-color-neutrals-200)'
+const SCROLL_THUMB_BG = 'var(--rc-color-neutrals-400)'
 const SCROLL_EPSILON = 1
 
 interface Props {
@@ -104,12 +109,13 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
           onScroll={updateScrollState}
           sx={{
             display: 'flex',
-            gap: '0.5rem',
+            gap: spacingRoleBasedTokens['space-8'],
             overflowX: 'auto',
             overflowY: 'hidden',
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
-            padding: '0.5rem 0.75rem',
+            paddingX: spacingRoleBasedTokens['space-12'],
+            paddingY: spacingRoleBasedTokens['space-8'],
           }}
         >
           {items.map((item) => (
@@ -135,7 +141,7 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
               right: `-${scrollState.edgeBleed}px`,
               width: `calc(${FADE_WIDTH} + ${scrollState.edgeBleed}px)`,
               // Stop at FADE_WIDTH, not 100%, so the bleed stays solid.
-              background: `linear-gradient(to right, ${common.white}00, ${common.white} ${FADE_WIDTH})`,
+              background: `linear-gradient(to right, transparent, ${colorTokens['surface-base']} ${FADE_WIDTH})`,
               pointerEvents: 'none',
             }}
           />
@@ -147,11 +153,11 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
           aria-hidden
           sx={{
             position: 'relative',
-            height: '0.25rem',
-            marginX: '0.75rem',
-            marginTop: '0.25rem',
-            borderRadius: '9999px',
-            backgroundColor: palette.grey[200],
+            height: spacingRoleBasedTokens['space-4'],
+            marginX: spacingRoleBasedTokens['space-12'],
+            marginTop: spacingRoleBasedTokens['space-4'],
+            borderRadius: borderTokens['radius-pill'],
+            backgroundColor: SCROLL_TRACK_BG,
             overflow: 'hidden',
           }}
         >
@@ -162,8 +168,8 @@ function SideNavPillList({ items, activeItemId, onItemClick, getItemAriaLabel }:
               bottom: 0,
               left: `${scrollState.thumbOffset}%`,
               width: `${scrollState.thumbWidth}%`,
-              borderRadius: '9999px',
-              backgroundColor: palette.grey[400],
+              borderRadius: borderTokens['radius-pill'],
+              backgroundColor: SCROLL_THUMB_BG,
             }}
           />
         </Box>

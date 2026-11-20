@@ -4,6 +4,7 @@ import RcSesButton from '@/components/common/Button'
 import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import palette from '@/theme/palette'
+import { sizeTokens } from '@/theme/sizeTokens'
 
 import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
@@ -66,8 +67,8 @@ const SelectableCardListItem = ({
         }}
         sx={{
           p: 0,
-          height: '1.25rem',
-          width: '1.25rem',
+          height: sizeTokens['icon-size-24'],
+          width: sizeTokens['icon-size-24'],
           margin: '0.125rem 0rem',
         }}
       />

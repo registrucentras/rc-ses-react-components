@@ -40,6 +40,14 @@ export default defineConfig({
       // would otherwise be ~49000 pixels.
       maxDiffPixelRatio: 0.01,
       maxDiffPixels: 400,
+      // Per-pixel colour tolerance (pixelmatch YIQ distance). Playwright's
+      // default 0.2 ignores per-channel shifts up to ~50/255, which let stale
+      // token colours pass against old baselines. 0.02 only ignores shifts of
+      // ~5/255 or less, enough for renderer noise between CPUs.
+      threshold: 0.02,
+      // Skeleton pulse is an infinite CSS animation with a delay; captures
+      // landed on different frames, so loading baselines flipped between runs.
+      stylePath: './visual/screenshot.css',
       // Give fonts and MUI transitions a moment to settle before capturing.
       animations: 'disabled',
       caret: 'hide',

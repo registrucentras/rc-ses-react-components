@@ -2,15 +2,22 @@ import { StepIconProps } from '@mui/material'
 
 import DotCircleFilledIcon from '@/assets/icons/DotCircleFilledIcon'
 import { CheckCircleFillIcon, CircleFilledIcon } from '@/assets/icons/phosphorIcons'
-import palette from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+
+import stepperColors from '../stepperTokens'
 
 const CustomStepIcon = ({ active, completed, className, style }: StepIconProps) => {
   if (completed) {
     return (
       <CheckCircleFillIcon
         className={className}
-        style={style}
-        fillColor={palette.primary[400]}
+        style={{
+          width: sizeTokens['icon-size-20'],
+          height: sizeTokens['icon-size-20'],
+          ...style,
+        }}
+        fillColor={stepperColors.progress}
         size={20}
       />
     )
@@ -20,8 +27,12 @@ const CustomStepIcon = ({ active, completed, className, style }: StepIconProps) 
     return (
       <DotCircleFilledIcon
         className={className}
-        style={style}
-        fillColor={palette.primary[400]}
+        style={{
+          width: sizeTokens['icon-size-20'],
+          height: sizeTokens['icon-size-20'],
+          ...style,
+        }}
+        fillColor={stepperColors.progress}
         size={20}
       />
     )
@@ -30,8 +41,12 @@ const CustomStepIcon = ({ active, completed, className, style }: StepIconProps) 
   return (
     <CircleFilledIcon
       className={className}
-      style={style}
-      fillColor={palette.grey[300]}
+      style={{
+        width: sizeTokens['icon-size-20'],
+        height: sizeTokens['icon-size-20'],
+        ...style,
+      }}
+      fillColor={colorTokens['border-default']}
       size={20}
     />
   )

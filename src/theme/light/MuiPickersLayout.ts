@@ -1,24 +1,34 @@
 import type { PickerComponents } from '@mui/x-date-pickers/themeAugmentation'
 
-import palette, { common } from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { effectTokens } from '../effectTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
+
+const weekendColor = 'var(--rc-color-red-600)'
+const outsideWeekendColor = 'var(--rc-color-red-200)'
+// Figma binds the Cyans/500 primitive for the today ring; no semantic role maps to it.
+const todayRingColor = 'var(--rc-color-cyans-500)'
 
 const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
   defaultProps: {},
   styleOverrides: {
     root: {
-      borderRadius: '.375rem',
+      borderRadius: borderTokens['radius-12'],
 
       '.MuiPickersLayout-actionBar': {
-        backgroundColor: palette.grey['50'],
-        borderBottomLeftRadius: '.375rem',
-        borderBottomRightRadius: '.375rem',
-        padding: '.5rem .625rem',
+        backgroundColor: colorTokens['surface-sunken'],
+        borderBottomLeftRadius: borderTokens['radius-6'],
+        borderBottomRightRadius: borderTokens['radius-6'],
+        // Calendar action-bar spacing has no semantic role yet.
+        padding: `${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-10']}`,
 
         '.MuiButtonBase-root': {
           backgroundColor: 'transparent',
-          height: '2.25rem',
+          height: spacingRoleBasedTokens['space-36'],
           minWidth: 'unset',
-          padding: '0 .625rem',
+          padding: `${spacingRoleBasedTokens['space-0']} ${spacingRoleBasedTokens['space-10']}`,
         },
       },
     },
@@ -28,46 +38,65 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
       },
 
       '.MuiDayCalendar-weekDayLabel': {
-        color: palette.grey['600'],
-        height: '2.25rem',
-        lineHeight: '1.125rem',
+        color: colorTokens['text-muted'],
+        width: '44px',
+        height: '24px',
+        margin: 0,
+        fontSize: typographyTokens['font-size-body-caption'],
+        lineHeight: typographyTokens['line-height-body-caption'],
       },
 
-      '.MuiPickerDay-root': {
-        color: palette.grey['900'],
-        fontSize: '.875rem',
-        lineHeight: '1.125rem',
+      '.MuiDayCalendar-header': {
+        marginBottom: spacingRoleBasedTokens['space-12'],
+      },
+      '.MuiDayCalendar-weekContainer': { margin: 0 },
+      '.MuiDayCalendar-slideTransition': { minHeight: 0, overflow: 'visible' },
+      '.MuiDayCalendar-monthContainer': { overflow: 'visible' },
+      '.MuiDayCalendar-root .MuiPickerDay-root': {
+        width: '44px',
+        height: '44px',
+        margin: 0,
+        color: colorTokens['text-default'],
+        fontSize: typographyTokens['font-size-body-regular'],
+        lineHeight: typographyTokens['line-height-body-regular'],
+        borderRadius: borderTokens['radius-8'],
+        '&.MuiPickerDay-today': {
+          outline: `${borderTokens['stroke-1']} solid ${todayRingColor}`,
+          outlineOffset: `calc(-1 * ${borderTokens['stroke-1']})`,
+        },
+        // MUI paints a primary tint on :focus, including pointer-open autofocus.
+        // In DS only selected days have a brand fill; focus is conveyed by a ring.
+        '&:focus': { backgroundColor: 'transparent' },
+        '&.Mui-focusVisible': {
+          boxShadow: effectTokens['focus-ring-default'],
+          backgroundColor: colorTokens['surface-base'],
+        },
 
         '&:hover': {
-          backgroundColor: palette.grey['100'],
+          backgroundColor: colorTokens['surface-muted'],
         },
 
         '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected:focus': {
-          backgroundColor: palette.primary['500'],
+          backgroundColor: colorTokens['control-selected'],
           // v9 sets the contrast colour in a variant, which loses to the
           // day colour above, so it has to be restated.
-          color: common.white,
+          color: colorTokens['text-inverse'],
           fontWeight: 400,
         },
 
-        // Same as above: v9 sets the disabled colour in a variant, which loses
-        // to the day colour. Weekends stay red, their rule is more specific.
-        '&.Mui-disabled': {
-          color: palette.grey['400'],
+        '&.Mui-selected.Mui-focusVisible': {
+          boxShadow: `0 0 0 ${borderTokens['stroke-2']} ${colorTokens['surface-base']}, 0 0 0 ${borderTokens['stroke-4']} ${colorTokens['border-focus']}`,
+        },
+
+        '&.MuiPickerDay-dayOutsideMonth:not(.Mui-selected), &.Mui-disabled': {
+          color: colorTokens['text-muted'],
         },
       },
-
-      '.MuiPickerDay-dayOutsideMonth': {
-        color: palette.grey['400'],
-      },
-
-      '.MuiDayCalendar-weekContainer': {
-        '.MuiPickerDay-root:nth-of-type(6), .MuiPickerDay-root:nth-of-type(7)': {
-          color: palette.error['600'],
-
-          '&.MuiPickerDay-dayOutsideMonth': {
-            color: palette.error['200'],
-          },
+      '.MuiDayCalendar-weekContainer .MuiPickerDay-root': {
+        // No weekend color roles exist; keep the legacy red distinction using DS primitives.
+        '&:nth-of-type(6):not(.Mui-selected), &:nth-of-type(7):not(.Mui-selected)': {
+          color: weekendColor,
+          '&.MuiPickerDay-dayOutsideMonth': { color: outsideWeekendColor },
         },
       },
     },

@@ -27,7 +27,7 @@ describe('RcSesFooter', () => {
     renderFooter(<RcSesFooter text='Footer text' />)
 
     expect(window.getComputedStyle(screen.getByText('Footer text')).color).toBe(
-      'rgb(220, 224, 229)',
+      'var(--rc-color-neutrals-200)',
     )
   })
 })

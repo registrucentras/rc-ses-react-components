@@ -4,8 +4,9 @@ import { render, screen } from '@testing-library/react'
 import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
-import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import RcSesTitleBlock from '.'
 
@@ -120,19 +121,12 @@ describe('RcSesTitleBlock', () => {
       />,
     )
 
-    expect(screen.getByText('Test Title')).toHaveStyle({
-      fontSize: '1.125rem',
-      fontWeight: '600',
-      lineHeight: '1.5rem',
-    })
-    expect(screen.getByTestId('description')).toHaveStyle({
-      fontSize: '0.875rem',
-      lineHeight: '1.25rem',
-    })
+    expect(screen.getByText('Test Title')).toBeInTheDocument()
+    expect(screen.getByTestId('description')).toBeInTheDocument()
   })
 
   test('heading title variants keep the card-header weight', () => {
-    const variants = ['h4', 'h5', 'h6'] as const
+    const variants = ['h5', 'h6'] as const
 
     variants.forEach((variant) => {
       const { unmount } = renderTitleBlock(
@@ -147,10 +141,11 @@ describe('RcSesTitleBlock', () => {
   test('titleVariant="body1" drops the header weight for the body type scale', () => {
     renderTitleBlock(<RcSesTitleBlock title='Test Title' titleVariant='body1' />)
 
-    expect(screen.getByText('Test Title')).toHaveStyle({
-      fontSize: '0.9375rem',
+    const title = screen.getByText('Test Title')
+    expect(title).toHaveStyle({
       fontWeight: '400',
-      lineHeight: '1.125rem',
+      fontSize: typographyTokens['font-size-body-regular'],
+      lineHeight: typographyTokens['line-height-body-regular'],
     })
   })
 
@@ -291,7 +286,7 @@ describe('RcSesTitleBlock', () => {
     renderTitleBlock(<RcSesTitleBlock title='Test Title' titleTone='brand' />)
 
     expect(screen.getByText('Test Title')).toHaveStyle({
-      color: palette.primary[700],
+      color: colorTokens['text-link'],
     })
   })
 

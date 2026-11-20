@@ -50,6 +50,10 @@ export type RcSesCardProps = Omit<CardProps, 'children' | 'title'> & {
   }
 }
 
+/**
+ * @deprecated Use `RcSesCardShell` instead. Will be removed in a future major release.
+ */
+
 function RcSesCard({
   title,
   description,

@@ -2,8 +2,10 @@ import { Box, Container, Typography } from '@mui/material'
 import React, { type CSSProperties } from 'react'
 
 import RcSesBreadcrumbs from '@/components/common/Breadcrumbs'
-import theme from '@/theme/light'
-import { common } from '@/theme/palette'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface Props {
   breadcrumbsProps: React.ComponentProps<typeof RcSesBreadcrumbs>
@@ -15,15 +17,16 @@ function ServiceHeader({
   breadcrumbsProps,
   children,
   title,
-  backgroundColor = common.white,
+  backgroundColor = colorTokens['surface-base'],
 }: Props) {
   return (
     <Box sx={{ backgroundColor }}>
       <Container
+        disableGutters
         sx={{
-          pb: { xs: '2rem', md: '2.25rem' },
-          pt: { xs: '.375rem', md: '1.5rem' },
-          px: '1rem',
+          pb: spacingTokens['spacing-aliases-header-padding-bottom'],
+          pt: spacingTokens['spacing-aliases-header-padding-top'],
+          px: spacingTokens['spacing-aliases-header-padding-x'],
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
@@ -32,16 +35,17 @@ function ServiceHeader({
         <RcSesBreadcrumbs
           {...breadcrumbsProps}
           sx={{
-            pb: { xs: '.25rem', md: '.5rem' },
-            fontSize: '0.75rem',
-            lineHeight: '1.25rem',
+            pb: spacingRoleBasedTokens['space-6'],
           }}
         />
 
         <Typography
           variant='h1'
           sx={{
-            lineHeight: { xs: '2rem', md: '2.5rem' },
+            '&&': {
+              fontSize: typographyTokens['font-size-heading-h1'],
+              lineHeight: typographyTokens['line-height-heading-h1'],
+            },
           }}
         >
           {title}
@@ -52,17 +56,12 @@ function ServiceHeader({
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              mt: { xs: '.25rem', md: '.5rem' },
-              rowGap: '10px',
+              mt: spacingRoleBasedTokens['space-8'],
+              rowGap: spacingRoleBasedTokens['space-10'],
 
               '.MuiTypography-body1': {
-                fontSize: '1rem',
-                lineHeight: '1.5rem',
-
-                [theme.breakpoints.down('md')]: {
-                  fontSize: '.8125rem',
-                  lineHeight: '1.125rem',
-                },
+                fontSize: typographyTokens['font-size-body-large'],
+                lineHeight: typographyTokens['line-height-body-large'],
               },
             }}
           >

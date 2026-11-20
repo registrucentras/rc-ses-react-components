@@ -263,7 +263,7 @@ CI:
 ```bash
 npm run test:visual              # palyginti su esamais etalonais
 npm run test:visual:update:new   # pridėti etalonus tik naujoms istorijoms
-npm run test:visual:update       # perrašyti visus etalonus
+npm run test:visual:update       # perrašyti tik pasikeitusius etalonus
 npm run test:visual:report       # atidaryti HTML skirtumų raportą
 ```
 

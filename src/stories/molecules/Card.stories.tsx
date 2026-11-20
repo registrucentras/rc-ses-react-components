@@ -13,7 +13,7 @@ import palette from '@/theme/palette'
 const meta: Meta<typeof RcSesCard> = {
   title: 'Molecules/Card',
   component: RcSesCard,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'deprecated'],
 }
 
 export default meta

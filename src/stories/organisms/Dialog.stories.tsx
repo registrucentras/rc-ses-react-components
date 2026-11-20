@@ -135,6 +135,19 @@ export const Open: Story = {
   },
 }
 
+export const TokenOverrides: Story = {
+  ...Open,
+  args: {
+    ...Open.args,
+    sx: {
+      '--rc-color-surface-base': '#fff8ed',
+      '--rc-color-border-default': '#986b22',
+      '--rc-radius-modal': '24px',
+      '& .MuiDialog-paper': { boxShadow: 'none' },
+    },
+  },
+}
+
 export const SmallDialog: Story = {
   render: (args) => (
     <DialogStory {...args}>
