@@ -2,6 +2,14 @@ import type { CSSProperties } from '@mui/material/styles'
 
 // CSS variable references. Values and responsive modes live in tokens.css.
 const typographyTokens = {
+  // Font family
+  'font-family': 'var(--rc-typography-font-family-base)',
+  // Font weights (primitives)
+  'font-weight-light': 'var(--rc-typography-font-weight-light)',
+  'font-weight-regular': 'var(--rc-typography-font-weight-regular)',
+  'font-weight-medium': 'var(--rc-typography-font-weight-medium)',
+  'font-weight-semibold': 'var(--rc-typography-font-weight-semibold)',
+  // Font sizes
   'font-size-body-caption': 'var(--rc-typography-font-size-body-caption)',
   'font-size-body-large': 'var(--rc-typography-font-size-body-large)',
   'font-size-body-lead': 'var(--rc-typography-font-size-body-lead)',
@@ -16,6 +24,7 @@ const typographyTokens = {
   'font-size-heading-h3': 'var(--rc-typography-font-size-heading-h3)',
   'font-size-heading-h4': 'var(--rc-typography-font-size-heading-h4)',
   'font-size-heading-h5': 'var(--rc-typography-font-size-heading-h5)',
+  // Line heights
   'line-height-body-caption': 'var(--rc-typography-line-height-body-caption)',
   'line-height-body-large': 'var(--rc-typography-line-height-body-large)',
   'line-height-body-lead': 'var(--rc-typography-line-height-body-lead)',
@@ -30,6 +39,37 @@ const typographyTokens = {
   'line-height-heading-h3': 'var(--rc-typography-line-height-heading-h3)',
   'line-height-heading-h4': 'var(--rc-typography-line-height-heading-h4)',
   'line-height-heading-h5': 'var(--rc-typography-line-height-heading-h5)',
+  // Font weights
+  'font-weight-heading-h1': 'var(--rc-typography-font-weight-heading-h1)',
+  'font-weight-heading-h2': 'var(--rc-typography-font-weight-heading-h2)',
+  'font-weight-heading-h3': 'var(--rc-typography-font-weight-heading-h3)',
+  'font-weight-heading-h4': 'var(--rc-typography-font-weight-heading-h4)',
+  'font-weight-heading-h5': 'var(--rc-typography-font-weight-heading-h5)',
+  'font-weight-heading-card-title': 'var(--rc-typography-font-weight-heading-card-title)',
+  'font-weight-body-large': 'var(--rc-typography-font-weight-body-large)',
+  'font-weight-body-lead': 'var(--rc-typography-font-weight-body-lead)',
+  'font-weight-body-regular': 'var(--rc-typography-font-weight-body-regular)',
+  'font-weight-body-small': 'var(--rc-typography-font-weight-body-small)',
+  'font-weight-body-caption': 'var(--rc-typography-font-weight-body-caption)',
+  'font-weight-body-micro': 'var(--rc-typography-font-weight-body-micro)',
+  'font-weight-button-regular': 'var(--rc-typography-font-weight-button-regular)',
+  'font-weight-button-compact': 'var(--rc-typography-font-weight-button-compact)',
+  // Letter spacing
+  'letter-spacing-heading-h1': 'var(--rc-typography-letter-spacing-heading-h1)',
+  'letter-spacing-heading-h2': 'var(--rc-typography-letter-spacing-heading-h2)',
+  'letter-spacing-heading-h3': 'var(--rc-typography-letter-spacing-heading-h3)',
+  'letter-spacing-heading-h4': 'var(--rc-typography-letter-spacing-heading-h4)',
+  'letter-spacing-heading-h5': 'var(--rc-typography-letter-spacing-heading-h5)',
+  'letter-spacing-heading-card-title':
+    'var(--rc-typography-letter-spacing-heading-card-title)',
+  'letter-spacing-body-large': 'var(--rc-typography-letter-spacing-body-large)',
+  'letter-spacing-body-lead': 'var(--rc-typography-letter-spacing-body-lead)',
+  'letter-spacing-body-regular': 'var(--rc-typography-letter-spacing-body-regular)',
+  'letter-spacing-body-small': 'var(--rc-typography-letter-spacing-body-small)',
+  'letter-spacing-body-caption': 'var(--rc-typography-letter-spacing-body-caption)',
+  'letter-spacing-body-micro': 'var(--rc-typography-letter-spacing-body-micro)',
+  'letter-spacing-button-regular': 'var(--rc-typography-letter-spacing-button-regular)',
+  'letter-spacing-button-compact': 'var(--rc-typography-letter-spacing-button-compact)',
 } as const
 
 export { typographyTokens }
