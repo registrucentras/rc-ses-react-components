@@ -3,7 +3,7 @@ import { PickerDay } from '@mui/x-date-pickers/PickerDay'
 import type { PickersCalendarHeaderProps } from '@mui/x-date-pickers/PickersCalendarHeader'
 import { usePickerAdapter, usePickerTranslations } from '@mui/x-date-pickers/hooks'
 import { addMonths, endOfMonth, endOfYear, startOfMonth } from 'date-fns'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -58,6 +58,7 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
   const [focused, setFocused] = useState(month)
   const grid = useRef<HTMLDivElement>(null)
   const root = useRef<HTMLDivElement>(null)
+  const previousView = useRef<View>('calendar')
   const now = new Date()
   const lower = disablePast && now > minDate ? now : minDate
   const upper = disableFuture && now < maxDate ? now : maxDate
@@ -69,9 +70,23 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
     return !!disabled || date > upper || end < lower
   }
 
-  useEffect(() => {
-    if (view !== 'calendar')
+  useLayoutEffect(() => {
+    if (view !== 'calendar') {
       grid.current?.querySelector<HTMLButtonElement>('button[tabindex="0"]')?.focus()
+    } else if (previousView.current !== 'calendar') {
+      // Keep focus inside the dialog when the focused grid cell is removed.
+      // Deferring to an animation frame can lose a subsequent Escape on <body>.
+      const calendar = root.current?.closest('.MuiDateCalendar-root')
+      const day =
+        calendar?.querySelector<HTMLButtonElement>(
+          'button[data-timestamp][tabindex="0"]:not(.MuiPickerDay-dayOutsideMonth)',
+        ) ??
+        calendar?.querySelector<HTMLButtonElement>(
+          'button[data-timestamp]:not(:disabled):not(.MuiPickerDay-dayOutsideMonth)',
+        )
+      day?.focus()
+    }
+    previousView.current = view
   }, [view, block])
 
   const goTo = (next: View) => {
@@ -81,19 +96,6 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
     }
     if (next === 'months') setFocused(month)
     setView(next)
-    if (next === 'calendar') {
-      requestAnimationFrame(() => {
-        const calendar = root.current?.closest('.MuiDateCalendar-root')
-        const day =
-          calendar?.querySelector<HTMLButtonElement>(
-            'button[data-timestamp][tabindex="0"]:not(.MuiPickerDay-dayOutsideMonth)',
-          ) ??
-          calendar?.querySelector<HTMLButtonElement>(
-            'button[data-timestamp]:not(:disabled):not(.MuiPickerDay-dayOutsideMonth)',
-          )
-        day?.focus()
-      })
-    }
   }
 
   const select = (index: number) => {

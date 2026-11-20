@@ -135,6 +135,7 @@ export { RcSesSelect }
 export { RcSesTab, RcSesTabPanel, RcSesTabs, RcSesTabsWrapper }
 export { RcSesTooltip }
 export { RcSesTextField }
+export type { TextFieldProps, TextFieldPreset } from '@/components/form/inputs/TextField'
 export { DataPagination }
 export { ListWithIcons }
 export { RcSesServiceLinks }

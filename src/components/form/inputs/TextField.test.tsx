@@ -106,7 +106,7 @@ describe('RcSesTextField token migration', () => {
         <RcSesTextField label='Vardas' ref={ref} onChange={onChange} />
       </ThemeProvider>,
     )
-    const input = screen.getByRole('textbox', { name: 'Vardas' })
+    const input = screen.getByRole('textbox', { name: /^Vardas/ })
     fireEvent.change(input, { target: { value: 'Jonas' } })
     expect(onChange.mock.calls[0][0].target.value).toBe('Jonas')
     expect(ref.current).toBe(input)
@@ -143,11 +143,11 @@ describe('RcSesTextField token migration', () => {
         }}
       />,
     )
-    const input = screen.getByRole('textbox', { name: 'Aprašymas' })
+    const input = screen.getByRole('textbox', { name: /^Aprašymas/ })
     expect(input.tagName).toBe('TEXTAREA')
     expect(input).toHaveAttribute('rows', '4')
     expect(input).toHaveAttribute('aria-invalid', 'true')
     expect(screen.getByText('Įveskite aprašymą')).toBeVisible()
-    expect(screen.getByText('Pagalba')).toBeVisible()
+    expect(screen.queryByText('Pagalba')).not.toBeInTheDocument()
   })
 })
