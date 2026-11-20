@@ -45,13 +45,13 @@ function Roles() {
   return (
     <DocPage
       title='Typography'
-      lead={`14 roles, each bound to a theme variant. Sizes and line heights are tokens; headings step up at the sm and md breakpoints. Family: ${family}.`}
+      lead={`14 roles, each with size, line height, font weight, and letter spacing. Sizes and line heights are tokens; headings step up at the sm and md breakpoints. Family: ${family}.`}
     >
       {groups.map(({ prefix, title }) => (
         <Section key={prefix} title={title}>
           <Table
             columns='minmax(0, 1fr) 300px'
-            head={['Role and sample', 'Size and line height']}
+            head={['Role and sample', 'Size, line height, weight, and letter spacing']}
           >
             {Object.entries(typographyRoleVariants)
               .filter(([role]) => role.startsWith(prefix))
@@ -99,20 +99,35 @@ function Roles() {
                         rowGap: 1,
                       }}
                     >
-                      {(['font-size', 'line-height'] as const).map((property) => (
-                        <Fragment key={property}>
-                          <Box
-                            sx={{
-                              color: colorTokens['text-secondary'],
-                              fontSize: '0.75rem',
-                              pb: 0.5,
-                            }}
-                          >
-                            {property === 'font-size' ? 'Size' : 'Line'}
-                          </Box>
-                          <ResponsiveValues name={`typography-${property}-${role}`} />
-                        </Fragment>
-                      ))}
+                      {(
+                        [
+                          'font-size',
+                          'line-height',
+                          'font-weight',
+                          'letter-spacing',
+                        ] as const
+                      ).map((property) => {
+                        const labels = {
+                          'font-size': 'Size',
+                          'line-height': 'Line',
+                          'font-weight': 'Weight',
+                          'letter-spacing': 'Letter',
+                        }
+                        return (
+                          <Fragment key={property}>
+                            <Box
+                              sx={{
+                                color: colorTokens['text-secondary'],
+                                fontSize: '0.75rem',
+                                pb: 0.5,
+                              }}
+                            >
+                              {labels[property]}
+                            </Box>
+                            <ResponsiveValues name={`typography-${property}-${role}`} />
+                          </Fragment>
+                        )
+                      })}
                     </Box>
                   </Row>
                 )
