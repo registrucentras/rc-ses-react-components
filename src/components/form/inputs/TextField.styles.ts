@@ -74,7 +74,7 @@ export const textFieldStyles = {
       height: 'auto',
       fontSize: typographyTokens['font-size-body-regular'],
       lineHeight: typographyTokens['line-height-body-regular'],
-      color: colorTokens['text-muted'],
+      color: colorTokens['text-default'],
       '&::placeholder': { color: colorTokens['text-muted'], opacity: 1 },
       '&::-webkit-search-cancel-button': { WebkitAppearance: 'none' },
       '&.Mui-disabled': {

@@ -3,6 +3,31 @@ import { checkA11y, injectAxe } from 'axe-playwright'
 
 const widths = [375, 768, 1440]
 
+;['input', 'multiline'].forEach((story) => {
+  test(`TextField ${story} values stay dark while placeholders remain muted`, async ({
+    page,
+  }) => {
+    await page.goto(`/iframe.html?id=atoms-textfield--${story}&viewMode=story`)
+    const input = page.getByRole('textbox').first()
+    await expect(input).toBeVisible()
+    await page.locator('.RcSesTextField-root').evaluateAll((fields) => {
+      fields.forEach((field) => {
+        const element = field as HTMLElement
+        element.style.setProperty('--rc-color-text-default', '#123456')
+        element.style.setProperty('--rc-color-text-muted', '#789abc')
+      })
+    })
+    await input.fill('Entered text')
+    await expect(input).toHaveCSS('color', 'rgb(18, 52, 86)')
+    await input.blur()
+    await expect(input).toHaveCSS('color', 'rgb(18, 52, 86)')
+    await input.fill('')
+    expect(
+      await input.evaluate((element) => getComputedStyle(element, '::placeholder').color),
+    ).toBe('rgb(120, 154, 188)')
+  })
+})
+
 test('Input v2 state accessibility includes error, loading and disabled', async ({
   page,
 }) => {
