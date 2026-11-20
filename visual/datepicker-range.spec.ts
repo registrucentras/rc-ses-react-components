@@ -1,14 +1,6 @@
-import { Page, expect, test } from '@playwright/test'
-import { checkA11y, injectAxe } from 'axe-playwright'
+import { expect, test } from '@playwright/test'
 
-// Storybook's a11y addon runs axe after each render, and axe refuses to start
-// while another run is in progress, so retry until the page is free.
-const expectNoSeriousA11yIssues = async (page: Page, context: string) => {
-  await injectAxe(page)
-  await expect(async () => {
-    await checkA11y(page, context, { includedImpacts: ['critical', 'serious'] })
-  }).toPass({ timeout: 10_000 })
-}
+import expectNoSeriousA11yIssues from './a11y'
 
 const widths = [375, 768, 1440]
 
