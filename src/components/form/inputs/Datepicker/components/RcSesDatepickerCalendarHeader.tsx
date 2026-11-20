@@ -87,7 +87,7 @@ function RcSesDatepickerCalendarHeader(props: PickersCalendarHeaderProps) {
           fontSize: typographyTokens['font-size-body-regular'],
           lineHeight: typographyTokens['line-height-body-regular'],
           color: colorTokens['text-default'],
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-body-regular'],
           textAlign: 'center',
         }}
       >

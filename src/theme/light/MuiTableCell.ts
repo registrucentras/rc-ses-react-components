@@ -1,5 +1,7 @@
 import { Components } from '@mui/material'
 
+import { typographyTokens } from '@/theme/typographyTokens'
+
 import palette from '../palette'
 
 const MuiTableCell: Components['MuiTableCell'] = {
@@ -25,14 +27,14 @@ const MuiTableCell: Components['MuiTableCell'] = {
       borderBottomColor: palette.grey['300'],
       borderBottomStyle: 'solid',
       borderBottomWidth: '1px',
-      fontWeight: 600,
+      fontWeight: typographyTokens['font-weight-semibold'],
     },
     body: {
       backgroundColor: 'white',
       borderColor: palette.grey['300'],
       borderStyle: 'solid',
       borderWidth: '1px',
-      fontWeight: 300,
+      fontWeight: typographyTokens['font-weight-light'],
     },
   },
 }

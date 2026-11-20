@@ -99,7 +99,7 @@ export const AllCombinations: Story = {
                 <Typography
                   variant='body2'
                   sx={{
-                    fontWeight: 600,
+                    fontWeight: typographyTokens['font-weight-semibold'],
                     gridRow: 'span 2',
                   }}
                 >

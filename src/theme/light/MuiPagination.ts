@@ -20,7 +20,7 @@ const MuiPaginationItem: Components['MuiPaginationItem'] = {
       width: 40,
       fontSize: typographyTokens['font-size-body-small'],
       lineHeight: typographyTokens['line-height-body-small'],
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-small'],
       color: 'var(--rc-color-neutrals-800)',
       '&:hover': {
         backgroundColor: 'var(--rc-color-neutrals-200)',

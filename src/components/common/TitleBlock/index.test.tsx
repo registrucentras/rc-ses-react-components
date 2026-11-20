@@ -143,7 +143,7 @@ describe('RcSesTitleBlock', () => {
 
     const title = screen.getByText('Test Title')
     expect(title).toHaveStyle({
-      fontWeight: '400',
+      fontWeight: typographyTokens['font-weight-body-regular'],
       fontSize: typographyTokens['font-size-body-regular'],
       lineHeight: typographyTokens['line-height-body-regular'],
     })

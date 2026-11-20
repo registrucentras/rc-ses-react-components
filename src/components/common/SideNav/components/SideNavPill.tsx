@@ -48,7 +48,7 @@ function SideNavPill({ label, count, ariaLabel, active, onClick }: Props) {
         sx={{
           fontSize: typographyTokens['font-size-body-small'],
           lineHeight: typographyTokens['line-height-body-small'],
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-small'],
           color: active ? colorTokens['text-default'] : colorTokens['text-secondary'],
         }}
       >
@@ -60,7 +60,7 @@ function SideNavPill({ label, count, ariaLabel, active, onClick }: Props) {
           sx={{
             fontSize: typographyTokens['font-size-body-caption'],
             lineHeight: typographyTokens['line-height-body-caption'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-caption'],
             color: colorTokens['text-muted'],
           }}
         >

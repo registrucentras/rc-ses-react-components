@@ -15,7 +15,7 @@ const formControlLabelStyles = {
     color: colorTokens['text-default'],
     fontSize: typographyTokens['font-size-body-regular'],
     lineHeight: typographyTokens['line-height-body-regular'],
-    fontWeight: 400,
+    fontWeight: typographyTokens['font-weight-body-regular'],
   },
   '&.Mui-disabled .MuiFormControlLabel-label': {
     color: colorTokens['text-disabled'],

@@ -56,7 +56,7 @@ function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props)
           minWidth: 0,
           fontSize: typographyTokens['font-size-body-regular'],
           lineHeight: typographyTokens['line-height-body-regular'],
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-regular'],
           color: active ? colorTokens['text-default'] : colorTokens['text-link'],
         }}
       >
@@ -69,7 +69,7 @@ function SideNavRow({ itemId, label, count, ariaLabel, active, onClick }: Props)
             flexShrink: 0,
             fontSize: typographyTokens['font-size-body-caption'],
             lineHeight: typographyTokens['line-height-body-caption'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-caption'],
             color: colorTokens['text-muted'],
           }}
         >

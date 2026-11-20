@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 
 import RcSesCheckbox from '@/components/form/inputs/Checkbox'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface FormModel {
   agreement: boolean
@@ -33,7 +34,10 @@ function TermsAndConditionsForm() {
             slotProps: {
               typography: {
                 // MUI 9 no longer accepts style shorthands on this slot.
-                sx: { fontWeight: 600, lineHeight: '1.3125rem' },
+                sx: {
+                  fontWeight: typographyTokens['font-weight-semibold'],
+                  lineHeight: '1.3125rem',
+                },
                 variant: 'body1',
               },
             },

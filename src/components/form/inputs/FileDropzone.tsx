@@ -154,7 +154,7 @@ function RcSesFileDropzone(props: Props) {
                           ? colorTokens['text-secondary']
                           : colorTokens['text-default'],
                         fontSize: typographyTokens['font-size-body-small'],
-                        fontWeight: 600,
+                        fontWeight: typographyTokens['font-weight-semibold'],
                         lineHeight: typographyTokens['line-height-body-small'],
                       }}
                     >
@@ -188,7 +188,7 @@ function RcSesFileDropzone(props: Props) {
                     color: fieldProps.disabled
                       ? colorTokens['text-disabled']
                       : colorTokens['text-default'],
-                    fontWeight: 600,
+                    fontWeight: typographyTokens['font-weight-semibold'],
                   }}
                 >
                   <Trans t={t} i18nKey='label'>
@@ -200,7 +200,7 @@ function RcSesFileDropzone(props: Props) {
                           ? colorTokens['text-disabled']
                           : colorTokens['text-link'],
                         fontSize: typographyTokens['font-size-body-small'],
-                        fontWeight: 600,
+                        fontWeight: typographyTokens['font-weight-semibold'],
                         lineHeight: typographyTokens['line-height-body-small'],
                         textDecoration: 'underline',
                       }}

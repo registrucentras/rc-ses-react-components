@@ -93,7 +93,7 @@ function RcSesLoader({
             color: colorTokens['text-secondary'],
             fontSize,
             lineHeight,
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-regular'],
           }}
         >
           {resolvedLabel}

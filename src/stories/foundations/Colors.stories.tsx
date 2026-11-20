@@ -19,6 +19,7 @@ import {
 } from '@/components/storybook/TokenDocs'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const meta = {
   title: 'Foundations/Colors',
@@ -41,7 +42,13 @@ function Ramp({ family }: { family: (typeof families)[number] }) {
         gridTemplateColumns: '88px 1fr',
       }}
     >
-      <Typography variant='body2' sx={{ fontWeight: 600, textTransform: 'capitalize' }}>
+      <Typography
+        variant='body2'
+        sx={{
+          fontWeight: typographyTokens['font-weight-semibold'],
+          textTransform: 'capitalize',
+        }}
+      >
         {family}
       </Typography>
       <Box
@@ -71,7 +78,14 @@ function Ramp({ family }: { family: (typeof families)[number] }) {
                 p: 1,
               }}
             >
-              <Box sx={{ fontSize: '0.75rem', fontWeight: 600 }}>{step}</Box>
+              <Box
+                sx={{
+                  fontSize: '0.75rem',
+                  fontWeight: typographyTokens['font-weight-semibold'],
+                }}
+              >
+                {step}
+              </Box>
               <Box sx={{ fontFamily: 'monospace', fontSize: '0.625rem' }}>
                 {color?.hex.slice(1)}
               </Box>

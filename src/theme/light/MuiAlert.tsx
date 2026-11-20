@@ -98,7 +98,7 @@ const MuiAlert: Components['MuiAlert'] = {
       borderRadius: 0,
       borderLeftStyle: 'solid',
       borderLeftWidth: 3,
-      fontWeight: 300,
+      fontWeight: typographyTokens['font-weight-light'],
       fontSize: '.9375rem',
       lineHeight: '1.125rem',
       padding: '1rem 1.5rem 1rem 1.25rem',
@@ -114,12 +114,12 @@ const MuiAlert: Components['MuiAlert'] = {
       },
 
       '.MuiAlert-message': {
-        fontWeight: 300,
+        fontWeight: typographyTokens['font-weight-light'],
         padding: 0,
 
         a: {
           color: 'inherit',
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-medium'],
         },
       },
 
@@ -153,7 +153,7 @@ const MuiAlert: Components['MuiAlert'] = {
 
     filled: {
       fontSize: '.8125rem',
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-caption'],
 
       [breakpoints.up('md')]: {
         fontSize: '.875rem',
@@ -169,7 +169,7 @@ const MuiAlert: Components['MuiAlert'] = {
         },
 
         a: {
-          fontWeight: 600,
+          fontWeight: typographyTokens['font-weight-semibold'],
         },
       },
 
@@ -200,7 +200,7 @@ const MuiAlert: Components['MuiAlert'] = {
     outlined: {
       fontSize: typographyTokens['font-size-body-small'],
       lineHeight: typographyTokens['line-height-body-small'],
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-small'],
       flexWrap: 'nowrap',
       alignItems: 'center',
       gap: spacingRoleBasedTokens['space-12'],
@@ -223,7 +223,7 @@ const MuiAlert: Components['MuiAlert'] = {
       '.MuiAlert-message': {
         lineHeight: 'inherit',
         padding: 0,
-        a: { fontWeight: 600 },
+        a: { fontWeight: typographyTokens['font-weight-semibold'] },
       },
       '&.MuiAlert-colorGrey': {
         backgroundColor: colorTokens['surface-sunken'],

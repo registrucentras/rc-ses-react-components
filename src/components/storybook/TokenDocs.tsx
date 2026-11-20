@@ -5,6 +5,7 @@ import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 // The preview already loads tokens.css; this reads its source to show the token chains.
 import tokensCss from '@/theme/tokens.css?raw'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export const breakpoints = [
   { key: 'xs', min: 0 },
@@ -241,7 +242,7 @@ export function Table({
             backgroundColor: colorTokens['surface-sunken'],
             color: colorTokens['text-secondary'],
             fontSize: '0.75rem',
-            fontWeight: 600,
+            fontWeight: typographyTokens['font-weight-semibold'],
             letterSpacing: '0.04em',
             textTransform: 'uppercase',
           }}

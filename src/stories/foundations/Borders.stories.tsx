@@ -119,7 +119,12 @@ function Borders() {
                 }}
               />
               <Box sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+                <Typography
+                  sx={{
+                    fontSize: '1.25rem',
+                    fontWeight: typographyTokens['font-weight-semibold'],
+                  }}
+                >
                   {name === 'radius-full' ? 'full' : numericSuffix(name)}
                 </Typography>
                 <Code muted>{toPx(literalOf(css(name)))}</Code>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowRightIcon, CaretLeftIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface Props {
   onDiscard: () => void
@@ -75,7 +76,10 @@ function ServiceFormActions({
             variant='text'
             size='small'
             color='grey'
-            sx={{ fontWeight: 400, textDecoration: 'underline' }}
+            sx={{
+              fontWeight: typographyTokens['font-weight-button-regular'],
+              textDecoration: 'underline',
+            }}
             onClick={() => onDiscard()}
           >
             {t('discard')}

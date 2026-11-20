@@ -167,7 +167,7 @@ function RcSesTooltip({
             padding: spacingTokens['spacing-aliases-tooltip-padding'],
             maxWidth: spacingTokens['spacing-aliases-tooltip-max-width'],
             fontSize: typographyTokens['font-size-body-small'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             lineHeight: typographyTokens['line-height-body-small'],
           },
         },

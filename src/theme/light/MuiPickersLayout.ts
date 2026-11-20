@@ -81,7 +81,7 @@ const MuiPickersLayout: PickerComponents['MuiPickersLayout'] = {
           // v9 sets the contrast colour in a variant, which loses to the
           // day colour above, so it has to be restated.
           color: colorTokens['text-inverse'],
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-regular'],
         },
 
         '&.Mui-selected.Mui-focusVisible': {
