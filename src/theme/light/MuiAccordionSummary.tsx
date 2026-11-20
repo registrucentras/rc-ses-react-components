@@ -51,7 +51,7 @@ const MuiAccordionSummary: Components['MuiAccordionSummary'] = {
     content: {
       color: 'inherit',
       fontSize: typographyTokens['font-size-heading-card-title'],
-      fontWeight: 500,
+      fontWeight: typographyTokens['font-weight-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
       margin: 0,
     },

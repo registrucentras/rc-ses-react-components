@@ -11,11 +11,11 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
     root: {
       color: colorTokens['text-default'],
       fontSize: typographyTokens['font-size-body-regular'],
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-regular'],
       lineHeight: typographyTokens['line-height-body-regular'],
 
       [breakpoints.up('md')]: {
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-medium'],
       },
 
       '&.Mui-focused, &.Mui-error': {
@@ -28,7 +28,7 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
 
       '.MuiFormLabel-asterisk': {
         color: colorTokens['status-error-border'],
-        fontWeight: 600,
+        fontWeight: typographyTokens['font-weight-semibold'],
         marginLeft: spacingRoleBasedTokens['space-2'],
       },
 
@@ -37,7 +37,7 @@ const MuiFormLabel: Components['MuiFormLabel'] = {
         display: 'block',
         fontSize: typographyTokens['font-size-body-caption'],
         fontStyle: 'italic',
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-body-caption'],
         lineHeight: typographyTokens['line-height-body-caption'],
         marginTop: spacingRoleBasedTokens['space-2'],
       },

@@ -3,6 +3,7 @@ import { Components } from '@mui/material'
 import { borderTokens } from '../borderTokens'
 import palette from '../palette'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiAutocomplete: Components['MuiAutocomplete'] = {
   defaultProps: {},
@@ -47,7 +48,7 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
           fontFamily: '"Public Sans", sans-serif',
           fontSize: '.875rem',
           fontStyle: 'normal',
-          fontWeight: 600,
+          fontWeight: typographyTokens['font-weight-semibold'],
           letterSpacing: 'normal',
           lineHeight: '1.25rem',
           padding: '.75rem 1rem',
@@ -114,7 +115,7 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
             display: 'block',
             fontFamily: '"Public Sans", sans-serif',
             fontSize: '.9375rem',
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-regular'],
             lineHeight: '1.375rem',
             overflowWrap: 'anywhere',
           },
@@ -123,7 +124,7 @@ const MuiAutocomplete: Components['MuiAutocomplete'] = {
             display: 'block',
             fontSize: '.75rem',
             fontStyle: 'italic',
-            fontWeight: 500,
+            fontWeight: typographyTokens['font-weight-medium'],
             lineHeight: '1rem',
             marginTop: '.25rem',
             overflowWrap: 'anywhere',

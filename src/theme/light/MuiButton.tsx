@@ -36,7 +36,7 @@ const MuiButton: Components['MuiButton'] = {
         color: colorTokens['action-link-text'],
         fontSize: typographyTokens['font-size-button-regular'],
         lineHeight: typographyTokens['line-height-button-regular'],
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-button-regular'],
         minWidth: 0,
         height: buttonDimensions.medium,
         padding: `${spacingTokens['spacing-aliases-button-padding-y-regular']} ${spacingTokens['spacing-aliases-button-padding-x-link']}`,
@@ -78,7 +78,7 @@ const MuiButton: Components['MuiButton'] = {
         },
 
         '&.MuiButton-sizeSmall': {
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-button-compact'],
           height: buttonDimensions.small,
           fontSize: typographyTokens['font-size-button-compact'],
           lineHeight: typographyTokens['line-height-button-compact'],

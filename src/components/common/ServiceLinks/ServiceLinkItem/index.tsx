@@ -15,7 +15,7 @@ const linkRow = {
   borderRadius: subcard.borderRadius,
   gap: spacingTokens['spacing-aliases-service-list-item-gap'],
   iconSize: 20,
-  labelFontWeight: 400,
+  labelFontWeight: typographyTokens['font-weight-body-regular'],
   lineHeight: typographyTokens['line-height-body-regular'],
   paddingBlock: spacingTokens['spacing-aliases-service-list-item-padding-y'],
 }

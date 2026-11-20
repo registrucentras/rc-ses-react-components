@@ -5,6 +5,7 @@ import RcSesBadge from '@/components/common/Badge'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import motion from '@/theme/motion'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import {
   AdvancedListItemLeading as AdvancedListItemLeadingData,
@@ -274,7 +275,7 @@ const AdvancedListItem = ({
                 sx={{
                   color: palette.grey[900],
                   fontSize: '1rem',
-                  fontWeight: 600,
+                  fontWeight: typographyTokens['font-weight-semibold'],
                   lineHeight: '1.375rem',
                 }}
               >
@@ -289,7 +290,7 @@ const AdvancedListItem = ({
                 sx={{
                   color: palette.grey[600],
                   fontSize: '0.875rem',
-                  fontWeight: 400,
+                  fontWeight: typographyTokens['font-weight-body-small'],
                   lineHeight: '1.25rem',
                 }}
               >

@@ -17,6 +17,7 @@ import {
 } from '@/components/storybook/TokenDocs'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const meta = {
   title: 'Foundations/Borders',
@@ -119,7 +120,12 @@ function Borders() {
                 }}
               />
               <Box sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+                <Typography
+                  sx={{
+                    fontSize: '1.25rem',
+                    fontWeight: typographyTokens['font-weight-semibold'],
+                  }}
+                >
                   {name === 'radius-full' ? 'full' : numericSuffix(name)}
                 </Typography>
                 <Code muted>{toPx(literalOf(css(name)))}</Code>

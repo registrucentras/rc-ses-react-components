@@ -11,11 +11,12 @@ import RcSesSwitch from '@/components/common/Switch'
 import RcSesSelect from '@/components/form/inputs/Select'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const ACTION_BUTTON_SX = {
   height: 'auto',
   padding: '0.5rem 0.25rem',
-  fontWeight: 500,
+  fontWeight: typographyTokens['font-weight-button-regular'],
   lineHeight: '1.25rem',
   color: palette.primary[700],
 } as const
@@ -35,7 +36,10 @@ const meta = {
   args: {
     content: (
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -62,7 +66,7 @@ export const Main: Story = {
         code: `<AdvancedListItemShell
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography variant='body2' sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}>
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -89,7 +93,10 @@ export const Selected: Story = {
     state='selected'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -116,7 +123,10 @@ export const Disabled: Story = {
     state='disabled'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -143,7 +153,10 @@ export const ErrorState: Story = {
     state='error'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -191,7 +204,10 @@ export const WithLeadingAndTrailing: Story = {
         code: `<AdvancedListItemShell
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -252,7 +268,10 @@ export const RowContainer: Story = {
     container='row'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -315,7 +334,10 @@ export const RowContainerSelected: Story = {
     state='selected'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -378,7 +400,10 @@ export const RowContainerError: Story = {
     state='error'
     content={
       <Stack sx={{ gap: '0.5rem' }}>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography
+          variant='body2'
+          sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+        >
           Įrašo pavadinimas
         </Typography>
         <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -460,7 +485,10 @@ export const RowContainerExpandable: Story = {
   container='row'
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+      <Typography
+        variant='body2'
+        sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+      >
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -527,7 +555,10 @@ export const Expandable: Story = {
 <AdvancedListItemShell
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+      <Typography
+        variant='body2'
+        sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+      >
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -578,7 +609,10 @@ export const ExpandedOpen: Story = {
         code: `<AdvancedListItemShell
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+      <Typography
+        variant='body2'
+        sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+      >
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -665,7 +699,10 @@ export const RadioSelectionWithActions: Story = {
   }
   content={
     <Stack sx={{ gap: '0.4375rem' }}>
-      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+      <Typography
+        variant='body1'
+        sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+      >
         UAB Pavyzdys
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>
@@ -713,7 +750,7 @@ export const ExpandableWithRadioAndSwitch: Story = {
             <Typography
               sx={{
                 fontSize: '1rem',
-                fontWeight: 500,
+                fontWeight: typographyTokens['font-weight-heading-h4'],
                 lineHeight: '1.375rem',
               }}
             >
@@ -726,7 +763,7 @@ export const ExpandableWithRadioAndSwitch: Story = {
               sx={{
                 color: palette.grey[600],
                 fontSize: '0.8125rem',
-                fontWeight: 400,
+                fontWeight: typographyTokens['font-weight-body-caption'],
                 lineHeight: '1.125rem',
               }}
             >
@@ -755,7 +792,7 @@ export const ExpandableWithRadioAndSwitch: Story = {
                 sx={{
                   color: palette.grey[900],
                   fontSize: '0.875rem',
-                  fontWeight: 600,
+                  fontWeight: typographyTokens['font-weight-semibold'],
                   lineHeight: '1.25rem',
                 }}
               >
@@ -765,7 +802,7 @@ export const ExpandableWithRadioAndSwitch: Story = {
                 sx={{
                   color: palette.grey[600],
                   fontSize: '0.875rem',
-                  fontWeight: 400,
+                  fontWeight: typographyTokens['font-weight-body-small'],
                   lineHeight: '1.25rem',
                 }}
               >
@@ -809,7 +846,7 @@ const [sendCopy, setSendCopy] = useState(false)
       <Typography
         sx={{
           fontSize: '1rem',
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-heading-h4'],
           lineHeight: '1.375rem',
         }}
       >
@@ -822,7 +859,7 @@ const [sendCopy, setSendCopy] = useState(false)
         sx={{
           color: palette.grey[600],
           fontSize: '0.8125rem',
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-caption'],
           lineHeight: '1.125rem',
         }}
       >
@@ -843,7 +880,7 @@ const [sendCopy, setSendCopy] = useState(false)
           sx={{
             color: palette.grey[900],
             fontSize: '0.875rem',
-            fontWeight: 600,
+            fontWeight: typographyTokens['font-weight-semibold'],
             lineHeight: '1.25rem',
           }}
         >
@@ -853,7 +890,7 @@ const [sendCopy, setSendCopy] = useState(false)
           sx={{
             color: palette.grey[600],
             fontSize: '0.875rem',
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             lineHeight: '1.25rem',
           }}
         >
@@ -919,7 +956,10 @@ const { control } = useForm<{ documentType: string }>({
 <AdvancedListItemShell
   content={
     <Stack sx={{ gap: '0.5rem' }}>
-      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+      <Typography
+        variant='body2'
+        sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}
+      >
         Įrašo pavadinimas
       </Typography>
       <Typography variant='body2' sx={{ color: palette.grey[600] }}>

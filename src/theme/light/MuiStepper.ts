@@ -25,13 +25,13 @@ const MuiStepper: Components['MuiStepper'] = {
       '.MuiStepLabel-labelContainer': {
         color: colorTokens['text-secondary'],
         fontSize: typographyTokens['font-size-heading-h4'],
-        fontWeight: 400,
+        fontWeight: typographyTokens['font-weight-heading-h4'],
         lineHeight: typographyTokens['line-height-heading-h4'],
 
         '.Mui-active': {
           color: colorTokens['text-default'],
           fontSize: typographyTokens['font-size-heading-h4'],
-          fontWeight: 600,
+          fontWeight: typographyTokens['font-weight-heading-h4'],
           lineHeight: typographyTokens['line-height-heading-h4'],
         },
       },

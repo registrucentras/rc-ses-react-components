@@ -668,7 +668,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
                     flex: 1,
                     fontFamily: '"Public Sans", sans-serif',
                     fontSize: typographyTokens['font-size-body-small'],
-                    fontWeight: 600,
+                    fontWeight: typographyTokens['font-weight-semibold'],
                     lineHeight: typographyTokens['line-height-body-small'],
                     overflowWrap: 'anywhere',
                   }}

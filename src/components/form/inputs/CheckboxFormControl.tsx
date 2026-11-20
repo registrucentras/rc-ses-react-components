@@ -128,7 +128,7 @@ function RcSesCheckboxFormControl(props: Props) {
           // MUI 9 tightened this slot's type: style shorthands are no longer
           // accepted alongside component props, so they move into sx.
           sx: {
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             lineHeight: typographyTokens['line-height-body-small'],
             marginLeft: variant === 'flat' ? '.4375rem' : '.1875rem',
           },
