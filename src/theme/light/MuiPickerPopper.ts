@@ -8,8 +8,7 @@ const MuiPickerPopper: PickerComponents['MuiPickerPopper'] = {
   styleOverrides: {
     paper: {
       backgroundColor: colorTokens['surface-base'],
-      // No calendar-panel radius role exists; retain the existing layout primitive.
-      borderRadius: borderTokens['radius-6'],
+      borderRadius: borderTokens['radius-12'],
       boxShadow: effectTokens['elevation-md'],
     },
   },
