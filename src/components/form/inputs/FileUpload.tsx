@@ -142,7 +142,10 @@ function RcSesFileUpload(props: Props) {
           <UploadSimpleIcon />
           <Typography
             variant='body1'
-            sx={{ fontWeight: 600, ml: spacingRoleBasedTokens['space-8'] }}
+            sx={{
+              fontWeight: typographyTokens['font-weight-semibold'],
+              ml: spacingRoleBasedTokens['space-8'],
+            }}
           >
             {t('label')}
           </Typography>

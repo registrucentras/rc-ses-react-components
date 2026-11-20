@@ -18,6 +18,7 @@ import {
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { sizeTokens } from '@/theme/sizeTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const meta = {
   title: 'Foundations/Sizes',
@@ -83,7 +84,13 @@ function Sizes() {
                 <Specimen token={name} />
               </Stage>
               <Box sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.2 }}>
+                <Typography
+                  sx={{
+                    fontSize: '1.5rem',
+                    fontWeight: typographyTokens['font-weight-semibold'],
+                    lineHeight: 1.2,
+                  }}
+                >
                   {numericSuffix(name)}
                 </Typography>
                 <Code>{name}</Code>

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { CaretDownIcon, CaretUpIcon, ListIcon } from '@/assets/icons/phosphorIcons'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { AdvancedListItemLeading as AdvancedListItemLeadingData } from '../AdvancedListItem.types'
 
@@ -133,7 +134,7 @@ const AdvancedListItemLeading = ({
           backgroundColor: palette.grey[100],
           color: palette.grey[600],
           fontSize: '0.8125rem',
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-caption'],
           lineHeight: '1.125rem',
         }}
       >
@@ -158,7 +159,7 @@ const AdvancedListItemLeading = ({
           sx={{
             color: palette.grey[600],
             fontSize: '0.9375rem',
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-regular'],
             lineHeight: '1.375rem',
           }}
         >

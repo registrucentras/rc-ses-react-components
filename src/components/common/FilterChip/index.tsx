@@ -60,7 +60,7 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>((props,
           color: colorTokens['text-default'],
           '& .MuiChip-label': {
             fontSize: typographyTokens['font-size-body-small'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             lineHeight: typographyTokens['line-height-body-small'],
             minWidth: 0,
             padding: 0,

@@ -75,7 +75,7 @@ const RcSesSegmentButton = React.forwardRef<HTMLButtonElement, RcSesSegmentButto
 
         color: textColor,
         cursor: isDisabled ? 'not-allowed' : 'pointer',
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-button-regular'],
         borderRadius: borderTokens['radius-button'],
         transition: 'all 150ms ease-in-out',
         whiteSpace: 'normal',

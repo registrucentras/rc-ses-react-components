@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
 import RcSesFilterChip from '@/components/common/FilterChip'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 type Story = StoryObj<typeof RcSesFilterChip>
 
@@ -64,7 +65,14 @@ export const LongLabelEdgeCase: Story = {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         <Box>
-          <Box sx={{ mb: 1, fontSize: '0.875rem', fontWeight: 500, color: grey[600] }}>
+          <Box
+            sx={{
+              mb: 1,
+              fontSize: '0.875rem',
+              fontWeight: typographyTokens['font-weight-medium'],
+              color: grey[600],
+            }}
+          >
             Long Label (truncated with tooltip)
           </Box>
           <Box sx={{ maxWidth: '250px', mb: 1, p: 1, border: `1px dashed ${grey[300]}` }}>

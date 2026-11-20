@@ -60,7 +60,12 @@ function Layout() {
                 p: 2,
               }}
             >
-              <Typography sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+              <Typography
+                sx={{
+                  fontSize: '1.25rem',
+                  fontWeight: typographyTokens['font-weight-semibold'],
+                }}
+              >
                 {bp.key}
               </Typography>
               <Code muted>{bp.min ? `≥ ${bp.min}px` : '< 600px'}</Code>

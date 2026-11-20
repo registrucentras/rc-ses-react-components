@@ -47,7 +47,13 @@ function Sections({ items = ITEMS }: { items?: RcSesSideNavItem[] }) {
             scrollMarginTop: 'var(--rc-ses-sidenav-scroll-offset, 0px)',
           }}
         >
-          <Typography variant='h3' sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+          <Typography
+            variant='h3'
+            sx={{
+              fontSize: '1.25rem',
+              fontWeight: typographyTokens['font-weight-semibold'],
+            }}
+          >
             {item.label}
           </Typography>
           <Typography sx={{ color: '#6b747f' }}>

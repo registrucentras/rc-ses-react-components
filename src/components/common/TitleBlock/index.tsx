@@ -71,7 +71,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-heading-card-title'],
         lineHeight: typographyTokens['line-height-heading-card-title'],
-        fontWeight: 500,
+        fontWeight: typographyTokens,
       }
     }
 
@@ -79,7 +79,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-body-regular'],
         lineHeight: typographyTokens['line-height-body-regular'],
-        fontWeight: 400,
+        fontWeight: typographyTokens['font-weight-body-regular'],
       }
     }
 
@@ -87,7 +87,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-heading-h2'],
         lineHeight: typographyTokens['line-height-heading-h2'],
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-heading-h2'],
       }
     }
 
@@ -95,7 +95,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-heading-h4'],
         lineHeight: typographyTokens['line-height-heading-h4'],
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-heading-h4'],
       }
     }
 
@@ -103,7 +103,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-body-regular'],
         lineHeight: typographyTokens['line-height-body-regular'],
-        fontWeight: 400,
+        fontWeight: typographyTokens['font-weight-body-regular'],
       }
     }
 
@@ -111,7 +111,7 @@ function RcSesTitleBlock({
       return {
         fontSize: getHeadingFontSize(),
         lineHeight: getHeadingLineHeight(),
-        fontWeight: 600,
+        fontWeight: typographyTokens['font-weight-semibold'],
       }
     }
 
@@ -196,7 +196,7 @@ function RcSesTitleBlock({
           variant='body2'
           sx={{
             color: colorTokens['text-secondary'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-regular'],
             ...getDescriptionTypography(),
           }}
         >

@@ -167,7 +167,7 @@ function RcSesCard({
               sx={[
                 {
                   color: palette.grey[800],
-                  fontWeight: 300,
+                  fontWeight: typographyTokens['font-weight-light'],
                   lineHeight: '1.25rem',
                   ...(centered ? { textAlign: 'center' } : {}),
                 },

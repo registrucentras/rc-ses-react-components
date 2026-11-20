@@ -12,6 +12,7 @@ import RcSesButton from '@/components/common/Button'
 import RcSesSwitch from '@/components/common/Switch'
 import RcSesSimpleCheckbox from '@/components/form/inputs/SimpleCheckbox'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import {
   AdvancedListItemStatusColor,
@@ -51,7 +52,7 @@ const PRICE_BLOCK_SX = {
 const ACTION_BUTTON_SX = {
   height: 'auto',
   padding: '0.5rem 0.25rem',
-  fontWeight: 500,
+  fontWeight: typographyTokens['font-weight-button-regular'],
   lineHeight: '1.25rem',
   color: palette.primary[700],
   '&:not(.Mui-disabled) svg path': {
@@ -151,7 +152,7 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
             sx={{
               color: palette.grey[900],
               fontSize: '1rem',
-              fontWeight: 600,
+              fontWeight: typographyTokens['font-weight-semibold'],
               lineHeight: '1.375rem',
             }}
           >
@@ -249,7 +250,11 @@ const AdvancedListItemTrailing = ({ trailing, disabled }: Props) => {
         <Typography
           aria-label={trailing['aria-label']}
           variant='body2'
-          sx={{ minWidth: '1.5rem', textAlign: 'center', fontWeight: 600 }}
+          sx={{
+            minWidth: '1.5rem',
+            textAlign: 'center',
+            fontWeight: typographyTokens['font-weight-semibold'],
+          }}
         >
           {value}
         </Typography>

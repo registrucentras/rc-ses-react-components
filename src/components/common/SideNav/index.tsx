@@ -80,7 +80,7 @@ function RcSesSideNav({
             width: '100%',
             fontSize: typographyTokens['font-size-body-small'],
             lineHeight: typographyTokens['line-height-body-small'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             color: colorTokens['text-secondary'],
           }}
         >

@@ -17,7 +17,7 @@ const MuiDialog: Components['MuiDialog'] = {
     root: {
       '.MuiDialogTitle-root': {
         fontSize: '1.5rem',
-        fontWeight: 500,
+        fontWeight: typographyTokens['font-weight-heading-h2'],
         lineHeight: '2rem',
         padding: '2rem 2.25rem 1rem',
       },
@@ -29,7 +29,7 @@ const MuiDialog: Components['MuiDialog'] = {
         '.MuiDialogTitle-root': {
           color: colorTokens['text-default'],
           fontSize: typographyTokens['font-size-heading-h2'],
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-heading-h2'],
           lineHeight: typographyTokens['line-height-heading-h2'],
           letterSpacing: '-0.01em',
           padding: `0 0 ${spacingRoleBasedTokens['space-12']}`,

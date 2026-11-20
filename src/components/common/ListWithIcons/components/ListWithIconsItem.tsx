@@ -62,7 +62,7 @@ const ListWithIconsItem = ({
         sx={{
           fontSize: typographyTokens['font-size-body-caption'],
           lineHeight: typographyTokens['line-height-body-caption'],
-          fontWeight: 400,
+          fontWeight: typographyTokens['font-weight-body-caption'],
           whiteSpace: 'normal',
           wordBreak: 'break-word',
           color: resolvedColor,
@@ -85,7 +85,7 @@ const ListWithIconsItem = ({
             color: colorTokens['text-default'],
             fontSize: typographyTokens['font-size-body-small'],
             lineHeight: typographyTokens['line-height-body-small'],
-            fontWeight: 400,
+            fontWeight: typographyTokens['font-weight-body-small'],
             p: spacingTokens['spacing-aliases-tooltip-padding'],
             borderRadius: borderTokens['radius-8'],
             boxShadow: effectTokens['elevation-md'],
