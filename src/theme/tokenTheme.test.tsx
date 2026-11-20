@@ -183,7 +183,7 @@ describe('native token theme adapter', () => {
     expect(tokenTheme.components?.MuiButton?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-button, 0.5rem)',
       height:
-        'calc(var(--rc-typography-line-height-button-regular) + var(--rc-legacy-space-button-padding-y-regular) * 2)',
+        'calc(var(--rc-typography-line-height-button-regular) + var(--rc-space-button-padding-y-regular) * 2)',
     })
     expect(tokenTheme.components?.MuiCard?.styleOverrides?.root).toMatchObject({
       borderRadius: 'var(--rc-radius-card, 1rem)',
@@ -203,8 +203,7 @@ describe('native token theme adapter', () => {
       },
     })
     expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.input).toMatchObject({
-      padding:
-        'var(--rc-legacy-space-input-padding-y, 0.625rem) var(--rc-space-12, 0.75rem)',
+      padding: 'var(--rc-space-input-padding-y, 0.625rem) var(--rc-space-12, 0.75rem)',
     })
     const customized = createRcSesTokenTheme({
       components: {
