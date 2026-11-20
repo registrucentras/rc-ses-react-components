@@ -203,7 +203,8 @@ describe('native token theme adapter', () => {
       },
     })
     expect(tokenTheme.components?.MuiInputBase?.styleOverrides?.input).toMatchObject({
-      padding: 'var(--rc-input-padding-y, 0.8125rem) var(--rc-space-12, 0.75rem)',
+      padding:
+        'var(--rc-legacy-space-input-padding-y, 0.625rem) var(--rc-space-12, 0.75rem)',
     })
     const customized = createRcSesTokenTheme({
       components: {

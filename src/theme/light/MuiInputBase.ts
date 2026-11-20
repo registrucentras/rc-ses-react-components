@@ -4,10 +4,14 @@ import { borderTokens } from '../borderTokens'
 import { colorTokens } from '../colorTokens'
 import { sizeTokens } from '../sizeTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { spacingTokens } from '../spacingTokens'
 import { typographyTokens } from '../typographyTokens'
 
-// Internal shared value: preserve the existing rem padding when DS CSS is absent.
-export const inputPadding = `${spacingRoleBasedTokens['input-padding-y'].slice(0, -1)}, 0.8125rem) ${spacingRoleBasedTokens['space-12'].slice(0, -1)}, 0.75rem)`
+// Internal shared values, with rem fallbacks for when DS CSS is absent.
+export const inputPadding = `${spacingTokens['spacing-aliases-input-padding-y'].slice(0, -1)}, 0.625rem) ${spacingRoleBasedTokens['space-12'].slice(0, -1)}, 0.75rem)`
+// Input v2 fields are 44px: 10px padding around a 24px content row. Figma has no
+// height variable, and the 22px line height alone would leave the field at 42px.
+export const inputMinHeight = '2.75rem'
 
 const MuiInputBase: Components['MuiInputBase'] = {
   defaultProps: {},
@@ -16,6 +20,7 @@ const MuiInputBase: Components['MuiInputBase'] = {
       backgroundColor: colorTokens['surface-base'],
       borderRadius: borderTokens['radius-input'],
       gap: spacingRoleBasedTokens['space-8'],
+      minHeight: inputMinHeight,
       '&.Mui-disabled': { backgroundColor: colorTokens['surface-muted'] },
       '.MuiInputAdornment-root': {
         color: colorTokens['text-secondary'],

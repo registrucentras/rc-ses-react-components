@@ -124,7 +124,7 @@ test('legacy component padding stays in rem at a 20px root without DS tokens', a
   await expect(page.getByTestId('base-rem-padding')).toHaveCSS('padding-right', '30px')
   await expect(page.getByTestId('base-rem-input').locator('input')).toHaveCSS(
     'padding-top',
-    '16.25px',
+    '12.5px',
   )
   await expect(page.getByTestId('base-rem-input').locator('input')).toHaveCSS(
     'padding-right',

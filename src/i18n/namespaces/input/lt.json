@@ -41,6 +41,16 @@
         "chooseStart": "Pasirinkite pradžios datą",
         "chooseEnd": "Nuo {{start}}. Pasirinkite pabaigos datą.",
         "selected": "Nuo {{start}} iki {{end}}"
+      },
+      "views": {
+        "calendar": "Kalendoriaus vaizdas",
+        "months": "Mėnesių vaizdas",
+        "years": "Metų vaizdas",
+        "chooseMonth": "Pasirinkti mėnesį",
+        "chooseYear": "Pasirinkti metus",
+        "returnMonths": "Grįžti į mėnesius",
+        "previousYears": "Ankstesni 12 metų",
+        "nextYears": "Kiti 12 metų"
       }
     },
 
