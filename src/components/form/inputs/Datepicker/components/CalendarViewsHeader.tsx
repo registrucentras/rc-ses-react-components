@@ -162,10 +162,13 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
       ref={root}
       data-calendar-view={view}
       onKeyDown={(event) => {
-        if (event.key === 'Escape' && view !== 'calendar') {
-          event.preventDefault()
-          event.stopPropagation()
-          goTo(view === 'years' ? 'months' : 'calendar')
+        if (event.key === 'Escape') {
+          if (view !== 'calendar') {
+            event.preventDefault()
+            event.stopPropagation()
+            goTo(view === 'years' ? 'months' : 'calendar')
+          }
+          // Allow Escape to propagate when in calendar view to close the Popover
         }
       }}
     >

@@ -161,6 +161,7 @@ export function createRcSesTokenTheme(
     headingCardTitle: {
       fontSize: typographyTokens['font-size-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
+      letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
     },
     bodyLarge: {
       fontSize: typographyTokens['font-size-body-large'],
