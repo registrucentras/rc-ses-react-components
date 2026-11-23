@@ -45,7 +45,6 @@ function ServiceHeader({
             '&&': {
               fontSize: typographyTokens['font-size-heading-h1'],
               lineHeight: typographyTokens['line-height-heading-h1'],
-              letterSpacing: typographyTokens['letter-spacing-heading-h1'],
             },
           }}
         >
