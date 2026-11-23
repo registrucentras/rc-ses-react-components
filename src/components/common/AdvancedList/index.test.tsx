@@ -53,7 +53,7 @@ describe('AdvancedList', () => {
   test('navigating to next page shows the next set of items', () => {
     renderList(<AdvancedList items={makeItems(8)} />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Kitas' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Kitas puslapis' }))
 
     expect(screen.getByText('Item 6')).toBeInTheDocument()
     expect(screen.getByText('Item 7')).toBeInTheDocument()
@@ -92,6 +92,8 @@ describe('AdvancedList', () => {
   test('does not render pagination controls when everything fits on one page', () => {
     renderList(<AdvancedList items={makeItems(2)} />)
 
-    expect(screen.queryByRole('button', { name: 'Kitas' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Kitas puslapis' }),
+    ).not.toBeInTheDocument()
   })
 })

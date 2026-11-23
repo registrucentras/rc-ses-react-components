@@ -1,7 +1,9 @@
 import { Box, Button, ButtonProps } from '@mui/material'
 
+import normalizeSx from '@/components/utils/normalizeSx'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
 import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
@@ -9,6 +11,7 @@ interface PaginationButtonProps extends ButtonProps {
   label: string
   icon: React.ReactNode
   iconPosition?: 'start' | 'end'
+  hideLabelOnMobile?: boolean
 }
 
 const baseButtonSx = {
@@ -26,6 +29,11 @@ const baseButtonSx = {
     display: 'flex',
     alignItems: 'center',
     gap: spacingRoleBasedTokens['space-8'],
+    '& > svg': {
+      width: sizeTokens['icon-size-inline'],
+      height: sizeTokens['icon-size-inline'],
+      flexShrink: 0,
+    },
     '&:hover': {
       backgroundColor: 'var(--rc-color-neutrals-200)',
       color: colorTokens['text-default'],
@@ -51,12 +59,28 @@ const PaginationButton = ({
   label,
   icon,
   iconPosition = 'start',
+  hideLabelOnMobile = true,
+  sx,
   ...props
 }: PaginationButtonProps) => (
-  <Button variant='text' color='inherit' disableRipple {...props} sx={baseButtonSx}>
+  <Button
+    type='button'
+    variant='text'
+    color='inherit'
+    disableRipple
+    aria-label={label}
+    aria-disabled={props.disabled || undefined}
+    {...props}
+    sx={[baseButtonSx, ...normalizeSx(sx)]}
+  >
     {iconPosition === 'start' && icon}
 
-    <Box sx={{ display: { xs: 'none', md: 'block' } }}>{label}</Box>
+    <Box
+      component='span'
+      sx={{ display: hideLabelOnMobile ? { xs: 'none', md: 'block' } : 'block' }}
+    >
+      {label}
+    </Box>
 
     {iconPosition === 'end' && icon}
   </Button>

@@ -60,7 +60,7 @@ describe('SelectableCardList', () => {
   test('navigating to next page shows the next set of items', () => {
     renderList(<SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />)
 
-    fireEvent.click(screen.getByRole('button', { name: 'Kitas' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Kitas puslapis' }))
 
     expect(screen.getByText('Item 6')).toBeInTheDocument()
     expect(screen.getByText('Item 7')).toBeInTheDocument()
@@ -76,9 +76,11 @@ describe('SelectableCardList', () => {
     expect(screen.getByText('Item 1')).toBeInTheDocument()
     expect(screen.getByText('Item 3')).toBeInTheDocument()
     expect(screen.queryByText('Item 4')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'page 1' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Go to page 3' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Go to page 4' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Eiti į 1 puslapį' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Eiti į 3 puslapį' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Eiti į 4 puslapį' }),
+    ).not.toBeInTheDocument()
   })
 
   test('resets to page 1 when switching from desktop to mobile page size', () => {
@@ -86,7 +88,7 @@ describe('SelectableCardList', () => {
       <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />,
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'Kitas' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Kitas puslapis' }))
     expect(screen.getByText('Item 6')).toBeInTheDocument()
 
     mockedUseMediaQuery.mockReturnValue(true)
@@ -107,7 +109,7 @@ describe('SelectableCardList', () => {
       <SelectableCardList items={makeItems(8)} onSelect={vi.fn()} />,
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'Go to page 3' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Eiti į 3 puslapį' }))
     expect(screen.getByText('Item 7')).toBeInTheDocument()
 
     mockedUseMediaQuery.mockReturnValue(false)
