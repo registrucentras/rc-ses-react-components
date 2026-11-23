@@ -32,7 +32,7 @@ Designer answers to the questions raised up to #250: SAV-7746 (2026-11-18).
 | ID | Decision | Code | Figma | Status |
 | --- | --- | --- | --- | --- |
 | D0 | Two spacing layers, two jobs: components use their component spacing variables (`Spacing aliases/<Component>/*`); the role tokens (`padding-*`, `gap-*`) are for page and layout spacing only | None; components keep the aliases | Document on the Spacing page | Agreed |
-| D1 | Drop the `legacy` prefix from `--rc-legacy-space-<group>-*`: these are the live component spacing variables. Final name under discussion | Rename the CSS variables in `tokens.css` and the values in `spacingTokens.ts`, together with Q1 | None | Under discussion |
+| D1 | Drop the `legacy` prefix from `--rc-legacy-space-<group>-*`: these are the live component spacing variables.| ✅ Done | None | Agreed |
 | D2 | Input height is 44px, the same as the Regular Button | ✅ Input padding-y uses the input component alias (10px) with a 44px minimum field height; TextField, Select and DatePicker fields are 44px | Drop the `component/input-padding-y` exception from the role collection | Agreed |
 
 ## Components
