@@ -7,14 +7,16 @@ test('all icon dimensions resolve from Sizes tokens and react to primitive chang
   const expected = {
     'icon-size-8': 8,
     'icon-size-12': 12,
+    'icon-size-14': 14,
     'icon-size-16': 16,
     'icon-size-20': 20,
     'icon-size-24': 24,
     'icon-size-32': 32,
     'icon-size-inline': 16,
-    'icon-size-button': 20,
+    'icon-size-button-regular': 24,
+    'icon-size-button-small': 20,
     'icon-size-control': 20,
-    'icon-size-badge': 12,
+    'icon-size-badge': 14,
     'icon-size-feature': 24,
   }
   await Promise.all(
@@ -31,7 +33,7 @@ test('all icon dimensions resolve from Sizes tokens and react to primitive chang
     document.documentElement.style.setProperty('--rc-icon-size-20', '2rem')
   })
   await Promise.all(
-    ['icon-size-20', 'icon-size-button', 'icon-size-control'].map(async (name) => {
+    ['icon-size-20', 'icon-size-button-small', 'icon-size-control'].map(async (name) => {
       await expect(page.getByTestId(name)).toHaveCSS('width', '32px')
       await expect(page.getByTestId(name)).toHaveCSS('height', '32px')
     }),
@@ -41,5 +43,5 @@ test('all icon dimensions resolve from Sizes tokens and react to primitive chang
     document.documentElement.style.fontSize = '20px'
   })
   await expect(page.getByTestId('icon-size-inline')).toHaveCSS('width', '20px')
-  await expect(page.getByTestId('icon-size-button')).toHaveCSS('width', '40px')
+  await expect(page.getByTestId('icon-size-button-small')).toHaveCSS('width', '40px')
 })

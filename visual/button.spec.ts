@@ -64,7 +64,7 @@ test('DS roles, responsive spacing and fixed heights resolve without reloading',
         'margin-right',
         regular ? '8px' : '6px',
       )
-      await expect(button.locator('svg')).toHaveCSS('width', '20px')
+      await expect(button.locator('svg')).toHaveCSS('width', regular ? '24px' : '20px')
     }
   }
   const primary = page.getByTestId('ds-Primary-medium-rest-none')
@@ -111,7 +111,7 @@ test('live tokens preserve the existing icon-only sizing priority', async ({ pag
     const css = document.documentElement.style
     css.setProperty('--rc-color-action-primary-bg', 'rgb(10, 20, 30)')
     css.setProperty('--rc-radius-button', '12px')
-    css.setProperty('--rc-icon-size-button', '24px')
+    css.setProperty('--rc-icon-size-button-regular', '24px')
     css.setProperty('--rc-typography-font-size-button-regular', '18px')
   })
   const button = page.getByTestId('ds-Primary-medium-rest-left')

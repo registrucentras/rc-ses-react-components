@@ -1,13 +1,22 @@
 {
   "components": {
     "RcSesTextField": {
-      "required": "This field is required",
-      "optional": "(optional)",
       "clear": "Clear value",
       "togglePassword": "Show password",
       "explain": "Help: {{label}}",
       "field": "field",
       "loading": "Loading"
+    },
+    "DataPagination": {
+      "navigation": "Pagination",
+      "page": "Go to page {{page}}",
+      "previous": "Previous page",
+      "next": "Next page",
+      "previousText": "Previous",
+      "nextText": "Next",
+      "loading": "Loading records",
+      "showMore": "Show more",
+      "showLess": "Show less"
     },
     "RcSesAlert": {
       "close": "Close"

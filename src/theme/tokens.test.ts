@@ -33,8 +33,8 @@ const responsiveDimensions = {
   '--rc-padding-lg': [20, 20, 24, 24],
   '--rc-padding-xl': [24, 24, 32, 32],
   '--rc-gap-xl': [16, 16, 24, 24],
-  '--rc-legacy-space-card-padding-top': [16, 20, 24, 24],
-  '--rc-legacy-space-tooltip-max-width': [288, 400, 448, 448],
+  '--rc-space-card-padding-top': [16, 20, 24, 24],
+  '--rc-space-tooltip-max-width': [288, 400, 448, 448],
   '--rc-layout-container-narrow-width': [343, 720, 744, 744],
   '--rc-layout-gutter': [16, 16, 24, 24],
   '--rc-layout-outer-padding': [16, 24, 24, 36],
@@ -65,7 +65,7 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
       expect(effective.get(name), `${label}: redundant ${name}`).not.toBe(value)
       if (mode > 0)
         expect(name, `${label}: static token redeclared`).not.toMatch(
-          /^--rc-(space-|radius-|stroke-|border-|color-|icon-size-)/,
+          /^--rc-(space-\d+$|radius-|stroke-|border-|color-|icon-size-)/,
         )
       effective.set(name, value)
     })
@@ -78,6 +78,8 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
       return alias ? resolve(alias[1], visited) : value
     }
     effective.forEach((_, name) => {
+      // Skip non-dimension typography tokens (font-family, font-weight, letter-spacing)
+      if (/--rc-typography-(?:font-family|font-weight|letter-spacing)/.test(name)) return
       const pattern = /^--rc-(?:elevation|focus-ring)-/.test(name)
         ? /^(?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?(?:, (?:-?[\d.]+(?:px)? ){3,4}#[\da-f]{6}(?:[\da-f]{2})?)*$/i
         : /^(?:#[\da-f]{6}(?:[\da-f]{2})?|[\d.]+(?:rem|px))$/i
@@ -102,7 +104,7 @@ test('CSS cascade keeps responsive dimensions and every alias valid in each mode
 test('one shared scale and explicit radius/alpha corrections retain their token references', () => {
   const root = new Map(blocks[0])
   const steps = [0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 36, 40, 48, 64, 80, 96]
-  expect([...root.keys()].filter((name) => name.startsWith('--rc-space-'))).toHaveLength(
+  expect([...root.keys()].filter((name) => /^--rc-space-\d+$/.test(name))).toHaveLength(
     17,
   )
   steps.forEach((step) => {
@@ -119,7 +121,7 @@ test('one shared scale and explicit radius/alpha corrections retain their token 
   ).toHaveLength(5)
   Object.entries({
     '--rc-padding-md': 'var(--rc-space-16)',
-    '--rc-legacy-space-card-padding-top': 'var(--rc-space-16)',
+    '--rc-space-card-padding-top': 'var(--rc-space-16)',
     '--rc-radius-input': 'var(--rc-radius-8)',
     '--rc-radius-full': '9999px',
     '--rc-borders-button-border-radius': 'var(--rc-radius-8)',
@@ -134,7 +136,7 @@ test('one shared scale and explicit radius/alpha corrections retain their token 
   )
 })
 
-test('legacy theme keeps its original spacing API, numeric shape and JS colors', () => {
+test('theme keeps its original spacing API, numeric shape and JS colors', () => {
   expect(theme.spacing()).toBe('8px')
   expect(theme.spacing(2)).toBe('16px')
   expect(theme.spacing(4.5)).toBe('36px')
@@ -146,4 +148,27 @@ test('legacy theme keeps its original spacing API, numeric shape and JS colors',
   expect(typeof theme.shape.borderRadius).toBe('number')
   expect(alpha(theme.palette.primary.main, 0.2)).toBe('rgba(6, 160, 212, 0.2)')
   expect(decomposeColor(theme.palette.primary.main).values).toEqual([6, 160, 212])
+})
+
+test('typography font-weight and letter-spacing tokens have correct format', () => {
+  const cssContent = readFileSync('src/theme/tokens.css', 'utf8')
+
+  // Font-weight primitives: should be numeric values (300, 400, 500, 600)
+  const fontWeights = Array.from(
+    cssContent.matchAll(/--rc-typography-font-weight-[\w-]+: (\d+);/g),
+  )
+  expect(fontWeights.length).toBe(4)
+  fontWeights.forEach(([, weight]) => {
+    expect(Number(weight)).toBeGreaterThanOrEqual(300)
+    expect(Number(weight)).toBeLessThanOrEqual(900)
+  })
+
+  // Letter-spacing tokens: should be in px with optional negative sign (includes zero values)
+  const letterSpacings = Array.from(
+    cssContent.matchAll(/--rc-typography-letter-spacing-[\w-]+: (-?[\d.]+px);/g),
+  )
+  expect(letterSpacings.length).toBe(14)
+  letterSpacings.forEach(([, spacing]) => {
+    expect(spacing).toMatch(/^-?[\d.]+px$/)
+  })
 })

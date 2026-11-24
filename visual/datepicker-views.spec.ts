@@ -296,8 +296,8 @@ selections.forEach((selection) => {
     await page.getByRole('button', { name: yearButton }).click()
     await page.keyboard.press('Escape')
     await expect(months).toBeVisible()
-    // Observe focus at the view change, before the next animation frame. A
-    // removed month cell must not leave Escape targeted at the document body.
+    // Check focus before the next animation frame, when the month cell has
+    // just been removed and another Escape must still reach the dialog.
     const calendar = page.locator('.MuiDateCalendar-root')
     await calendar.evaluate((element) => {
       const header = element.querySelector('[data-calendar-view]')!

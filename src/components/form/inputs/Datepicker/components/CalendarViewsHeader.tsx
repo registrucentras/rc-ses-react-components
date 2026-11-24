@@ -74,8 +74,8 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
     if (view !== 'calendar') {
       grid.current?.querySelector<HTMLButtonElement>('button[tabindex="0"]')?.focus()
     } else if (previousView.current !== 'calendar') {
-      // Keep focus inside the dialog when the focused grid cell is removed.
-      // Deferring to an animation frame can lose a subsequent Escape on <body>.
+      // Restore focus in the same commit that removes the month grid. Waiting
+      // for an animation frame can send the next Escape to the document body.
       const calendar = root.current?.closest('.MuiDateCalendar-root')
       const day =
         calendar?.querySelector<HTMLButtonElement>(

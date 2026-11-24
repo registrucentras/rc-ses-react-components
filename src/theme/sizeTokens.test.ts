@@ -3,8 +3,8 @@ import { expect, test } from 'vitest'
 
 import { sizeTokens } from './sizeTokens'
 
-// Sizes.zip / Default.tokens.json: six primitives and five direct aliases.
-test('all 11 Sizes tokens match Figma in rem and aliases resolve without cycles', () => {
+// Sizes.zip / Default.tokens.json: seven primitives and five direct aliases.
+test('all 12 Sizes tokens match Figma in rem and aliases resolve without cycles', () => {
   const blocks = readFileSync('src/theme/tokens.css', 'utf8').split('@media')
   const declarations = new Map(
     Array.from(
@@ -13,14 +13,16 @@ test('all 11 Sizes tokens match Figma in rem and aliases resolve without cycles'
     ),
   )
   const expected = new Map<string, string>()
-  ;[8, 12, 16, 20, 24, 32].forEach((value) =>
+  ;[8, 12, 14, 16, 20, 24, 32].forEach((value) =>
     expected.set(`icon-size-${value}`, `${value / 16}rem`),
   )
-  Object.entries({ inline: 16, button: 20, control: 20, badge: 12, feature: 24 }).forEach(
+  Object.entries({ inline: 16, control: 20, badge: 14, feature: 24 }).forEach(
     ([role, primitive]) => {
       expected.set(`icon-size-${role}`, `var(--rc-icon-size-${primitive})`)
     },
   )
+  expected.set('icon-size-button-regular', 'var(--rc-icon-size-24)')
+  expected.set('icon-size-button-small', 'var(--rc-icon-size-20)')
   expect(declarations).toEqual(expected)
   expect(Object.keys(sizeTokens).sort()).toEqual([...expected.keys()].sort())
   expected.forEach((value, key) => {

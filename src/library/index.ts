@@ -137,6 +137,9 @@ export { RcSesTooltip }
 export { RcSesTextField }
 export type { TextFieldProps, TextFieldPreset } from '@/components/form/inputs/TextField'
 export { DataPagination }
+export type { DataPaginationProps } from '@/components/common/DataPagination'
+export { default as ExpandButton } from '@/components/common/DataPagination/components/ExpandButton'
+export type { ExpandButtonProps } from '@/components/common/DataPagination/components/ExpandButton'
 export { ListWithIcons }
 export { RcSesServiceLinks }
 export { ServiceWizardStepper }
