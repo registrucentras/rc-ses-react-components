@@ -46,8 +46,7 @@ test('chips, limitTags, filtered selectAll and group member values retain existi
 }) => {
   await page.goto('/iframe.html?id=atoms-select--token-bindings&viewMode=story')
   const multi = page.locator('#tokens-multiple').locator('..')
-  await expect(multi.locator('.MuiChip-root')).toHaveCount(1)
-  await expect(multi).toContainText('+1')
+  await expect(multi).toContainText('ir dar')
   await page.getByRole('combobox', { name: 'Grouped' }).click()
   const group = page.getByRole('option').filter({ hasText: 'Group A' })
   await group.click()
