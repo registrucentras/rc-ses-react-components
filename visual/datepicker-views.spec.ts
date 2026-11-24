@@ -323,6 +323,21 @@ selections.forEach((selection) => {
   })
 })
 
+test('Months view hides Previous/Next navigation arrows', async ({ page }) => {
+  await page.goto('/iframe.html?id=molecules-datepicker--single-views&viewMode=story')
+  await page
+    .getByRole('button', { name: /Atverti datos|Open datepicker|Choose date/ })
+    .click()
+  await page.getByRole('button', { name: monthButton }).click()
+  // months view hides Previous/Next navigation arrows with visibility:hidden
+  const prevButton = page.getByRole('button', { name: /Ankstesnį mėnesį|Previous month/ })
+  const nextButton = page.getByRole('button', { name: /Kitą mėnesį|Next month/ })
+  await expect(prevButton).toBeHidden()
+  await expect(nextButton).toBeHidden()
+  // year button remains visible and functional
+  await expect(page.getByRole('button', { name: yearButton })).toBeVisible()
+})
+
 test('Years blocks respect min/max bounds and disabled months are skipped', async ({
   page,
 }) => {
