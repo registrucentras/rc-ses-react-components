@@ -8,15 +8,15 @@ import theme from '@/theme/light'
 
 import RcSesTextField from './TextField'
 
-test('Text has a connected label, native required semantics and no implicit icon or star', () => {
+test('Text retains the shared required marker, connected label and no implicit icon', () => {
   render(<RcSesTextField label='Name' required />)
   const input = screen.getByRole('textbox', { name: 'Name' })
   expect(input).toBeRequired()
-  expect(document.querySelector('.MuiFormLabel-asterisk')).not.toBeInTheDocument()
+  expect(document.querySelector('.MuiFormLabel-asterisk')).toHaveAttribute('aria-hidden')
   expect(document.querySelector('.MuiInputAdornment-root')).not.toBeInTheDocument()
 })
 
-test('error replaces helper text and preserves extra description IDs', () => {
+test('shared wrapper retains helper with error and preserves description IDs', () => {
   const { rerender } = render(
     <RcSesTextField
       id='name'
@@ -40,17 +40,44 @@ test('error replaces helper text and preserves extra description IDs', () => {
   )
   const input = screen.getByRole('textbox')
   expect(input).toHaveAttribute('aria-invalid', 'true')
-  expect(screen.queryByText('Help')).not.toBeInTheDocument()
+  expect(screen.getByText('Help')).toBeVisible()
   expect(screen.getByText('Required')).toHaveAttribute('id', 'name-errors')
-  expect(input).toHaveAttribute('aria-describedby', 'external name-errors')
+  expect(input).toHaveAttribute(
+    'aria-describedby',
+    'external name-description name-errors',
+  )
 })
 
-test('optional marker is visual text, required never renders a star', () => {
-  const { rerender } = render(<RcSesTextField label='Name' />)
-  expect(screen.getByText(/neprivaloma|optional/)).toBeVisible()
-  expect(screen.getByRole('textbox')).not.toBeRequired()
-  rerender(<RcSesTextField label='Name' optionalLabel={null} />)
+test('fields do not infer optional status from the absence of native required', () => {
+  function Form() {
+    const { register } = useForm()
+    return <RcSesTextField label='Name' {...register('name', { required: true })} />
+  }
+  render(<Form />)
   expect(screen.queryByText(/neprivaloma|optional/)).not.toBeInTheDocument()
+  expect(screen.getByRole('textbox')).not.toBeRequired()
+})
+
+test('ReactNode errors render in the shared wrapper with helper associations', () => {
+  render(
+    <RcSesTextField
+      id='rich-error'
+      label='Name'
+      helperText='Help'
+      errorText={<strong>Required</strong>}
+    />,
+  )
+  expect(screen.getByRole('textbox')).toHaveAttribute(
+    'aria-describedby',
+    'rich-error-description rich-error-errors',
+  )
+  expect(screen.getByText('Required')).toBeVisible()
+  expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true')
+})
+
+test('a hidden wrapper label still supplies the accessible name', () => {
+  render(<RcSesTextField label='Name' slotProps={{ wrapper: { hideLabel: true } }} />)
+  expect(screen.getByRole('textbox', { name: 'Name' })).toBeVisible()
 })
 
 test('Search clears a native uncontrolled field and delivers the normal change event', () => {
@@ -157,7 +184,7 @@ test('Password toggles presentation without changing value or submitting', () =>
       <RcSesTextField preset='password' label='Password' required defaultValue='Secret' />
     </form>,
   )
-  const input = screen.getByLabelText('Password')
+  const input = screen.getByLabelText(/^Password/)
   const toggle = screen.getByRole('button', { name: /slaptažodį|password/ })
   expect(input).toHaveAttribute('type', 'password')
   fireEvent.click(toggle)

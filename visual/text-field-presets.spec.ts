@@ -57,10 +57,7 @@ widths.forEach((width) => {
     await expect(search).toHaveValue('')
     await expect(search).toBeFocused()
     await page.getByRole('button', { name: /slaptažodį|password/ }).click()
-    await expect(page.getByLabel('Slaptažodis', { exact: true })).toHaveAttribute(
-      'type',
-      'text',
-    )
+    await expect(page.getByLabel(/^Slaptažodis/)).toHaveAttribute('type', 'text')
     await injectAxe(page)
     await checkA11y(page, '#storybook-root', { includedImpacts: ['critical', 'serious'] })
     await expect(page.locator('#storybook-root')).toHaveScreenshot(
@@ -69,14 +66,14 @@ widths.forEach((width) => {
   })
 })
 
-test('Input v2 focus stays cyan in error, error replaces helper and explainer works by keyboard', async ({
+test('Input v2 focus stays cyan in error, shared helper/error text stays linked and explainer works by keyboard', async ({
   page,
 }) => {
   await page.goto('/iframe.html?id=atoms-textfield--error&viewMode=story')
   const input = page.getByRole('textbox')
   await expect(input).toHaveAttribute('aria-invalid', 'true')
-  await expect(input).toHaveAccessibleDescription('Įveskite reikšmę')
-  await expect(page.getByText('Pagalbinis tekstas', { exact: true })).not.toBeVisible()
+  await expect(input).toHaveAccessibleDescription('Pagalbinis tekstas Įveskite reikšmę')
+  await expect(page.getByText('Pagalbinis tekstas', { exact: true })).toBeVisible()
   const outline = page.locator('.MuiOutlinedInput-notchedOutline')
   await input.hover()
   await expect(input.locator('..')).toHaveCSS('background-color', 'rgb(254, 222, 218)')
@@ -126,7 +123,9 @@ test('Input v2 validates on submit through RHF and retains focus/error relations
   await page.getByRole('button', { name: 'Tęsti' }).click()
   await expect(code).toHaveAttribute('aria-invalid', 'true')
   await expect(code).toBeFocused()
-  await expect(code).toHaveAccessibleDescription('Įveskite įmonės kodą')
+  await expect(code).toHaveAccessibleDescription(
+    'Įveskite įmonės kodą iš registro Įveskite įmonės kodą',
+  )
   await code.fill('123456789')
   await page
     .getByRole('textbox', { name: 'Pavadinimas', exact: true })

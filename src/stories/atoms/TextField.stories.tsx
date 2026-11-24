@@ -27,6 +27,14 @@ const meta: Meta<typeof RcSesTextField> = {
   title: 'Atoms/TextField',
   component: RcSesTextField,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Field presets use RcSesFormControlWrapper for labels, required markers and supporting text. The default side label from sm up is retained; set slotProps.wrapper.labelOnTop for a top label. The unified Input v2 label anatomy is deferred to the shared-wrapper follow-up.',
+      },
+    },
+  },
 }
 
 export default meta
@@ -345,7 +353,7 @@ const inputArgs: Story['args'] = {
 }
 const inputDecorators: Story['decorators'] = [
   (InputStory) => (
-    <Box sx={{ width: 360, maxWidth: '100%' }}>
+    <Box sx={{ width: 560, maxWidth: '100%' }}>
       <InputStory />
     </Box>
   ),
@@ -476,7 +484,7 @@ export const InputStates: Story = {
         label='Klaida'
         required
         errorText='Įveskite reikšmę'
-        helperText='Šis tekstas pakeičiamas klaida'
+        helperText='Pagalbinis tekstas lieka matomas kartu su klaida'
       />
       <RcSesTextField
         label='Tik skaitymui'
@@ -538,9 +546,7 @@ function FormDemo() {
       spacing={2}
       onSubmit={handleSubmit(() => setSubmitted(true))}
     >
-      <Typography variant='body2'>
-        Visi laukai privalomi, jei nenurodyta „(neprivaloma)“.
-      </Typography>
+      <Typography variant='body2'>Privalomi laukai pažymėti žvaigždute (*).</Typography>
       <RcSesTextField
         {...register('companyCode', { required: 'Įveskite įmonės kodą' })}
         label='Įmonės kodas'

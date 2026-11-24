@@ -96,57 +96,59 @@ test('raw MUI inputs share token states in legacy and token themes', async ({ pa
   }
 })
 
-test('TextField uses DS label tokens while Select retains wrapper roles', async ({
-  page,
-}) => {
-  await page.goto(
-    '/iframe.html?id=molecules-formcontrolwrapper--shared-labels&viewMode=story',
-  )
-  await expect(page.locator('.shared-text-top')).toBeVisible()
-  await page.evaluate(() => {
-    const css = document.documentElement.style
-    css.setProperty('--rc-typography-font-size-body-caption', '17px')
-    css.setProperty('--rc-typography-font-size-body-regular', '19px')
-    css.setProperty('--rc-color-text-disabled', 'rgb(90 80 70)')
-  })
-  for (const width of [375, 1440]) {
-    await page.setViewportSize({ width, height: 1000 })
-    for (const mode of ['top', 'side']) {
-      for (const component of ['text', 'select']) {
-        const wrapper = page.locator(`.shared-${component}-${mode}`)
-        await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
-          'font-size',
-          component === 'select' && mode === 'top' ? '17px' : '19px',
-        )
-        await expect(wrapper.locator('.MuiFormHelperText-root').first()).toHaveCSS(
-          'font-size',
-          '17px',
-        )
-        if (mode === 'top') {
-          await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
-            'font-weight',
-            '400',
-          )
+;['default', 'top', 'side'].forEach((mode) => {
+  ;[375, 768, 1440].forEach((width) => {
+    test(`TextField and Select share ${mode} labels and supporting text at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 1200 })
+      await page.goto(
+        '/iframe.html?id=molecules-formcontrolwrapper--shared-labels&viewMode=story',
+      )
+      const text = page.locator(`.shared-text-${mode}`)
+      const select = page.locator(`.shared-select-${mode}`)
+      const textLabel = text.locator('.MuiFormLabel-root')
+      const selectLabel = select.locator('.MuiFormLabel-root')
+      await expect(textLabel).toBeVisible()
+      const readLabel = (element: Element) => {
+        const css = getComputedStyle(element)
+        return {
+          fontSize: css.fontSize,
+          lineHeight: css.lineHeight,
+          fontWeight: css.fontWeight,
+          color: css.color,
         }
       }
-    }
-  }
-  await page.getByRole('button', { name: 'Toggle disabled' }).click()
-  for (const component of ['text', 'select']) {
-    const wrapper = page.locator(`.shared-${component}-top`)
-    await expect(wrapper.locator('input')).toBeDisabled()
-    if (component === 'text') {
-      await expect(wrapper).toHaveCSS('opacity', '0.6')
-      await expect(wrapper).toHaveAttribute('aria-disabled', 'true')
-    } else {
-      await expect(wrapper.locator('.MuiFormLabel-root')).toHaveCSS(
-        'color',
-        'rgb(90, 80, 70)',
+      expect(await textLabel.evaluate(readLabel)).toEqual(
+        await selectLabel.evaluate(readLabel),
       )
-      await expect(wrapper.locator('.MuiFormHelperText-root').last()).toHaveCSS(
-        'color',
-        'rgb(90, 80, 70)',
+      await expect(text.locator('.MuiFormHelperText-root')).toHaveCount(2)
+      await expect(select.locator('.MuiFormHelperText-root')).toHaveCount(2)
+      expect(
+        await text.locator('.MuiFormHelperText-root').last().evaluate(readLabel),
+      ).toEqual(
+        await select.locator('.MuiFormHelperText-root').last().evaluate(readLabel),
       )
-    }
-  }
+      const textBox = await text.boundingBox()
+      const selectBox = await select.boundingBox()
+      const textFieldBox = await text.locator('.rc-ses-form-field-wrapper').boundingBox()
+      const selectFieldBox = await select
+        .locator('.rc-ses-form-field-wrapper')
+        .boundingBox()
+      expect(textFieldBox!.x - textBox!.x).toBeCloseTo(
+        selectFieldBox!.x - selectBox!.x,
+        1,
+      )
+      await expect(text.getByText(/neprivaloma|optional/)).toHaveCount(0)
+      await page.getByRole('button', { name: 'Toggle required' }).click()
+      await expect(textLabel.locator('.MuiFormLabel-asterisk')).toHaveCount(1)
+      await expect(selectLabel.locator('.MuiFormLabel-asterisk')).toHaveCount(1)
+      await page.getByRole('button', { name: 'Toggle disabled' }).click()
+      await expect(text.locator('input')).toBeDisabled()
+      await expect(select.locator('input')).toBeDisabled()
+      expect(await textLabel.evaluate(readLabel)).toEqual(
+        await selectLabel.evaluate(readLabel),
+      )
+    })
+  })
 })

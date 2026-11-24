@@ -1,11 +1,4 @@
-import {
-  Box,
-  FormHelperText,
-  FormLabel,
-  IconButton,
-  InputAdornment,
-  TextField,
-} from '@mui/material'
+import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material'
 import type { OutlinedTextFieldProps } from '@mui/material/TextField'
 import { useForkRef } from '@mui/material/utils'
@@ -21,9 +14,10 @@ import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import normalizeSx from '@/components/utils/normalizeSx'
 import '@/i18n/i18n'
 import { sizeTokens } from '@/theme/sizeTokens'
-import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 
-import type { RcSesFormControlWrapperProps } from '../components/FormControlWrapper'
+import RcSesFormControlWrapper, {
+  type RcSesFormControlWrapperProps,
+} from '../components/FormControlWrapper'
 import { inputActionStyles, textFieldStyles } from './TextField.styles'
 
 // Existing MUI field/input sx must remain authoritative over scoped DS defaults.
@@ -53,11 +47,9 @@ export interface TextFieldProps extends Omit<
   label?: React.ReactNode
   helperText?: React.ReactNode
   error?: boolean
-  /** Replaces helperText and also enables the error state. Validation belongs to the form. */
+  /** Enables the error state. Supporting text follows the shared wrapper contract. */
   errorText?: React.ReactNode
   explainer?: string
-  /** Defaults to the translated optional marker; set null to omit it. */
-  optionalLabel?: React.ReactNode
   leading?: React.ReactNode
   trailing?: React.ReactNode
   prefix?: React.ReactNode
@@ -72,7 +64,7 @@ export interface TextFieldProps extends Omit<
   }
 }
 
-/** A native MUI text field with DS v2 anatomy. No form, masking or validation is added. */
+/** DS field presets with shared form-control labels and supporting text. */
 const RcSesTextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   (props, ref) => {
     const { field: legacyField, wrapper, ...nativeSlots } = props.slotProps ?? {}
@@ -89,7 +81,6 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       errorText: providedErrorText,
       errors,
       explainer,
-      optionalLabel,
       leading,
       trailing,
       prefix,
@@ -120,17 +111,27 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? '')
     const [showPassword, setShowPassword] = useState(false)
     const hasValue = String(value ?? uncontrolledValue).length > 0
-    const errorText =
-      providedErrorText ??
-      errors?.message ??
-      (errors?.type === 'required' ? t('required') : undefined)
     const helperText = providedHelper ?? wrapper?.description
-    const isError = error || !!errorText || !!errors
-    const supportText = isError ? errorText : helperText
-    const supportId = supportText
-      ? `${id}-${isError ? 'errors' : 'description'}`
-      : undefined
-    const marker = optionalLabel === undefined ? t('optional') : optionalLabel
+    const isError = error || !!providedErrorText || !!errors
+    const wrapperErrors = errors ?? (isError ? { type: 'manual' } : undefined)
+    const supportIds = [helperText && `${id}-description`, isError && `${id}-errors`]
+    const fieldSuffix = explainer ? (
+      <>
+        <RcSesTooltip
+          title={explainer}
+          slotProps={{
+            trigger: {
+              'aria-label': t('explain', {
+                label: typeof label === 'string' ? label : t('field'),
+              }),
+            },
+          }}
+        />
+        {wrapper?.fieldSuffix}
+      </>
+    ) : (
+      wrapper?.fieldSuffix
+    )
 
     // register()/reset() may populate an uncontrolled DOM field through its ref.
     // Read it after commits so preset actions reflect the native value as well.
@@ -215,148 +216,108 @@ const RcSesTextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       )
 
     return (
-      <Box
+      <RcSesFormControlWrapper
+        {...wrapper}
+        id={id}
         className={['RcSesTextField-root', wrapper?.className].filter(Boolean).join(' ')}
-        aria-disabled={disabled || undefined}
-        data-leading-hidden={leading === null || prefix === null || undefined}
-        data-trailing-hidden={trailing === null || suffix === null || undefined}
-        data-multiline={multiline || undefined}
-        data-side-label={
-          (wrapper?.labelOnTop === false && !wrapper.hideLabel && !!label) || undefined
-        }
-        sx={[textFieldStyles, disabled ? { opacity: 0.6 } : {}]}
+        label={label}
+        required={required}
+        description={helperText}
+        errors={wrapperErrors}
+        errorMessage={providedErrorText}
+        fieldSuffix={fieldSuffix}
       >
-        {(label || explainer || wrapper?.fieldSuffix) && (
-          <Box
-            className='RcSesTextField-labelRow'
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: spacingRoleBasedTokens['space-4'],
-              minWidth: 0,
-              ...(wrapper?.hideLabel && {
-                position: 'absolute',
-                width: '1px',
-                height: '1px',
-                overflow: 'hidden',
-                clipPath: 'inset(50%)',
-              }),
+        <Box
+          data-leading-hidden={leading === null || prefix === null || undefined}
+          data-trailing-hidden={trailing === null || suffix === null || undefined}
+          data-multiline={multiline || undefined}
+          sx={textFieldStyles}
+        >
+          <TextField
+            {...fieldProps}
+            id={id}
+            className={['RcSesTextField-field', className].filter(Boolean).join(' ')}
+            sx={consumerStyles(sx)}
+            variant='outlined'
+            fullWidth
+            disabled={disabled}
+            required={required}
+            multiline={multiline}
+            error={isError}
+            type={nativeType}
+            value={value}
+            defaultValue={defaultValue}
+            inputRef={handleRef}
+            onChange={(event) => {
+              setUncontrolledValue(event.target.value)
+              onChange?.(event)
             }}
-          >
-            {label && (
-              <FormLabel className='RcSesTextField-label' htmlFor={id}>
-                {label}
-                {!required && marker && (
-                  <>
-                    {' '}
-                    <Box component='span' className='RcSesTextField-optional'>
-                      {marker}
-                    </Box>
-                  </>
-                )}
-                {wrapper?.labelSubtitle && (
-                  <span className='rc-ses-label-subtitle'>{wrapper.labelSubtitle}</span>
-                )}
-              </FormLabel>
-            )}
-            {explainer && !wrapper?.hideLabel && (
-              <RcSesTooltip
-                title={explainer}
-                slotProps={{
-                  trigger: {
-                    'aria-label': t('explain', {
-                      label: typeof label === 'string' ? label : t('field'),
-                    }),
-                    sx: { flexShrink: 0, m: 0, p: 0.25 },
-                  },
-                }}
-              />
-            )}
-            {!wrapper?.hideLabel && wrapper?.fieldSuffix}
-          </Box>
-        )}
-        <TextField
-          {...fieldProps}
-          id={id}
-          className={['RcSesTextField-field', className].filter(Boolean).join(' ')}
-          sx={consumerStyles(sx)}
-          variant='outlined'
-          fullWidth
-          disabled={disabled}
-          required={required}
-          multiline={multiline}
-          error={isError}
-          type={nativeType}
-          value={value}
-          defaultValue={defaultValue}
-          inputRef={handleRef}
-          onChange={(event) => {
-            setUncontrolledValue(event.target.value)
-            onChange?.(event)
-          }}
-          slotProps={{
-            ...slotProps,
-            input: (ownerState) => {
-              const consumer =
-                typeof slotProps?.input === 'function'
-                  ? slotProps.input(ownerState)
-                  : slotProps?.input
-              const start = leading === undefined ? presetLeading : leading
-              const end = trailing === undefined ? presetTrailing : trailing
-              let endAdornment = consumer?.endAdornment
-              if (end !== undefined)
-                endAdornment = end && (
-                  <InputAdornment position='end'>{end}</InputAdornment>
-                )
-              if (loading)
-                endAdornment = (
-                  <InputAdornment position='end'>
-                    <Box aria-label={t('loading')} role='status'>
-                      <Box aria-hidden sx={{ display: 'flex' }}>
-                        <RcSesLoadingSpinner size='medium' color='primary' />
+            slotProps={{
+              ...slotProps,
+              input: (ownerState) => {
+                const consumer =
+                  typeof slotProps?.input === 'function'
+                    ? slotProps.input(ownerState)
+                    : slotProps?.input
+                const start = leading === undefined ? presetLeading : leading
+                const end = trailing === undefined ? presetTrailing : trailing
+                let endAdornment = consumer?.endAdornment
+                if (end !== undefined)
+                  endAdornment = end && (
+                    <InputAdornment position='end'>{end}</InputAdornment>
+                  )
+                if (loading)
+                  endAdornment = (
+                    <InputAdornment position='end'>
+                      <Box aria-label={t('loading')} role='status'>
+                        <Box aria-hidden sx={{ display: 'flex' }}>
+                          <RcSesLoadingSpinner size='medium' color='primary' />
+                        </Box>
                       </Box>
-                    </Box>
-                  </InputAdornment>
-                )
-              return {
-                ...consumer,
-                sx: consumerStyles(consumer?.sx),
-                readOnly: readOnly || consumer?.readOnly,
-                startAdornment:
-                  start !== undefined
-                    ? start && <InputAdornment position='start'>{start}</InputAdornment>
-                    : consumer?.startAdornment,
-                endAdornment,
-              }
-            },
-            htmlInput: (ownerState) => {
-              const consumer =
-                typeof slotProps?.htmlInput === 'function'
-                  ? slotProps.htmlInput(ownerState)
-                  : slotProps?.htmlInput
-              return {
-                ...(preset === 'number' ? { inputMode: 'decimal' as const } : {}),
-                ...consumer,
-                'aria-describedby':
-                  [
-                    ...new Set(
-                      [describedBy, consumer?.['aria-describedby'], supportId].filter(
-                        Boolean,
+                    </InputAdornment>
+                  )
+                return {
+                  ...consumer,
+                  sx: consumerStyles(consumer?.sx),
+                  readOnly: readOnly || consumer?.readOnly,
+                  startAdornment:
+                    start !== undefined
+                      ? start && <InputAdornment position='start'>{start}</InputAdornment>
+                      : consumer?.startAdornment,
+                  endAdornment,
+                }
+              },
+              htmlInput: (ownerState) => {
+                const consumer =
+                  typeof slotProps?.htmlInput === 'function'
+                    ? slotProps.htmlInput(ownerState)
+                    : slotProps?.htmlInput
+                return {
+                  ...(preset === 'number' ? { inputMode: 'decimal' as const } : {}),
+                  ...consumer,
+                  'aria-label':
+                    consumer?.['aria-label'] ??
+                    ((wrapper?.hideLabel || explainer) && typeof label === 'string'
+                      ? label
+                      : undefined),
+                  'aria-describedby':
+                    [
+                      ...new Set(
+                        [
+                          describedBy,
+                          consumer?.['aria-describedby'],
+                          ...supportIds,
+                        ].filter(Boolean),
                       ),
-                    ),
-                  ].join(' ') || undefined,
-                'aria-invalid': isError || consumer?.['aria-invalid'],
-                'aria-busy': loading || consumer?.['aria-busy'],
-              }
-            },
-          }}
-        />
-        {supportText && (
-          <FormHelperText id={supportId} error={isError} aria-live='polite'>
-            {supportText}
-          </FormHelperText>
-        )}
-      </Box>
+                    ].join(' ') || undefined,
+                  'aria-invalid': isError || consumer?.['aria-invalid'],
+                  'aria-busy': loading || consumer?.['aria-busy'],
+                }
+              },
+            }}
+          />
+        </Box>
+      </RcSesFormControlWrapper>
     )
   },
 )

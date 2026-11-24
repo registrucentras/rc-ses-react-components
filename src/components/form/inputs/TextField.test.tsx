@@ -148,6 +148,6 @@ describe('RcSesTextField token migration', () => {
     expect(input).toHaveAttribute('rows', '4')
     expect(input).toHaveAttribute('aria-invalid', 'true')
     expect(screen.getByText('Įveskite aprašymą')).toBeVisible()
-    expect(screen.queryByText('Pagalba')).not.toBeInTheDocument()
+    expect(screen.getByText('Pagalba')).toBeVisible()
   })
 })

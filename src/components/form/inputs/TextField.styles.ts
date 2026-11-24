@@ -5,36 +5,12 @@ import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
 import { spacingTokens } from '@/theme/spacingTokens'
 import { typographyTokens } from '@/theme/typographyTokens'
 
-import { formControlDesktopLabelWidth } from '../components/FormControlWrapper/const/FormControlLayoutVariables'
-
 // Scoped to TextField: the shared InputBase theme remains unchanged.
 const fieldHeight = `calc(${typographyTokens['line-height-body-regular']} + 2 * ${spacingTokens['spacing-aliases-input-padding-y']} + 2 * ${borderTokens['stroke-1']})`
 
 export const textFieldStyles = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: spacingRoleBasedTokens['space-4'],
   minWidth: 0,
   width: '100%',
-  '&[data-side-label="true"]': {
-    display: 'grid',
-    gridTemplateColumns: {
-      xs: 'minmax(0, 1fr)',
-      sm: `${formControlDesktopLabelWidth} minmax(0, 1fr)`,
-    },
-    '& .RcSesTextField-labelRow': {
-      gridColumn: 1,
-      alignSelf: 'center',
-      justifyContent: { xs: 'flex-start', sm: 'flex-end' },
-      paddingRight: { sm: spacingRoleBasedTokens['space-24'] },
-      textAlign: { xs: 'left', sm: 'right' },
-    },
-    '& .RcSesTextField-field': {
-      gridColumn: { xs: 1, sm: 2 },
-      gridRow: { xs: 2, sm: 1 },
-    },
-    '& > .MuiFormHelperText-root': { gridColumn: { xs: 1, sm: 2 } },
-  },
   '&&[data-multiline="true"] .MuiOutlinedInput-root': {
     height: 'auto',
     minHeight: fieldHeight,
@@ -45,19 +21,6 @@ export const textFieldStyles = {
   },
   '&&[data-trailing-hidden="true"] .MuiOutlinedInput-root .MuiOutlinedInput-input': {
     paddingRight: 0,
-  },
-  '& .RcSesTextField-label': {
-    color: colorTokens['text-default'],
-    fontSize: typographyTokens['font-size-body-regular'],
-    lineHeight: typographyTokens['line-height-body-regular'],
-    fontWeight: 400,
-    overflowWrap: 'anywhere',
-    minWidth: 0,
-  },
-  '& .RcSesTextField-optional': {
-    color: colorTokens['text-secondary'],
-    fontSize: typographyTokens['font-size-body-small'],
-    lineHeight: typographyTokens['line-height-body-small'],
   },
   '&& .MuiOutlinedInput-root': {
     height: fieldHeight,
@@ -114,18 +77,12 @@ export const textFieldStyles = {
       },
     },
     '&.Mui-disabled': {
+      opacity: 0.6,
       backgroundColor: colorTokens['surface-muted'],
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: colorTokens['border-subtle'],
       },
     },
-  },
-  '&& .MuiFormHelperText-root': {
-    margin: 0,
-    fontSize: typographyTokens['font-size-body-caption'],
-    lineHeight: typographyTokens['line-height-body-caption'],
-    color: colorTokens['text-secondary'],
-    '&.Mui-error': { color: colorTokens['status-error-text'] },
   },
 } as const
 
