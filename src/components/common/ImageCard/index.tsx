@@ -56,6 +56,7 @@ function RcSesImageCard({
               color: colorTokens['text-default'],
               fontSize: typographyTokens['font-size-heading-card-title'],
               lineHeight: typographyTokens['line-height-heading-card-title'],
+              letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
               fontWeight: 500,
             },
             ...normalizeSx(slotProps?.title?.sx),
