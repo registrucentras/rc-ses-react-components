@@ -764,7 +764,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           )
         }}
         renderValue={(tagValues, getItemProps, ownerState) => {
-          // Q19: Text summary everywhere (no chips). Single and multi-select
+          // text summary everywhere (no chips). Single and multi-select
           // use comma-separated labels or "and N more" overflow indicator.
           const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
           if (!multiple) {
