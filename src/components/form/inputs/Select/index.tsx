@@ -1,4 +1,4 @@
-import { Box, Chip, Paper, TextField } from '@mui/material'
+import { Box, Paper, TextField } from '@mui/material'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import React, { useMemo } from 'react'
 import { FieldValues, UseControllerProps, useController } from 'react-hook-form'
@@ -764,10 +764,8 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           )
         }}
         renderValue={(tagValues, getItemProps, ownerState) => {
-          // MUI 9 merged renderTags into renderValue, so this now runs for
-          // single-select too where v7's renderTags did not. Single-select must
-          // keep showing the plain label - rendering a deletable Chip there both
-          // looks wrong and makes the field taller.
+          // Q19: Text summary everywhere (no chips). Single and multi-select
+          // use comma-separated labels or "and N more" overflow indicator.
           const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
           if (!multiple) {
             return selected[0]?.label ?? ''
@@ -776,41 +774,16 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           const visibleTagLimit = ownerState.limitTags ?? -1
           const shouldLimitTags =
             visibleTagLimit > -1 && selected.length > visibleTagLimit
-          const visibleTags = shouldLimitTags
-            ? selected.slice(0, visibleTagLimit)
-            : selected
-          const hiddenTagCount = selected.length - visibleTags.length
+          const visibleLabels = shouldLimitTags
+            ? selected.slice(0, visibleTagLimit).map((o) => o.label)
+            : selected.map((o) => o.label)
+          const hiddenTagCount = selected.length - visibleLabels.length
 
-          return (
-            <>
-              {visibleTags.map((option, index) => (
-                // getItemProps no longer returns a key, so it comes from the option.
-                <Chip
-                  key={option.value ?? index}
-                  label={option.label}
-                  size='small'
-                  sx={{
-                    height: 'auto',
-                    maxWidth: `calc(100% - ${reservedMultipleEndAdornmentWidth}rem)`,
-                    '& .MuiChip-label': {
-                      display: 'block',
-                      overflowWrap: 'anywhere',
-                      py: spacingRoleBasedTokens['space-4'],
-                      textOverflow: 'clip',
-                      whiteSpace: 'normal',
-                    },
-                  }}
-                  {...getItemProps({ index })}
-                />
-              ))}
+          const summary = visibleLabels.join(', ')
+          const withOverflow =
+            hiddenTagCount > 0 ? `${summary}, ir dar ${hiddenTagCount}` : summary
 
-              {hiddenTagCount > 0 && (
-                <Box component='span' className='MuiAutocomplete-tag'>
-                  {ownerState.getLimitTagsText?.(hiddenTagCount) ?? `+${hiddenTagCount}`}
-                </Box>
-              )}
-            </>
-          )
+          return <span>{withOverflow}</span>
         }}
         {...slotProps?.field}
         sx={[
