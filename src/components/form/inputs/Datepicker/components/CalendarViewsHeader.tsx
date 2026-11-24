@@ -206,8 +206,6 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
             color: colorTokens['action-link-text'],
             fontSize: typographyTokens['font-size-button-regular'],
             lineHeight: typographyTokens['line-height-button-regular'],
-            flex: 1,
-            justifyContent: 'center',
           }}
         >
           <span id={labelId}>{heading}</span>
