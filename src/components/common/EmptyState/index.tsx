@@ -12,7 +12,7 @@ import normalizeSx from '@/components/utils/normalizeSx'
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { sizeTokens } from '@/theme/sizeTokens'
-import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 import '@/theme/tokens.css'
 import { typographyTokens } from '@/theme/typographyTokens'
 
@@ -69,7 +69,7 @@ export default function RcSesEmptyState({
 }: EmptyStateProps) {
   const titleId = useId()
   const compact = size === 'compact'
-  const iconSize = sizeTokens[compact ? 'icon-size-24' : 'icon-size-32']
+  const iconSize = sizeTokens[compact ? 'icon-size-feature' : 'icon-size-32']
   const { Icon, color } = tones[type]
   const [announcement, setAnnouncement] = useState('')
   const shouldAnnounce = announce && (type === 'warning' || type === 'error')
@@ -98,9 +98,21 @@ export default function RcSesEmptyState({
           boxSizing: 'border-box',
           backgroundColor: colorTokens['surface-sunken'],
           borderRadius: borderTokens[compact ? 'radius-list-item' : 'radius-subcard'],
-          paddingBlock: spacingRoleBasedTokens[compact ? 'space-16' : 'space-32'],
-          paddingInline: spacingRoleBasedTokens[compact ? 'space-16' : 'space-24'],
-          gap: spacingRoleBasedTokens[compact ? 'space-8' : 'space-16'],
+          paddingBlock:
+            spacingTokens[
+              compact
+                ? 'spacing-aliases-content-card-padding-compact'
+                : 'spacing-aliases-card-padding-x'
+            ],
+          paddingInline:
+            spacingTokens[
+              compact
+                ? 'spacing-aliases-content-card-padding-compact'
+                : 'spacing-aliases-content-card-padding-regular'
+            ],
+          gap: spacingTokens[
+            compact ? 'spacing-aliases-stack-tight' : 'spacing-aliases-stack-default'
+          ],
           boxShadow: validationError
             ? `inset 0 0 0 ${borderTokens['stroke-2']} ${colorTokens['status-error-border']}`
             : 'none',
@@ -123,7 +135,11 @@ export default function RcSesEmptyState({
           maxWidth: compact ? undefined : '560px',
           display: 'flex',
           flexDirection: 'column',
-          gap: spacingRoleBasedTokens[compact ? 'space-4' : 'space-8'],
+          gap: spacingTokens[
+            compact
+              ? 'spacing-aliases-subcard-heading-gap'
+              : 'spacing-aliases-stack-tight'
+          ],
         }}
       >
         <Typography
