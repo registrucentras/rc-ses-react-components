@@ -479,7 +479,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             disabled={disabled}
             error={hasError}
             placeholder={
-              selectedSingleLabel || selectedTagCount > 0 ? undefined : placeholder
+              selectedSingleLabel || selectedTagCount > 0
+                ? undefined
+                : (placeholder ?? (multiple ? t('placeholder') : undefined))
             }
             sx={{
               ...(dropdownSearch || (!multiple && selectedSingleLabel)
@@ -772,15 +774,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             return selected[0]?.label ?? ''
           }
 
-          // Multi-select: empty shows default 'Pasirinkite' placeholder
-          if (selected.length === 0) {
-            return (
-              <Box component='span' sx={{ color: colorTokens['text-muted'] }}>
-                {placeholder ?? t('placeholder')}
-              </Box>
-            )
-          }
-
+          // Multi-select with selections: show comma-separated labels
           const visibleTagLimit = limitTags ?? -1
           const shouldLimitTags =
             visibleTagLimit > -1 && selected.length > visibleTagLimit
