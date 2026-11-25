@@ -69,7 +69,7 @@ function RcSesPhoneInputFormControl(props: Props) {
     keyPrefix: 'components.RcSesPhoneInputFormControl',
   })
 
-  const { id, control, name, rules, slotProps } = props
+  const { id, control, name, rules, slotProps, disabled, errors } = props
 
   const [country, setCountry] = React.useState<Country>(DEFAULT_COUNTRY)
 
@@ -112,7 +112,7 @@ function RcSesPhoneInputFormControl(props: Props) {
   }
 
   const open = Boolean(anchorEl)
-  const popperId = open ? 'phoneNumberAutocomplete' : undefined
+  const popperId = open && id ? `${id}-country-select-popup` : undefined
 
   const countryOptions = React.useMemo(
     () =>
@@ -128,6 +128,8 @@ function RcSesPhoneInputFormControl(props: Props) {
       <TextField
         {...controllerProps}
         fullWidth
+        disabled={disabled}
+        error={!!errors}
         slotProps={{
           // Was inputProps: targets the native <input>.
           htmlInput: {
@@ -147,8 +149,9 @@ function RcSesPhoneInputFormControl(props: Props) {
                   <Button
                     aria-describedby={popperId}
                     aria-label={t('aria.countrySelectorLabel')}
-                    aria-haspopup
+                    aria-haspopup='dialog'
                     color='inherit'
+                    disabled={disabled}
                     onClick={handleClick}
                     sx={{
                       backgroundColor: colorTokens['surface-base'],
@@ -211,20 +214,26 @@ function RcSesPhoneInputFormControl(props: Props) {
         id={popperId}
         open={open}
         placement='bottom-start'
-        role='menu'
+        modifiers={[
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
+          },
+        ]}
         sx={{
           backgroundColor: colorTokens['surface-base'],
           border: `${borderTokens['stroke-1']} solid ${colorTokens['border-subtle']}`,
           borderRadius: borderTokens['radius-8'],
           boxShadow: effectTokens['elevation-md'],
-
           color: colorTokens['text-default'],
           width: '18.75rem',
           zIndex: theme.zIndex.modal,
         }}
       >
         <ClickAwayListener onClickAway={handleClose}>
-          <Box>
+          <Box role='dialog'>
             <Autocomplete
               disableClearable
               disableListWrap
@@ -239,6 +248,12 @@ function RcSesPhoneInputFormControl(props: Props) {
                 setAnchorEl(null)
                 setCountry(selection)
                 controllerProps.onChange('')
+              }}
+              onKeyDown={(e) => {
+                // ESC closes the popup
+                if (e.key === 'Escape') {
+                  handleClose()
+                }
               }}
               open
               options={countryOptions}

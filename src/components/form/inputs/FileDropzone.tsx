@@ -18,14 +18,16 @@ import RcSesFormControlWrapper, {
 } from '../components/FormControlWrapper'
 
 const StyledCloseIcon = styled(XCircleFillIcon)({
-  'path fill': colorTokens['text-default'],
+  '& svg path': {
+    fill: colorTokens['text-default'],
+  },
 })
 
 type TControllerProps = UseControllerProps<any, any>
-type ImmediateControllerProps = 'control' | 'rules'
+type ImmediateControllerProps = 'control' | 'disabled' | 'rules'
 
 type TFieldProps = React.InputHTMLAttributes<HTMLInputElement>
-type ImmediateFieldProps = 'onChange' | 'onBlur' | 'disabled' | 'name'
+type ImmediateFieldProps = 'onChange' | 'onBlur' | 'name'
 
 type TWrapperProps = RcSesFormControlWrapperProps
 type ImmediateWrapperProps = 'label' | 'errors'
@@ -45,7 +47,7 @@ type Props = Pick<TControllerProps, ImmediateControllerProps> &
 function RcSesFileDropzone(props: Props) {
   const { t } = useTranslation('input', { keyPrefix: 'components.RcSesFileDropzone' })
 
-  const { control, errors, label, rules, slotProps, ...fieldProps } = props
+  const { control, disabled, errors, label, rules, slotProps, ...fieldProps } = props
   const { name } = fieldProps
   const { description, ...wrapperProps } = slotProps?.wrapper ?? {}
 
@@ -66,6 +68,7 @@ function RcSesFileDropzone(props: Props) {
   }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    disabled,
     onDrop,
     ...slotProps?.dropzone,
   })
@@ -91,16 +94,20 @@ function RcSesFileDropzone(props: Props) {
     >
       <Box
         {...getRootProps()}
+        aria-describedby={description ? `${id}-description` : undefined}
+        aria-invalid={!!errors}
+        aria-label={t('aria.dropzoneLabel')}
+        tabIndex={disabled ? -1 : 0}
         sx={{
           backgroundColor: () => {
-            if (fieldProps.disabled) return colorTokens['surface-sunken']
+            if (disabled) return colorTokens['surface-sunken']
             return isDragActive
               ? colorTokens['surface-brand-subtle']
               : colorTokens['surface-base']
           },
           borderColor: () => {
             if (errors) return colorTokens['status-error-border']
-            if (fieldProps.disabled) return colorTokens['border-subtle']
+            if (disabled) return colorTokens['border-subtle']
             return isDragActive
               ? colorTokens['border-focus']
               : colorTokens['border-default']
@@ -113,23 +120,28 @@ function RcSesFileDropzone(props: Props) {
 
           '&:hover': {
             borderColor: () => {
-              if (fieldProps.disabled) return colorTokens['border-subtle']
+              if (disabled) return colorTokens['border-subtle']
               return colorTokens['border-focus']
             },
-            cursor: fieldProps.disabled ? 'default' : 'pointer',
+            cursor: disabled ? 'default' : 'pointer',
           },
         }}
       >
-        <input {...getInputProps()} id={id} name={fieldControlProps.name} />
+        <input
+          {...getInputProps()}
+          disabled={disabled}
+          id={id}
+          name={fieldControlProps.name}
+        />
 
         <Stack
           direction='row'
           sx={{ alignItems: 'center', gap: spacingRoleBasedTokens['space-16'] }}
         >
           <IconWithCircularBackground
-            color={!fieldProps.disabled && isDragActive ? 'primary' : 'grey'}
-            bgShade={!fieldProps.disabled && isDragActive ? '100' : '50'}
-            iconShade={fieldProps.disabled ? '500' : '900'}
+            color={!disabled && isDragActive ? 'primary' : 'grey'}
+            bgShade={!disabled && isDragActive ? '100' : '50'}
+            iconShade={disabled ? '500' : '900'}
             Icon={UploadSimpleIcon}
           />
 
@@ -150,7 +162,7 @@ function RcSesFileDropzone(props: Props) {
                   >
                     <Typography
                       sx={{
-                        color: fieldProps.disabled
+                        color: disabled
                           ? colorTokens['text-secondary']
                           : colorTokens['text-default'],
                         fontSize: typographyTokens['font-size-body-small'],
@@ -185,7 +197,7 @@ function RcSesFileDropzone(props: Props) {
               <>
                 <Typography
                   sx={{
-                    color: fieldProps.disabled
+                    color: disabled
                       ? colorTokens['text-disabled']
                       : colorTokens['text-default'],
                     fontWeight: 600,
@@ -196,7 +208,7 @@ function RcSesFileDropzone(props: Props) {
                     <Typography
                       component='span'
                       sx={{
-                        color: fieldProps.disabled
+                        color: disabled
                           ? colorTokens['text-disabled']
                           : colorTokens['text-link'],
                         fontSize: typographyTokens['font-size-body-small'],
@@ -213,8 +225,9 @@ function RcSesFileDropzone(props: Props) {
 
                 {!!description && (
                   <Typography
+                    id={`${id}-description`}
                     sx={{
-                      color: fieldProps.disabled
+                      color: disabled
                         ? colorTokens['text-disabled']
                         : colorTokens['text-secondary'],
                       fontSize: typographyTokens['font-size-body-micro'],
