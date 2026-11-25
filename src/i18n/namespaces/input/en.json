@@ -1,5 +1,12 @@
 {
   "components": {
+    "RcSesTextField": {
+      "clear": "Clear value",
+      "togglePassword": "Show password",
+      "explain": "Help: {{label}}",
+      "field": "field",
+      "loading": "Loading"
+    },
     "DataPagination": {
       "navigation": "Pagination",
       "page": "Go to page {{page}}",
