@@ -772,7 +772,7 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             return selected[0]?.label ?? ''
           }
 
-          // Multi-select: empty shows placeholder (Pasirinkite) or Visi
+          // Multi-select: empty shows placeholder (Pasirinkite)
           if (selected.length === 0) {
             return (
               <span style={{ color: colorTokens['text-muted'] }}>
