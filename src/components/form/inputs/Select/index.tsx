@@ -478,7 +478,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             {...params}
             disabled={disabled}
             error={hasError}
-            placeholder={!multiple && selectedSingleLabel ? undefined : placeholder}
+            placeholder={
+              selectedSingleLabel || selectedTagCount > 0 ? undefined : placeholder
+            }
             sx={{
               ...(dropdownSearch || (!multiple && selectedSingleLabel)
                 ? {
@@ -763,15 +765,23 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             </Box>
           )
         }}
-        renderValue={(tagValues, getItemProps, ownerState) => {
-          // text summary everywhere (no chips). Single and multi-select
-          // use comma-separated labels or "and N more" overflow indicator.
+        renderValue={(tagValues) => {
+          // Text summary for both single and multi-select (no chips)
           const selected = Array.isArray(tagValues) ? tagValues : [tagValues]
           if (!multiple) {
             return selected[0]?.label ?? ''
           }
 
-          const visibleTagLimit = ownerState.limitTags ?? -1
+          // Multi-select: empty shows placeholder (Pasirinkite) or Visi
+          if (selected.length === 0) {
+            return (
+              <span style={{ color: colorTokens['text-muted'] }}>
+                {placeholder ?? resolvedSelectAllLabel}
+              </span>
+            )
+          }
+
+          const visibleTagLimit = limitTags ?? -1
           const shouldLimitTags =
             visibleTagLimit > -1 && selected.length > visibleTagLimit
           const visibleLabels = shouldLimitTags
