@@ -304,7 +304,6 @@ function SelectTokenPreview({ customized = false }: { customized?: boolean }) {
         control={control}
         options={options}
         multiple
-        placeholder='Pasirinkite'
         limitTags={1}
         slotProps={{ wrapper: { labelOnTop: true } }}
       />
@@ -593,7 +592,6 @@ export const AllVariants: Story = {
               name='multiSelect'
               control={control}
               label='Pasirinkti'
-              placeholder='Pasirinkite'
               slotProps={{ wrapper: { labelOnTop: true } }}
               multiple
               options={variantOptions}
@@ -609,7 +607,6 @@ export const AllVariants: Story = {
               name='limitedMultiSelect'
               control={control}
               label='Pasirinkti'
-              placeholder='Pasirinkite'
               slotProps={{ wrapper: { labelOnTop: true } }}
               multiple
               limitTags={1}

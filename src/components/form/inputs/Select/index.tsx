@@ -772,11 +772,11 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
             return selected[0]?.label ?? ''
           }
 
-          // Multi-select: empty shows placeholder (Pasirinkite)
+          // Multi-select: empty shows default 'Pasirinkite' placeholder
           if (selected.length === 0) {
             return (
               <Box component='span' sx={{ color: colorTokens['text-muted'] }}>
-                {placeholder ?? resolvedSelectAllLabel}
+                {placeholder ?? t('placeholder')}
               </Box>
             )
           }
@@ -791,7 +791,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
 
           const summary = visibleLabels.join(', ')
           const withOverflow =
-            hiddenTagCount > 0 ? `${summary}, ir dar ${hiddenTagCount}` : summary
+            hiddenTagCount > 0
+              ? `${summary}, ${t('hiddenTagOverflow', { count: hiddenTagCount })}`
+              : summary
 
           return <span>{withOverflow}</span>
         }}
