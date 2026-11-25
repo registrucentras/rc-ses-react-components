@@ -342,3 +342,15 @@ test('Years blocks respect min/max bounds and disabled months are skipped', asyn
   await expect(page.getByRole('gridcell', { name: '2025', exact: true })).toBeDisabled()
   await expect(page.getByRole('gridcell', { name: '2026', exact: true })).toBeEnabled()
 })
+
+test('Months view hides Previous/Next navigation arrows', async ({ page }) => {
+  await page.goto('/iframe.html?id=molecules-datepicker--single-views&viewMode=story')
+  await page
+    .getByRole('button', { name: /Atverti datos|Open datepicker|Choose date/ })
+    .click()
+  await page.getByRole('button', { name: monthButton }).click()
+  // Check that arrow buttons have visibility: hidden in Months view
+  const arrowButtons = page.locator('.MuiPickersArrowSwitcher-button')
+  await expect(arrowButtons.first()).toHaveCSS('visibility', 'hidden')
+  await expect(arrowButtons.last()).toHaveCSS('visibility', 'hidden')
+})

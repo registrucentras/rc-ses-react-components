@@ -185,7 +185,12 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
           aria-label={view === 'years' ? t('previousYears') : translations.previousMonth}
           disabled={!!disabled || previousDisabled}
           onClick={() => navigate(-1)}
-          sx={{ width: '44px', height: '44px', color: colorTokens['action-link-text'] }}
+          sx={{
+            width: '44px',
+            height: '44px',
+            color: colorTokens['action-link-text'],
+            visibility: view === 'months' ? 'hidden' : 'visible',
+          }}
         >
           <CaretLeftIcon size={24} />
         </IconButton>
@@ -211,7 +216,12 @@ function CalendarViewsHeader(props: PickersCalendarHeaderProps) {
           aria-label={view === 'years' ? t('nextYears') : translations.nextMonth}
           disabled={!!disabled || nextDisabled}
           onClick={() => navigate(1)}
-          sx={{ width: '44px', height: '44px', color: colorTokens['action-link-text'] }}
+          sx={{
+            width: '44px',
+            height: '44px',
+            color: colorTokens['action-link-text'],
+            visibility: view === 'months' ? 'hidden' : 'visible',
+          }}
         >
           <CaretRightIcon size={24} />
         </IconButton>
