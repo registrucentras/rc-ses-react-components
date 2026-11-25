@@ -38,6 +38,7 @@ import {
   ShoppingCartIcon as ShoppingCart,
   SpinnerGapIcon as SpinnerGap,
   SquareIcon as Square,
+  TagIcon as Tag,
   TrashIcon as Trash,
   UploadSimpleIcon as UploadSimple,
   UserIcon as User,
@@ -150,6 +151,7 @@ export const ShoppingCartIcon = /* @__PURE__ */ createIcon(ShoppingCart)
 export const SpinnerGapBoldIcon = /* @__PURE__ */ createIcon(SpinnerGap, {
   weight: 'bold',
 })
+export const TagIcon = /* @__PURE__ */ createIcon(Tag)
 export const TrashIcon = /* @__PURE__ */ createIcon(Trash)
 export const UploadSimpleIcon = /* @__PURE__ */ createIcon(UploadSimple)
 export const UserIcon = /* @__PURE__ */ createIcon(User)
