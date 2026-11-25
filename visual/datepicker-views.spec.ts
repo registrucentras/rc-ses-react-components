@@ -349,8 +349,8 @@ test('Months view hides Previous/Next navigation arrows', async ({ page }) => {
     .getByRole('button', { name: /Atverti datos|Open datepicker|Choose date/ })
     .click()
   await page.getByRole('button', { name: monthButton }).click()
-  const prevButton = page.getByRole('button', { name: /Ankstesnį mėnesį|Previous month/ })
-  const nextButton = page.getByRole('button', { name: /Kitą mėnesį|Next month/ })
-  await expect(prevButton).toHaveScreenshot('datepicker-prev-arrow-hidden.png')
-  await expect(nextButton).toHaveScreenshot('datepicker-next-arrow-hidden.png')
+  // Check that arrow buttons have visibility: hidden in Months view
+  const arrowButtons = page.locator('.MuiPickersArrowSwitcher-button')
+  await expect(arrowButtons.first()).toHaveCSS('visibility', 'hidden')
+  await expect(arrowButtons.last()).toHaveCSS('visibility', 'hidden')
 })
