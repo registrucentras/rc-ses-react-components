@@ -8,7 +8,12 @@ import {
   WarningFillIcon,
 } from '@/assets/icons/phosphorIcons'
 
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
 import palette from '../palette'
+import { sizeTokens } from '../sizeTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const { breakpoints } = createTheme()
 
@@ -30,7 +35,7 @@ const MuiAlert: Components['MuiAlert'] = {
   styleOverrides: {
     root: {
       flexWrap: 'wrap',
-      marginBottom: '1.5rem',
+      marginBottom: spacingRoleBasedTokens['space-24'],
       padding: '.75rem .75rem .75rem .5rem',
 
       [breakpoints.up('sm')]: {
@@ -193,77 +198,49 @@ const MuiAlert: Components['MuiAlert'] = {
     },
 
     outlined: {
-      fontSize: '.8125rem',
+      fontSize: typographyTokens['font-size-body-small'],
+      lineHeight: typographyTokens['line-height-body-small'],
       fontWeight: 400,
       flexWrap: 'nowrap',
       alignItems: 'center',
-      gap: '.75rem',
-      padding: '.75rem 1rem',
-      borderRadius: '0.5rem',
+      gap: spacingRoleBasedTokens['space-12'],
+      padding: `${spacingRoleBasedTokens['space-12']} ${spacingRoleBasedTokens['space-16']}`,
+      borderRadius: borderTokens['radius-8'],
+      borderWidth: borderTokens['stroke-1'],
+      borderStyle: 'solid',
+      color: colorTokens['text-default'],
 
-      [breakpoints.up('md')]: {
-        fontSize: '.875rem',
+      '.MuiAlert-icon svg': {
+        width: sizeTokens['icon-size-20'],
+        height: sizeTokens['icon-size-20'],
       },
-
       '.MuiAlert-icon': {
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         margin: 0,
         padding: 0,
+        opacity: 1,
       },
-
       '.MuiAlert-message': {
-        lineHeight: '1rem',
+        lineHeight: 'inherit',
         padding: 0,
-
-        [breakpoints.up('md')]: {
-          lineHeight: '1.25rem',
-        },
-
-        a: {
-          fontWeight: 600,
-        },
+        a: { fontWeight: 600 },
       },
-      // Was outlined<Severity>; see the note on standard above.
       '&.MuiAlert-colorGrey': {
-        backgroundColor: palette.grey['50'],
-        border: `1px solid ${palette.grey['200']}`,
-
-        '.MuiAlert-icon': {
-          color: palette.grey['600'],
-        },
+        backgroundColor: colorTokens['surface-sunken'],
+        borderColor: colorTokens['border-subtle'],
+        '.MuiAlert-icon': { color: colorTokens['text-secondary'] },
       },
-      '&.MuiAlert-colorError': {
-        backgroundColor: palette.error['100'],
-        border: `1px solid ${palette.error['500']}`,
-
-        '.MuiAlert-icon': {
-          color: palette.error['600'],
-        },
-      },
-      '&.MuiAlert-colorInfo': {
-        backgroundColor: palette.primary['100'],
-        border: `1px solid ${palette.primary['400']}`,
-
-        '.MuiAlert-icon': {
-          color: palette.primary['600'],
-        },
-      },
-      '&.MuiAlert-colorSuccess': {
-        backgroundColor: palette.secondary['100'],
-        border: `1px solid ${palette.secondary['500']}`,
-
-        '.MuiAlert-icon': {
-          color: palette.secondary['600'],
-        },
-      },
-      '&.MuiAlert-colorWarning': {
-        backgroundColor: palette.warning['100'],
-        border: `1px solid ${palette.warning['400']}`,
-
-        '.MuiAlert-icon': {
-          color: palette.warning['500'],
-        },
-      },
+      ...Object.fromEntries(
+        (['error', 'info', 'success', 'warning'] as const).map((severity) => [
+          `&.MuiAlert-color${severity[0].toUpperCase()}${severity.slice(1)}`,
+          {
+            backgroundColor: colorTokens[`status-${severity}-bg`],
+            borderColor: colorTokens[`status-${severity}-border`],
+            color: colorTokens[`status-${severity}-text`],
+            '.MuiAlert-icon': { color: colorTokens[`status-${severity}-icon`] },
+          },
+        ]),
+      ),
     },
   },
 }

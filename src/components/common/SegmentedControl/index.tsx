@@ -1,7 +1,10 @@
 import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { grey } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
 
 import RcSesSegmentButton, { type RcSesSegmentOption } from './components/SegmentButton'
 
@@ -148,11 +151,12 @@ const RcSesSegmentedControl = React.forwardRef<
       () => ({
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '2px 8px',
-        padding: '4px',
-        backgroundColor: disableBg ? 'transparent' : grey['50'],
-        width: 'fit-content',
-        borderRadius: '8px',
+        gap: `${spacingRoleBasedTokens['space-8']} ${spacingTokens['spacing-aliases-segmented-segment-gap']}`,
+        padding: spacingTokens['spacing-aliases-segmented-track-padding'],
+        backgroundColor: disableBg ? 'transparent' : colorTokens['surface-sunken'],
+        width: 'max-content',
+        maxWidth: '100%',
+        borderRadius: borderTokens['radius-12'],
       }),
       [disableBg],
     )

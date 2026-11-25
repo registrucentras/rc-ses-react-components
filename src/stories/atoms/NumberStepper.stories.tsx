@@ -1,4 +1,6 @@
+import { Box } from '@mui/material'
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
+import type { CSSProperties } from 'react'
 import { useForm } from 'react-hook-form'
 
 import RcSesNumberStepper from '@/components/form/inputs/NumberStepper'
@@ -130,5 +132,47 @@ export const Main: Story = {
           codeBlock(storyContext.args),
       },
     },
+  },
+}
+
+export const TokenBindings: Story = {
+  ...Main,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Existing field states come from the shared Input theme. Stepper buttons use color, border and size token maps without changing increment, decrement or boundary behavior.',
+      },
+    },
+  },
+}
+
+export const TokenOverrides: Story = {
+  ...Main,
+  render: (args) => (
+    <div
+      style={
+        {
+          '--rc-color-surface-sunken': '#dcf4fc',
+          '--rc-color-neutrals-200': '#b9e9fa',
+          '--rc-color-text-muted': '#6b747f',
+        } as CSSProperties
+      }
+    >
+      <NumberStepperDemo {...args} />
+    </div>
+  ),
+}
+
+export const ConsumerOverrides: Story = {
+  ...Main,
+  render: (args) => (
+    <Box sx={{ '& .custom-quantity input': { fontSize: '21px' } }}>
+      <NumberStepperDemo {...args} />
+    </Box>
+  ),
+  args: {
+    ...Main.args,
+    slotProps: { wrapper: { className: 'custom-quantity' } },
   },
 }

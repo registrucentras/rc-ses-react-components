@@ -1,4 +1,9 @@
-import palette, { common } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { spacingTokens } from '@/theme/spacingTokens'
+
+import './tokens.css'
 
 /**
  * Card surface tokens - Figma `Cards/card/*` and `Cards/subcard/*`.
@@ -7,54 +12,49 @@ import palette, { common } from '@/theme/palette'
  * anything needing a boxed row reads the same values instead of copying them.
  * `MuiCard` keeps its own radius until `RcSesCard` is deprecated.
  */
-const borderWidth = '1px'
+const borderWidth = borderTokens['stroke-1']
 
 const card = {
-  borderRadius: '0.75rem',
-  gap: { xs: '1rem', md: '1.5rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1.25rem 1.5rem', md: '1.5rem 2rem' },
+  borderRadius: borderTokens['radius-card'],
+  gap: spacingTokens['spacing-aliases-cards-card-section-gap'],
+  footerGap: spacingTokens['spacing-aliases-cards-card-section-gap'],
+  padding: spacingTokens['spacing-aliases-cards-card-padding'],
 }
 
 const subcard = {
-  borderRadius: '0.5rem',
-  gap: { xs: '0.75rem', md: '1rem' },
-  footerGap: '0.5rem',
-  padding: { xs: '1rem', md: '1.25rem 1.5rem' },
+  borderRadius: borderTokens['radius-subcard'],
+  gap: spacingTokens['spacing-aliases-cards-subcard-section-gap'],
+  footerGap: spacingTokens['spacing-aliases-cards-subcard-section-gap'],
+  padding: spacingTokens['spacing-aliases-cards-subcard-padding'],
 }
 
 /**
- * Card header values. Two of them are departures from the type scale: the title
- * is `h6` at weight 600 rather than 500, and the description is `body2` on a
- * 1.25rem line. The three gaps follow the surrounding components - the row gap
- * matches the card gap and the actions gap matches the footer - rather than a
- * measured token. All six are pending confirmation against the DS.
+ * Card header values.
+ * All spacing and typography line-height values use design tokens.
  */
 const header = {
-  actionsGap: '0.75rem',
-  badgeGap: '0.5rem',
-  descriptionLineHeight: '1.25rem',
-  gap: '0.25rem',
-  rowGap: '1rem',
-  titleFontWeight: 600,
+  actionsGap: spacingRoleBasedTokens['space-12'],
+  badgeGap: spacingRoleBasedTokens['space-8'],
+  gap: spacingTokens['spacing-aliases-cards-card-heading-gap'],
+  rowGap: spacingRoleBasedTokens['space-16'],
 }
 
 const footer = {
-  gap: '0.75rem',
+  gap: spacingTokens['spacing-aliases-button-group-gap'],
 }
 
 const themes = {
   brand: {
-    backgroundColor: palette.primary[50],
-    borderColor: palette.primary[200],
+    backgroundColor: colorTokens['surface-brand-subtle'],
+    borderColor: colorTokens['border-brand-subtle'],
   },
   default: {
-    backgroundColor: common.white,
-    borderColor: palette.grey[300],
+    backgroundColor: colorTokens['surface-base'],
+    borderColor: colorTokens['border-subtle'],
   },
   sunken: {
-    backgroundColor: palette.grey[100],
-    borderColor: palette.grey[200],
+    backgroundColor: colorTokens['surface-sunken'],
+    borderColor: colorTokens['surface-sunken'],
   },
 }
 

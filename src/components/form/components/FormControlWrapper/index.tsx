@@ -3,16 +3,25 @@ import { FieldError } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import '@/i18n/i18n'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import FieldSuffix from './components/FieldSuffix'
 import { formControlDesktopLabelWidth } from './const/FormControlLayoutVariables'
+
+// Read the rendered input state so every wrapper can share disabled text styling
+// without adding a prop or changing any field's disabled behavior.
+const disabledInput =
+  '&:has(.rc-ses-form-field-wrapper .MuiInputBase-root.Mui-disabled, .rc-ses-form-field-wrapper .MuiPickersInputBase-root.Mui-disabled)'
 
 interface Props {
   children: React.ReactNode
   className?: string
   description?: React.ReactNode
   errors?: FieldError | undefined
+  errorMessage?: React.ReactNode
   fieldSuffix?: React.ReactNode
   hideLabel?: boolean
   id?: string
@@ -27,6 +36,7 @@ function RcSesFormControlWrapper({
   className = undefined,
   description = undefined,
   errors = undefined,
+  errorMessage,
   fieldSuffix = undefined,
   hideLabel = false,
   id,
@@ -41,7 +51,18 @@ function RcSesFormControlWrapper({
   const upMd = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
-    <FormControl className={className} error={!!errors} sx={{ my: 1, width: '100%' }}>
+    <FormControl
+      className={className}
+      error={!!errors}
+      sx={{
+        my: spacingRoleBasedTokens['space-8'],
+        width: '100%',
+        [`${disabledInput} > .rc-ses-form-control-wrapper > .MuiFormLabel-root, ${disabledInput} > [aria-live="polite"] > .MuiFormHelperText-root`]:
+          {
+            color: colorTokens['text-disabled'],
+          },
+      }}
+    >
       <Box
         className='rc-ses-form-control-wrapper'
         sx={{
@@ -55,18 +76,23 @@ function RcSesFormControlWrapper({
           <FormLabel
             htmlFor={id}
             sx={{
+              ...(labelOnTop && {
+                fontSize: typographyTokens['font-size-body-caption'],
+                lineHeight: typographyTokens['line-height-body-caption'],
+                // The theme's md weight is a media rule, which outranks plain sx.
+                '&&': { fontWeight: 400 },
+              }),
               flex: {
                 xs: '0 0 0%',
                 sm: labelOnTop ? '0 0 0%' : `0 0 ${formControlDesktopLabelWidth}`,
               },
-              ...(labelOnTop && {
-                '&': {
-                  fontSize: '.8125rem',
-                  fontWeight: 400,
-                },
-              }),
-              marginBottom: { xs: '.25rem', sm: labelOnTop ? '.25rem' : '0' },
-              pr: 3,
+              marginBottom: {
+                xs: spacingRoleBasedTokens['space-4'],
+                sm: labelOnTop
+                  ? spacingRoleBasedTokens['space-4']
+                  : spacingRoleBasedTokens['space-0'],
+              },
+              pr: spacingRoleBasedTokens['space-24'],
               textAlign: { xs: 'left', sm: labelOnTop ? 'left' : 'right' },
             }}
           >
@@ -121,15 +147,18 @@ function RcSesFormControlWrapper({
         }}
       >
         {!!description && (
-          <FormHelperText sx={{ mx: 0, mt: '0.2rem' }}>{description}</FormHelperText>
+          <FormHelperText id={id ? `${id}-description` : undefined}>
+            {description}
+          </FormHelperText>
         )}
 
         {!!errors && (
           <FormHelperText id={`${id}-errors`} aria-errormessage={id} error>
-            {errors.type === 'required' && !errors.message && (
-              <span>{t('required')}</span>
-            )}
-            {!!errors.message && <span>{errors.message}</span>}
+            {errorMessage ??
+              (errors.type === 'required' && !errors.message && (
+                <span>{t('required')}</span>
+              ))}
+            {errorMessage == null && !!errors.message && <span>{errors.message}</span>}
           </FormHelperText>
         )}
       </Box>

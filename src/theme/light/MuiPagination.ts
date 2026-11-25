@@ -1,6 +1,8 @@
 import { Components } from '@mui/material'
 
-import palette from '../palette'
+import { borderTokens } from '../borderTokens'
+import { colorTokens } from '../colorTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiPagination: Components['MuiPagination'] = {
   defaultProps: {
@@ -12,37 +14,36 @@ const MuiPagination: Components['MuiPagination'] = {
 const MuiPaginationItem: Components['MuiPaginationItem'] = {
   styleOverrides: {
     root: {
-      borderRadius: 8,
+      margin: 0,
+      borderRadius: borderTokens['radius-button'],
       height: 40,
       width: 40,
-      fontSize: 14,
-      fontWeight: 300,
-      color: palette.grey[800],
-
+      fontSize: typographyTokens['font-size-body-small'],
+      lineHeight: typographyTokens['line-height-body-small'],
+      fontWeight: 400,
+      color: 'var(--rc-color-neutrals-800)',
       '&:hover': {
-        backgroundColor: palette.grey[200],
+        backgroundColor: 'var(--rc-color-neutrals-200)',
+        color: colorTokens['text-default'],
       },
-
       '&:active': {
-        backgroundColor: palette.grey[300],
+        backgroundColor: 'var(--rc-color-neutrals-300)',
+        color: colorTokens['text-default'],
       },
-
       '&.Mui-focusVisible': {
-        border: `2px solid ${palette.grey[950]}`,
-        backgroundColor: palette.grey[50],
+        border: `${borderTokens['border-focus']} solid var(--rc-color-neutrals-950)`,
+        backgroundColor: 'var(--rc-color-neutrals-50)',
+        color: colorTokens['text-default'],
       },
-
       '&.Mui-disabled': {
-        backgroundColor: palette.grey[100],
-        color: palette.grey[500],
+        backgroundColor: 'var(--rc-color-neutrals-100)',
+        color: colorTokens['text-disabled'],
       },
-
       '&.Mui-selected': {
-        backgroundColor: palette.grey[800],
-        color: '#fff',
-
+        backgroundColor: 'var(--rc-color-neutrals-800)',
+        color: colorTokens['text-inverse'],
         '&:hover': {
-          backgroundColor: palette.grey[800],
+          backgroundColor: 'var(--rc-color-neutrals-800)',
         },
       },
       '&.MuiPaginationItem-ellipsis': {
@@ -50,7 +51,6 @@ const MuiPaginationItem: Components['MuiPaginationItem'] = {
         alignItems: 'center',
         justifyContent: 'center',
         pointerEvents: 'none',
-        fontSize: 14,
       },
     },
   },

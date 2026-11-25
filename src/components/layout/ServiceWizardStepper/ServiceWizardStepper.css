@@ -5,13 +5,13 @@
 .ServiceWizardStepper-MobileStepperWrapper {
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  gap: 12px;
+  padding: var(--rc-space-0) var(--rc-space-20);
+  gap: var(--rc-space-12);
 }
 
 .ServiceWizardStepper-NavSlot {
-  width: 36px;
-  height: 36px;
+  width: var(--rc-space-36);
+  height: var(--rc-space-36);
 }
 
 .ServiceWizardStepper-MobileStepperContent {
@@ -19,12 +19,12 @@
 }
 
 .MobileStepperWrapper {
-  gap: 12px;
+  gap: var(--rc-space-12);
 }
 
 .ServiceWizardStepper .MuiStep-root {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: var(--rc-space-0);
+  padding-right: var(--rc-space-0);
 }
 
 .ServiceWizardStepper .MuiStep-root:first-child,
@@ -33,7 +33,7 @@
 }
 
 .ServiceWizardStepper.MuiStepper-vertical .MuiStep-root {
-  margin-bottom: 10px;
+  margin-bottom: var(--rc-space-10);
 }
 
 .ServiceWizardStepper-horizontal .MuiStep-root:first-child .MuiStepLabel-root {
@@ -72,8 +72,8 @@
 }
 
 .ServiceWizardStepper.MuiStepper-horizontal .MuiStepConnector-line {
-  border-top-width: 2px;
-  border-radius: 99px;
+  border-top-width: var(--rc-stroke-2);
+  border-radius: var(--rc-radius-full);
 }
 
 .ServiceWizardStepper.MuiStepper-vertical .MuiStepConnector-line {

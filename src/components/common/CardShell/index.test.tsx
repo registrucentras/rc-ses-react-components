@@ -6,6 +6,7 @@ import { type ReactElement } from 'react'
 import { describe, expect, test } from 'vitest'
 
 import RcSesButton from '@/components/common/Button'
+import { colorTokens } from '@/theme/colorTokens'
 import theme from '@/theme/light'
 
 import RcSesCardShell from '.'
@@ -101,7 +102,7 @@ describe('RcSesCardShell', () => {
     )
 
     const card = screen.getByTestId('card-root')
-    expect(card).toHaveStyle({ borderRadius: '0.75rem' })
+    expect(getComputedStyle(card).borderRadius).toBe('var(--rc-radius-card)')
   })
 
   test('variant="subcard" applies smaller border-radius', () => {
@@ -112,13 +113,13 @@ describe('RcSesCardShell', () => {
     )
 
     const card = screen.getByTestId('card-root')
-    expect(card).toHaveStyle({ borderRadius: '0.5rem' })
+    expect(getComputedStyle(card).borderRadius).toBe('var(--rc-radius-subcard)')
   })
 
   test.each([
-    ['default', '#ffffff', '#c5cad1'],
-    ['brand', '#f3fbfe', '#b9e9fa'],
-    ['sunken', '#f0f2f5', '#dce0e5'],
+    ['default', colorTokens['surface-base'], colorTokens['border-subtle']],
+    ['brand', colorTokens['surface-brand-subtle'], colorTokens['border-brand-subtle']],
+    ['sunken', colorTokens['surface-sunken'], colorTokens['surface-sunken']],
   ] as const)(
     'theme=%s paints its own background and border',
     (name, background, border) => {
@@ -128,9 +129,18 @@ describe('RcSesCardShell', () => {
         </RcSesCardShell>,
       )
 
+      const emitted = Array.from(document.querySelectorAll('style[data-emotion]'))
+        .flatMap((style) =>
+          Array.from(
+            (style as HTMLStyleElement).sheet?.cssRules ?? [],
+            (rule) => rule.cssText,
+          ),
+        )
+        .join('\n')
+      if (border.startsWith('var(')) expect(emitted).toContain(border)
+      else expect(screen.getByTestId('card-root')).toHaveStyle({ borderColor: border })
       expect(screen.getByTestId('card-root')).toHaveStyle({
         backgroundColor: background,
-        borderColor: border,
       })
     },
   )

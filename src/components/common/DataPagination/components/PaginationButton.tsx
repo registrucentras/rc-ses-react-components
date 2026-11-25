@@ -1,45 +1,56 @@
 import { Box, Button, ButtonProps } from '@mui/material'
 
-import palette from '@/theme/palette'
+import normalizeSx from '@/components/utils/normalizeSx'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { sizeTokens } from '@/theme/sizeTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 interface PaginationButtonProps extends ButtonProps {
   label: string
   icon: React.ReactNode
   iconPosition?: 'start' | 'end'
+  hideLabelOnMobile?: boolean
 }
 
 const baseButtonSx = {
   '&&': {
     minWidth: 40,
     height: 40,
-    px: 1.5,
-    borderRadius: 2,
-    fontSize: 14,
-    fontWeight: 300,
+    px: spacingRoleBasedTokens['space-10'],
+    borderRadius: borderTokens['radius-button'],
+    fontSize: typographyTokens['font-size-body-small'],
+    lineHeight: typographyTokens['line-height-body-small'],
+    fontWeight: 400,
     textTransform: 'none',
     backgroundColor: 'transparent',
-    color: palette.grey[800],
-
+    color: 'var(--rc-color-neutrals-800)',
     display: 'flex',
     alignItems: 'center',
-    gap: 0.5,
-
+    gap: spacingRoleBasedTokens['space-8'],
+    '& > svg': {
+      width: sizeTokens['icon-size-inline'],
+      height: sizeTokens['icon-size-inline'],
+      flexShrink: 0,
+    },
     '&:hover': {
-      backgroundColor: palette.grey[200],
+      backgroundColor: 'var(--rc-color-neutrals-200)',
+      color: colorTokens['text-default'],
     },
-
-    '&:active': {
-      backgroundColor: palette.grey[300],
+    '&:active, &.Mui-selected': {
+      backgroundColor: 'var(--rc-color-neutrals-300)',
+      color: colorTokens['text-default'],
     },
-
     '&.Mui-focusVisible': {
-      border: `2px solid ${palette.grey[950]}`,
-      backgroundColor: palette.grey[50],
+      backgroundColor: 'var(--rc-color-neutrals-50)',
+      border: `${borderTokens['border-focus']} solid var(--rc-color-neutrals-950)`,
+      boxShadow: 'none',
+      color: colorTokens['text-default'],
     },
-
     '&.Mui-disabled': {
-      backgroundColor: palette.grey[100],
-      color: palette.grey[500],
+      backgroundColor: 'var(--rc-color-neutrals-100)',
+      color: colorTokens['text-disabled'],
     },
   },
 }
@@ -48,12 +59,28 @@ const PaginationButton = ({
   label,
   icon,
   iconPosition = 'start',
+  hideLabelOnMobile = true,
+  sx,
   ...props
 }: PaginationButtonProps) => (
-  <Button variant='text' color='inherit' disableRipple {...props} sx={baseButtonSx}>
+  <Button
+    type='button'
+    variant='text'
+    color='inherit'
+    disableRipple
+    aria-label={label}
+    aria-disabled={props.disabled || undefined}
+    {...props}
+    sx={[baseButtonSx, ...normalizeSx(sx)]}
+  >
     {iconPosition === 'start' && icon}
 
-    <Box sx={{ display: { xs: 'none', md: 'block' } }}>{label}</Box>
+    <Box
+      component='span'
+      sx={{ display: hideLabelOnMobile ? { xs: 'none', md: 'block' } : 'block' }}
+    >
+      {label}
+    </Box>
 
     {iconPosition === 'end' && icon}
   </Button>

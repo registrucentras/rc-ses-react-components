@@ -1,13 +1,21 @@
 import { Box, BoxProps, Modal, Paper } from '@mui/material'
-import { alpha } from '@mui/material/styles'
 
 import RcSesLoader, { RcSesLoaderProps } from '@/components/loaders/Loader'
+import { backdropTokens } from '@/theme/backdropTokens'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { effectTokens } from '@/theme/effectTokens'
 
 export type RcSesLoaderBackdrop = 'dark' | 'light'
 
 // dimensions are based on the Figma design specifications
 const FULL_PAGE_LOADER_CONTAINER_WIDTH = 187
 const FULL_PAGE_LOADER_CONTAINER_HEIGHT = 198
+
+const BACKDROP_COLOR = {
+  dark: backdropTokens['backdrop-dark'],
+  light: backdropTokens['backdrop-light'],
+}
 
 type FullPageLoaderContentProps = Pick<RcSesLoaderProps, 'label' | 'showLabel'>
 
@@ -30,12 +38,7 @@ function RcSesFullPageLoader({
       open
       slotProps={{
         backdrop: {
-          sx: {
-            backgroundColor: (theme) =>
-              backdrop === 'dark'
-                ? alpha(theme.palette.grey[900], 0.45)
-                : alpha(theme.palette.common.white, 0.72),
-          },
+          sx: { backgroundColor: BACKDROP_COLOR[backdrop] },
         },
       }}
     >
@@ -49,9 +52,11 @@ function RcSesFullPageLoader({
         {...props}
       >
         <Paper
-          elevation={4}
+          elevation={0}
           sx={{
-            borderRadius: 2,
+            backgroundColor: colorTokens['surface-base'],
+            borderRadius: borderTokens['radius-16'],
+            boxShadow: effectTokens['elevation-lg'],
             boxSizing: 'border-box',
             display: 'grid',
             height: FULL_PAGE_LOADER_CONTAINER_HEIGHT,

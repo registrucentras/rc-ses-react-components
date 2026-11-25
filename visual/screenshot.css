@@ -1,0 +1,5 @@
+/* Applied only while Playwright captures a screenshot (see playwright.config.ts). */
+.MuiSkeleton-root,
+.MuiSkeleton-root::after {
+  animation: none !important;
+}

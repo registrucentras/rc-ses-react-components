@@ -1,7 +1,12 @@
+import { Button, Stack } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import { Meta, StoryObj } from '@storybook/react-vite'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import RcSesFormControlWrapper from '@/components/form/components/FormControlWrapper'
+import RcSesSelect from '@/components/form/inputs/Select'
+import RcSesTextField from '@/components/form/inputs/TextField'
 
 const meta: Meta<typeof RcSesFormControlWrapper> = {
   title: 'Molecules/FormControlWrapper',
@@ -18,6 +23,60 @@ const meta: Meta<typeof RcSesFormControlWrapper> = {
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+function SharedLabelsPreview() {
+  const [disabled, setDisabled] = useState(false)
+  const [required, setRequired] = useState(false)
+  const { control } = useForm({
+    defaultValues: { default: 'first', top: 'first', side: 'first' },
+  })
+  const errors = { type: 'manual', message: 'Klaidos tekstas' }
+  return (
+    <Stack spacing={3} sx={{ width: '100%', maxWidth: 800 }}>
+      <Button onClick={() => setDisabled((value) => !value)}>Toggle disabled</Button>
+      <Button onClick={() => setRequired((value) => !value)}>Toggle required</Button>
+      {(['default', 'top', 'side'] as const).map((mode) => (
+        <Stack key={mode} spacing={2}>
+          <RcSesTextField
+            id={`shared-text-${mode}`}
+            label={`TextField ${mode}`}
+            disabled={disabled}
+            required={required}
+            errors={errors}
+            slotProps={{
+              wrapper: {
+                className: `shared-text-${mode}`,
+                labelOnTop: mode === 'default' ? undefined : mode === 'top',
+                description: 'Pagalbinis tekstas',
+              },
+            }}
+          />
+          <RcSesSelect
+            id={`shared-select-${mode}`}
+            name={mode}
+            control={control}
+            label={`Select ${mode}`}
+            disabled={disabled}
+            rules={{ required }}
+            errors={errors}
+            options={[{ value: 'first', label: 'Pirmas pasirinkimas' }]}
+            slotProps={{
+              wrapper: {
+                className: `shared-select-${mode}`,
+                labelOnTop: mode === 'default' ? undefined : mode === 'top',
+                description: 'Pagalbinis tekstas',
+              },
+            }}
+          />
+        </Stack>
+      ))}
+    </Stack>
+  )
+}
+
+export const SharedLabels: Story = {
+  render: () => <SharedLabelsPreview />,
+}
 
 export const Default: Story = {
   args: {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { useState } from 'react'
+import { type CSSProperties, useState } from 'react'
 
 import ServiceWizardStepper from '@/components/layout/ServiceWizardStepper'
 import { StepItem } from '@/components/layout/ServiceWizardStepper/StepperTypes'
@@ -57,4 +57,40 @@ export const Horizontal: Story = {
 
 export const Vertical: Story = {
   render: (args) => <ServiceWizardStepperDemo {...args} orientation='vertical' />,
+}
+
+export const TokenBindings: Story = {
+  args: { steps, activeStep: 1, orientation: 'horizontal' },
+}
+
+export const VerticalTokenBindings: Story = {
+  ...TokenBindings,
+  args: { ...TokenBindings.args, orientation: 'vertical' },
+}
+
+export const Loading: Story = {
+  ...TokenBindings,
+  args: { ...TokenBindings.args, isLoading: true },
+}
+
+export const MobileTokenBindings: Story = {
+  ...TokenBindings,
+  tags: ['viewport-375'],
+}
+
+export const TokenOverrides: Story = {
+  ...TokenBindings,
+  render: (args) => (
+    <div
+      style={
+        {
+          '--rc-color-cyans-400': '#008561',
+          '--rc-color-neutrals-800': '#005276',
+          '--rc-typography-font-size-heading-h4': '18px',
+        } as CSSProperties
+      }
+    >
+      <ServiceWizardStepper {...args} />
+    </div>
+  ),
 }

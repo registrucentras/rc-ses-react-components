@@ -3,7 +3,6 @@ import { Meta, StoryObj } from '@storybook/react-vite'
 import React from 'react'
 
 import RcSesServiceHeader from '@/components/layout/ServiceHeader'
-import { common, grey } from '@/theme/palette'
 
 const meta: Meta<typeof RcSesServiceHeader> = {
   title: 'Organisms/ServiceHeader',
@@ -32,7 +31,7 @@ export const Default: Story = {
     title: 'Service Title',
     children: 'This is a description of the service.',
     breadcrumbsProps: breadcrumbs,
-    backgroundColor: common.white,
+    backgroundColor: '#ffffff',
   },
   render: (args) => (
     <RcSesServiceHeader
@@ -50,7 +49,7 @@ export const CustomBackground: Story = {
     title: 'Service Title',
     children: 'This is a description of the service with custom background.',
     breadcrumbsProps: breadcrumbs,
-    backgroundColor: grey['100'],
+    backgroundColor: '#f0f2f5',
   },
   render: (args) => (
     <RcSesServiceHeader
@@ -60,5 +59,28 @@ export const CustomBackground: Story = {
     >
       {args.children && <Typography variant='body1'>{args.children}</Typography>}
     </RcSesServiceHeader>
+  ),
+}
+
+export const TokenBindings: Story = {
+  ...Default,
+  args: { ...Default.args, backgroundColor: undefined },
+}
+
+export const TokenOverrides: Story = {
+  ...TokenBindings,
+  render: (args) => (
+    <div
+      style={
+        {
+          '--rc-color-surface-base': '#f0f2f5',
+          '--rc-space-10': '16px',
+        } as React.CSSProperties
+      }
+    >
+      <RcSesServiceHeader {...args}>
+        <Typography variant='body1'>{args.children}</Typography>
+      </RcSesServiceHeader>
+    </div>
   ),
 }

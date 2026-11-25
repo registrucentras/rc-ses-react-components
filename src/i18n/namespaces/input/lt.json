@@ -1,5 +1,23 @@
 {
   "components": {
+    "RcSesTextField": {
+      "clear": "Išvalyti reikšmę",
+      "togglePassword": "Rodyti slaptažodį",
+      "explain": "Paaiškinimas: {{label}}",
+      "field": "laukas",
+      "loading": "Kraunama"
+    },
+    "DataPagination": {
+      "navigation": "Puslapiavimas",
+      "page": "Eiti į {{page}} puslapį",
+      "previous": "Ankstesnis puslapis",
+      "next": "Kitas puslapis",
+      "previousText": "Atgal",
+      "nextText": "Kitas",
+      "loading": "Įkeliami įrašai",
+      "showMore": "Rodyti daugiau",
+      "showLess": "Rodyti mažiau"
+    },
     "RcSesAlert": {
       "close": "Uždaryti"
     },
@@ -22,7 +40,27 @@
         "openCalendar": "Atverti datos pasirinkimo kalendorių"
       },
       "prevYear": "Ankstesni metai",
-      "nextYear": "Ateinantys metai"
+      "nextYear": "Ateinantys metai",
+      "range": {
+        "calendar": "Pasirinkite datos intervalą",
+        "start": "Intervalo pradžia",
+        "end": "Intervalo pabaiga",
+        "inRange": "Pasirinkto intervalo dalis",
+        "preview": "Intervalo peržiūra",
+        "chooseStart": "Pasirinkite pradžios datą",
+        "chooseEnd": "Nuo {{start}}. Pasirinkite pabaigos datą.",
+        "selected": "Nuo {{start}} iki {{end}}"
+      },
+      "views": {
+        "calendar": "Kalendoriaus vaizdas",
+        "months": "Mėnesių vaizdas",
+        "years": "Metų vaizdas",
+        "chooseMonth": "Pasirinkti mėnesį",
+        "chooseYear": "Pasirinkti metus",
+        "returnMonths": "Grįžti į mėnesius",
+        "previousYears": "Ankstesni 12 metų",
+        "nextYears": "Kiti 12 metų"
+      }
     },
 
     "RcSesFileDropzone": {

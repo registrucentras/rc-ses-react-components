@@ -2,6 +2,8 @@ import Box from '@mui/material/Box'
 import React from 'react'
 import { List } from 'react-window'
 
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+
 import RowComponent from './RowComponent'
 
 const ROW_HEIGHT = 44
@@ -37,7 +39,11 @@ const ListboxComponent = React.forwardRef<
   )
 
   return (
-    <Box lang='en' ref={ref} sx={{ m: 0.75, ul: { m: 0, p: 0, width: 'auto' } }}>
+    <Box
+      lang='en'
+      ref={ref}
+      sx={{ m: spacingRoleBasedTokens['space-6'], ul: { m: 0, p: 0, width: 'auto' } }}
+    >
       <List
         {...other}
         overscanCount={5}

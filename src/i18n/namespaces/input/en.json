@@ -1,5 +1,23 @@
 {
   "components": {
+    "RcSesTextField": {
+      "clear": "Clear value",
+      "togglePassword": "Show password",
+      "explain": "Help: {{label}}",
+      "field": "field",
+      "loading": "Loading"
+    },
+    "DataPagination": {
+      "navigation": "Pagination",
+      "page": "Go to page {{page}}",
+      "previous": "Previous page",
+      "next": "Next page",
+      "previousText": "Previous",
+      "nextText": "Next",
+      "loading": "Loading records",
+      "showMore": "Show more",
+      "showLess": "Show less"
+    },
     "RcSesAlert": {
       "close": "Close"
     },
@@ -22,7 +40,27 @@
         "openCalendar": "Open datepicker calendar"
       },
       "prevYear": "Previous year",
-      "nextYear": "Next year"
+      "nextYear": "Next year",
+      "range": {
+        "calendar": "Choose a date range",
+        "start": "Range start",
+        "end": "Range end",
+        "inRange": "Part of selected range",
+        "preview": "Range preview",
+        "chooseStart": "Choose the start date",
+        "chooseEnd": "From {{start}}. Choose the end date.",
+        "selected": "From {{start}} to {{end}}"
+      },
+      "views": {
+        "calendar": "Calendar view",
+        "months": "Months view",
+        "years": "Years view",
+        "chooseMonth": "Choose month",
+        "chooseYear": "Choose year",
+        "returnMonths": "Return to months",
+        "previousYears": "Previous 12 years",
+        "nextYears": "Next 12 years"
+      }
     },
 
     "RcSesFileDropzone": {

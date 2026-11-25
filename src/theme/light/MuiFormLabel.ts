@@ -1,45 +1,45 @@
 import { Components, createTheme } from '@mui/material'
 
-import palette from '../palette'
+import { colorTokens } from '../colorTokens'
+import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
+import { typographyTokens } from '../typographyTokens'
 
 const { breakpoints } = createTheme()
 
 const MuiFormLabel: Components['MuiFormLabel'] = {
   styleOverrides: {
     root: {
-      color: palette.grey[900],
-      fontSize: '.8125rem',
+      color: colorTokens['text-default'],
+      fontSize: typographyTokens['font-size-body-regular'],
       fontWeight: 400,
-      lineHeight: '1rem',
+      lineHeight: typographyTokens['line-height-body-regular'],
 
       [breakpoints.up('md')]: {
-        fontSize: '.9375rem',
         fontWeight: 500,
-        lineHeight: '1.125rem',
       },
 
-      '&.Mui-focused': {
-        color: 'inherit',
+      '&.Mui-focused, &.Mui-error': {
+        color: colorTokens['text-default'],
       },
 
-      '&.Mui-error': {
-        color: 'inherit',
+      '&.Mui-disabled': {
+        color: colorTokens['text-disabled'],
       },
 
       '.MuiFormLabel-asterisk': {
-        color: palette.error[600],
+        color: colorTokens['status-error-border'],
         fontWeight: 600,
-        marginLeft: '.125rem',
+        marginLeft: spacingRoleBasedTokens['space-2'],
       },
 
       '.rc-ses-label-subtitle': {
-        color: palette.grey[700],
+        color: colorTokens['text-secondary'],
         display: 'block',
-        fontSize: '.75rem',
+        fontSize: typographyTokens['font-size-body-caption'],
         fontStyle: 'italic',
         fontWeight: 500,
-        lineHeight: '1rem',
-        marginTop: '.125rem',
+        lineHeight: typographyTokens['line-height-body-caption'],
+        marginTop: spacingRoleBasedTokens['space-2'],
       },
     },
   },

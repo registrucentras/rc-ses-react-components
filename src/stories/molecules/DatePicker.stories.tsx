@@ -1,10 +1,11 @@
+import { Box, Button } from '@mui/material'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { Meta, StoryContext } from '@storybook/react-vite'
 import { lt } from 'date-fns/locale/lt'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
-import RcSesDatepicker from '@/components/form/inputs/Datepicker'
+import RcSesDatepicker, { DateRangeValue } from '@/components/form/inputs/Datepicker'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import SingleStepFormModel from '@/examples/SingleStepForm/types/SingleStepFormModel'
@@ -137,7 +138,7 @@ export const CalendarOpen = {
 
 /**
  * Days past the 20th are out of range: they must read as greyed out, not merely
- * be unclickable. Disabled weekends stay red.
+ * be unclickable. The existing red distinction for weekends is preserved.
  */
 export const CalendarWithDisabledDates = {
   render: (args: any) => <DatePickerDemo {...args} />,
@@ -227,3 +228,132 @@ export const WithError = {
     rules: { required: true },
   },
 }
+
+export const TokenBindings = {
+  ...CalendarWithValue,
+  parameters: {
+    ...CalendarWithValue.parameters,
+    docs: {
+      ...CalendarWithValue.parameters.docs,
+      description: {
+        story:
+          'Existing single-date calendar styles rebound to typography, color, spacing, radius and elevation tokens. Cell dimensions, circular shape, weekend coloring, props and navigation are preserved.',
+      },
+    },
+  },
+}
+
+export const ConsumerOverrides = {
+  ...Main,
+  tags: ['no-snapshot'],
+  args: {
+    ...Main.args,
+    datepickerProps: {
+      sx: {
+        '& .MuiPickersInputBase-sectionsContainer': {
+          fontSize: '23px',
+          lineHeight: '29px',
+        },
+      },
+    },
+  },
+}
+
+function RangeDemo({
+  selected = false,
+  disabled = false,
+}: {
+  selected?: boolean
+  disabled?: boolean
+}) {
+  const { control, reset } = useForm<{ period: DateRangeValue }>({
+    defaultValues: { period: selected ? ['2026-06-10', '2026-06-17'] : [null, null] },
+  })
+  const period = useWatch({ control, name: 'period' })
+  return (
+    <Box sx={{ width: '100%', maxWidth: '520px' }}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+        <RcSesDatepicker
+          selection='range'
+          id='period'
+          name='period'
+          control={control}
+          label='Date range'
+          clearable
+          disabled={disabled}
+          slotProps={{
+            wrapper: { labelOnTop: true },
+            calendar: { referenceDate: new Date(2026, 5, 10) },
+          }}
+        />
+      </LocalizationProvider>
+      <Box component='output' aria-label='Stored range' sx={{ display: 'block', mt: 2 }}>
+        {JSON.stringify(period)}
+      </Box>
+      <Button onClick={() => reset({ period: [null, null] })}>Reset form</Button>
+    </Box>
+  )
+}
+
+export const Range = {
+  render: () => <RangeDemo />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "With `selection='range'` one field picks a period. The form value is a pair of plain local dates, `['2026-06-10', '2026-06-17']`: `[start, null]` while the end is still being picked and `[null, null]` when empty. Both dates are inclusive calendar days without a time or timezone, so read them as dates on the backend (e.g. `LocalDate`) and build any time window there. Unlike Single, which stores a UTC timestamp, values in any other format, such as ISO timestamps, are read as empty.",
+      },
+    },
+  },
+}
+export const RangeSelected = { render: () => <RangeDemo selected /> }
+export const RangeDisabled = { render: () => <RangeDemo selected disabled /> }
+
+function ViewsDemo({
+  range = false,
+  bounded = false,
+}: {
+  range?: boolean
+  bounded?: boolean
+}) {
+  const { control } = useForm<{ single: string | null; period: DateRangeValue }>({
+    defaultValues: { single: '2026-06-10T00:00:00.000Z', period: ['2026-06-10', null] },
+  })
+  const bounds = bounded
+    ? { minDate: new Date(2026, 3, 1), maxDate: new Date(2026, 8, 30) }
+    : {}
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={lt}>
+      <Box sx={{ width: '100%', maxWidth: '450px' }}>
+        {range ? (
+          <RcSesDatepicker
+            selection='range'
+            id='views-range'
+            name='period'
+            control={control}
+            label='Range views'
+            slotProps={{
+              wrapper: { labelOnTop: true },
+              calendar: { referenceDate: REFERENCE_DATE, ...bounds },
+            }}
+          />
+        ) : (
+          <RcSesDatepicker
+            id='views-single'
+            name='single'
+            control={control}
+            label='Single views'
+            slotProps={{
+              wrapper: { labelOnTop: true },
+              datepicker: { referenceDate: REFERENCE_DATE, ...bounds },
+            }}
+          />
+        )}
+      </Box>
+    </LocalizationProvider>
+  )
+}
+
+export const SingleViews = { render: () => <ViewsDemo /> }
+export const RangeViews = { render: () => <ViewsDemo range /> }
+export const BoundedViews = { render: () => <ViewsDemo range bounded /> }

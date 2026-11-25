@@ -3,7 +3,10 @@ import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CloseIcon } from '@/assets/icons/phosphorIcons'
-import { common, grey, primary } from '@/theme/palette'
+import { borderTokens } from '@/theme/borderTokens'
+import { colorTokens } from '@/theme/colorTokens'
+import { spacingRoleBasedTokens } from '@/theme/spacingRoleBasedTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export interface RcSesFilterChipProps {
   label: string
@@ -49,33 +52,35 @@ const RcSesFilterChip = forwardRef<HTMLDivElement, RcSesFilterChipProps>((props,
         data-testid={testId}
         sx={{
           maxWidth: '100%',
-          borderColor: grey['300'],
-          backgroundColor: common.white,
-          color: grey['900'],
+          padding: `${spacingRoleBasedTokens['space-6']} ${spacingRoleBasedTokens['space-8']} ${spacingRoleBasedTokens['space-6']} ${spacingRoleBasedTokens['space-12']}`,
+          gap: spacingRoleBasedTokens['space-4'],
+          borderRadius: borderTokens['radius-pill'],
+          borderColor: colorTokens['border-default'],
+          backgroundColor: colorTokens['surface-base'],
+          color: colorTokens['text-default'],
           '& .MuiChip-label': {
-            fontSize: '0.875rem',
+            fontSize: typographyTokens['font-size-body-small'],
             fontWeight: 400,
-            lineHeight: '1.25rem',
+            lineHeight: typographyTokens['line-height-body-small'],
             minWidth: 0,
-            pl: '0.75rem',
-            pr: 0,
+            padding: 0,
           },
           '& .MuiChip-deleteIcon': {
-            color: grey['900'],
-            margin: '0 0.5rem 0 0.25rem',
+            color: colorTokens['text-default'],
+            margin: 0,
             flexShrink: 0,
+            '&:hover': {
+              color: colorTokens['text-default'],
+            },
           },
           '&.MuiChip-clickable:hover': {
-            borderColor: grey['400'],
-            backgroundColor: grey['100'],
-          },
-          '&:hover .MuiChip-deleteIcon': {
-            color: grey['900'],
+            borderColor: colorTokens['border-strong'],
+            backgroundColor: colorTokens['surface-muted'],
           },
           '&.Mui-focusVisible': {
-            outline: `2px solid ${primary['500']}`,
-            outlineOffset: '-2px',
-            backgroundColor: common.white,
+            outline: `${borderTokens['border-focus']} solid ${colorTokens['border-focus']}`,
+            outlineOffset: `calc(-1 * ${borderTokens['border-focus']})`,
+            backgroundColor: colorTokens['surface-base'],
           },
         }}
         variant='outlined'

@@ -133,7 +133,7 @@ export const InsideCardShell: Story = {
         <RcSesTitleBlock
           icon={<RcSesIconWithSquareBackground Icon={BriefcaseIcon} variant='solid' />}
           title='Įmonėms ir organizacijoms'
-          titleVariant='h5'
+          titleVariant='card-title'
         />
       }
       footer={
