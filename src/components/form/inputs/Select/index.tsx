@@ -775,9 +775,9 @@ function RcSesSelect<TFieldValues extends FieldValues = FieldValues>(
           // Multi-select: empty shows placeholder (Pasirinkite)
           if (selected.length === 0) {
             return (
-              <span style={{ color: colorTokens['text-muted'] }}>
+              <Box component='span' sx={{ color: colorTokens['text-muted'] }}>
                 {placeholder ?? resolvedSelectAllLabel}
-              </span>
+              </Box>
             )
           }
 
