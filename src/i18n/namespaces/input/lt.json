@@ -98,8 +98,10 @@
     "RcSesSelect": {
       "searchPlaceholder": "Ieškoti",
       "selectAllLabel": "Visi",
+      "placeholder": "Pasirinkite",
       "noOptionsText": "Rezultatų nerasta",
-      "loadingText": "Kraunama..."
+      "loadingText": "Kraunama...",
+      "hiddenTagOverflow": "ir dar {{count}}"
     },
 
     "RcSesSearchInput": {
