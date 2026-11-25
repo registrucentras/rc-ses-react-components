@@ -71,6 +71,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-heading-card-title'],
         lineHeight: typographyTokens['line-height-heading-card-title'],
+        letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
         fontWeight: 500,
       }
     }
@@ -87,6 +88,7 @@ function RcSesTitleBlock({
       return {
         fontSize: typographyTokens['font-size-heading-h2'],
         lineHeight: typographyTokens['line-height-heading-h2'],
+        letterSpacing: typographyTokens['letter-spacing-heading-h2'],
         fontWeight: 500,
       }
     }

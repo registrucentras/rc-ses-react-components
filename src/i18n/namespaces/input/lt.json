@@ -1,5 +1,12 @@
 {
   "components": {
+    "RcSesTextField": {
+      "clear": "Išvalyti reikšmę",
+      "togglePassword": "Rodyti slaptažodį",
+      "explain": "Paaiškinimas: {{label}}",
+      "field": "laukas",
+      "loading": "Kraunama"
+    },
     "DataPagination": {
       "navigation": "Puslapiavimas",
       "page": "Eiti į {{page}} puslapį",

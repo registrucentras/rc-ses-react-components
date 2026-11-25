@@ -26,22 +26,27 @@ type Story = StoryObj<typeof meta>
 
 function SharedLabelsPreview() {
   const [disabled, setDisabled] = useState(false)
-  const { control } = useForm({ defaultValues: { top: 'first', side: 'first' } })
+  const [required, setRequired] = useState(false)
+  const { control } = useForm({
+    defaultValues: { default: 'first', top: 'first', side: 'first' },
+  })
   const errors = { type: 'manual', message: 'Klaidos tekstas' }
   return (
     <Stack spacing={3} sx={{ width: '100%', maxWidth: 800 }}>
       <Button onClick={() => setDisabled((value) => !value)}>Toggle disabled</Button>
-      {(['top', 'side'] as const).map((mode) => (
+      <Button onClick={() => setRequired((value) => !value)}>Toggle required</Button>
+      {(['default', 'top', 'side'] as const).map((mode) => (
         <Stack key={mode} spacing={2}>
           <RcSesTextField
             id={`shared-text-${mode}`}
             label={`TextField ${mode}`}
             disabled={disabled}
+            required={required}
             errors={errors}
             slotProps={{
               wrapper: {
                 className: `shared-text-${mode}`,
-                labelOnTop: mode === 'top',
+                labelOnTop: mode === 'default' ? undefined : mode === 'top',
                 description: 'Pagalbinis tekstas',
               },
             }}
@@ -52,12 +57,13 @@ function SharedLabelsPreview() {
             control={control}
             label={`Select ${mode}`}
             disabled={disabled}
+            rules={{ required }}
             errors={errors}
             options={[{ value: 'first', label: 'Pirmas pasirinkimas' }]}
             slotProps={{
               wrapper: {
                 className: `shared-select-${mode}`,
-                labelOnTop: mode === 'top',
+                labelOnTop: mode === 'default' ? undefined : mode === 'top',
                 description: 'Pagalbinis tekstas',
               },
             }}
@@ -69,7 +75,6 @@ function SharedLabelsPreview() {
 }
 
 export const SharedLabels: Story = {
-  tags: ['no-snapshot'],
   render: () => <SharedLabelsPreview />,
 }
 

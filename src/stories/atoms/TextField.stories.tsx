@@ -1,13 +1,19 @@
 import {
   Autocomplete,
+  Box,
+  Button,
   InputAdornment,
   Stack,
   TextField,
   ThemeProvider,
+  Typography,
 } from '@mui/material'
 import { Info, MagnifyingGlass } from '@phosphor-icons/react'
 import { Meta, StoryContext, StoryObj } from '@storybook/react-vite'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
+import { EnvelopeSimpleIcon } from '@/assets/icons/phosphorIcons'
 import RcSesTextField from '@/components/form/inputs/TextField'
 import RcSesLoadingSpinner from '@/components/loaders/LoadingSpinner'
 import FieldPreviewRow from '@/components/storybook/FieldPreviewRow'
@@ -21,6 +27,14 @@ const meta: Meta<typeof RcSesTextField> = {
   title: 'Atoms/TextField',
   component: RcSesTextField,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Field presets use RcSesFormControlWrapper for labels, required markers and supporting text. The default side label from sm up is retained; set slotProps.wrapper.labelOnTop for a top label. The unified Input v2 label anatomy is deferred to the shared-wrapper follow-up.',
+      },
+    },
+  },
 }
 
 export default meta
@@ -326,6 +340,246 @@ export const Loading: Story = {
           />
         </div>
       ))}
+    </Stack>
+  ),
+}
+
+const inputArgs: Story['args'] = {
+  label: 'Antraštė',
+  required: true,
+  placeholder: 'Tekstas',
+  helperText: 'Pagalbinis tekstas',
+  explainer: 'Papildomas lauko paaiškinimas.',
+}
+const inputDecorators: Story['decorators'] = [
+  (InputStory) => (
+    <Box sx={{ width: 560, maxWidth: '100%' }}>
+      <InputStory />
+    </Box>
+  ),
+]
+
+export const Input: Story = { args: inputArgs, decorators: inputDecorators }
+export const Error: Story = {
+  args: { ...inputArgs, errorText: 'Įveskite reikšmę' },
+  decorators: inputDecorators,
+}
+export const ReadOnly: Story = {
+  args: { ...inputArgs, readOnly: true, defaultValue: 'Galima pažymėti ir kopijuoti' },
+  decorators: inputDecorators,
+}
+export const Disabled: Story = {
+  args: { ...inputArgs, disabled: true, defaultValue: 'Tekstas' },
+  decorators: inputDecorators,
+}
+export const Optional: Story = {
+  args: { ...inputArgs, required: false },
+  decorators: inputDecorators,
+}
+export const LoadingState: Story = {
+  args: { ...inputArgs, loading: true },
+  decorators: inputDecorators,
+}
+export const Password: Story = {
+  args: {
+    ...inputArgs,
+    preset: 'password',
+    label: 'Slaptažodis',
+    defaultValue: 'Slaptas123!',
+  },
+  decorators: inputDecorators,
+}
+export const Phone: Story = {
+  args: { ...inputArgs, preset: 'phone', label: 'Telefonas', defaultValue: '600 00000' },
+  decorators: inputDecorators,
+}
+export const Number: Story = {
+  args: {
+    ...inputArgs,
+    preset: 'number',
+    label: 'Suma',
+    suffix: '€',
+    defaultValue: '12,00',
+  },
+  decorators: inputDecorators,
+}
+export const Search: Story = {
+  args: { ...inputArgs, preset: 'search', label: 'Paieška', defaultValue: 'Registrai' },
+  decorators: inputDecorators,
+}
+export const Presets: Story = {
+  decorators: inputDecorators,
+  render: () => (
+    <Stack spacing={3}>
+      <RcSesTextField
+        label='Vardas, pavardė'
+        required
+        defaultValue='Jonas Jonaitis'
+        helperText='Kaip nurodyta dokumentuose'
+      />
+      <RcSesTextField
+        preset='search'
+        required
+        placeholder='Ieškoti paslaugų'
+        slotProps={{ htmlInput: { 'aria-label': 'Paieška' } }}
+      />
+      <RcSesTextField
+        preset='password'
+        label='Slaptažodis'
+        required
+        defaultValue='Slaptas123!'
+        helperText='Mažiausiai 8 simboliai'
+      />
+      <RcSesTextField
+        preset='phone'
+        label='Telefonas'
+        required
+        defaultValue='600 00000'
+      />
+      <RcSesTextField
+        preset='number'
+        label='Suma'
+        required
+        suffix='€'
+        defaultValue='12,00'
+      />
+    </Stack>
+  ),
+}
+
+export const PresetAdornments: Story = {
+  decorators: inputDecorators,
+  render: () => (
+    <Stack spacing={3}>
+      <RcSesTextField
+        label='El. paštas'
+        required
+        leading={<EnvelopeSimpleIcon size={20} aria-hidden />}
+        type='email'
+      />
+      <RcSesTextField label='Svoris' preset='number' required suffix='kg' />
+      <RcSesTextField label='Kodas' required prefix='LT' />
+      <RcSesTextField
+        label='Ilga etiketė, kuri prireikus laužoma ir neturi būti nukirsta'
+        required
+        defaultValue={'Labai ilga įmonės pavadinimo reikšmė '.repeat(8)}
+      />
+    </Stack>
+  ),
+}
+
+export const InputStates: Story = {
+  decorators: inputDecorators,
+  render: () => (
+    <Stack spacing={3}>
+      <RcSesTextField
+        label='Tuščias laukas'
+        required
+        placeholder='Tekstas'
+        helperText='Pagalbinis tekstas'
+        explainer='Lauko paaiškinimas'
+      />
+      <RcSesTextField label='Užpildytas laukas' required defaultValue='Įvesta reikšmė' />
+      <RcSesTextField
+        label='Klaida'
+        required
+        errorText='Įveskite reikšmę'
+        helperText='Pagalbinis tekstas lieka matomas kartu su klaida'
+      />
+      <RcSesTextField
+        label='Tik skaitymui'
+        readOnly
+        required
+        defaultValue='Galima fokusuoti ir kopijuoti'
+      />
+      <RcSesTextField
+        label='Išjungtas laukas'
+        disabled
+        required
+        defaultValue='Tekstas'
+        helperText='Pagalbinis tekstas'
+      />
+      <RcSesTextField label='Kraunama' loading required />
+      <RcSesTextField label='Papildomas laukas' />
+    </Stack>
+  ),
+}
+
+function ControlledDemo() {
+  const [value, setValue] = useState('Registrai')
+  return (
+    <Stack spacing={2}>
+      <RcSesTextField
+        preset='search'
+        label='Paieška'
+        required
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <Box component='output' aria-label='Reikšmė'>
+        {value || 'Tuščia'}
+      </Box>
+      <Button onClick={() => setValue('Atkurta')}>Atkurti</Button>
+    </Stack>
+  )
+}
+export const Controlled: Story = {
+  decorators: inputDecorators,
+  render: () => <ControlledDemo />,
+}
+
+function FormDemo() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: { companyCode: '', companyName: '', address: '', search: '' },
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+  })
+  const [submitted, setSubmitted] = useState(false)
+  return (
+    <Stack
+      component='form'
+      noValidate
+      spacing={2}
+      onSubmit={handleSubmit(() => setSubmitted(true))}
+    >
+      <Typography variant='body2'>Privalomi laukai pažymėti žvaigždute (*).</Typography>
+      <RcSesTextField
+        {...register('companyCode', { required: 'Įveskite įmonės kodą' })}
+        label='Įmonės kodas'
+        required
+        helperText='Įveskite įmonės kodą iš registro'
+        errorText={errors.companyCode?.message}
+      />
+      <RcSesTextField
+        {...register('companyName', { required: 'Įveskite pavadinimą' })}
+        label='Pavadinimas'
+        required
+        errorText={errors.companyName?.message}
+      />
+      <RcSesTextField {...register('address')} label='Buveinė' />
+      <RcSesTextField {...register('search')} preset='search' label='Papildoma paieška' />
+      <Button type='submit' variant='contained'>
+        Tęsti
+      </Button>
+      {submitted && <Box role='status'>Duomenys pateikti</Box>}
+    </Stack>
+  )
+}
+export const Form: Story = {
+  decorators: inputDecorators,
+  render: () => <FormDemo />,
+}
+
+export const NativeReset: Story = {
+  decorators: inputDecorators,
+  render: () => (
+    <Stack component='form' spacing={2}>
+      <RcSesTextField preset='search' label='Paieška' required defaultValue='' />
+      <Button type='reset'>Išvalyti formą</Button>
     </Stack>
   ),
 }

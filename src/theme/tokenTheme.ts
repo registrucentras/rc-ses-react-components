@@ -123,13 +123,19 @@ const textStyleFontWeights = { h5: 600 } as const
 function typographyStyle<T>(style: T, role: string): T {
   return mapTree(style, (key, value) => {
     if (
-      (key === 'fontSize' || key === 'lineHeight') &&
+      (key === 'fontSize' || key === 'lineHeight' || key === 'letterSpacing') &&
       (typeof value === 'number' || typeof value === 'string')
     ) {
       const fallback =
         typeof value === 'number' && key === 'fontSize' ? `${value}px` : String(value)
+      const tokenKeyMap: Record<string, string> = {
+        fontSize: 'font-size',
+        lineHeight: 'line-height',
+        letterSpacing: 'letter-spacing',
+      }
+      const tokenKey = tokenKeyMap[key] || key
       return token(
-        `typography-${key === 'fontSize' ? 'font-size' : 'line-height'}-${role}`,
+        `typography-${tokenKey}-${role}`,
         role === 'heading-h1'
           ? `var(--rc-mui-h1-fallback-${key}, ${fallback})`
           : fallback,
@@ -161,6 +167,7 @@ export function createRcSesTokenTheme(
     headingCardTitle: {
       fontSize: typographyTokens['font-size-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
+      letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
     },
     bodyLarge: {
       fontSize: typographyTokens['font-size-body-large'],
@@ -179,7 +186,11 @@ export function createRcSesTokenTheme(
       if (!isPlainObject(value)) return value
       return Object.fromEntries(
         Object.entries(value).flatMap(([property, amount]) => {
-          if (property !== 'fontSize' && property !== 'lineHeight')
+          if (
+            property !== 'fontSize' &&
+            property !== 'lineHeight' &&
+            property !== 'letterSpacing'
+          )
             return [[property, amount]]
           return variant === 'h1' ? [[`--rc-mui-h1-fallback-${property}`, amount]] : []
         }),
@@ -189,6 +200,8 @@ export function createRcSesTokenTheme(
       textStyleFontWeights[variantKey as keyof typeof textStyleFontWeights]
     typography[variantKey] = {
       ...typographyStyle(style, role),
+      letterSpacing:
+        typographyTokens[`letter-spacing-${role}` as keyof typeof typographyTokens],
       ...(fontWeight === undefined ? {} : { fontWeight }),
     }
     const slot = typographySlots[variantKey as keyof typeof typographySlots]
@@ -197,6 +210,7 @@ export function createRcSesTokenTheme(
         [variant]: mapTree(slot, (key, value) =>
           key === 'fontSize' ||
           key === 'lineHeight' ||
+          key === 'letterSpacing' ||
           (key === 'fontWeight' &&
             (fontWeight !== undefined ||
               customTypography?.[variantKey]?.fontWeight !== undefined))
