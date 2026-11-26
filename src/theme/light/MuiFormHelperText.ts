@@ -10,7 +10,7 @@ const MuiFormHelperText: Components['MuiFormHelperText'] = {
       color: colorTokens['text-secondary'],
       fontSize: typographyTokens['font-size-body-caption'],
       fontStyle: 'normal',
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-caption'],
       lineHeight: typographyTokens['line-height-body-caption'],
       marginInline: spacingRoleBasedTokens['space-0'],
       marginTop: spacingRoleBasedTokens['space-4'],

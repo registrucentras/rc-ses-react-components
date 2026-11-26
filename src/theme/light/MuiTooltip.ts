@@ -1,6 +1,7 @@
 import { Components } from '@mui/material'
 
 import palette, { common } from '../palette'
+import { typographyTokens } from '../typographyTokens'
 
 const MuiTooltip: Components['MuiTooltip'] = {
   styleOverrides: {
@@ -10,7 +11,7 @@ const MuiTooltip: Components['MuiTooltip'] = {
       maxWidth: 480,
       padding: '12px 16px',
       fontSize: '.875rem',
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-small'],
       lineHeight: 1.5,
       borderRadius: '8px',
       boxShadow: 'none',

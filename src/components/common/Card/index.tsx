@@ -12,6 +12,7 @@ import { ReactNode } from 'react'
 
 import normalizeSx from '@/components/utils/normalizeSx'
 import palette from '@/theme/palette'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 export interface RcSesCardTestIds {
   root?: string
@@ -167,7 +168,7 @@ function RcSesCard({
               sx={[
                 {
                   color: palette.grey[800],
-                  fontWeight: 300,
+                  fontWeight: typographyTokens['font-weight-light'],
                   lineHeight: '1.25rem',
                   ...(centered ? { textAlign: 'center' } : {}),
                 },

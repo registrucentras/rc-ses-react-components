@@ -1,5 +1,7 @@
 import { Components } from '@mui/material'
 
+import { typographyTokens } from '@/theme/typographyTokens'
+
 import { colorTokens } from '../colorTokens'
 import { spacingRoleBasedTokens } from '../spacingRoleBasedTokens'
 
@@ -27,7 +29,7 @@ const MuiFormControlLabel: Components['MuiFormControlLabel'] = {
 
       '.MuiFormControlLabel-asterisk': {
         color: colorTokens['status-error-text'],
-        fontWeight: 600,
+        fontWeight: typographyTokens['font-weight-semibold'],
         marginLeft: spacingRoleBasedTokens['space-2'],
       },
     },

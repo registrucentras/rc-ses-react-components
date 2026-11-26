@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { RcSesSideNavItem } from '@/components/common/SideNav/SideNav.types'
 import RcSesSideNavLayout from '@/components/common/SideNav/SideNavLayout'
 import FieldView from '@/components/storybook/FieldView'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const ITEMS: RcSesSideNavItem[] = [
   { id: 'family', label: 'Aš ir mano šeima', count: 4 },
@@ -47,7 +48,13 @@ function Sections({ items = ITEMS }: { items?: RcSesSideNavItem[] }) {
             scrollMarginTop: 'var(--rc-ses-sidenav-scroll-offset, 0px)',
           }}
         >
-          <Typography variant='h3' sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+          <Typography
+            variant='h3'
+            sx={{
+              fontSize: '1.25rem',
+              fontWeight: typographyTokens['font-weight-semibold'],
+            }}
+          >
             {item.label}
           </Typography>
           <Typography sx={{ color: '#6b747f' }}>

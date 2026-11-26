@@ -7,6 +7,7 @@ import { PlusBoldIcon } from '@/assets/icons/phosphorIcons'
 import Button from '@/components/common/Button'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
 import { colorTokens as colors } from '@/theme/colorTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 import { ButtonProps } from '@/types/buttons/ButtonProps'
 
 const variantOptions: ButtonProps['variant'][] = ['contained', 'outlined', 'link', 'text']
@@ -288,7 +289,7 @@ const CombinationsGrid = ({
                 variant='body2'
                 sx={{
                   color: onDark ? colors['text-inverse'] : undefined,
-                  fontWeight: 600,
+                  fontWeight: typographyTokens['font-weight-semibold'],
                   gridRow: `span ${rowSpan}`,
                 }}
               >

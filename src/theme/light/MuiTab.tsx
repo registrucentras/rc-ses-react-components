@@ -29,7 +29,7 @@ const MuiTab: Components['MuiTab'] = {
       borderTopRightRadius: '.1875rem',
       color: colorTokens['text-default'],
       fontSize: typographyTokens['font-size-body-regular'],
-      fontWeight: 400,
+      fontWeight: typographyTokens['font-weight-body-regular'],
       lineHeight: typographyTokens['line-height-body-regular'],
       minHeight: '2.625rem',
       textTransform: 'none',

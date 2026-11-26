@@ -5,6 +5,7 @@ import RcSesCard from '@/components/common/Card'
 import ListWithIcons from '@/components/common/ListWithIcons'
 import palette from '@/theme/palette'
 import { sizeTokens } from '@/theme/sizeTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 import { ListWithIconsItemData } from '../../ListWithIcons/ListWithIcons.types'
 
@@ -77,7 +78,7 @@ const SelectableCardListItem = ({
           variant='h3'
           sx={{
             fontSize: '1rem',
-            fontWeight: 600,
+            fontWeight: typographyTokens['font-weight-semibold'],
             lineHeight: '1.5rem',
             paddingRight: '0.25rem',
           }}
@@ -89,7 +90,7 @@ const SelectableCardListItem = ({
             variant='body2'
             sx={{
               fontSize: '1rem',
-              fontWeight: 300,
+              fontWeight: typographyTokens['font-weight-light'],
               lineHeight: '1.5rem',
               color: palette.grey[800],
             }}
@@ -148,7 +149,7 @@ const SelectableCardListItem = ({
         title: {
           sx: {
             fontSize: '1rem',
-            fontWeight: 600,
+            fontWeight: typographyTokens['font-weight-semibold'],
             lineHeight: '1.5rem',
           },
         },

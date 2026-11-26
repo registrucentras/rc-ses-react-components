@@ -137,7 +137,7 @@ const RcSesDrawer = ({
             sx={{
               fontSize: typographyTokens['font-size-heading-h5'],
               fontStyle: 'normal',
-              fontWeight: 600,
+              fontWeight: typographyTokens['font-weight-heading-h5'],
               lineHeight: typographyTokens['line-height-heading-h5'],
               color: colorTokens['text-default'],
             }}

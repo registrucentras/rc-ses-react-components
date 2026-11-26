@@ -68,7 +68,7 @@ function PriceSummary({ label, price }: { label: string; price: string }) {
         sx={{
           fontSize: typographyTokens['font-size-heading-h3'],
           lineHeight: typographyTokens['line-height-heading-h3'],
-          fontWeight: 500,
+          fontWeight: typographyTokens['font-weight-heading-h3'],
         }}
       >
         {price}

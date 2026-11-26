@@ -5,6 +5,7 @@ import { Code, DocPage, Section, literalOf } from '@/components/storybook/TokenD
 import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { effectTokens } from '@/theme/effectTokens'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const meta = {
   title: 'Foundations/Effects',
@@ -59,7 +60,7 @@ function Effects() {
                 p: 2.5,
               }}
             >
-              <Typography sx={{ fontWeight: 600 }}>
+              <Typography sx={{ fontWeight: typographyTokens['font-weight-semibold'] }}>
                 {token.replace('elevation-', '').toUpperCase()}
               </Typography>
               <Typography

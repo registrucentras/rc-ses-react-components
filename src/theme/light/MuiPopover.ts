@@ -1,5 +1,7 @@
 import { Components } from '@mui/material'
 
+import { typographyTokens } from '@/theme/typographyTokens'
+
 const MuiPopover: Components['MuiPopover'] = {
   defaultProps: {
     anchorOrigin: {
@@ -19,7 +21,7 @@ const MuiPopover: Components['MuiPopover'] = {
   styleOverrides: {
     paper: {
       fontSize: '.9375rem',
-      fontWeight: 300,
+      fontWeight: typographyTokens['font-weight-body-regular'],
       lineHeight: '1.25rem',
       maxWidth: '270px',
     },

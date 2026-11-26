@@ -22,7 +22,7 @@ const baseButtonSx = {
     borderRadius: borderTokens['radius-button'],
     fontSize: typographyTokens['font-size-body-small'],
     lineHeight: typographyTokens['line-height-body-small'],
-    fontWeight: 400,
+    fontWeight: typographyTokens['font-weight-body-small'],
     textTransform: 'none',
     backgroundColor: 'transparent',
     color: 'var(--rc-color-neutrals-800)',

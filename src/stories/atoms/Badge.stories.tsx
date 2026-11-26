@@ -8,6 +8,7 @@ import FieldPreview from '@/components/storybook/FieldPreview'
 import FieldView from '@/components/storybook/FieldView'
 import Fields from '@/components/storybook/Fields'
 import PreviewTitle from '@/components/storybook/PreviewTitle'
+import { typographyTokens } from '@/theme/typographyTokens'
 
 const variants: RcSesBadgeProps['variant'][] = [
   'neutral',
@@ -99,7 +100,7 @@ export const AllCombinations: Story = {
                 <Typography
                   variant='body2'
                   sx={{
-                    fontWeight: 600,
+                    fontWeight: typographyTokens['font-weight-semibold'],
                     gridRow: 'span 2',
                   }}
                 >
