@@ -37,10 +37,22 @@ describe('RcSesIconWithSquareBackground', () => {
     )
 
     const root = container.querySelector('.IconWithSquareBackground-root') as HTMLElement
-    expect(root).toHaveStyle({ height: '2.5rem', width: '2.5rem' })
+    expect(root).toHaveStyle({
+      height: '2.5rem',
+      width: '2.5rem',
+    })
   })
 
-  test.each(['solid', 'soft', 'muted'] as const)(
+  test('applies the 20 size tokens when size=20', () => {
+    const { container } = renderTile(
+      <RcSesIconWithSquareBackground Icon={InfoFillIcon} size={20} />,
+    )
+
+    const root = container.querySelector('.IconWithSquareBackground-root') as HTMLElement
+    expect(root).toHaveStyle({ height: '1.25rem', width: '1.25rem' })
+  })
+
+  test.each(['solid', 'cyan', 'muted', 'green'] as const)(
     'renders without crashing for the %s variant',
     (variant) => {
       const { container } = renderTile(

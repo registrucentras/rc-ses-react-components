@@ -10,8 +10,11 @@ const sizeTokens = {
   'icon-size-14': 'var(--rc-icon-size-14)',
   'icon-size-16': 'var(--rc-icon-size-16)',
   'icon-size-20': 'var(--rc-icon-size-20)',
+  'icon-size-22': 'var(--rc-icon-size-22)',
   'icon-size-24': 'var(--rc-icon-size-24)',
+  'icon-size-28': 'var(--rc-icon-size-28)',
   'icon-size-32': 'var(--rc-icon-size-32)',
+  'icon-size-36': 'var(--rc-icon-size-36)',
 } as const
 
 export { sizeTokens }
