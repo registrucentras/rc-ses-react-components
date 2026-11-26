@@ -196,7 +196,7 @@ export const RowListWithIcons: Story = {
           title='Santuoką liudijančio įrašo užsakymas'
           description='Oficialus santuokos faktą patvirtinantis įrašas.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <RcSesButton
               variant='link'
@@ -212,7 +212,7 @@ export const RowListWithIcons: Story = {
           title='Pažymos santuokai sudaryti užsienyje užsakymas'
           description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <RcSesButton id={`${rowBId}-cta`} aria-labelledby={`${rowBId}-cta ${rowBId}`}>
               Užsakyti
@@ -235,7 +235,7 @@ export const RowListWithIconsAndLongText: Story = {
           title='Santuoką liudijančio įrašo, patvirtinančio santuokos sudarymo faktą užsienio valstybėje, užsakymas su visomis papildomomis pastabomis'
           description='Oficialus santuokos faktą patvirtinantis įrašas, apimantis visus civilinės metrikacijos duomenis, reikalingus tolimesnėms teisinėms procedūroms tiek Lietuvoje, tiek užsienyje. Įrašas gali būti pateikiamas įvairioms institucijoms ir naudojamas kaip oficialus patvirtinimas.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <RcSesButton
               variant='link'
@@ -251,7 +251,7 @@ export const RowListWithIconsAndLongText: Story = {
           title='Pažymos, patvirtinančios, kad nėra kliūčių Lietuvos Respublikos piliečiui sudaryti santuoką užsienio valstybėje, užsakymas'
           description='Ši pažyma reikalinga tais atvejais, kai Lietuvos Respublikos pilietis planuoja sudaryti santuoką užsienio valstybėje ir vietos civilinės metrikacijos institucija reikalauja oficialaus patvirtinimo, kad asmens šeiminė padėtis Lietuvoje neturi kliūčių santuokos sudarymui.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <RcSesButton id={`${rowBId}-cta`} aria-labelledby={`${rowBId}-cta ${rowBId}`}>
               Užsakyti
@@ -274,7 +274,7 @@ export const RowListWithIconsAndTwoActions: Story = {
           title='Santuoką liudijančio įrašo užsakymas'
           description='Oficialus santuokos faktą patvirtinantis įrašas.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <>
               <RcSesButton
@@ -298,7 +298,7 @@ export const RowListWithIconsAndTwoActions: Story = {
           title='Pažymos santuokai sudaryti užsienyje užsakymas'
           description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
           actions={
             <>
               <RcSesButton
@@ -330,7 +330,7 @@ export const HorizontalTitleBlockWithIconAndArrow: Story = {
           title='Paslaugos pavadinimas'
           description='Trumpas paslaugos paaiškinimas'
           titleTone='brand'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
         />
       </Box>
       <TrailingArrow />
@@ -391,7 +391,7 @@ export const ClickableHorizontalTitleBlockWithCardShellBase: Story = {
               title='Paslaugos sutartiniams klientams'
               titleVariant='h5'
               description='Peržiūrėkite pagrindinius duomenis be užsakymo - dažniausias pirmas žingsnis.'
-              icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+              icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
             />
           </Box>
           <TrailingArrow />
@@ -412,7 +412,7 @@ export const VerticalTitleBlockWithCardShellBase: Story = {
         orientation='vertical'
         title='DUK'
         description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
       />
     </RcSesCardShell>
   ),
@@ -437,7 +437,7 @@ export const VerticalTitleBlock: Story = {
           orientation='vertical'
           title='DUK'
           description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
-          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
         />
       </RcSesCardShell>
       <RcSesCardShell
@@ -450,7 +450,7 @@ export const VerticalTitleBlock: Story = {
           orientation='vertical'
           title='Kontaktai'
           description='Konsultacijos telefonu (0 5) 268 8262 darbo dienomis 8:00-17:00.'
-          icon={<RcSesIconWithSquareBackground Icon={PhoneCallIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={PhoneCallIcon} variant='cyan' />}
         />
       </RcSesCardShell>
       <RcSesCardShell
@@ -463,7 +463,7 @@ export const VerticalTitleBlock: Story = {
           orientation='vertical'
           title='Registracija vizitui'
           description='Užduokite klausimą konsultantui pokalbių lange - atsakome darbo metu.'
-          icon={<RcSesIconWithSquareBackground Icon={CalendarBlankIcon} variant='soft' />}
+          icon={<RcSesIconWithSquareBackground Icon={CalendarBlankIcon} variant='cyan' />}
         />
       </RcSesCardShell>
     </Box>
@@ -551,7 +551,7 @@ const ResponsiveTwoActionsRowList = () => (
       title='Santuoką liudijančio įrašo užsakymas'
       description='Oficialus santuokos faktą patvirtinantis įrašas.'
       titleTone='brand'
-      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
       actions={
         <>
           <RcSesButton
@@ -575,7 +575,7 @@ const ResponsiveTwoActionsRowList = () => (
       title='Pažymos santuokai sudaryti užsienyje užsakymas'
       description='Pažyma, kad nėra kliūčių sudaryti santuoką užsienio valstybėje.'
       titleTone='brand'
-      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+      icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
       actions={
         <>
           <RcSesButton
@@ -628,7 +628,7 @@ export const VerticalMobileViewport: Story = {
         orientation='vertical'
         title='DUK'
         description='Atsakymai į dažniausiai užduodamus klausimus apie paslaugas ir savitarną.'
-        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='soft' />}
+        icon={<RcSesIconWithSquareBackground Icon={InfoIcon} variant='cyan' />}
       />
     </RcSesCardShell>
   ),

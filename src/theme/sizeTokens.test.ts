@@ -13,7 +13,7 @@ test('all 12 Sizes tokens match Figma in rem and aliases resolve without cycles'
     ),
   )
   const expected = new Map<string, string>()
-  ;[8, 12, 14, 16, 20, 24, 32].forEach((value) =>
+  ;[8, 12, 14, 16, 20, 22, 24, 28, 32, 36].forEach((value) =>
     expected.set(`icon-size-${value}`, `${value / 16}rem`),
   )
   Object.entries({ inline: 16, control: 20, badge: 14, feature: 24 }).forEach(

@@ -14,6 +14,7 @@ const borderTokens = {
   'radius-0': 'var(--rc-radius-0)',
   'radius-10': 'var(--rc-radius-10)',
   'radius-12': 'var(--rc-radius-12)',
+  'radius-14': 'var(--rc-radius-14)',
   'radius-16': 'var(--rc-radius-16)',
   'radius-2': 'var(--rc-radius-2)',
   'radius-20': 'var(--rc-radius-20)',

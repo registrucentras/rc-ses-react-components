@@ -13,7 +13,7 @@ test('all 28 Borders tokens match the export, with acyclic primitive aliases', (
     ),
   )
   const expected = new Map<string, string>()
-  ;[0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 9999].forEach((value) => {
+  ;[0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 9999].forEach((value) => {
     expected.set(
       `radius-${value === 9999 ? 'full' : value}`,
       value === 9999 ? '9999px' : `${value / 16}rem`,

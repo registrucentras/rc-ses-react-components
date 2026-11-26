@@ -270,7 +270,7 @@ const UsageComponent = () => (
       />
     </UsageSection>
     <UsageSection title='In an icon tile (pass the component)'>
-      <RcSesIconWithSquareBackground Icon={PhoneIcon} variant='soft' />
+      <RcSesIconWithSquareBackground Icon={PhoneIcon} variant='cyan' />
     </UsageSection>
   </Stack>
 )
