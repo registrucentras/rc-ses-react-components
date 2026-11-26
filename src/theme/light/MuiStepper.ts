@@ -31,7 +31,7 @@ const MuiStepper: Components['MuiStepper'] = {
         '.Mui-active': {
           color: colorTokens['text-default'],
           fontSize: typographyTokens['font-size-heading-h4'],
-          fontWeight: typographyTokens['font-weight-heading-h4'],
+          fontWeight: typographyTokens['font-weight-semibold'],
           lineHeight: typographyTokens['line-height-heading-h4'],
         },
       },
