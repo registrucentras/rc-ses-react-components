@@ -53,6 +53,7 @@ const MuiAccordionSummary: Components['MuiAccordionSummary'] = {
       fontSize: typographyTokens['font-size-heading-card-title'],
       fontWeight: typographyTokens['font-weight-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
+      letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
       margin: 0,
     },
   },

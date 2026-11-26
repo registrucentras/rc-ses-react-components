@@ -31,7 +31,7 @@ const MuiDialog: Components['MuiDialog'] = {
           fontSize: typographyTokens['font-size-heading-h2'],
           fontWeight: typographyTokens['font-weight-heading-h2'],
           lineHeight: typographyTokens['line-height-heading-h2'],
-          letterSpacing: '-0.01em',
+          letterSpacing: typographyTokens['letter-spacing-heading-h2'],
           padding: `0 0 ${spacingRoleBasedTokens['space-12']}`,
         },
 

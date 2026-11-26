@@ -296,11 +296,29 @@ selections.forEach((selection) => {
     await page.getByRole('button', { name: yearButton }).click()
     await page.keyboard.press('Escape')
     await expect(months).toBeVisible()
+    // Check focus before the next animation frame, when the month cell has
+    // just been removed and another Escape must still reach the dialog.
+    const calendar = page.locator('.MuiDateCalendar-root')
+    await calendar.evaluate((element) => {
+      const header = element.querySelector('[data-calendar-view]')!
+      const observer = new MutationObserver(() => {
+        if (header.getAttribute('data-calendar-view') !== 'calendar') return
+        element.setAttribute(
+          'data-focus-returned',
+          String(element.contains(document.activeElement)),
+        )
+        observer.disconnect()
+      })
+      observer.observe(header, {
+        attributes: true,
+        attributeFilter: ['data-calendar-view'],
+      })
+    })
     await page.keyboard.press('Escape')
+    await expect(calendar).toHaveAttribute('data-focus-returned', 'true')
     await expect(page.getByRole('button', { name: monthButton })).toBeVisible()
     await expect(page.getByRole('dialog')).toBeVisible()
     await page.keyboard.press('Escape')
-    await page.getByRole('dialog').waitFor({ state: 'hidden' })
     await expect(page.getByRole('dialog')).not.toBeVisible()
   })
 })
@@ -323,4 +341,16 @@ test('Years blocks respect min/max bounds and disabled months are skipped', asyn
   await expect(page.getByRole('button', { name: /Kiti 12|Next 12/ })).toBeDisabled()
   await expect(page.getByRole('gridcell', { name: '2025', exact: true })).toBeDisabled()
   await expect(page.getByRole('gridcell', { name: '2026', exact: true })).toBeEnabled()
+})
+
+test('Months view hides Previous/Next navigation arrows', async ({ page }) => {
+  await page.goto('/iframe.html?id=molecules-datepicker--single-views&viewMode=story')
+  await page
+    .getByRole('button', { name: /Atverti datos|Open datepicker|Choose date/ })
+    .click()
+  await page.getByRole('button', { name: monthButton }).click()
+  // Check that arrow buttons have visibility: hidden in Months view
+  const arrowButtons = page.locator('.MuiPickersArrowSwitcher-button')
+  await expect(arrowButtons.first()).toHaveCSS('visibility', 'hidden')
+  await expect(arrowButtons.last()).toHaveCSS('visibility', 'hidden')
 })

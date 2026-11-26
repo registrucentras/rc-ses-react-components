@@ -21,6 +21,7 @@ interface Props {
   className?: string
   description?: React.ReactNode
   errors?: FieldError | undefined
+  errorMessage?: React.ReactNode
   fieldSuffix?: React.ReactNode
   hideLabel?: boolean
   id?: string
@@ -35,6 +36,7 @@ function RcSesFormControlWrapper({
   className = undefined,
   description = undefined,
   errors = undefined,
+  errorMessage,
   fieldSuffix = undefined,
   hideLabel = false,
   id,
@@ -144,14 +146,19 @@ function RcSesFormControlWrapper({
           ml: { sm: labelOnTop || hideLabel ? 0 : formControlDesktopLabelWidth },
         }}
       >
-        {!!description && <FormHelperText>{description}</FormHelperText>}
+        {!!description && (
+          <FormHelperText id={id ? `${id}-description` : undefined}>
+            {description}
+          </FormHelperText>
+        )}
 
         {!!errors && (
           <FormHelperText id={`${id}-errors`} aria-errormessage={id} error>
-            {errors.type === 'required' && !errors.message && (
-              <span>{t('required')}</span>
-            )}
-            {!!errors.message && <span>{errors.message}</span>}
+            {errorMessage ??
+              (errors.type === 'required' && !errors.message && (
+                <span>{t('required')}</span>
+              ))}
+            {errorMessage == null && !!errors.message && <span>{errors.message}</span>}
           </FormHelperText>
         )}
       </Box>
