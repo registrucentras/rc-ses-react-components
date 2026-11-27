@@ -11,7 +11,7 @@ const meta: Meta<typeof RcSesIconWithSquareBackground> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: [40, 44],
+      options: [24, 40, 44],
     },
     variant: {
       control: { type: 'select' },

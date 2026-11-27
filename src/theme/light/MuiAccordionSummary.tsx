@@ -12,46 +12,33 @@ import { typographyTokens } from '../typographyTokens'
 // card radius minus that border.
 const HEADER_RADIUS = `calc(${borderTokens['radius-card']} - ${borderTokens['stroke-1']})`
 
+export const accordionSummaryRootStyles = {
+  fontFamily: typographyTokens['font-family'],
+  gap: spacingTokens['spacing-aliases-stack-default'],
+  paddingBlock: spacingRoleBasedTokens['space-20'],
+  paddingInline: spacingTokens['spacing-aliases-card-padding-x'],
+  backgroundColor: colorTokens['surface-sunken'],
+  borderRadius: HEADER_RADIUS,
+  minHeight: '44px',
+  '&:hover:not(.Mui-disabled)': { backgroundColor: colorTokens['surface-muted'] },
+  '&.Mui-focusVisible': { backgroundColor: colorTokens['surface-sunken'] },
+  '&.Mui-disabled': { color: colorTokens['text-disabled'], opacity: 1 },
+}
+
 const MuiAccordionSummary: Components['MuiAccordionSummary'] = {
   defaultProps: {
     expandIcon: <CaretDownIcon />,
     sx: {
-      backgroundColor: {
-        xs: colorTokens['surface-base'],
-        md: colorTokens['surface-sunken'],
-      },
-      borderRadius: {
-        xs: 0,
-        md: HEADER_RADIUS,
-      },
+      backgroundColor: colorTokens['surface-sunken'],
+      borderRadius: HEADER_RADIUS,
     },
   },
   styleOverrides: {
-    root: {
-      // The header is a <button>, which does not inherit the page font by default.
-      fontFamily: 'inherit',
-      gap: spacingTokens['spacing-aliases-stack-default'],
-      paddingBlock: spacingRoleBasedTokens['space-20'],
-      paddingInline: spacingTokens['spacing-aliases-card-padding-x'],
-
-      '&:hover:not(.Mui-disabled)': {
-        backgroundColor: colorTokens['surface-muted'],
-      },
-
-      // The section outline marks focus (MuiAccordion); keep the header fill.
-      '&.Mui-focusVisible': {
-        backgroundColor: colorTokens['surface-sunken'],
-      },
-
-      '&.Mui-disabled': {
-        color: colorTokens['text-disabled'],
-        opacity: 1,
-      },
-    },
+    root: accordionSummaryRootStyles,
     content: {
       color: 'inherit',
       fontSize: typographyTokens['font-size-heading-card-title'],
-      fontWeight: 500,
+      fontWeight: typographyTokens['font-weight-heading-card-title'],
       lineHeight: typographyTokens['line-height-heading-card-title'],
       letterSpacing: typographyTokens['letter-spacing-heading-card-title'],
       margin: 0,

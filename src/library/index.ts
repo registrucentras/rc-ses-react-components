@@ -84,6 +84,7 @@ export { RcSesPalette, RcSesTheme }
 export { createRcSesTokenTheme } from '@/theme/tokenTheme'
 export type { RcSesTokenThemeOptions, RcSesNativeTheme } from '@/theme/tokenTheme'
 export { RcSesAccordion, useAccordionController }
+export type { AccordionProps, AccordionMenuItem } from '@/components/common/Accordion'
 export { RcSesAdvancedList, RcSesAdvancedListItem, RcSesAdvancedListItemShell }
 export {
   RcSesAlert,

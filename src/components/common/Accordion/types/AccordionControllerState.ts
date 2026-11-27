@@ -4,6 +4,7 @@ export interface AccordionState {
   expanded: boolean | undefined
   state: 'active' | 'completed' | 'pending'
   title: string
+  description?: string
 }
 
 export type AccordionControllerState = Record<string, AccordionState>
