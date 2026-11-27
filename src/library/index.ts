@@ -19,6 +19,7 @@ import RcSesCardFooter from '@/components/common/CardShell/CardFooter'
 import DataPagination from '@/components/common/DataPagination'
 import RcSesEmptyState from '@/components/common/EmptyState'
 import RcSesFilterChip from '@/components/common/FilterChip'
+import RcSesHeaderNavItem from '@/components/common/HeaderNavItem'
 import RcSesIconWithCircularBackground from '@/components/common/IconWithCircularBackground'
 import RcSesIconWithSquareBackground from '@/components/common/IconWithSquareBackground'
 import RcSesImageCard from '@/components/common/ImageCard'
@@ -113,6 +114,7 @@ export {
   RcSesDrawer,
 }
 export { RcSesSegmentedControl }
+export { RcSesHeaderNavItem }
 export { RcSesSideNavLayout }
 export { RcSesCheckbox, RcSesCheckboxFormControl, RcSesSimpleCheckbox }
 export { default as RcSesCheckboxMark } from '@/components/common/CheckboxMark'
@@ -124,6 +126,10 @@ export type {
 export type { CheckboxMarkProps } from '@/components/common/CheckboxMark'
 export { default as RcSesRadioMark } from '@/components/common/RadioMark'
 export type { RadioMarkProps } from '@/components/common/RadioMark'
+export type {
+  HeaderNavItemProps,
+  HeaderNavItemState,
+} from '@/components/common/HeaderNavItem'
 export { useSnackbar }
 export { RcSesDatepicker }
 export type {
