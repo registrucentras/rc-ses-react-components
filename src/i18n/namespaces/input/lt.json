@@ -133,7 +133,8 @@
 
     "RcSesBottomSheet": {
       "aria": {
-        "back": "Atgal"
+        "back": "Atgal",
+        "close": "Uždaryti"
       }
     },
 
