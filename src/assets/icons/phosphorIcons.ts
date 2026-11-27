@@ -20,6 +20,9 @@ import {
   ClockIcon as Clock,
   CopyIcon as Copy,
   EnvelopeSimpleIcon as EnvelopeSimple,
+  EyeIcon as Eye,
+  FileIcon as File,
+  FilePdfIcon as FilePdf,
   FunnelIcon as Funnel,
   InfoIcon as Info,
   ListIcon as List,
@@ -36,6 +39,7 @@ import {
   ScalesIcon as Scales,
   ScrollIcon as Scroll,
   ShoppingCartIcon as ShoppingCart,
+  SignatureIcon as Signature,
   SpinnerGapIcon as SpinnerGap,
   SquareIcon as Square,
   TagIcon as Tag,
@@ -121,6 +125,9 @@ export const ExpandChevronsIcon = /* @__PURE__ */ createIcon(ArrowsOutLineVertic
   weight: 'bold',
   name: 'ExpandChevronsIcon',
 })
+export const EyeIcon = /* @__PURE__ */ createIcon(Eye)
+export const FileIcon = /* @__PURE__ */ createIcon(File)
+export const FilePdfIcon = /* @__PURE__ */ createIcon(FilePdf)
 export const FunnelIcon = /* @__PURE__ */ createIcon(Funnel)
 export const InfoFillIcon = /* @__PURE__ */ createIcon(Info, { weight: 'fill' })
 export const InfoIcon = /* @__PURE__ */ createIcon(Info)
@@ -147,6 +154,7 @@ export const QuestionIcon = /* @__PURE__ */ createIcon(Question, { size: 16 })
 export const ScalesIcon = /* @__PURE__ */ createIcon(Scales)
 export const ScrollIcon = /* @__PURE__ */ createIcon(Scroll)
 export const ShoppingCartIcon = /* @__PURE__ */ createIcon(ShoppingCart)
+export const SignatureIcon = /* @__PURE__ */ createIcon(Signature)
 export const SpinnerGapBoldIcon = /* @__PURE__ */ createIcon(SpinnerGap, {
   weight: 'bold',
 })
