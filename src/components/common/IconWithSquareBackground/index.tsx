@@ -6,7 +6,7 @@ import { borderTokens } from '@/theme/borderTokens'
 import { colorTokens } from '@/theme/colorTokens'
 import { sizeTokens } from '@/theme/sizeTokens'
 
-type SquareTileSize = 40 | 44
+type SquareTileSize = 24 | 40 | 44
 type SquareTileVariant = 'solid' | 'soft' | 'muted'
 
 interface Props {
@@ -21,6 +21,7 @@ const SOLID_TILE_BG = 'var(--rc-color-cyans-500)'
 // Tile size / icon size / radius. Figma leaves the tile sizes and the 40px
 // tile's 22px icon unbound.
 const SIZE_TOKENS: Record<SquareTileSize, [string, string, string]> = {
+  24: [sizeTokens['icon-size-24'], sizeTokens['icon-size-16'], borderTokens['radius-4']],
   40: ['2.5rem', '1.375rem', borderTokens['radius-8']],
   44: ['2.75rem', sizeTokens['icon-size-24'], borderTokens['radius-10']],
 }
@@ -61,6 +62,7 @@ function IconWithSquareBackground(props: Props) {
     <Box
       className='IconWithSquareBackground-root'
       sx={{
+        flexShrink: size === 24 ? 0 : undefined,
         alignItems: 'center',
         backgroundColor,
         borderRadius: radius,

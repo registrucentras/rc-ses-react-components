@@ -11,7 +11,11 @@ const MuiAccordionDetails: Components['MuiAccordionDetails'] = {
     },
   },
   styleOverrides: {
-    root: {},
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: spacingTokens['spacing-aliases-form-field-gap'],
+    },
   },
 }
 
