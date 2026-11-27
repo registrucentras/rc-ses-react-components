@@ -133,7 +133,8 @@
 
     "RcSesBottomSheet": {
       "aria": {
-        "back": "Back"
+        "back": "Back",
+        "close": "Close"
       }
     },
 

@@ -17,7 +17,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ArrowLeftIcon } from '@/assets/icons/phosphorIcons'
+import { ArrowLeftIcon, CloseIcon } from '@/assets/icons/phosphorIcons'
 import usePrefersReducedMotion from '@/components/common/AdvancedList/components/AdvancedListItem/hooks/usePrefersReducedMotion'
 import RcSesButton from '@/components/common/Button'
 import { backdropTokens } from '@/theme/backdropTokens'
@@ -65,6 +65,7 @@ export interface RcSesBottomSheetProps extends Omit<
   title?: string
   children?: ReactNode
   showBack?: boolean
+  showClose?: boolean
   onBack?: () => void
   primaryActionLabel?: string
   onPrimaryAction?: () => void
@@ -84,6 +85,7 @@ function RcSesBottomSheet({
   title,
   children,
   showBack = false,
+  showClose = true,
   onBack,
   primaryActionLabel,
   onPrimaryAction,
@@ -184,7 +186,7 @@ function RcSesBottomSheet({
         />
       </Box>
 
-      {(title || showBack) && (
+      {(title || showBack || showClose) && (
         <Box
           sx={{
             display: 'flex',
@@ -197,8 +199,9 @@ function RcSesBottomSheet({
           {showBack && (
             <RcSesButton
               iconOnly
-              variant='outlined'
-              color='grey'
+              size='medium'
+              color='inherit'
+              variant='link'
               onClick={onBack}
               aria-label={t('aria.back')}
             >
@@ -219,6 +222,21 @@ function RcSesBottomSheet({
             >
               {title}
             </Typography>
+          )}
+          {showClose && (
+            <RcSesButton
+              iconOnly
+              size='medium'
+              color='inherit'
+              variant='link'
+              onClick={onClose as () => void}
+              aria-label={t('aria.close')}
+              sx={{
+                marginLeft: 'auto',
+              }}
+            >
+              <CloseIcon />
+            </RcSesButton>
           )}
         </Box>
       )}

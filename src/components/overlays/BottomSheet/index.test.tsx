@@ -1,3 +1,4 @@
+import { FalloutShelterIcon } from '@phosphor-icons/react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 
@@ -30,7 +31,7 @@ describe('RcSesBottomSheet', () => {
     )
 
     expect(screen.getByText('Content')).toBeInTheDocument()
-    expect(screen.queryAllByRole('button')).toHaveLength(0)
+    expect(screen.queryAllByRole('button')).toHaveLength(1)
   })
 
   it('renders the primary and secondary action buttons with their labels', () => {
@@ -95,12 +96,22 @@ describe('RcSesBottomSheet', () => {
       </RcSesBottomSheet>,
     )
 
-    expect(screen.queryAllByRole('button')).toHaveLength(0)
+    expect(screen.queryAllByRole('button')).toHaveLength(1)
   })
 
   it('does not render a back button by default', () => {
     render(
       <RcSesBottomSheet open onClose={vi.fn()} title='Filtrai'>
+        Content
+      </RcSesBottomSheet>,
+    )
+
+    expect(screen.queryAllByRole('button')).toHaveLength(1)
+  })
+
+  it('does not render a close button then showClose is false', () => {
+    render(
+      <RcSesBottomSheet open onClose={vi.fn()} title='Filtrai' showClose={false}>
         Content
       </RcSesBottomSheet>,
     )
@@ -112,7 +123,14 @@ describe('RcSesBottomSheet', () => {
     const onBack = vi.fn()
     const onClose = vi.fn()
     render(
-      <RcSesBottomSheet open onClose={onClose} onBack={onBack} showBack title='2 iš 2'>
+      <RcSesBottomSheet
+        open
+        onClose={onClose}
+        onBack={onBack}
+        showBack
+        showClose={false}
+        title='2 iš 2'
+      >
         Content
       </RcSesBottomSheet>,
     )
@@ -121,6 +139,21 @@ describe('RcSesBottomSheet', () => {
 
     expect(onBack).toHaveBeenCalledTimes(1)
     expect(onClose).not.toHaveBeenCalled()
+  })
+
+  it('calls onClose, when the close button is pressed', () => {
+    const onBack = vi.fn()
+    const onClose = vi.fn()
+    render(
+      <RcSesBottomSheet open onClose={onClose} onBack={onBack} title='2 iš 2'>
+        Content
+      </RcSesBottomSheet>,
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onBack).not.toHaveBeenCalled()
   })
 
   it('closes on Escape even when backdrop close is disabled', () => {
